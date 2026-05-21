@@ -68,20 +68,23 @@ export function WidgetGrid({
       {visibleWidgets.map((widget) => {
         const WidgetComponent = WIDGET_COMPONENTS[widget.id]
         if (!WidgetComponent) return null
-        // Proportional spans for responsive layout
-        // Desktop: 24 columns
-        // Tablet: 12 columns (50% of desktop)
-        // Mobile: 6 columns (25% of desktop)
-        const tabletSpan = WIDGET_CONFIG[widget.id]?.tabletSpan || Math.max(4, Math.ceil(widget.span / 2))
-        const mobileSpan = 6 // Always full width on mobile for better readability
+        
+        // Strictly align with UI Architect's request:
+        // lg: grid-cols-4 (24/4 = 6 span)
+        // md: grid-cols-3 (12/3 = 4 span)
+        // sm: grid-cols-1 (6/1 = 6 span)
+        const lgSpan = widget.span || 6
+        const mdSpan = WIDGET_CONFIG[widget.id]?.tabletSpan || 4
+        const smSpan = 6
+
         return (
           <WidgetWrapper
             key={widget.id}
             widget={widget}
             x={widget.x}
             y={widget.y}
-            tabletSpan={tabletSpan}
-            mobileSpan={mobileSpan}
+            tabletSpan={mdSpan}
+            mobileSpan={smSpan}
             isEditing={isEditing}
             isDragged={draggedItemId === widget.id}
             WidgetComponent={WidgetComponent}

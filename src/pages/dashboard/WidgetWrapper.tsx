@@ -111,7 +111,9 @@ export const WidgetWrapper = memo(function WidgetWrapper({
           </>
         )}
         <ErrorBoundary name={widget.id}>
-          <WidgetComponent span={widget.span} isEditing={isEditing} />
+          <div className="flex-1 flex flex-col min-h-0 w-full h-full isolate">
+            <WidgetComponent span={widget.span} isEditing={isEditing} />
+          </div>
         </ErrorBoundary>
       </div>
     </Grid.Item>
