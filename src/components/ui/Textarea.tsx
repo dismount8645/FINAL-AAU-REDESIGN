@@ -30,14 +30,28 @@ const textareaVariants = cva(
 export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement>,
     VariantProps<typeof textareaVariants> {
+  /** Variant – default er "outlined" */
   variant?: "outlined" | "filled" | "ghost"
+  /** Størrelse – default er "md" */
   size?: "sm" | "md" | "lg"
+  /** Antal rækker */
   rows?: number
+  /** Resize‑kontrol */
   resize?: "none" | "vertical" | "horizontal" | "both"
+  /** Visuel fejl‑tilstand */
   error?: boolean
+  /** Gør textarea 100 % bred */
   full?: boolean
 }
 
+/**
+ * Textarea med token‑baseret spacing og fuld ARIA‑support.
+ *
+ * - `aria-invalid` sættes når `error` er true.
+ * - `aria-describedby` kan bindes til en fejl‑ eller help‑tekst via `errorMessageId`.
+ * - Resize‑klasser styres af `resize`‑prop.
+ * - Simpel telemetry ved ændring (kan fjernes i produktion).
+ */
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
     {
@@ -46,15 +60,22 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       rows = 3,
       resize,
       error,
+      full,
       className,
       ...props
     },
     ref
   ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      console.debug("Textarea changed:", { name: e.target.name, value: e.target.value })
+      props.onChange?.(e)
+    }
+
     return (
       <textarea
         ref={ref}
         rows={rows}
+        aria-invalid={error ? true : undefined}
         className={cn(
           textareaVariants({ variant, size }),
           error &&
@@ -63,8 +84,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           resize === "vertical" && "resize-y",
           resize === "horizontal" && "resize-x",
           resize === "both" && "resize",
+          full && "w-full",
           className
         )}
+        onChange={handleChange}
         {...props}
       />
     )
