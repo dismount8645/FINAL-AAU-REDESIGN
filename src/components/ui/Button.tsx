@@ -5,8 +5,10 @@ import { Loader2, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Button Variants - Enforces strict AAU brand tokens and 8pt grid harmony.
- * Implements the 150ms hover transition and -4px lift physics from architectural principles.
+ * Button Variants – strengt token‑baseret med dark‑mode og focus‑visible.
+ * - 44 × 44 px touch‑mål via pseudo‑element.
+ * - Hover‑lift: -4px med 150 ms ease.
+ * - Fokus‑ring: 2 px aau‑blue.
  */
 const buttonVariants = cva(
   [
@@ -15,6 +17,7 @@ const buttonVariants = cva(
     "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
     "active:scale-[0.97] active:duration-75",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-[1.25em] [&_svg]:transition-transform [&_svg]:duration-150",
+    "after:absolute after:inset-y-[-8px] after:inset-x-0 after:content-[''] after:rounded-[var(--radius-md)] after:bg-[var(--bg-card)] after:opacity-0 after:transition-opacity after:duration-150",
   ],
   {
     variants: {
@@ -37,19 +40,19 @@ const buttonVariants = cva(
           "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:border-[var(--border-color-hover)]",
       },
       size: {
-        xs: "h-8 px-[var(--space-xs)] text-xs rounded-[var(--radius-sm)] after:absolute after:inset-y-[-8px] after:inset-x-0 after:content-['']",
-        sm: "h-9 px-[var(--space-sm)] text-[0.8125rem] rounded-[var(--radius-md)] after:absolute after:inset-y-[-6px] after:inset-x-0 after:content-['']",
-        md: "h-11 px-[var(--space-md)] text-sm rounded-[var(--radius-md)] after:absolute after:inset-y-[-4px] after:inset-x-0 after:content-['']",
+        xs: "h-8 px-[var(--space-xs)] text-xs rounded-[var(--radius-sm)]",
+        sm: "h-9 px-[var(--space-sm)] text-[0.8125rem] rounded-[var(--radius-md)]",
+        md: "h-11 px-[var(--space-md)] text-sm rounded-[var(--radius-md)]",
         lg: "h-14 px-[var(--space-lg)] text-base rounded-[var(--radius-lg)]",
-        icon: "size-11 p-0 rounded-[var(--radius-md)] after:absolute after:inset-[-4px] after:content-['']",
-        "icon-sm": "size-9 p-0 rounded-[var(--radius-sm)] after:absolute after:inset-[-6px] after:content-['']",
+        icon: "size-11 p-0 rounded-[var(--radius-md)]",
+        "icon-sm": "size-9 p-0 rounded-[var(--radius-sm)]",
       },
       full: {
         true: "w-full",
       },
       pill: {
         true: "rounded-full",
-      }
+      },
     },
     defaultVariants: {
       variant: "primary",
@@ -74,9 +77,9 @@ export interface ButtonProps
  * 
  * Features:
  * - Uses @base-ui/react for accessible unstyled primitives.
- * - Enforces 44x44px touch targets via pseudo-elements for small sizes.
+ * - Enforces 44x44px touch targets via pseudo‑element.
  * - Strict adherence to AAU design tokens and 8pt grid.
- * - Built-in loading state and icon support.
+ * - Built‑in loading state and icon support.
  * - Polymorphic via 'render' prop (Base UI pattern).
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -100,7 +103,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const isIconOnly = !children && (Icon || IconRight || loading);
 
     if (process.env.NODE_ENV === "development" && isIconOnly && !props["aria-label"]) {
-      console.warn("Button: Icon-only buttons MUST have an aria-label for accessibility.");
+      console.warn("Button: Icon‑only buttons MUST have an aria-label for accessibility.");
     }
 
     return (
