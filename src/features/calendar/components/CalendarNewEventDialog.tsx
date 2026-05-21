@@ -60,7 +60,7 @@ export default function CalendarNewEventDialog({
               id="event-title"
               value={newEvent.title}
               onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-              placeholder={t('event_title_placeholder') || 'e.g. Workshop'}
+              placeholder={t('event_title')}
               disabled={isPending}
               autoFocus
             />
@@ -111,7 +111,7 @@ export default function CalendarNewEventDialog({
               id="event-course"
               value={newEvent.course}
               onChange={(e) => setNewEvent({ ...newEvent, course: e.target.value })}
-              placeholder={t('event_course_placeholder') || 'e.g. CS101'}
+              placeholder={t('event_course')}
               disabled={isPending}
             />
           </Stack>
@@ -123,7 +123,7 @@ export default function CalendarNewEventDialog({
               id="event-desc"
               value={newEvent.description}
               onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-              placeholder={t('event_description_placeholder')}
+              placeholder={t('event_description')}
               rows={3}
               disabled={isPending}
               className="resize-none"
@@ -145,12 +145,10 @@ export default function CalendarNewEventDialog({
               onClick={handleCreateEvent}
               disabled={isPending || !newEvent.title || !newEvent.date}
             >
-              {isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('creating')}
-                </>
-              ) : t('create_event')}
+              <Stack direction="row" gap="xs" align="center" justify="center">
+                {isPending && <Loader2 className="h-4 w-4 animate-spin" />}
+                {t('create_event')}
+              </Stack>
             </Button>
           </Stack>
         </Stack>

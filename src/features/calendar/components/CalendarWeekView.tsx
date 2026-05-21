@@ -41,7 +41,7 @@ const CalendarWeekView = ({
 }: CalendarWeekViewProps) => {
   const { lang } = useStore()
 
-  const { weekDays, weekStart } = useMemo(() => {
+  const { weekDays } = useMemo(() => {
     const start = currentDate.getDate() - (currentDate.getDay() || 7) + 1
     const days = dayNames.map((name, i) => {
       const d = new Date(currentDate.getFullYear(), currentDate.getMonth(), start + i)
@@ -52,7 +52,7 @@ const CalendarWeekView = ({
         dateKey: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
       }
     })
-    return { weekDays: days, weekStart: start }
+    return { weekDays: days }
   }, [currentDate, dayNames])
 
   const getEventTitle = (event: CalendarEvent) => {
@@ -78,7 +78,7 @@ const CalendarWeekView = ({
   return (
     <>
       {/* Time Header */}
-      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-r border-border">
+      <div className="calendar-grid-header sticky top-0 z-30 bg-muted/95 backdrop-blur-md p-3 text-center text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-text-muted border-b border-r border-border/60 shadow-sm">
         {t('time')}
       </div>
 
@@ -86,12 +86,12 @@ const CalendarWeekView = ({
       {weekDays.map((day) => (
         <div 
           key={day.dateKey} 
-          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center border-b border-border"
+          className="calendar-grid-header sticky top-0 z-30 bg-muted/95 backdrop-blur-md p-3 text-center border-b border-border/60 shadow-sm"
         >
-          <Text size="xs" weight="bold" className="uppercase tracking-widest text-muted-foreground block mb-1">
+          <Text size="xs" weight="bold" className="uppercase tracking-[0.2em] text-text-muted block mb-1.5 opacity-80">
             {day.name}
           </Text>
-          <Text size="sm" weight="bold" className="text-main">
+          <Text size="sm" weight="extrabold" className="text-text-main">
             {day.date}. {monthNames[day.month].substring(0, 3)}
           </Text>
         </div>
@@ -104,7 +104,7 @@ const CalendarWeekView = ({
         return (
           <React.Fragment key={`row-${hour}`}>
             {/* Hour Label */}
-            <div className="calendar-time-label flex items-start justify-end p-2 pr-4 text-[0.7rem] font-bold text-muted-foreground bg-muted/10 border-r border-border">
+            <div className="calendar-time-label flex items-start justify-end p-2 pr-4 text-[0.65rem] sm:text-[0.7rem] font-bold text-text-muted bg-muted/5 border-r border-b border-border/40 select-none">
               {timeStr}
             </div>
 
@@ -123,16 +123,16 @@ const CalendarWeekView = ({
                 return (
                   <div
                     key={`slot-${day.dateKey}-${hour}`}
-                    className="calendar-day p-1 border-b border-r border-border/40 group"
+                    className="calendar-day p-1 border-b border-r border-border/40 group relative"
                     style={{ gridRow: `span ${duration}` }}
                   >
                     <button
                       type="button"
                       onClick={() => handleEventClick(event, day.dateKey)}
                       className={cn(
-                        "w-full h-full p-2 rounded-md text-left transition-all duration-200",
-                        "border border-border/50 shadow-sm group-hover:shadow-md active:scale-[0.99]",
-                        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        "w-full h-full p-2.5 rounded-lg text-left transition-all duration-300",
+                        "border border-border/30 shadow-sm group-hover:shadow-lg group-hover:scale-[1.01] group-hover:z-10",
+                        "active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                       )}
                       style={{
                         background: palette.bg || event.color,
@@ -140,14 +140,15 @@ const CalendarWeekView = ({
                       }}
                     >
                       <Stack gap="2xs">
-                        <Text size="xs" weight="bold" className="truncate leading-tight">
+                        <Text size="xs" weight="extrabold" className="truncate leading-tight tracking-tight uppercase opacity-90">
                           {getEventTitle(event)}
                         </Text>
-                        <Text size="2xs" className="opacity-80 font-medium">
+                        <Text size="2xs" className="opacity-80 font-bold flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-current opacity-50" />
                           {event.time}
                         </Text>
                         {event.location && (
-                          <Text size="2xs" className="opacity-70 truncate mt-1 italic">
+                          <Text size="2xs" className="opacity-70 truncate mt-1.5 font-medium border-t border-current/10 pt-1">
                             {event.location}
                           </Text>
                         )}
@@ -160,7 +161,7 @@ const CalendarWeekView = ({
               return (
                 <div 
                   key={`slot-${day.dateKey}-${hour}`} 
-                  className="calendar-day bg-card hover:bg-muted/30 transition-colors border-b border-r border-border/40" 
+                  className="calendar-day bg-card hover:bg-muted/30 transition-colors border-b border-r border-border/40 min-h-[60px]" 
                 />
               )
             })}
@@ -172,3 +173,4 @@ const CalendarWeekView = ({
 }
 
 export default memo(CalendarWeekView)
+
