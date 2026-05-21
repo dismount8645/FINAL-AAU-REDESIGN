@@ -131,10 +131,10 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                   role="option"
                   aria-selected={index === activeSearchIndex}
                 >
-                  <GraduationCap size={14} strokeWidth={2} className="search-item-icon w-8 h-8 flex items-center justify-center bg-[rgba(var(--aau-blue-rgb),0.1)] text-aau-blue rounded-[var(--radius-md)]" />
+                  <GraduationCap size={14} strokeWidth={2} className="search-item-icon w-8 h-8 f flex items-center justify-center bg-[rgba(var(--aau-blue-rgb),0.1)] text-aau-blue rounded-[var(--radius-md)]" />
                   <div className="search-item-info flex flex-col">
                     <span className="search-item-title text-sm font-medium text-main">{course.title}</span>
-                    <span className="search-item-meta text-xs text-slate-500 dark:text-slate-400 font-medium">{course.code}</span>
+                    <span className="search-item-meta text-xs text-muted font-medium">{course.code}</span>
                   </div>
                 </div>
               )) : (
@@ -152,7 +152,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
 
       <div className="topbar__right-section flex items-center justify-end gap-sm sm:gap-md shrink-0 ml-auto">
         <button
-          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-slate-600 dark:text-slate-200 transition-all duration-150 hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-muted transition-all duration-150 hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
           onClick={() => setIsSearchExpanded(true)}
           aria-label={t('search_placeholder')}
           type="button"
@@ -180,7 +180,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               <button
                 type="button"
                 onClick={() => setIsSearchExpanded(false)}
-                className="shrink-0 w-11 h-11 flex items-center justify-center text-muted hover:text-main bg-slate-100 dark:bg-white/10 rounded-[var(--radius-pill)] transition-colors"
+                className="shrink-0 w-11 h-11 flex items-center justify-center text-muted hover:text-main bg-bg-hover rounded-[var(--radius-pill)] transition-colors"
                 aria-label={t('close')}
               >
                 <X size={20} strokeWidth={2} />

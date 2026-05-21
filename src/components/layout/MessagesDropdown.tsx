@@ -27,7 +27,7 @@ export default function MessagesDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         className={`topbar__trigger-btn relative w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus ${
-          isOpen ? 'bg-primary/10 text-primary' : 'text-slate-600 dark:text-slate-200 hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary'
+          isOpen ? 'bg-primary/10 text-primary' : 'text-muted hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary'
         }`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('messages')}
@@ -40,6 +40,7 @@ export default function MessagesDropdown() {
           </span>
         )}
       </button>
+
       {isOpen && (
         <div className="topbar-panel w-80">
           <div className="p-md border-b border-border bg-[var(--bg-hover)] flex justify-between items-center">
@@ -60,7 +61,7 @@ export default function MessagesDropdown() {
             {messagesData.map((m) => (
               <div
                 key={m.id}
-                className="p-md border-b border-border/40 hover:bg-slate-50 dark:hover:bg-white/[0.02] cursor-pointer transition-colors"
+                className="p-md border-b border-border/40 hover:bg-bg-hover cursor-pointer transition-colors"
                 onClick={() => {
                   navigate('/messages');
                   setIsOpen(false);
@@ -77,14 +78,14 @@ export default function MessagesDropdown() {
                       <Text size="xs" weight="black" className="truncate">
                         {lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
                       </Text>
-                      <Text size="2xs" className="text-slate-500 dark:text-slate-400">
+                      <Text size="2xs" className="text-muted">
                         {lang === 'da' ? m.timeDa : m.timeEn}
                       </Text>
                     </div>
                     <Text
                       size="2xs"
-                      className={`truncate block mt-0.5 ${
-                        m.unread ? 'text-main font-bold' : 'text-slate-500 dark:text-slate-400'
+                      className={`truncate block mt-xs ${
+                        m.unread ? 'text-main font-bold' : 'text-muted'
                       }`}
                     >
                       {lang === 'da' ? m.msgDa : m.msgEn}

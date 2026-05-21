@@ -32,7 +32,7 @@ export default function ProfileDropdown() {
         aria-label={t('user_menu')}
         type="button"
       >
-        <div className="topbar__profile-avatar w-11 h-11 rounded-[var(--radius-pill)] bg-slate-100 dark:bg-white/10 flex items-center justify-center text-slate-600 dark:text-slate-200 border border-border group-hover:border-primary transition-all duration-150">
+        <div className="topbar__profile-avatar w-11 h-11 rounded-[var(--radius-pill)] bg-bg-hover flex items-center justify-center text-muted border border-border group-hover:border-primary transition-all duration-150">
           <User size={24} strokeWidth={2} />
         </div>
       </button>
@@ -42,13 +42,13 @@ export default function ProfileDropdown() {
             <Text size="sm" weight="bold" className="text-main leading-none">
               Jacob Krarup Madsen
             </Text>
-            <Text size="xs" muted className="mt-[var(--space-2xs)]">
+            <Text size="xs" muted className="mt-2xs">
               Studerende
             </Text>
           </div>
           <div className="py-xs">
             <div
-              className="flex items-center gap-xs px-md py-2.5 cursor-pointer hover:bg-[var(--bg-hover)] transition-colors focus-visible:bg-[var(--bg-hover)] outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2"
+              className="flex items-center gap-xs px-md py-sm cursor-pointer hover:bg-[var(--bg-hover)] transition-colors focus-visible:bg-[var(--bg-hover)] outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2"
               onClick={() => {
                 navigate('/settings?tab=profil');
                 setIsOpen(false);
@@ -69,7 +69,7 @@ export default function ProfileDropdown() {
               </Text>
             </div>
             <div
-              className="flex items-center gap-xs px-md py-2.5 cursor-pointer hover:bg-[var(--bg-hover)] transition-colors focus-visible:bg-[var(--bg-hover)] outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2"
+              className="flex items-center gap-xs px-md py-sm cursor-pointer hover:bg-[var(--bg-hover)] transition-colors focus-visible:bg-[var(--bg-hover)] outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2"
               onClick={() => {
                 navigate('/settings');
                 setIsOpen(false);
@@ -92,7 +92,7 @@ export default function ProfileDropdown() {
           </div>
           <div className="border-t border-border py-xs">
             <div
-              className="flex items-center gap-xs px-md py-2.5 cursor-pointer hover:bg-[var(--bg-hover)] transition-colors text-danger focus-visible:bg-[var(--bg-hover)] outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2"
+              className="flex items-center gap-xs px-md py-sm cursor-pointer hover:bg-[var(--bg-hover)] transition-colors text-danger focus-visible:bg-[var(--bg-hover)] outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2"
               onClick={() => {
                 setIsOpen(false);
               }}

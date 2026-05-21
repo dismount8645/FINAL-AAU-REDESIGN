@@ -18,14 +18,14 @@ function Footer() {
           
           <Stack gap="lg" align="start" className="md:items-end">
             <nav className="flex flex-col md:flex-row gap-md md:gap-xl">
-              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1.5 underline-offset-4 hover:underline">
-                ITS Support
+              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-colors flex items-center gap-sm underline-offset-4 hover:underline">
+                <Text size="sm" weight="bold">ITS Support</Text>
               </a>
-              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors flex items-center gap-1.5 underline-offset-4 hover:underline">
-                {t('accessibility_statement')}
+              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-colors flex items-center gap-sm underline-offset-4 hover:underline">
+                <Text size="sm" weight="bold">{t('accessibility_statement')}</Text>
               </a>
-              <button onClick={(e) => e.preventDefault()} className="text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors underline-offset-4 hover:underline bg-transparent border-none p-0 cursor-pointer">
-                {t('service_status')}
+              <button onClick={(e) => e.preventDefault()} className="text-muted hover:text-primary transition-colors underline-offset-4 hover:underline bg-transparent border-none p-0 cursor-pointer">
+                <Text size="sm" weight="bold">{t('service_status')}</Text>
               </button>
             </nav>
             <Text size="xs" muted className="opacity-60 font-medium">

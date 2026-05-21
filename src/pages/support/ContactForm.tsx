@@ -36,54 +36,54 @@ function ContactForm({
   const { t } = useStore()
 
   return (
-    <Card className="h-auto overflow-visible p-lg min-h-[200px]">
-      <Heading level={3} className="mb-md">{t('send_message_to_support')}</Heading>
-      {!isFormOpen ? (
-        <Button variant="primary" full onClick={() => setIsFormOpen(true)}>
-          {t('write_a_message')}
-        </Button>
-      ) : (
-        <form onSubmit={onSubmit} className="flex flex-col gap-[var(--space-md)]">
-          <FormField
-            id="support-subject"
-            label={t('support_subject')}
-            required
-            error={fieldErrors.subject ? t('support_subject_error') : undefined}
-          >
-            <Input
+    <Card className="h-auto overflow-visible min-h-[200px]">
+      <Card.Body spacing="compact" className="p-lg">
+        <Heading level={3} className="mb-md">{t('send_message_to_support')}</Heading>
+        {!isFormOpen ? (
+          <Button variant="primary" full onClick={() => setIsFormOpen(true)}>
+            {t('write_a_message')}
+          </Button>
+        ) : (
+          <form onSubmit={onSubmit} className="flex flex-col gap-md">
+            <FormField
               id="support-subject"
-              placeholder={t('support_subject_placeholder')}
-              value={subject}
-              error={fieldErrors.subject}
-              onChange={(e) => setSubject(e.target.value)}
-            />
-          </FormField>
+              label={t('support_subject')}
+              required
+              error={fieldErrors.subject ? t('support_subject_error') : undefined}
+            >
+              <Input
+                placeholder={t('support_subject_placeholder')}
+                value={subject}
+                error={fieldErrors.subject}
+                onChange={(e) => setSubject(e.target.value)}
+              />
+            </FormField>
 
-          <FormField
-            id="support-description"
-            label={t('support_description')}
-            required
-            error={fieldErrors.description ? t('support_description_error') : undefined}
-          >
-            <Textarea
+            <FormField
               id="support-description"
-              placeholder={t('support_description_placeholder')}
-              rows={4}
-              value={description}
-              error={fieldErrors.description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </FormField>
-          <div className="flex items-center gap-[var(--space-sm)]">
-            <Button type="submit" variant="primary" disabled={isSubmitting}>
-              {isSubmitting ? t('support_sending') : t('send_message')}
-            </Button>
-            <Button type="button" variant="ghost" size="sm" icon={X} onClick={onCancel}>
-              {t('cancel')}
-            </Button>
-          </div>
-        </form>
-      )}
+              label={t('support_description')}
+              required
+              error={fieldErrors.description ? t('support_description_error') : undefined}
+            >
+              <Textarea
+                placeholder={t('support_description_placeholder')}
+                rows={4}
+                value={description}
+                error={fieldErrors.description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </FormField>
+            <div className="flex items-center gap-sm">
+              <Button type="submit" variant="primary" disabled={isSubmitting}>
+                {isSubmitting ? t('support_sending') : t('send_message')}
+              </Button>
+              <Button type="button" variant="ghost" size="sm" icon={X} onClick={onCancel}>
+                {t('cancel')}
+              </Button>
+            </div>
+          </form>
+        )}
+      </Card.Body>
     </Card>
   )
 }

@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Fragment } from 'react';
 import { Menu, X, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';
+import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
 import NotificationsDropdown from './NotificationsDropdown';
 import MessagesDropdown from './MessagesDropdown';
@@ -39,17 +40,16 @@ export default function Topbar() {
         </button>
 
         {activeBreadcrumbs && activeBreadcrumbs.length > 0 && (
-          <nav className={`flex flex-row items-center flex-wrap gap-[var(--space-2xs)] text-sm text-slate-500 dark:text-slate-400 ml-[var(--space-sm)] hidden md:flex animate-fade-in ${isMobile ? 'hidden' : ''}`}>
-
+          <nav className={`flex flex-row items-center flex-wrap gap-2xs ml-sm hidden md:flex animate-fade-in ${isMobile ? 'hidden' : ''}`}>
             {activeBreadcrumbs.map((crumb, idx) => (
               <Fragment key={idx}>
-                {idx > 0 && <ChevronRight size={14} strokeWidth={2} className="shrink-0 opacity-60 text-slate-400 dark:text-slate-500" />}
+                {idx > 0 && <ChevronRight size={14} strokeWidth={2} className="shrink-0 opacity-60 text-muted" />}
                 {crumb.href ? (
-                  <Link to={crumb.href} className="text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors font-medium">
-                    {crumb.label}
+                  <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-medium">
+                    <Text size="sm">{crumb.label}</Text>
                   </Link>
                 ) : (
-                  <span className="text-slate-800 dark:text-slate-100 font-semibold">{crumb.label}</span>
+                  <Text weight="bold" size="sm" className="text-main">{crumb.label}</Text>
                 )}
               </Fragment>
             ))}
@@ -61,7 +61,7 @@ export default function Topbar() {
         {/* Theme Toggle */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-          className="topbar__trigger-btn group w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-slate-600 dark:text-slate-200 hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary transition-all active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+          className="topbar__trigger-btn group w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-muted hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary transition-all active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
           title={`${t('appearance')}: ${theme}`}
           aria-label={`${t('appearance')}: ${theme}`}
           type="button"

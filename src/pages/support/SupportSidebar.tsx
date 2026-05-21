@@ -54,18 +54,18 @@ function SupportSidebar({ children }: SupportSidebarProps) {
 
       {children}
 
-      <Card className="bg-slate-50 dark:bg-slate-900/50">
-        <Heading level={3} className="mb-sm text-slate-800 dark:text-slate-200">
-          <MapPin size={18} strokeWidth={2} className="inline mr-2xs align-text-bottom text-slate-500" />
+      <Card className="bg-subtle">
+        <Heading level={3} className="mb-sm text-main">
+          <MapPin size={18} strokeWidth={2} className="inline mr-2xs align-text-bottom text-muted" />
           {t('main_office')}
         </Heading>
-        <Text size="sm" className="text-slate-600 dark:text-slate-400 leading-relaxed">
+        <Text size="sm" className="text-muted leading-relaxed">
           Fredrik Bajers Vej 7K<br />
           9220 Aalborg Ø<br />
-          <a href="tel:+4599402020" className="text-primary hover:underline flex items-center gap-[var(--space-sm)] mt-2xs">
+          <a href="tel:+4599402020" className="text-primary hover:underline flex items-center gap-sm mt-2xs">
             <Phone size={14} strokeWidth={2} /> Tlf.: 9940 2020
           </a>
-          <a href="mailto:aau@aau.dk" className="text-primary hover:underline flex items-center gap-[var(--space-sm)] mt-[var(--space-2xs)]">
+          <a href="mailto:aau@aau.dk" className="text-primary hover:underline flex items-center gap-sm mt-2xs">
             <Mail size={14} strokeWidth={2} /> aau@aau.dk
           </a>
         </Text>
