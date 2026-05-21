@@ -1,39 +1,55 @@
-import { forwardRef, type ButtonHTMLAttributes, KeyboardEvent } from "react";
+import { forwardRef } from "react";
+import { Button as BaseButton, type ButtonProps as BaseButtonProps } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Button‑variant‑definition med fuld typografisk og spacing‑harmoni.
- * Alle margin‑/padding‑værdier er baseret på design‑tokens (var(--space-*))
- * for at sikre matematisk konsistens på tværs af komponenter.
+ * Button Variants - Enforces strict AAU brand tokens and 8pt grid harmony.
+ * Implements the 150ms hover transition and -4px lift physics from architectural principles.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-[var(--space-sm)] relative overflow-visible select-none whitespace-nowrap border-2 border-transparent font-semibold leading-normal transition-all duration-200 outline-none focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  [
+    "inline-flex items-center justify-center gap-[var(--space-sm)] relative overflow-visible select-none whitespace-nowrap font-bold leading-none transition-all duration-150 ease-[var(--transition-ease)] outline-none isolate",
+    "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2 focus-visible:shadow-focus",
+    "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
+    "active:scale-[0.97] active:duration-75",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-[1.25em] [&_svg]:transition-transform [&_svg]:duration-150",
+  ],
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-[var(--primary-foreground,#ffffff)] shadow-[var(--shadow-sm)] hover:bg-aau-light-blue hover:shadow-[var(--shadow-md)] enabled:hover:-translate-y-px",
+          "bg-[var(--aau-blue)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-blue)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
         secondary:
-          "bg-transparent text-primary border-primary hover:bg-primary hover:text-white enabled:hover:-translate-y-px hover:shadow-[var(--shadow-sm)]",
+          "bg-transparent text-[var(--aau-blue)] border-2 border-[var(--aau-blue)] hover:bg-[var(--aau-blue)] hover:text-white hover:shadow-[var(--shadow-sm)] hover:-translate-y-1",
         tertiary:
-          "bg-muted/10 text-primary hover:bg-muted/20 enabled:hover:-translate-y-px hover:shadow-xs",
-        negative:
-          "bg-danger text-white shadow-[var(--shadow-sm)] hover:bg-aau-dark-pink hover:shadow-[var(--shadow-md)] enabled:hover:-translate-y-px",
+          "bg-[var(--bg-hover)] text-[var(--aau-blue)] hover:bg-[var(--bg-hover-active)] hover:-translate-y-1",
+        danger:
+          "bg-[var(--aau-dark-pink)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-pink)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
+        success:
+          "bg-[var(--aau-dark-green)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-green)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
+        gold:
+          "bg-[var(--aau-light-orange)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-dark-orange)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
         ghost:
-          "bg-transparent text-primary font-medium hover:bg-primary/10 hover:text-primary hover:scale-[0.98]",
+          "bg-transparent text-[var(--aau-blue)] hover:bg-[var(--bg-hover)]",
         outline:
-          "bg-transparent border-border text-foreground hover:bg-muted/50",
+          "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:border-[var(--border-color-hover)]",
       },
       size: {
-        xs: "h-8 px-sm text-xs rounded-[var(--radius-sm)] after:absolute after:inset-y-[-6px] after:inset-x-0 after:content-['']",
-        sm: "h-9 px-md text-[0.8125rem] rounded-[var(--radius-md)] after:absolute after:inset-y-[-4px] after:inset-x-0 after:content-['']",
-        md: "h-10 px-lg text-sm rounded-[var(--radius-md)] after:absolute after:inset-y-[-2px] after:inset-x-0 after:content-['']",
-        lg: "h-12 px-xl text-base rounded-[var(--radius-lg)]",
-        icon: "h-10 w-10 rounded-[var(--radius-md)] after:absolute after:inset-[-2px] after:content-['']",
-        "icon-sm": "h-9 w-9 rounded-[var(--radius-sm)] after:absolute after:inset-[-4px] after:content-['']",
+        xs: "h-8 px-[var(--space-xs)] text-xs rounded-[var(--radius-sm)] after:absolute after:inset-y-[-8px] after:inset-x-0 after:content-['']",
+        sm: "h-9 px-[var(--space-sm)] text-[0.8125rem] rounded-[var(--radius-md)] after:absolute after:inset-y-[-6px] after:inset-x-0 after:content-['']",
+        md: "h-11 px-[var(--space-md)] text-sm rounded-[var(--radius-md)] after:absolute after:inset-y-[-4px] after:inset-x-0 after:content-['']",
+        lg: "h-14 px-[var(--space-lg)] text-base rounded-[var(--radius-lg)]",
+        icon: "size-11 p-0 rounded-[var(--radius-md)] after:absolute after:inset-[-4px] after:content-['']",
+        "icon-sm": "size-9 p-0 rounded-[var(--radius-sm)] after:absolute after:inset-[-6px] after:content-['']",
       },
+      full: {
+        true: "w-full",
+      },
+      pill: {
+        true: "rounded-full",
+      }
     },
     defaultVariants: {
       variant: "primary",
@@ -43,27 +59,25 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
+  extends BaseButtonProps,
     VariantProps<typeof buttonVariants> {
-  /** Ikon som vises før tekst */
+  /** Optional icon to display before children */
   icon?: LucideIcon;
-  /** Ikon som vises efter tekst */
+  /** Optional icon to display after children */
   iconRight?: LucideIcon;
-  /** Visuel loading‑tilstand */
+  /** Loading state with spinner and disabled behavior */
   loading?: boolean;
-  /** Giver knappen en “pill” form */
-  pill?: boolean;
-  /** Gør knappen 100 % bred */
-  full?: boolean;
 }
 
 /**
- * Forwarded ref‑button med fuld ARIA‑support.
- *
- * - Når kun et ikon vises (iconOnly) kræves en `aria-label`.
- * - `type` defaultes til "button" for at undgå utilsigtet form‑submission.
- * - Keyboard‑support er indbygget via native <button>.
- * - Simpel telemetry logning ved klik (kan udvides til analytics‑pipeline).
+ * Senior UI/UX Architect Refactored Button.
+ * 
+ * Features:
+ * - Uses @base-ui/react for accessible unstyled primitives.
+ * - Enforces 44x44px touch targets via pseudo-elements for small sizes.
+ * - Strict adherence to AAU design tokens and 8pt grid.
+ * - Built-in loading state and icon support.
+ * - Polymorphic via 'render' prop (Base UI pattern).
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -71,74 +85,48 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
+      full,
+      pill,
       icon: Icon,
       iconRight: IconRight,
       loading,
-      pill,
-      full,
       children,
-      type = "button",
-      onClick,
+      disabled,
+      focusableWhenDisabled,
       ...props
     },
     ref
   ) => {
-    const iconOnly = !children && (Icon || IconRight || loading);
+    const isIconOnly = !children && (Icon || IconRight || loading);
 
-    if (process.env.NODE_ENV === "development" && iconOnly && !props["aria-label"]) {
-      console.warn(
-        "Accessibility Warning: Icon‑only buttons MUST have an aria-label."
-      );
+    if (process.env.NODE_ENV === "development" && isIconOnly && !props["aria-label"]) {
+      console.warn("Button: Icon-only buttons MUST have an aria-label for accessibility.");
     }
 
-    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-      if (props.disabled) return;
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        (e.target as HTMLButtonElement).click();
-      }
-    };
-
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      // Simple telemetry – kan erstattes af en rigtig analytics‑service
-      console.debug("Button clicked:", { variant, size, label: props["aria-label"] ?? children });
-      onClick?.(e);
-    };
-
     return (
-      <button
-        className={cn(
-          buttonVariants({ variant, size, className }),
-          pill && "rounded-pill",
-          full && "w-full"
-        )}
+      <BaseButton
         ref={ref}
-        type={type}
-        disabled={props.disabled || loading}
-        aria-busy={loading}
-        onKeyDown={handleKeyDown}
-        onClick={handleClick}
+        disabled={disabled || loading}
+        focusableWhenDisabled={focusableWhenDisabled || loading}
+        className={cn(buttonVariants({ variant, size, full, pill }), className)}
         {...props}
       >
         {loading && (
-          <Loader2
-            className={cn("h-4 w-4 animate-spin", children && "mr-2xs")}
-            aria-hidden="true"
-          />
+          <Loader2 className="size-[1.2em] animate-spin" aria-hidden="true" />
         )}
         {!loading && Icon && (
-          <Icon className={cn("h-4 w-4", children && "mr-2xs")} aria-hidden="true" />
+          <Icon className="group-hover:scale-110" aria-hidden="true" />
         )}
-        {children}
+        {children && <span className="truncate">{children}</span>}
         {!loading && IconRight && (
-          <IconRight className={cn("h-4 w-4", children && "ml-2xs")} aria-hidden="true" />
+          <IconRight className="group-hover:translate-x-0.5" aria-hidden="true" />
         )}
-      </button>
+      </BaseButton>
     );
   }
 );
 
 Button.displayName = "Button";
 
-export { Button };
+export { Button, buttonVariants };
 export default Button;

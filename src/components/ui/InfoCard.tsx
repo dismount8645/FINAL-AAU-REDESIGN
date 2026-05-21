@@ -1,9 +1,12 @@
-import { memo, useState, type ReactNode, type MouseEventHandler, type MouseEvent } from 'react'
+import { memo, useState, type ReactNode, type MouseEvent, useCallback } from 'react'
 import { type LucideIcon, Star, Info } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import IconCircle from '@/components/common/IconCircle'
 import { Text } from '@/components/ui/Typography'
 import Stack from '@/components/ui/Stack'
 import Card from '@/components/ui/Card'
+import Button from '@/components/ui/Button'
+import { cn } from '@/lib/utils'
 
 export interface InfoCardProps {
   icon: LucideIcon
@@ -16,7 +19,7 @@ export interface InfoCardProps {
   direction?: 'row' | 'col'
   elevated?: boolean
   className?: string
-  onClick?: MouseEventHandler<HTMLDivElement>
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void
   children?: ReactNode
   isStarred?: boolean
   onStarToggle?: () => void
@@ -42,53 +45,110 @@ const InfoCard = memo(function InfoCard({
 }: InfoCardProps) {
   const [showHelp, setShowHelp] = useState(false)
 
-  const handleStarClick = (e: MouseEvent) => {
+  const handleStarClick = useCallback((e: MouseEvent) => {
     e.stopPropagation()
-    /* istanbul ignore next */
-    if (onStarToggle) onStarToggle()
-  }
+    onStarToggle?.()
+  }, [onStarToggle])
 
-  const handleHelpClick = (e: MouseEvent) => {
+  const handleHelpClick = useCallback((e: MouseEvent) => {
     e.stopPropagation()
-    setShowHelp(!showHelp)
-  }
+    setShowHelp(v => !v)
+  }, [])
+
+  const isClickable = !!onClick
 
   return (
-    <Card elevated={elevated} className={`info-card ${onClick ? 'hover-lift cursor-pointer' : ''} ${className}`} hasHeader={false} onClick={onClick}>
-      <Card.Body className="p-lg">
-        <Stack direction={direction} gap={direction === 'row' ? 'xl' : 'md'} align="start">
-          <IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} />
-          <Stack gap="xs" className="flex-1">
-            <Stack direction="row" gap="xs" align="center">
-              <Text weight="bold" size="lg" className="info-card__title">{title}</Text>
+    <Card 
+      elevated={elevated} 
+      className={cn(
+        'info-card transition-all duration-300',
+        isClickable && 'hover:shadow-[var(--shadow-md)] hover:-translate-y-1 cursor-pointer',
+        className
+      )} 
+      hasHeader={false} 
+      onClick={onClick}
+    >
+      <Card.Body className="p-[var(--space-md)] md:p-[var(--space-lg)]">
+        <Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start">
+          <IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} className="shrink-0" />
+          
+          <Stack gap="xs" className="flex-1 min-w-0">
+            <Stack direction="row" gap="xs" align="center" className="w-full">
+              <Text weight="bold" size="lg" className="truncate leading-tight">{title}</Text>
+              
               {helpText && (
-                <button
-                  type="button"
-                  className="relative inline-flex items-center justify-center w-5 h-5 rounded-[var(--radius-pill)] text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-all cursor-pointer after:absolute after:inset-[-12px]"
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className={cn(
+                    'text-[var(--text-disabled)] hover:text-[var(--aau-blue)] transition-colors',
+                    showHelp && 'text-[var(--aau-blue)] bg-[var(--bg-hover)]'
+                  )}
                   onClick={handleHelpClick}
                   aria-label="Help"
+                  pill
                 >
-                  <Info size={14} strokeWidth={2} />
-                </button>
+                  <Info size={16} strokeWidth={2.5} />
+                </Button>
               )}
+              
               {onStarToggle && (
-                <button
-                  type="button"
-                  className={`relative inline-flex items-center justify-center w-6 h-6 rounded-[var(--radius-pill)] transition-all cursor-pointer ml-auto after:absolute after:inset-[-12px] ${isStarred ? 'text-[var(--aau-light-orange)]' : 'text-slate-300 hover:text-slate-400'}`}
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  className={cn(
+                    'ml-auto transition-all',
+                    isStarred 
+                      ? 'text-[var(--aau-light-orange)] bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
+                      : 'text-[var(--text-disabled)] hover:text-[var(--aau-blue)]'
+                  )}
                   onClick={handleStarClick}
                   aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
+                  pill
                 >
-                  <Star size={14} strokeWidth={2} fill={isStarred ? 'var(--aau-light-orange)' : 'none'} />
-                </button>
+                  <Star 
+                    size={16} 
+                    strokeWidth={2.5} 
+                    fill={isStarred ? 'currentColor' : 'none'} 
+                  />
+                </Button>
               )}
             </Stack>
-            {showHelp && helpText ? (
-              <Text size="xs" className="text-primary dark:text-primary-foreground italic font-medium leading-relaxed block bg-primary/5 dark:bg-primary/20 p-sm rounded-[var(--radius-md)] border border-primary/10 mt-xs animate-in fade-in slide-in-from-top-1">{helpText}</Text>
-            ) : null}
-            {description ? <Text size="sm" muted className="info-card__description text-slate-400 dark:text-slate-300 leading-relaxed">{description}</Text> : null}
-            {children}
+
+            <AnimatePresence initial={false}>
+              {showHelp && helpText && (
+                <motion.div
+                  key="help-content"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <Text 
+                    size="xs" 
+                    className="italic font-medium leading-relaxed bg-[var(--bg-highlight)] p-[var(--space-sm)] rounded-[var(--radius-md)] border border-[var(--aau-blue)]/10 mt-[var(--space-xs)]"
+                  >
+                    {helpText}
+                  </Text>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {description && (
+              <Text size="sm" muted className="leading-relaxed line-clamp-2">
+                {description}
+              </Text>
+            )}
+            
+            {children && <div className="mt-[var(--space-xs)] w-full">{children}</div>}
           </Stack>
-          {action ? <div className="info-card__action shrink-0">{action}</div> : null}
+
+          {action && (
+            <div className="shrink-0 self-center lg:self-start pt-[var(--space-xs)] lg:pt-0">
+              {action}
+            </div>
+          )}
         </Stack>
       </Card.Body>
     </Card>

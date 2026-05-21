@@ -32,13 +32,15 @@ describe('Button', () => {
 
   it('renders in loading state', () => {
     render(<Button loading>Submit</Button>)
-    expect(screen.getByRole('button')).toBeDisabled()
-    expect(screen.getByRole('button').querySelector('.animate-spin')).toBeInTheDocument()
+    const button = screen.getByRole('button')
+    // Base UI uses aria-disabled="true" by default for accessibility continuity
+    expect(button).toHaveAttribute('aria-disabled', 'true')
+    expect(button.querySelector('.animate-spin')).toBeInTheDocument()
   })
 
   it('applies pill and full classes', () => {
     const { rerender } = render(<Button pill>Pill</Button>)
-    expect(screen.getByRole('button')).toHaveClass('rounded-pill')
+    expect(screen.getByRole('button')).toHaveClass('rounded-full')
 
     rerender(<Button full>Full</Button>)
     expect(screen.getByRole('button')).toHaveClass('w-full')
@@ -51,7 +53,7 @@ describe('Button', () => {
     render(<Button icon={Plus} />)
     expect(consoleWarn).toHaveBeenCalledTimes(1)
     expect(consoleWarn).toHaveBeenCalledWith(
-      expect.stringMatching(/Accessibility Warning: Icon.only buttons MUST have an aria-label./)
+      expect.stringMatching(/MUST have an aria-label/)
     )
     consoleWarn.mockRestore()
     process.env.NODE_ENV = originalEnv

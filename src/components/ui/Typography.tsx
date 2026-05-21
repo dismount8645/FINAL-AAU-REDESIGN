@@ -1,44 +1,10 @@
-import type { ReactNode, CSSProperties, ElementType } from 'react'
+import { forwardRef, type ElementType, type ReactNode, type CSSProperties } from 'react'
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
-export interface HeadingProps {
-  level?: 1 | 2 | 3 | 4 | 5 | 6
-  weight?: string | number
-  children?: ReactNode
-  className?: string
-  style?: CSSProperties
-}
-
-export interface TextProps {
-  id?: string;
-  size?: string
-  weight?: string | number
-  bold?: boolean
-  muted?: boolean
-  children?: ReactNode
-  className?: string
-  style?: CSSProperties
-  tag?: ElementType
-  htmlFor?: string
-}
-
-export interface CaptionProps {
-  children?: ReactNode
-  className?: string
-  style?: CSSProperties
-}
-
-const sizeMap: Record<string, string> = {
-  '2xs': '0.625rem',
-  xs: '0.75rem',
-  sm: '0.875rem',
-  md: '1rem',
-  lg: '1.1rem',
-  'lg-plus': '1.25rem',
-  xl: '1.4rem',
-  '2xl': '1.6rem',
-  '3xl': '2rem',
-}
-
+/**
+ * Typography Tokens & Maps
+ */
 const weightMap: Record<string, number> = {
   normal: 400,
   medium: 500,
@@ -48,23 +14,145 @@ const weightMap: Record<string, number> = {
   black: 900,
 }
 
-export function Heading({ level = 1, weight, children, className = '', style, ...props }: HeadingProps) {
-  const Tag = `h${level}` as ElementType
-  const styles: Record<string, string | number> = {}
-  if (weight) styles.fontWeight = weightMap[weight] || weight
-  return <Tag className={className} style={{ ...styles, ...style }} {...props}>{children}</Tag>
+const sizeMap: Record<string, string> = {
+  '2xs': '0.625rem',
+  xs: '0.75rem',
+  sm: '0.875rem',
+  md: '1rem',
+  lg: '1.1rem',
+  xl: '1.4rem',
+  '2xl': '1.6rem',
 }
 
-export function Text({ size = 'md', weight, bold, muted, children, className = '', style, tag: Tag = 'p' as ElementType, ...props }: TextProps) {
-  const resolvedWeight = weight || (bold ? 'bold' : null)
-  const styles: Record<string, string | number> = {}
-  if (size !== 'md') styles.fontSize = sizeMap[size] || size
-  if (resolvedWeight) styles.fontWeight = weightMap[resolvedWeight] || resolvedWeight
-  if (muted) styles.color = 'var(--text-muted)'
-  return <Tag className={className} style={{ ...styles, ...style }} {...props}>{children}</Tag>
+const headingVariants = cva(
+  'm-0 font-bold tracking-tight leading-[1.2] text-[var(--text-main)] transition-colors',
+  {
+    variants: {
+      level: {
+        1: 'text-4xl md:text-5xl',
+        2: 'text-3xl md:text-4xl',
+        3: 'text-2xl md:text-[1.75rem]',
+        4: 'text-xl md:text-2xl',
+        5: 'text-lg md:text-xl',
+        6: 'text-base md:text-lg',
+      },
+      truncate: {
+        true: 'truncate',
+      },
+    },
+    defaultVariants: {
+      level: 1,
+    },
+  }
+)
+
+const textVariants = cva(
+  'm-0 leading-[1.6] text-[var(--text-main)] transition-colors',
+  {
+    variants: {
+      size: {
+        '2xs': 'text-[0.625rem]',
+        xs: 'text-xs',
+        sm: 'text-sm',
+        md: 'text-base',
+        lg: 'text-lg',
+        xl: 'text-xl',
+        '2xl': 'text-2xl',
+      },
+      muted: {
+        true: 'text-[var(--text-muted)]',
+      },
+    },
+    defaultVariants: {
+      size: 'md',
+    },
+  }
+)
+
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, VariantProps<typeof headingVariants> {
+  weight?: string | number
+  as?: ElementType
 }
 
-export function Caption({ children, className = '', style, ...props }: CaptionProps) {
-  const Tag = 'span' as ElementType
-  return <Tag className={`text-xs ${className}`} style={{ color: 'var(--text-muted)', ...style }} {...props}>{children}</Tag>
+/**
+ * Senior UI/UX Architect Refactored Heading.
+ */
+const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
+  ({ className, level = 1, weight, truncate, as, style, ...props }, ref) => {
+    const Tag = as || (`h${level}` as ElementType)
+    const resolvedStyle: CSSProperties = { ...style }
+    
+    if (weight) {
+      resolvedStyle.fontWeight = weightMap[weight as string] || weight
+    }
+
+    return (
+      <Tag
+        ref={ref}
+        className={cn(headingVariants({ level, truncate }), className)}
+        style={resolvedStyle}
+        {...props}
+      />
+    )
+  }
+)
+
+Heading.displayName = 'Heading'
+
+export interface TextProps extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
+  bold?: boolean
+  tag?: ElementType
+  weight?: string | number
 }
+
+/**
+ * Senior UI/UX Architect Refactored Text.
+ */
+const Text = forwardRef<HTMLElement, TextProps>(
+  ({ className, size = 'md', weight, bold, muted, tag: Tag = 'p' as ElementType, style, ...props }, ref) => {
+    const resolvedWeight = weight || (bold ? 'bold' : null)
+    const resolvedStyle: CSSProperties = { ...style }
+
+    if (resolvedWeight) {
+      resolvedStyle.fontWeight = weightMap[resolvedWeight as string] || resolvedWeight
+    }
+
+    // Handle custom sizes not in standard tokens via inline styles to maintain compatibility
+    const isStandardSize = size && size in sizeMap
+    if (!isStandardSize && size) {
+        resolvedStyle.fontSize = size
+    }
+
+    return (
+      <Tag
+        ref={ref}
+        className={cn(textVariants({ size: isStandardSize ? (size as any) : undefined, muted }), className)}
+        style={resolvedStyle}
+        {...props}
+      />
+    )
+  }
+)
+
+Text.displayName = 'Text'
+
+export interface CaptionProps extends React.HTMLAttributes<HTMLSpanElement> {}
+
+const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
+  ({ className, style, ...props }, ref) => (
+    <Text
+      ref={ref}
+      tag="span"
+      size="xs"
+      muted
+      className={cn('italic font-medium', className)}
+      style={style}
+      {...props}
+    />
+  )
+)
+
+Caption.displayName = 'Caption'
+
+export { Heading, Text, Caption, headingVariants, textVariants }
+export default Text

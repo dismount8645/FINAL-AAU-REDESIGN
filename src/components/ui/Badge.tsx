@@ -1,73 +1,64 @@
-import { type HTMLAttributes } from "react"
+import { type HTMLAttributes, forwardRef } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 /**
- * Badge‑komponent med fuld token‑baseret styling.
- * - Undgår overflødige variant‑klasser (badge--*).
- * - Tilføjer ARIA‑rolle for bedre tilgængelighed.
- * - Giver mulighed for at logge klik (hvis den bruges som knap) via onClick‑prop.
+ * Badge Variants - Senior UI/UX Architect refinement.
+ * Enforces strict AAU brand tokens and consistent semantic coloring.
  */
 const badgeVariants = cva(
-  "inline-flex items-center justify-center py-0.5 px-sm rounded-pill text-[0.7rem] font-semibold leading-tight tracking-wide border border-transparent [&_i]:text-[0.8em]",
+  "inline-flex items-center justify-center py-0.5 px-[var(--space-xs)] rounded-[var(--radius-sm)] text-[0.75rem] font-bold leading-none tracking-wide border border-transparent whitespace-nowrap isolate transition-colors duration-150",
   {
     variants: {
       variant: {
-        default: "bg-[var(--bg-hover)] text-[var(--text-main)] dark:text-slate-300",
-        primary: "bg-primary/15 text-primary",
-        negative: "bg-danger/15 text-danger",
-        success: "bg-success/15 text-success",
-        warning: "bg-warning/15 text-warning",
-        danger: "bg-danger/15 text-danger",
-        info: "bg-info/15 text-info",
+        default: "bg-[var(--bg-hover)] text-[var(--text-main)]",
+        primary: "bg-[var(--aau-blue)]/10 text-[var(--aau-blue)]",
+        success: "bg-[var(--aau-dark-green)]/10 text-[var(--aau-dark-green)]",
+        warning: "bg-[var(--aau-dark-orange)]/10 text-[var(--aau-dark-orange)]",
+        danger: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",
+        negative: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",
+        info: "bg-[var(--aau-dark-blue-sec)]/10 text-[var(--aau-dark-blue-sec)]",
+        gold: "bg-[var(--aau-light-orange)]/10 text-[var(--aau-light-orange)]",
       },
+      pill: {
+        true: "rounded-full px-2.5",
+      }
     },
     defaultVariants: {
       variant: "default",
+      pill: false,
     },
   }
 )
 
 export interface BadgeProps
   extends HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeVariants> {
-  /** Variant af badge */
-  variant?: "default" | "primary" | "success" | "warning" | "danger" | "info" | "negative"
-  /** Gør badge rundere (pill) */
-  pill?: boolean
-  /** Valgfri ARIA‑label for screen‑readere */
-  "aria-label"?: string
-}
+    VariantProps<typeof badgeVariants> {}
 
 /**
- * Badge‑elementet er primært dekorativt, men kan også fungere som
- * interaktiv komponent (fx klik‑bare tags). Derfor understøtter den
- * både `onClick` og ARIA‑attributter.
+ * Senior UI/UX Architect Refactored Badge.
+ * 
+ * Features:
+ * - Token-driven variant management.
+ * - ARIA status role by default.
+ * - Supports both standard (rounded-sm) and pill shapes.
  */
-function Badge({
-  variant = "default",
-  pill = false,
-  children,
-  className,
-  "aria-label": ariaLabel,
-  ...props
-}: BadgeProps) {
-  return (
-    <span
-      role="status"
-      aria-label={ariaLabel}
-      className={cn(
-        "badge",
-        badgeVariants({ variant }),
-        pill && "rounded-pill",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </span>
-  )
-}
+const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ variant, pill, children, className, ...props }, ref) => {
+    return (
+      <span
+        ref={ref}
+        role="status"
+        className={cn("badge", badgeVariants({ variant, pill }), className)}
+        {...props}
+      >
+        {children}
+      </span>
+    )
+  }
+)
 
-export { Badge }
+Badge.displayName = "Badge"
+
+export { Badge, badgeVariants }
 export default Badge
