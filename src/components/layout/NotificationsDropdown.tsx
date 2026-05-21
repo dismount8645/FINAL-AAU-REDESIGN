@@ -4,6 +4,7 @@ import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
 import { notificationsData } from '@/data/mockData';
+import { cn } from '@/lib/utils';
 
 export default function NotificationsDropdown() {
   const navigate = useNavigate();
@@ -35,16 +36,19 @@ export default function NotificationsDropdown() {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        className={`topbar__trigger-btn relative w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus ${
-          isOpen ? 'bg-primary/10 text-primary' : 'text-muted hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary'
-        }`}
+        className={cn(
+          "topbar__trigger-btn relative w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus",
+          isOpen 
+            ? "bg-[var(--aau-blue)] text-white shadow-md" 
+            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-[var(--aau-blue)]"
+        )}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('notifications')}
         type="button"
       >
         <Bell size={20} strokeWidth={2} />
         {notificationCount > 0 && (
-          <span className="topbar__badge absolute top-1 right-1 min-w-[18px] h-[18px] text-[10px] bg-primary text-white font-bold rounded-[var(--radius-pill)] flex items-center justify-center border-2 border-[var(--bg-topbar)] leading-none shadow-[var(--shadow-sm)]">
+          <span className="topbar__badge absolute top-1.5 right-1.5 min-w-[18px] h-[18px] text-[10px] bg-[var(--aau-blue)] text-white font-black rounded-full flex items-center justify-center border-2 border-[var(--bg-topbar)] leading-none shadow-sm z-10 animate-pulse">
             {notificationCount}
           </span>
         )}

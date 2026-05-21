@@ -31,7 +31,7 @@ export default function Topbar() {
     >
       <div className="topbar__left-section flex items-center shrink-0 gap-sm">
         <button
-          className="topbar__hamburger w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-main dark:text-white transition-all duration-200 hover:bg-bg-hover dark:hover:bg-white/10 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+          className="topbar__hamburger w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-[var(--text-main)] dark:text-white transition-all duration-200 hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
           onClick={toggleSidebar}
           aria-label={t('toggle_sidebar')}
           type="button"
@@ -43,13 +43,13 @@ export default function Topbar() {
           <nav className={`flex flex-row items-center flex-wrap gap-2xs ml-sm hidden md:flex animate-fade-in ${isMobile ? 'hidden' : ''}`}>
             {activeBreadcrumbs.map((crumb, idx) => (
               <Fragment key={idx}>
-                {idx > 0 && <ChevronRight size={14} strokeWidth={2} className="shrink-0 opacity-60 text-muted" />}
+                {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-[var(--text-muted)]" />}
                 {crumb.href ? (
-                  <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-medium">
-                    <Text size="sm">{crumb.label}</Text>
+                  <Link to={crumb.href} className="text-[var(--text-muted)] hover:text-[var(--aau-blue)] transition-colors font-bold uppercase tracking-tighter">
+                    <Text size="xs">{crumb.label}</Text>
                   </Link>
                 ) : (
-                  <Text weight="bold" size="sm" className="text-main">{crumb.label}</Text>
+                  <Text weight="black" size="xs" className="text-[var(--text-main)] uppercase tracking-tight">{crumb.label}</Text>
                 )}
               </Fragment>
             ))}
@@ -61,7 +61,7 @@ export default function Topbar() {
         {/* Theme Toggle */}
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-          className="topbar__trigger-btn group w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-muted hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary transition-all active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+          className="topbar__trigger-btn group w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-[var(--text-main)] hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-[var(--aau-blue)] transition-all active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
           title={`${t('appearance')}: ${theme}`}
           aria-label={`${t('appearance')}: ${theme}`}
           type="button"

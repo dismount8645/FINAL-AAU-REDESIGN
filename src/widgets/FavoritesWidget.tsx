@@ -1,8 +1,10 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Star, ChevronRight } from 'lucide-react'
 import Card from '@/components/ui/Card'
-import { Text } from '@/components/ui/Typography'
+import Stack from '@/components/ui/Stack'
+import Button from '@/components/ui/Button'
+import { Text, Heading } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import type { WidgetProps } from '@/types'
 import { sortFavorites, resolveFavorite } from '@/utils/favorites'
@@ -13,7 +15,11 @@ import { DASHBOARD_CONFIG } from '@/config/dashboard'
 
 export default function FavoritesWidget({ isEditing }: WidgetProps) {
   const navigate = useNavigate()
-  const { t, lang, favorites, toggleFavorite, courses } = useStore()
+  const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
+  const favorites = useStore(state => state.favorites)
+  const toggleFavorite = useStore(state => state.toggleFavorite)
+  const courses = useStore(state => state.courses)
 
   const limit = DASHBOARD_CONFIG.FAVORITES_LIMIT
 
@@ -27,24 +33,36 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
     return { overflow, resolved }
   }, [favorites, limit, lang, courses, t])
 
+  const handleSeeAll = useCallback(() => {
+    if (!isEditing) navigate('/favorites')
+  }, [isEditing, navigate])
+
   return (
-    <Card className="widget-card h-full w-full favorites-widget @container/widget">
-      <Card.Header>
-        <Text weight="bold" size="lg" className="card__title">
-          {t('favorites')}
-        </Text>
-        <button
-          type="button"
-          className="text-sm text-primary dark:text-slate-200 font-semibold hover:underline cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap transition-all hover:opacity-80 bg-transparent border-none p-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm"
-          onClick={() => navigate('/favorites')}
+    <Card className="widget-card h-full w-full favorites-widget @container/widget shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
+      <Card.Header padding="compact" className="bg-[var(--bg-highlight)]/50 border-b border-[var(--border-color)]">
+        <Stack direction="row" align="center" gap="sm">
+          <div className="p-2 bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+            <Star size={18} strokeWidth={2} />
+          </div>
+          <Heading level={4} className="m-0 text-sm font-bold text-[var(--text-main)]">
+            {t('favorites')}
+          </Heading>
+        </Stack>
+        
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--aau-blue)]"
+          onClick={handleSeeAll}
+          iconRight={ChevronRight}
         >
-          {t('see_all')}<ChevronRight size={14} strokeWidth={2} />
-        </button>
+          {t('see_all')}
+        </Button>
       </Card.Header>
 
-      <Card.Body>
+      <Card.Body padding="compact" className="overflow-visible">
         {resolved.length > 0 ? (
-          <div className="grid gap-xs"
+          <div className="grid gap-[var(--space-sm)] p-[var(--space-xs)]"
             style={{
               gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
             }}
@@ -69,18 +87,18 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
           </div>
         ) : (
           <div className="h-full w-full flex flex-col items-center justify-center py-lg gap-[var(--space-md)]">
-            <div className="p-[var(--space-md)] bg-[var(--bg-body)] rounded-[var(--radius-pill)]">
-              <Star size={24} strokeWidth={2} className="text-[var(--aau-light-orange)]" fill="var(--aau-light-orange)" />
+            <div className="p-[var(--space-md)] bg-[var(--bg-highlight)] rounded-[var(--radius-pill)]">
+              <Star size={32} strokeWidth={2} className="text-[var(--aau-light-orange)]" fill="currentColor" />
             </div>
-            <Text muted className="text-center max-w-[240px]">
+            <Text muted size="sm" className="text-center max-w-[240px] italic">
               {t('no_favorites_hint')}
             </Text>
           </div>
         )}
 
         {overflow > 0 && (
-          <div className="mt-xs text-center">
-            <Text size="sm" muted>
+          <div className="mt-[var(--space-sm)] text-center pb-[var(--space-sm)]">
+            <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-widest opacity-60">
               {`+${overflow} ${t('more_favorites')}`}
             </Text>
           </div>

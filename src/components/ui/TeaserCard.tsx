@@ -101,7 +101,7 @@ const TeaserCard = memo(function TeaserCard({
   isStarred = false,
   className,
 }: TeaserCardProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   const progressData = useMemo(() => {
     if (progress === undefined || isLoading) return null
@@ -136,7 +136,7 @@ const TeaserCard = memo(function TeaserCard({
       {image && (
         <div 
           className={cn(
-            'relative shrink-0 overflow-hidden transition-transform duration-700 ease-out group-hover:scale-[1.05]',
+            'relative shrink-0 overflow-hidden transition-transform duration-500 ease-[var(--transition-ease)] group-hover:scale-105',
             isHorizontal 
               ? 'w-full lg:w-[260px] aspect-video lg:aspect-auto lg:h-full' 
               : 'w-full aspect-video'
@@ -146,7 +146,7 @@ const TeaserCard = memo(function TeaserCard({
             <div className="absolute top-[var(--space-sm)] left-[var(--space-sm)] z-10">
               <Badge 
                 variant={badgeColor} 
-                className="shadow-xl backdrop-blur-md bg-black/40 text-white border-none font-bold px-2 py-0.5"
+                className="shadow-xl backdrop-blur-md font-bold px-2 py-0.5 border-none"
               >
                 {badge}
               </Badge>
@@ -159,7 +159,7 @@ const TeaserCard = memo(function TeaserCard({
             loading="lazy"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--aau-blue)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       )}
 
@@ -174,21 +174,22 @@ const TeaserCard = memo(function TeaserCard({
             )}
             <Heading 
               level={3} 
-              className="m-0 text-[1.125rem] font-bold leading-[1.3] text-[var(--text-main)] transition-colors group-hover:text-[var(--aau-blue)] line-clamp-2"
+              className="m-0 text-[1.125rem] font-bold leading-tight text-[var(--text-main)] transition-colors group-hover:text-[var(--aau-blue)] line-clamp-2"
             >
               {title}
             </Heading>
           </div>
 
-          {/* Favorite Toggle - Uses refactored Button for 44px safety and consistency */}
+          {/* Favorite Toggle */}
           <Button
-            size="icon"
+            size="icon-sm"
             variant="ghost"
+            pill
             className={cn(
               'relative z-30 transition-all duration-300',
               isStarred 
-                ? 'bg-[var(--aau-light-gold)] text-[var(--aau-light-orange)] shadow-md hover:bg-[var(--aau-dark-gold)] hover:text-white' 
-                : 'bg-[var(--bg-hover)] text-[var(--text-disabled)] hover:text-[var(--text-main)] shadow-sm'
+                ? 'bg-[var(--bg-highlight)] text-[var(--aau-light-orange)] shadow-sm' 
+                : 'text-[var(--text-disabled)] hover:text-[var(--text-main)]'
             )}
             onClick={(e) => {
               e.stopPropagation()
@@ -196,7 +197,6 @@ const TeaserCard = memo(function TeaserCard({
             }}
             aria-label={isStarred ? t('remove_favorite') : t('add_favorite')}
             aria-pressed={isStarred}
-            pill
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -207,8 +207,8 @@ const TeaserCard = memo(function TeaserCard({
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
               >
                 <Star 
-                  size={20} 
-                  strokeWidth={2.5} 
+                  size={18} 
+                  strokeWidth={2} 
                   fill={isStarred ? 'currentColor' : 'none'} 
                 />
               </motion.div>
@@ -219,7 +219,7 @@ const TeaserCard = memo(function TeaserCard({
         {description && (
           <Text 
             size="sm" 
-            className="line-clamp-2 leading-[1.6] text-[var(--text-muted)] min-h-[3.2rem]"
+            className="line-clamp-2 leading-relaxed text-[var(--text-muted)]"
           >
             {description}
           </Text>
@@ -227,16 +227,16 @@ const TeaserCard = memo(function TeaserCard({
 
         {/* Progress Section */}
         {progressData && (
-          <div className="mt-auto pt-[var(--space-xs)] space-y-[var(--space-xs)]">
+          <div className="mt-auto pt-[var(--space-xs)] space-y-[var(--space-2xs)]">
             <ProgressBar 
               value={progressData.value} 
               color={progressColor || 'var(--aau-blue)'} 
-              height={8} 
-              className="rounded-full overflow-hidden"
+              height={6} 
+              className="rounded-full"
             />
             {progressData.label && (
-              <Text size="xs" weight="bold" className="text-[var(--text-muted)] flex items-center gap-[var(--space-xs)]">
-                <span className="size-2 rounded-full bg-[var(--aau-blue)] animate-pulse" />
+              <Text size="xs" weight="bold" className="text-[var(--text-muted)] flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-[var(--aau-blue)] animate-pulse" />
                 {progressData.label}
               </Text>
             )}
@@ -250,8 +250,8 @@ const TeaserCard = memo(function TeaserCard({
         )}
 
         {/* Interactive Cue */}
-        <div className="absolute bottom-[var(--space-md)] right-[var(--space-md)] opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] pointer-events-none">
-          <ChevronRight size={22} strokeWidth={3} className="text-[var(--aau-blue)]" />
+        <div className="absolute bottom-[var(--space-md)] right-[var(--space-md)] opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-[var(--transition-ease)] pointer-events-none">
+          <ChevronRight size={20} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
         </div>
       </div>
     </motion.div>

@@ -1,6 +1,7 @@
 import { memo, type ReactNode, MouseEventHandler } from 'react'
 import { type LucideIcon } from 'lucide-react'
 import { Text } from '@/components/ui/Typography'
+import { cn } from '@/lib/utils'
 
 export interface StatusItemProps {
   icon?: LucideIcon
@@ -29,7 +30,12 @@ const StatusItem = memo(function StatusItem({
 }: StatusItemProps) {
   return (
     <div
-      className={`flex items-center gap-md px-sm -mx-sm py-1.5 rounded-[var(--radius-md)] transition cursor-${onClick ? 'pointer' : 'default'} ${unread ? 'bg-highlight' : ''} ${onClick ? 'focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none' : ''} ${className}`}
+      className={cn(
+        "flex items-center gap-[var(--space-md)] px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-md)] transition-all duration-200",
+        onClick ? "cursor-pointer hover:bg-[var(--bg-hover)] focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:outline-none" : "cursor-default",
+        unread && "bg-[var(--bg-highlight)]",
+        className
+      )}
       onClick={onClick}
       tabIndex={onClick ? 0 : undefined}
       role={onClick ? 'button' : undefined}
@@ -40,24 +46,32 @@ const StatusItem = memo(function StatusItem({
         }
       } : undefined}
     >
-      {Icon ? (
+      {Icon && (
         <div 
-          className="flex items-center justify-center w-8 h-8 shrink-0" 
-          style={{ color: iconColor || 'var(--color-primary)' }}
+          className="flex items-center justify-center w-10 h-10 shrink-0 rounded-[var(--radius-lg)] bg-[var(--bg-highlight)]/50" 
+          style={{ color: iconColor || 'var(--aau-blue)' }}
         >
           <Icon size={20} strokeWidth={2} aria-hidden="true" />
         </div>
-      ) : null}
-      <div className="flex flex-col flex-1 min-w-0">
-        <Text weight="bold" className="truncate text-base m-0 leading-tight">{title}</Text>
-        {subtitle ? (
-          <Text size="sm" muted={!subtitleClassName} className={`truncate m-0 leading-tight ${subtitleClassName}`}>
-            {subtitleIcon ? <i className={`fa-solid ${subtitleIcon} mr-xs`} aria-hidden="true" /> : null}
+      )}
+      
+      <div className="flex flex-col flex-1 min-w-0 justify-center">
+        <Text weight="bold" size="md" className="truncate leading-tight text-[var(--text-main)]">
+          {title}
+        </Text>
+        {subtitle && (
+          <Text size="sm" muted={!subtitleClassName} className={cn("truncate leading-tight mt-0.5", subtitleClassName)}>
+            {subtitleIcon && <i className={`fa-solid ${subtitleIcon} mr-1`} aria-hidden="true" />}
             {subtitle}
           </Text>
-        ) : null}
+        )}
       </div>
-      {right ? <div className="flex items-center justify-center w-auto min-w-[60px] shrink-0">{right}</div> : null}
+
+      {right && (
+        <div className="flex items-center justify-end min-w-[44px] shrink-0 ml-auto">
+          {right}
+        </div>
+      )}
     </div>
   )
 })
