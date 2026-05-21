@@ -42,7 +42,7 @@ export default function Avatar({
   const statusSize = px <= 32 ? '10px' : px >= 80 ? '18px' : '14px'
   const borderWidth = px <= 32 ? '2px' : px >= 80 ? '3px' : '3px'
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick = () => {
     // Simple telemetry – kan erstattes af en rigtig analytics‑service
     console.debug('Avatar clicked', { name, src })
     // Hvis forælder har givet onClick, vil den blive videreført via spread‑props

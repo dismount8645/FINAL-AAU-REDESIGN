@@ -5,6 +5,7 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
 import { Text } from '@/components/ui/Typography'
+import { Loader2 } from 'lucide-react'
 
 interface NewEventFormState {
   title: string
@@ -21,6 +22,7 @@ interface CalendarNewEventDialogProps {
   newEvent: NewEventFormState
   setNewEvent: React.Dispatch<React.SetStateAction<NewEventFormState>>
   handleCreateEvent: () => void
+  isPending?: boolean
   t: (key: string) => string
 }
 
@@ -40,84 +42,115 @@ export default function CalendarNewEventDialog({
   newEvent,
   setNewEvent,
   handleCreateEvent,
+  isPending = false,
   t,
 }: CalendarNewEventDialogProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && !isPending && onClose()}>
+      <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>{t('new_event')}</DialogTitle>
+          <DialogTitle className="text-xl font-bold text-primary">{t('new_event')}</DialogTitle>
         </DialogHeader>
-        <Stack gap="md">
+        <Stack gap="md" className="py-2">
           <Stack gap="xs">
-            <Text size="sm" weight="bold">
+            <label htmlFor="event-title" className="text-sm font-semibold text-text-main">
               {t('event_title')}
-            </Text>
+            </label>
             <Input
+              id="event-title"
               value={newEvent.title}
               onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-              placeholder={t('event_title')}
+              placeholder={t('event_title_placeholder') || 'e.g. Workshop'}
+              disabled={isPending}
+              autoFocus
             />
           </Stack>
           <Stack gap="xs">
-            <Text size="sm" weight="bold">
+            <label htmlFor="event-date" className="text-sm font-semibold text-text-main">
               {t('event_date')}
-            </Text>
+            </label>
             <Input
+              id="event-date"
               type="date"
               value={newEvent.date ? toInputDate(newEvent.date) : ''}
               onChange={(e) => setNewEvent({ ...newEvent, date: toInternalDate(e.target.value) })}
+              disabled={isPending}
             />
           </Stack>
           <Stack direction="row" gap="md">
             <Stack gap="xs" className="flex-1">
-              <Text size="sm" weight="bold">
+              <label htmlFor="event-start" className="text-sm font-semibold text-text-main">
                 {t('event_start_time')}
-              </Text>
+              </label>
               <Input
+                id="event-start"
                 type="time"
                 value={newEvent.startTime}
                 onChange={(e) => setNewEvent({ ...newEvent, startTime: e.target.value })}
+                disabled={isPending}
               />
             </Stack>
             <Stack gap="xs" className="flex-1">
-              <Text size="sm" weight="bold">
+              <label htmlFor="event-end" className="text-sm font-semibold text-text-main">
                 {t('event_end_time')}
-              </Text>
+              </label>
               <Input
+                id="event-end"
                 type="time"
                 value={newEvent.endTime}
                 onChange={(e) => setNewEvent({ ...newEvent, endTime: e.target.value })}
+                disabled={isPending}
               />
             </Stack>
           </Stack>
           <Stack gap="xs">
-            <Text size="sm" weight="bold">
+            <label htmlFor="event-course" className="text-sm font-semibold text-text-main">
               {t('event_course')}
-            </Text>
+            </label>
             <Input
+              id="event-course"
               value={newEvent.course}
               onChange={(e) => setNewEvent({ ...newEvent, course: e.target.value })}
-              placeholder={t('event_course')}
+              placeholder={t('event_course_placeholder') || 'e.g. CS101'}
+              disabled={isPending}
             />
           </Stack>
           <Stack gap="xs">
-            <Text size="sm" weight="bold">
+            <label htmlFor="event-desc" className="text-sm font-semibold text-text-main">
               {t('event_description')}
-            </Text>
+            </label>
             <Textarea
+              id="event-desc"
               value={newEvent.description}
               onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-              placeholder={t('event_description')}
+              placeholder={t('event_description_placeholder')}
               rows={3}
+              disabled={isPending}
+              className="resize-none"
             />
           </Stack>
-          <Stack direction="row" gap="sm" className="calendar__modal-actions mt-[var(--space-sm)]">
-            <Button variant="secondary" full onClick={onClose}>
+          
+          <Stack direction="row" gap="sm" className="mt-4 pt-4 border-t border-border/50">
+            <Button 
+              variant="secondary" 
+              className="flex-1" 
+              onClick={onClose}
+              disabled={isPending}
+            >
               {t('cancel')}
             </Button>
-            <Button variant="primary" full onClick={handleCreateEvent}>
-              {t('create_event')}
+            <Button 
+              variant="primary" 
+              className="flex-1 relative" 
+              onClick={handleCreateEvent}
+              disabled={isPending || !newEvent.title || !newEvent.date}
+            >
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {t('creating')}
+                </>
+              ) : t('create_event')}
             </Button>
           </Stack>
         </Stack>
@@ -125,3 +158,4 @@ export default function CalendarNewEventDialog({
     </Dialog>
   )
 }
+

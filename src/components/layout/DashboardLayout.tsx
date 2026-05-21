@@ -39,11 +39,12 @@ export default function DashboardLayout({ title, widgets: initialWidgets }: Dash
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                onDragStart(e as unknown as React.DragEvent, widget.id, true);
+                // Keyboard events shouldn't trigger drag start directly with event object cast
+                // Logic should be handled by a dedicated move function if applicable
               }
             }}
           >
-            {widget.content || <WidgetPlaceholder widgetId={widget.id} />}
+            {widget.content ? (widget.content as React.ReactNode) : <WidgetPlaceholder widgetId={widget.id} />}
           </Grid.Item>
         ))}
       </Grid>

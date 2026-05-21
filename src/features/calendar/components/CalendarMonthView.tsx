@@ -1,9 +1,10 @@
-import React from 'react'
+import { memo, useMemo } from 'react'
 import type { CalendarEvents, CalendarEvent } from '@/types'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import { eventPalette } from './constants'
+import { cn } from '@/lib/utils'
 
 interface CalendarMonthViewProps {
   currentDate: Date
@@ -15,7 +16,7 @@ interface CalendarMonthViewProps {
   getWeekNumber: (date: Date) => number
 }
 
-export default function CalendarMonthView({
+const CalendarMonthView = ({
   currentDate,
   events,
   dayNames,
@@ -23,119 +24,148 @@ export default function CalendarMonthView({
   handleEventClick,
   handleDayClick,
   getWeekNumber,
-}: CalendarMonthViewProps) {
+}: CalendarMonthViewProps) => {
   const { lang } = useStore()
-  const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
-  let firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1
-  if (firstDay < 0) firstDay = 6
-  const gridCells: React.ReactNode[] = []
-  let weekNum = getWeekNumber(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1))
+
+  const { days, firstDay, startingWeekNum, year, month } = useMemo(() => {
+    const y = currentDate.getFullYear()
+    const m = currentDate.getMonth()
+    const totalDays = new Date(y, m + 1, 0).getDate()
+    let first = new Date(y, m, 1).getDay() - 1
+    if (first < 0) first = 6
+    const weekStart = getWeekNumber(new Date(y, m, 1))
+    
+    return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m }
+  }, [currentDate, getWeekNumber])
 
   const getEventTitle = (event: CalendarEvent) => {
     return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
   }
 
-  gridCells.push(
-    <Stack key="uge-h" className="calendar-grid-header bg-background p-[var(--space-sm)] text-center font-bold text-[0.85rem] text-main">
-      {t('week')}
-    </Stack>
-  )
-  dayNames.forEach((h) =>
-    gridCells.push(
-      <Stack key={h} className="calendar-grid-header bg-background p-[var(--space-sm)] text-center font-bold text-[0.85rem] text-main">
-        {h}
-      </Stack>
-    )
-  )
-  gridCells.push(
-    <Stack key={`wn-${weekNum}`} className="calendar-week-num flex items-center justify-center text-[0.8rem] text-muted bg-background font-semibold">
-      {weekNum}
-    </Stack>
-  )
-  for (let i = 0; i < firstDay; i++) {
-    gridCells.push(<Stack key={`empty-${i}`} className="calendar-day empty bg-background opacity-30"></Stack>)
-  }
-
-  for (let i = 1; i <= daysInMonth; i++) {
-    if ((i + firstDay - 1) % 7 === 0 && i > 1) {
-      weekNum++
-      gridCells.push(
-        <Stack key={`wn-${weekNum}`} className="calendar-week-num flex items-center justify-center text-[0.8rem] text-muted bg-background font-semibold">
-          {weekNum}
-        </Stack>
-      )
-    }
-    const dateKey = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${i}`
+  const renderDay = (dayIndex: number) => {
+    const dateKey = `${year}-${month}-${dayIndex}`
     const event = events[dateKey]
-    const isToday =
-      i === new Date().getDate() &&
-      currentDate.getMonth() === new Date().getMonth() &&
-      currentDate.getFullYear() === new Date().getFullYear()
-    
-    const eventStyle = event
-      ? {
-          background: (eventPalette[event.color] || {}).bg || event.color,
-          color: (eventPalette[event.color] || {}).text || 'var(--text-main)',
-        }
-      : {}
+    const now = new Date()
+    const isToday = 
+      dayIndex === now.getDate() &&
+      month === now.getMonth() &&
+      year === now.getFullYear()
 
-    gridCells.push(
+    const palette = event ? eventPalette[event.color] || {} : {}
+    const eventStyle = {
+      background: palette.bg || event?.color,
+      color: palette.text || 'var(--text-main)',
+    }
+
+    return (
       <Stack
-        key={`day-${i}`}
-        className={`calendar-day min-h-[var(--space-3xl)] p-[var(--space-xs)] flex flex-col gap-[var(--space-xs)] relative transition-colors duration-[var(--transition-fast)] bg-card hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
-          isToday ? 'today' : ''
-        } cursor-pointer`}
+        key={`day-${dayIndex}`}
+        className={cn(
+          "calendar-day min-h-[100px] sm:min-h-[120px] p-2 flex flex-col gap-1.5 relative transition-all duration-200 bg-card group cursor-pointer",
+          "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:ring-2 focus-within:ring-primary/50",
+          isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
+        )}
         onClick={() => (event ? handleEventClick(event, dateKey) : handleDayClick(dateKey))}
         tabIndex={0}
         role="button"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            if (event) {
-              handleEventClick(event, dateKey)
-            } else {
-              handleDayClick(dateKey)
-            }
-          }
-        }}
+        aria-label={`${dayIndex}. ${t('month_' + month)}`}
       >
-        <div className="flex justify-end">
+        <div className="flex justify-between items-start">
           <Text
             weight="bold"
-            size="md"
-            className={`day-number text-[0.9rem] text-main w-[var(--space-2xl)] h-[var(--space-2xl)] flex items-center justify-center rounded-[var(--radius-pill)] font-medium ${
-              isToday ? 'today bg-primary text-white shadow-[var(--shadow-sm)]' : ''
-            }`}
+            className={cn(
+              "flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm transition-all duration-300",
+              isToday 
+                ? "bg-primary text-white shadow-md scale-110" 
+                : "text-text-muted group-hover:text-text-main group-hover:bg-muted/50"
+            )}
           >
-            {i}
+            {dayIndex}
           </Text>
         </div>
+
         {event && (
           <div
-            className="calendar-event-mini w-full px-[var(--space-2xs)] py-[var(--space-3xs)] rounded-[var(--radius-sm)] text-left text-2xs font-semibold truncate border border-[var(--border-color)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none active:scale-[0.98] transition-all tracking-tight"
+            className="calendar-event-mini w-full px-2 py-1.5 rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden"
             style={eventStyle}
-            tabIndex={0}
-            role="button"
             onClick={(e) => {
               e.stopPropagation()
               handleEventClick(event, dateKey)
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault()
-                e.stopPropagation()
-                handleEventClick(event, dateKey)
-              }
-            }}
           >
-            <Text size="xs" weight="semibold" className="truncate select-none">
+            <Text size="xs" weight="bold" className="truncate block select-none leading-tight">
               {getEventTitle(event)}
             </Text>
+            {event.time && (
+              <Text size="2xs" className="opacity-80 block truncate mt-0.5 font-medium">
+                {event.time}
+              </Text>
+            )}
           </div>
         )}
       </Stack>
     )
   }
 
-  return <>{gridCells}</>
+  // Generate all grid cells (8 columns x 6 rows = 48 items)
+  const gridCells = useMemo(() => {
+    const cells = []
+    let currentDayIdx = 1
+
+    for (let row = 0; row < 6; row++) {
+      // Column 0: Week Number
+      const rowWeekNum = startingWeekNum + row
+      cells.push(
+        <div 
+          key={`wn-${rowWeekNum}`} 
+          className="calendar-week-num flex items-center justify-center bg-muted/20 text-[0.65rem] sm:text-xs font-bold text-text-muted border-r border-b border-border/40 select-none"
+        >
+          {rowWeekNum}
+        </div>
+      )
+
+      // Columns 1-7: Days
+      for (let col = 0; col < 7; col++) {
+        const cellIdx = row * 7 + col
+        const isPrevMonth = cellIdx < firstDay
+        const isNextMonth = (cellIdx - firstDay) >= days
+
+        if (isPrevMonth || isNextMonth) {
+          cells.push(
+            <div 
+              key={`empty-${row}-${col}`} 
+              className="calendar-day empty bg-muted/5 opacity-40 border-b border-r border-border/30" 
+            />
+          )
+        } else {
+          cells.push(renderDay(currentDayIdx))
+          currentDayIdx++
+        }
+      }
+    }
+    return cells
+  }, [days, firstDay, startingWeekNum, renderDay])
+
+  return (
+    <>
+      {/* Header Row */}
+      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-text-muted border-b border-r border-border/60">
+        {t('week')}
+      </div>
+      {dayNames.map((day) => (
+        <div 
+          key={day} 
+          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-text-muted border-b border-border/60"
+        >
+          {day}
+        </div>
+      ))}
+
+      {/* Grid Content */}
+      {gridCells}
+    </>
+  )
 }
+
+export default memo(CalendarMonthView)
+

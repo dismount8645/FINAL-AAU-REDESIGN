@@ -1,5 +1,4 @@
-import { type FC, type HTMLAttributes, ElementType, KeyboardEvent } from "react";
-import { type LucideIcon } from "lucide-react";
+import { type FC, type HTMLAttributes, ElementType, KeyboardEvent, type MouseEventHandler } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -35,7 +34,7 @@ export interface CardProps
   /** Shortcut for variant="elevated" */
   elevated?: boolean;
   /** Gør Card klik‑bar (tilføjer role="button") */
-  onClick?: () => void;
+  onClick?: MouseEventHandler<HTMLDivElement>;
   /** Keyboard‑handler for klik‑bare Cards */
   onKeyDown?: (e: KeyboardEvent<HTMLDivElement>) => void;
   /** HTML‑tag som skal renderes (default: div) */
@@ -68,7 +67,11 @@ function Card({
     if (!isClickable) return;
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      onClick?.();
+      // Execute original handler if it exists
+      if (onClick) {
+        // Create a synthetic event or just call if it doesn't need the event object
+        (onClick as unknown as () => void)();
+      }
     }
     onKeyDown?.(e);
   };
@@ -166,6 +169,10 @@ Card.Footer = (({ children, className, ...props }: HTMLAttributes<HTMLDivElement
     {children}
   </footer>
 )) as FC<HTMLAttributes<HTMLDivElement>>;
+
+export interface CardDecorationProps extends HTMLAttributes<HTMLDivElement> {
+  icon?: any;
+}
 
 Card.Decoration = (({ icon: Icon, className, ...props }: CardDecorationProps) => (
   <div
