@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const textareaVariants = cva(
-  "flex field-sizing-content min-h-[var(--topbar-height)] w-full rounded-[var(--radius-lg)] border-[1.5px] bg-transparent px-md py-sm text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80",
+  "flex field-sizing-content min-h-[var(--topbar-height)] w-full rounded-[var(--radius-lg)] border-[1.5px] transition-[border-color,box-shadow,background] duration-150 text-[var(--text-main)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-transparent focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800/50 disabled:text-slate-400 dark:disabled:text-slate-500 placeholder:text-[var(--text-disabled)]",
   {
     variants: {
       variant: {
@@ -50,7 +50,7 @@ export interface TextareaProps
  * - `aria-invalid` sættes når `error` er true.
  * - `aria-describedby` kan bindes til en fejl‑ eller help‑tekst via `errorMessageId`.
  * - Resize‑klasser styres af `resize`‑prop.
- * - Simpel telemetry ved ændring (kan fjernes i produktion).
+ * - Simpel telemetry ved ændring (kun i produktion).
  */
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
@@ -62,20 +62,31 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       error,
       full,
       className,
+      errorMessageId,
       ...props
     },
     ref
   ) => {
+    const generatedId = useId();
+    const ariaDescribedBy = error ? errorMessageId ?? generatedId : undefined;
+
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        // Ingen default‑handling – lad forælder beslutte.
+      }
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       console.debug("Textarea changed:", { name: e.target.name, value: e.target.value })
       props.onChange?.(e)
-    }
+    };
 
     return (
       <textarea
         ref={ref}
         rows={rows}
         aria-invalid={error ? true : undefined}
+        aria-describedby={ariaDescribedBy}
         className={cn(
           textareaVariants({ variant, size }),
           error &&
@@ -87,6 +98,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           full && "w-full",
           className
         )}
+        onKeyDown={handleKeyDown}
         onChange={handleChange}
         {...props}
       />
