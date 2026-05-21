@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import type { CalendarEvents, CalendarEvent } from '@/types'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import { eventPalette } from './constants'
+import { cn } from '@/lib/utils'
 
 interface CalendarWeekViewProps {
   currentDate: Date
@@ -17,105 +18,157 @@ interface CalendarWeekViewProps {
 const parseEventDuration = (timeStr: string): number => {
   const parts = timeStr.split(' - ')
   if (parts.length < 2) return 1
-  const [startH, startM] = parts[0].split(':').map(Number)
-  const [endH, endM] = parts[1].split(':').map(Number)
-  const startDec = startH + startM / 60
-  const endDec = endH + endM / 60
-  return Math.max(1, Math.round(endDec - startDec))
+  try {
+    const [startH, startM] = parts[0].split(':').map(Number)
+    const [endH, endM] = parts[1].split(':').map(Number)
+    const startDec = startH + startM / 60
+    const endDec = endH + endM / 60
+    return Math.max(1, Math.ceil(endDec - startDec))
+  } catch {
+    return 1
+  }
 }
 
-export default function CalendarWeekView({
+const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+const CalendarWeekView = ({
   currentDate,
   events,
   dayNames,
   monthNames,
   t,
   handleEventClick,
-}: CalendarWeekViewProps) {
+}: CalendarWeekViewProps) => {
   const { lang } = useStore()
-  const first = currentDate.getDate() - (currentDate.getDay() || 7) + 1
-  const weekCells: React.ReactNode[] = []
-  const hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-  const coveredCells = new Set<string>()
+
+  const { weekDays, weekStart } = useMemo(() => {
+    const start = currentDate.getDate() - (currentDate.getDay() || 7) + 1
+    const days = dayNames.map((name, i) => {
+      const d = new Date(currentDate.getFullYear(), currentDate.getMonth(), start + i)
+      return {
+        name,
+        date: d.getDate(),
+        month: d.getMonth(),
+        dateKey: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+      }
+    })
+    return { weekDays: days, weekStart: start }
+  }, [currentDate, dayNames])
 
   const getEventTitle = (event: CalendarEvent) => {
     return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
   }
 
-  weekCells.push(
-    <Stack key="tid-h" className="calendar-grid-header bg-background p-[var(--space-sm)] text-center font-bold text-[0.85rem] text-main">
-      {t('time')}
-    </Stack>
+  const coveredCells = useMemo(() => {
+    const covered = new Set<string>()
+    HOURS.forEach(hour => {
+      weekDays.forEach(day => {
+        const event = events[day.dateKey]
+        if (event && event.time.startsWith(hour.toString().padStart(2, '0'))) {
+          const duration = parseEventDuration(event.time)
+          for (let d = 1; d < duration; d++) {
+            covered.add(`${day.dateKey}-${hour + d}`)
+          }
+        }
+      })
+    })
+    return covered
+  }, [events, weekDays])
+
+  return (
+    <>
+      {/* Time Header */}
+      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-xs font-bold uppercase tracking-wider text-muted-foreground border-b border-r border-border">
+        {t('time')}
+      </div>
+
+      {/* Week Day Headers */}
+      {weekDays.map((day) => (
+        <div 
+          key={day.dateKey} 
+          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center border-b border-border"
+        >
+          <Text size="xs" weight="bold" className="uppercase tracking-widest text-muted-foreground block mb-1">
+            {day.name}
+          </Text>
+          <Text size="sm" weight="bold" className="text-main">
+            {day.date}. {monthNames[day.month].substring(0, 3)}
+          </Text>
+        </div>
+      ))}
+
+      {/* Hour Rows */}
+      {HOURS.map((hour) => {
+        const timeStr = `${hour.toString().padStart(2, '0')}:00`
+        
+        return (
+          <React.Fragment key={`row-${hour}`}>
+            {/* Hour Label */}
+            <div className="calendar-time-label flex items-start justify-end p-2 pr-4 text-[0.7rem] font-bold text-muted-foreground bg-muted/10 border-r border-border">
+              {timeStr}
+            </div>
+
+            {/* Day Slots for this Hour */}
+            {weekDays.map((day) => {
+              const cellId = `${day.dateKey}-${hour}`
+              if (coveredCells.has(cellId)) return null
+
+              const event = events[day.dateKey]
+              const isEventStart = event && event.time.startsWith(hour.toString().padStart(2, '0'))
+
+              if (isEventStart) {
+                const duration = parseEventDuration(event.time)
+                const palette = eventPalette[event.color] || {}
+                
+                return (
+                  <div
+                    key={`slot-${day.dateKey}-${hour}`}
+                    className="calendar-day p-1 border-b border-r border-border/40 group"
+                    style={{ gridRow: `span ${duration}` }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleEventClick(event, day.dateKey)}
+                      className={cn(
+                        "w-full h-full p-2 rounded-md text-left transition-all duration-200",
+                        "border border-border/50 shadow-sm group-hover:shadow-md active:scale-[0.99]",
+                        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                      )}
+                      style={{
+                        background: palette.bg || event.color,
+                        color: palette.text || 'var(--text-main)',
+                      }}
+                    >
+                      <Stack gap="2xs">
+                        <Text size="xs" weight="bold" className="truncate leading-tight">
+                          {getEventTitle(event)}
+                        </Text>
+                        <Text size="2xs" className="opacity-80 font-medium">
+                          {event.time}
+                        </Text>
+                        {event.location && (
+                          <Text size="2xs" className="opacity-70 truncate mt-1 italic">
+                            {event.location}
+                          </Text>
+                        )}
+                      </Stack>
+                    </button>
+                  </div>
+                )
+              }
+
+              return (
+                <div 
+                  key={`slot-${day.dateKey}-${hour}`} 
+                  className="calendar-day bg-card hover:bg-muted/30 transition-colors border-b border-r border-border/40" 
+                />
+              )
+            })}
+          </React.Fragment>
+        )
+      })}
+    </>
   )
-  dayNames.forEach((h, i) => {
-    const d = new Date(currentDate.getFullYear(), currentDate.getMonth(), first + i)
-    weekCells.push(
-      <Stack key={h} className="calendar-grid-header bg-background p-[var(--space-sm)] text-center font-bold text-[0.85rem] text-main">
-        <Text size="xs" muted className="calendar__weekday-label">
-          {h}
-        </Text>
-        <Text size="sm">
-          {d.getDate()}. {monthNames[d.getMonth()].substring(0, 3)}
-        </Text>
-      </Stack>
-    )
-  })
-
-  hours.forEach((hour) => {
-    const timeStr = `${hour.toString().padStart(2, '0')}:00`
-    weekCells.push(
-      <Stack key={`time-${hour}`} className="calendar-time-label flex items-start justify-end p-[var(--space-xs)_var(--space-sm)] text-[0.75rem] text-main bg-background">
-        {timeStr}
-      </Stack>
-    )
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(currentDate.getFullYear(), currentDate.getMonth(), first + i)
-      const dateKey = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
-      const cellId = `${dateKey}-${hour}`
-
-      if (coveredCells.has(cellId)) continue
-
-      const event = events[dateKey]
-      const isEventThisHour = event && event.time.startsWith(hour.toString().padStart(2, '0'))
-
-      if (isEventThisHour) {
-        const duration = parseEventDuration(event.time)
-        for (let d_idx = 1; d_idx < duration; d_idx++) {
-          coveredCells.add(`${dateKey}-${hour + d_idx}`)
-        }
-
-        const eventPillStyle = {
-          background: (eventPalette[event.color] || {}).bg || event.color,
-          color: (eventPalette[event.color] || {}).text || 'var(--text-main)',
-        }
-        weekCells.push(
-          <Stack
-            key={`week-cell-${hour}-${i}`}
-            className="calendar-day week-view-cell min-h-[60px] p-[2px] bg-card"
-            style={{ gridRow: `span ${duration}` }}
-          >
-            <button
-              type="button"
-              className="calendar-event-pill w-full h-full p-[var(--space-xs)_var(--space-sm)] rounded-[var(--radius-sm)] cursor-pointer flex flex-col justify-start overflow-hidden text-left font-semibold border border-[var(--border-color)] shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none active:scale-[0.98] transition-all"
-              style={eventPillStyle}
-              onClick={() => handleEventClick(event, dateKey)}
-            >
-              <Text size="xs" weight="semibold" className="truncate w-full">
-                {getEventTitle(event)}
-              </Text>
-              <Text size="xs" muted className="calendar__event-time text-[10px] opacity-75">
-                {event.time}
-              </Text>
-            </button>
-          </Stack>
-        )
-      } else {
-        weekCells.push(
-          <Stack key={`week-cell-${hour}-${i}`} className="calendar-day week-view-cell min-h-[60px] p-[2px] bg-card" />
-        )
-      }
-    }
-  })
-
-  return <>{weekCells}</>
 }
+
+export default memo(CalendarWeekView)

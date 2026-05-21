@@ -13,6 +13,10 @@ export function useCalendar() {
   const { lang, t } = useStore()
   const [currentDate, setCurrentDate] = useState(new Date(2026, 4, 1))
   const [view, setView] = useState('month')
+  const [isPending, setIsPending] = useState(false)
+  const [activeModal, setActiveModal] = useState<string | null>(null)
+  const [selectedEvent, setSelectedEvent] = useState<(CalendarEvent & { dateKey: string }) | null>(null)
+  
   const [events, setEvents] = useState<CalendarEvents>(() => {
     return storage.get('aauCalendarEvents', { ...defaultEvents })
   })
@@ -58,6 +62,44 @@ export function useCalendar() {
     setEvents(newEvents)
   }, [])
 
+  const handleCreateEvent = useCallback(async (newEvent: {
+    title: string;
+    date: string;
+    startTime: string;
+    endTime: string;
+    course: string;
+    description: string;
+  }) => {
+    if (!newEvent.title || !newEvent.date) return { success: false, error: 'missing_fields' }
+    
+    setIsPending(true)
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 600))
+
+    const dateKey = newEvent.date
+    const newCalendarEvent: CalendarEvent = {
+      id: Date.now(),
+      title: newEvent.title,
+      color: newEvent.course ? 'var(--color-accent)' : 'var(--color-primary)',
+      location: newEvent.course,
+      time:
+        newEvent.startTime && newEvent.endTime
+          ? `${newEvent.startTime} - ${newEvent.endTime}`
+          : newEvent.startTime || t('all_day'),
+      host: 'Mig',
+      description: newEvent.description
+    }
+
+    if (events[dateKey]) {
+      setIsPending(false)
+      return { success: false, error: 'event_exists' }
+    }
+
+    setEvents(prev => ({ ...prev, [dateKey]: newCalendarEvent }))
+    setIsPending(false)
+    return { success: true }
+  }, [events, t])
+
   const getEventsForDate = useCallback((dateKey: string) => {
     return events[dateKey] || null
   }, [events])
@@ -101,5 +143,10 @@ export function useCalendar() {
     navigateCal, goToToday,
     getTitle, futureEvents,
     daysInMonth, firstDayOfMonth, weekStart,
+    handleCreateEvent,
+    isPending,
+    activeModal, setActiveModal,
+    selectedEvent, setSelectedEvent
   }
 }
+
