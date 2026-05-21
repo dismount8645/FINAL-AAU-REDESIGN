@@ -10,7 +10,7 @@ describe('Avatar', () => {
 
   it('renders image when src is provided', () => {
     render(<Avatar name="Test User" src="https://example.com/avatar.jpg" />)
-    const img = screen.getByRole('img')
+    const img = screen.getByAltText('Test User')
     expect(img).toHaveAttribute('src', 'https://example.com/avatar.jpg')
   })
 

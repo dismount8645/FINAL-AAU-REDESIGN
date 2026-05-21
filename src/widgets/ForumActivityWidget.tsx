@@ -45,7 +45,7 @@ export default function ForumActivityWidget({ span, isEditing }: WidgetProps) {
 
   return (
     <Card className="h-full w-full flex flex-col">
-      <Card.Header className="py-[var(--space-xs)] px-[var(--space-sm)]">
+      <Card.Header spacing="compact">
         <Text weight="bold" size="lg" className="card__title">{t('forum_activity')}</Text>
         <button
           type="button"
@@ -56,7 +56,7 @@ export default function ForumActivityWidget({ span, isEditing }: WidgetProps) {
         </button>
       </Card.Header>
 
-      <Card.Body className="h-full w-full flex-1 p-[var(--space-xs)]">
+      <Card.Body spacing="compact">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)]">
           {activities.slice(0, itemsToShow).map((a) => (
             <button

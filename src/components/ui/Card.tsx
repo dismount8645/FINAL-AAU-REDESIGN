@@ -95,22 +95,57 @@ function Card({
 
 /* ---------- Sub‑components ---------- */
 
-Card.Header = (({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const cardHeaderVariants = cva(
+  "card__header flex justify-between items-center flex-wrap gap-[var(--space-sm)]",
+  {
+    variants: {
+      spacing: {
+        default: "px-[var(--space-lg)] py-[var(--space-md)]",
+        compact: "px-[var(--space-sm)] py-[var(--space-xs)]",
+      },
+    },
+    defaultVariants: {
+      spacing: "default",
+    },
+  }
+);
+
+interface CardHeaderProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardHeaderVariants> {}
+
+Card.Header = (({ children, className, spacing, ...props }: CardHeaderProps) => (
   <header
     className={cn(
-      "card__header flex justify-between items-center flex-wrap gap-[var(--space-sm)] px-[var(--space-lg)] py-[var(--space-md)]",
+      cardHeaderVariants({ spacing }),
       className
     )}
     {...props}
   >
     {children}
   </header>
-)) as FC<HTMLAttributes<HTMLDivElement>>;
+)) as FC<CardHeaderProps>;
 
-Card.Body = (({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => (
+const cardBodyVariants = cva(
+  "card__body flex-1",
+  {
+    variants: {
+      spacing: {
+        default: "px-[var(--space-lg)] py-[var(--space-md)]",
+        compact: "p-[var(--space-xs)]",
+        none: "p-0",
+      },
+    },
+    defaultVariants: {
+      spacing: "default",
+    },
+  }
+);
+
+interface CardBodyProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardBodyVariants> {}
+
+Card.Body = (({ children, className, spacing, ...props }: CardBodyProps) => (
   <section
     className={cn(
-      "card__body flex-1 px-[var(--space-lg)] py-[var(--space-md)]",
+      cardBodyVariants({ spacing }),
       "[.card--no-header_&]:pt-[var(--space-lg)]",
       className
     )}
@@ -118,7 +153,7 @@ Card.Body = (({ children, className, ...props }: HTMLAttributes<HTMLDivElement>)
   >
     {children}
   </section>
-)) as FC<HTMLAttributes<HTMLDivElement>>;
+)) as FC<CardBodyProps>;
 
 Card.Footer = (({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => (
   <footer

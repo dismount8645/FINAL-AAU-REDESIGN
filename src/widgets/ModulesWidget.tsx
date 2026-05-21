@@ -19,7 +19,7 @@ export default function ModulesWidget({ span, isEditing }: WidgetProps) {
 
   return (
     <Card className="h-full w-full flex flex-col modules-widget @container/widget">
-      <Card.Header className="py-[var(--space-xs)] px-[var(--space-sm)]">
+      <Card.Header spacing="compact">
         <Text weight="bold" size="lg" className="card__title">
           {t('my_favorites')}
         </Text>
@@ -34,7 +34,7 @@ export default function ModulesWidget({ span, isEditing }: WidgetProps) {
         )}
       </Card.Header>
 
-      <Card.Body className="h-full w-full flex-1 p-[var(--space-xs)]">
+      <Card.Body spacing="compact">
         {starredCourses.length > 0 ? (
           <div className="h-full w-full flex gap-[var(--space-xs)] overflow-x-auto pb-[var(--space-2xs)] snap-x hide-scrollbar">
             {starredCourses.map((mod) => (

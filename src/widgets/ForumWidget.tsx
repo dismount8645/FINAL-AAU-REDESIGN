@@ -31,7 +31,7 @@ export default function ForumWidget({ professor, span, isEditing }: ForumWidgetP
 
   return (
     <Card className="widget-card h-full w-full flex flex-col forum-widget">
-      <Card.Header className="py-[var(--space-xs)] px-[var(--space-sm)]">
+      <Card.Header spacing="compact">
         <Text weight="bold" size="lg" className="card__title">{t('course_forum')}</Text>
         <button
           disabled={isEditing}
@@ -42,7 +42,7 @@ export default function ForumWidget({ professor, span, isEditing }: ForumWidgetP
         </button>
       </Card.Header>
 
-      <Card.Body className="h-full w-full flex-1 p-[var(--space-xs)]">
+      <Card.Body spacing="compact">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)] forum-list">
           {visiblePosts.map((post) => (
             <button

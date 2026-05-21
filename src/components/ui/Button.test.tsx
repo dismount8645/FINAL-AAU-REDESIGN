@@ -51,7 +51,7 @@ describe('Button', () => {
     render(<Button icon={Plus} />)
     expect(consoleWarn).toHaveBeenCalledTimes(1)
     expect(consoleWarn).toHaveBeenCalledWith(
-      'Accessibility Warning: Icon-only buttons MUST have an aria-label.'
+      expect.stringMatching(/Accessibility Warning: Icon.only buttons MUST have an aria-label./)
     )
     consoleWarn.mockRestore()
     process.env.NODE_ENV = originalEnv

@@ -17,7 +17,7 @@ export default function QuickOverviewWidget({ isEditing }: WidgetProps) {
 
   return (
     <Card className="widget-card h-full w-full flex flex-col">
-      <Card.Header className="py-[var(--space-xs)] px-[var(--space-sm)]">
+      <Card.Header spacing="compact">
         <Text weight="bold" size="lg" className="card__title">{t('quick_overview')}</Text>
         <button
           type="button"
@@ -28,7 +28,7 @@ export default function QuickOverviewWidget({ isEditing }: WidgetProps) {
         </button>
       </Card.Header>
 
-      <Card.Body className="h-full w-full flex-1 p-[var(--space-xs)]">
+      <Card.Body spacing="compact">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)]">
           {todayEvents.map((event, index) => (
             <div
