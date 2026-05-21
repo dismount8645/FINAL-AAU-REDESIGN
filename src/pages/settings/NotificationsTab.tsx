@@ -42,8 +42,8 @@ export default function NotificationsTab({
                     <Text weight="bold" size="sm" className="text-main">{ch.label}</Text>
                     <Text muted size="xs">{ch.desc}</Text>
                   </Stack>
-                  <div className={`w-[var(--space-4xl)] h-[var(--space-2xl)] rounded-[var(--radius-pill)] flex items-center px-[3px] transition-colors ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}>
-                    <div className={`w-[var(--space-lg)] h-[var(--space-lg)] rounded-[var(--radius-pill)] bg-white shadow-[var(--shadow-sm)] transition-all ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'ml-auto' : 'ml-0'}`} />
+                  <div className={`w-11 h-6 rounded-[var(--radius-pill)] flex items-center px-[2px] transition-colors ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}>
+                    <div className={`w-5 h-5 rounded-[var(--radius-pill)] bg-white shadow-[var(--shadow-sm)] transition-all ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'translate-x-5' : 'translate-x-0'}`} />
                   </div>
                 </Stack>
               </Card.Body>

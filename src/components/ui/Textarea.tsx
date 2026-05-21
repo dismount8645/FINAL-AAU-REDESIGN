@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const textareaVariants = cva(
-  "flex field-sizing-content min-h-[var(--topbar-height)] w-full rounded-[var(--radius-lg)] border-[1.5px] bg-transparent px-2.5 py-2xs text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80",
+  "flex field-sizing-content min-h-[var(--topbar-height)] w-full rounded-[var(--radius-lg)] border-[1.5px] bg-transparent px-md py-sm text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80",
   {
     variants: {
       variant: {
@@ -15,9 +15,9 @@ const textareaVariants = cva(
           "border-transparent bg-transparent focus:bg-[var(--bg-input)]",
       },
       size: {
-        sm: "px-2xs py-1.5 text-[0.8125rem]",
-        md: "px-2.5 py-2xs text-sm",
-        lg: "px-xs py-2.5 text-base rounded-[var(--radius-lg)]",
+        sm: "px-sm py-xs text-[0.8125rem]",
+        md: "px-md py-sm text-sm",
+        lg: "px-lg py-md text-base rounded-[var(--radius-lg)]",
       },
     },
     defaultVariants: {

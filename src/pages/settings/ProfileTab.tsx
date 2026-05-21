@@ -64,22 +64,25 @@ export default function ProfileTab({
           ].map((opt) => (
             <button
               key={opt.id}
-              className={`appearance-card group border-2 transition-all duration-200 ${theme === opt.id ? 'active border-primary bg-primary/5' : 'border-border bg-card hover:border-border-hover'}`}
+              className={`appearance-card group border-2 transition-all duration-200 p-2 rounded-[var(--radius-lg)] ${theme === opt.id ? 'active border-primary bg-primary/5' : 'border-border bg-card hover:border-primary/20'}`}
               onClick={() => setTheme(opt.id as Theme)}
               aria-pressed={theme === opt.id}
               aria-label={opt.label}
             >
-              <div className={`appearance-preview appearance-preview--${opt.id} border border-border rounded-[var(--radius-md)] overflow-hidden bg-bg-body`}>
-                <div className={`preview-topbar h-[var(--space-xs)] ${opt.id === 'dark' ? 'bg-sidebar' : 'bg-aau-blue'}`} />
-                <div className={`preview-sidebar w-5 h-full border-r border-border ${opt.id === 'dark' ? 'bg-sidebar' : 'bg-bg-sidebar'}`} />
-                <div className="preview-content p-3xs flex flex-col gap-3xs">
-                  <div className="preview-line h-1 w-4/5 bg-border rounded-[var(--radius-pill)]" />
-                  <div className="preview-line h-1 w-3/5 bg-border rounded-[var(--radius-pill)]" />
+              <div className={`appearance-preview appearance-preview--${opt.id} border border-border rounded-[var(--radius-md)] overflow-hidden bg-bg-body aspect-video`}>
+                <div className={`preview-topbar h-2 ${opt.id === 'dark' ? 'bg-slate-800' : 'bg-aau-blue'}`} />
+                <div className="flex flex-1 h-full">
+                  <div className={`preview-sidebar w-4 h-full border-r border-border ${opt.id === 'dark' ? 'bg-slate-900' : 'bg-bg-sidebar'}`} />
+                  <div className="preview-content p-2 flex flex-col gap-1.5 flex-1">
+                    <div className="preview-line h-1 w-4/5 bg-border rounded-full" />
+                    <div className="preview-line h-1 w-3/5 bg-border rounded-full" />
+                    <div className="preview-line h-1 w-2/5 bg-border rounded-full" />
+                  </div>
                 </div>
               </div>
-              <div className="appearance-label flex items-center gap-xs mt-xs text-sm font-semibold">
-                <opt.icon size={14} className={opt.id === 'dark' ? 'text-white dark:text-slate-200' : (theme === opt.id ? 'text-primary' : 'text-muted')} />
-                <span className={opt.id === 'dark' ? 'text-white dark:text-slate-200' : (theme === opt.id ? 'text-primary' : 'text-muted')}>{opt.label}</span>
+              <div className="appearance-label flex items-center gap-sm mt-sm text-sm font-semibold">
+                <opt.icon size={14} className={theme === opt.id ? 'text-primary' : 'text-muted'} />
+                <span className={theme === opt.id ? 'text-primary' : 'text-muted'}>{opt.label}</span>
               </div>
             </button>
           ))}

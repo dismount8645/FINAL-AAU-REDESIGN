@@ -36,7 +36,7 @@ export default function NotificationsDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         className={`topbar__trigger-btn relative w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus ${
-          isOpen ? 'bg-primary/10 text-primary' : 'text-slate-600 dark:text-slate-200 hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary'
+          isOpen ? 'bg-primary/10 text-primary' : 'text-muted hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary'
         }`}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('notifications')}
@@ -49,6 +49,7 @@ export default function NotificationsDropdown() {
           </span>
         )}
       </button>
+
       {isOpen && (
         <div className="topbar-panel w-80">
           <div className="p-md border-b border-border bg-[var(--bg-hover)] flex justify-between items-center">
@@ -71,7 +72,7 @@ export default function NotificationsDropdown() {
               return (
                 <div
                   key={n.id}
-                  className={`p-md border-b border-border/40 hover:bg-slate-50 dark:hover:bg-white/[0.02] cursor-pointer transition-colors ${
+                  className={`p-md border-b border-border/40 hover:bg-bg-hover cursor-pointer transition-colors ${
                     !n.isRead ? 'bg-primary/[0.03]' : ''
                   }`}
                   onClick={() => {
@@ -84,7 +85,7 @@ export default function NotificationsDropdown() {
                       className={`w-11 h-11 rounded-[var(--radius-lg)] flex items-center justify-center shrink-0 border border-border/50 ${
                         !n.isRead
                           ? 'bg-primary/10 text-primary'
-                          : 'bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400'
+                          : 'bg-bg-hover text-muted'
                       }`}
                     >
                       <Icon size={18} strokeWidth={2} />
@@ -93,15 +94,15 @@ export default function NotificationsDropdown() {
                       <Text
                         size="xs"
                         weight="bold"
-                        className={`block truncate ${!n.isRead ? 'text-main' : 'text-slate-600 dark:text-slate-400'}`}
+                        className={`block truncate ${!n.isRead ? 'text-main' : 'text-muted'}`}
                       >
                         {lang === 'da' ? n.textDa : n.textEn}
                       </Text>
-                      <Text size="2xs" className="mt-0.5 text-slate-500 dark:text-slate-400">
+                      <Text size="2xs" className="mt-xs text-muted">
                         {lang === 'da' ? n.dateDa : n.dateEn}
                       </Text>
                     </div>
-                    {!n.isRead && <div className="w-2 h-2 rounded-[var(--radius-pill)] bg-primary mt-2xs shrink-0" />}
+                    {!n.isRead && <div className="w-2 h-2 rounded-[var(--radius-pill)] bg-primary mt-xs shrink-0" />}
                   </div>
                 </div>
               );

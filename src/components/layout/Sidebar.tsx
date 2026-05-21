@@ -91,8 +91,8 @@ export default function Sidebar() {
         data-collapsed={isCollapsed && !isMobileOpen}
       >
 
-        <div className={`sidebar__header h-[var(--topbar-height)] flex items-center p-0 shrink-0 ${isMobileOpen ? 'justify-between pl-[var(--space-md)] pr-[var(--space-sm)]' : (isCollapsed ? 'justify-center' : 'justify-start pl-[var(--space-md)]')}`}>
-          <NavLink to="/" className={`sidebar__branding flex items-center ${isMobileOpen ? 'justify-start' : (isCollapsed ? 'justify-center' : 'justify-start')} no-underline p-[var(--space-xs)] sm:p-[var(--space-sm)] rounded-[var(--radius-md)] transition-colors duration-150 hover:bg-white/5`}>
+        <div className={`sidebar__header h-[var(--topbar-height)] flex items-center p-0 shrink-0 ${isMobileOpen ? 'justify-between pl-md pr-sm' : (isCollapsed ? 'justify-center' : 'justify-start pl-md')}`}>
+          <NavLink to="/" className={`sidebar__branding flex items-center ${isMobileOpen ? 'justify-start' : (isCollapsed ? 'justify-center' : 'justify-start')} no-underline p-xs sm:p-sm rounded-[var(--radius-md)] transition-colors duration-150 hover:bg-white/5`}>
             <img
               src={logoSrc}
               alt={t('aau_logo_alt')}
@@ -103,7 +103,7 @@ export default function Sidebar() {
             <button
               ref={closeButtonRef}
               onClick={closeSidebar}
-              className="shrink-0 z-10 w-[var(--space-3xl)] h-[var(--space-3xl)] flex items-center justify-center text-white rounded-[var(--radius-lg)] transition-all active:scale-95 bg-white/40 hover:bg-white/50 border border-white/30 ring-1 ring-white/20 focus:bg-white/60 focus-visible:ring-2 focus-visible:ring-white/50"
+              className="shrink-0 z-10 w-12 h-12 flex items-center justify-center text-white rounded-[var(--radius-lg)] transition-all active:scale-95 bg-white/40 hover:bg-white/50 border border-white/30 ring-1 ring-white/20 focus:bg-white/60 focus-visible:ring-2 focus-visible:ring-white/50"
               aria-label={t('close')}
             >
               <X size={24} strokeWidth={2} />
@@ -112,7 +112,7 @@ export default function Sidebar() {
         </div>
 
         <nav className="sidebar__nav flex flex-col p-0 flex-1 overflow-hidden">
-          <div className="sidebar__nav-main flex flex-col p-[var(--space-sm)] gap-[var(--space-2xs)] flex-1 overflow-hidden">
+          <div className="sidebar__nav-main flex flex-col p-sm gap-2xs flex-1 overflow-hidden">
             <NavItem to="/" icon={House} label={t('dashboard')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
             <NavItem to="/calendar" icon={CalendarDays} label={t('calendar')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
             <NavItem to="/favorites" icon={Star} label={t('favorites')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
@@ -120,15 +120,15 @@ export default function Sidebar() {
             <NavItem to="/resources" icon={Wrench} label={t('resources')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
           </div>
 
-          <div className={`sidebar__nav-bottom flex flex-col p-[var(--space-sm)] pt-0 gap-[var(--space-2xs)] border-t border-white/10 pb-[var(--space-xl)] ${isCollapsed && !isMobileOpen ? 'items-center' : ''}`}>
+          <div className={`sidebar__nav-bottom flex flex-col p-sm pt-0 gap-2xs border-t border-white/10 pb-xl ${isCollapsed && !isMobileOpen ? 'items-center' : ''}`}>
             <NavItem to="/support" icon={CircleHelp} label={t('support')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
             <NavItem to="/settings" icon={Settings} label={t('settings')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
-            <div className="sidebar__divider h-px bg-white/10 my-[var(--space-xs)] w-full" />
+            <div className="sidebar__divider h-px bg-white/10 my-xs w-full" />
 
-            <div className={`sidebar__nav-controls flex flex-col gap-[var(--space-md)] pt-[var(--space-xs)] ${isCollapsed && !isMobileOpen ? 'w-full px-[var(--space-2xs)]' : ''}`}>
+            <div className={`sidebar__nav-controls flex flex-col gap-md pt-xs ${isCollapsed && !isMobileOpen ? 'w-full px-2xs' : ''}`}>
               {!isCollapsed || isMobileOpen ? (
                 <Stack gap="xs">
-                  <Stack direction="row" align="center" gap="xs" className="px-[var(--space-sm)] text-white/40">
+                  <Stack direction="row" align="center" gap="xs" className="px-sm text-white/40">
                     <Globe size={14} strokeWidth={2} />
                     <Text size="2xs" weight="bold" className="uppercase tracking-wider">{t('cat_select_language')}</Text>
                   </Stack>
@@ -143,10 +143,10 @@ export default function Sidebar() {
                   />
                 </Stack>
               ) : (
-                <Stack align="center" gap="md" className="py-[var(--space-sm)]">
+                <Stack align="center" gap="md" className="py-sm">
                   <button
                     onClick={() => setLang(lang === 'da' ? 'en' : 'da')}
-                    className="w-[var(--space-3xl)] h-[var(--space-3xl)] flex items-center justify-center rounded-[var(--radius-lg)] bg-white/5 text-white/70 hover:bg-white/10 hover:text-white transition-all font-bold text-xs shadow-[var(--shadow-sm)] active:scale-95 border border-white/5"
+                    className="w-12 h-12 flex items-center justify-center rounded-[var(--radius-lg)] bg-white/5 text-white/70 hover:bg-white/10 hover:text-white transition-all font-bold text-xs shadow-[var(--shadow-sm)] active:scale-95 border border-white/5"
                     title={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
                     aria-label={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
                   >
