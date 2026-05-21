@@ -43,7 +43,7 @@ export interface InputProps
   error?: boolean;
   /** Gør input 100 % bred */
   full?: boolean;
-  /** Tilknyt en fejl‑besked via aria‑describedby (valgfri) */
+  /** ID på fejl‑besked (valgfri) */
   errorMessageId?: string;
 }
 
@@ -52,6 +52,7 @@ export interface InputProps
  * - Konsistente spacing‑tokens.
  * - ARIA‑support for fejlmeddelelser.
  * - Keyboard‑håndtering for Enter (valgfri, men kan udvides).
+ * - Simpel telemetry ved ændring.
  */
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
@@ -67,17 +68,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    // Generer et fallback‑id hvis der ikke er angivet en errorMessageId.
     const generatedId = useId();
-    const ariaDescribedBy = error
-      ? errorMessageId ?? generatedId
-      : undefined;
+    const ariaDescribedBy = error ? errorMessageId ?? generatedId : undefined;
 
     const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-      // Eksempel: submit på Enter kan håndteres af forælder.
       if (e.key === "Enter") {
         // Ingen default‑handling – lad forælder beslutte.
       }
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      console.debug("Input changed:", { name: e.target.name, value: e.target.value })
+      props.onChange?.(e)
     };
 
     return (
@@ -94,6 +96,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className
         )}
         onKeyDown={handleKeyDown}
+        onChange={handleChange}
         {...props}
       />
     );
