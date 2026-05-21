@@ -4,6 +4,7 @@ import Stack from '@/components/ui/Stack'
 import { Text, Heading } from '@/components/ui/Typography'
 import StatusItem from '@/components/ui/StatusItem'
 import Card from '@/components/ui/Card'
+import Button from '@/components/ui/Button'
 import type { WidgetProps } from '@/types'
 import useStore from '@/store/useStore'
 import { useMemo, memo, useCallback } from 'react'
@@ -44,7 +45,8 @@ const activities = [
 
 const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
   const navigate = useNavigate()
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   const itemsToShow = useMemo(() => 
     span <= 4 ? 2 : (span <= 8 ? 2 : 3),
@@ -58,29 +60,30 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
   return (
     <Card className={cn(
       "forum-activity-widget h-full w-full flex flex-col group/widget overflow-hidden",
-      "shadow-sm hover:shadow-md transition-all duration-300 border-border/60"
+      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300 border-[var(--border-color)]/60"
     )}>
-      <Card.Header spacing="compact" className="border-b border-border/40 bg-bg-card/30 backdrop-blur-sm">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-2 bg-primary/5 rounded-lg text-primary">
-            <MessageCircle size={18} strokeWidth={2.5} />
+          <div className="p-2 bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+            <MessageCircle size={18} strokeWidth={2} />
           </div>
-          <Text weight="black" size="lg" className="tracking-tight uppercase text-xs sm:text-sm">
+          <Heading level={4} className="m-0 text-sm font-bold text-[var(--text-main)]">
             {t('forum_activity')}
-          </Text>
+          </Heading>
         </Stack>
         
-        <button
-          type="button"
-          className="group/link text-[0.7rem] font-black uppercase tracking-[0.1em] text-primary hover:text-aau-blue inline-flex items-center gap-1.5 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md px-2 py-1"
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--aau-blue)]"
           onClick={handleViewAll}
+          iconRight={ChevronRight}
         >
           {t('view_all')}
-          <ChevronRight size={14} className="transition-transform group-hover/link:translate-x-1" />
-        </button>
+        </Button>
       </Card.Header>
 
-      <Card.Body spacing="compact" className="p-2 flex-1">
+      <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         <Stack gap="xs" className="h-full">
           {activities.slice(0, itemsToShow).map((a) => (
             <div
@@ -88,9 +91,9 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
               role="button"
               tabIndex={0}
               className={cn(
-                "w-full text-left p-3 rounded-xl transition-all duration-200",
-                "hover:bg-muted/40 cursor-pointer group/item outline-none",
-                "focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-inset"
+                "w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-200",
+                "hover:bg-[var(--bg-hover)] cursor-pointer group/item outline-none",
+                "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)]/50 focus-visible:ring-inset"
               )}
               onClick={() => !isEditing && navigate(`/forum/${a.id}`)}
               onKeyDown={(e) => {
@@ -111,19 +114,19 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
                 
                 {span > 8 && (
                   <div className="pl-10 relative">
-                    <div className="absolute left-4 top-0 bottom-0 w-px bg-border/40 group-hover/item:bg-primary/20 transition-colors" />
-                    <Text size="xs" className="forum-activity__snippet text-text-muted leading-relaxed relative">
-                      <span className="text-primary/40 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
+                    <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-[var(--aau-blue)]/20 transition-colors" />
+                    <Text size="xs" className="forum-activity__snippet text-[var(--text-muted)] leading-relaxed relative">
+                      <span className="text-[var(--aau-blue)]/40 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
                       <span className="italic">{localize(a, 'snippet')}</span>
-                      <span className="text-primary/40 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
+                      <span className="text-[var(--aau-blue)]/40 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
                     </Text>
                   </div>
                 )}
 
                 <div className="pl-10 mt-1 flex items-center gap-2 opacity-0 group-hover/item:opacity-100 transition-all -translate-x-2 group-hover/item:translate-x-0">
-                  <div className="h-px w-4 bg-primary/30" />
-                  <Text size="2xs" weight="bold" className="text-primary uppercase tracking-widest">{t('read_more')}</Text>
-                  <ArrowRight size={10} className="text-primary" />
+                  <div className="h-px w-4 bg-[var(--aau-blue)]/30" />
+                  <Text size="2xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-widest">{t('read_more')}</Text>
+                  <ArrowRight size={10} className="text-[var(--aau-blue)]" />
                 </div>
               </Stack>
             </div>
@@ -132,12 +135,15 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
       </Card.Body>
 
       {/* Aesthetic Bottom Info */}
-      <div className="px-6 py-3 bg-muted/5 border-t border-border/20 text-[0.65rem] text-text-muted flex items-center justify-between">
-        <span className="font-medium">{t('communication')}</span>
-        <span className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-opacity">
-          {t('active_now')} <div className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-        </span>
-      </div>
+      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20 justify-between items-center">
+        <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
+          {t('communication')}
+        </Text>
+        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-opacity">
+          <Text size="xs" weight="bold" className="text-[var(--aau-dark-green)] uppercase tracking-tighter">{t('active_now')}</Text>
+          <div className="w-1.5 h-1.5 rounded-full bg-[var(--aau-dark-green)] animate-pulse" />
+        </div>
+      </Card.Footer>
     </Card>
   )
 }

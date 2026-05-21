@@ -179,7 +179,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
       onClick={onClick}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
-        return `sidebar__nav-item group relative flex items-center gap-[var(--space-md)] p-[var(--space-md)] h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/60 no-underline rounded-[var(--radius-md)] transition-all duration-200 font-medium cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/10 text-white' : 'hover:bg-white/5 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
+        return `sidebar__nav-item group relative flex items-center gap-[var(--space-md)] p-[var(--space-md)] h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-[var(--radius-md)] transition-all duration-200 font-bold cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
       }}
       title={collapsed ? label : undefined}
     >
@@ -188,10 +188,10 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
         return (
           <>
             {active && (
-              <div className="absolute left-[2px] top-[var(--space-sm)] bottom-[var(--space-sm)] w-[3px] bg-white rounded-[var(--radius-pill)] shadow-[0_0_10px_rgba(255,255,255,0.4)] z-10" />
+              <div className="absolute left-0 top-[var(--space-sm)] bottom-[var(--space-sm)] w-[4px] bg-white rounded-r-[var(--radius-pill)] shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
             )}
-            <Icon size={18} strokeWidth={2} className={`shrink-0 transition-transform duration-200 ${active ? 'scale-110 ml-[2px]' : 'group-hover:scale-110'}`} />
-            {!collapsed && <span className="sidebar__nav-text whitespace-nowrap transition-opacity duration-150"><Text>{label}</Text></span>}
+            <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-300 ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
+            {!collapsed && <span className="sidebar__nav-text whitespace-nowrap transition-opacity duration-150 uppercase tracking-tight text-xs font-black"><Text>{label}</Text></span>}
           </>
         );
       }}
