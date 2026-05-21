@@ -1,0 +1,105 @@
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import useStore from '@/store/useStore'
+import { defaultEvents } from '@/data/mockData'
+import { CalendarEvents, CalendarEvent } from '@/types'
+import { storage } from '@/utils/storage'
+
+export const monthNamesDa = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december']
+export const monthNamesEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+export const dayNamesDa = ['MAN', 'TIR', 'ONS', 'TOR', 'FRE', 'LØR', 'SØN']
+export const dayNamesEn = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+
+export function useCalendar() {
+  const { lang, t } = useStore()
+  const [currentDate, setCurrentDate] = useState(new Date(2026, 4, 1))
+  const [view, setView] = useState('month')
+  const [events, setEvents] = useState<CalendarEvents>(() => {
+    return storage.get('aauCalendarEvents', { ...defaultEvents })
+  })
+
+  useEffect(() => {
+    storage.set('aauCalendarEvents', events)
+  }, [events])
+
+  const monthNames = useMemo(() => Array.from({ length: 12 }, (_, i) => t(`month_${i}`)), [t])
+  const dayNames = useMemo(() => [
+    t('day_mon'),
+    t('day_tue'),
+    t('day_wed'),
+    t('day_thu'),
+    t('day_fri'),
+    t('day_sat'),
+    t('day_sun'),
+  ], [t])
+
+  const getWeekNumber = useCallback((date: Date) => {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
+  }, [])
+
+  const navigateCal = useCallback((direction: 'next' | 'prev') => {
+    setCurrentDate((prev) => {
+      const newDate = new Date(prev)
+      const days = direction === 'next' ? 1 : -1
+      if (view === 'month') newDate.setMonth(newDate.getMonth() + days)
+      else if (view === 'week') newDate.setDate(newDate.getDate() + days * 7)
+      else if (view === 'day') newDate.setDate(newDate.getDate() + days)
+      return newDate
+    })
+  }, [view])
+
+  const goToToday = useCallback(() => {
+    setCurrentDate(new Date())
+  }, [])
+
+  const updateEvents = useCallback((newEvents: CalendarEvents) => {
+    setEvents(newEvents)
+  }, [])
+
+  const getEventsForDate = useCallback((dateKey: string) => {
+    return events[dateKey] || null
+  }, [events])
+
+  const getTitle = useMemo(() => {
+    if (view === 'week') {
+      return `${t('week')} ${getWeekNumber(currentDate)}`
+    }
+    return `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
+  }, [view, currentDate, monthNames, t, getWeekNumber])
+
+  const futureEvents = useMemo(() => {
+    return Object.entries(events)
+      .map(([dateStr, event]: [string, CalendarEvent]) => {
+        const [y, m, d] = dateStr.split('-').map(Number)
+        const eventTitle = event.title || (lang === 'da' ? event.titleDa : event.titleEn)
+        return { date: new Date(y, m, d), dateKey: dateStr, ...event, title: eventTitle }
+      })
+      .filter((e) => e.date >= new Date(new Date().setHours(0, 0, 0, 0)))
+      .sort((a, b) => a.date.getTime() - b.date.getTime())
+  }, [events, lang])
+
+  const daysInMonth = useMemo(() => {
+    return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
+  }, [currentDate])
+
+  const firstDayOfMonth = useMemo(() => {
+    let firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1
+    if (firstDay < 0) firstDay = 6
+    return firstDay
+  }, [currentDate])
+
+  const weekStart = useMemo(() => {
+    return currentDate.getDate() - (currentDate.getDay() || 7) + 1
+  }, [currentDate])
+
+  return {
+    currentDate, setCurrentDate, view, setView,
+    events, updateEvents, getEventsForDate,
+    monthNames, dayNames, getWeekNumber,
+    navigateCal, goToToday,
+    getTitle, futureEvents,
+    daysInMonth, firstDayOfMonth, weekStart,
+  }
+}

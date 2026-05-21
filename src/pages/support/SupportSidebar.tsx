@@ -1,0 +1,84 @@
+import { memo } from 'react'
+import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal } from 'lucide-react'
+import Card from '@/components/ui/Card'
+import Stack from '@/components/ui/Stack'
+import Button from '@/components/ui/Button'
+import SectionHeader from '@/components/ui/SectionHeader'
+import ListItem from '@/components/ui/ListItem'
+import { Heading, Text } from '@/components/ui/Typography'
+import useStore from '@/store/useStore'
+
+interface SupportSidebarProps {
+  children?: React.ReactNode
+}
+
+function SupportSidebar({ children }: SupportSidebarProps) {
+  const { t } = useStore()
+
+  return (
+    <aside className="support-sidebar flex flex-col gap-lg">
+      <Card>
+        <SectionHeader
+          title={t('guides')}
+          level={3}
+        />
+        <Stack gap="2xs">
+          {[
+            { label: t('guide_overview'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+            { label: t('guide_students'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+            { label: t('guide_teachers'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+            { label: t('guide_staff'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+          ].map((item, i) => (
+            <ListItem key={i} title={item.label} href={item.url} className="text-primary hover:underline underline-offset-2" />
+          ))}
+        </Stack>
+      </Card>
+
+      <Card>
+        <SectionHeader
+          title={t('self_service')}
+          level={3}
+        />
+        <Stack gap="sm">
+          <Button variant="tertiary" size="sm" full icon={ShieldHalf} className="justify-start text-primary hover:underline underline-offset-2">
+            {t('reset_password_1_day')}
+          </Button>
+          <Button variant="tertiary" size="sm" full icon={Monitor} className="justify-start text-primary hover:underline underline-offset-2">
+            {t('webshop_hardware_software')}
+          </Button>
+          <Button variant="tertiary" size="sm" full icon={Signal} className="justify-start text-primary hover:underline underline-offset-2">
+            {t('service_status')}
+          </Button>
+        </Stack>
+      </Card>
+
+      {children}
+
+      <Card className="bg-slate-50 dark:bg-slate-900/50">
+        <Heading level={3} className="mb-sm text-slate-800 dark:text-slate-200">
+          <MapPin size={18} strokeWidth={2} className="inline mr-2xs align-text-bottom text-slate-500" />
+          {t('main_office')}
+        </Heading>
+        <Text size="sm" className="text-slate-600 dark:text-slate-400 leading-relaxed">
+          Fredrik Bajers Vej 7K<br />
+          9220 Aalborg Ø<br />
+          <a href="tel:+4599402020" className="text-primary hover:underline flex items-center gap-[var(--space-sm)] mt-2xs">
+            <Phone size={14} strokeWidth={2} /> Tlf.: 9940 2020
+          </a>
+          <a href="mailto:aau@aau.dk" className="text-primary hover:underline flex items-center gap-[var(--space-sm)] mt-[var(--space-2xs)]">
+            <Mail size={14} strokeWidth={2} /> aau@aau.dk
+          </a>
+        </Text>
+      </Card>
+
+      <Card variant="brand" className="bg-accent text-white border-none">
+        <Heading level={3} className="text-white">{t('chat_is_closed')}</Heading>
+        <Text size="xs" muted className="leading-[1.5]">
+          {t('chat_is_closed_desc')}
+        </Text>
+      </Card>
+    </aside>
+  )
+}
+
+export default memo(SupportSidebar)
