@@ -28,7 +28,8 @@ describe('Typography', () => {
   it('renders text with size and weight', () => {
     render(<Text size="lg" weight="medium">Large Text</Text>)
     const el = screen.getByText('Large Text')
-    expect(el.style.fontSize).toBe('1.1rem')
+    // Standard size "lg" is now applied via class text-lg
+    expect(el.className).toContain('text-lg')
     expect(el.style.fontWeight).toBe('500')
   })
 
@@ -36,7 +37,8 @@ describe('Typography', () => {
     render(<Text bold muted>Bold Muted</Text>)
     const el = screen.getByText('Bold Muted')
     expect(el.style.fontWeight).toBe('700')
-    expect(el.style.color).toBe('var(--text-muted)')
+    // Muted is now applied via class text-[var(--text-muted)]
+    expect(el.className).toContain('text-[var(--text-muted)]')
   })
 
   it('renders text with custom tag', () => {
@@ -49,10 +51,10 @@ describe('Typography', () => {
     const el = screen.getByText('Caption Text')
     expect(el.tagName).toBe('SPAN')
     expect(el.className).toContain('text-xs')
-    expect(el.style.color).toBe('var(--text-muted)')
+    expect(el.className).toContain('text-[var(--text-muted)]')
   })
 
-  it('renders text with custom size not in sizeMap', () => {
+  it('renders text with custom size not in standard tokens', () => {
     render(<Text size="20px">Custom Size</Text>)
     expect(screen.getByText('Custom Size').style.fontSize).toBe('20px')
   })

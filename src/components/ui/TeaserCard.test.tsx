@@ -81,6 +81,13 @@ describe('TeaserCard', () => {
     expect(img).toHaveAttribute('aria-hidden', 'true')
   })
 
+  it('renders skeleton state when isLoading is true', () => {
+    const { container } = renderWithProviders(<TeaserCard isLoading={true} />)
+    // Checking for animate-pulse which is characteristic of the Skeleton component
+    const pulseElements = container.querySelectorAll('.animate-pulse')
+    expect(pulseElements.length).toBeGreaterThan(0)
+  })
+
   it('renders badge without image', () => {
     renderWithProviders(<TeaserCard badge="Sale" badgeColor="warning" title="Test" />)
     expect(screen.getByText('Sale')).toBeInTheDocument()

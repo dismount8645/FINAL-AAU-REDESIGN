@@ -1,196 +1,183 @@
-import { type FC, type HTMLAttributes, ElementType, KeyboardEvent, type MouseEventHandler } from "react";
+import { forwardRef, type HTMLAttributes, ElementType, KeyboardEvent, type MouseEventHandler, type ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+/**
+ * Card Variants - Defining the structural DNA of the component.
+ * Uses strict token adherence for padding and shadows.
+ */
 const cardVariants = cva(
-  "bg-[var(--bg-card)] border border-border rounded-[var(--radius-xl)] flex flex-col relative h-full transition-all duration-200 ease-in-out",
+  [
+    "group relative flex flex-col h-full overflow-hidden transition-all duration-300 ease-[var(--transition-ease)]",
+    "bg-[var(--bg-card)] border border-[var(--border-main)] rounded-[var(--radius-xl)]",
+    "isolate"
+  ],
   {
     variants: {
       variant: {
-        default: "card--default",
-        elevated: "card--elevated shadow-[var(--shadow-md)]",
-        outlined: "card--outlined",
-        brand: "card--brand bg-gradient-to-br from-aau-blue to-primary text-white border-none shadow-[var(--shadow-md)] on-dark",
+        default: "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]",
+        elevated: "shadow-[var(--shadow-lg)] hover:shadow-[var(--shadow-xl)] -translate-y-px",
+        outlined: "bg-transparent border-2 border-[var(--border-main)] hover:border-[var(--aau-blue)]",
+        brand: [
+          "bg-gradient-to-br from-[var(--aau-blue)] to-[var(--aau-light-blue)] text-white border-none shadow-[var(--shadow-lg)]",
+          "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity"
+        ],
+        ghost: "bg-transparent border-none shadow-none hover:bg-[var(--bg-hover)]",
       },
-      accentLeft: {
-        true: "card--accent-left border-l-4 border-l-primary",
+      accent: {
+        none: "",
+        left: "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-[var(--aau-blue)] before:z-10",
+        top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-[var(--aau-blue)] before:z-10",
       },
+      interactive: {
+        true: "cursor-pointer select-none focus-within:ring-2 focus-within:ring-[var(--aau-blue)] focus-within:ring-offset-2",
+        false: "",
+      }
     },
     defaultVariants: {
       variant: "default",
+      accent: "none",
+      interactive: false,
     },
   }
 );
 
 export interface CardProps
-  extends HTMLAttributes<HTMLDivElement>,
+  extends Omit<HTMLMotionProps<"div">, "onKeyDown">,
     VariantProps<typeof cardVariants> {
-  /** Vises kun hvis Card har en header‑sektion */
-  hasHeader?: boolean;
-  /** Tillader indhold at flyde uden overflow‑skjulning */
-  overflowVisible?: boolean;
-  /** Tilføjer en farvet venstre kant */
-  accentLeft?: boolean;
-  /** Shortcut for variant="elevated" */
-  elevated?: boolean;
-  /** Gør Card klik‑bar (tilføjer role="button") */
-  onClick?: MouseEventHandler<HTMLDivElement>;
-  /** Keyboard‑handler for klik‑bare Cards */
-  onKeyDown?: (e: KeyboardEvent<HTMLDivElement>) => void;
-  /** HTML‑tag som skal renderes (default: div) */
   as?: ElementType;
+  children: ReactNode;
 }
 
 /**
- * Card‑komponent med:
- * - Konsistente variant‑klasser via CVA.
- * - Tilgængelighed: klik‑bare Cards får `role="button"` og er fokuserbare.
- * - Mulighed for at skifte HTML‑element via `as`‑prop (fx <section>).
+ * Card Component - The foundation for all container-based UI elements.
  */
-function Card({
-  variant,
-  accentLeft,
-  children,
-  className,
-  hasHeader = true,
-  overflowVisible = false,
-  onClick,
-  onKeyDown,
-  elevated,
-  as: Component = "div",
-  ...props
-}: CardProps) {
-  const isClickable = !!onClick;
-  const computedVariant = elevated ? "elevated" : variant;
+const CardRoot = forwardRef<HTMLDivElement, CardProps>(
+  ({ variant, accent, interactive, children, className, as: Component = "div", onClick, ...props }, ref) => {
+    const isClickable = interactive || !!onClick;
+    const MotionComponent = motion(Component as any);
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (!isClickable) return;
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      // Execute original handler if it exists
-      if (onClick) {
-        // Create a synthetic event or just call if it doesn't need the event object
-        (onClick as unknown as () => void)();
+    const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        (e.currentTarget as HTMLDivElement).click();
       }
-    }
-    onKeyDown?.(e);
-  };
+    };
 
-  return (
-    <Component
-      className={cn(
-        cardVariants({ variant: computedVariant, accentLeft }),
-        !overflowVisible && "overflow-hidden",
-        !hasHeader && "card--no-header",
-        isClickable && "cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
-        className
-      )}
-      onClick={onClick}
-      onKeyDown={isClickable ? handleKeyDown : onKeyDown}
-      tabIndex={isClickable ? 0 : props.tabIndex}
-      role={isClickable ? "button" : props.role}
-      {...props}
-    >
-      {children}
-    </Component>
-  );
-}
-
-/* ---------- Sub‑components ---------- */
-
-const cardHeaderVariants = cva(
-  "card__header flex justify-between items-center flex-wrap gap-[var(--space-sm)]",
-  {
-    variants: {
-      spacing: {
-        default: "px-[var(--space-lg)] py-[var(--space-md)]",
-        compact: "px-[var(--space-sm)] py-[var(--space-xs)]",
-      },
-    },
-    defaultVariants: {
-      spacing: "default",
-    },
+    return (
+      <MotionComponent
+        ref={ref}
+        className={cn(cardVariants({ variant, accent, interactive: isClickable }), className)}
+        onClick={onClick}
+        onKeyDown={isClickable ? handleKeyDown : undefined}
+        tabIndex={isClickable ? 0 : undefined}
+        role={isClickable ? "button" : undefined}
+        whileHover={isClickable ? { y: -4 } : undefined}
+        whileTap={isClickable ? { scale: 0.98 } : undefined}
+        {...props}
+      >
+        {children}
+      </MotionComponent>
+    );
   }
 );
 
-interface CardHeaderProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardHeaderVariants> {}
+CardRoot.displayName = "Card";
 
-Card.Header = (({ children, className, spacing, ...props }: CardHeaderProps) => (
-  <header
-    className={cn(
-      cardHeaderVariants({ spacing }),
-      className
-    )}
-    {...props}
-  >
-    {children}
-  </header>
-)) as FC<CardHeaderProps>;
+/* ---------- Sub-components with legacy class support ---------- */
 
-const cardBodyVariants = cva(
-  "card__body flex-1",
+const headerVariants = cva(
+  "card__header flex items-center justify-between gap-[var(--space-md)] border-b border-[var(--border-main)] transition-colors",
   {
     variants: {
-      spacing: {
-        default: "px-[var(--space-lg)] py-[var(--space-md)]",
-        compact: "p-[var(--space-xs)]",
+      padding: {
+        default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
+        compact: "p-[var(--space-sm)]",
         none: "p-0",
       },
     },
     defaultVariants: {
-      spacing: "default",
+      padding: "default",
     },
   }
 );
 
-interface CardBodyProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof cardBodyVariants> {}
+interface CardHeaderProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof headerVariants> {}
 
-Card.Body = (({ children, className, spacing, ...props }: CardBodyProps) => (
-  <section
-    className={cn(
-      cardBodyVariants({ spacing }),
-      "[.card--no-header_&]:pt-[var(--space-lg)]",
-      className
-    )}
-    {...props}
-  >
+const CardHeader = ({ children, className, padding, ...props }: CardHeaderProps) => (
+  <header className={cn(headerVariants({ padding }), className)} {...props}>
+    {children}
+  </header>
+);
+
+const bodyVariants = cva("card__body flex-1 min-w-0", {
+  variants: {
+    padding: {
+      default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
+      compact: "p-[var(--space-sm)]",
+      none: "p-0",
+    },
+  },
+  defaultVariants: {
+    padding: "default",
+  },
+});
+
+interface CardBodyProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof bodyVariants> {}
+
+const CardBody = ({ children, className, padding, ...props }: CardBodyProps) => (
+  <section className={cn(bodyVariants({ padding }), className)} {...props}>
     {children}
   </section>
-)) as FC<CardBodyProps>;
+);
 
-Card.Footer = (({ children, className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <footer
-    className={cn(
-      "card__footer px-[var(--space-lg)] py-[var(--space-md)] mt-auto",
-      className
-    )}
-    {...props}
-  >
+const footerVariants = cva(
+  "card__footer mt-auto flex items-center gap-[var(--space-sm)] border-t border-[var(--border-main)]",
+  {
+    variants: {
+      padding: {
+        default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
+        compact: "p-[var(--space-sm)]",
+        none: "p-0",
+      },
+    },
+    defaultVariants: {
+      padding: "default",
+    },
+  }
+);
+
+interface CardFooterProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof footerVariants> {}
+
+const CardFooter = ({ children, className, padding, ...props }: CardFooterProps) => (
+  <footer className={cn(footerVariants({ padding }), className)} {...props}>
     {children}
   </footer>
-)) as FC<HTMLAttributes<HTMLDivElement>>;
+);
 
-export interface CardDecorationProps extends HTMLAttributes<HTMLDivElement> {
-  icon?: any;
+interface CardDecorationProps extends HTMLAttributes<HTMLDivElement> {
+  icon?: ElementType;
 }
 
-Card.Decoration = (({ icon: Icon, className, ...props }: CardDecorationProps) => (
+const CardDecoration = ({ icon: Icon, className, ...props }: CardDecorationProps) => (
   <div
     className={cn(
-      "card__decoration absolute -right-[var(--space-md)] -bottom-[var(--space-md)] pointer-events-none leading-none",
+      "card__decoration absolute -right-[var(--space-md)] -bottom-[var(--space-md)] opacity-[0.03] rotate-12 pointer-events-none z-0",
       className
     )}
     {...props}
   >
-    {Icon ? (
-      <Icon size={24} strokeWidth={2} className="opacity-10 -rotate-15" aria-hidden="true" />
-    ) : null}
+    {Icon && <Icon size={120} strokeWidth={1} aria-hidden="true" />}
   </div>
-)) as FC<CardDecorationProps>;
+);
 
-Card.Header.displayName = "Card.Header";
-Card.Body.displayName = "Card.Body";
-Card.Footer.displayName = "Card.Footer";
-Card.Decoration.displayName = "Card.Decoration";
+// Namespace assignment
+export const Card = Object.assign(CardRoot, {
+  Header: CardHeader,
+  Body: CardBody,
+  Footer: CardFooter,
+  Decoration: CardDecoration,
+});
 
 export default Card;
