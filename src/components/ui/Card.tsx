@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
  */
 const cardVariants = cva(
   [
-    "group relative flex flex-col h-full overflow-hidden transition-all duration-300 ease-[var(--transition-ease)]",
-    "bg-[var(--bg-card)] border border-[var(--border-main)] rounded-[var(--radius-xl)]",
+    "group relative flex flex-col h-full transition-all duration-300 ease-[var(--transition-ease)]",
+    "bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[var(--radius-xl)]",
     "isolate"
   ],
   {
@@ -18,7 +18,7 @@ const cardVariants = cva(
       variant: {
         default: "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]",
         elevated: "shadow-[var(--shadow-lg)] hover:shadow-[var(--shadow-xl)] -translate-y-px",
-        outlined: "bg-transparent border-2 border-[var(--border-main)] hover:border-[var(--aau-blue)]",
+        outlined: "bg-transparent border-2 border-[var(--border-color)] hover:border-[var(--aau-blue)]",
         brand: [
           "bg-gradient-to-br from-[var(--aau-blue)] to-[var(--aau-light-blue)] text-white border-none shadow-[var(--shadow-lg)]",
           "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity"
@@ -88,7 +88,7 @@ CardRoot.displayName = "Card";
 /* ---------- Sub-components with legacy class support ---------- */
 
 const headerVariants = cva(
-  "card__header flex items-center justify-between gap-[var(--space-md)] border-b border-[var(--border-main)] transition-colors",
+  "card__header flex items-center justify-between gap-[var(--space-md)] border-b border-[var(--border-color)] transition-colors",
   {
     variants: {
       padding: {
@@ -133,7 +133,7 @@ const CardBody = ({ children, className, padding, ...props }: CardBodyProps) => 
 );
 
 const footerVariants = cva(
-  "card__footer mt-auto flex items-center gap-[var(--space-sm)] border-t border-[var(--border-main)]",
+  "card__footer mt-auto flex items-center gap-[var(--space-sm)] border-t border-[var(--border-color)]",
   {
     variants: {
       padding: {
