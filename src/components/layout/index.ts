@@ -1,0 +1,6 @@
+export { default as DashboardLayout } from '@/components/layout/DashboardLayout'
+export { default as DynamicWaveBackground } from '@/components/layout/DynamicWaveBackground'
+export { default as Footer } from '@/components/layout/Footer'
+export { default as Layout } from '@/components/layout/Layout'
+export { default as Sidebar } from '@/components/layout/Sidebar'
+export { default as Topbar } from '@/components/layout/Topbar'

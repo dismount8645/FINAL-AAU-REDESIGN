@@ -1,0 +1,6 @@
+export { default as ForumOriginalPost } from './ForumOriginalPost'
+export { default as ForumRepliesList } from './ForumRepliesList'
+export { default as ForumReplyForm } from './ForumReplyForm'
+export { default as ForumAboutWidget } from './ForumAboutWidget'
+export type { Post } from './ForumOriginalPost'
+export type { ReplyItem } from './ForumRepliesList'

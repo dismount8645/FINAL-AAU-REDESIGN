@@ -1,0 +1,103 @@
+import { useMemo } from 'react'
+import { Headphones, ExternalLink } from 'lucide-react'
+import PageHeader from '@/components/common/PageHeader'
+
+import Grid from '@/components/ui/Grid'
+import Card from '@/components/ui/Card'
+import Stack from '@/components/ui/Stack'
+import Button from '@/components/ui/Button'
+import { Text } from '@/components/ui/Typography'
+import useStore from '@/store/useStore'
+import { allTools, allEssentials, allToolsList } from '@/data/tools'
+import { env } from '@/utils/env'
+import { ResourcesSection } from './resources/index'
+
+function Resources() {
+  const { t, isFavorite } = useStore()
+
+  const pinnedTools = useMemo(() => allToolsList.filter(t => isFavorite('tool', t.id)), [isFavorite])
+
+  return (
+    <Stack tag="main" className="resources-page">
+      <PageHeader
+        pageKey="toolbox"
+        title={t('toolbox')}
+        subtitle={t('toolbox_subtitle')}
+        breadcrumbs={[
+          { label: t('dashboard'), href: '/' },
+          { label: t('toolbox') },
+        ]}
+      />
+
+      <div className="container pb-2xl">
+
+      {pinnedTools.length > 0 && (
+        <ResourcesSection
+          title={t('quick_access')}
+          subtitle={t('pinned_tools')}
+          tools={pinnedTools}
+          isStarredOnly
+          showSsoWarning={false}
+          className="mb-2xl"
+        />
+      )}
+
+      <ResourcesSection
+        title={t('administrative_systems')}
+        subtitle={t('administrative_systems_desc')}
+        tools={allTools as any}
+        className="mb-2xl"
+      />
+
+      <ResourcesSection
+        title={t('aau_essentials')}
+        subtitle={t('aau_essentials_desc')}
+        tools={allEssentials as any}
+      />
+
+      <Grid columns={12} gap="lg" className="mt-2xl">
+        <Grid.Item span={6} tabletSpan={6} mobileSpan={1}>
+          <Card elevated>
+            <Card.Header>
+              <Text weight="bold" size="lg">{t('about_aau_essentials')}</Text>
+            </Card.Header>
+            <Card.Body>
+              <Text size="md" muted className="mb-lg leading-[1.7] block">
+                {t('about_aau_essentials_desc')}
+              </Text>
+            </Card.Body>
+            <Card.Footer>
+              <Button variant="tertiary" size="sm" full iconRight={ExternalLink} onClick={() => env.open('https://support.its.aau.dk/')}>
+                {t('visit_help_portal')}
+              </Button>
+            </Card.Footer>
+          </Card>
+        </Grid.Item>
+
+        <Grid.Item span={6} tabletSpan={6} mobileSpan={1}>
+          <Card variant="brand" className="card--decorative">
+            <Card.Decoration icon={Headphones} />
+
+            <Card.Body className="h-full flex flex-col justify-center min-h-[200px]">
+              <div className="relative z-[1]">
+                <Text weight="bold" size="xl" className="card__title mb-sm block">
+                  {t('need_help')}
+                </Text>
+                <Text size="md" muted className="mb-lg block max-w-[85%]">
+                  {t('its_help_desc')}
+                </Text>
+                <Button variant="ghost" full>
+                  {t('contact_support')}
+                </Button>
+              </div>
+            </Card.Body>
+          </Card>
+        </Grid.Item>
+      </Grid>
+      </div>
+    </Stack>
+  )
+}
+
+export default Resources
+

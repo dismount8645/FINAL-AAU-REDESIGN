@@ -1,0 +1,84 @@
+import { Lock, LucideIcon } from 'lucide-react'
+import Grid from '@/components/ui/Grid'
+import Stack from '@/components/ui/Stack'
+import { Text } from '@/components/ui/Typography'
+import SectionHeader from '@/components/ui/SectionHeader'
+import InfoCard from '@/components/ui/InfoCard'
+import useStore from '@/store/useStore'
+import { env } from '@/utils/env'
+
+export interface ResourceTool {
+  id: number
+  icon: LucideIcon
+  bg: string
+  color: string
+  titleKey?: string
+  titleDa?: string
+  titleEn?: string
+  descDa: string
+  descEn: string
+  helpDa?: string
+  helpEn?: string
+  url: string
+  sso?: boolean
+}
+
+interface ResourcesSectionProps {
+  title: string
+  subtitle: string
+  tools: ResourceTool[]
+  isStarredOnly?: boolean
+  showSsoWarning?: boolean
+  className?: string
+}
+
+export default function ResourcesSection({
+  title,
+  subtitle,
+  tools,
+  isStarredOnly = false,
+  showSsoWarning = true,
+  className,
+}: ResourcesSectionProps) {
+  const { t, localize, isFavorite, toggleFavorite } = useStore()
+
+  return (
+    <>
+      <SectionHeader title={title} subtitle={subtitle} />
+      <Grid columns={12} gap="lg" className={className}>
+        {tools.map((tool) => {
+          const titleText = tool.titleKey 
+            ? t(tool.titleKey) 
+            : localize(tool, 'title')
+
+          return (
+            <Grid.Item span={4} tabletSpan={6} mobileSpan={1} key={tool.id}>
+              <InfoCard
+                icon={tool.icon}
+                iconBg={tool.bg}
+                iconColor={tool.color}
+                iconSize={isStarredOnly ? 'sm' : 'md'}
+                title={titleText}
+                description={localize(tool, 'desc')}
+                elevated
+                isStarred={isStarredOnly ? true : isFavorite('tool', tool.id)}
+                onStarToggle={() => toggleFavorite('tool', tool.id)}
+                helpText={isStarredOnly ? undefined : localize(tool, 'help')}
+                onClick={() => env.open(tool.url)}
+              >
+                {showSsoWarning && !tool.sso && (
+                  <Stack direction="row" gap="xs" className="mt-xs">
+                    <Lock size={14} strokeWidth={2} className="text-amber-500" />
+                    <Text size="2xs" className="text-amber-600 dark:text-amber-400">
+                      {t('requires_aau_login')}
+                    </Text>
+                  </Stack>
+                )}
+              </InfoCard>
+            </Grid.Item>
+          )
+        })}
+      </Grid>
+    </>
+  )
+}
