@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * Button‑variant‑definition med fuld typografisk og spacing‑harmoni.
- * Alle margin‑/padding‑værdier er baseret på design‑tokens (var(--space‑*))
+ * Alle margin‑/padding‑værdier er baseret på design‑tokens (var(--space-*))
  * for at sikre matematisk konsistens på tværs af komponenter.
  */
 const buttonVariants = cva(
@@ -63,6 +63,7 @@ export interface ButtonProps
  * - Når kun et ikon vises (iconOnly) kræves en `aria-label`.
  * - `type` defaultes til "button" for at undgå utilsigtet form‑submission.
  * - Keyboard‑support er indbygget via native <button>.
+ * - Simpel telemetry logning ved klik (kan udvides til analytics‑pipeline).
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -77,6 +78,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       full,
       children,
       type = "button",
+      onClick,
       ...props
     },
     ref
@@ -90,12 +92,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     }
 
     const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
-      // Tillad at trykke på Enter/Space når knappen er disabled – native håndteres allerede.
       if (props.disabled) return;
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         (e.target as HTMLButtonElement).click();
       }
+    };
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      // Simple telemetry – kan erstattes af en rigtig analytics‑service
+      console.debug("Button clicked:", { variant, size, label: props["aria-label"] ?? children });
+      onClick?.(e);
     };
 
     return (
@@ -110,6 +117,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={props.disabled || loading}
         aria-busy={loading}
         onKeyDown={handleKeyDown}
+        onClick={handleClick}
         {...props}
       >
         {loading && (
