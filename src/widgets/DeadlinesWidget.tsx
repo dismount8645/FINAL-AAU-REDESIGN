@@ -37,7 +37,7 @@ export default function DeadlinesWidget({ span, isEditing }: WidgetProps) {
 
   return (
     <Card className="widget-card h-full w-full flex flex-col">
-      <Card.Header className="py-[var(--space-xs)] px-[var(--space-sm)]">
+      <Card.Header spacing="compact">
         <Text weight="bold" size="lg" className="card__title">{t('next_assignment')}</Text>
         <button
           type="button"
@@ -48,7 +48,7 @@ export default function DeadlinesWidget({ span, isEditing }: WidgetProps) {
         </button>
       </Card.Header>
 
-      <Card.Body className="h-full w-full flex-1 p-[var(--space-xs)]">
+      <Card.Body spacing="compact">
         <div className="widget-content-grid" style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}>
           {visibleDeadlines.map((dl) => (
             <StatusItem
