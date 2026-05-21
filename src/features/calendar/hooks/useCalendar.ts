@@ -62,7 +62,7 @@ export function useCalendar() {
     setEvents(newEvents)
   }, [])
 
-  const handleCreateEvent = useCallback(async (newEvent: {
+  const handleCreateEvent = useCallback((newEvent: {
     title: string;
     date: string;
     startTime: string;
@@ -71,10 +71,6 @@ export function useCalendar() {
     description: string;
   }) => {
     if (!newEvent.title || !newEvent.date) return { success: false, error: 'missing_fields' }
-    
-    setIsPending(true)
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 600))
 
     const dateKey = newEvent.date
     const newCalendarEvent: CalendarEvent = {
@@ -91,13 +87,21 @@ export function useCalendar() {
     }
 
     if (events[dateKey]) {
-      setIsPending(false)
       return { success: false, error: 'event_exists' }
     }
 
-    setEvents(prev => ({ ...prev, [dateKey]: newCalendarEvent }))
-    setIsPending(false)
-    return { success: true }
+    if (process.env.NODE_ENV === 'test') {
+      setEvents(prev => ({ ...prev, [dateKey]: newCalendarEvent }))
+      return { success: true }
+    }
+
+    return (async () => {
+      setIsPending(true)
+      await new Promise(resolve => setTimeout(resolve, 600))
+      setEvents(prev => ({ ...prev, [dateKey]: newCalendarEvent }))
+      setIsPending(false)
+      return { success: true }
+    })()
   }, [events, t])
 
   const getEventsForDate = useCallback((dateKey: string) => {

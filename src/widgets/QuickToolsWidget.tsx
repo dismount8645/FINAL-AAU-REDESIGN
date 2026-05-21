@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom'
-import { Star, ExternalLink, Wifi, Mail, PenSquare, FileText, Users, Cloud, ChevronRight } from 'lucide-react'
+import { Star, ExternalLink, Wifi, Mail, PenSquare, FileText, Users, Cloud, ChevronRight, LayoutGrid, ArrowUpRight } from 'lucide-react'
 import Card from '@/components/ui/Card'
-import { Text } from '@/components/ui/Typography'
+import Stack from '@/components/ui/Stack'
+import { Text, Heading } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import type { WidgetProps } from '@/types'
 import { env } from '@/utils/env'
+import { useMemo, memo, useCallback } from 'react'
+import { cn } from '@/lib/utils'
 
 const toolIcons: Record<string, typeof PenSquare> = {
   Mail, PenSquare, FileText, Users, Cloud, Wifi,
@@ -19,63 +22,135 @@ const quickToolsData = [
   { id: 4, nameKey: 'it_software', icon: 'Wifi', url: 'https://www.its.aau.dk' },
 ]
 
-function QuickToolsWidget({ isEditing }: WidgetProps) {
+const ToolItem = memo(({ 
+  tool, 
+  isEditing, 
+  isFav, 
+  onToggleFavorite, 
+  onOpen 
+}: { 
+  tool: typeof quickToolsData[0], 
+  isEditing: boolean, 
+  isFav: boolean, 
+  onToggleFavorite: (id: number) => void,
+  onOpen: (url: string) => void
+}) => {
+  const { t } = useStore()
+  const Icon = toolIcons[tool.icon] || ExternalLink
+
+  return (
+    <div className="relative group h-full">
+      <button
+        type="button"
+        className={cn(
+          "w-full h-full flex flex-col gap-3 p-4 rounded-2xl border border-border/50 bg-card transition-all duration-300 text-left outline-none",
+          "hover:shadow-lg hover:border-primary/30 hover:-translate-y-1 cursor-pointer",
+          "focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-inset"
+        )}
+        onClick={() => !isEditing && onOpen(tool.url)}
+      >
+        <div className="w-10 h-10 rounded-xl bg-primary/5 text-primary flex items-center justify-center transition-colors group-hover:bg-primary group-hover:text-white">
+          <Icon size={20} strokeWidth={2.5} />
+        </div>
+        
+        <Stack gap="2xs" className="mt-auto">
+          <Text weight="bold" size="sm" className="truncate text-text-main group-hover:text-primary transition-colors">
+            {t(tool.nameKey)}
+          </Text>
+          <div className="flex items-center gap-1 opacity-0 -translate-x-2 group-hover:opacity-60 group-hover:translate-x-0 transition-all duration-300">
+            <Text size="2xs" className="font-bold uppercase tracking-widest">{t('open')}</Text>
+            <ArrowUpRight size={10} />
+          </div>
+        </Stack>
+      </button>
+
+      <button
+        type="button"
+        className={cn(
+          "absolute top-4 right-4 p-1.5 rounded-full transition-all duration-200 outline-none z-10",
+          "hover:bg-primary/10 focus-visible:ring-2 focus-visible:ring-primary",
+          isFav ? "text-aau-light-gold opacity-100" : "text-text-muted/30 opacity-0 group-hover:opacity-100"
+        )}
+        onClick={(e) => { 
+          e.stopPropagation()
+          onToggleFavorite(tool.id) 
+        }}
+        aria-label={isFav ? t('remove_favorite') : t('add_favorite')}
+      >
+        <Star size={16} strokeWidth={2.5} fill={isFav ? "currentColor" : "none"} />
+      </button>
+    </div>
+  )
+})
+
+const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
   const navigate = useNavigate()
   const { t, isFavorite, toggleFavorite } = useStore()
 
-  const displayTools = quickToolsData.slice(0, 4)
-  /* istanbul ignore next */
-  const emptyContent = displayTools.length === 0 ? (
-    <div className="flex items-center justify-center py-lg">
-      <Text size="sm" muted>{t('no_favorites_yet')}</Text>
-    </div>
-  ) : null
+  const displayTools = useMemo(() => quickToolsData.slice(0, 4), [])
+
+  const handleToggleFavorite = useCallback((id: number) => {
+    toggleFavorite('tool', id)
+  }, [toggleFavorite])
+
+  const handleOpenTool = useCallback((url: string) => {
+    env.open(url)
+  }, [])
+
+  const handleViewAll = useCallback(() => {
+    if (!isEditing) navigate('/resources')
+  }, [isEditing, navigate])
 
   return (
-    <Card>
-      <Card.Header>
-        <Text weight="bold" size="lg" className="card__title">{t('quick_access')}</Text>
+    <Card className={cn(
+      "quick-tools-widget h-full w-full flex flex-col group/widget overflow-hidden",
+      "shadow-sm hover:shadow-md transition-all duration-300 border-border/60"
+    )}>
+      <Card.Header spacing="compact" className="border-b border-border/40 bg-bg-card/30 backdrop-blur-sm">
+        <Stack direction="row" align="center" gap="sm">
+          <div className="p-2 bg-primary/5 rounded-lg text-primary">
+            <LayoutGrid size={18} strokeWidth={2.5} />
+          </div>
+          <Text weight="black" size="lg" className="tracking-tight uppercase text-xs sm:text-sm">
+            {t('quick_access')}
+          </Text>
+        </Stack>
+        
         <button
           type="button"
-          className="text-sm text-primary dark:text-slate-200 font-semibold hover:underline cursor-pointer inline-flex items-center gap-1.5 whitespace-nowrap transition-all hover:opacity-80 bg-transparent border-none p-0 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm"
-          onClick={() => !isEditing && navigate('/resources')}
+          className="group/link text-[0.7rem] font-black uppercase tracking-[0.1em] text-primary hover:text-aau-blue inline-flex items-center gap-1.5 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md px-2 py-1"
+          onClick={handleViewAll}
         >
-          {t('toolbox')}<ChevronRight size={14} strokeWidth={2} />
+          {t('toolbox')}
+          <ChevronRight size={14} className="transition-transform group-hover/link:translate-x-1" />
         </button>
       </Card.Header>
-      <Card.Body>
-        <div className="grid grid-cols-2 gap-[var(--space-sm)]">
-          {displayTools.map((tool) => {
-            /* istanbul ignore next */
-            const Icon = toolIcons[tool.icon] || ExternalLink
-            const isFav = isFavorite('tool', tool.id)
-            return (
-              <button
-                key={tool.id}
-                type="button"
-                className="flex items-center gap-[var(--space-sm)] p-xs rounded-[var(--radius-lg)] border border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-[var(--bg-hover)] hover:border-primary transition-all cursor-pointer text-left group focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-                onClick={() => !isEditing && env.open(tool.url)}
-              >
-                <div className="w-9 h-9 rounded-[var(--radius-lg)] bg-primary/10 flex items-center justify-center shrink-0">
-                  <Icon size={18} strokeWidth={2} className="text-primary" />
-                </div>
-                <span className="text-sm font-medium truncate flex-1">{t(tool.nameKey)}</span>
-                <button
-                  type="button"
-                  className={`relative w-5 h-5 flex items-center justify-center rounded-[var(--radius-pill)] opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all after:absolute after:inset-[-12px] ${isFav ? 'opacity-100 text-[var(--aau-light-orange)]' : 'text-slate-300 hover:text-slate-400'}`}
-                  onClick={(e) => { e.stopPropagation(); toggleFavorite('tool', tool.id) }}
-                  aria-label={isFav ? t('remove_favorite') : t('add_favorite')}
-                >
-                  <Star size={14} strokeWidth={2} fill={isFav ? 'var(--aau-light-orange)' : 'none'} />
-                </button>
-              </button>
-            )
-          })}
+
+      <Card.Body className="p-4 flex-1">
+        <div className="grid grid-cols-2 gap-4 h-full">
+          {displayTools.map((tool) => (
+            <ToolItem
+              key={tool.id}
+              tool={tool}
+              isEditing={isEditing}
+              isFav={isFavorite('tool', tool.id)}
+              onToggleFavorite={handleToggleFavorite}
+              onOpen={handleOpenTool}
+            />
+          ))}
         </div>
-        {emptyContent}
       </Card.Body>
+
+      {/* Aesthetic Footer */}
+      <div className="px-6 py-3 bg-muted/5 border-t border-border/20 text-[0.65rem] text-text-muted flex items-center justify-between">
+        <span className="font-medium">{t('administrative_systems')}</span>
+        <span className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-opacity">
+          {t('external_link')} <ExternalLink size={10} />
+        </span>
+      </div>
     </Card>
   )
 }
 
-export default QuickToolsWidget
+export default memo(QuickToolsWidget)
+

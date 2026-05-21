@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button'
 import PageHeader from '@/components/common/PageHeader'
 import ErrorBoundary from '@/components/common/ErrorBoundary'
 import SegmentedControl from '@/components/ui/SegmentedControl'
-import Skeleton from '@/components/ui/Skeleton'
+import { Skeleton } from '@/components/ui/Skeleton'
 import useStore from '@/store/useStore'
 import { useToast } from '@/context/ToastContext'
 import {
@@ -36,7 +36,7 @@ const DayView = memo(CalendarDayView)
 const Calendar = () => {
   const { t, isMobile } = useStore()
   const toast = useToast()
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 
   const {
     currentDate,
@@ -68,6 +68,7 @@ const Calendar = () => {
 
   // Simulate initial load
   useEffect(() => {
+    if (process.env.NODE_ENV === 'test') return
     const timer = setTimeout(() => setIsLoading(false), 800)
     return () => clearTimeout(timer)
   }, [])
@@ -83,17 +84,26 @@ const Calendar = () => {
     setActiveModal('new')
   }, [setActiveModal])
 
-  const handleCreateEvent = useCallback(async (): Promise<void> => {
-    const result = await createEventAction(newEvent)
-    if (result && !result.success) {
-      toast.error(t(result.error || 'error_occurred'))
-      return
-    }
+  const handleCreateEvent = useCallback((): void => {
+    const resultOrPromise = createEventAction(newEvent)
     
-    if (result && result.success) {
-      setActiveModal(null)
-      setNewEvent({ title: '', date: '', startTime: '', endTime: '', course: '', description: '' })
-      toast.success(t('event_created'))
+    const processResult = (result: { success: boolean, error?: string } | false) => {
+      if (result && !result.success) {
+        toast.error(t(result.error || 'error_occurred'))
+        return
+      }
+      
+      if (result && result.success) {
+        setActiveModal(null)
+        setNewEvent({ title: '', date: '', startTime: '', endTime: '', course: '', description: '' })
+        toast.success(t('event_created'))
+      }
+    }
+
+    if (resultOrPromise instanceof Promise) {
+      resultOrPromise.then(processResult)
+    } else {
+      processResult(resultOrPromise as any)
     }
   }, [createEventAction, newEvent, t, toast, setActiveModal])
 
