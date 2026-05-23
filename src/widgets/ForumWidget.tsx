@@ -46,7 +46,7 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
       type="button"
       className={cn(
         "forum-list-item w-full text-left flex items-center gap-[var(--space-md)] p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150",
-        "hover:bg-[var(--bg-hover)] cursor-pointer group/item outline-none",
+        "hover:bg-bg-hover cursor-pointer group/item outline-none",
         "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 border border-transparent hover:border-[var(--border-color)]/40"
       )}
       onClick={() => onClick(post.id)}
@@ -58,17 +58,17 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
               {t('important')}
             </Badge>
           )}
-          <Text weight="bold" size="sm" className="forum-list-item__title text-[var(--text-main)] group-hover/item:text-primary transition-colors truncate leading-tight">
+          <Text weight="bold" size="sm" className="forum-list-item__title text-main group-hover/item:text-primary transition-colors truncate leading-tight">
             {post.title}
           </Text>
         </div>
-        <Text size="xs" className="text-[var(--text-muted)] opacity-70 truncate">
-          {t('by')} <span className="font-bold text-[var(--text-main)]">{post.author}</span> &bull; {post.time}
+        <Text size="xs" className="text-muted opacity-70 truncate">
+          {t('by')} <span className="font-bold text-main">{post.author}</span> &bull; {post.time}
         </Text>
       </Stack>
       
       <div className="flex flex-col items-end gap-[var(--space-4xs)] shrink-0">
-        <div className="forum-list-item__reply-count flex items-center gap-1.5 px-[var(--space-xs)] py-[var(--space-4xs)] bg-[var(--bg-highlight)] rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
+        <div className="forum-list-item__reply-count flex items-center gap-1.5 px-[var(--space-xs)] py-[var(--space-4xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
           <Text weight="black" size="xs" className="text-primary leading-none">{post.replies}</Text>
           <MessageCircle size={12} strokeWidth={2.5} className="text-primary opacity-60" />
         </div>

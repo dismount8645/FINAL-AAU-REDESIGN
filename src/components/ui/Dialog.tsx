@@ -41,7 +41,7 @@ const DialogOverlay = memo(forwardRef<HTMLDivElement, DialogPrimitive.Backdrop.P
         />
       }
       className={cn(
-        "fixed inset-0 isolate z-[var(--z-dialog)] bg-[var(--aau-blue)]/50 backdrop-blur-sm",
+        "fixed inset-0 isolate z-[var(--z-dialog)] bg-primary/50 backdrop-blur-sm",
         className
       )}
       {...props}
@@ -68,7 +68,7 @@ const DialogContent = memo(forwardRef<HTMLDivElement, DialogPrimitive.Popup.Prop
       }
       className={cn(
         "fixed top-1/2 left-1/2 z-[var(--z-dialog)] flex flex-col w-[calc(100dvw-2rem)] sm:w-full max-w-[480px] min-w-[280px]",
-        "rounded-[var(--radius-xl)] bg-[var(--bg-card)] p-[var(--space-md)] lg:p-[var(--space-lg)]",
+        "rounded-[var(--radius-xl)] bg-bg-card p-[var(--space-md)] lg:p-[var(--space-lg)]",
         "border-2 border-[var(--border-color)]/60 shadow-[var(--shadow-xl)] outline-none max-h-[90dvh] overflow-y-auto",
         className
       )}
@@ -118,7 +118,7 @@ const DialogFooter = memo(({
     className={cn(
       "-mx-[var(--space-md)] lg:-mx-[var(--space-lg)] -mb-[var(--space-md)] lg:-mb-[var(--space-lg)] mt-[var(--space-md)] lg:mt-[var(--space-lg)]",
       "flex flex-col-reverse gap-[var(--space-sm)] sm:flex-row sm:justify-end items-center",
-      "p-[var(--space-md)] lg:p-[var(--space-lg)] bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20",
+      "p-[var(--space-md)] lg:p-[var(--space-lg)] bg-bg-highlight/30 border-t border-[var(--border-color)]/20",
       className
     )}
     {...props}
@@ -139,7 +139,7 @@ const DialogTitle = memo(forwardRef<HTMLHeadingElement, DialogPrimitive.Title.Pr
       ref={ref}
       data-slot="dialog-title"
       className={cn(
-        "font-black uppercase tracking-tight text-[1.5rem] leading-[1.1] text-[var(--text-main)]",
+        "font-black uppercase tracking-tight text-[1.5rem] leading-[1.1] text-main",
         className
       )}
       {...props}
@@ -154,7 +154,7 @@ const DialogDescription = memo(forwardRef<HTMLParagraphElement, DialogPrimitive.
       ref={ref}
       data-slot="dialog-description"
       className={cn(
-        "text-sm leading-relaxed text-[var(--text-muted)] mt-[var(--space-xs)]",
+        "text-sm leading-relaxed text-muted mt-[var(--space-xs)]",
         className
       )}
       {...props}

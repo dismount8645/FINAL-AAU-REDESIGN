@@ -95,9 +95,9 @@ function CoursesGrid({
               })}
             </Grid>
           ) : (
-            <Card className="bg-[var(--bg-card)] border-dashed py-[var(--space-3xl)]">
+            <Card className="bg-bg-card border-dashed py-[var(--space-3xl)]">
               <Stack align="center" justify="center" gap="md">
-                <Icon name="magnifying-glass" className="text-[var(--text-muted)] opacity-20" size="3xl" />
+                <Icon name="magnifying-glass" className="text-muted opacity-20" size="3xl" />
                 <Text muted>{t('no_search_results')}</Text>
                 {searchQuery && (
                   <Button variant="ghost" size="sm" onClick={() => setSearchQuery('')}>

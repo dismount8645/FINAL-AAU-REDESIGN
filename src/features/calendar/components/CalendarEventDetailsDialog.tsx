@@ -58,7 +58,7 @@ export default function CalendarEventDetailsDialog({
             </Heading>
           </Stack>
         </Stack>
-        <Stack className="event-info-grid grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[var(--space-md)] mt-[var(--space-md)] p-[var(--space-md)] bg-[var(--bg-body)] rounded-[var(--radius-md)]">
+        <Stack className="event-info-grid grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[var(--space-md)] mt-[var(--space-md)] p-[var(--space-md)] bg-bg-main rounded-[var(--radius-md)]">
           <Stack className="info-item flex items-start gap-[var(--space-sm)]">
             <Icon icon={Clock} />
             <Stack gap="2xs">

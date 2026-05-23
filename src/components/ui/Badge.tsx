@@ -18,14 +18,14 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[var(--bg-highlight)] text-[var(--text-main)] border-[var(--border-color)]/60",
+        default: "bg-bg-highlight text-main border-[var(--border-color)]/60",
         primary: "bg-primary text-white shadow-sm",
         secondary: "bg-primary/10 text-primary",
         success: "bg-[var(--aau-dark-green)]/10 text-[var(--aau-dark-green)]",
         warning: "bg-[var(--aau-dark-orange)]/10 text-[var(--aau-dark-orange)]",
         danger: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",
         info: "bg-[var(--aau-light-blue)]/10 text-[var(--aau-light-blue)]",
-        outline: "bg-transparent border-[var(--border-color)] text-[var(--text-muted)]",
+        outline: "bg-transparent border-[var(--border-color)] text-muted",
       },
       pill: {
         true: "rounded-[var(--radius-full)] px-[var(--space-sm)]",

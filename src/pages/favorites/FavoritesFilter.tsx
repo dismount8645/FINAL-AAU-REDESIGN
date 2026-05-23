@@ -43,7 +43,7 @@ export default function FavoritesFilter({
             className={`px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-lg)] text-sm font-medium transition-all border focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
               typeFilter === f.value
                 ? 'bg-primary text-white border-primary'
-                : 'bg-[var(--bg-card)] text-[var(--text-main)] border-[var(--border-color)] hover:bg-[var(--bg-hover)]'
+                : 'bg-bg-card text-main border-[var(--border-color)] hover:bg-bg-hover'
             }`}
           >
             {f.label[lang]}

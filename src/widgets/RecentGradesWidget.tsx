@@ -43,7 +43,7 @@ const GradeItem = memo(forwardRef<HTMLDivElement, {
     >
       <StatusItem
         icon={grade.score !== null ? Star : Hourglass}
-        iconColor={grade.score !== null ? 'var(--aau-light-orange)' : 'var(--text-disabled)'}
+        iconColor={grade.score !== null ? 'var(--color-warning)' : 'var(--color-text-disabled)'}
         title={grade.title}
         className="bg-transparent hover:bg-bg-hover px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150"
         right={

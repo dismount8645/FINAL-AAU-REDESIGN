@@ -81,8 +81,8 @@ const InfoCard = memo(function InfoCard({
                   variant="ghost"
                   size="icon-sm"
                   className={cn(
-                    'text-[var(--text-disabled)] hover:text-primary transition-colors',
-                    showHelp && 'text-primary bg-[var(--bg-hover)]'
+                    'text-disabled hover:text-primary transition-colors',
+                    showHelp && 'text-primary bg-bg-hover'
                   )}
                   onClick={handleHelpClick}
                   aria-label="Help"
@@ -99,8 +99,8 @@ const InfoCard = memo(function InfoCard({
                   className={cn(
                     'ml-auto transition-all',
                     isStarred 
-                      ? 'text-[var(--aau-light-orange)] bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
-                      : 'text-[var(--text-disabled)] hover:text-primary'
+                      ? 'text-warning bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
+                      : 'text-disabled hover:text-primary'
                   )}
                   onClick={handleStarClick}
                   aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
@@ -127,7 +127,7 @@ const InfoCard = memo(function InfoCard({
                 >
                   <Text 
                     size="xs" 
-                    className="italic font-medium leading-relaxed bg-[var(--bg-highlight)] p-sm rounded-md border border-primary/10 mt-xs"
+                    className="italic font-medium leading-relaxed bg-bg-highlight p-sm rounded-md border border-primary/10 mt-xs"
                   >
                     {helpText}
                   </Text>

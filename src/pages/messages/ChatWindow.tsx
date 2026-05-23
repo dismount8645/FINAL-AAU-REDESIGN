@@ -32,7 +32,7 @@ export function ChatWindow({
     <Card className="panel-card flex flex-col p-[var(--space-0)]">
       {activeContact ? (
         <>
-          <div className="messages-chat-header p-md border-b border-border bg-[var(--bg-card)]">
+          <div className="messages-chat-header p-md border-b border-border bg-bg-card">
             <Stack direction="row" gap="md" align="center">
               <Button
                 variant="ghost"
@@ -54,7 +54,7 @@ export function ChatWindow({
           </div>
           <div
             ref={chatBodyRef}
-            className="messages-chat-body flex-1 p-lg bg-[var(--bg-highlight)] dark:bg-bg-body overflow-y-auto"
+            className="messages-chat-body flex-1 p-lg bg-bg-highlight dark:bg-bg-body overflow-y-auto"
           >
             <Stack gap="md">
               {activeContact.messages.map((msg) => (
@@ -77,12 +77,12 @@ export function ChatWindow({
               ))}
             </Stack>
           </div>
-          <div className="messages-input-area p-md bg-[var(--bg-card)] border-t border-border shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+          <div className="messages-input-area p-md bg-bg-card border-t border-border shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
             <Stack
               direction="row"
               align="end"
               gap="sm"
-              className="p-xs border border-border rounded-[var(--radius-xl)] bg-[var(--bg-input)] focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.1)] transition-all"
+              className="p-xs border border-border rounded-[var(--radius-xl)] bg-bg-input focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(var(--color-primary-rgb),0.1)] transition-all"
             >
               <Textarea
                 value={messageText}

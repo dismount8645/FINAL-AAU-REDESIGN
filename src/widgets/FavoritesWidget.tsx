@@ -39,12 +39,12 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
 
   return (
     <Card className="widget-card h-full w-full favorites-widget @container/widget shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
-      <Card.Header padding="compact" className="bg-[var(--bg-highlight)]/50 border-b border-[var(--border-color)]">
+      <Card.Header padding="compact" className="bg-bg-highlight/50 border-b border-[var(--border-color)]">
         <Stack direction="row" align="center" gap="sm">
           <div className="p-2 bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Star size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-sm font-bold text-main">
             {t('favorites')}
           </Heading>
         </Stack>
@@ -87,7 +87,7 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
           </div>
         ) : (
           <div className="h-full w-full flex flex-col items-center justify-center py-lg gap-[var(--space-md)]">
-            <div className="p-[var(--space-md)] bg-[var(--bg-highlight)] rounded-[var(--radius-pill)]">
+            <div className="p-[var(--space-md)] bg-bg-highlight rounded-[var(--radius-pill)]">
               <Star size={32} strokeWidth={2} className="text-[var(--aau-light-orange)]" fill="currentColor" />
             </div>
             <Text muted size="sm" className="text-center max-w-[240px] italic">

@@ -54,7 +54,7 @@ const CalendarMonthView = ({
     const palette = event ? eventPalette[event.color] || {} : {}
     const eventStyle = {
       background: palette.bg || event?.color,
-      color: palette.text || 'var(--text-main)',
+      color: palette.text || 'var(--color-text-main)',
     }
 
     return (

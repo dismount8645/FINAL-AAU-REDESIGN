@@ -25,7 +25,7 @@ const sizeMap: Record<string, string> = {
 }
 
 const headingVariants = cva(
-  'm-0 font-bold tracking-tight leading-[1.2] text-[var(--text-main)] transition-colors',
+  'm-0 font-bold tracking-tight leading-[1.2] text-main transition-colors',
   {
     variants: {
       level: {
@@ -47,7 +47,7 @@ const headingVariants = cva(
 )
 
 const textVariants = cva(
-  'm-0 leading-[1.6] text-[var(--text-main)] transition-colors',
+  'm-0 leading-[1.6] text-main transition-colors',
   {
     variants: {
       size: {
@@ -60,7 +60,7 @@ const textVariants = cva(
         '2xl': 'text-2xl',
       },
       muted: {
-        true: 'text-[var(--text-muted)]',
+        true: 'text-muted',
       },
     },
     defaultVariants: {
