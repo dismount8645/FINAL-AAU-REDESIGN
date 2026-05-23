@@ -6,6 +6,7 @@ import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
 import { notificationsData } from '@/data/mockData';
 import { cn } from '@/lib/utils';
+import Button from '@/components/ui/Button';
 
 export default function NotificationsDropdown() {
   const navigate = useNavigate();
@@ -38,9 +39,11 @@ export default function NotificationsDropdown() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         className={cn(
-          "relative flex h-11 w-11 items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(33,26,82,0.35)] dark:focus-visible:ring-white/30",
+          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
             ? "bg-primary text-white shadow-md" 
             : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
@@ -56,7 +59,7 @@ export default function NotificationsDropdown() {
             {notificationCount}
           </span>
         )}
-      </button>
+      </Button>
 
       <AnimatePresence>
         {isOpen && (
@@ -65,22 +68,24 @@ export default function NotificationsDropdown() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-[var(--radius-xl)] border border-border bg-bg-main shadow-xl"
+            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-xl border border-border bg-bg-main shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border bg-bg-hover p-md">
               <Text size="sm" weight="black" className="uppercase tracking-widest text-main">
                 {t('notifications')}
               </Text>
-              <button
+              <Button
+                variant="ghost"
+                size="xs"
                 onClick={() => {
                   navigate('/notifications');
                   setIsOpen(false);
                 }}
-                className="rounded-[var(--radius-md)] text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(33,26,82,0.35)] dark:focus-visible:ring-white/30 px-1"
+                className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus px-1 h-auto"
                 type="button"
               >
                 {t('view_all')}
-              </button>
+              </Button>
             </div>
             <div className="max-h-96 overflow-y-auto">
               {notificationsData.map((n) => {
@@ -90,7 +95,7 @@ export default function NotificationsDropdown() {
                     key={n.id}
                     type="button"
                     className={cn(
-                      "w-full flex items-start gap-md border-b border-border/40 p-md text-left transition-colors focus-visible:outline-none focus-visible:bg-bg-hover focus-visible:ring-inset focus-visible:ring-4 focus-visible:ring-[rgba(33,26,82,0.35)] dark:focus-visible:ring-white/30 min-h-[44px]",
+                      "w-full flex items-start gap-md border-b border-border/40 p-md text-left transition-colors focus-visible:outline-none focus-visible:bg-bg-hover focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary min-h-[44px]",
                       !n.isRead ? "bg-primary/[0.03] hover:bg-primary/[0.05]" : "hover:bg-bg-hover"
                     )}
                     onClick={() => {
@@ -100,7 +105,7 @@ export default function NotificationsDropdown() {
                   >
                     <div
                       className={cn(
-                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-border/50",
+                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border/50",
                         !n.isRead ? "bg-primary/10 text-primary" : "bg-bg-hover text-muted"
                       )}
                     >
