@@ -18,10 +18,10 @@ import Button from '@/components/ui/Button'
 const teaserCardVariants = cva(
   [
     'group relative flex flex-col overflow-hidden h-full min-w-0 max-w-full isolate',
-    'bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[var(--radius-xl)]',
-    'shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-xl)] hover:border-[var(--aau-blue)]',
+    'bg-bg-card border border-border rounded-xl',
+    'shadow-sm hover:shadow-xl hover:border-primary',
     'transition-all duration-300 ease-[var(--transition-ease)] hover:-translate-y-1',
-    'focus-within:ring-2 focus-within:ring-[var(--aau-blue)] focus-within:ring-offset-2',
+    'focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2',
     '@container/teaser cursor-pointer'
   ],
   {
@@ -127,7 +127,7 @@ const TeaserCard = memo(function TeaserCard({
       {/* Primary Semantic Action - Stretched Link Pattern */}
       <Button
         variant="ghost"
-        className="absolute inset-0 z-[1] w-full h-full p-0 rounded-none opacity-0 focus:opacity-0 focus-visible:opacity-0"
+        className="absolute inset-0 z-[1] w-full h-full p-0 rounded-none opacity-0 focus-visible:outline-none"
         aria-label={typeof title === 'string' ? title : 'View details'}
         onClick={(e) => onClick?.(e)}
       />
@@ -143,7 +143,7 @@ const TeaserCard = memo(function TeaserCard({
           )}
         >
           {badge && (
-            <div className="absolute top-[var(--space-sm)] left-[var(--space-sm)] z-10">
+            <div className="absolute top-sm left-sm z-10">
               <Badge 
                 variant={badgeColor} 
                 className="shadow-xl backdrop-blur-md font-bold px-2 py-0.5 border-none"
@@ -159,22 +159,22 @@ const TeaserCard = memo(function TeaserCard({
             loading="lazy"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--aau-blue)]/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       )}
 
       {/* Content Layer */}
-      <div className="relative z-[2] flex flex-col flex-1 p-[var(--space-md)] gap-[var(--space-xs)] min-w-0">
-        <div className="flex items-start justify-between gap-[var(--space-md)]">
+      <div className="relative z-[2] flex flex-col flex-1 p-md gap-xs min-w-0">
+        <div className="flex items-start justify-between gap-md">
           <div className="flex-1 min-w-0">
             {!image && badge && (
-              <Badge variant={badgeColor} className="mb-[var(--space-xs)] font-bold">
+              <Badge variant={badgeColor} className="mb-xs font-bold">
                 {badge}
               </Badge>
             )}
             <Heading 
               level={3} 
-              className="m-0 text-[1.125rem] font-bold leading-tight text-[var(--text-main)] transition-colors group-hover:text-[var(--aau-blue)] line-clamp-2"
+              className="m-0 text-[1.125rem] font-bold leading-tight text-main transition-colors group-hover:text-primary line-clamp-2"
             >
               {title}
             </Heading>
@@ -188,8 +188,8 @@ const TeaserCard = memo(function TeaserCard({
             className={cn(
               'relative z-30 transition-all duration-300',
               isStarred 
-                ? 'bg-[var(--bg-highlight)] text-[var(--aau-light-orange)] shadow-sm' 
-                : 'text-[var(--text-disabled)] hover:text-[var(--text-main)]'
+                ? 'bg-bg-highlight text-warning shadow-sm' 
+                : 'text-disabled hover:text-main'
             )}
             onClick={(e) => {
               e.stopPropagation()
@@ -219,7 +219,7 @@ const TeaserCard = memo(function TeaserCard({
         {description && (
           <Text 
             size="sm" 
-            className="line-clamp-2 leading-relaxed text-[var(--text-muted)]"
+            className="line-clamp-2 leading-relaxed text-muted"
           >
             {description}
           </Text>
@@ -227,16 +227,16 @@ const TeaserCard = memo(function TeaserCard({
 
         {/* Progress Section */}
         {progressData && (
-          <div className="mt-auto pt-[var(--space-xs)] space-y-[var(--space-2xs)]">
+          <div className="mt-auto pt-xs space-y-2xs">
             <ProgressBar 
               value={progressData.value} 
-              color={progressColor || 'var(--aau-blue)'} 
+              color={progressColor || 'var(--color-primary)'} 
               height={6} 
               className="rounded-full"
             />
             {progressData.label && (
-              <Text size="xs" weight="bold" className="text-[var(--text-muted)] flex items-center gap-1.5">
-                <span className="size-1.5 rounded-full bg-[var(--aau-blue)] animate-pulse" />
+              <Text size="xs" weight="bold" className="text-muted flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-primary animate-pulse" />
                 {progressData.label}
               </Text>
             )}
@@ -244,14 +244,14 @@ const TeaserCard = memo(function TeaserCard({
         )}
 
         {action && (
-          <div className="relative z-30 pt-[var(--space-md)] mt-auto">
+          <div className="relative z-30 pt-md mt-auto">
             {action}
           </div>
         )}
 
         {/* Interactive Cue */}
-        <div className="absolute bottom-[var(--space-md)] right-[var(--space-md)] opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-[var(--transition-ease)] pointer-events-none">
-          <ChevronRight size={20} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
+        <div className="absolute bottom-md right-md opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-[var(--transition-ease)] pointer-events-none">
+          <ChevronRight size={20} strokeWidth={2.5} className="text-primary" />
         </div>
       </div>
     </motion.div>
@@ -266,24 +266,24 @@ function TeaserCardSkeleton({ variant, className }: { variant: 'vertical' | 'hor
   return (
     <div className={cn(teaserCardVariants({ variant, isLoading: true }), className)}>
       <div className={cn(
-        'relative shrink-0 overflow-hidden bg-[var(--bg-placeholder)]',
+        'relative shrink-0 overflow-hidden bg-bg-card',
         isHorizontal ? 'w-full lg:w-[260px] aspect-video lg:h-full' : 'w-full aspect-video'
       )}>
         <Skeleton variant="rectangular" className="w-full h-full" />
       </div>
-      <div className="flex flex-col flex-1 p-[var(--space-md)] gap-[var(--space-sm)]">
+      <div className="flex flex-col flex-1 p-md gap-sm">
         <div className="flex items-start justify-between">
-          <div className="flex-1 space-y-[var(--space-xs)]">
+          <div className="flex-1 space-y-xs">
             <Skeleton variant="text" width="30%" height="0.75rem" />
             <Skeleton variant="text" width="85%" height="1.5rem" />
           </div>
           <Skeleton variant="circle" size={44} className="shrink-0" />
         </div>
-        <div className="space-y-[var(--space-2xs)]">
+        <div className="space-y-2xs">
           <Skeleton variant="text" width="100%" />
           <Skeleton variant="text" width="95%" />
         </div>
-        <div className="mt-auto pt-[var(--space-md)]">
+        <div className="mt-auto pt-md">
           <Skeleton variant="rectangular" height={8} className="w-full rounded-full" />
         </div>
       </div>

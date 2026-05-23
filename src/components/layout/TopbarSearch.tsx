@@ -5,6 +5,7 @@ import { Text } from '@/components/ui/Typography';
 import EmptyState from '@/components/ui/EmptyState';
 import useStore from '@/store/useStore';
 import SearchInput from '@/components/ui/SearchInput';
+import Button from '@/components/ui/Button';
 
 interface TopbarSearchProps {
   children: React.ReactNode;
@@ -27,12 +28,36 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
   useEffect(() => {
     if (!isSearchExpanded) return;
     mobileInputRef.current?.focus();
-    const handleEscape = (e: globalThis.KeyboardEvent) => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       /* istanbul ignore next */
-      if (e.key === 'Escape') setIsSearchExpanded(false);
+      if (e.key === 'Escape') {
+        setIsSearchExpanded(false);
+        return;
+      }
+      if (e.key === 'Tab') {
+        if (!mobileSearchRef.current) return;
+        const focusable = mobileSearchRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (!first || !last) return;
+        
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            last.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === last) {
+            first.focus();
+            e.preventDefault();
+          }
+        }
+      }
     };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isSearchExpanded]);
 
   useEffect(() => {
@@ -112,9 +137,19 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
             onKeyDown={handleSearchEnter}
             placeholder={t('search_placeholder')}
             className="topbar__search-input-wrapper w-full max-w-[400px]"
+            role="combobox"
+            aria-expanded={isDropdownVisible && filteredResults.length > 0}
+            aria-autocomplete="list"
+            aria-controls="search-results-listbox"
+            aria-activedescendant={activeSearchIndex >= 0 && activeSearchIndex < filteredResults.length ? `search-item-${filteredResults[activeSearchIndex].id}` : undefined}
           />
           {isDropdownVisible && (
-            <div className="topbar__search-dropdown topbar-panel topbar-panel--search">
+            <div 
+              id="search-results-listbox"
+              role="listbox"
+              aria-label={t('search_results_plural')}
+              className="topbar__search-dropdown topbar-panel topbar-panel--search"
+            >
               <div className="search-dropdown-header p-sm px-md bg-[var(--bg-hover)] border-b border-border">
                 <Text size="xs" weight="bold" muted>
                   {filteredResults.length === 1
@@ -125,13 +160,14 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               {filteredResults.length > 0 ? filteredResults.map((course, index) => (
                 <div
                   key={course.id}
+                  id={`search-item-${course.id}`}
                   className={`search-dropdown-item flex items-center gap-md p-sm px-md cursor-pointer transition-colors duration-150 ${index === activeSearchIndex ? 'bg-[var(--bg-hover)]' : 'hover:bg-[var(--bg-hover)]'}`}
                   onClick={() => handleResultClick(course)}
                   onMouseEnter={() => setActiveSearchIndex(index)}
                   role="option"
                   aria-selected={index === activeSearchIndex}
                 >
-                  <GraduationCap size={14} strokeWidth={2} className="search-item-icon w-8 h-8 f flex items-center justify-center bg-[rgba(var(--aau-blue-rgb),0.1)] text-aau-blue rounded-[var(--radius-md)]" />
+                  <GraduationCap size={14} strokeWidth={2} className="search-item-icon w-8 h-8 f flex items-center justify-center bg-primary/10 text-primary rounded-md" />
                   <div className="search-item-info flex flex-col">
                     <span className="search-item-title text-sm font-medium text-main">{course.title}</span>
                     <span className="search-item-meta text-xs text-muted font-medium">{course.code}</span>
@@ -151,41 +187,47 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
       </div>
 
       <div className="topbar__right-section flex items-center justify-end gap-sm sm:gap-md shrink-0 ml-auto">
-        <button
-          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-muted transition-all duration-150 hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+        <Button
+          variant="ghost"
+          size="icon"
+          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 text-muted bg-transparent hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           onClick={() => setIsSearchExpanded(true)}
           aria-label={t('search_placeholder')}
           type="button"
         >
           <Search size={20} strokeWidth={2} />
-        </button>
+        </Button>
 
         {children}
       </div>
 
       {isSearchExpanded && (
         <div className="topbar__mobile-search-overlay fixed inset-0 bg-white/90 backdrop-blur-[20px] z-[var(--z-mobile-search,4001)] flex flex-col dark:bg-slate-900/90" ref={mobileSearchRef} role="dialog" aria-modal="true">
-          <div className="search-overlay-content flex flex-col p-md gap-md bg-card w-full max-w-[calc(100dvw-2rem)] mx-auto box-border border border-border rounded-2xl shadow-[var(--shadow-xl)] mt-[var(--space-md)]">
-            <div className="flex items-center p-sm gap-sm w-full">
-              <div className="flex-1 w-full">
-                <SearchInput
-                  ref={mobileInputRef}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={handleSearchEnter}
-                  placeholder={t('search_placeholder')}
-                  className="w-full"
-                />
+            <div className="search-overlay-content flex flex-col p-md gap-md bg-card w-full max-w-[calc(100dvw-2rem)] mx-auto box-border border border-border rounded-2xl shadow-xl mt-[var(--space-md)]">
+              <div className="flex items-center p-sm gap-sm w-full">
+                <div className="flex-1 w-full">
+                  <SearchInput
+                    ref={mobileInputRef}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleSearchEnter}
+                    placeholder={t('search_placeholder')}
+                    className="w-full"
+                    role="combobox"
+                    aria-autocomplete="list"
+                  />
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  type="button"
+                  onClick={() => setIsSearchExpanded(false)}
+                  className="shrink-0 w-11 h-11 text-muted hover:text-main bg-bg-hover rounded-full border-none focus-visible:outline-none focus-visible:shadow-focus transition-colors"
+                  aria-label={t('close')}
+                >
+                  <X size={20} strokeWidth={2} />
+                </Button>
               </div>
-              <button
-                type="button"
-                onClick={() => setIsSearchExpanded(false)}
-                className="shrink-0 w-11 h-11 flex items-center justify-center text-muted hover:text-main bg-bg-hover rounded-[var(--radius-pill)] transition-colors"
-                aria-label={t('close')}
-              >
-                <X size={20} strokeWidth={2} />
-              </button>
-            </div>
           </div>
         </div>
       )}

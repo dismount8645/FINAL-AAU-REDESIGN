@@ -18,19 +18,19 @@ import { useMemo, memo, useCallback, forwardRef } from 'react'
 const EmptyState = memo(({ onAction }: { onAction: () => void }) => {
   const t = useStore(state => state.t)
   return (
-    <Stack align="center" justify="center" gap="lg" className="h-full w-full py-[var(--space-xl)] px-[var(--space-md)] bg-[var(--bg-highlight)] rounded-[var(--radius-xl)] border-2 border-dashed border-[var(--border-color)]/40 group/empty hover:border-[var(--aau-blue)]/20 transition-colors duration-150">
+    <Stack align="center" justify="center" gap="lg" className="h-full w-full py-[var(--space-xl)] px-[var(--space-md)] bg-bg-highlight rounded-[var(--radius-xl)] border-2 border-dashed border-[var(--border-color)]/40 group/empty hover:border-primary/20 transition-colors duration-150">
       <div className="relative">
-        <div className="absolute inset-0 bg-[var(--aau-blue)]/5 rounded-[var(--radius-full)] blur-xl scale-150 group-hover/empty:scale-175 transition-transform duration-300" />
-        <div className="relative p-[var(--space-md)] bg-[var(--bg-card)] rounded-[var(--radius-full)] shadow-md border border-[var(--border-color)]/50">
+        <div className="absolute inset-0 bg-primary/5 rounded-[var(--radius-full)] blur-xl scale-150 group-hover/empty:scale-175 transition-transform duration-300" />
+        <div className="relative p-[var(--space-md)] bg-bg-card rounded-[var(--radius-full)] shadow-md border border-[var(--border-color)]/50">
           <Star size={32} strokeWidth={2.5} className="text-[var(--aau-light-gold)] animate-pulse" fill="currentColor" />
         </div>
       </div>
       
       <Stack align="center" gap="xs">
-        <Heading level={3} className="text-xl font-black tracking-tight text-center text-[var(--text-main)]">
+        <Heading level={3} className="text-xl font-black tracking-tight text-center text-main">
           {t('no_favorites_yet')}
         </Heading>
-        <Text size="sm" className="text-center max-w-[280px] text-[var(--text-muted)] italic leading-relaxed">
+        <Text size="sm" className="text-center max-w-[280px] text-muted italic leading-relaxed">
           {t('no_favorites_hint')}
         </Text>
       </Stack>
@@ -88,11 +88,11 @@ const ModuleListItem = memo(forwardRef<HTMLDivElement, {
         badgeColor={statusBadge.color}
         title={course.title}
         progress={progress}
-        progressColor={course.status === 'active' ? 'var(--aau-blue)' : 'var(--aau-dark-green)'}
+        progressColor={course.status === 'active' ? 'var(--color-primary)' : 'var(--aau-dark-green)'}
         isStarred={true}
         onStarToggle={() => onToggleFavorite(course.id)}
         onClick={() => !isEditing && navigate(`/course/${course.id}`)}
-        className="favorite-card h-full ring-1 ring-[var(--border-color)]/40 hover:ring-[var(--aau-blue)]/40 transition-shadow duration-150"
+        className="favorite-card h-full ring-1 ring-[var(--border-color)]/40 hover:ring-primary/40 transition-shadow duration-150"
       />
     </motion.div>
   )
@@ -128,12 +128,12 @@ const ModulesWidget = ({ span, isEditing }: WidgetProps) => {
       "h-full w-full flex flex-col modules-widget @container/widget group/widget overflow-hidden",
       "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
-      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Star size={18} fill="currentColor" className="text-[var(--aau-light-gold)]" />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
             {t('my_favorites')}
           </Heading>
         </Stack>
@@ -142,7 +142,7 @@ const ModulesWidget = ({ span, isEditing }: WidgetProps) => {
           <Button
             variant="ghost"
             size="xs"
-            className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
+            className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
             onClick={handleFindModules}
             iconRight={ArrowRight}
           >
@@ -173,8 +173,8 @@ const ModulesWidget = ({ span, isEditing }: WidgetProps) => {
             </div>
             
             {/* Aesthetic scroll indicators */}
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--bg-card)] to-transparent pointer-events-none opacity-0 group-hover/widget:opacity-100 transition-opacity duration-300" />
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--bg-card)] to-transparent pointer-events-none opacity-0 group-hover/widget:opacity-100 transition-opacity duration-300" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-bg-card to-transparent pointer-events-none opacity-0 group-hover/widget:opacity-100 transition-opacity duration-300" />
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-bg-card to-transparent pointer-events-none opacity-0 group-hover/widget:opacity-100 transition-opacity duration-300" />
           </div>
         ) : (
           <div className="h-full w-full p-[var(--space-md)]">

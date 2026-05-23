@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail } from 'lucide-react';
 import { Text } from '@/components/ui/Typography';
@@ -18,16 +18,22 @@ export default function MessagesDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const close = useCallback(() => setIsOpen(false), []);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
-        setIsOpen(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) close();
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [close]);
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -37,17 +43,18 @@ export default function MessagesDropdown() {
         className={cn(
           "relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all duration-150 hover:-translate-y-1 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
-            ? "bg-[var(--aau-blue)] text-white shadow-md" 
-            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:text-primary dark:hover:bg-white/10"
+            ? "bg-primary text-primary-foreground shadow-md" 
+            : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(prev => !prev)}
         aria-label={t('messages')}
         type="button"
         aria-expanded={isOpen}
+        aria-haspopup="true"
       >
         <Mail size={20} strokeWidth={2} />
         {messageCount > 0 && (
-          <span className="absolute right-1.5 top-1.5 z-10 flex h-[18px] min-w-[18px] animate-pulse items-center justify-center rounded-full border-2 border-[var(--bg-topbar)] bg-[var(--aau-blue)] text-[10px] font-black leading-none text-white shadow-sm">
+          <span className="absolute right-1.5 top-1.5 z-10 flex h-[18px] min-w-[18px] animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-primary-foreground shadow-sm">
             {messageCount}
           </span>
         )}
@@ -60,9 +67,9 @@ export default function MessagesDropdown() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-[var(--radius-lg)] border border-border bg-[var(--bg-surface)] shadow-xl"
+            className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-[var(--radius-lg)] border border-border bg-bg-card shadow-xl"
           >
-            <div className="flex items-center justify-between border-b border-border bg-bg-hover pl-md pr-2 py-1">
+            <div className="flex items-center justify-between border-b border-border pl-md pr-2 py-1">
               <Text size="sm" weight="black" className="uppercase tracking-widest">
                 {t('messages')}
               </Text>

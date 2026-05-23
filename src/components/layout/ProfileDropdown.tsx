@@ -10,6 +10,7 @@ export default function ProfileDropdown() {
   const t = useStore((state) => state.t);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -21,6 +22,37 @@ export default function ProfileDropdown() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        const firstItem = menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]');
+        firstItem?.focus();
+      }, 50);
+    }
+  }, [isOpen]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      setIsOpen(false);
+      return;
+    }
+    
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const menuItems = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]'));
+      const activeIdx = menuItems.indexOf(document.activeElement as HTMLElement);
+      
+      let nextIdx = activeIdx;
+      if (e.key === 'ArrowDown') {
+        nextIdx = activeIdx < menuItems.length - 1 ? activeIdx + 1 : 0;
+      } else {
+        nextIdx = activeIdx > 0 ? activeIdx - 1 : menuItems.length - 1;
+      }
+      
+      menuItems[nextIdx].focus();
+    }
+  };
 
   return (
     <div className="relative ml-2" ref={dropdownRef}>
@@ -39,14 +71,14 @@ export default function ProfileDropdown() {
           "absolute inset-0 rounded-full transition-colors duration-150",
           isOpen
             ? "bg-primary border-primary"
-            : "bg-[var(--bg-highlight)] border-border group-hover:border-primary"
+            : "bg-bg-highlight border-border group-hover:border-primary"
         )} />
         <User 
           size={22} 
           strokeWidth={2.5} 
           className={cn(
             "relative z-10 transition-colors duration-150",
-            isOpen ? "text-white" : "text-[var(--text-main)] group-hover:text-primary"
+            isOpen ? "text-white" : "text-main group-hover:text-primary"
           )} 
         />
       </button>
@@ -54,15 +86,17 @@ export default function ProfileDropdown() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={menuRef}
+            onKeyDown={handleKeyDown}
             initial={{ opacity: 0, y: -4, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-full mt-2 min-w-[240px] z-50 rounded-xl bg-[var(--bg-main)] border border-[var(--border-color)] shadow-xl overflow-hidden"
+            className="absolute right-0 top-full mt-2 min-w-[240px] z-50 rounded-xl bg-bg-card border border-border shadow-xl overflow-hidden"
             role="menu"
           >
-            <div className="p-4 bg-[var(--bg-highlight)]/50 border-b border-[var(--border-color)]">
-              <Text size="sm" weight="black" className="text-[var(--text-main)] leading-none uppercase tracking-tight">
+            <div className="p-4 bg-bg-highlight/50 border-b border-border">
+              <Text size="sm" weight="black" className="text-main leading-none uppercase tracking-tight">
                 Jacob Krarup Madsen
               </Text>
               <Text size="xs" muted className="mt-1 font-bold opacity-60 italic">
@@ -73,24 +107,24 @@ export default function ProfileDropdown() {
             <div className="py-2">
               <Link
                 to="/settings?tab=profil"
-                className="flex w-full min-h-[44px] items-center gap-3 px-4 py-2 hover:bg-[var(--bg-highlight)] transition-colors focus-visible:bg-[var(--bg-highlight)] focus-visible:outline-none focus-visible:shadow-focus"
+                className="flex w-full min-h-[44px] items-center gap-3 px-4 py-2 hover:bg-bg-highlight transition-colors focus-visible:bg-bg-highlight focus-visible:outline-none focus-visible:shadow-focus"
                 onClick={() => setIsOpen(false)}
                 role="menuitem"
               >
                 <User size={16} strokeWidth={2.5} className="text-primary shrink-0" />
-                <Text size="sm" weight="bold" className="leading-none text-[var(--text-main)]">
+                <Text size="sm" weight="bold" className="leading-none text-main">
                   {t('profile')}
                 </Text>
               </Link>
               
               <Link
                 to="/settings"
-                className="flex w-full min-h-[44px] items-center gap-3 px-4 py-2 hover:bg-[var(--bg-highlight)] transition-colors focus-visible:bg-[var(--bg-highlight)] focus-visible:outline-none focus-visible:shadow-focus"
+                className="flex w-full min-h-[44px] items-center gap-3 px-4 py-2 hover:bg-bg-highlight transition-colors focus-visible:bg-bg-highlight focus-visible:outline-none focus-visible:shadow-focus"
                 onClick={() => setIsOpen(false)}
                 role="menuitem"
               >
                 <Settings size={16} strokeWidth={2.5} className="text-primary shrink-0" />
-                <Text size="sm" weight="bold" className="leading-none text-[var(--text-main)]">
+                <Text size="sm" weight="bold" className="leading-none text-main">
                   {t('settings')}
                 </Text>
               </Link>

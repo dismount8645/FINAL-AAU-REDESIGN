@@ -62,13 +62,13 @@ const InfoCard = memo(function InfoCard({
       elevated={elevated} 
       className={cn(
         'info-card transition-all duration-300',
-        isClickable && 'hover:shadow-[var(--shadow-md)] hover:-translate-y-1 cursor-pointer',
+        isClickable && 'hover:shadow-md hover:-translate-y-1 cursor-pointer',
         className
       )} 
       hasHeader={false} 
       onClick={onClick}
     >
-      <Card.Body className="p-[var(--space-md)] md:p-[var(--space-lg)]">
+      <Card.Body className="p-md md:p-lg">
         <Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start">
           <IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} className="shrink-0" />
           
@@ -81,8 +81,8 @@ const InfoCard = memo(function InfoCard({
                   variant="ghost"
                   size="icon-sm"
                   className={cn(
-                    'text-[var(--text-disabled)] hover:text-[var(--aau-blue)] transition-colors',
-                    showHelp && 'text-[var(--aau-blue)] bg-[var(--bg-hover)]'
+                    'text-[var(--text-disabled)] hover:text-primary transition-colors',
+                    showHelp && 'text-primary bg-[var(--bg-hover)]'
                   )}
                   onClick={handleHelpClick}
                   aria-label="Help"
@@ -100,7 +100,7 @@ const InfoCard = memo(function InfoCard({
                     'ml-auto transition-all',
                     isStarred 
                       ? 'text-[var(--aau-light-orange)] bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
-                      : 'text-[var(--text-disabled)] hover:text-[var(--aau-blue)]'
+                      : 'text-[var(--text-disabled)] hover:text-primary'
                   )}
                   onClick={handleStarClick}
                   aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
@@ -127,7 +127,7 @@ const InfoCard = memo(function InfoCard({
                 >
                   <Text 
                     size="xs" 
-                    className="italic font-medium leading-relaxed bg-[var(--bg-highlight)] p-[var(--space-sm)] rounded-[var(--radius-md)] border border-[var(--aau-blue)]/10 mt-[var(--space-xs)]"
+                    className="italic font-medium leading-relaxed bg-[var(--bg-highlight)] p-sm rounded-md border border-primary/10 mt-xs"
                   >
                     {helpText}
                   </Text>
@@ -141,11 +141,11 @@ const InfoCard = memo(function InfoCard({
               </Text>
             )}
             
-            {children && <div className="mt-[var(--space-xs)] w-full">{children}</div>}
+            {children && <div className="mt-xs w-full">{children}</div>}
           </Stack>
 
           {action && (
-            <div className="shrink-0 self-center lg:self-start pt-[var(--space-xs)] lg:pt-0">
+            <div className="shrink-0 self-center lg:self-start pt-xs lg:pt-0">
               {action}
             </div>
           )}

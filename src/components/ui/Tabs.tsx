@@ -13,8 +13,29 @@ export interface TabsProps {
 }
 
 export default function Tabs({ items, activeTab, onChange, className = '' }: TabsProps) {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+
+    const tabButtons = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const activeIndex = tabButtons.findIndex(btn => btn.getAttribute('aria-selected') === 'true');
+    
+    if (activeIndex === -1) return;
+
+    let nextIndex = activeIndex;
+    if (e.key === 'ArrowRight') {
+      nextIndex = (activeIndex + 1) % tabButtons.length;
+    } else if (e.key === 'ArrowLeft') {
+      nextIndex = (activeIndex - 1 + tabButtons.length) % tabButtons.length;
+    }
+
+    tabButtons[nextIndex].focus();
+    const nextTabId = items[nextIndex].id || items[nextIndex].key;
+    onChange(nextTabId);
+  };
+
   return (
-    <div role="tablist" className={`flex flex-nowrap overflow-x-auto no-scrollbar border-b border-border gap-0 ${className}`}>
+    <div role="tablist" onKeyDown={handleKeyDown} className={`flex flex-nowrap overflow-x-auto no-scrollbar border-b border-border gap-0 ${className}`}>
       {items.map((tab, i) => {
         const isActive = activeTab === (tab.id || tab.key)
         const tabId = tab.id || tab.key
@@ -22,6 +43,7 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
           <button
             role="tab"
             aria-selected={isActive}
+            tabIndex={isActive ? 0 : -1}
             aria-controls={tabId ? `panel-${tabId}` : undefined}
             id={tabId ? `tab-${tabId}` : undefined}
             key={tabId || tab.label || i}

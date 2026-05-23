@@ -19,8 +19,8 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default: "bg-[var(--bg-highlight)] text-[var(--text-main)] border-[var(--border-color)]/60",
-        primary: "bg-[var(--aau-blue)] text-white shadow-sm",
-        secondary: "bg-[var(--aau-blue)]/10 text-[var(--aau-blue)]",
+        primary: "bg-primary text-white shadow-sm",
+        secondary: "bg-primary/10 text-primary",
         success: "bg-[var(--aau-dark-green)]/10 text-[var(--aau-dark-green)]",
         warning: "bg-[var(--aau-dark-orange)]/10 text-[var(--aau-dark-orange)]",
         danger: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",

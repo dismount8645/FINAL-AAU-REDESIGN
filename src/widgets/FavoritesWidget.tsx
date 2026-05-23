@@ -41,7 +41,7 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
     <Card className="widget-card h-full w-full favorites-widget @container/widget shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
       <Card.Header padding="compact" className="bg-[var(--bg-highlight)]/50 border-b border-[var(--border-color)]">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-2 bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-2 bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Star size={18} strokeWidth={2} />
           </div>
           <Heading level={4} className="m-0 text-sm font-bold text-[var(--text-main)]">
@@ -52,7 +52,7 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
         <Button
           variant="ghost"
           size="sm"
-          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--aau-blue)]"
+          className="text-[0.65rem] font-black uppercase tracking-widest text-primary"
           onClick={handleSeeAll}
           iconRight={ChevronRight}
         >
@@ -98,7 +98,7 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
 
         {overflow > 0 && (
           <div className="mt-[var(--space-sm)] text-center pb-[var(--space-sm)]">
-            <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-widest opacity-60">
+            <Text size="xs" weight="bold" className="text-primary uppercase tracking-widest opacity-60">
               {`+${overflow} ${t('more_favorites')}`}
             </Text>
           </div>

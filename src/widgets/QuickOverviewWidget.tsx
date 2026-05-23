@@ -44,16 +44,16 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       className={cn(
         "w-full text-left flex items-center justify-start gap-[var(--space-md)] py-[var(--space-sm)] px-[var(--space-sm)] rounded-[var(--radius-lg)] transition-all duration-150",
         "hover:bg-[var(--bg-highlight)]/50 border border-transparent hover:border-[var(--border-color)]/40 group/item outline-none",
-        "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2",
+        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         !isLast && 'border-b-[var(--border-color)]/20'
       )}
       onClick={onClick}
     >
-      <div className="flex flex-col items-center justify-center min-w-[56px] py-[var(--space-2xs)] bg-[var(--bg-highlight)] rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-[var(--aau-blue)]/30 transition-colors">
-        <Text size="xs" weight="black" className="text-[var(--aau-blue)] leading-none">{hours}</Text>
-        <Text size="xs" weight="bold" className="text-[var(--text-muted)] leading-none mt-1 opacity-60 font-mono">{minutes}</Text>
+      <div className="flex flex-col items-center justify-center min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
+        <Text size="xs" weight="black" className="text-primary leading-none">{hours}</Text>
+        <Text size="xs" weight="bold" className="text-muted leading-none mt-1 opacity-60 font-mono">{minutes}</Text>
       </div>
-      <Text size="sm" weight="bold" className="text-[var(--text-main)] group-hover/item:text-[var(--aau-blue)] transition-colors truncate">
+      <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
         {t(event.titleKey)}
       </Text>
     </motion.button>
@@ -78,12 +78,12 @@ const QuickOverviewWidget = ({ isEditing }: WidgetProps) => {
       "quick-overview-widget h-full w-full flex flex-col group/widget overflow-hidden",
       "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
-      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Calendar size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
             {t('quick_overview')}
           </Heading>
         </Stack>
@@ -91,7 +91,7 @@ const QuickOverviewWidget = ({ isEditing }: WidgetProps) => {
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
+          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleGoToCalendar}
           iconRight={ChevronRight}
         >
@@ -114,15 +114,15 @@ const QuickOverviewWidget = ({ isEditing }: WidgetProps) => {
         </div>
       </Card.Body>
 
-      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
+      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
+        <Text size="xs" weight="medium" className="text-muted italic">
           {t('todays_schedule')}
         </Text>
         <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
           <Button 
             variant="ghost" 
             size="xs" 
-            className="text-[var(--aau-blue)] uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
+            className="text-primary uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
             onClick={handleGoToCalendar}
             iconRight={Clock}
           >

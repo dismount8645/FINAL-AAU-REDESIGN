@@ -6,17 +6,17 @@ import Button from '@/components/ui/Button'
 function Footer() {
   const t = useStore(state => state.t)
   return (
-    <footer className="footer-main py-xl border-t border-border bg-[var(--bg-footer)] relative z-10 w-full overflow-hidden">
+    <footer className="footer-main py-xl border-t border-border bg-bg-card relative z-10 w-full overflow-hidden">
       <div className="container">
         <div className="flex flex-col md:flex-row justify-between items-stretch md:items-end gap-xl">
           {/* Support Card - Left Anchor */}
-          <Stack gap="sm" className="bg-[var(--bg-card)] p-lg rounded-xl border border-border shadow-sm max-w-[420px] w-full isolate relative overflow-hidden group/footer-card">
+          <Stack gap="sm" className="bg-bg-card p-lg rounded-xl border border-border shadow-sm max-w-[420px] w-full isolate relative overflow-hidden group/footer-card">
             <div className="absolute top-0 left-0 w-1 h-full bg-primary opacity-60" />
-            <Heading level={4} className="font-bold text-[var(--text-main)] transition-colors group-hover/footer-card:text-primary">
+            <Heading level={4} className="font-bold text-main transition-colors group-hover/footer-card:text-primary">
               {t('contact_its_support')}
             </Heading>
             <Stack gap="xs">
-              <Text size="sm" weight="bold" className="text-[var(--text-main)]">
+              <Text size="sm" weight="bold" className="text-main">
                 Tel: <a href="tel:+4599402020" className="text-primary hover:text-accent hover:underline decoration-2 underline-offset-4 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">+45 9940 2020</a>
               </Text>
               <Text size="xs" muted weight="medium" className="opacity-80">
@@ -28,16 +28,16 @@ function Footer() {
           {/* Navigation & Copyright - Right Anchor */}
           <Stack gap="lg" align="start" className="md:items-end flex-1">
             <nav className="flex flex-col md:flex-row gap-md md:gap-xl items-start md:items-center">
-              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-[var(--text-muted)] hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                 <Text size="sm" weight="bold">ITS Support</Text>
               </a>
-              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-[var(--text-muted)] hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                 <Text size="sm" weight="bold">{t('accessibility_statement')}</Text>
               </a>
               <Button
                 variant="ghost"
                 onClick={(e) => e.preventDefault()}
-                className="text-[var(--text-muted)] hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
+                className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
               >
                 {t('service_status')}
               </Button>
