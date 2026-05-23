@@ -38,15 +38,15 @@ export default function ProfileDropdown() {
         <div className={cn(
           "absolute inset-0 rounded-full transition-colors duration-150",
           isOpen
-            ? "bg-[var(--aau-blue)] border-[var(--aau-blue)]"
-            : "bg-[var(--bg-highlight)] border-[var(--border-color)] group-hover:border-[var(--aau-blue)]"
+            ? "bg-primary border-primary"
+            : "bg-[var(--bg-highlight)] border-border group-hover:border-primary"
         )} />
         <User 
           size={22} 
           strokeWidth={2.5} 
           className={cn(
             "relative z-10 transition-colors duration-150",
-            isOpen ? "text-white" : "text-[var(--text-main)] group-hover:text-[var(--aau-blue)]"
+            isOpen ? "text-white" : "text-[var(--text-main)] group-hover:text-primary"
           )} 
         />
       </button>
@@ -77,7 +77,7 @@ export default function ProfileDropdown() {
                 onClick={() => setIsOpen(false)}
                 role="menuitem"
               >
-                <User size={16} strokeWidth={2.5} className="text-[var(--aau-blue)] shrink-0" />
+                <User size={16} strokeWidth={2.5} className="text-primary shrink-0" />
                 <Text size="sm" weight="bold" className="leading-none text-[var(--text-main)]">
                   {t('profile')}
                 </Text>
@@ -89,17 +89,17 @@ export default function ProfileDropdown() {
                 onClick={() => setIsOpen(false)}
                 role="menuitem"
               >
-                <Settings size={16} strokeWidth={2.5} className="text-[var(--aau-blue)] shrink-0" />
+                <Settings size={16} strokeWidth={2.5} className="text-primary shrink-0" />
                 <Text size="sm" weight="bold" className="leading-none text-[var(--text-main)]">
                   {t('settings')}
                 </Text>
               </Link>
             </div>
             
-            <div className="border-t border-[var(--border-color)] bg-[var(--aau-dark-pink)]/[0.02] py-2">
+            <div className="border-t border-border bg-danger/[0.02] py-2">
               <button
                 type="button"
-                className="flex w-full min-h-[44px] items-center gap-3 px-4 py-2 hover:bg-[var(--aau-dark-pink)]/10 transition-colors text-[var(--aau-dark-pink)] focus-visible:bg-[var(--aau-dark-pink)]/10 focus-visible:outline-none focus-visible:shadow-focus"
+                className="flex w-full min-h-[44px] items-center gap-3 px-4 py-2 hover:bg-danger/10 transition-colors text-danger focus-visible:bg-danger/10 focus-visible:outline-none focus-visible:shadow-focus"
                 onClick={() => setIsOpen(false)}
                 role="menuitem"
               >
