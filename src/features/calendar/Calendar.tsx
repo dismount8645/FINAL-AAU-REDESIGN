@@ -171,7 +171,7 @@ const Calendar = () => {
           <Grid columns={12} gap="lg">
             <Grid.Item span={9} mobileSpan={12} className="min-w-0">
               <Card variant="elevated" className="main-calendar-card h-full">
-                <Card.Header padding="default" className="bg-[var(--bg-highlight)]/30 backdrop-blur-md">
+                <Card.Header padding="default" className="bg-bg-highlight/30 backdrop-blur-md">
                   <Stack direction="row" gap="md" align="center" justify="between" className="flex-wrap w-full">
                     <div className="w-full sm:w-auto min-w-[240px]">
                       <SegmentedControl

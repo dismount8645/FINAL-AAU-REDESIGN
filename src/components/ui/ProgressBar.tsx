@@ -41,7 +41,7 @@ export default function ProgressBar({
     >
       <div
         className="w-full rounded-pill overflow-hidden"
-        style={{ height, backgroundColor: 'var(--bg-placeholder)' }}
+        style={{ height, backgroundColor: 'var(--color-bg-placeholder)' }}
       >
         <div
           className="h-full transition-all duration-500 ease-out"

@@ -38,10 +38,10 @@ const sizeMap = {
 }
 
 const statusColorMap = {
-  online: 'var(--aau-dark-green)',
-  offline: 'var(--text-disabled)',
-  away: 'var(--aau-light-orange)',
-  busy: 'var(--aau-dark-pink)',
+  online: 'var(--color-success)',
+  offline: 'var(--color-text-disabled)',
+  away: 'var(--color-warning)',
+  busy: 'var(--color-danger)',
 }
 
 /**
@@ -89,7 +89,7 @@ const Avatar = memo(function Avatar({
       style={{ width: px, height: px }}
       onClick={onClick}
     >
-      <div className="w-full h-full rounded-[var(--radius-full)] overflow-hidden border border-[var(--border-color)]/40 bg-[var(--bg-highlight)] flex items-center justify-center">
+      <div className="w-full h-full rounded-[var(--radius-full)] overflow-hidden border border-[var(--border-color)]/40 bg-bg-highlight flex items-center justify-center">
         <AnimatePresence mode="wait">
           {src ? (
             <motion.img
@@ -108,7 +108,7 @@ const Avatar = memo(function Avatar({
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="w-full h-full flex items-center justify-center text-[var(--text-main)] font-black tracking-tighter"
+              className="w-full h-full flex items-center justify-center text-main font-black tracking-tighter"
               style={{ fontSize: px * 0.4 }}
             >
               {initials}
@@ -121,7 +121,7 @@ const Avatar = memo(function Avatar({
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="absolute -bottom-0.5 -right-0.5 rounded-[var(--radius-full)] bg-[var(--bg-card)] shadow-sm"
+          className="absolute -bottom-0.5 -right-0.5 rounded-[var(--radius-full)] bg-bg-card shadow-sm"
           style={{
             width: statusSize,
             height: statusSize,

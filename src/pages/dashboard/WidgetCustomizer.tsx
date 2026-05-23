@@ -45,14 +45,14 @@ export function WidgetCustomizer({
       variant="default"
       hasHeader={false}
       overflowVisible={true}
-      className="dashboard__edit-banner-card border-l-4 border-[var(--color-primary)] bg-[var(--bg-highlight)] mb-[var(--space-lg)] dark:bg-[rgba(var(--aau-light-blue-rgb),0.25)] shadow-[var(--shadow-sm)] min-h-[60px]"
+      className="dashboard__edit-banner-card border-l-4 border-primary bg-bg-highlight mb-[var(--space-lg)] dark:bg-[rgba(var(--aau-light-blue-rgb),0.25)] shadow-[var(--shadow-sm)] min-h-[60px]"
     >
       <Card.Body className="dashboard__edit-banner-body p-[var(--space-md)_var(--space-lg)]">
         <Stack direction="row" align="center" gap="md">
           <IconCircle
             icon={Edit}
             size={32}
-            bg="var(--bg-highlight)"
+            bg="bg-highlight"
             color="var(--color-primary)"
             className="dark:bg-white/10 dark:text-white"
           />
@@ -79,7 +79,7 @@ export function WidgetCustomizer({
                   <button
                     key={w.id}
                     type="button"
-                    className="w-full text-left px-xs py-2xs rounded-[var(--radius-md)] text-sm hover:bg-[var(--bg-hover)] transition-colors flex items-center gap-[var(--space-sm)]"
+                    className="w-full text-left px-xs py-2xs rounded-[var(--radius-md)] text-sm hover:bg-bg-hover transition-colors flex items-center gap-[var(--space-sm)]"
                     onClick={() => toggleVisibility(w.id)}
                   >
                     <Plus size={14} strokeWidth={2} />

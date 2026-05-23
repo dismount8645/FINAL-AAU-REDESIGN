@@ -18,7 +18,7 @@ const DropdownTrigger = forwardRef<HTMLButtonElement, MenuPrimitive.Trigger.Prop
       ref={ref}
       className={cn(
         "inline-flex items-center justify-center outline-none transition-all duration-150",
-        "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2 rounded-[var(--radius-sm)]",
+        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-[var(--radius-sm)]",
         className
       )}
       {...props}
@@ -36,9 +36,9 @@ const DropdownItem = forwardRef<HTMLDivElement, MenuPrimitive.Item.Props>(
       className={cn(
         "min-h-[44px] flex items-center px-[var(--space-sm)] py-[var(--space-2xs)] w-full text-left",
         "rounded-[var(--radius-md)] transition-colors duration-150 outline-none cursor-pointer",
-        "text-sm font-bold text-[var(--text-main)]",
-        "hover:bg-[var(--bg-highlight)] hover:text-[var(--aau-blue)]",
-        "focus-visible:bg-[var(--bg-highlight)] focus-visible:text-[var(--aau-blue)]",
+        "text-sm font-bold text-main",
+        "hover:bg-bg-highlight hover:text-primary",
+        "focus-visible:bg-bg-highlight focus-visible:text-primary",
         "data-[disabled]:opacity-40 data-[disabled]:pointer-events-none",
         className
       )}
@@ -65,7 +65,7 @@ const DropdownContent = memo(forwardRef<HTMLDivElement, MenuPrimitive.Popup.Prop
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
             className={cn(
               "z-[var(--z-dropdown)] min-w-[200px] flex flex-col gap-[var(--space-4xs)]",
-              "bg-[var(--bg-card)] border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] p-[var(--space-2xs)]",
+              "bg-bg-card border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] p-[var(--space-2xs)]",
               "shadow-[var(--shadow-xl)] outline-none isolate",
               className
             )}

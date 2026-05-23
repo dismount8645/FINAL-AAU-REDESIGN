@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 const cardVariants = cva(
   [
     "group relative flex flex-col h-full transition-all duration-300 ease-[var(--transition-ease)]",
-    "bg-[var(--bg-card)] border border-border/60 rounded-xl",
+    "bg-bg-card border border-border/60 rounded-xl",
     "isolate overflow-hidden"
   ],
   {
@@ -25,7 +25,7 @@ const cardVariants = cva(
           "bg-gradient-to-br from-primary to-[var(--aau-light-blue)] text-white border-none shadow-lg",
           "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity duration-300"
         ],
-        ghost: "bg-transparent border-none shadow-none hover:bg-[var(--bg-highlight)]/50",
+        ghost: "bg-transparent border-none shadow-none hover:bg-bg-highlight/50",
       },
       accent: {
         none: "",

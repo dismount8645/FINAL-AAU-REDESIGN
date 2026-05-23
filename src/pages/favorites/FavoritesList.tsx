@@ -37,7 +37,7 @@ export default function FavoritesList({
     return (
       <Card className="py-[var(--space-3xl)] border-dashed">
         <Stack align="center" justify="center" gap="md">
-          <div className="p-[var(--space-md)] bg-[var(--bg-body)] rounded-[var(--radius-pill)]">
+          <div className="p-[var(--space-md)] bg-bg-main rounded-[var(--radius-pill)]">
             <Star size={24} strokeWidth={2} className="text-[var(--aau-light-orange)]" fill="var(--aau-light-orange)" />
           </div>
           <Heading level={3}>{t('favorites_empty')}</Heading>

@@ -73,7 +73,7 @@ export default function FormField({
       })}
 
       {helpText ? (
-        <span id={helpId} className="text-xs text-[var(--text-muted)] m-0 leading-tight">
+        <span id={helpId} className="text-xs text-muted m-0 leading-tight">
           {helpText}
         </span>
       ) : null}

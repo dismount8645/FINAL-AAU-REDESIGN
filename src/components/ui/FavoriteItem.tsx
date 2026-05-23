@@ -58,7 +58,7 @@ const FavoriteItem = memo(function FavoriteItem({
         }
       }}
       className={cn(
-        "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-[var(--bg-card)] hover:bg-[var(--bg-hover)] hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all cursor-pointer select-none",
+        "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card hover:bg-bg-hover hover:border-primary/30 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none transition-all cursor-pointer select-none",
         draggable && "active:opacity-60 active:scale-[0.97]",
       )}
     >
@@ -70,7 +70,7 @@ const FavoriteItem = memo(function FavoriteItem({
       </div>
 
       <div className="flex-1 min-w-0">
-        <div className="text-sm font-medium truncate text-[var(--text-main)]">
+        <div className="text-sm font-medium truncate text-main">
           {item.title}
         </div>
         <span

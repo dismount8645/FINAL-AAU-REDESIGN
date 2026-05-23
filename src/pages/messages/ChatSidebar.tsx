@@ -62,8 +62,8 @@ export function ChatSidebar({
                   setShowChat(true)
                 }
               }}
-              className={`contact-item group border-b border-border/40 cursor-pointer hover:bg-[var(--bg-hover)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:outline-none transition-colors p-md relative ${
-                activeContactId === contact.id ? 'active bg-[var(--bg-highlight)] dark:bg-white/5' : ''
+              className={`contact-item group border-b border-border/40 cursor-pointer hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:outline-none transition-colors p-md relative ${
+                activeContactId === contact.id ? 'active bg-bg-highlight dark:bg-white/5' : ''
               }`}
             >
               {activeContactId === contact.id && <div className="panel-active-indicator" />}

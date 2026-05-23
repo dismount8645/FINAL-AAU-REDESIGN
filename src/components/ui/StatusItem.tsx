@@ -32,8 +32,8 @@ const StatusItem = memo(function StatusItem({
     <div
       className={cn(
         "flex items-center gap-[var(--space-md)] px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-md)] transition-all duration-200",
-        onClick ? "cursor-pointer hover:bg-[var(--bg-hover)] focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:outline-none" : "cursor-default",
-        unread && "bg-[var(--bg-highlight)]",
+        onClick ? "cursor-pointer hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none" : "cursor-default",
+        unread && "bg-bg-highlight",
         className
       )}
       onClick={onClick}
@@ -48,15 +48,15 @@ const StatusItem = memo(function StatusItem({
     >
       {Icon && (
         <div 
-          className="flex items-center justify-center w-10 h-10 shrink-0 rounded-[var(--radius-lg)] bg-[var(--bg-highlight)]/50" 
-          style={{ color: iconColor || 'var(--aau-blue)' }}
+          className="flex items-center justify-center w-10 h-10 shrink-0 rounded-[var(--radius-lg)] bg-bg-highlight/50"
+          style={{ color: iconColor || 'var(--color-primary)' }}
         >
           <Icon size={20} strokeWidth={2} aria-hidden="true" />
         </div>
       )}
       
       <div className="flex flex-col flex-1 min-w-0 justify-center">
-        <Text weight="bold" size="md" className="truncate leading-tight text-[var(--text-main)]">
+        <Text weight="bold" size="md" className="truncate leading-tight text-main">
           {title}
         </Text>
         {subtitle && (

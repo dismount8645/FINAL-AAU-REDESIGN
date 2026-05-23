@@ -3,16 +3,16 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const textareaVariants = cva(
-  "flex min-h-[44px] w-full rounded-[var(--radius-lg)] border-[1.5px] transition-[border-color,box-shadow,background] duration-150 text-[var(--text-main)] focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800/50 disabled:text-slate-400 dark:disabled:text-slate-500 placeholder:text-[var(--text-disabled)]",
+  "flex min-h-[44px] w-full rounded-[var(--radius-lg)] border-[1.5px] transition-[border-color,box-shadow,background] duration-150 text-main focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800/50 disabled:text-slate-400 dark:disabled:text-slate-500 placeholder:text-disabled",
   {
     variants: {
       variant: {
         outlined:
-          "border-[var(--border-color)] dark:border-slate-600 bg-[var(--bg-input)] focus:border-[var(--color-primary)] dark:placeholder:text-[var(--text-disabled)]",
+          "border-border dark:border-slate-600 bg-bg-input focus:border-primary dark:placeholder:text-disabled",
         filled:
-          "border-transparent bg-[var(--bg-body)] focus:bg-[var(--bg-card)] focus:border-[var(--color-primary)]",
+          "border-transparent bg-bg-main focus:bg-bg-card focus:border-primary",
         ghost:
-          "border-transparent bg-transparent focus:bg-[var(--bg-input)]",
+          "border-transparent bg-transparent focus:bg-bg-input",
       },
       size: {
         sm: "px-sm py-xs text-[0.8125rem]",
@@ -65,7 +65,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         aria-describedby={ariaDescribedBy}
         className={cn(
           textareaVariants({ variant, size }),
-          error && "border-[var(--color-danger)] focus:border-[var(--color-danger)] focus:shadow-[0_0_0_4px_rgba(204,68,91,0.35)]",
+          error && "border-danger focus:border-danger focus:shadow-[0_0_0_4px_rgba(204,68,91,0.35)]",
           resize === "none" && "resize-none",
           resize === "vertical" && "resize-y",
           resize === "horizontal" && "resize-x",

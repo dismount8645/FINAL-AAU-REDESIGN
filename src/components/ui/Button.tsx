@@ -26,11 +26,11 @@ const buttonVariants = cva(
         primary:
           "bg-primary text-primary-foreground shadow-[var(--shadow-sm)] hover:bg-accent hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
         secondary:
-          "bg-[var(--bg-card)] text-primary border-2 border-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
+          "bg-bg-card text-primary border-2 border-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
         ghost:
           "bg-transparent text-primary hover:bg-primary/5",
         outline:
-          "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:border-primary hover:text-primary",
+          "bg-transparent border border-[var(--border-color)] text-main hover:bg-bg-highlight hover:border-primary hover:text-primary",
         danger:
           "bg-[var(--aau-dark-pink)] text-white shadow-sm hover:bg-[var(--aau-dark-pink)]/90 hover:-translate-y-0.5",
         success:

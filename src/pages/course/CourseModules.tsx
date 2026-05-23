@@ -104,7 +104,7 @@ function CourseModules({
           const isExpanded = expandedSections.includes(section.id)
           return (
             <Card key={section.id} elevated hasHeader={true} className="course-section mb-md overflow-hidden shadow-[var(--shadow-md)]">
-              <Card.Header className="section-header p-md px-lg bg-[var(--bg-card)] cursor-pointer transition-colors duration-200 hover:bg-[var(--bg-hover)]"
+              <Card.Header className="section-header p-md px-lg bg-bg-card cursor-pointer transition-colors duration-200 hover:bg-bg-hover"
                 data-section-id={section.id}
                 onClick={() => toggleSection(section.id)}
                 role="button"

@@ -46,8 +46,8 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
       <button
         type="button"
         className={cn(
-          "w-full h-full flex flex-col items-start gap-[var(--space-sm)] p-[var(--space-md)] rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-[var(--bg-card)] transition-all duration-150 text-left outline-none isolate",
-          "hover:shadow-[var(--shadow-lg)] hover:border-[var(--aau-blue)] cursor-pointer",
+          "w-full h-full flex flex-col items-start gap-[var(--space-sm)] p-[var(--space-md)] rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card transition-all duration-150 text-left outline-none isolate",
+          "hover:shadow-[var(--shadow-lg)] hover:border-primary cursor-pointer",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         )}
         onClick={() => !isEditing && onOpen(tool.url)}
