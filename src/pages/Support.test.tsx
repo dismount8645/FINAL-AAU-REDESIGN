@@ -28,13 +28,10 @@ function openFormEnglish() {
 
 function fillFields(subject: string, description: string) {
   const subjectInput = screen.getByLabelText(/Emne|Subject/)
+  fireEvent.change(subjectInput, { target: { value: subject } })
+  
   const descInput = screen.getByLabelText(/Beskrivelse|Description/)
-  console.log('fillFields - subjectInput:', subjectInput.tagName, 'id:', subjectInput.id, 'value:', subjectInput.value)
-  console.log('fillFields - descInput:', descInput.tagName, 'id:', descInput.id, 'value:', descInput.value)
-  act(() => { fireEvent.change(subjectInput, { target: { value: subject } }) })
-  act(() => { fireEvent.change(descInput, { target: { value: description } }) })
-  console.log('fillFields AFTER change - subjectInput value:', subjectInput.value)
-  console.log('fillFields AFTER change - descInput value:', descInput.value)
+  fireEvent.change(descInput, { target: { value: description } })
 }
 
 function submitForm() {
@@ -88,7 +85,9 @@ describe('Support', () => {
     openForm()
     fillFields('Test emne', 'Test beskrivelse')
     submitForm()
-    await vi.advanceTimersByTimeAsync(1500)
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1500)
+    })
     expect(mockToast.success).toHaveBeenCalledWith('Besked sendt!')
     vi.useRealTimers()
   })
@@ -99,7 +98,9 @@ describe('Support', () => {
     openFormEnglish()
     fillFields('Test subject', 'Test description')
     submitForm()
-    await vi.advanceTimersByTimeAsync(1500)
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1500)
+    })
     expect(mockToast.success).toHaveBeenCalledWith('Message sent!')
     vi.useRealTimers()
   })
@@ -110,7 +111,9 @@ describe('Support', () => {
     openForm()
     fillFields('Test emne', 'Test beskrivelse')
     submitForm()
-    await vi.advanceTimersByTimeAsync(1500)
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(1500)
+    })
     expect(screen.queryByLabelText(/Emne/)).not.toBeInTheDocument()
     expect(screen.getByText('Skriv en besked')).toBeInTheDocument()
     vi.useRealTimers()
