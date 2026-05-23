@@ -17,7 +17,9 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     e.preventDefault();
 
-    const tabButtons = Array.from(e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const tabButtons = Array.from(e.currentTarget.children).filter(
+      (el): el is HTMLButtonElement => el.getAttribute('role') === 'tab'
+    );
     const activeIndex = tabButtons.findIndex(btn => btn.getAttribute('aria-selected') === 'true');
     
     if (activeIndex === -1) return;
@@ -53,7 +55,7 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
             {tab.label}
             {tab.count !== undefined ? (
               <span 
-                className={`ml-sm px-2xs py-0.5 rounded-[var(--radius-pill)] text-[10px] font-black tracking-tighter uppercase transition-colors ${isActive ? 'bg-primary text-white' : 'bg-slate-100 dark:bg-white/10 text-muted'}`}
+                className={`ml-sm px-2xs py-0.5 rounded-[var(--radius-pill)] text-[10px] font-black tracking-tighter uppercase transition-colors ${isActive ? 'bg-primary text-white' : 'bg-muted dark:bg-white/10 text-muted'}`}
               >
                 {tab.count}
               </span>

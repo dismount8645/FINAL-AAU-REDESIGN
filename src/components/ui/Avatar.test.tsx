@@ -65,12 +65,12 @@ describe('Avatar', () => {
   it('renders offline status dot with correct color', () => {
     const { container } = render(<Avatar name="Test" status="offline" />)
     const dot = container.querySelector('[style*="background-color"]') as HTMLElement
-    expect(dot.style.backgroundColor).toBe('var(--text-disabled)')
+    expect(dot.style.backgroundColor).toBe('var(--color-text-disabled)')
   })
 
   it('renders away status dot with correct color', () => {
     const { container } = render(<Avatar name="Test" status="away" />)
     const dot = container.querySelector('[style*="background-color"]') as HTMLElement
-    expect(dot.style.backgroundColor).toBe('var(--aau-light-orange)')
+    expect(dot.style.backgroundColor).toBe('var(--color-warning)')
   })
 })

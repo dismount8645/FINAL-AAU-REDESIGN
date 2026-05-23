@@ -54,7 +54,7 @@ export default function DashboardLayout({ title, widgets: initialWidgets }: Dash
 
 function WidgetPlaceholder({ widgetId }: { widgetId: string }) {
   return (
-    <div className="w-full min-h-[160px] flex items-center justify-center rounded-md md:rounded-lg xl:rounded-xl border-2 border-dashed border-border bg-[var(--bg-body)] dark:bg-card/30" aria-label={`Loading widget ${widgetId}`}>
+    <div className="w-full min-h-[160px] flex items-center justify-center rounded-md md:rounded-lg xl:rounded-xl border-2 border-dashed border-border bg-bg-body dark:bg-card/30" aria-label={`Loading widget ${widgetId}`}>
       <p className="text-sm md:text-base text-muted font-medium">Widget {widgetId}</p>
     </div>
   );

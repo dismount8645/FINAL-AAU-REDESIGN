@@ -15,12 +15,28 @@ export default function NotificationsDropdown() {
   const notificationCount = useStore((state) => state.notificationCount);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const close = useCallback(() => setIsOpen(false), []);
+  const close = useCallback(() => {
+    setIsOpen(false);
+    buttonRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        const firstItem = menuRef.current?.querySelector<HTMLElement>('button.w-full');
+        firstItem?.focus();
+      }, 50);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) close();
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
     };
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
@@ -43,13 +59,43 @@ export default function NotificationsDropdown() {
     }
   };
 
+  const handleMenuKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      close();
+      return;
+    }
+    
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button[type="button"].w-full'));
+      const activeIdx = items.indexOf(document.activeElement as HTMLElement);
+      
+      let nextIdx = activeIdx;
+      if (e.key === 'ArrowDown') {
+        nextIdx = activeIdx < items.length - 1 ? activeIdx + 1 : 0;
+      } else {
+        nextIdx = activeIdx > 0 ? activeIdx - 1 : items.length - 1;
+      }
+      items[nextIdx].focus();
+    }
+  };
+
+  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setIsOpen(true);
+    }
+  };
+
   return (
     <div className="relative" ref={dropdownRef}>
       <Button
+        ref={buttonRef}
+        onKeyDown={handleTriggerKeyDown}
         variant="ghost"
         size="icon"
         className={cn(
-          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
           isOpen 
             ? "bg-primary text-white shadow-md" 
             : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
@@ -71,11 +117,13 @@ export default function NotificationsDropdown() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={menuRef}
+            onKeyDown={handleMenuKeyDown}
             initial={{ opacity: 0, y: -8, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-xl border border-border bg-bg-card shadow-xl"
+            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border p-md">
               <Text size="sm" weight="black" className="uppercase tracking-widest text-main">

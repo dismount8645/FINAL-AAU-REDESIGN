@@ -31,7 +31,7 @@ const activities: Activity[] = [
     snippetDa: 'Jeg har lagt de nye slides op nu...',
     snippetEn: 'I have uploaded the new slides now...',
     icon: Reply,
-    color: 'var(--color-primary)'
+    color: 'var(--color-reply-icon, var(--color-primary))'
   },
   {
     id: 2,
@@ -95,17 +95,17 @@ const ActivityItem = memo(forwardRef<HTMLButtonElement, {
           <div className="pl-10 relative">
             <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-primary/20 transition-colors" />
             <Text size="xs" className="forum-activity__snippet text-muted leading-relaxed relative">
-              <span className="text-primary/40 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
+              <span className="text-primary/40 dark:text-primary/70 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
               <span className="italic">{localize(activity, 'snippet')}</span>
-              <span className="text-primary/40 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
+              <span className="text-primary/40 dark:text-primary/70 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
             </Text>
           </div>
         )}
 
         <div className="pl-10 mt-1 flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/item:opacity-100 transition-all duration-300 -translate-x-2 group-hover/item:translate-x-0">
           <div className="h-px w-4 bg-primary/30" />
-          <Text size="xs" weight="black" className="text-primary uppercase tracking-widest">{t('read_more')}</Text>
-          <ArrowRight size={10} strokeWidth={3} className="text-primary" />
+          <Text size="xs" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
+          <ArrowRight size={10} strokeWidth={3} className="text-primary dark:text-white" />
         </div>
       </Stack>
     </motion.button>

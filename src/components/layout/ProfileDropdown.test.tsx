@@ -16,7 +16,11 @@ describe('ProfileDropdown', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     useStore.setState({
-      t: (key: string) => key,
+      t: (key: string) => {
+        if (key === 'common.user_name') return 'Jacob Krarup Madsen';
+        if (key === 'common.user_role') return 'Studerende';
+        return key;
+      },
     })
   })
 

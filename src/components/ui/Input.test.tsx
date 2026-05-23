@@ -11,7 +11,7 @@ describe('Input', () => {
   it('applies border-danger class when error is true', () => {
     render(<Input error />)
     const input = screen.getByRole('textbox')
-    expect(input).toHaveClass('border-[var(--color-danger)]')
+    expect(input).toHaveClass('border-danger')
   })
 
   it('does not apply border-danger class when error is false', () => {

@@ -37,8 +37,8 @@ describe('Typography', () => {
     render(<Text bold muted>Bold Muted</Text>)
     const el = screen.getByText('Bold Muted')
     expect(el.style.fontWeight).toBe('700')
-    // Muted is now applied via class text-[var(--text-muted)]
-    expect(el.className).toContain('text-[var(--text-muted)]')
+    // Muted is now applied via class text-muted
+    expect(el.className).toContain('text-muted')
   })
 
   it('renders text with custom tag', () => {
@@ -51,7 +51,7 @@ describe('Typography', () => {
     const el = screen.getByText('Caption Text')
     expect(el.tagName).toBe('SPAN')
     expect(el.className).toContain('text-xs')
-    expect(el.className).toContain('text-[var(--text-muted)]')
+    expect(el.className).toContain('text-muted')
   })
 
   it('renders text with custom size not in standard tokens', () => {

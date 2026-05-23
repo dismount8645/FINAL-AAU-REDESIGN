@@ -31,6 +31,6 @@ describe('StatusItem', () => {
 
   it('applies highlighted class when unread', () => {
     const { container } = render(<StatusItem title="Item" unread />)
-    expect(container.firstChild).toHaveClass('bg-[var(--bg-highlight)]')
+    expect(container.firstChild).toHaveClass('bg-bg-highlight')
   })
 })

@@ -43,18 +43,15 @@ export function WidgetCustomizer({
   return (
     <Card
       variant="default"
-      hasHeader={false}
-      overflowVisible={true}
-      className="dashboard__edit-banner-card border-l-4 border-primary bg-bg-highlight mb-[var(--space-lg)] dark:bg-[rgba(var(--aau-light-blue-rgb),0.25)] shadow-[var(--shadow-sm)] min-h-[60px]"
+      accent="left"
+      className="dashboard__edit-banner-card bg-bg-highlight mb-[var(--space-lg)] dark:bg-[rgba(var(--aau-light-blue-rgb),0.25)] shadow-[var(--shadow-sm)] min-h-[60px]"
     >
       <Card.Body className="dashboard__edit-banner-body p-[var(--space-md)_var(--space-lg)]">
         <Stack direction="row" align="center" gap="md">
           <IconCircle
             icon={Edit}
             size={32}
-            bg="bg-highlight"
-            color="var(--color-primary)"
-            className="dark:bg-white/10 dark:text-white"
+            className="bg-bg-highlight text-primary dark:bg-white/10 dark:text-white"
           />
           <Stack gap="2xs" className="flex-1">
             <Text size="sm" weight="bold" className="dashboard__edit-banner-title text-primary dark:text-white">

@@ -24,6 +24,7 @@ interface WidgetWrapperProps {
   toggleVisibility: (id: string) => void
   resizeWidget: (id: string, newSpan: number, newRowSpan?: number) => void
   t: (key: string) => string
+  moveWidget: (id: string, direction: 'left' | 'right') => void
 }
 
 export const WidgetWrapper = memo(function WidgetWrapper({
@@ -42,6 +43,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
   toggleVisibility,
   resizeWidget,
   t,
+  moveWidget,
 }: WidgetWrapperProps) {
   const { handleResize: resizeWidth } = useResizeHandle(widget.id, widget.span, widget.rowSpan || 1, resizeWidget)
   const { handleResize: resizeHeight } = useResizeHandle(widget.id, widget.span, widget.rowSpan || 1, resizeWidget)
@@ -97,11 +99,20 @@ export const WidgetWrapper = memo(function WidgetWrapper({
             <Stack className="absolute top-[var(--space-xs)] right-[var(--space-md)] z-10 flex gap-[var(--space-2xs)] bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] shadow-[var(--shadow-md)] dark:border dark:border-border">
               <button
                 type="button"
-                className="flex items-center cursor-grab active:cursor-grabbing text-muted hover:text-main p-[var(--space-2xs)] focus-visible:ring-2 focus-visible:ring-primary rounded-sm border-none bg-transparent"
+                className="flex h-11 w-11 items-center justify-center cursor-grab active:cursor-grabbing text-muted hover:text-main focus-visible:ring-2 focus-visible:ring-primary rounded-md border-none bg-transparent focus-visible:outline-none"
                 title={t('drag_to_reorder') || 'Drag to reorder'}
                 aria-label={t('drag_to_reorder') || 'Drag to reorder'}
+                onKeyDown={(e) => {
+                  if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    moveWidget(widget.id, 'left');
+                  } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    moveWidget(widget.id, 'right');
+                  }
+                }}
               >
-                <GripVertical size={14} strokeWidth={2} />
+                <GripVertical size={16} strokeWidth={2} />
               </button>
               <Button
                 variant="ghost"

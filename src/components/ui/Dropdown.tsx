@@ -121,7 +121,7 @@ const DropdownWrapper = ({
   return (
     <DropdownRoot open={open} onOpenChange={handleOpenChange}>
       <DropdownTrigger 
-        render={isTriggerElement ? (trigger as any) : undefined}
+        render={isTriggerElement ? (trigger as React.ReactElement) : undefined}
       >
         {!isTriggerElement ? trigger : undefined}
       </DropdownTrigger>

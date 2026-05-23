@@ -92,7 +92,7 @@ export default function Sidebar() {
         role={isMobileOpen ? "dialog" : undefined}
         aria-modal={isMobileOpen ? true : undefined}
         aria-label={t('navigation_menu')}
-        className={`bg-[var(--bg-sidebar)] h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-xl w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
+        className={`bg-bg-sidebar h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-xl w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
         style={{ maxWidth: 'calc(100vw - var(--sidebar-width))' }}
         data-collapsed={isCollapsed && !isMobileOpen}
       >

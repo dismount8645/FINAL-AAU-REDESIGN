@@ -30,6 +30,7 @@ interface WidgetGridProps {
   toggleVisibility: (id: string) => void
   resizeWidget: (id: string, newSpan: number, newRowSpan?: number) => void
   t: (key: string) => string
+  moveWidget: (id: string, direction: 'left' | 'right') => void
 }
 
 export function WidgetGrid({
@@ -43,6 +44,7 @@ export function WidgetGrid({
   toggleVisibility,
   resizeWidget,
   t,
+  moveWidget,
 }: WidgetGridProps) {
   return (
     <Grid columns={24} tabletColumns={12} mobileColumns={6} className="dashboard__grid relative">
@@ -95,6 +97,7 @@ export function WidgetGrid({
             toggleVisibility={toggleVisibility}
             resizeWidget={resizeWidget}
             t={t}
+            moveWidget={moveWidget}
           />
         )
       })}

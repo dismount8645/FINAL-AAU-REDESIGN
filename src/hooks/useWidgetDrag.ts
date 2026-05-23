@@ -12,6 +12,7 @@ interface UseWidgetDragReturn {
   onDragOver: (e: DragEvent<HTMLElement>, targetId?: string) => void;
   onDrop: (e: DragEvent<HTMLElement>, x: number | string, y?: number) => void;
   draggedItemId: string | null;
+  moveWidget: (id: string, direction: 'left' | 'right') => void;
 }
 
 export function useWidgetDrag(initialWidgets: Widget[]): UseWidgetDragReturn {
@@ -78,7 +79,42 @@ const onDrop = (e: DragEvent<HTMLElement>, x: number | string, y?: number) => {
     setWidgets(newWidgets);
   };
 
+  const moveWidget = (id: string, direction: 'left' | 'right') => {
+    setWidgets((prev) => {
+      const idx = prev.findIndex((w) => w.id === id);
+      if (idx === -1) return prev;
+
+      const visibleIds = prev.filter((w) => w.visible).map((w) => w.id);
+      const visibleIdx = visibleIds.indexOf(id);
+      if (visibleIdx === -1) return prev;
+
+      let targetVisibleIdx = -1;
+      if (direction === 'left') {
+        if (visibleIdx > 0) {
+          targetVisibleIdx = visibleIdx - 1;
+        }
+      } else {
+        if (visibleIdx < visibleIds.length - 1) {
+          targetVisibleIdx = visibleIdx + 1;
+        }
+      }
+
+      if (targetVisibleIdx === -1) return prev;
+
+      const targetId = visibleIds[targetVisibleIdx];
+      const targetIdx = prev.findIndex((w) => w.id === targetId);
+
+      if (targetIdx === -1) return prev;
+
+      const newWidgets = [...prev];
+      const temp = newWidgets[idx];
+      newWidgets[idx] = newWidgets[targetIdx];
+      newWidgets[targetIdx] = temp;
+      return newWidgets;
+    });
+  };
+
   const resetWidgets = () => setWidgets(DEFAULT_WIDGETS);
 
-  return { widgets, resizeWidget, toggleVisibility, resetWidgets, onDragStart, onDragEnd, onDragOver, onDrop, draggedItemId };
+  return { widgets, resizeWidget, toggleVisibility, resetWidgets, onDragStart, onDragEnd, onDragOver, onDrop, draggedItemId, moveWidget };
 }

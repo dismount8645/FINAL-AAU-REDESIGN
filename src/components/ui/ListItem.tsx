@@ -32,7 +32,7 @@ const ListItem = memo(function ListItem({
     <Tag
       className={[
         'flex items-center gap-sm px-md py-sm rounded-[var(--radius-sm)] transition-colors duration-150 no-underline text-inherit',
-        (onClick || href) ? 'cursor-pointer hover:bg-[var(--bg-hover)]' : '',
+        (onClick || href) ? 'cursor-pointer hover:bg-bg-hover' : '',
         active ? 'bg-primary text-primary-foreground font-bold shadow-[var(--shadow-sm)]' : '',
         className,
       ]
