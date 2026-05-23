@@ -130,17 +130,22 @@ describe('Notifications Page', () => {
 
   it('shows empty state in active view when all notifications are archived', () => {
     const { container } = renderNotifications('da')
-    // Click archive on all notifications. Need to target archive buttons specifically.
-    const actionButtons = container.querySelectorAll('.notification-actions button[aria-label="Arkiver"]')
-    actionButtons.forEach(btn => fireEvent.click(btn))
+    // Click archive on each notification until none remain.
+    // Re-query each iteration to avoid stale DOM refs after re-render.
+    let btn: Element | null
+    while ((btn = container.querySelector('.notification-actions button:last-child'))) {
+      fireEvent.click(btn)
+    }
     expect(screen.getByText('Ingen notifikationer fundet')).toBeInTheDocument()
   })
 
   it('shows empty state in active view with English text', () => {
     useStore.setState({ lang: 'en' })
     const { container } = renderNotifications('en')
-    const actionButtons = container.querySelectorAll('.notification-actions button[aria-label="Archive"]')
-    actionButtons.forEach(btn => fireEvent.click(btn))
+    let btn: Element | null
+    while ((btn = container.querySelector('.notification-actions button:last-child'))) {
+      fireEvent.click(btn)
+    }
     expect(screen.getByText('No notifications found')).toBeInTheDocument()
   })
 })

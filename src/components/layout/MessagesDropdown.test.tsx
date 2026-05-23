@@ -1,4 +1,4 @@
-import { renderWithProviders, screen, fireEvent } from '@/test/test-utils'
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import MessagesDropdown from '@/components/layout/MessagesDropdown'
 import useStore from '@/store/useStore'
@@ -35,7 +35,7 @@ describe('MessagesDropdown', () => {
     expect(screen.getByText('view_all')).toBeInTheDocument()
   })
 
-  it('closes dropdown when clicking outside', () => {
+  it('closes dropdown when clicking outside', async () => {
     renderWithProviders(
       <div>
         <div data-testid="outside">Outside</div>
@@ -47,10 +47,12 @@ describe('MessagesDropdown', () => {
     expect(screen.getByText('view_all')).toBeInTheDocument()
 
     fireEvent.mouseDown(screen.getByTestId('outside'))
-    expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    })
   })
 
-  it('navigates when view_all is clicked', () => {
+  it('navigates when view_all is clicked', async () => {
     renderWithProviders(<MessagesDropdown />)
     const mailBtn = screen.getByLabelText('messages')
     fireEvent.click(mailBtn)
@@ -58,10 +60,12 @@ describe('MessagesDropdown', () => {
     const viewAllBtn = screen.getByText('view_all')
     fireEvent.click(viewAllBtn)
     expect(mockNavigate).toHaveBeenCalledWith('/messages')
-    expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    })
   })
 
-  it('navigates when message item is clicked', () => {
+  it('navigates when message item is clicked', async () => {
     renderWithProviders(<MessagesDropdown />)
     const mailBtn = screen.getByLabelText('messages')
     fireEvent.click(mailBtn)
@@ -70,6 +74,8 @@ describe('MessagesDropdown', () => {
     const msgItem = screen.getByText('Mette Jensen')
     fireEvent.click(msgItem)
     expect(mockNavigate).toHaveBeenCalledWith('/messages')
-    expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    })
   })
 })

@@ -40,7 +40,10 @@ export interface TextareaProps
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
-    {
+    props,
+    ref
+  ) => {
+    const {
       variant = "outlined",
       size = "md",
       rows = 3,
@@ -49,17 +52,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       full,
       className,
       errorMessageId,
-      onChange,
-      ...props
-    },
-    ref
-  ) => {
+      ...restProps
+    } = props;
     const generatedId = useId()
     const ariaDescribedBy = error ? errorMessageId ?? generatedId : undefined
-
-    const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-      onChange?.(e)
-    }
 
     return (
       <textarea
@@ -77,8 +73,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           full && "w-full",
           className
         )}
-        onChange={handleChange}
-        {...props}
+        {...restProps}
       />
     )
   }

@@ -161,12 +161,13 @@ function Course() {
   }, [completedItems, id])
 
   const toggleItem = useCallback((itemId: number): void => {
-    if (completedItems.includes(itemId)) {
-      setCompletedItems(completedItems.filter((i) => i !== itemId))
-    } else {
-      setCompletedItems([...completedItems, itemId])
-    }
-  }, [completedItems])
+    setCompletedItems((prev) => {
+      if (prev.includes(itemId)) {
+        return prev.filter((i) => i !== itemId)
+      }
+      return [...prev, itemId]
+    })
+  }, [])
 
   const toggleSection = useCallback((sectionId: string): void => {
     if (expandedSections.includes(sectionId)) {

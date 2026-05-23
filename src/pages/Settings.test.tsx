@@ -1,10 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Settings from '@/pages/Settings'
-import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store/useStore';
 
-// Mock useToast
 const mockToast = {
   success: vi.fn(),
   error: vi.fn(),
@@ -12,9 +10,13 @@ const mockToast = {
   warning: vi.fn()
 }
 
-vi.mock('@/context/ToastContext', () => ({
-  useToast: () => mockToast
-}))
+vi.mock('@/context/ToastContext', async () => {
+  const actual = await vi.importActual<typeof import('@/context/ToastContext')>('@/context/ToastContext')
+  return {
+    ...actual,
+    useToast: () => mockToast,
+  }
+})
 
 describe('Settings Page', () => {
   beforeEach(() => {
@@ -24,11 +26,7 @@ describe('Settings Page', () => {
 
   const renderSettings = (lang = 'da') => {
     useStore.setState({ lang: lang as 'da' | 'en' })
-    return render(
-      <MemoryRouter>
-        <Settings />
-      </MemoryRouter>
-    )
+    return renderWithProviders(<Settings />)
   }
 
   it('renders settings categories', () => {
@@ -37,14 +35,15 @@ describe('Settings Page', () => {
     expect(screen.getAllByText('Indstillinger').length).toBeGreaterThan(0)
   })
 
-  it('switches categories and toggles collapse', () => {
+  it('switches categories and toggles collapse', async () => {
     renderSettings('da')
-    const securityHeader = screen.getByText('Sikkerhed')
-    fireEvent.click(securityHeader)
+    fireEvent.click(screen.getByText('Sikkerhed'))
     expect(screen.getByText('Indstillinger for beskeder')).toBeInTheDocument()
 
-    fireEvent.click(securityHeader)
-    expect(screen.queryByText('Indstillinger for beskeder')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByText('Sikkerhed'))
+    await waitFor(() => {
+      expect(screen.queryByText('Indstillinger for beskeder')).not.toBeInTheDocument()
+    })
   })
 
   it('changes language and theme', () => {
@@ -59,11 +58,12 @@ describe('Settings Page', () => {
     expect(screen.getByDisplayValue('jkm@student.aau.dk')).toBeInTheDocument()
   })
 
-  it('switches theme via appearance buttons', () => {
+  it('switches theme via appearance buttons', async () => {
     renderSettings('da')
-    const darkButton = screen.getByText('Mørk')
-    fireEvent.click(darkButton)
-    expect(darkButton.closest('button')?.getAttribute('aria-pressed')).toBe('true')
+    fireEvent.click(screen.getByLabelText('Mørk'))
+    await waitFor(() => {
+      expect(screen.getByLabelText('Mørk').getAttribute('aria-pressed')).toBe('true')
+    })
   })
 
   it('shows empty state for non-profile tabs', () => {
@@ -95,21 +95,18 @@ describe('Settings Page', () => {
 
   it('falls back to "Settings" for unknown tab ID from URL', () => {
     useStore.setState({ lang: 'en' })
-    render(
-      <MemoryRouter initialEntries={['/settings?tab=nonexistent']}>
-        <Settings />
-      </MemoryRouter>
-    )
+    renderWithProviders(<Settings />, { route: '/settings?tab=nonexistent' })
     expect(screen.getAllByText('Settings').length).toBeGreaterThan(0)
   })
 
-  it('expands and collapses a closed category', () => {
+  it('expands and collapses a closed category', async () => {
     renderSettings('da')
-    const filerHeader = screen.getByText('Filer')
-    fireEvent.click(filerHeader)
+    fireEvent.click(screen.getByText('Filer'))
     expect(screen.getByText('Filarkiver')).toBeInTheDocument()
-    fireEvent.click(filerHeader)
-    expect(screen.queryByText('Filarkiver')).not.toBeInTheDocument()
+    fireEvent.click(screen.getByText('Filer'))
+    await waitFor(() => {
+      expect(screen.queryByText('Filarkiver')).not.toBeInTheDocument()
+    })
   })
 
   it('types into first and last name inputs', () => {
@@ -152,11 +149,7 @@ describe('Settings Page', () => {
 
   it('handles mobile view tab clicks and back button', () => {
     useStore.setState({ isMobile: true, lang: 'en' })
-    render(
-      <MemoryRouter>
-        <Settings />
-      </MemoryRouter>
-    )
+    renderWithProviders(<Settings />)
     // Click a tab
     fireEvent.click(screen.getByText('Security'))
     fireEvent.click(screen.getByText('Security Keys'))

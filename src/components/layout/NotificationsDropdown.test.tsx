@@ -1,4 +1,4 @@
-import { renderWithProviders, screen, fireEvent } from '@/test/test-utils'
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import NotificationsDropdown from '@/components/layout/NotificationsDropdown'
 import useStore from '@/store/useStore'
@@ -35,7 +35,7 @@ describe('NotificationsDropdown', () => {
     expect(screen.getByText('view_all')).toBeInTheDocument()
   })
 
-  it('closes dropdown when clicking outside', () => {
+  it('closes dropdown when clicking outside', async () => {
     renderWithProviders(
       <div>
         <div data-testid="outside">Outside</div>
@@ -47,10 +47,12 @@ describe('NotificationsDropdown', () => {
     expect(screen.getByText('view_all')).toBeInTheDocument()
 
     fireEvent.mouseDown(screen.getByTestId('outside'))
-    expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    })
   })
 
-  it('navigates when view_all is clicked', () => {
+  it('navigates when view_all is clicked', async () => {
     renderWithProviders(<NotificationsDropdown />)
     const bellBtn = screen.getByLabelText('notifications')
     fireEvent.click(bellBtn)
@@ -58,10 +60,12 @@ describe('NotificationsDropdown', () => {
     const viewAllBtn = screen.getByText('view_all')
     fireEvent.click(viewAllBtn)
     expect(mockNavigate).toHaveBeenCalledWith('/notifications')
-    expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    })
   })
 
-  it('navigates when notification item is clicked', () => {
+  it('navigates when notification item is clicked', async () => {
     renderWithProviders(<NotificationsDropdown />)
     const bellBtn = screen.getByLabelText('notifications')
     fireEvent.click(bellBtn)
@@ -69,6 +73,8 @@ describe('NotificationsDropdown', () => {
     const notifItem = screen.getByText(/Modul 4: Projektrapport/i)
     fireEvent.click(notifItem)
     expect(mockNavigate).toHaveBeenCalledWith('/notifications')
-    expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+    })
   })
 })
