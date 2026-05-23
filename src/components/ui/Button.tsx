@@ -4,48 +4,42 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-/**
- * Button Variants – strengt token‑baseret med dark‑mode og focus‑visible.
- * - 44 × 44 px touch‑mål via pseudo‑element.
- * - Hover‑lift: -4px med 150 ms ease.
- * - Fokus‑ring: 2 px aau‑blue.
- */
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-[var(--space-sm)] relative overflow-visible select-none whitespace-nowrap font-bold leading-none transition-all duration-150 ease-[var(--transition-ease)] outline-none isolate",
-    "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2 focus-visible:shadow-focus",
+    "inline-flex items-center justify-center gap-2 relative overflow-visible select-none whitespace-nowrap font-bold leading-none transition-all duration-150 ease-[0.4,0,0.2,1] outline-none isolate",
+    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:shadow-focus dark:focus-visible:ring-accent",
     "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
     "active:scale-[0.97] active:duration-75",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-[1.25em] [&_svg]:transition-transform [&_svg]:duration-150",
-    "after:absolute after:inset-y-[-8px] after:inset-x-0 after:content-[''] after:rounded-[var(--radius-md)] after:bg-[var(--bg-card)] after:opacity-0 after:transition-opacity after:duration-150",
+    "after:absolute after:inset-y-[-8px] after:inset-x-0 after:content-[''] after:rounded-md",
   ],
   {
     variants: {
       variant: {
         primary:
-          "bg-[var(--aau-blue)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-blue)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
+          "bg-primary text-primary-foreground shadow-sm hover:bg-accent hover:shadow-md hover:-translate-y-1",
         secondary:
-          "bg-transparent text-[var(--aau-blue)] border-2 border-[var(--aau-blue)] hover:bg-[var(--aau-blue)] hover:text-white hover:shadow-[var(--shadow-sm)] hover:-translate-y-1",
+          "bg-transparent text-primary dark:text-primary-foreground border-2 border-primary dark:border-primary-foreground hover:bg-primary dark:hover:bg-primary-foreground dark:hover:text-primary hover:text-primary-foreground hover:shadow-sm hover:-translate-y-1",
         tertiary:
-          "bg-[var(--bg-hover)] text-[var(--aau-blue)] hover:bg-[var(--bg-hover-active)] hover:-translate-y-1",
+          "bg-secondary/10 text-primary dark:text-primary-foreground hover:bg-secondary/20 hover:-translate-y-1",
         danger:
-          "bg-[var(--aau-dark-pink)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-pink)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
+          "bg-destructive text-white dark:text-gray-950 shadow-sm hover:bg-destructive/80 hover:shadow-md hover:-translate-y-1",
         success:
-          "bg-[var(--aau-dark-green)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-green)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
+          "bg-success text-white dark:text-gray-950 shadow-sm hover:bg-success/80 hover:shadow-md hover:-translate-y-1",
         gold:
-          "bg-[var(--aau-light-orange)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-dark-orange)] hover:shadow-[var(--shadow-md)] hover:-translate-y-1",
+          "bg-warning text-white dark:text-gray-950 shadow-sm hover:bg-warning/80 hover:shadow-md hover:-translate-y-1",
         ghost:
-          "bg-transparent text-[var(--aau-blue)] hover:bg-[var(--bg-hover)]",
+          "bg-transparent text-primary dark:text-primary-foreground hover:bg-secondary/10",
         outline:
-          "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-hover)] hover:border-[var(--border-color-hover)]",
+          "bg-transparent border border-border text-foreground hover:bg-secondary/10 hover:border-primary dark:hover:border-primary-foreground",
       },
       size: {
-        xs: "h-8 px-[var(--space-xs)] text-xs rounded-[var(--radius-sm)]",
-        sm: "h-9 px-[var(--space-sm)] text-[0.8125rem] rounded-[var(--radius-md)]",
-        md: "h-11 px-[var(--space-md)] text-sm rounded-[var(--radius-md)]",
-        lg: "h-14 px-[var(--space-lg)] text-base rounded-[var(--radius-lg)]",
-        icon: "size-11 p-0 rounded-[var(--radius-md)]",
-        "icon-sm": "size-9 p-0 rounded-[var(--radius-sm)]",
+        xs: "h-8 px-3 text-xs rounded-sm",
+        sm: "h-9 px-4 text-[0.8125rem] rounded-md",
+        md: "h-11 px-6 text-sm rounded-md",
+        lg: "h-14 px-8 text-base rounded-lg",
+        icon: "size-11 p-0 rounded-md",
+        "icon-sm": "size-9 p-0 rounded-sm",
       },
       full: {
         true: "w-full",
@@ -64,24 +58,11 @@ const buttonVariants = cva(
 export interface ButtonProps
   extends BaseButtonProps,
     VariantProps<typeof buttonVariants> {
-  /** Optional icon to display before children */
   icon?: LucideIcon;
-  /** Optional icon to display after children */
   iconRight?: LucideIcon;
-  /** Loading state with spinner and disabled behavior */
   loading?: boolean;
 }
 
-/**
- * Senior UI/UX Architect Refactored Button.
- * 
- * Features:
- * - Uses @base-ui/react for accessible unstyled primitives.
- * - Enforces 44x44px touch targets via pseudo‑element.
- * - Strict adherence to AAU design tokens and 8pt grid.
- * - Built‑in loading state and icon support.
- * - Polymorphic via 'render' prop (Base UI pattern).
- */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -100,12 +81,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const isIconOnly = !children && (Icon || IconRight || loading);
-
-    if (process.env.NODE_ENV === "development" && isIconOnly && !props["aria-label"]) {
-      console.warn("Button: Icon‑only buttons MUST have an aria-label for accessibility.");
-    }
-
     return (
       <BaseButton
         ref={ref}
@@ -114,16 +89,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, full, pill }), className)}
         {...props}
       >
-        {loading && (
-          <Loader2 className="size-[1.2em] animate-spin" aria-hidden="true" />
-        )}
-        {!loading && Icon && (
-          <Icon className="group-hover:scale-110" aria-hidden="true" />
-        )}
-        {children && <span className="truncate">{children}</span>}
-        {!loading && IconRight && (
-          <IconRight className="group-hover:translate-x-0.5" aria-hidden="true" />
-        )}
+        {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
+        {!loading && Icon && <Icon className="group-hover:scale-110" aria-hidden="true" />}
+        {children && <span>{children}</span>}
+        {!loading && IconRight && <IconRight className="group-hover:translate-x-0.5" aria-hidden="true" />}
       </BaseButton>
     );
   }

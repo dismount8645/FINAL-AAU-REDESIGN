@@ -1,6 +1,7 @@
 import React, { type ReactNode } from "react";
 import { Text } from "@/components/ui/Typography";
 import Stack from "@/components/ui/Stack";
+import { motion, AnimatePresence } from "framer-motion";
 
 export interface FormFieldProps {
   id?: string;
@@ -30,7 +31,7 @@ export default function FormField({
   const errorId = id ? `${id}-error` : undefined;
 
   return (
-    <Stack gap="xs" className={className}>
+    <Stack gap="sm" className={className}>
       {label ? (
         <Text
           tag="label"
@@ -77,11 +78,21 @@ export default function FormField({
         </span>
       ) : null}
 
-      {error ? (
-        <span id={errorId} className="text-xs m-0 text-danger leading-tight" role="alert">
-          {error}
-        </span>
-      ) : null}
+      <AnimatePresence>
+        {error ? (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+            id={errorId}
+            className="text-xs m-0 text-danger leading-tight overflow-hidden"
+            role="alert"
+          >
+            {error}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
     </Stack>
   );
 }

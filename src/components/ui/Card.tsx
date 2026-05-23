@@ -1,37 +1,33 @@
-import { forwardRef, type HTMLAttributes, ElementType, KeyboardEvent, type MouseEventHandler, type ReactNode } from "react";
+import { forwardRef, type HTMLAttributes, ElementType, KeyboardEvent, type ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { motion, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-/**
- * Card Variants - Defining the structural DNA of the component.
- * Uses strict token adherence for padding and shadows.
- */
 const cardVariants = cva(
   [
-    "group relative flex flex-col h-full transition-all duration-300 ease-[var(--transition-ease)]",
-    "bg-[var(--bg-card)] border border-[var(--border-color)] rounded-[var(--radius-xl)]",
+    "group relative flex flex-col h-full transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
+    "bg-white dark:bg-[#211a52] border border-gray-200 dark:border-white/10 rounded-2xl dark:text-white",
     "isolate"
   ],
   {
     variants: {
       variant: {
-        default: "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]",
-        elevated: "shadow-[var(--shadow-lg)] hover:shadow-[var(--shadow-xl)] -translate-y-px",
-        outlined: "bg-transparent border-2 border-[var(--border-color)] hover:border-[var(--aau-blue)]",
+        default: "shadow-sm hover:shadow-md",
+        elevated: "shadow-lg hover:shadow-xl",
+        outlined: "bg-transparent border-2 border-gray-200 dark:border-white/20 hover:border-[#211a52] dark:hover:border-[#594fbf]",
         brand: [
-          "bg-gradient-to-br from-[var(--aau-blue)] to-[var(--aau-light-blue)] text-white border-none shadow-[var(--shadow-lg)]",
-          "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity"
+          "bg-gradient-to-br from-[#211a52] to-[#594fbf] text-white border-none shadow-lg",
+          "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity duration-150"
         ],
-        ghost: "bg-transparent border-none shadow-none hover:bg-[var(--bg-hover)]",
+        ghost: "bg-transparent dark:bg-transparent border-none shadow-none hover:bg-gray-100 dark:hover:bg-white/10",
       },
       accent: {
         none: "",
-        left: "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-[var(--aau-blue)] before:z-10",
-        top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-[var(--aau-blue)] before:z-10",
+        left: "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-[#211a52] dark:before:bg-[#594fbf] before:z-10 overflow-hidden",
+        top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-[#211a52] dark:before:bg-[#594fbf] before:z-10 overflow-hidden",
       },
       interactive: {
-        true: "cursor-pointer select-none focus-within:ring-2 focus-within:ring-[var(--aau-blue)] focus-within:ring-offset-2",
+        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:ring-[4px] focus-visible:ring-[#211a52]/35 dark:focus-visible:ring-[#594fbf]/50 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-[#211a52]",
         false: "",
       }
     },
@@ -50,9 +46,6 @@ export interface CardProps
   children: ReactNode;
 }
 
-/**
- * Card Component - The foundation for all container-based UI elements.
- */
 const CardRoot = forwardRef<HTMLDivElement, CardProps>(
   ({ variant, accent, interactive, children, className, as: Component = "div", onClick, ...props }, ref) => {
     const isClickable = interactive || !!onClick;
@@ -73,8 +66,8 @@ const CardRoot = forwardRef<HTMLDivElement, CardProps>(
         onKeyDown={isClickable ? handleKeyDown : undefined}
         tabIndex={isClickable ? 0 : undefined}
         role={isClickable ? "button" : undefined}
-        whileHover={isClickable ? { y: -4 } : undefined}
-        whileTap={isClickable ? { scale: 0.98 } : undefined}
+        whileHover={isClickable ? { y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } } : undefined}
+        whileTap={isClickable ? { scale: 0.98, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } } : undefined}
         {...props}
       >
         {children}
@@ -85,15 +78,13 @@ const CardRoot = forwardRef<HTMLDivElement, CardProps>(
 
 CardRoot.displayName = "Card";
 
-/* ---------- Sub-components with legacy class support ---------- */
-
 const headerVariants = cva(
-  "card__header flex items-center justify-between gap-[var(--space-md)] border-b border-[var(--border-color)] transition-colors",
+  "flex items-center justify-between gap-4 border-b border-gray-200 dark:border-white/10 transition-colors duration-150",
   {
     variants: {
       padding: {
-        default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
-        compact: "p-[var(--space-sm)]",
+        default: "p-4 lg:p-6",
+        compact: "p-2",
         none: "p-0",
       },
     },
@@ -111,11 +102,11 @@ const CardHeader = ({ children, className, padding, ...props }: CardHeaderProps)
   </header>
 );
 
-const bodyVariants = cva("card__body flex-1 min-w-0", {
+const bodyVariants = cva("flex-1 min-w-0", {
   variants: {
     padding: {
-      default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
-      compact: "p-[var(--space-sm)]",
+      default: "p-4 lg:p-6",
+      compact: "p-2",
       none: "p-0",
     },
   },
@@ -133,12 +124,12 @@ const CardBody = ({ children, className, padding, ...props }: CardBodyProps) => 
 );
 
 const footerVariants = cva(
-  "card__footer mt-auto flex items-center gap-[var(--space-sm)] border-t border-[var(--border-color)]",
+  "mt-auto flex items-center gap-2 border-t border-gray-200 dark:border-white/10",
   {
     variants: {
       padding: {
-        default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
-        compact: "p-[var(--space-sm)]",
+        default: "p-4 lg:p-6",
+        compact: "p-2",
         none: "p-0",
       },
     },
@@ -163,7 +154,7 @@ interface CardDecorationProps extends HTMLAttributes<HTMLDivElement> {
 const CardDecoration = ({ icon: Icon, className, ...props }: CardDecorationProps) => (
   <div
     className={cn(
-      "card__decoration absolute -right-[var(--space-md)] -bottom-[var(--space-md)] opacity-[0.03] rotate-12 pointer-events-none z-0",
+      "absolute -right-4 -bottom-4 opacity-5 rotate-12 pointer-events-none z-0",
       className
     )}
     {...props}
@@ -172,7 +163,6 @@ const CardDecoration = ({ icon: Icon, className, ...props }: CardDecorationProps
   </div>
 );
 
-// Namespace assignment
 export const Card = Object.assign(CardRoot, {
   Header: CardHeader,
   Body: CardBody,

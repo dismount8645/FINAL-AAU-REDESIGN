@@ -7,7 +7,13 @@ import useStore from '@/store/useStore'
 import Stack from '@/components/ui/Stack';
 
 export default function Sidebar() {
-  const { t, lang, setLang, isCollapsed, isMobile, isMobileOpen, closeSidebar } = useStore();
+  const t = useStore(state => state.t);
+  const lang = useStore(state => state.lang);
+  const setLang = useStore(state => state.setLang);
+  const isCollapsed = useStore(state => state.isCollapsed);
+  const isMobile = useStore(state => state.isMobile);
+  const isMobileOpen = useStore(state => state.isMobileOpen);
+  const closeSidebar = useStore(state => state.closeSidebar);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarRef = useRef<HTMLElement>(null);
   const location = useLocation();
@@ -86,17 +92,17 @@ export default function Sidebar() {
         role={isMobileOpen ? "dialog" : undefined}
         aria-modal={isMobileOpen ? true : undefined}
         aria-label={t('navigation_menu')}
-        className={`on-dark ${(isCollapsed && !isMobileOpen) ? 'collapsed' : ''} bg-[var(--bg-sidebar)] h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-fixed)] z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-[var(--shadow-xl)] w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
+        className={`bg-[var(--bg-sidebar)] h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-fixed)] z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-[var(--shadow-xl)] w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
         style={{ maxWidth: 'calc(100vw - var(--sidebar-width))' }}
         data-collapsed={isCollapsed && !isMobileOpen}
       >
 
-        <div className={`sidebar__header h-[var(--topbar-height)] flex items-center p-0 shrink-0 ${isMobileOpen ? 'justify-between pl-md pr-sm' : (isCollapsed ? 'justify-center' : 'justify-start pl-md')}`}>
-          <NavLink to="/" className={`sidebar__branding flex items-center ${isMobileOpen ? 'justify-start' : (isCollapsed ? 'justify-center' : 'justify-start')} no-underline p-xs sm:p-sm rounded-[var(--radius-md)] transition-colors duration-150 hover:bg-white/5`}>
+        <div className={`h-[var(--topbar-height)] flex items-center p-0 shrink-0 ${isMobileOpen ? 'justify-between pl-md pr-sm' : (isCollapsed ? 'justify-center' : 'justify-start pl-md')}`}>
+          <NavLink to="/" className={`flex items-center ${isMobileOpen ? 'justify-start' : (isCollapsed ? 'justify-center' : 'justify-start')} no-underline p-xs sm:p-sm rounded-[var(--radius-md)] transition-colors duration-150 hover:bg-white/5`}>
             <img
               src={logoSrc}
               alt={t('aau_logo_alt')}
-              className={`sidebar__logo object-contain transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 ${(isCollapsed && !isMobileOpen) ? 'h-[var(--space-3xl)] w-[var(--space-3xl)]' : 'h-[var(--space-4xl)] w-auto'}`}
+              className={`object-contain transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 ${(isCollapsed && !isMobileOpen) ? 'h-[var(--space-3xl)] w-[var(--space-3xl)]' : 'h-[var(--space-4xl)] w-auto'}`}
             />
           </NavLink>
           {isMobileOpen && (
@@ -111,8 +117,8 @@ export default function Sidebar() {
           )}
         </div>
 
-        <nav className="sidebar__nav flex flex-col p-0 flex-1 overflow-hidden">
-          <div className="sidebar__nav-main flex flex-col p-sm gap-2xs flex-1 overflow-hidden">
+        <nav className="flex flex-col p-0 flex-1 overflow-hidden">
+          <div className="flex flex-col p-sm gap-2xs flex-1 overflow-hidden">
             <NavItem to="/" icon={House} label={t('dashboard')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
             <NavItem to="/calendar" icon={CalendarDays} label={t('calendar')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
             <NavItem to="/favorites" icon={Star} label={t('favorites')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
@@ -120,12 +126,12 @@ export default function Sidebar() {
             <NavItem to="/resources" icon={Wrench} label={t('resources')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
           </div>
 
-          <div className={`sidebar__nav-bottom flex flex-col p-sm pt-0 gap-2xs border-t border-white/10 pb-xl ${isCollapsed && !isMobileOpen ? 'items-center' : ''}`}>
+          <div className={`flex flex-col p-sm pt-0 gap-2xs border-t border-white/10 pb-xl ${isCollapsed && !isMobileOpen ? 'items-center' : ''}`}>
             <NavItem to="/support" icon={CircleHelp} label={t('support')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
             <NavItem to="/settings" icon={Settings} label={t('settings')} onClick={closeSidebar} collapsed={isCollapsed && !isMobileOpen} />
-            <div className="sidebar__divider h-px bg-white/10 my-xs w-full" />
+            <div className="h-px bg-white/10 my-xs w-full" />
 
-            <div className={`sidebar__nav-controls flex flex-col gap-md pt-xs ${isCollapsed && !isMobileOpen ? 'w-full px-2xs' : ''}`}>
+            <div className={`flex flex-col gap-md pt-xs ${isCollapsed && !isMobileOpen ? 'w-full px-2xs' : ''}`}>
               {!isCollapsed || isMobileOpen ? (
                 <Stack gap="xs">
                   <Stack direction="row" align="center" gap="xs" className="px-sm text-white/40">
@@ -139,7 +145,6 @@ export default function Sidebar() {
                     ]}
                     value={lang}
                     onChange={(val) => setLang(val as 'da' | 'en')}
-                    className="sidebar__segmented"
                   />
                 </Stack>
               ) : (
@@ -179,7 +184,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
       onClick={onClick}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
-        return `sidebar__nav-item group relative flex items-center gap-[var(--space-md)] p-[var(--space-md)] h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-[var(--radius-md)] transition-all duration-200 font-bold cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
+        return `group relative flex items-center gap-[var(--space-md)] p-[var(--space-md)] h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-[var(--radius-md)] transition-all duration-200 font-bold cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
       }}
       title={collapsed ? label : undefined}
     >
@@ -191,7 +196,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
               <div className="absolute left-0 top-[var(--space-sm)] bottom-[var(--space-sm)] w-[4px] bg-white rounded-r-[var(--radius-pill)] shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
             )}
             <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-300 ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
-            {!collapsed && <span className="sidebar__nav-text whitespace-nowrap transition-opacity duration-150 uppercase tracking-tight text-xs font-black"><Text>{label}</Text></span>}
+            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 uppercase tracking-tight text-xs font-black"><Text>{label}</Text></span>}
           </>
         );
       }}
