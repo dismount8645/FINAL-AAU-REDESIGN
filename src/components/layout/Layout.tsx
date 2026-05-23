@@ -8,7 +8,10 @@ import useStore from '@/store/useStore'
 import PageSkeleton from '@/components/ui/PageSkeleton';
 
 function Layout() {
-  const { isCollapsed, isMobile, isMobileOpen, t } = useStore();
+  const isCollapsed = useStore((state) => state.isCollapsed);
+  const isMobile = useStore((state) => state.isMobile);
+  const isMobileOpen = useStore((state) => state.isMobileOpen);
+  const t = useStore((state) => state.t);
   const location = useLocation();
   const isMessages = location.pathname.startsWith('/messages');
   const scrollPositionRef = useRef<number>(0);

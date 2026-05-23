@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
 import { notificationsData } from '@/data/mockData';
@@ -8,7 +9,9 @@ import { cn } from '@/lib/utils';
 
 export default function NotificationsDropdown() {
   const navigate = useNavigate();
-  const { t, lang, notificationCount } = useStore();
+  const t = useStore((state) => state.t);
+  const lang = useStore((state) => state.lang);
+  const notificationCount = useStore((state) => state.notificationCount);
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -37,68 +40,77 @@ export default function NotificationsDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         className={cn(
-          "topbar__trigger-btn relative w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus",
+          "relative flex h-11 w-11 items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(33,26,82,0.35)] dark:focus-visible:ring-white/30",
           isOpen 
-            ? "bg-[var(--aau-blue)] text-white shadow-md" 
-            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-[var(--aau-blue)]"
+            ? "bg-primary text-white shadow-md" 
+            : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('notifications')}
+        aria-expanded={isOpen}
         type="button"
       >
         <Bell size={20} strokeWidth={2} />
         {notificationCount > 0 && (
-          <span className="topbar__badge absolute top-1.5 right-1.5 min-w-[18px] h-[18px] text-[10px] bg-[var(--aau-blue)] text-white font-black rounded-full flex items-center justify-center border-2 border-[var(--bg-topbar)] leading-none shadow-sm z-10 animate-pulse">
+          <span className="absolute right-1.5 top-1.5 z-10 flex min-h-[18px] min-w-[18px] animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
             {notificationCount}
           </span>
         )}
       </button>
 
-      {isOpen && (
-        <div className="topbar-panel w-80">
-          <div className="p-md border-b border-border bg-[var(--bg-hover)] flex justify-between items-center">
-            <Text size="sm" weight="black" className="uppercase tracking-widest">
-              {t('notifications')}
-            </Text>
-            <button
-              onClick={() => {
-                navigate('/notifications');
-                setIsOpen(false);
-              }}
-              className="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter"
-            >
-              {t('view_all')}
-            </button>
-          </div>
-          <div className="max-h-96 overflow-y-auto">
-            {notificationsData.map((n) => {
-              const Icon = getNotifIcon(n.type);
-              return (
-                <div
-                  key={n.id}
-                  className={`p-md border-b border-border/40 hover:bg-bg-hover cursor-pointer transition-colors ${
-                    !n.isRead ? 'bg-primary/[0.03]' : ''
-                  }`}
-                  onClick={() => {
-                    navigate('/notifications');
-                    setIsOpen(false);
-                  }}
-                >
-                  <div className="flex gap-md">
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-[var(--radius-xl)] border border-border bg-bg-main shadow-xl"
+          >
+            <div className="flex items-center justify-between border-b border-border bg-bg-hover p-md">
+              <Text size="sm" weight="black" className="uppercase tracking-widest text-main">
+                {t('notifications')}
+              </Text>
+              <button
+                onClick={() => {
+                  navigate('/notifications');
+                  setIsOpen(false);
+                }}
+                className="rounded-[var(--radius-md)] text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(33,26,82,0.35)] dark:focus-visible:ring-white/30 px-1"
+                type="button"
+              >
+                {t('view_all')}
+              </button>
+            </div>
+            <div className="max-h-96 overflow-y-auto">
+              {notificationsData.map((n) => {
+                const Icon = getNotifIcon(n.type);
+                return (
+                  <button
+                    key={n.id}
+                    type="button"
+                    className={cn(
+                      "w-full flex items-start gap-md border-b border-border/40 p-md text-left transition-colors focus-visible:outline-none focus-visible:bg-bg-hover focus-visible:ring-inset focus-visible:ring-4 focus-visible:ring-[rgba(33,26,82,0.35)] dark:focus-visible:ring-white/30 min-h-[44px]",
+                      !n.isRead ? "bg-primary/[0.03] hover:bg-primary/[0.05]" : "hover:bg-bg-hover"
+                    )}
+                    onClick={() => {
+                      navigate('/notifications');
+                      setIsOpen(false);
+                    }}
+                  >
                     <div
-                      className={`w-11 h-11 rounded-[var(--radius-lg)] flex items-center justify-center shrink-0 border border-border/50 ${
-                        !n.isRead
-                          ? 'bg-primary/10 text-primary'
-                          : 'bg-bg-hover text-muted'
-                      }`}
+                      className={cn(
+                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-[var(--radius-lg)] border border-border/50",
+                        !n.isRead ? "bg-primary/10 text-primary" : "bg-bg-hover text-muted"
+                      )}
                     >
                       <Icon size={18} strokeWidth={2} />
                     </div>
-                    <div className="flex-1 min-w-0">
+                    <div className="flex flex-1 flex-col min-w-0">
                       <Text
                         size="xs"
                         weight="bold"
-                        className={`block truncate ${!n.isRead ? 'text-main' : 'text-muted'}`}
+                        className={cn("block truncate", !n.isRead ? "text-main" : "text-muted")}
                       >
                         {lang === 'da' ? n.textDa : n.textEn}
                       </Text>
@@ -106,14 +118,16 @@ export default function NotificationsDropdown() {
                         {lang === 'da' ? n.dateDa : n.dateEn}
                       </Text>
                     </div>
-                    {!n.isRead && <div className="w-2 h-2 rounded-[var(--radius-pill)] bg-primary mt-xs shrink-0" />}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
+                    {!n.isRead && (
+                      <div className="mt-xs h-2 w-2 shrink-0 rounded-full bg-primary" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

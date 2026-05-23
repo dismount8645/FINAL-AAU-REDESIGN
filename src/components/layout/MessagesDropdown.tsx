@@ -6,10 +6,14 @@ import Avatar from '@/components/ui/Avatar';
 import useStore from '@/store/useStore';
 import { messagesData } from '@/data/mockData';
 import { cn } from '@/lib/utils';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function MessagesDropdown() {
   const navigate = useNavigate();
-  const { t, lang, messageCount } = useStore();
+  const t = useStore((state) => state.t);
+  const lang = useStore((state) => state.lang);
+  const messageCount = useStore((state) => state.messageCount);
+  
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -28,79 +32,90 @@ export default function MessagesDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         className={cn(
-          "topbar__trigger-btn relative w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus",
+          "relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 hover:-translate-y-1 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
             ? "bg-[var(--aau-blue)] text-white shadow-md" 
-            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-[var(--aau-blue)]"
+            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:text-[var(--aau-blue)] dark:hover:bg-white/10"
         )}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('messages')}
         type="button"
+        aria-expanded={isOpen}
       >
         <Mail size={20} strokeWidth={2} />
         {messageCount > 0 && (
-          <span className="topbar__badge absolute top-1.5 right-1.5 min-w-[18px] h-[18px] text-[10px] bg-[var(--aau-blue)] text-white font-black rounded-full flex items-center justify-center border-2 border-[var(--bg-topbar)] leading-none shadow-sm z-10 animate-pulse">
+          <span className="absolute right-1.5 top-1.5 z-10 flex h-[18px] min-w-[18px] animate-pulse items-center justify-center rounded-full border-2 border-[var(--bg-topbar)] bg-[var(--aau-blue)] text-[10px] font-black leading-none text-white shadow-sm">
             {messageCount}
           </span>
         )}
       </button>
 
-      {isOpen && (
-        <div className="topbar-panel w-80">
-          <div className="p-md border-b border-border bg-[var(--bg-hover)] flex justify-between items-center">
-            <Text size="sm" weight="black" className="uppercase tracking-widest">
-              {t('messages')}
-            </Text>
-            <button
-              onClick={() => {
-                navigate('/messages');
-                setIsOpen(false);
-              }}
-              className="text-[10px] font-bold text-primary hover:underline uppercase tracking-tighter"
-            >
-              {t('view_all')}
-            </button>
-          </div>
-          <div className="max-h-96 overflow-y-auto">
-            {messagesData.map((m) => (
-              <div
-                key={m.id}
-                className="p-md border-b border-border/40 hover:bg-bg-hover cursor-pointer transition-colors"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+            className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-[var(--radius-lg)] border border-border bg-[var(--bg-surface)] shadow-xl"
+          >
+            <div className="flex items-center justify-between border-b border-border bg-bg-hover pl-md pr-2 py-1">
+              <Text size="sm" weight="black" className="uppercase tracking-widest">
+                {t('messages')}
+              </Text>
+              <button
                 onClick={() => {
                   navigate('/messages');
                   setIsOpen(false);
                 }}
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm text-[10px] font-bold uppercase tracking-tighter text-primary transition-colors hover:underline focus-visible:outline-none focus-visible:shadow-focus"
               >
-                <div className="flex gap-md items-center">
-                  <Avatar
-                    name={lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
-                    size="sm"
-                    status={m.unread ? 'online' : undefined}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center">
-                      <Text size="xs" weight="black" className="truncate">
-                        {lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
-                      </Text>
-                      <Text size="2xs" className="text-muted">
-                        {lang === 'da' ? m.timeDa : m.timeEn}
+                {t('view_all')}
+              </button>
+            </div>
+            <div className="max-h-96 overflow-y-auto">
+              {messagesData.map((m) => (
+                <button
+                  key={m.id}
+                  className="w-full min-h-[44px] cursor-pointer border-b border-border/40 p-md text-left transition-colors hover:bg-bg-hover focus-visible:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
+                  onClick={() => {
+                    navigate('/messages');
+                    setIsOpen(false);
+                  }}
+                  type="button"
+                >
+                  <div className="flex items-center gap-md">
+                    <Avatar
+                      name={lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
+                      size="sm"
+                      status={m.unread ? 'online' : undefined}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between">
+                        <Text size="xs" weight="black" className="truncate">
+                          {lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
+                        </Text>
+                        <Text size="2xs" className="text-muted">
+                          {lang === 'da' ? m.timeDa : m.timeEn}
+                        </Text>
+                      </div>
+                      <Text
+                        size="2xs"
+                        className={cn(
+                          "mt-xs block truncate",
+                          m.unread ? "font-bold text-main" : "text-muted"
+                        )}
+                      >
+                        {lang === 'da' ? m.msgDa : m.msgEn}
                       </Text>
                     </div>
-                    <Text
-                      size="2xs"
-                      className={`truncate block mt-xs ${
-                        m.unread ? 'text-main font-bold' : 'text-muted'
-                      }`}
-                    >
-                      {lang === 'da' ? m.msgDa : m.msgEn}
-                    </Text>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

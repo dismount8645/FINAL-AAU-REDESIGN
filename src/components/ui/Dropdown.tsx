@@ -1,11 +1,7 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  type ReactNode,
-  type KeyboardEvent as ReactKeyboardEvent,
-} from "react";
+import React, { type ReactNode } from "react";
+import { Menu as MenuPrimitive } from "@base-ui/react/menu";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export interface DropdownProps {
   /** Elementet som udløser dropdown‑menuen */
@@ -29,11 +25,7 @@ export interface DropdownProps {
 /**
  * Tilgængelig dropdown‑komponent.
  *
- * - `role="menu"` på selve menu‑containeren.
- * - `role="menuitem"` på hvert barn (forventes at være et klik‑element).
- * - Tastatur‑navigation (Enter/Space for at åbne/lukke, Escape for at lukke).
- * - ARIA‑attributter `aria-haspopup` og `aria-expanded` på trigger‑elementet.
- * - Fokus‑trap for at sikre at tastatur‑brugere kan navigere i menuen.
+ * Refactored to use @base-ui/react, framer-motion, and strict 44px hit areas.
  */
 export default function Dropdown({
   trigger,
@@ -45,115 +37,82 @@ export default function Dropdown({
   width = "200px",
   className = "",
 }: DropdownProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
   const controlled = isOpen !== undefined;
-  const visible = controlled ? isOpen : open;
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const open = controlled ? isOpen : internalOpen;
 
-  const toggle = useCallback(() => {
-    if (controlled) {
-      onToggle?.();
-    } else {
-      setOpen((prev) => !prev);
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!controlled) {
+      setInternalOpen(newOpen);
     }
-  }, [controlled, onToggle]);
-
-  const close = useCallback(() => {
-    if (controlled) {
-      onClose?.();
-    } else {
-      setOpen(false);
-    }
-  }, [controlled, onClose]);
-
-  // Luk dropdown ved klik udenfor eller Escape‑tast
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node) && visible) {
-        close();
-      }
-    };
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && visible) {
-        close();
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [visible, close]);
-
-  // Tastatur‑håndtering på trigger‑elementet
-  const handleTriggerKeyDown = (e: ReactKeyboardEvent<HTMLElement>) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      toggle();
-    }
+    if (newOpen && onToggle) onToggle();
+    if (!newOpen && onClose) onClose();
+    if (!newOpen && onToggle && !onClose) onToggle();
   };
 
-  // Giv trigger de nødvendige ARIA‑attributter
-  const triggerElement = React.isValidElement(trigger) ? (
-    React.cloneElement(
-      trigger as React.ReactElement<
-        React.HTMLAttributes<HTMLElement> & { onClick?: React.MouseEventHandler }
-      >,
-      {
-        onClick: (e: React.MouseEvent) => {
-          const originalOnClick = (trigger.props as { onClick?: React.MouseEventHandler }).onClick;
-          if (originalOnClick) originalOnClick(e);
-          toggle();
-        },
-        "aria-haspopup": "menu",
-        "aria-expanded": visible,
-        onKeyDown: handleTriggerKeyDown,
-      }
-    )
-  ) : (
-    <div
-      className="cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm"
-      onClick={toggle}
-      tabIndex={0}
-      role="button"
-      aria-haspopup="menu"
-      aria-expanded={visible}
-      onKeyDown={handleTriggerKeyDown}
-    >
-      {trigger}
-    </div>
-  );
-
-  // Tilføj role="menuitem" til hvert barn, hvis de er elementer
   const renderChildren = () => {
     return React.Children.map(children, (child) => {
       if (React.isValidElement(child)) {
-        return React.cloneElement(child as React.ReactElement, {
-          role: "menuitem",
-          tabIndex: -1,
-        });
+        return (
+          <MenuPrimitive.Item
+            render={
+              React.cloneElement(child as React.ReactElement, {
+                className: cn(
+                  "min-h-[44px] flex items-center px-sm py-2 w-full text-left rounded-[var(--radius-md)] transition-colors outline-none cursor-pointer",
+                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none hover:bg-muted focus-visible:bg-muted",
+                  (child.props as any).className
+                ),
+              })
+            }
+          />
+        );
       }
       return child;
     });
   };
 
   return (
-    <div className={`relative inline-block ${className}`} ref={ref}>
-      {triggerElement}
-      {visible && (
-        <div
-          className="dropdown-menu absolute top-full mt-sm bg-card border border-border rounded-[var(--radius-md)] p-sm z-[var(--z-dropdown)] min-w-[200px] shadow-[var(--shadow-xl)]"
-          style={{
-            width,
-            right: align === "right" ? 0 : undefined,
-            left: align === "left" ? 0 : undefined,
-          }}
-          role="menu"
-        >
-          {renderChildren()}
-        </div>
-      )}
-    </div>
+    <MenuPrimitive.Root open={open} onOpenChange={handleOpenChange}>
+      <MenuPrimitive.Trigger
+        render={
+          React.isValidElement(trigger) ? (
+            React.cloneElement(trigger as React.ReactElement, {
+              className: cn(
+                "focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm",
+                (trigger.props as any).className
+              ),
+            })
+          ) : (
+            <button
+              type="button"
+              className="cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm"
+            >
+              {trigger}
+            </button>
+          )
+        }
+      />
+      <MenuPrimitive.Portal>
+        <MenuPrimitive.Positioner align={align === "right" ? "end" : "start"} sideOffset={8}>
+          <MenuPrimitive.Popup
+            render={
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+                className={cn(
+                  "bg-card border border-border rounded-[var(--radius-md)] p-sm z-[var(--z-dropdown)] shadow-[var(--shadow-xl)] outline-none flex flex-col gap-1",
+                  className
+                )}
+                style={{ minWidth: width }}
+              />
+            }
+          >
+            {renderChildren()}
+          </MenuPrimitive.Popup>
+        </MenuPrimitive.Positioner>
+      </MenuPrimitive.Portal>
+    </MenuPrimitive.Root>
   );
 }
