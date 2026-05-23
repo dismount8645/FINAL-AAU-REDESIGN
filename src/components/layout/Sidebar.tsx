@@ -5,6 +5,7 @@ import { Text } from '@/components/ui/Typography';
 import SegmentedControl from '@/components/ui/SegmentedControl';
 import useStore from '@/store/useStore'
 import Stack from '@/components/ui/Stack';
+import Button from '@/components/ui/Button';
 
 export default function Sidebar() {
   const t = useStore(state => state.t);
@@ -79,11 +80,10 @@ export default function Sidebar() {
   return (
     <>
       {isMobile && isMobileOpen && (
-        <button
-          className="fixed inset-0 bg-black/60 z-[var(--z-overlay)] backdrop-blur-sm animate-fade-in border-none outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2 cursor-default"
+        <div
+          className="fixed inset-0 bg-black/60 z-[var(--z-overlay)] backdrop-blur-sm animate-fade-in cursor-default"
           onClick={closeSidebar}
           aria-hidden="true"
-          tabIndex={-1}
         />
       )}
       <aside
@@ -92,13 +92,13 @@ export default function Sidebar() {
         role={isMobileOpen ? "dialog" : undefined}
         aria-modal={isMobileOpen ? true : undefined}
         aria-label={t('navigation_menu')}
-        className={`bg-[var(--bg-sidebar)] h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-fixed)] z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-[var(--shadow-xl)] w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
+        className={`bg-[var(--bg-sidebar)] h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-xl w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
         style={{ maxWidth: 'calc(100vw - var(--sidebar-width))' }}
         data-collapsed={isCollapsed && !isMobileOpen}
       >
 
         <div className={`h-[var(--topbar-height)] flex items-center p-0 shrink-0 ${isMobileOpen ? 'justify-between pl-md pr-sm' : (isCollapsed ? 'justify-center' : 'justify-start pl-md')}`}>
-          <NavLink to="/" className={`flex items-center ${isMobileOpen ? 'justify-start' : (isCollapsed ? 'justify-center' : 'justify-start')} no-underline p-xs sm:p-sm rounded-[var(--radius-md)] transition-colors duration-150 hover:bg-white/5`}>
+          <NavLink to="/" className={`flex items-center ${isMobileOpen ? 'justify-start' : (isCollapsed ? 'justify-center' : 'justify-start')} no-underline p-xs sm:p-sm rounded-md transition-colors duration-150 hover:bg-white/5`}>
             <img
               src={logoSrc}
               alt={t('aau_logo_alt')}
@@ -106,14 +106,16 @@ export default function Sidebar() {
             />
           </NavLink>
           {isMobileOpen && (
-            <button
+            <Button
               ref={closeButtonRef}
               onClick={closeSidebar}
-              className="shrink-0 z-10 w-12 h-12 flex items-center justify-center text-white rounded-[var(--radius-lg)] transition-all active:scale-95 bg-white/40 hover:bg-white/50 border border-white/30 ring-1 ring-white/20 focus:bg-white/60 focus-visible:ring-2 focus-visible:ring-white/50"
+              variant="outline"
+              size="icon"
+              className="shrink-0 z-10 text-white rounded-lg border-white/30 bg-white/40 hover:bg-white/50 hover:text-white active:scale-95 focus-visible:ring-white/50 focus-visible:ring-2"
               aria-label={t('close')}
             >
               <X size={24} strokeWidth={2} />
-            </button>
+            </Button>
           )}
         </div>
 
@@ -149,14 +151,15 @@ export default function Sidebar() {
                 </Stack>
               ) : (
                 <Stack align="center" gap="md" className="py-sm">
-                  <button
+                  <Button
                     onClick={() => setLang(lang === 'da' ? 'en' : 'da')}
-                    className="w-12 h-12 flex items-center justify-center rounded-[var(--radius-lg)] bg-white/5 text-white/70 hover:bg-white/10 hover:text-white transition-all font-bold text-xs shadow-[var(--shadow-sm)] active:scale-95 border border-white/5"
+                    size="icon"
+                    className="bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/5 text-xs font-bold font-sans tracking-normal uppercase shadow-sm"
                     title={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
                     aria-label={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
                   >
                     {lang.toUpperCase()}
-                  </button>
+                  </Button>
                 </Stack>
               )}
             </div>
@@ -184,7 +187,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
       onClick={onClick}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
-        return `group relative flex items-center gap-[var(--space-md)] p-[var(--space-md)] h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-[var(--radius-md)] transition-all duration-200 font-bold cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
+        return `group relative flex items-center gap-md p-md h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-md transition-all duration-150 ease-[var(--transition-ease)] font-bold cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
       }}
       title={collapsed ? label : undefined}
     >
@@ -193,9 +196,9 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
         return (
           <>
             {active && (
-              <div className="absolute left-0 top-[var(--space-sm)] bottom-[var(--space-sm)] w-[4px] bg-white rounded-r-[var(--radius-pill)] shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
+              <div className="absolute left-0 top-sm bottom-sm w-[4px] bg-white rounded-r-pill shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
             )}
-            <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-300 ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
+            <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-150 ease-[var(--transition-ease)] ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
             {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 uppercase tracking-tight text-xs font-black"><Text>{label}</Text></span>}
           </>
         );
