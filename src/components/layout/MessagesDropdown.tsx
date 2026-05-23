@@ -7,6 +7,7 @@ import useStore from '@/store/useStore';
 import { messagesData } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import Button from '@/components/ui/Button';
 
 export default function MessagesDropdown() {
   const navigate = useNavigate();
@@ -30,12 +31,14 @@ export default function MessagesDropdown() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button
+      <Button
+        variant="ghost"
+        size="icon"
         className={cn(
-          "relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-[var(--radius-lg)] transition-all duration-150 hover:-translate-y-1 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus",
+          "relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all duration-150 hover:-translate-y-1 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
             ? "bg-[var(--aau-blue)] text-white shadow-md" 
-            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:text-[var(--aau-blue)] dark:hover:bg-white/10"
+            : "text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:text-primary dark:hover:bg-white/10"
         )}
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('messages')}
@@ -48,7 +51,7 @@ export default function MessagesDropdown() {
             {messageCount}
           </span>
         )}
-      </button>
+      </Button>
 
       <AnimatePresence>
         {isOpen && (
@@ -63,15 +66,17 @@ export default function MessagesDropdown() {
               <Text size="sm" weight="black" className="uppercase tracking-widest">
                 {t('messages')}
               </Text>
-              <button
+              <Button
+                variant="ghost"
+                size="xs"
                 onClick={() => {
                   navigate('/messages');
                   setIsOpen(false);
                 }}
-                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm text-[10px] font-bold uppercase tracking-tighter text-primary transition-colors hover:underline focus-visible:outline-none focus-visible:shadow-focus"
+                className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline hover:bg-transparent bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus"
               >
                 {t('view_all')}
-              </button>
+              </Button>
             </div>
             <div className="max-h-96 overflow-y-auto">
               {messagesData.map((m) => (

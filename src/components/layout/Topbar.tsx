@@ -8,6 +8,7 @@ import NotificationsDropdown from './NotificationsDropdown';
 import MessagesDropdown from './MessagesDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import TopbarSearch from './TopbarSearch';
+import Button from '@/components/ui/Button';
 
 import { getAutomaticBreadcrumbs } from '@/utils/breadcrumbs';
 
@@ -42,14 +43,16 @@ export default function Topbar() {
       }`}
     >
       <div className="flex items-center shrink-0 gap-sm">
-        <button
-          className="w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-[var(--text-main)] dark:text-white transition-all duration-200 hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+        <Button
+          variant="ghost"
+          size="icon"
+          className="w-11 h-11 text-[var(--text-main)] dark:text-white bg-transparent hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           onClick={toggleSidebar}
           aria-label={t('toggle_sidebar')}
           type="button"
         >
           {sidebarIcon}
-        </button>
+        </Button>
 
         <AnimatePresence mode="popLayout">
           {activeBreadcrumbs && activeBreadcrumbs.length > 0 && !isMobile && (
@@ -64,7 +67,7 @@ export default function Topbar() {
                 <Fragment key={idx}>
                   {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-[var(--text-muted)]" />}
                   {crumb.href ? (
-                    <Link to={crumb.href} className="text-[var(--text-muted)] hover:text-[var(--aau-blue)] transition-colors font-bold uppercase tracking-tighter">
+                    <Link to={crumb.href} className="text-[var(--text-muted)] hover:text-primary transition-colors font-bold uppercase tracking-tighter focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                       <Text size="xs">{crumb.label}</Text>
                     </Link>
                   ) : (
@@ -79,9 +82,11 @@ export default function Topbar() {
 
       <TopbarSearch>
         {/* Theme Toggle */}
-        <button
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-          className="group w-11 h-11 flex items-center justify-center rounded-[var(--radius-lg)] text-[var(--text-main)] hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-[var(--aau-blue)] transition-all active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
+          className="group w-11 h-11 text-[var(--text-main)] bg-transparent hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           title={`${t('appearance')}: ${theme}`}
           aria-label={`${t('appearance')}: ${theme}`}
           type="button"
@@ -89,7 +94,7 @@ export default function Topbar() {
           <span className="transition-transform duration-300 group-hover:rotate-[15deg]">
             {theme === 'dark' ? <Moon size={20} strokeWidth={2} /> : theme === 'light' ? <Sun size={20} strokeWidth={2} /> : <Monitor size={20} strokeWidth={2} />}
           </span>
-        </button>
+        </Button>
 
         {/* Notifications Dropdown */}
         <NotificationsDropdown />
