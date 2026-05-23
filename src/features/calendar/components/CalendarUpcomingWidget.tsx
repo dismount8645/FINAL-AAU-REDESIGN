@@ -1,12 +1,13 @@
+"use client"
+
 import { memo, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CalendarCheck, ChevronRight, MapPin, Clock } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { CalendarEvents, CalendarEvent } from '@/types'
 import Card from '@/components/ui/Card'
 import Stack from '@/components/ui/Stack'
-import Icon from '@/components/ui/Icon'
 import Button from '@/components/ui/Button'
-import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import { cn } from '@/lib/utils'
 
@@ -18,6 +19,9 @@ interface CalendarUpcomingWidgetProps {
   handleEventClick: (event: CalendarEvent, dateKey: string) => void
 }
 
+/**
+ * CalendarUpcomingWidget - Professional AAU schedule overview.
+ */
 const CalendarUpcomingWidget = ({
   events,
   currentDate,
@@ -53,74 +57,88 @@ const CalendarUpcomingWidget = ({
   }
 
   return (
-    <Card className="upcoming-events-widget overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow">
-      <Card.Header className="border-b border-border/50 bg-card py-4">
+    <Card variant="default" className="upcoming-events-widget">
+      <Card.Header padding="default" className="bg-[var(--bg-highlight)]/20">
         <Stack direction="row" align="center" gap="sm">
-          <Icon icon={CalendarCheck} variant="primary" size="sm" className="bg-primary/10 text-primary" />
-          <Text weight="bold" size="md" className="tracking-tight">
+          <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-[var(--aau-blue)]/10 text-[var(--aau-blue)]">
+            <CalendarCheck size={18} strokeWidth={2.5} />
+          </div>
+          <span className="text-sm font-black uppercase tracking-tight text-[var(--text-main)]">
             {t('upcoming')}
-          </Text>
+          </span>
         </Stack>
       </Card.Header>
 
-      <Card.Body className="p-0">
+      <Card.Body padding="none">
         <Stack gap="none">
-          {futureEvents.length > 0 ? (
-            futureEvents.map((e, idx) => (
-              <button
-                key={`${e.dateKey}-${idx}`}
-                type="button"
-                className={cn(
-                  "upcoming-event-item w-full flex items-center gap-4 p-4 text-left transition-all duration-200",
-                  "border-b border-border/40 last:border-0 hover:bg-muted/30 focus-visible:bg-muted/50 focus-visible:outline-none"
-                )}
-                onClick={() => handleEventClick(e, e.dateKey)}
-              >
-                {/* Date Box */}
-                <Stack
-                  align="center"
-                  justify="center"
-                  className="bg-muted/40 p-2 rounded-lg min-w-[50px] border border-border/50 shadow-sm shrink-0"
-                >
-                  <Text size="2xs" weight="extrabold" className="text-muted-foreground leading-tight uppercase tracking-widest">
-                    {monthNames[e.date.getMonth()].substring(0, 3)}
-                  </Text>
-                  <Text size="lg" weight="extrabold" className="text-primary leading-tight">
-                    {e.date.getDate()}
-                  </Text>
-                </Stack>
-
-                {/* Event Info */}
-                <Stack gap="2xs" className="flex-1 overflow-hidden">
-                  <Text size="sm" weight="bold" className="truncate text-main leading-snug">
-                    {getEventTitle(e)}
-                  </Text>
-                  <Stack direction="row" gap="xs" align="center" className="text-muted-foreground">
-                    <Clock className="w-3 h-3" />
-                    <Text size="xs" weight="medium">{e.time}</Text>
-                  </Stack>
-                  {e.location && (
-                    <Stack direction="row" gap="xs" align="center" className="text-primary/70">
-                      <MapPin className="w-3 h-3" />
-                      <Text size="xs" weight="medium" className="truncate italic">{e.location}</Text>
-                    </Stack>
+          <AnimatePresence mode="popLayout" initial={false}>
+            {futureEvents.length > 0 ? (
+              futureEvents.map((e, idx) => (
+                <motion.button
+                  key={`${e.dateKey}-${idx}`}
+                  layout
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ delay: idx * 0.05, duration: 0.2 }}
+                  type="button"
+                  className={cn(
+                    "upcoming-event-item w-full flex items-center gap-[var(--space-md)] p-[var(--space-md)] text-left transition-all duration-150",
+                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-[var(--bg-highlight)]/50 focus-visible:bg-[var(--bg-highlight)] focus-visible:outline-none"
                   )}
-                </Stack>
+                  onClick={() => handleEventClick(e, e.dateKey)}
+                >
+                  {/* Date Box */}
+                  <Stack
+                    align="center"
+                    justify="center"
+                    gap="none"
+                    className="bg-[var(--bg-card)] p-[var(--space-2xs)] rounded-[var(--radius-md)] min-w-[52px] h-[52px] border border-[var(--border-color)]/60 shadow-sm shrink-0"
+                  >
+                    <span className="text-[0.625rem] font-black text-[var(--text-muted)] uppercase tracking-widest leading-none">
+                      {monthNames[e.date.getMonth()].substring(0, 3)}
+                    </span>
+                    <span className="text-[1.25rem] font-black text-[var(--aau-blue)] leading-none mt-[2px]">
+                      {e.date.getDate()}
+                    </span>
+                  </Stack>
 
-                <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary transition-colors" />
-              </button>
-            ))
-          ) : (
-            <Stack align="center" justify="center" className="py-12 px-6 text-center bg-muted/5">
-              <CalendarCheck className="w-10 h-10 text-muted-foreground/20 mb-3" />
-              <Text size="sm" weight="medium" className="text-muted-foreground">{t('no_events_short')}</Text>
-            </Stack>
-          )}
+                  {/* Event Info */}
+                  <Stack gap="4xs" className="flex-1 min-w-0">
+                    <span className="text-sm font-bold text-[var(--text-main)] truncate leading-snug">
+                      {getEventTitle(e)}
+                    </span>
+                    <Stack direction="row" gap="xs" align="center" className="text-[var(--text-muted)]">
+                      <Clock size={12} strokeWidth={2.5} />
+                      <span className="text-[0.6875rem] font-bold uppercase tracking-tight">{e.time}</span>
+                    </Stack>
+                    {e.location && (
+                      <Stack direction="row" gap="xs" align="center" className="text-[var(--aau-blue)]/80">
+                        <MapPin size={12} strokeWidth={2.5} />
+                        <span className="text-[0.6875rem] font-bold italic truncate">{e.location}</span>
+                      </Stack>
+                    )}
+                  </Stack>
+
+                  <ChevronRight size={16} className="text-[var(--text-muted)]/40 shrink-0" />
+                </motion.button>
+              ))
+            ) : (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="py-[var(--space-xl)] px-[var(--space-lg)] text-center bg-[var(--bg-highlight)]/5"
+              >
+                <CalendarCheck size={40} className="text-[var(--text-muted)]/20 mx-auto mb-[var(--space-sm)]" />
+                <p className="text-sm font-bold text-[var(--text-muted)]">{t('no_events_short')}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Stack>
       </Card.Body>
 
-      <Card.Footer className="bg-muted/20 p-4 border-t border-border/50">
-        <Button variant="ghost" full size="sm" onClick={() => navigate('/calendar')} className="font-bold text-xs uppercase tracking-widest hover:bg-primary/5">
+      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/10">
+        <Button variant="ghost" full size="sm" onClick={() => navigate('/calendar')} className="text-[0.625rem] tracking-[0.1em]">
           {t('view_all')}
         </Button>
       </Card.Footer>

@@ -67,7 +67,7 @@ function Resources() {
               </Text>
             </Card.Body>
             <Card.Footer>
-              <Button variant="tertiary" size="sm" full iconRight={ExternalLink} onClick={() => env.open('https://support.its.aau.dk/')}>
+              <Button variant="ghost" size="sm" full iconRight={ExternalLink} onClick={() => env.open('https://support.its.aau.dk/')}>
                 {t('visit_help_portal')}
               </Button>
             </Card.Footer>

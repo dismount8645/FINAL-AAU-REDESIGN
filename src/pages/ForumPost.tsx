@@ -54,7 +54,7 @@ function ForumPost() {
           { label: localize(post, 'title') },
         ]}
       >
-        <Button variant="tertiary" size="sm" icon={ArrowLeft} onClick={() => navigate(-1)}>
+        <Button variant="ghost" size="sm" icon={ArrowLeft} onClick={() => navigate(-1)}>
           {t('back_to_forum')}
         </Button>
       </PageHeader>

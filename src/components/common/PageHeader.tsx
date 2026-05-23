@@ -16,6 +16,7 @@ export interface PageHeaderProps {
   breadcrumbs?: BreadcrumbItem[];
   children?: ReactNode;
   className?: string;
+  titleProps?: React.HTMLAttributes<HTMLHeadingElement>;
 }
 
 /**
@@ -35,6 +36,7 @@ export default function PageHeader({
   breadcrumbs,
   children,
   className,
+  titleProps,
 }: PageHeaderProps) {
   const { t, setBreadcrumbs } = useStore()
 
@@ -76,7 +78,11 @@ export default function PageHeader({
             {children}
             <Heading
               level={1}
-              className="page-header-title m-0 text-wrap break-words sm:text-balance text-2xl sm:text-3xl font-bold"
+              {...titleProps}
+              className={cn(
+                "page-header-title m-0 text-wrap break-words sm:text-balance text-2xl sm:text-3xl font-bold",
+                titleProps?.className
+              )}
             >
               {headerLabel}
             </Heading>

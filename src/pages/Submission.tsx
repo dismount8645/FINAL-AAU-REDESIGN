@@ -95,7 +95,7 @@ function Submission() {
       >
         <Stack gap="sm">
           <Link to={`/course/${courseId}`}>
-            <Button variant="tertiary" size="sm" icon={ArrowLeft}>
+            <Button variant="ghost" size="sm" icon={ArrowLeft}>
               {t('back_to_course')}
             </Button>
           </Link>

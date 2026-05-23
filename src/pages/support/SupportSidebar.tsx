@@ -40,14 +40,14 @@ function SupportSidebar({ children }: SupportSidebarProps) {
           level={3}
         />
         <Stack gap="sm">
-          <Button variant="tertiary" size="sm" full icon={ShieldHalf} className="justify-start text-primary hover:underline underline-offset-2">
-            {t('reset_password_1_day')}
+          <Button variant="ghost" size="sm" full icon={ShieldHalf} className="justify-start text-primary hover:underline underline-offset-2">
+            {t('gdpr_faq')}
           </Button>
-          <Button variant="tertiary" size="sm" full icon={Monitor} className="justify-start text-primary hover:underline underline-offset-2">
-            {t('webshop_hardware_software')}
+          <Button variant="ghost" size="sm" full icon={Monitor} className="justify-start text-primary hover:underline underline-offset-2">
+            {t('it_support_portal')}
           </Button>
-          <Button variant="tertiary" size="sm" full icon={Signal} className="justify-start text-primary hover:underline underline-offset-2">
-            {t('service_status')}
+          <Button variant="ghost" size="sm" full icon={Signal} className="justify-start text-primary hover:underline underline-offset-2">
+            {t('system_status')}
           </Button>
         </Stack>
       </Card>

@@ -55,7 +55,7 @@ describe('Sidebar', () => {
       </MemoryRouter>
     )
     const aside = container.querySelector('aside')
-    expect(aside?.classList.contains('collapsed')).toBe(true)
+    expect(aside?.getAttribute('data-collapsed')).toBe('true')
   })
 
   it('changes logo based on language', () => {

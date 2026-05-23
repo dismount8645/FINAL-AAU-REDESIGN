@@ -145,7 +145,7 @@ function Notifications() {
         ]}
         className="!mb-[var(--space-lg)]"
       >
-        <Badge variant={unreadCount > 0 ? 'negative' : 'default'} className={unreadCount > 0 ? 'bg-primary text-white shadow-[var(--shadow-md)] font-black px-xs' : ''}>
+        <Badge variant={unreadCount > 0 ? 'danger' : 'default'} className={unreadCount > 0 ? 'bg-primary text-white shadow-[var(--shadow-md)] font-black px-xs' : ''}>
           {unreadCount} {unreadCount === 1 ? t('new_singular') : t('new_plural')}
         </Badge>
       </PageHeader>
