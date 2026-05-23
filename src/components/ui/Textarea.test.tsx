@@ -10,7 +10,7 @@ describe('Textarea', () => {
 
   it('applies border-danger when error is true', () => {
     const { container } = render(<Textarea error />)
-    expect(container.querySelector('textarea')).toHaveClass('border-danger')
+    expect(container.querySelector('textarea')).toHaveClass('border-[var(--color-danger)]')
   })
 
   it.each([

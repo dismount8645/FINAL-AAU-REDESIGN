@@ -84,10 +84,9 @@ describe('Submission Page', () => {
     
     const submitBtn = screen.getByRole('button', { name: /Aflevér opgave/i })
     fireEvent.click(submitBtn)
-    
-    expect(submitBtn).toBeDisabled()
-  })
 
+    expect(submitBtn).toHaveAttribute('aria-disabled', 'true')
+    })
   it('handles file upload change with empty list', () => {
     renderWithProviders(<Submission />)
     const hiddenInput = document.querySelector('#fileInput') as HTMLInputElement

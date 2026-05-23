@@ -51,13 +51,14 @@ describe('FavoritesWidget', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     const mockStore = useStore as any
-    mockStore.mockReturnValue({
+    const state = {
       t: mockT,
       lang: 'en',
       favorites: mockFavorites,
       toggleFavorite: mockToggleFavorite,
       courses: mockCourses,
-    })
+    }
+    mockStore.mockImplementation((selector: any) => selector ? selector(state) : state)
     const mockResolve = favUtils.resolveFavorite as any
     mockResolve.mockImplementation((fav: any) => ({
       ...mockResolvedCourse,
@@ -88,13 +89,14 @@ describe('FavoritesWidget', () => {
 
   it('renders empty state when no favorites', () => {
     const mockStore = useStore as any
-    mockStore.mockReturnValue({
+    const state = {
       t: mockT,
       lang: 'en',
       favorites: [],
       toggleFavorite: mockToggleFavorite,
       courses: mockCourses,
-    })
+    }
+    mockStore.mockImplementation((selector: any) => selector ? selector(state) : state)
     const mockResolve = favUtils.resolveFavorite as any
     mockResolve.mockReturnValue(null)
 
@@ -109,13 +111,14 @@ describe('FavoritesWidget', () => {
 
   it('renders empty state in Danish', () => {
     const mockStore = useStore as any
-    mockStore.mockReturnValue({
+    const state = {
       t: mockT,
       lang: 'da',
       favorites: [],
       toggleFavorite: mockToggleFavorite,
       courses: mockCourses,
-    })
+    }
+    mockStore.mockImplementation((selector: any) => selector ? selector(state) : state)
     const mockResolve = favUtils.resolveFavorite as any
     mockResolve.mockReturnValue(null)
 
@@ -137,13 +140,14 @@ describe('FavoritesWidget', () => {
     }))
 
     const mockStore = useStore as any
-    mockStore.mockReturnValue({
+    const state = {
       t: mockT,
       lang: 'en',
       favorites: manyFavorites,
       toggleFavorite: mockToggleFavorite,
       courses: mockCourses,
-    })
+    }
+    mockStore.mockImplementation((selector: any) => selector ? selector(state) : state)
 
     render(
       <MemoryRouter>
@@ -163,13 +167,14 @@ describe('FavoritesWidget', () => {
     }))
 
     const mockStore = useStore as any
-    mockStore.mockReturnValue({
+    const state = {
       t: mockT,
       lang: 'da',
       favorites: manyFavorites,
       toggleFavorite: mockToggleFavorite,
       courses: mockCourses,
-    })
+    }
+    mockStore.mockImplementation((selector: any) => selector ? selector(state) : state)
 
     render(
       <MemoryRouter>

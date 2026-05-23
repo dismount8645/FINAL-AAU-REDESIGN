@@ -1,4 +1,7 @@
+"use client"
+
 import { useState, useCallback, useMemo, memo, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { CalendarEvent } from '@/types'
 import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
@@ -19,6 +22,7 @@ import {
   Calendar as CalendarIcon,
 } from 'lucide-react'
 import { useCalendar } from './hooks/useCalendar'
+import { cn } from '@/lib/utils'
 import {
   CalendarMonthView,
   CalendarWeekView,
@@ -28,13 +32,18 @@ import {
   CalendarEventDetailsDialog,
 } from './components/index'
 
-// Memoized View Components for performance
+/**
+ * Calendar Feature - High-performance AAU schedule management.
+ * Enforces 8pt grid, 150ms motion physics, and strict brand token usage.
+ */
+
+// Memoized View Components
 const MonthView = memo(CalendarMonthView)
 const WeekView = memo(CalendarWeekView)
 const DayView = memo(CalendarDayView)
 
 const Calendar = () => {
-  const { t, isMobile } = useStore()
+  const { t, isMobile, lang } = useStore()
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 
@@ -69,7 +78,7 @@ const Calendar = () => {
   // Simulate initial load
   useEffect(() => {
     if (process.env.NODE_ENV === 'test') return
-    const timer = setTimeout(() => setIsLoading(false), 800)
+    const timer = setTimeout(() => setIsLoading(false), 400)
     return () => clearTimeout(timer)
   }, [])
 
@@ -124,17 +133,6 @@ const Calendar = () => {
     }
   }, [isLoading, view, currentDate, events, dayNames, monthNames, t, handleEventClick, handleDayClick, getWeekNumber])
 
-  // Dynamic Styles for Grid Layout - Standardized with tokens
-  const gridLayoutClasses = useMemo(() => {
-    const base = "calendar-grid-container border border-border rounded-lg bg-border overflow-hidden min-w-0 grid transition-all duration-300"
-    const viewClasses = {
-      month: "grid-cols-[var(--calendar-sidebar-width,50px)_repeat(7,1fr)]",
-      week: isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,1fr)] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,80px)_repeat(7,1fr)] min-w-[1200px]",
-      day: "grid-cols-1"
-    }
-    return `${base} ${viewClasses[view as keyof typeof viewClasses]}`
-  }, [view, isMobile])
-
   const viewOptions = useMemo(() => [
     { value: 'month', label: t('month') },
     { value: 'week', label: t('week') },
@@ -146,6 +144,7 @@ const Calendar = () => {
       <PageHeader
         pageKey="calendar"
         title={getTitle}
+        titleProps={{ 'data-testid': 'page-header-title' }}
         subtitle={t('calendar_subtitle')}
         icon={CalendarIcon}
         breadcrumbs={[
@@ -171,72 +170,81 @@ const Calendar = () => {
         <ErrorBoundary name="CalendarContent">
           <Grid columns={12} gap="lg">
             <Grid.Item span={9} mobileSpan={12} className="min-w-0">
-              <Card className="main-calendar-card overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border-border/60">
-                <Card.Header className="p-4 sm:p-6 border-b border-border/60 bg-bg-card/50 backdrop-blur-sm">
-                  <Stack direction="row" gap="md" align="center" justify="between" className="flex-wrap gap-y-4">
+              <Card variant="elevated" className="main-calendar-card h-full">
+                <Card.Header padding="default" className="bg-[var(--bg-highlight)]/30 backdrop-blur-md">
+                  <Stack direction="row" gap="md" align="center" justify="between" className="flex-wrap w-full">
                     <div className="w-full sm:w-auto min-w-[240px]">
                       <SegmentedControl
                         options={viewOptions}
                         value={view}
                         onChange={(v) => setView(v as string)}
-                        className="!my-0 shadow-sm"
+                        className="!my-0"
                       />
                     </div>
 
                     <Stack direction="row" gap="xs" align="center" className="nav-controls ml-auto">
                       <Button
                         variant="secondary"
-                        size="sm"
+                        size="icon-sm"
+                        pill
                         icon={ChevronLeft}
                         onClick={() => navigateCal('prev')}
                         aria-label={t('previous')}
-                        className="h-9 w-9 p-0 rounded-full hover:bg-primary hover:text-white transition-all duration-200"
                       />
                       <Button
                         variant="secondary"
                         size="sm"
+                        pill
                         onClick={goToToday}
-                        className="h-9 px-5 text-xs font-bold uppercase tracking-wider rounded-full hover:bg-primary hover:text-white transition-all duration-200"
+                        className="px-[var(--space-md)]"
                       >
                         {t('today')}
                       </Button>
                       <Button
                         variant="secondary"
-                        size="sm"
+                        size="icon-sm"
+                        pill
                         icon={ChevronRight}
                         onClick={() => navigateCal('next')}
                         aria-label={t('next')}
-                        className="h-9 w-9 p-0 rounded-full hover:bg-primary hover:text-white transition-all duration-200"
                       />
                     </Stack>
                   </Stack>
                 </Card.Header>
 
-                <Card.Body className="p-0 overflow-hidden relative">
-                  <div className="calendar__grid-scroll overflow-x-auto overflow-y-auto w-full max-w-full custom-scrollbar h-[calc(100vh-320px)] min-h-[500px]">
+                <Card.Body padding="none" className="overflow-hidden relative">
+                  <div className="calendar__grid-scroll overflow-x-auto overflow-y-auto w-full max-w-full custom-scrollbar h-[calc(100vh-360px)] min-h-[500px]">
                     {isLoading ? (
-                      <div className="p-4 space-y-4">
-                        <Skeleton className="h-12 w-full rounded-md" />
+                      <div className="p-[var(--space-md)] space-y-[var(--space-md)]">
+                        <Skeleton className="h-12 w-full rounded-[var(--radius-md)]" />
                         <div className="grid grid-cols-7 gap-1 h-[400px]">
                           {Array.from({ length: 35 }).map((_, i) => (
-                            <Skeleton key={i} className="h-full w-full rounded-sm" />
+                            <Skeleton key={i} className="h-full w-full rounded-[var(--radius-xs)]" />
                           ))}
                         </div>
                       </div>
                     ) : (
-                      <div 
-                        className={gridLayoutClasses}
-                        style={{ gap: '1px' }}
-                      >
-                        {renderGridContent}
-                      </div>
+                      <AnimatePresence mode="wait">
+                        <div 
+                          key="content"
+                          className={cn(
+                            "calendar-grid-container bg-[var(--border-color)]/20 min-w-0 grid transition-all duration-300",
+                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,50px)_repeat(7,1fr)]",
+                            view === 'week' && (isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,1fr)] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,80px)_repeat(7,1fr)] min-w-[1200px]"),
+                            view === 'day' && "grid-cols-1"
+                          )}
+                          style={{ gap: '1px' }}
+                        >
+                          {renderGridContent}
+                        </div>
+                      </AnimatePresence>
                     )}
                   </div>
                 </Card.Body>
               </Card>
             </Grid.Item>
 
-            <Grid.Item span={3} mobileSpan={12} className="flex flex-col gap-lg">
+            <Grid.Item span={3} mobileSpan={12}>
               <CalendarUpcomingWidget
                 events={events}
                 currentDate={currentDate}
@@ -248,7 +256,6 @@ const Calendar = () => {
           </Grid>
         </ErrorBoundary>
 
-        {/* Dialogs - Modularized and accessible */}
         <CalendarNewEventDialog
           isOpen={activeModal === 'new'}
           onClose={() => setActiveModal(null)}

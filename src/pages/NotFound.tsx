@@ -63,7 +63,7 @@ function NotFound() {
             <Button variant="secondary" onClick={() => navigate('/courses')} size="md" icon={GraduationCap} pill className="w-full sm:w-auto bg-white dark:bg-white/5 shadow-[var(--shadow-md)]">
               {t('find_modules')}
             </Button>
-            <Button variant="tertiary" onClick={() => navigate('/support')} size="md" icon={LifeBuoy} pill className="w-full sm:w-auto">
+            <Button variant="ghost" onClick={() => navigate('/support')} size="md" icon={LifeBuoy} pill className="w-full sm:w-auto">
               {t('contact_support')}
             </Button>
           </Stack>

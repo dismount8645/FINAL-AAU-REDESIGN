@@ -48,14 +48,15 @@ describe('Messages Page', () => {
   })
 
   it('renders in English and handles empty states', () => {
-    renderMessages('en')
+    useStore.setState({ lang: 'en' })
+    const { container } = renderMessages('en')
     expect(screen.getAllByText('Mette Jensen').length).toBeGreaterThan(0)
     expect(screen.getByText('Student Guidance')).toBeInTheDocument()
-    
+
     // Archive all to trigger empty state
     const archiveBtns = screen.getAllByLabelText('Archive contact')
     archiveBtns.forEach(btn => fireEvent.click(btn))
-    
+
     expect(screen.getByText('No messages found')).toBeInTheDocument()
   })
 

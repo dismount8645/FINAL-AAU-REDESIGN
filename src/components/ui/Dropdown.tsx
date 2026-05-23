@@ -16,7 +16,11 @@ const DropdownTrigger = forwardRef<HTMLButtonElement, MenuPrimitive.Trigger.Prop
   ({ className, ...props }, ref) => (
     <MenuPrimitive.Trigger
       ref={ref}
-      asChild
+      className={cn(
+        "inline-flex items-center justify-center outline-none transition-all duration-150",
+        "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2 rounded-[var(--radius-sm)]",
+        className
+      )}
       {...props}
     />
   )
@@ -112,10 +116,14 @@ const DropdownWrapper = ({
     if (!newOpen && onToggle && !onClose) onToggle();
   };
 
+  const isTriggerElement = React.isValidElement(trigger);
+
   return (
     <DropdownRoot open={open} onOpenChange={handleOpenChange}>
-      <DropdownTrigger asChild>
-        {React.isValidElement(trigger) ? trigger : <button type="button">{trigger}</button>}
+      <DropdownTrigger 
+        render={isTriggerElement ? (trigger as any) : undefined}
+      >
+        {!isTriggerElement ? trigger : undefined}
       </DropdownTrigger>
       <DropdownContent 
         align={align === "right" ? "end" : "start"} 

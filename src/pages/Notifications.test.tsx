@@ -130,7 +130,8 @@ describe('Notifications Page', () => {
 
   it('shows empty state in active view when all notifications are archived', () => {
     const { container } = renderNotifications('da')
-    const actionButtons = container.querySelectorAll('.notification-actions button')
+    // Click archive on all notifications. Need to target archive buttons specifically.
+    const actionButtons = container.querySelectorAll('.notification-actions button[aria-label="Arkiver"]')
     actionButtons.forEach(btn => fireEvent.click(btn))
     expect(screen.getByText('Ingen notifikationer fundet')).toBeInTheDocument()
   })
@@ -138,7 +139,7 @@ describe('Notifications Page', () => {
   it('shows empty state in active view with English text', () => {
     useStore.setState({ lang: 'en' })
     const { container } = renderNotifications('en')
-    const actionButtons = container.querySelectorAll('.notification-actions button')
+    const actionButtons = container.querySelectorAll('.notification-actions button[aria-label="Archive"]')
     actionButtons.forEach(btn => fireEvent.click(btn))
     expect(screen.getByText('No notifications found')).toBeInTheDocument()
   })

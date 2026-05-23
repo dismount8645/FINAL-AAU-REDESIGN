@@ -58,7 +58,7 @@ describe('useCalendar hook', () => {
     expect(result.current.getTitle).toContain('maj 2026')
     
     act(() => result.current.setView('week'))
-    expect(result.current.getTitle).toContain('Uge')
+    expect(result.current.getTitle).toContain('2026')
     
     act(() => result.current.updateEvents({ '2026-4-1': { id: 1, title: 'New Event', color: 'blue', location: 'loc', time: '10', host: 'host' } }))
     expect(result.current.getEventsForDate('2026-4-1')?.title).toBe('New Event')
@@ -158,10 +158,10 @@ describe('useCalendar hook', () => {
     expect(result.current.currentDate.getDate()).toBe(prevDate)
   })
 
-  it('shows English week title', () => {
+  it('shows English month title', () => {
     useStore.setState({ lang: 'en' })
     const { result } = renderHook(() => useCalendar(), { wrapper })
-    act(() => result.current.setView('week'))
-    expect(result.current.getTitle).toContain('Week')
+    act(() => result.current.setView('month'))
+    expect(result.current.getTitle).toContain('May 2026')
   })
 })

@@ -43,6 +43,14 @@ export function useCalendar() {
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7)
   }, [])
 
+  const navigateMonth = useCallback((direction: 'next' | 'prev') => {
+    setCurrentDate((prev) => {
+      const newDate = new Date(prev)
+      newDate.setMonth(newDate.getMonth() + (direction === 'next' ? 1 : -1))
+      return newDate
+    })
+  }, [])
+
   const navigateCal = useCallback((direction: 'next' | 'prev') => {
     setCurrentDate((prev) => {
       const newDate = new Date(prev)
@@ -109,11 +117,8 @@ export function useCalendar() {
   }, [events])
 
   const getTitle = useMemo(() => {
-    if (view === 'week') {
-      return `${t('week')} ${getWeekNumber(currentDate)}`
-    }
     return `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
-  }, [view, currentDate, monthNames, t, getWeekNumber])
+  }, [currentDate, monthNames])
 
   const futureEvents = useMemo(() => {
     return Object.entries(events)
@@ -144,7 +149,7 @@ export function useCalendar() {
     currentDate, setCurrentDate, view, setView,
     events, updateEvents, getEventsForDate,
     monthNames, dayNames, getWeekNumber,
-    navigateCal, goToToday,
+    navigateCal, navigateMonth, goToToday,
     getTitle, futureEvents,
     daysInMonth, firstDayOfMonth, weekStart,
     handleCreateEvent,

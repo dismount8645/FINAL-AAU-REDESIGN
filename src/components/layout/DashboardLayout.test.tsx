@@ -28,15 +28,14 @@ describe('DashboardLayout', () => {
     
     expect(screen.getByText('My Dashboard')).toBeInTheDocument()
     
-    // Check for Grid Items (using their data-testid or class if needed, but here we can check length)
-    const items = document.querySelectorAll('.dashboard-layout__widget')
-    expect(items.length).toBe(2) // Only 2 are visible
+    const items = document.querySelectorAll('[draggable="true"]')
+    expect(items.length).toBe(2)
   })
 
   it('calls drag handlers on interaction', () => {
     render(<DashboardLayout title="My Dashboard" widgets={mockWidgets} />)
     
-    const widget = document.querySelectorAll('.dashboard-layout__widget')[0]
+    const widget = document.querySelectorAll('[draggable="true"]')[0]
     
     fireEvent.dragStart(widget)
     expect(mockOnDragStart).toHaveBeenCalled()

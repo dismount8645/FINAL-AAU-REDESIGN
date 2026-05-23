@@ -39,7 +39,7 @@ describe('Topbar', () => {
       </MemoryRouter>
     )
     expect(screen.getByPlaceholderText('search_placeholder')).toBeInTheDocument()
-    expect(document.querySelector('nav.topbar')).toBeInTheDocument()
+    expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0)
   })
 
   it('toggles sidebar when hamburger is clicked', () => {
@@ -48,8 +48,8 @@ describe('Topbar', () => {
         <Topbar />
       </MemoryRouter>
     )
-    const hamburger = document.querySelector('.topbar__hamburger')
-    fireEvent.click(hamburger!)
+    const hamburger = screen.getByLabelText('toggle_sidebar')
+    fireEvent.click(hamburger)
     expect(useStore.getState().isCollapsed).toBe(true)
   })
 
@@ -172,7 +172,7 @@ describe('Topbar', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/messages')
   })
 
-  it('navigates to profile when profile link is clicked', () => {
+  it('navigates to profile when profile link is clicked', async () => {
     render(
       <MemoryRouter>
         <Topbar />
@@ -183,11 +183,12 @@ describe('Topbar', () => {
     fireEvent.click(profile)
     
     const profileItem = screen.getByText('profile')
+    expect(profileItem.closest('a')).toHaveAttribute('href', '/settings?tab=profil')
     fireEvent.click(profileItem)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings?tab=profil')
+    await waitFor(() => expect(screen.queryByText('logout')).not.toBeInTheDocument())
   })
 
-  it('closes profile menu when logout is clicked', () => {
+  it('closes profile menu when logout is clicked', async () => {
     render(
       <MemoryRouter>
         <Topbar />
@@ -199,7 +200,7 @@ describe('Topbar', () => {
     
     const logoutItem = screen.getByText('logout')
     fireEvent.click(logoutItem)
-    expect(screen.queryByText('logout')).not.toBeInTheDocument()
+    await waitFor(() => expect(screen.queryByText('logout')).not.toBeInTheDocument())
   })
 
   it('renders default icon for unknown notification type', () => {
@@ -294,8 +295,8 @@ describe('Topbar', () => {
         <Topbar />
       </MemoryRouter>
     )
-    const nav = document.querySelector('nav.topbar') as HTMLElement
-    expect(nav.style.paddingLeft).toBe('calc(var(--space-md) + var(--space-md))')
+    const nav = screen.getAllByRole('navigation')[0]
+    expect(nav.className).toContain('pl-[var(--space-md)]')
   })
 
   it('renders with collapsed sidebar padding', () => {
@@ -305,8 +306,8 @@ describe('Topbar', () => {
         <Topbar />
       </MemoryRouter>
     )
-    const nav = document.querySelector('nav.topbar') as HTMLElement
-    expect(nav.style.paddingLeft).toBe('calc(var(--sidebar-collapsed-width) + var(--space-md))')
+    const nav = screen.getAllByRole('navigation')[0]
+    expect(nav.className).toContain('pl-[calc(var(--sidebar-collapsed-width)+var(--space-md))]')
   })
 
   it('cycles theme when theme toggle is clicked', () => {
@@ -316,16 +317,16 @@ describe('Topbar', () => {
         <Topbar />
       </MemoryRouter>
     )
-    const themeBtn = document.querySelector('.topbar__trigger-btn')
+    const themeBtn = screen.getByLabelText(/appearance:/i)
     expect(themeBtn).toBeInTheDocument()
 
-    fireEvent.click(themeBtn!)
+    fireEvent.click(themeBtn)
     expect(useStore.getState().theme).toBe('system')
 
-    fireEvent.click(themeBtn!)
+    fireEvent.click(themeBtn)
     expect(useStore.getState().theme).toBe('dark')
 
-    fireEvent.click(themeBtn!)
+    fireEvent.click(themeBtn)
     expect(useStore.getState().theme).toBe('light')
   })
 
@@ -337,8 +338,8 @@ describe('Topbar', () => {
         <Topbar />
       </MemoryRouter>
     )
-    const hamburger = document.querySelector('.topbar__hamburger')
-    fireEvent.click(hamburger!)
+    const hamburger = screen.getByLabelText('toggle_sidebar')
+    fireEvent.click(hamburger)
     expect(toggleSidebar).toHaveBeenCalled()
   })
 
@@ -501,13 +502,12 @@ describe('Topbar', () => {
 
     it('hides breadcrumbs on mobile when too many', () => {
       useStore.setState({ isMobile: true, breadcrumbs: [] })
-      const { container } = render(
+      render(
         <MemoryRouter initialEntries={['/random/very/long/path/with/many/segments']}>
           <Topbar />
         </MemoryRouter>
       )
-      const nav = container.querySelector('nav nav.hidden')
-      expect(nav).toBeInTheDocument()
+      expect(screen.queryByText('dashboard')).not.toBeInTheDocument()
     })
 
     it('renders breadcrumbs when the pathname is exactly /courses', () => {
@@ -522,7 +522,7 @@ describe('Topbar', () => {
     })
   })
 
-  it('navigates to settings when settings item is clicked in user menu', () => {
+  it('navigates to settings when settings item is clicked in user menu', async () => {
     render(
       <MemoryRouter>
         <Topbar />
@@ -533,8 +533,9 @@ describe('Topbar', () => {
     fireEvent.click(profile)
     
     const settingsItem = screen.getByText('settings')
+    expect(settingsItem.closest('a')).toHaveAttribute('href', '/settings')
     fireEvent.click(settingsItem)
-    expect(mockNavigate).toHaveBeenCalledWith('/settings')
+    await waitFor(() => expect(screen.queryByText('logout')).not.toBeInTheDocument())
   })
 
   it('navigates to notifications when view_all is clicked in notifications dropdown', () => {
