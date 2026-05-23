@@ -26,7 +26,7 @@ export default function ProgressBar({
 }: ProgressBarProps) {
   const safeValue = Math.min(Math.max(value, 0), 100)
 
-  if (process.env.NODE_ENV === 'development') {
+  if (import.meta.env.DEV) {
     console.debug('ProgressBar rendered', { value: safeValue, color })
   }
 

@@ -39,6 +39,8 @@
 @import "@fontsource/barlow/500.css";
 @import "@fontsource/barlow/600.css";
 @import "@fontsource/barlow/700.css";
+@import "@fontsource/barlow/800.css";
+@import "@fontsource/barlow/900.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -59,6 +61,7 @@
   --color-aau-dark-brown: var(--aau-dark-brown);
   --color-aau-light-brown: var(--aau-light-brown);
   --color-primary: var(--color-primary);
+  --color-primary-rgb: var(--color-primary-rgb);
   --color-accent: var(--color-accent);
   --color-success: var(--color-success);
   --color-danger: var(--color-danger);
@@ -67,6 +70,9 @@
   --color-bg-body: var(--bg-body);
   --color-bg-card: var(--bg-card);
   --color-bg-sidebar: var(--bg-sidebar);
+  --color-bg-topbar: var(--bg-topbar);
+  --color-bg-main: var(--bg-main);
+  --color-bg-elevated: var(--bg-elevated);
   --color-bg-input: var(--bg-input);
   --color-bg-hover: var(--bg-hover);
   --color-bg-highlight: var(--bg-highlight);
@@ -287,6 +293,7 @@
   --bg-body: #0a0e17;
   --bg-card: #151b28;
   --card: #151b28;
+  --color-reply-icon: var(--color-text-main);
   --popover: #151b28;
   --bg-elevated: #1e293b;
   --bg-topbar: rgba(26, 22, 58, 0.85);

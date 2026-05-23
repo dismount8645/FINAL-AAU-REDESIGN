@@ -86,4 +86,18 @@ describe('useWidgetDrag', () => {
 
     expect(result.current.widgets).toEqual(initialWidgets)
   })
+
+  it('moves widget left and right', () => {
+    const { result } = renderHook(() => useWidgetDrag([
+      { id: 'w1', span: 4, visible: true },
+      { id: 'w2', span: 8, visible: true },
+      { id: 'w3', span: 6, visible: true },
+    ]))
+
+    act(() => result.current.moveWidget('w2', 'right'))
+    expect(result.current.widgets.map(w => w.id)).toEqual(['w1', 'w3', 'w2'])
+
+    act(() => result.current.moveWidget('w3', 'left'))
+    expect(result.current.widgets.map(w => w.id)).toEqual(['w3', 'w1', 'w2'])
+  })
 })

@@ -84,7 +84,7 @@ const CalendarUpcomingWidget = ({
                   type="button"
                   className={cn(
                     "upcoming-event-item w-full flex items-center gap-[var(--space-md)] p-[var(--space-md)] text-left transition-all duration-150",
-                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-bg-highlight/50 focus-visible:bg-bg-highlight/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-inset"
+                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-bg-highlight/50 focus-visible:bg-bg-highlight/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
                   )}
                   onClick={() => handleEventClick(e, e.dateKey)}
                 >
@@ -98,7 +98,7 @@ const CalendarUpcomingWidget = ({
                     <span className="text-[0.625rem] font-black text-muted uppercase tracking-widest leading-none">
                       {monthNames[e.date.getMonth()].substring(0, 3)}
                     </span>
-                    <span className="text-[1.25rem] font-black text-primary leading-none mt-[2px]">
+                    <span className="text-[1.25rem] font-black text-primary dark:text-indigo-200 leading-none mt-[2px]">
                       {e.date.getDate()}
                     </span>
                   </Stack>
@@ -113,7 +113,7 @@ const CalendarUpcomingWidget = ({
                       <span className="text-[0.6875rem] font-bold uppercase tracking-tight">{e.time}</span>
                     </Stack>
                     {e.location && (
-                      <Stack direction="row" gap="xs" align="center" className="text-primary/80">
+                      <Stack direction="row" gap="xs" align="center" className="text-primary/80 dark:text-white">
                         <MapPin size={12} strokeWidth={2.5} />
                         <span className="text-[0.6875rem] font-bold italic truncate">{e.location}</span>
                       </Stack>

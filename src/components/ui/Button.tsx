@@ -26,9 +26,9 @@ const buttonVariants = cva(
         primary:
           "bg-primary text-primary-foreground shadow-[var(--shadow-sm)] hover:bg-accent hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
         secondary:
-          "bg-bg-card text-primary border-2 border-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
+          "bg-bg-card text-primary dark:text-white border-2 border-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
         ghost:
-          "bg-transparent text-primary hover:bg-primary/5",
+          "bg-transparent text-primary dark:text-white hover:bg-primary/5",
         outline:
           "bg-transparent border border-[var(--border-color)] text-main hover:bg-bg-highlight hover:border-primary hover:text-primary",
         danger:

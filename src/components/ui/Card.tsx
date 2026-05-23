@@ -58,7 +58,7 @@ export interface CardProps
 const CardRoot = memo(forwardRef<HTMLDivElement, CardProps>(
   ({ variant, accent, interactive, children, className, as: Component = "div", onClick, ...props }, ref) => {
     const isClickable = interactive || !!onClick;
-    const MotionComponent = motion(Component as any);
+    const MotionComponent = motion.create(Component as React.ComponentType<any>);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter" || e.key === " ") {

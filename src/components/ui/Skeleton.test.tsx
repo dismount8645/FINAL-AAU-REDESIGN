@@ -6,7 +6,7 @@ describe('Skeleton', () => {
   it('renders text variant by default', () => {
     const { container } = render(<Skeleton />)
     const el = container.firstChild as HTMLElement
-    expect(el).toHaveClass('animate-pulse', 'rounded-[var(--radius-sm)]', 'bg-muted/60')
+    expect(el).toHaveClass('animate-pulse', 'rounded-[var(--radius-sm)]', 'bg-bg-highlight/60')
     expect(el.style.width).toBe('100%')
     expect(el.style.height).toBe('var(--space-md)')
   })

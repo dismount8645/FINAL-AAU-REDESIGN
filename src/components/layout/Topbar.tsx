@@ -34,7 +34,7 @@ export default function Topbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 h-[var(--topbar-height)] bg-[var(--bg-topbar)] backdrop-blur-[12px] saturate-[180%] flex items-center z-[var(--z-sticky)] border-b border-border transition-all duration-300 ease-in-out w-full pr-[var(--space-md)] ${
+      className={`fixed top-0 left-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-[var(--z-sticky)] border-b border-border transition-all duration-300 ease-in-out w-full pr-[var(--space-md)] ${
         isMobile
           ? 'pl-[var(--space-md)]'
           : isCollapsed

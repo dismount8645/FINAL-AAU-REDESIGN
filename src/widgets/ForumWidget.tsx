@@ -69,8 +69,8 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
       
       <div className="flex flex-col items-end gap-[var(--space-4xs)] shrink-0">
         <div className="forum-list-item__reply-count flex items-center gap-1.5 px-[var(--space-xs)] py-[var(--space-4xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
-          <Text weight="black" size="xs" className="text-primary leading-none">{post.replies}</Text>
-          <MessageCircle size={12} strokeWidth={2.5} className="text-primary opacity-60" />
+          <Text weight="black" size="xs" className="text-primary dark:text-indigo-200 leading-none">{post.replies}</Text>
+          <MessageCircle size={12} strokeWidth={2.5} className="text-primary dark:text-indigo-200 opacity-60" />
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-all duration-300 -translate-x-1 group-hover/item:translate-x-0">
           <ArrowRight size={10} strokeWidth={3} className="text-primary" />

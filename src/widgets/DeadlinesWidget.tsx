@@ -47,7 +47,7 @@ const getUrgencyConfig = (deadlineDate: string): UrgencyConfig => {
   }
   return { 
     level: 'normal', 
-    color: 'var(--color-primary)', 
+    color: 'var(--color-text-main)', 
     icon: CheckCircle2,
     labelClass: 'text-primary dark:text-main' 
   }
@@ -100,7 +100,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
+          className="font-black uppercase tracking-widest text-primary dark:text-white hover:bg-bg-card/50"
           onClick={handleSeeAll}
           iconRight={ChevronRight}
         >
@@ -149,8 +149,8 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
             {deadlines.length} {t('upcoming')}
           </Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary uppercase tracking-tighter">{t('click_to_view')}</Text>
-            <Clock size={10} strokeWidth={2.5} className="text-primary" />
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase tracking-tighter">{t('click_to_view')}</Text>
+            <Clock size={10} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
       )}

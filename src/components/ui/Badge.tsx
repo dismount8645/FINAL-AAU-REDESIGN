@@ -20,7 +20,7 @@ const badgeVariants = cva(
       variant: {
         default: "bg-bg-highlight text-main border-[var(--border-color)]/60",
         primary: "bg-primary text-white shadow-sm",
-        secondary: "bg-primary/10 text-primary",
+        secondary: "bg-primary/10 text-primary dark:text-indigo-200",
         success: "bg-[var(--aau-dark-green)]/10 text-[var(--aau-dark-green)]",
         warning: "bg-[var(--aau-dark-orange)]/10 text-[var(--aau-dark-orange)]",
         danger: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",
@@ -31,7 +31,7 @@ const badgeVariants = cva(
         true: "rounded-[var(--radius-full)] px-[var(--space-sm)]",
       },
       interactive: {
-        true: "cursor-pointer hover:scale-105 active:scale-95",
+        true: "cursor-pointer",
       }
     },
     defaultVariants: {
@@ -60,11 +60,11 @@ const Badge = memo(forwardRef<HTMLSpanElement, BadgeProps>(
 
     return (
       <Component
-        ref={ref as any}
+        ref={ref as React.Ref<HTMLSpanElement>}
         role="status"
         className={cn("badge", badgeVariants({ variant, pill, interactive }), className)}
         {...(interactive ? {
-          whileHover: { translateY: -1 },
+          whileHover: { scale: 1.05, translateY: -1 },
           whileTap: { scale: 0.95 },
           transition: { duration: 0.15 }
         } : {})}

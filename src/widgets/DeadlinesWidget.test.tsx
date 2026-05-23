@@ -81,7 +81,7 @@ describe('DeadlinesWidget', () => {
     renderWithProviders(<DeadlinesWidget span={12} isEditing={false} />)
     // The items should now have the red color class
     // 'To-Do App' subtitle is 'Mandag 09:00'
-    expect(screen.getByText('Mandag 09:00')).toHaveClass('text-[var(--aau-dark-pink)]')
+    expect(screen.getByText('Mandag 09:00')).toHaveClass('text-danger')
     
     vi.restoreAllMocks()
   })

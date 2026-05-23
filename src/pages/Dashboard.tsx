@@ -23,6 +23,7 @@ function Dashboard() {
     onDragOver,
     onDrop,
     draggedItemId,
+    moveWidget,
   } = useWidgetDrag(DEFAULT_WIDGETS)
 
   const hiddenWidgets = useMemo(
@@ -92,6 +93,7 @@ function Dashboard() {
           toggleVisibility={toggleVisibility}
           resizeWidget={resizeWidget}
           t={t}
+          moveWidget={moveWidget}
         />
       </div>
     </Stack>

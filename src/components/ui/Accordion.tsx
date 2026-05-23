@@ -38,7 +38,7 @@ const AccordionTrigger = memo(forwardRef<
       className={cn(
         "flex flex-1 items-center justify-between py-[var(--space-sm)] px-[var(--space-xs)]",
         "text-main font-bold text-sm leading-tight transition-all duration-150",
-        "hover:bg-bg-hover hover:text-primary group outline-none",
+        "hover:bg-bg-hover hover:text-primary dark:hover:text-white group outline-none",
         "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-[var(--radius-sm)]",
         className
       )}

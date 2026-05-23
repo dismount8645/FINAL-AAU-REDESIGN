@@ -24,6 +24,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
   const searchRef = useRef<HTMLDivElement>(null);
   const mobileSearchRef = useRef<HTMLDivElement>(null);
   const mobileInputRef = useRef<HTMLInputElement>(null);
+  const mobileTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!isSearchExpanded) return;
@@ -32,6 +33,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
       /* istanbul ignore next */
       if (e.key === 'Escape') {
         setIsSearchExpanded(false);
+        mobileTriggerRef.current?.focus();
         return;
       }
       if (e.key === 'Tab') {
@@ -64,7 +66,10 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       if (searchRef.current && !searchRef.current.contains(target)) setIsDropdownVisible(false);
-      if (mobileSearchRef.current && !mobileSearchRef.current.contains(target) && isSearchExpanded) setIsSearchExpanded(false);
+      if (mobileSearchRef.current && !mobileSearchRef.current.contains(target) && isSearchExpanded) {
+        setIsSearchExpanded(false);
+        mobileTriggerRef.current?.focus();
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -139,6 +144,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
             className="topbar__search-input-wrapper w-full max-w-[400px]"
             role="combobox"
             aria-expanded={isDropdownVisible && filteredResults.length > 0}
+            aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-controls="search-results-listbox"
             aria-activedescendant={activeSearchIndex >= 0 && activeSearchIndex < filteredResults.length ? `search-item-${filteredResults[activeSearchIndex].id}` : undefined}
@@ -150,7 +156,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               aria-label={t('search_results_plural')}
               className="topbar__search-dropdown topbar-panel topbar-panel--search"
             >
-              <div className="search-dropdown-header p-sm px-md bg-[var(--bg-hover)] border-b border-border">
+              <div className="search-dropdown-header p-sm px-md bg-bg-hover border-b border-border">
                 <Text size="xs" weight="bold" muted>
                   {filteredResults.length === 1
                     ? `1 ${t('search_results_singular')}`
@@ -161,7 +167,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                 <div
                   key={course.id}
                   id={`search-item-${course.id}`}
-                  className={`search-dropdown-item flex items-center gap-md p-sm px-md cursor-pointer transition-colors duration-150 ${index === activeSearchIndex ? 'bg-[var(--bg-hover)]' : 'hover:bg-[var(--bg-hover)]'}`}
+                  className={`search-dropdown-item flex items-center gap-md p-sm px-md cursor-pointer transition-colors duration-150 ${index === activeSearchIndex ? 'bg-bg-hover' : 'hover:bg-bg-hover'}`}
                   onClick={() => handleResultClick(course)}
                   onMouseEnter={() => setActiveSearchIndex(index)}
                   role="option"
@@ -178,7 +184,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                   <EmptyState icon={Search} title={t('no_search_results')} />
                 </div>
               )}
-              <div className="search-dropdown-footer p-sm px-md text-center border-t border-border cursor-pointer bg-card hover:bg-[var(--bg-hover)]" onClick={() => handleSearchEnter({ key: 'Enter' })}>
+              <div className="search-dropdown-footer p-sm px-md text-center border-t border-border cursor-pointer bg-card hover:bg-bg-hover" onClick={() => handleSearchEnter({ key: 'Enter' })}>
                 <Text size="sm" className="topbar__all-results">{t('all_results')} &ldquo;{searchQuery}&rdquo;</Text>
               </div>
             </div>
@@ -188,6 +194,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
 
       <div className="topbar__right-section flex items-center justify-end gap-sm sm:gap-md shrink-0 ml-auto">
         <Button
+          ref={mobileTriggerRef}
           variant="ghost"
           size="icon"
           className="topbar__mobile-search-trigger lg:hidden w-11 h-11 text-muted bg-transparent hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
@@ -214,6 +221,8 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                     placeholder={t('search_placeholder')}
                     className="w-full"
                     role="combobox"
+                    aria-expanded={false}
+                    aria-haspopup="listbox"
                     aria-autocomplete="list"
                   />
                 </div>
@@ -221,7 +230,10 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                   variant="ghost"
                   size="icon"
                   type="button"
-                  onClick={() => setIsSearchExpanded(false)}
+                  onClick={() => {
+                    setIsSearchExpanded(false);
+                    mobileTriggerRef.current?.focus();
+                  }}
                   className="shrink-0 w-11 h-11 text-muted hover:text-main bg-bg-hover rounded-full border-none focus-visible:outline-none focus-visible:shadow-focus transition-colors"
                   aria-label={t('close')}
                 >
