@@ -50,7 +50,7 @@ function Messages() {
 
   const handleSend = () => {
     if (!messageText.trim()) return
-    setContacts(contacts.map(c =>
+    setContacts(prev => prev.map(c =>
       c.id === activeContactId
         ? { ...c, messages: [...c.messages, { id: Date.now(), type: 'out' as const, text: messageText.trim() }] }
         : c
@@ -72,14 +72,7 @@ function Messages() {
         chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight
         isInitialMount.current = false
       } else if (messagesCountChanged && activeMessagesLength > lastMessagesLength.current) {
-        if (typeof chatBodyRef.current.scrollTo === 'function') {
-          chatBodyRef.current.scrollTo({
-            top: chatBodyRef.current.scrollHeight,
-            behavior: 'smooth'
-          })
-        } else {
-          chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight
-        }
+        chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight
       }
 
       lastActiveContactId.current = activeContactId
@@ -115,7 +108,7 @@ function Messages() {
 
   const archiveContact = (id: number, e: MouseEvent): void => {
     e.stopPropagation()
-    setContacts(contacts.map((c) => (c.id === id ? { ...c, archived: true } : c)))
+    setContacts(prev => prev.map((c) => (c.id === id ? { ...c, archived: true } : c)))
     if (activeContactId === id) {
       const next = contacts.find((c) => c.id !== id && !c.archived)
       if (next) setActiveContactId(next.id)

@@ -66,9 +66,10 @@ describe('SearchResults Page', () => {
     const titles = screen.getAllByText((_content, element) => element?.textContent === 'Digital Design og Kommunikation')
     expect(titles[0]).toBeInTheDocument()
     
-    // Test navigation
-    const resultCard = titles[0].closest('.teaser-card')
-    fireEvent.click(resultCard!)
+    // Test navigation — click the stretched-link overlay button inside the card
+    const teaserCard = titles[0].closest('[class*="@container/teaser"]')!
+    const overlayBtn = teaserCard.querySelector('[aria-label="View details"]')
+    fireEvent.click(overlayBtn!)
     expect(mockNavigate).toHaveBeenCalledWith('/course/1')
   })
 

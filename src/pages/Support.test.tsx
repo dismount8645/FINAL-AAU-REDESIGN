@@ -1,46 +1,58 @@
-import { render, screen, fireEvent, act } from '@testing-library/react'
+import { renderWithProviders, screen, fireEvent, act } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Support from '@/pages/Support'
-import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store/useStore'
 
 const mockToast = { error: vi.fn(), success: vi.fn(), info: vi.fn() }
 
-vi.mock('@/context/ToastContext', () => ({
-  useToast: () => mockToast,
-}))
+vi.mock('@/context/ToastContext', async () => {
+  const actual = await vi.importActual<typeof import('@/context/ToastContext')>('@/context/ToastContext')
+  return {
+    ...actual,
+    useToast: () => mockToast,
+  }
+})
 
 function renderSupport(lang: 'da' | 'en' = 'da') {
   useStore.setState({ lang })
-  return render(
-    <MemoryRouter>
-      <Support />
-    </MemoryRouter>
-  )
+  return renderWithProviders(<Support />)
 }
 
 function openForm() {
-  fireEvent.click(screen.getByText('Skriv en besked'))
+  act(() => { fireEvent.click(screen.getByText('Skriv en besked')) })
+}
+
+function openFormEnglish() {
+  act(() => { fireEvent.click(screen.getByText('Write a message')) })
+}
+
+function fillFields(subject: string, description: string) {
+  const subjectInput = screen.getByLabelText(/Emne|Subject/)
+  const descInput = screen.getByLabelText(/Beskrivelse|Description/)
+  console.log('fillFields - subjectInput:', subjectInput.tagName, 'id:', subjectInput.id, 'value:', subjectInput.value)
+  console.log('fillFields - descInput:', descInput.tagName, 'id:', descInput.id, 'value:', descInput.value)
+  act(() => { fireEvent.change(subjectInput, { target: { value: subject } }) })
+  act(() => { fireEvent.change(descInput, { target: { value: description } }) })
+  console.log('fillFields AFTER change - subjectInput value:', subjectInput.value)
+  console.log('fillFields AFTER change - descInput value:', descInput.value)
 }
 
 function submitForm() {
   const form = document.querySelector('form')
-  if (form) fireEvent.submit(form)
+  if (form) act(() => { fireEvent.submit(form) })
 }
 
 describe('Support', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.useFakeTimers()
     localStorage.clear()
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
   })
 
   it('renders correctly in Danish', () => {
     renderSupport('da')
+    console.log("t('support_page_title') =", useStore.getState().t('support_page_title'))
+    console.log("t('support_fill_all') =", useStore.getState().t('support_fill_all'))
+    console.log("t('support.page_title') =", useStore.getState().t('support.page_title'))
     expect(screen.getByText(/Kontakt IT-support/i)).toBeInTheDocument()
     const faqBtn = screen.getByText(/Hvordan nulstiller jeg min adgangskode/i)
     fireEvent.click(faqBtn)
@@ -65,56 +77,52 @@ describe('Support', () => {
 
   it('shows error toast in English when form is submitted with empty fields', () => {
     renderSupport('en')
-    fireEvent.click(screen.getByText('Write a message'))
+    openFormEnglish()
     submitForm()
     expect(mockToast.error).toHaveBeenCalledWith('Please fill in all fields')
   })
 
-  it('shows success toast when form is submitted with valid fields', () => {
+  it('shows success toast when form is submitted with valid fields', async () => {
+    vi.useFakeTimers()
     renderSupport('da')
     openForm()
-    const subjectInput = screen.getByLabelText(/Emne/)
-    const descInput = screen.getByLabelText(/Beskrivelse/)
-    fireEvent.change(subjectInput, { target: { value: 'Test emne' } })
-    fireEvent.change(descInput, { target: { value: 'Test beskrivelse' } })
+    fillFields('Test emne', 'Test beskrivelse')
     submitForm()
-    act(() => { vi.advanceTimersByTime(1500) })
+    await vi.advanceTimersByTimeAsync(1500)
     expect(mockToast.success).toHaveBeenCalledWith('Besked sendt!')
+    vi.useRealTimers()
   })
 
-  it('shows success toast in English', () => {
+  it('shows success toast in English', async () => {
+    vi.useFakeTimers()
     renderSupport('en')
-    fireEvent.click(screen.getByText('Write a message'))
-    const subjectInput = screen.getByLabelText(/Subject/)
-    const descInput = screen.getByLabelText(/Description/)
-    fireEvent.change(subjectInput, { target: { value: 'Test subject' } })
-    fireEvent.change(descInput, { target: { value: 'Test description' } })
+    openFormEnglish()
+    fillFields('Test subject', 'Test description')
     submitForm()
-    act(() => { vi.advanceTimersByTime(1500) })
+    await vi.advanceTimersByTimeAsync(1500)
     expect(mockToast.success).toHaveBeenCalledWith('Message sent!')
+    vi.useRealTimers()
   })
 
-  it('closes form after successful submission', () => {
+  it('closes form after successful submission', async () => {
+    vi.useFakeTimers()
     renderSupport('da')
     openForm()
-    const subjectInput = screen.getByLabelText(/Emne/)
-    const descInput = screen.getByLabelText(/Beskrivelse/)
-    fireEvent.change(subjectInput, { target: { value: 'Test emne' } })
-    fireEvent.change(descInput, { target: { value: 'Test beskrivelse' } })
+    fillFields('Test emne', 'Test beskrivelse')
     submitForm()
-    act(() => { vi.advanceTimersByTime(1500) })
+    await vi.advanceTimersByTimeAsync(1500)
     expect(screen.queryByLabelText(/Emne/)).not.toBeInTheDocument()
     expect(screen.getByText('Skriv en besked')).toBeInTheDocument()
+    vi.useRealTimers()
   })
 
   it('shows submitting text while form is being sent', () => {
     renderSupport('da')
     openForm()
-    const subjectInput = screen.getByLabelText(/Emne/)
-    const descInput = screen.getByLabelText(/Beskrivelse/)
-    fireEvent.change(subjectInput, { target: { value: 'Test emne' } })
-    fireEvent.change(descInput, { target: { value: 'Test beskrivelse' } })
+    fillFields('Test emne', 'Test beskrivelse')
+    expect(mockToast.error).not.toHaveBeenCalled()
     submitForm()
+    expect(mockToast.error).not.toHaveBeenCalled()
     expect(screen.getByText('Sender...')).toBeInTheDocument()
   })
 

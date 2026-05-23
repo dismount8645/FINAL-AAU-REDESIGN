@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Course from '@/pages/Course'
 import { MemoryRouter, Route, Routes, useParams, useNavigate } from 'react-router-dom'
@@ -65,10 +65,10 @@ describe('Course Page', () => {
 
   it('toggles item completion', () => {
     renderCourse('1')
-    const checkboxes = document.querySelectorAll('.lesson-item__checkbox')
-    fireEvent.click(checkboxes[0])
+    const getFirstCheckbox = () => document.querySelectorAll('.lesson-item__checkbox')[0]
+    fireEvent.click(getFirstCheckbox())
     expect(screen.getByText('20%')).toBeInTheDocument()
-    fireEvent.click(checkboxes[0])
+    fireEvent.click(getFirstCheckbox())
     expect(screen.getByText('0%')).toBeInTheDocument()
   })
 
@@ -107,10 +107,9 @@ describe('Course Page', () => {
   })
 
   it('shows active status-dot when progress is above 50%', () => {
+    // Seed 4/5 completed items via localStorage (click logic tested in 'toggles item completion')
+    localStorage.setItem('courseProgress_1', JSON.stringify([101, 102, 103, 104]))
     const { container } = renderCourse('1')
-    const checkboxes = document.querySelectorAll('.lesson-item__checkbox:not([disabled])')
-    checkboxes.forEach(cb => fireEvent.click(cb))
-    // Total 5 items, 4 are manual. 4/5 = 80%
     expect(screen.getByText('80%')).toBeInTheDocument()
     const statusDots = container.querySelectorAll('.status-dot')
     expect(statusDots[0].className).toContain('active')

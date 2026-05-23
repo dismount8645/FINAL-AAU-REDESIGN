@@ -1,7 +1,7 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import PageGuide from '@/components/common/PageGuide'
-import { MemoryRouter, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import useStore from '@/store/useStore';
 
 // Mock react-router-dom to control location
@@ -28,11 +28,7 @@ describe('PageGuide Component', () => {
   })
 
   const renderPageGuide = () => {
-    return render(
-      <MemoryRouter>
-        <PageGuide />
-      </MemoryRouter>
-    )
+    return renderWithProviders(<PageGuide />)
   }
 
   it('renders trigger button', () => {
@@ -94,19 +90,15 @@ describe('PageGuide Component', () => {
   it('adds active class to trigger when guide is open', () => {
     renderPageGuide()
     const trigger = screen.getByTitle('Sidevejledning')
-    expect(trigger.className).not.toContain('active')
+    expect(trigger.classList.contains('active')).toBe(false)
     fireEvent.click(trigger)
-    expect(trigger.className).toContain('active')
+    expect(screen.getByTitle('Sidevejledning').classList.contains('active')).toBe(true)
   })
 
   it('shows "Got it" button text in English', () => {
     useStore.setState({ lang: 'en' })
     vi.mocked(useLocation).mockReturnValue(mockLocation('/'))
-    render(
-      <MemoryRouter>
-        <PageGuide />
-      </MemoryRouter>
-    )
+    renderWithProviders(<PageGuide />)
     fireEvent.click(screen.getByTitle('Page Guidance'))
     expect(screen.getByText('Got it')).toBeInTheDocument()
   })

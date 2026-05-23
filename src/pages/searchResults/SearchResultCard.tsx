@@ -35,7 +35,7 @@ export default function SearchResultCard({
       title={<HighlightText text={item.label} query={query} />}
       description={item.description}
       action={
-        <Button variant="primary" size="md" iconRight={ArrowRight} pill className="px-md">
+        <Button variant="primary" size="md" iconRight={ArrowRight} pill className="px-md" onClick={(e) => { e.stopPropagation(); onClick() }}>
           {actionLabel}
         </Button>
       }
