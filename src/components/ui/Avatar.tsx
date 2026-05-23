@@ -1,88 +1,141 @@
+"use client"
+
+import { memo, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
+
+/**
+ * Avatar - Senior UI/UX Architect refinement.
+ * Enforces AAU brand tokens, 8pt grid logic, and high-performance rendering.
+ */
+
 export interface AvatarProps {
+  /** Image source URL */
   src?: string
+  /** Display name for initials and alt text */
   name?: string
-  /** Størrelse kan være token eller tal (px) */
-  size?: 'sm' | 'md' | 'lg' | 'xl' | number
-  status?: 'online' | 'offline' | 'away'
+  /** 
+   * Size presets (8pt grid):
+   * 2xs: 16px | xs: 24px | sm: 32px | md: 40px | lg: 48px | xl: 56px | 2xl: 64px 
+   */
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | number
+  /** Availability status indicator */
+  status?: 'online' | 'offline' | 'away' | 'busy'
+  /** Custom CSS classes */
   className?: string
+  /** Click handler */
+  onClick?: () => void
 }
 
-/* Token‑baserede størrelser – kan udvides i design‑systemet */
 const sizeMap = {
-  sm: 32,
-  md: 40,
-  lg: 56,
-  xl: 80,
+  '2xs': 16,
+  'xs': 24,
+  'sm': 32,
+  'md': 40,
+  'lg': 48,
+  'xl': 56,
+  '2xl': 64,
+}
+
+const statusColorMap = {
+  online: 'var(--aau-dark-green)',
+  offline: 'var(--text-disabled)',
+  away: 'var(--aau-light-orange)',
+  busy: 'var(--aau-dark-pink)',
 }
 
 /**
- * Avatar‑komponent med:
- * - Konsistent token‑baseret størrelse.
- * - ARIA‑rolle og beskrivende `alt`‑tekst.
- * - Status‑indikator med farve‑tokens.
- * - Simpel telemetry ved klik (kan fjernes i produktion).
+ * Avatar - Collaborative peer programmer version.
  */
-export default function Avatar({
+const Avatar = memo(function Avatar({
   src,
   name,
   size = 'md',
   status,
   className = '',
+  onClick,
 }: AvatarProps) {
-  const px = typeof size === 'number' ? size : sizeMap[size] ?? sizeMap.md
-  const initials = name
-    ? name
-        .split(' ')
-        .map((n) => n[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase()
-    : '?'
+  const px = useMemo(() => {
+    if (typeof size === 'number') return size
+    return sizeMap[size] ?? sizeMap.md
+  }, [size])
 
-  const statusSize = px <= 32 ? '10px' : px >= 80 ? '18px' : '14px'
-  const borderWidth = px <= 32 ? '2px' : px >= 80 ? '3px' : '3px'
+  const initials = useMemo(() => {
+    if (!name) return '?'
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .slice(0, 2)
+      .toUpperCase()
+  }, [name])
 
-  const handleClick = () => {
-    // Simple telemetry – kan erstattes af en rigtig analytics‑service
-    console.debug('Avatar clicked', { name, src })
-    // Hvis forælder har givet onClick, vil den blive videreført via spread‑props
-  }
+  const { statusSize, borderWidth } = useMemo(() => ({
+    statusSize: px <= 24 ? 6 : px <= 40 ? 10 : 14,
+    borderWidth: px <= 32 ? 2 : 3
+  }), [px])
 
   return (
-    <div
+    <motion.div
       role="img"
       aria-label={name ?? 'Avatar'}
-      className={`relative rounded-[var(--radius-pill)] shrink-0 overflow-visible ${className}`}
-      style={{ width: `${px}px`, height: `${px}px` }}
-      onClick={handleClick}
-    >
-      {src ? (
-        <img
-          src={src}
-          alt={name ?? ''}
-          className="w-full h-full rounded-[var(--radius-pill)] object-cover border-2 border-border"
-        />
-      ) : (
-        <div className="w-full h-full rounded-[var(--radius-pill)] bg-slate-100 dark:bg-white/10 text-primary dark:text-white border border-border/50 font-bold flex items-center justify-center text-[0.85em] shadow-[var(--shadow-sm)]">
-          {initials}
-        </div>
+      whileHover={onClick ? { scale: 1.05, translateY: -2 } : undefined}
+      whileTap={onClick ? { scale: 0.95 } : undefined}
+      className={cn(
+        "relative rounded-[var(--radius-full)] shrink-0 overflow-visible transition-shadow duration-150 isolate",
+        onClick && "cursor-pointer hover:shadow-[var(--shadow-md)]",
+        className
       )}
+      style={{ width: px, height: px }}
+      onClick={onClick}
+    >
+      <div className="w-full h-full rounded-[var(--radius-full)] overflow-hidden border border-[var(--border-color)]/40 bg-[var(--bg-highlight)] flex items-center justify-center">
+        <AnimatePresence mode="wait">
+          {src ? (
+            <motion.img
+              key="image"
+              src={src}
+              alt={name ?? ''}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <motion.div 
+              key="initials"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="w-full h-full flex items-center justify-center text-[var(--text-main)] font-black tracking-tighter"
+              style={{ fontSize: px * 0.4 }}
+            >
+              {initials}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
       {status && (
-        <div
-          className="absolute -bottom-0.5 -right-0.5 rounded-[var(--radius-pill)] border-[var(--bg-card)]"
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="absolute -bottom-0.5 -right-0.5 rounded-[var(--radius-full)] bg-[var(--bg-card)] shadow-sm"
           style={{
             width: statusSize,
             height: statusSize,
-            borderWidth,
-            backgroundColor:
-              status === 'online'
-                ? 'var(--color-success)'
-                : status === 'offline'
-                ? 'var(--text-disabled)'
-                : 'var(--color-warning)',
+            padding: borderWidth,
           }}
-        />
+        >
+          <div 
+            className="w-full h-full rounded-[var(--radius-full)]"
+            style={{ backgroundColor: statusColorMap[status] }}
+          />
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
-}
+})
+
+export default Avatar

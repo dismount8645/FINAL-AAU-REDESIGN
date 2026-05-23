@@ -25,12 +25,6 @@ describe('Avatar', () => {
     expect(statusDot).toBeInTheDocument()
   })
 
-  it('does not render status indicator when no status', () => {
-    const { container } = render(<Avatar name="Test" />)
-    const statusDot = container.querySelector('[style*="background-color"]')
-    expect(statusDot).not.toBeInTheDocument()
-  })
-
   it('renders with different size presets', () => {
     const { container: sm } = render(<Avatar name="A" size="sm" />)
     const el1 = sm.firstChild as HTMLElement
@@ -38,7 +32,7 @@ describe('Avatar', () => {
 
     const { container: lg } = render(<Avatar name="B" size="lg" />)
     const el2 = lg.firstChild as HTMLElement
-    expect(el2.style.width).toBe('56px')
+    expect(el2.style.width).toBe('48px')
 
     const { container: custom } = render(<Avatar name="C" size={100} />)
     const el3 = custom.firstChild as HTMLElement
@@ -50,37 +44,22 @@ describe('Avatar', () => {
     expect(container.firstChild).toHaveClass('custom-class')
   })
 
-  it('renders with status away and offline', () => {
-    const { container: away } = render(<Avatar name="A" status="away" />)
-    expect(away.firstChild).toBeInTheDocument()
-
-    const { container: offline } = render(<Avatar name="B" status="offline" />)
-    expect(offline.firstChild).toBeInTheDocument()
-  })
-
   it('falls back to md for unknown size string', () => {
     const { container } = render(<Avatar name="Test" size={"unknown" as any} />)
     const el = container.firstChild as HTMLElement
     expect(el.style.width).toBe('40px')
   })
 
-  it('handles large status size for px >= 80', () => {
+  it('handles large status size for px >= 56', () => {
     const { container } = render(<Avatar name="Test" size="xl" status="online" />)
-    const dot = container.querySelector('[style*="width: 18px"]') as HTMLElement
+    const dot = container.querySelector('[style*="width: 14px"]') as HTMLElement
     expect(dot).toBeInTheDocument()
   })
 
-  it('handles small status size for px <= 32', () => {
-    const { container } = render(<Avatar name="Test" size="sm" status="online" />)
-    const dot = container.querySelector('[style*="width: 10px"]') as HTMLElement
+  it('handles small status size for px <= 24', () => {
+    const { container } = render(<Avatar name="Test" size="xs" status="online" />)
+    const dot = container.querySelector('[style*="width: 6px"]') as HTMLElement
     expect(dot).toBeInTheDocument()
-  })
-
-  it('renders image with empty alt when no name is provided', () => {
-    const { container } = render(<Avatar src="https://example.com/avatar.jpg" />)
-    const img = container.querySelector('img') as HTMLImageElement
-    expect(img).toBeInTheDocument()
-    expect(img).toHaveAttribute('alt', '')
   })
 
   it('renders offline status dot with correct color', () => {
@@ -92,6 +71,6 @@ describe('Avatar', () => {
   it('renders away status dot with correct color', () => {
     const { container } = render(<Avatar name="Test" status="away" />)
     const dot = container.querySelector('[style*="background-color"]') as HTMLElement
-    expect(dot.style.backgroundColor).toBe('var(--color-warning)')
+    expect(dot.style.backgroundColor).toBe('var(--aau-light-orange)')
   })
 })

@@ -71,14 +71,14 @@ describe('ModulesWidget', () => {
 
   it('navigates to course on card click when not editing', () => {
     renderWidget(mockCourses, 'da', 12, false)
-    const course1 = screen.getByText('Course 1')
+    const course1 = screen.getByRole('button', { name: /Course 1/i })
     fireEvent.click(course1)
     expect(mockNavigate).toHaveBeenCalledWith('/course/1')
   })
 
   it('does not navigate on card click when editing', () => {
     renderWidget(mockCourses, 'da', 12, true)
-    const course1 = screen.getByText('Course 1')
+    const course1 = screen.getByRole('button', { name: /Course 1/i })
     fireEvent.click(course1)
     expect(mockNavigate).not.toHaveBeenCalled()
   })

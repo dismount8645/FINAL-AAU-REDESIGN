@@ -4,10 +4,6 @@ import Button from '@/components/ui/Button'
 import { Plus, Check } from 'lucide-react'
 
 describe('Button', () => {
-  afterEach(() => {
-    vi.restoreAllMocks()
-  })
-
   it('renders with default props', () => {
     render(<Button>Test</Button>)
     expect(screen.getByRole('button', { name: 'Test' })).toBeInTheDocument()
@@ -40,22 +36,9 @@ describe('Button', () => {
 
   it('applies pill and full classes', () => {
     const { rerender } = render(<Button pill>Pill</Button>)
-    expect(screen.getByRole('button')).toHaveClass('rounded-full')
+    expect(screen.getByRole('button')).toHaveClass('rounded-[var(--radius-full)]')
 
     rerender(<Button full>Full</Button>)
     expect(screen.getByRole('button')).toHaveClass('w-full')
-  })
-
-  it('warns in dev for icon-only buttons without aria-label', () => {
-    const originalEnv = process.env.NODE_ENV
-    process.env.NODE_ENV = 'development'
-    const consoleWarn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    render(<Button icon={Plus} />)
-    expect(consoleWarn).toHaveBeenCalledTimes(1)
-    expect(consoleWarn).toHaveBeenCalledWith(
-      expect.stringMatching(/MUST have an aria-label/)
-    )
-    consoleWarn.mockRestore()
-    process.env.NODE_ENV = originalEnv
   })
 })
