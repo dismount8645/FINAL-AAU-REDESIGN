@@ -17,32 +17,39 @@ import { cn } from '@/lib/utils'
 
 type UrgencyLevel = 'overdue' | 'critical' | 'soon' | 'normal'
 
-const getUrgencyConfig = (deadlineDate: string): { level: UrgencyLevel, color: string, icon: any, labelClass: string } => {
+interface UrgencyConfig {
+  level: UrgencyLevel
+  color: string
+  icon: typeof AlertCircle
+  labelClass: string
+}
+
+const getUrgencyConfig = (deadlineDate: string): UrgencyConfig => {
   const hoursLeft = getHoursUntil(deadlineDate)
   
   if (hoursLeft < 0) return { 
     level: 'overdue', 
-    color: 'var(--color-danger)', 
+    color: 'var(--color-aau-dark-pink)', 
     icon: AlertCircle,
-    labelClass: 'text-danger font-black uppercase tracking-tighter' 
+    labelClass: 'text-[var(--aau-dark-pink)] font-black uppercase tracking-tighter' 
   }
   if (hoursLeft < 24) return { 
     level: 'critical', 
-    color: 'var(--color-danger)', 
+    color: 'var(--color-aau-dark-pink)', 
     icon: Clock,
-    labelClass: 'text-danger font-bold' 
+    labelClass: 'text-[var(--aau-dark-pink)] font-bold' 
   }
   if (hoursLeft < 72) return { 
     level: 'soon', 
-    color: 'var(--color-warning)', 
+    color: 'var(--color-aau-dark-orange)', 
     icon: Clock,
-    labelClass: 'text-warning font-semibold' 
+    labelClass: 'text-[var(--aau-dark-orange)] font-semibold' 
   }
   return { 
     level: 'normal', 
-    color: 'var(--color-primary)', 
+    color: 'var(--color-aau-blue)', 
     icon: CheckCircle2,
-    labelClass: 'text-primary dark:text-slate-200' 
+    labelClass: 'text-[var(--aau-blue)] dark:text-[var(--text-main)]' 
   }
 }
 
@@ -78,22 +85,22 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
   return (
     <Card className={cn(
       "deadlines-widget h-full w-full flex flex-col group/widget overflow-hidden",
-      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300 border-[var(--border-color)]/60"
+      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-2 bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
             <Calendar size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
             {t('next_assignment')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
-          size="sm"
-          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--aau-blue)]"
+          size="xs"
+          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
           onClick={handleSeeAll}
           iconRight={ChevronRight}
         >
@@ -111,7 +118,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
               <div 
                 key={dl.id} 
                 className={cn(
-                  "p-1 rounded-[var(--radius-lg)] transition-all duration-200 hover:bg-[var(--bg-hover)] group/item cursor-pointer",
+                  "p-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-[var(--bg-hover)] group/item cursor-pointer",
                   dl.urgency.level === 'overdue' && "bg-[var(--aau-dark-pink)]/5 hover:bg-[var(--aau-dark-pink)]/10"
                 )}
                 onClick={() => handleDeadlineClick(dl)}
@@ -122,7 +129,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
                   title={dl.title}
                   subtitle={t(dl.dateKey)}
                   subtitleClassName={cn(dl.urgency.labelClass, "text-xs mt-0.5")}
-                  className="bg-transparent hover:bg-transparent px-2"
+                  className="bg-transparent hover:bg-transparent px-[var(--space-2xs)]"
                 />
               </div>
             ))}
@@ -141,7 +148,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
           <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
             {deadlines.length} {t('upcoming')}
           </Text>
-          <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-500 translate-x-2 group-hover/widget:translate-x-0">
+          <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
             <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-tighter">{t('click_to_view')}</Text>
             <Clock size={10} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
           </div>

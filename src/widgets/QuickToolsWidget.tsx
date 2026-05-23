@@ -1,16 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { 
-  Star, 
   ExternalLink, 
-  Wifi, 
-  Mail, 
-  PenSquare, 
-  FileText, 
-  Users, 
-  Cloud, 
   ChevronRight, 
   LayoutGrid, 
-  ArrowUpRight 
+  ArrowUpRight,
+  Star
 } from 'lucide-react'
 import { useMemo, memo, useCallback, forwardRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -23,34 +17,7 @@ import useStore from '@/store/useStore'
 import type { WidgetProps } from '@/types'
 import { env } from '@/utils/env'
 import { cn } from '@/lib/utils'
-
-/**
- * QuickTool interface for strict type safety.
- */
-interface QuickTool {
-  id: number
-  nameKey: string
-  icon: keyof typeof toolIcons
-  url: string
-}
-
-const toolIcons = {
-  Mail,
-  PenSquare,
-  FileText,
-  Users,
-  Cloud,
-  Wifi,
-} as const
-
-const quickToolsData: QuickTool[] = [
-  { id: 1, nameKey: 'digital_exam', icon: 'PenSquare', url: 'https://digitalservices.aau.dk/dse/exam' },
-  { id: 2, nameKey: 'stads', icon: 'FileText', url: 'https://stads.aau.dk' },
-  { id: 5, nameKey: 'student_mail', icon: 'Mail', url: 'https://outlook.com/aau.dk' },
-  { id: 6, nameKey: 'teams', icon: 'Users', url: 'https://teams.microsoft.com' },
-  { id: 7, nameKey: 'onedrive', icon: 'Cloud', url: 'https://aau-my.sharepoint.com' },
-  { id: 4, nameKey: 'it_software', icon: 'Wifi', url: 'https://www.its.aau.dk' },
-]
+import { quickToolsData, toolIcons, type QuickTool } from '@/constants/tools'
 
 /**
  * ToolItem - Individual tool card with refactored A11y and Motion.
@@ -73,19 +40,20 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       whileHover={!isEditing ? { y: -4 } : {}}
+      transition={{ duration: 0.15 }}
       className="relative group h-full"
     >
       <button
         type="button"
         className={cn(
-          "w-full h-full flex flex-col items-start gap-[var(--space-sm)] p-[var(--space-md)] rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-[var(--bg-card)] transition-all duration-300 text-left outline-none isolate",
+          "w-full h-full flex flex-col items-start gap-[var(--space-sm)] p-[var(--space-md)] rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-[var(--bg-card)] transition-all duration-150 text-left outline-none isolate",
           "hover:shadow-[var(--shadow-lg)] hover:border-[var(--aau-blue)] cursor-pointer",
           "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2"
         )}
         onClick={() => !isEditing && onOpen(tool.url)}
         aria-label={`${t('open')} ${t(tool.nameKey)}`}
       >
-        <div className="w-10 h-10 rounded-[var(--radius-lg)] bg-[var(--bg-highlight)] text-[var(--aau-blue)] flex items-center justify-center transition-all duration-300 group-hover:bg-[var(--aau-blue)] group-hover:text-white group-hover:scale-110 shadow-sm">
+        <div className="w-10 h-10 rounded-[var(--radius-lg)] bg-[var(--bg-highlight)] text-[var(--aau-blue)] flex items-center justify-center transition-all duration-150 group-hover:bg-[var(--aau-blue)] group-hover:text-white group-hover:scale-110 shadow-sm">
           <Icon size={20} strokeWidth={2} />
         </div>
         
@@ -106,7 +74,7 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
         variant="ghost"
         pill
         className={cn(
-          "absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 transition-all duration-300",
+          "absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 transition-all duration-150",
           isFav 
             ? "text-[var(--aau-light-orange)] bg-[var(--bg-highlight)] shadow-sm" 
             : "text-[var(--text-disabled)] opacity-0 group-hover:opacity-100 hover:text-[var(--text-main)]"
@@ -162,10 +130,10 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
   }, [isEditing, navigate])
 
   return (
-    <Card className="h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]">
+    <Card className="h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300">
       <Card.Header padding="compact" className="bg-[var(--bg-highlight)] border-b border-[var(--border-color)]">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-2 bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
             <LayoutGrid size={18} strokeWidth={2} />
           </div>
           <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
@@ -175,8 +143,8 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
         
         <Button
           variant="ghost"
-          size="sm"
-          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-white/50"
+          size="xs"
+          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
         >
@@ -186,7 +154,7 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
 
       <Card.Body className="p-[var(--space-md)] flex-1">
         <div className="grid grid-cols-2 gap-[var(--space-md)] h-full min-h-0">
-          <AnimatePresence>
+          <AnimatePresence mode="popLayout">
             {displayTools.map((tool) => (
               <ToolItem
                 key={tool.id}
@@ -206,7 +174,7 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
         <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
           {t('administrative_systems')}
         </Text>
-        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-500 translate-x-2 group-hover/widget:translate-x-0">
+        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
           <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-tighter">{t('external_link')}</Text>
           <ExternalLink size={10} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
         </div>

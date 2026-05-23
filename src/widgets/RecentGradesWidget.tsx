@@ -1,6 +1,7 @@
-import { useMemo, useCallback } from 'react'
+import { useMemo, useCallback, memo, forwardRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight, Star, Hourglass, Trophy } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import StatusItem from '@/components/ui/StatusItem'
 import Stack from '@/components/ui/Stack'
 import { Text, Heading } from '@/components/ui/Typography'
@@ -14,7 +15,72 @@ import { dashboardGrades } from '@/data/dashboardWidgets'
 import { getWidgetDisplayLayout } from '@/utils/widgetLayout'
 import { cn } from '@/lib/utils'
 
-export default function RecentGradesWidget({ span, isEditing }: WidgetProps) {
+interface Grade {
+  id: number
+  course: string
+  title: string
+  score: string | number | null
+  date: string
+}
+
+/**
+ * GradeItem - Individual grade entry with refactored A11y and tokens.
+ */
+const GradeItem = memo(forwardRef<HTMLDivElement, { 
+  grade: Grade 
+}>(({ grade }, ref) => {
+  const t = useStore(state => state.t)
+  
+  return (
+    <motion.div
+      ref={ref}
+      layout
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.15 }}
+      className="group/item"
+    >
+      <StatusItem
+        icon={grade.score !== null ? Star : Hourglass}
+        iconColor={grade.score !== null ? 'var(--aau-light-orange)' : 'var(--text-disabled)'}
+        title={grade.title}
+        className="bg-transparent hover:bg-[var(--bg-hover)] px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150"
+        right={
+          <AnimatePresence mode="wait">
+            {grade.score !== null ? (
+              <motion.div
+                key="score"
+                initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                className="recent-grades__score flex items-center justify-center w-8 h-8 bg-[var(--aau-blue)] text-white rounded-[var(--radius-full)] text-[0.75rem] font-black shadow-sm group-hover/item:scale-110 transition-transform"
+              >
+                {grade.score}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="pending"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-5 px-1.5 flex items-center">
+                  {t('not_graded')}
+                </Badge>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        }
+      />
+    </motion.div>
+  )
+}))
+
+GradeItem.displayName = 'GradeItem'
+
+/**
+ * RecentGradesWidget - Performance overview and academic results.
+ */
+const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
@@ -34,22 +100,22 @@ export default function RecentGradesWidget({ span, isEditing }: WidgetProps) {
   return (
     <Card className={cn(
       "recent-grades-widget h-full w-full flex flex-col group/widget overflow-hidden",
-      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300 border-[var(--border-color)]/60"
+      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-2 bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
             <Trophy size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
             {t('recent_grades')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
-          size="sm"
-          className="text-[0.65rem] font-black uppercase tracking-widest text-[var(--aau-blue)]"
+          size="xs"
+          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
         >
@@ -59,24 +125,15 @@ export default function RecentGradesWidget({ span, isEditing }: WidgetProps) {
 
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         {visibleGrades.length > 0 ? (
-          <div className="grid gap-[var(--space-sm)]" style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}>
-            {visibleGrades.map((g) => (
-              <StatusItem
-                key={g.title}
-                icon={g.score !== null ? Star : Hourglass}
-                iconColor={g.score !== null ? 'var(--aau-light-orange)' : 'var(--text-disabled)'}
-                title={g.title}
-                right={
-                  g.score !== null ? (
-                    <Stack align="center" justify="center" className="recent-grades__score w-7 h-7 bg-[var(--aau-blue)] text-white rounded-full text-[0.75rem] font-bold shadow-sm">
-                      {g.score}
-                    </Stack>
-                  ) : (
-                    <Badge variant="default" pill className="text-[0.6rem] uppercase tracking-tighter">{t('not_graded')}</Badge>
-                  )
-                }
-              />
-            ))}
+          <div className="grid gap-[var(--space-xs)]" style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}>
+            <AnimatePresence mode="popLayout">
+              {visibleGrades.map((g) => (
+                <GradeItem
+                  key={g.id || g.title}
+                  grade={g as Grade}
+                />
+              ))}
+            </AnimatePresence>
           </div>
         ) : (
           <div className="h-full flex items-center justify-center p-[var(--space-md)]">
@@ -94,11 +151,22 @@ export default function RecentGradesWidget({ span, isEditing }: WidgetProps) {
         <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
           {t('academic_results')}
         </Text>
-        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-500 translate-x-2 group-hover/widget:translate-x-0">
-          <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-tighter">{t('details')}</Text>
-          <ChevronRight size={10} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
+        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
+          <Button 
+            variant="ghost" 
+            size="xs" 
+            className="text-[var(--aau-blue)] uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
+            onClick={handleViewAll}
+            iconRight={ChevronRight}
+          >
+            {t('details')}
+          </Button>
         </div>
       </Card.Footer>
     </Card>
   )
 }
+
+RecentGradesWidget.displayName = 'RecentGradesWidget'
+
+export default memo(RecentGradesWidget)

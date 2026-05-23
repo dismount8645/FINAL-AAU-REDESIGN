@@ -1,13 +1,20 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import QuickToolsWidget from '@/widgets/QuickToolsWidget'
 import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store/useStore'
 
-// Mock useStore
-vi.mock('@/store/useStore', () => ({
-  default: vi.fn(),
-}))
+// Mock useStore for atomic selectors
+vi.mock('@/store/useStore', () => {
+  const mockState = {
+    t: (key: string) => key,
+    favorites: [],
+    toggleFavorite: vi.fn(),
+  }
+  return {
+    default: vi.fn((selector) => selector(mockState)),
+  }
+})
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {
@@ -20,15 +27,19 @@ vi.mock('react-router-dom', async () => {
 
 describe('QuickToolsWidget', () => {
   const mockT = vi.fn((key) => key)
-  const mockIsFavorite = vi.fn()
   const mockToggleFavorite = vi.fn()
+  const mockFavorites: any[] = []
 
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(useStore as any).mockReturnValue({
-      t: mockT,
-      isFavorite: mockIsFavorite,
-      toggleFavorite: mockToggleFavorite,
+    mockFavorites.length = 0
+    ;(useStore as any).mockImplementation((selector: any) => {
+      const state = {
+        t: mockT,
+        favorites: mockFavorites,
+        toggleFavorite: mockToggleFavorite,
+      }
+      return selector(state)
     })
     window.open = vi.fn()
   })
@@ -60,7 +71,6 @@ describe('QuickToolsWidget', () => {
   })
 
   it('toggles favorite on star click', () => {
-    mockIsFavorite.mockReturnValue(false)
     render(
       <MemoryRouter>
         <QuickToolsWidget span={6} isEditing={false} />
@@ -72,7 +82,7 @@ describe('QuickToolsWidget', () => {
   })
 
   it('shows favorite state correctly', () => {
-    mockIsFavorite.mockImplementation((_type, id) => id === 1)
+    mockFavorites.push({ type: 'tool', entityId: 1 })
     render(
       <MemoryRouter>
         <QuickToolsWidget span={6} isEditing={false} />

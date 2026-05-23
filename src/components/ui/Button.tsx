@@ -1,51 +1,54 @@
-import { forwardRef } from "react";
+"use client"
+
+import { forwardRef, memo } from "react";
 import { Button as BaseButton, type ButtonProps as BaseButtonProps } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2, type LucideIcon } from "lucide-react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+/**
+ * Button Variants - Senior UI/UX Architect refinement.
+ * Enforces strict AAU brand tokens, 150ms physics, and 8pt grid sizing.
+ */
 const buttonVariants = cva(
   [
-    "inline-flex items-center justify-center gap-2 relative overflow-visible select-none whitespace-nowrap font-bold leading-none transition-all duration-150 ease-[0.4,0,0.2,1] outline-none isolate",
-    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:shadow-focus dark:focus-visible:ring-accent",
+    "inline-flex items-center justify-center gap-[var(--space-xs)] relative overflow-visible select-none whitespace-nowrap",
+    "font-black uppercase tracking-tighter transition-all duration-150 ease-[var(--transition-ease)] outline-none isolate",
+    "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2",
     "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
-    "active:scale-[0.97] active:duration-75",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:size-[1.25em] [&_svg]:transition-transform [&_svg]:duration-150",
-    "after:absolute after:inset-y-[-8px] after:inset-x-0 after:content-[''] after:rounded-md",
+    "active:scale-[0.97]",
+    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-150",
   ],
   {
     variants: {
       variant: {
         primary:
-          "bg-primary text-primary-foreground shadow-sm hover:bg-accent hover:shadow-md hover:-translate-y-1",
+          "bg-[var(--aau-blue)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-blue)] hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
         secondary:
-          "bg-transparent text-primary dark:text-primary-foreground border-2 border-primary dark:border-primary-foreground hover:bg-primary dark:hover:bg-primary-foreground dark:hover:text-primary hover:text-primary-foreground hover:shadow-sm hover:-translate-y-1",
-        tertiary:
-          "bg-secondary/10 text-primary dark:text-primary-foreground hover:bg-secondary/20 hover:-translate-y-1",
-        danger:
-          "bg-destructive text-white dark:text-gray-950 shadow-sm hover:bg-destructive/80 hover:shadow-md hover:-translate-y-1",
-        success:
-          "bg-success text-white dark:text-gray-950 shadow-sm hover:bg-success/80 hover:shadow-md hover:-translate-y-1",
-        gold:
-          "bg-warning text-white dark:text-gray-950 shadow-sm hover:bg-warning/80 hover:shadow-md hover:-translate-y-1",
+          "bg-[var(--bg-card)] text-[var(--aau-blue)] border-2 border-[var(--aau-blue)] hover:bg-[var(--aau-blue)] hover:text-white hover:-translate-y-0.5",
         ghost:
-          "bg-transparent text-primary dark:text-primary-foreground hover:bg-secondary/10",
+          "bg-transparent text-[var(--aau-blue)] hover:bg-[var(--aau-blue)]/5",
         outline:
-          "bg-transparent border border-border text-foreground hover:bg-secondary/10 hover:border-primary dark:hover:border-primary-foreground",
+          "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:border-[var(--aau-blue)] hover:text-[var(--aau-blue)]",
+        danger:
+          "bg-[var(--aau-dark-pink)] text-white shadow-sm hover:bg-[var(--aau-dark-pink)]/90 hover:-translate-y-0.5",
+        success:
+          "bg-[var(--aau-dark-green)] text-white shadow-sm hover:bg-[var(--aau-dark-green)]/90 hover:-translate-y-0.5",
       },
       size: {
-        xs: "h-8 px-3 text-xs rounded-sm",
-        sm: "h-9 px-4 text-[0.8125rem] rounded-md",
-        md: "h-11 px-6 text-sm rounded-md",
-        lg: "h-14 px-8 text-base rounded-lg",
-        icon: "size-11 p-0 rounded-md",
-        "icon-sm": "size-9 p-0 rounded-sm",
+        xs: "h-8 px-[var(--space-sm)] text-[0.625rem] rounded-[var(--radius-sm)]",
+        sm: "h-10 px-[var(--space-md)] text-xs rounded-[var(--radius-md)]",
+        md: "h-12 px-[var(--space-lg)] text-sm rounded-[var(--radius-lg)]",
+        icon: "size-12 p-0 rounded-[var(--radius-lg)]",
+        "icon-sm": "size-10 p-0 rounded-[var(--radius-md)]",
+        "icon-xs": "size-8 p-0 rounded-[var(--radius-sm)]",
       },
       full: {
         true: "w-full",
       },
       pill: {
-        true: "rounded-full",
+        true: "rounded-[var(--radius-full)]",
       },
     },
     defaultVariants: {
@@ -63,7 +66,10 @@ export interface ButtonProps
   loading?: boolean;
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+/**
+ * Button - High-performance AAU UI component.
+ */
+const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className,
@@ -89,14 +95,19 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, full, pill }), className)}
         {...props}
       >
-        {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
-        {!loading && Icon && <Icon className="group-hover:scale-110" aria-hidden="true" />}
-        {children && <span>{children}</span>}
-        {!loading && IconRight && <IconRight className="group-hover:translate-x-0.5" aria-hidden="true" />}
+        {loading ? (
+          <Loader2 className="animate-spin" size={18} aria-hidden="true" />
+        ) : (
+          <>
+            {Icon && <Icon className="transition-transform group-hover:scale-110" size={18} strokeWidth={2.5} aria-hidden="true" />}
+            {children && <span className="relative z-10">{children}</span>}
+            {IconRight && <IconRight className="transition-transform group-hover:translate-x-0.5" size={18} strokeWidth={2.5} aria-hidden="true" />}
+          </>
+        )}
       </BaseButton>
     );
   }
-);
+));
 
 Button.displayName = "Button";
 

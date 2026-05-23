@@ -1,118 +1,147 @@
-import React, { type ReactNode } from "react";
+"use client"
+
+import React, { type ReactNode, memo, forwardRef, useState } from "react";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+/**
+ * Dropdown (Menu) - High-performance AAU UI component.
+ * Enforces 8pt grid, 150ms motion physics, and strict brand token usage.
+ */
+
+const DropdownRoot = MenuPrimitive.Root;
+
+const DropdownTrigger = forwardRef<HTMLButtonElement, MenuPrimitive.Trigger.Props>(
+  ({ className, ...props }, ref) => (
+    <MenuPrimitive.Trigger
+      ref={ref}
+      asChild
+      {...props}
+    />
+  )
+);
+DropdownTrigger.displayName = "DropdownTrigger";
+
+const DropdownPortal = MenuPrimitive.Portal;
+
+const DropdownItem = forwardRef<HTMLDivElement, MenuPrimitive.Item.Props>(
+  ({ className, ...props }, ref) => (
+    <MenuPrimitive.Item
+      ref={ref}
+      className={cn(
+        "min-h-[44px] flex items-center px-[var(--space-sm)] py-[var(--space-2xs)] w-full text-left",
+        "rounded-[var(--radius-md)] transition-colors duration-150 outline-none cursor-pointer",
+        "text-sm font-bold text-[var(--text-main)]",
+        "hover:bg-[var(--bg-highlight)] hover:text-[var(--aau-blue)]",
+        "focus-visible:bg-[var(--bg-highlight)] focus-visible:text-[var(--aau-blue)]",
+        "data-[disabled]:opacity-40 data-[disabled]:pointer-events-none",
+        className
+      )}
+      {...props}
+    />
+  )
+);
+DropdownItem.displayName = "DropdownItem";
+
+const DropdownContent = memo(forwardRef<HTMLDivElement, MenuPrimitive.Popup.Props & {
+  align?: "start" | "center" | "end";
+  sideOffset?: number;
+}>(({ className, children, align = "end", sideOffset = 8, ...props }, ref) => (
+  <DropdownPortal>
+    <MenuPrimitive.Positioner align={align} sideOffset={sideOffset}>
+      <MenuPrimitive.Popup
+        ref={ref}
+        data-slot="dropdown-content"
+        render={
+          <motion.div
+            initial={{ opacity: 0, y: -8, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+            className={cn(
+              "z-[var(--z-dropdown)] min-w-[200px] flex flex-col gap-[var(--space-4xs)]",
+              "bg-[var(--bg-card)] border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] p-[var(--space-2xs)]",
+              "shadow-[var(--shadow-xl)] outline-none isolate",
+              className
+            )}
+          />
+        }
+        {...props}
+      >
+        {children}
+      </MenuPrimitive.Popup>
+    </MenuPrimitive.Positioner>
+  </DropdownPortal>
+)));
+DropdownContent.displayName = "DropdownContent";
+
+// Legacy compatibility wrapper
 export interface DropdownProps {
-  /** Elementet som udløser dropdown‑menuen */
   trigger: ReactNode;
-  /** Indholdet af dropdown‑menuen */
   children?: ReactNode;
-  /** Kontrolleret åben‑tilstand */
   isOpen?: boolean;
-  /** Callback når brugeren toggler menuen */
   onToggle?: () => void;
-  /** Callback når menuen lukkes */
   onClose?: () => void;
-  /** Placering i forhold til trigger */
   align?: "left" | "right";
-  /** Bredde på menuen */
   width?: string;
-  /** Ekstra className til wrapper */
   className?: string;
 }
 
 /**
- * Tilgængelig dropdown‑komponent.
- *
- * Refactored to use @base-ui/react, framer-motion, and strict 44px hit areas.
+ * Dropdown - Legacy Compatibility Wrapper.
+ * For new code, prefer the composable Dropdown.* components.
  */
-export default function Dropdown({
+const DropdownWrapper = ({
   trigger,
   children,
   isOpen,
   onToggle,
   onClose,
   align = "right",
-  width = "200px",
-  className = "",
-}: DropdownProps) {
-  const controlled = isOpen !== undefined;
-  const [internalOpen, setInternalOpen] = React.useState(false);
-  const open = controlled ? isOpen : internalOpen;
+  width,
+  className,
+}: DropdownProps) => {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const open = isOpen !== undefined ? isOpen : internalOpen;
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (!controlled) {
-      setInternalOpen(newOpen);
-    }
+    if (isOpen === undefined) setInternalOpen(newOpen);
     if (newOpen && onToggle) onToggle();
     if (!newOpen && onClose) onClose();
     if (!newOpen && onToggle && !onClose) onToggle();
   };
 
-  const renderChildren = () => {
-    return React.Children.map(children, (child) => {
-      if (React.isValidElement(child)) {
-        return (
-          <MenuPrimitive.Item
-            render={
-              React.cloneElement(child as React.ReactElement, {
-                className: cn(
-                  "min-h-[44px] flex items-center px-sm py-2 w-full text-left rounded-[var(--radius-md)] transition-colors outline-none cursor-pointer",
-                  "focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none hover:bg-muted focus-visible:bg-muted",
-                  (child.props as any).className
-                ),
-              })
-            }
-          />
-        );
-      }
-      return child;
-    });
-  };
-
   return (
-    <MenuPrimitive.Root open={open} onOpenChange={handleOpenChange}>
-      <MenuPrimitive.Trigger
-        render={
-          React.isValidElement(trigger) ? (
-            React.cloneElement(trigger as React.ReactElement, {
-              className: cn(
-                "focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm",
-                (trigger.props as any).className
-              ),
-            })
-          ) : (
-            <button
-              type="button"
-              className="cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-sm"
-            >
-              {trigger}
-            </button>
-          )
-        }
-      />
-      <MenuPrimitive.Portal>
-        <MenuPrimitive.Positioner align={align === "right" ? "end" : "start"} sideOffset={8}>
-          <MenuPrimitive.Popup
-            render={
-              <motion.div
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -4 }}
-                transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-                className={cn(
-                  "bg-card border border-border rounded-[var(--radius-md)] p-sm z-[var(--z-dropdown)] shadow-[var(--shadow-xl)] outline-none flex flex-col gap-1",
-                  className
-                )}
-                style={{ minWidth: width }}
-              />
-            }
-          >
-            {renderChildren()}
-          </MenuPrimitive.Popup>
-        </MenuPrimitive.Positioner>
-      </MenuPrimitive.Portal>
-    </MenuPrimitive.Root>
+    <DropdownRoot open={open} onOpenChange={handleOpenChange}>
+      <DropdownTrigger asChild>
+        {React.isValidElement(trigger) ? trigger : <button type="button">{trigger}</button>}
+      </DropdownTrigger>
+      <DropdownContent 
+        align={align === "right" ? "end" : "start"} 
+        className={cn("dropdown-menu", className)}
+        style={{ minWidth: width }}
+      >
+        {React.Children.map(children, (child) => {
+          if (React.isValidElement(child)) {
+            return (
+              <DropdownItem asChild>
+                {child}
+              </DropdownItem>
+            );
+          }
+          return child;
+        })}
+      </DropdownContent>
+    </DropdownRoot>
   );
-}
+};
+
+export {
+  DropdownRoot as Dropdown,
+  DropdownTrigger,
+  DropdownContent,
+  DropdownItem,
+  DropdownPortal,
+  DropdownWrapper as default
+};
