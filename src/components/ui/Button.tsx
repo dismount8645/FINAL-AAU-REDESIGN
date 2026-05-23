@@ -15,7 +15,7 @@ const buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-[var(--space-xs)] relative overflow-visible select-none whitespace-nowrap",
     "font-black uppercase tracking-tighter transition-all duration-150 ease-[var(--transition-ease)] outline-none isolate",
-    "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2",
+    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
     "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
     "active:scale-[0.97]",
     "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:transition-transform [&_svg]:duration-150",
@@ -24,13 +24,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-[var(--aau-blue)] text-white shadow-[var(--shadow-sm)] hover:bg-[var(--aau-light-blue)] hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
+          "bg-primary text-primary-foreground shadow-[var(--shadow-sm)] hover:bg-accent hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5",
         secondary:
-          "bg-[var(--bg-card)] text-[var(--aau-blue)] border-2 border-[var(--aau-blue)] hover:bg-[var(--aau-blue)] hover:text-white hover:-translate-y-0.5",
+          "bg-[var(--bg-card)] text-primary border-2 border-primary hover:bg-primary hover:text-primary-foreground hover:-translate-y-0.5",
         ghost:
-          "bg-transparent text-[var(--aau-blue)] hover:bg-[var(--aau-blue)]/5",
+          "bg-transparent text-primary hover:bg-primary/5",
         outline:
-          "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:border-[var(--aau-blue)] hover:text-[var(--aau-blue)]",
+          "bg-transparent border border-[var(--border-color)] text-[var(--text-main)] hover:bg-[var(--bg-highlight)] hover:border-primary hover:text-primary",
         danger:
           "bg-[var(--aau-dark-pink)] text-white shadow-sm hover:bg-[var(--aau-dark-pink)]/90 hover:-translate-y-0.5",
         success:

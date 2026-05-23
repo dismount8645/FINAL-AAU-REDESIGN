@@ -46,7 +46,7 @@ export default function Topbar() {
         <Button
           variant="ghost"
           size="icon"
-          className="w-11 h-11 text-[var(--text-main)] dark:text-white bg-transparent hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
+          className="w-11 h-11 text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           onClick={toggleSidebar}
           aria-label={t('toggle_sidebar')}
           type="button"
@@ -65,13 +65,13 @@ export default function Topbar() {
             >
               {activeBreadcrumbs.map((crumb, idx) => (
                 <Fragment key={idx}>
-                  {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-[var(--text-muted)]" />}
+                  {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-muted" />}
                   {crumb.href ? (
-                    <Link to={crumb.href} className="text-[var(--text-muted)] hover:text-primary transition-colors font-bold uppercase tracking-tighter focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+                    <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold uppercase tracking-tighter focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                       <Text size="xs">{crumb.label}</Text>
                     </Link>
                   ) : (
-                    <Text weight="black" size="xs" className="text-[var(--text-main)] uppercase tracking-tight">{crumb.label}</Text>
+                    <Text weight="black" size="xs" className="text-main uppercase tracking-tight">{crumb.label}</Text>
                   )}
                 </Fragment>
               ))}
@@ -86,7 +86,7 @@ export default function Topbar() {
           variant="ghost"
           size="icon"
           onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-          className="group w-11 h-11 text-[var(--text-main)] bg-transparent hover:bg-[var(--bg-highlight)] dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
+          className="group w-11 h-11 text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           title={`${t('appearance')}: ${theme}`}
           aria-label={`${t('appearance')}: ${theme}`}
           type="button"

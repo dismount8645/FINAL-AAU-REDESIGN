@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -16,16 +16,22 @@ export default function NotificationsDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const close = useCallback(() => setIsOpen(false), []);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
-        setIsOpen(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) close();
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
     };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [close]);
 
   const getNotifIcon = (type: string) => {
     switch (type) {
@@ -43,14 +49,15 @@ export default function NotificationsDropdown() {
         variant="ghost"
         size="icon"
         className={cn(
-          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
+          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
           isOpen 
             ? "bg-primary text-white shadow-md" 
             : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(prev => !prev)}
         aria-label={t('notifications')}
         aria-expanded={isOpen}
+        aria-haspopup="true"
         type="button"
       >
         <Bell size={20} strokeWidth={2} />
@@ -68,9 +75,9 @@ export default function NotificationsDropdown() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-xl border border-border bg-bg-main shadow-xl"
+            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-xl border border-border bg-bg-card shadow-xl"
           >
-            <div className="flex items-center justify-between border-b border-border bg-bg-hover p-md">
+            <div className="flex items-center justify-between border-b border-border p-md">
               <Text size="sm" weight="black" className="uppercase tracking-widest text-main">
                 {t('notifications')}
               </Text>
@@ -81,7 +88,7 @@ export default function NotificationsDropdown() {
                   navigate('/notifications');
                   setIsOpen(false);
                 }}
-                className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus px-1 h-auto"
+                className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 px-1 h-auto"
                 type="button"
               >
                 {t('view_all')}

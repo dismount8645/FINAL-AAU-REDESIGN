@@ -12,28 +12,28 @@ import { cn } from "@/lib/utils";
 const cardVariants = cva(
   [
     "group relative flex flex-col h-full transition-all duration-300 ease-[var(--transition-ease)]",
-    "bg-[var(--bg-card)] border border-[var(--border-color)]/60 rounded-[var(--radius-xl)]",
+    "bg-[var(--bg-card)] border border-border/60 rounded-xl",
     "isolate overflow-hidden"
   ],
   {
     variants: {
       variant: {
-        default: "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]",
-        elevated: "shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-xl)]",
-        outlined: "bg-transparent border-2 border-[var(--border-color)] hover:border-[var(--aau-blue)]",
+        default: "shadow-sm hover:shadow-md",
+        elevated: "shadow-md hover:shadow-xl",
+        outlined: "bg-transparent border-2 border-border hover:border-primary",
         brand: [
-          "bg-gradient-to-br from-[var(--aau-blue)] to-[var(--aau-light-blue)] text-white border-none shadow-[var(--shadow-lg)]",
+          "bg-gradient-to-br from-primary to-[var(--aau-light-blue)] text-white border-none shadow-lg",
           "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity duration-300"
         ],
         ghost: "bg-transparent border-none shadow-none hover:bg-[var(--bg-highlight)]/50",
       },
       accent: {
         none: "",
-        left: "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-[var(--aau-blue)] before:z-10",
-        top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-[var(--aau-blue)] before:z-10",
+        left: "before:absolute before:left-0 before:top-0 before:bottom-0 before:w-1 before:bg-primary before:z-10",
+        top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-primary before:z-10",
       },
       interactive: {
-        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--aau-blue)]/35 focus-visible:ring-offset-2",
+        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/35 focus-visible:ring-offset-2",
         false: "",
       }
     },
@@ -88,12 +88,12 @@ const CardRoot = memo(forwardRef<HTMLDivElement, CardProps>(
 CardRoot.displayName = "Card";
 
 const headerVariants = cva(
-  "flex items-center justify-between gap-[var(--space-md)] border-b border-[var(--border-color)]/40 transition-colors duration-150",
+  "flex items-center justify-between gap-md border-b border-border/40 transition-colors duration-150",
   {
     variants: {
       padding: {
-        default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
-        compact: "p-[var(--space-sm)]",
+        default: "p-md lg:p-lg",
+        compact: "p-sm",
         none: "p-0",
       },
     },
@@ -114,8 +114,8 @@ const CardHeader = memo(({ children, className, padding, ...props }: CardHeaderP
 const bodyVariants = cva("flex-1 min-w-0", {
   variants: {
     padding: {
-      default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
-      compact: "p-[var(--space-sm)]",
+      default: "p-md lg:p-lg",
+      compact: "p-sm",
       none: "p-0",
     },
   },
@@ -133,12 +133,12 @@ const CardBody = memo(({ children, className, padding, ...props }: CardBodyProps
 ));
 
 const footerVariants = cva(
-  "mt-auto flex items-center gap-[var(--space-xs)] border-t border-[var(--border-color)]/40",
+  "mt-auto flex items-center gap-xs border-t border-border/40",
   {
     variants: {
       padding: {
-        default: "p-[var(--space-md)] lg:p-[var(--space-lg)]",
-        compact: "p-[var(--space-sm)]",
+        default: "p-md lg:p-lg",
+        compact: "p-sm",
         none: "p-0",
       },
     },
@@ -163,7 +163,7 @@ interface CardDecorationProps extends HTMLAttributes<HTMLDivElement> {
 const CardDecoration = memo(({ icon: Icon, className, ...props }: CardDecorationProps) => (
   <div
     className={cn(
-      "card__decoration absolute -right-[var(--space-lg)] -bottom-[var(--space-lg)] opacity-[0.03] rotate-12 pointer-events-none z-0",
+      "card__decoration absolute -right-lg -bottom-lg opacity-[0.03] rotate-12 pointer-events-none z-0",
       className
     )}
     {...props}

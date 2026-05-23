@@ -52,12 +52,12 @@ export function WidgetCustomizer({
           <IconCircle
             icon={Edit}
             size={32}
-            bg="rgba(var(--aau-blue-rgb), 0.1)"
-            color="var(--aau-blue)"
+            bg="var(--bg-highlight)"
+            color="var(--color-primary)"
             className="dark:bg-white/10 dark:text-white"
           />
           <Stack gap="2xs" className="flex-1">
-            <Text size="sm" weight="bold" className="dashboard__edit-banner-title text-[var(--aau-blue)] dark:text-white">
+            <Text size="sm" weight="bold" className="dashboard__edit-banner-title text-primary dark:text-white">
               {t('dashboard.edit_mode_active')}
             </Text>
             <Text size="xs" muted className="dark:text-white/70">

@@ -45,7 +45,7 @@ const GradeItem = memo(forwardRef<HTMLDivElement, {
         icon={grade.score !== null ? Star : Hourglass}
         iconColor={grade.score !== null ? 'var(--aau-light-orange)' : 'var(--text-disabled)'}
         title={grade.title}
-        className="bg-transparent hover:bg-[var(--bg-hover)] px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150"
+        className="bg-transparent hover:bg-bg-hover px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150"
         right={
           <AnimatePresence mode="wait">
             {grade.score !== null ? (
@@ -53,7 +53,7 @@ const GradeItem = memo(forwardRef<HTMLDivElement, {
                 key="score"
                 initial={{ scale: 0.5 }}
                 animate={{ scale: 1 }}
-                className="recent-grades__score flex items-center justify-center w-8 h-8 bg-[var(--aau-blue)] text-white rounded-[var(--radius-full)] text-[0.75rem] font-black shadow-sm group-hover/item:scale-110 transition-transform"
+                className="recent-grades__score flex items-center justify-center w-8 h-8 bg-primary text-white rounded-[var(--radius-full)] text-[0.75rem] font-black shadow-sm group-hover/item:scale-110 transition-transform"
               >
                 {grade.score}
               </motion.div>
@@ -102,12 +102,12 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
       "recent-grades-widget h-full w-full flex flex-col group/widget overflow-hidden",
       "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
-      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Trophy size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
             {t('recent_grades')}
           </Heading>
         </Stack>
@@ -115,7 +115,7 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
+          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
         >
@@ -147,15 +147,15 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
         )}
       </Card.Body>
 
-      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
+      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
+        <Text size="xs" weight="medium" className="text-muted italic">
           {t('academic_results')}
         </Text>
         <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
           <Button 
             variant="ghost" 
             size="xs" 
-            className="text-[var(--aau-blue)] uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
+            className="text-primary uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
             onClick={handleViewAll}
             iconRight={ChevronRight}
           >

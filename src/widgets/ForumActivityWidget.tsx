@@ -31,7 +31,7 @@ const activities: Activity[] = [
     snippetDa: 'Jeg har lagt de nye slides op nu...',
     snippetEn: 'I have uploaded the new slides now...',
     icon: Reply,
-    color: 'var(--aau-blue)'
+    color: 'var(--color-primary)'
   },
   {
     id: 2,
@@ -41,7 +41,7 @@ const activities: Activity[] = [
     snippetDa: 'Er der nogen der mangler en gruppe?',
     snippetEn: 'Is anyone missing a group?',
     icon: MessageSquare,
-    color: 'var(--aau-light-blue)'
+    color: 'var(--color-accent)'
   },
   {
     id: 3,
@@ -51,7 +51,7 @@ const activities: Activity[] = [
     snippetDa: 'Husk at tjekke den opdaterede liste.',
     snippetEn: 'Remember to check the updated list.',
     icon: Book,
-    color: 'var(--aau-dark-green)'
+    color: 'var(--color-success)'
   },
 ]
 
@@ -77,8 +77,8 @@ const ActivityItem = memo(forwardRef<HTMLButtonElement, {
       type="button"
       className={cn(
         "w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150",
-        "hover:bg-[var(--bg-hover)] cursor-pointer group/item outline-none",
-        "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2"
+        "hover:bg-bg-hover cursor-pointer group/item outline-none",
+        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       )}
       onClick={() => onClick(activity.id)}
     >
@@ -93,19 +93,19 @@ const ActivityItem = memo(forwardRef<HTMLButtonElement, {
         
         {showSnippet && (
           <div className="pl-10 relative">
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-[var(--aau-blue)]/20 transition-colors" />
-            <Text size="xs" className="forum-activity__snippet text-[var(--text-muted)] leading-relaxed relative">
-              <span className="text-[var(--aau-blue)]/40 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
+            <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-primary/20 transition-colors" />
+            <Text size="xs" className="forum-activity__snippet text-muted leading-relaxed relative">
+              <span className="text-primary/40 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
               <span className="italic">{localize(activity, 'snippet')}</span>
-              <span className="text-[var(--aau-blue)]/40 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
+              <span className="text-primary/40 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
             </Text>
           </div>
         )}
 
         <div className="pl-10 mt-1 flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/item:opacity-100 transition-all duration-300 -translate-x-2 group-hover/item:translate-x-0">
-          <div className="h-px w-4 bg-[var(--aau-blue)]/30" />
-          <Text size="xs" weight="black" className="text-[var(--aau-blue)] uppercase tracking-widest">{t('read_more')}</Text>
-          <ArrowRight size={10} strokeWidth={3} className="text-[var(--aau-blue)]" />
+          <div className="h-px w-4 bg-primary/30" />
+          <Text size="xs" weight="black" className="text-primary uppercase tracking-widest">{t('read_more')}</Text>
+          <ArrowRight size={10} strokeWidth={3} className="text-primary" />
         </div>
       </Stack>
     </motion.button>
@@ -139,12 +139,12 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
       "forum-activity-widget h-full w-full flex flex-col group/widget overflow-hidden",
       "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
-      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <MessageCircle size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
             {t('forum_activity')}
           </Heading>
         </Stack>
@@ -152,7 +152,7 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
+          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
         >
@@ -176,13 +176,13 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
       </Card.Body>
 
       {/* Aesthetic Bottom Info */}
-      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
+      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
+        <Text size="xs" weight="medium" className="text-muted italic">
           {t('communication')}
         </Text>
         <div className="flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/widget:opacity-100 transition-opacity duration-300">
-          <Text size="xs" weight="bold" className="text-[var(--aau-dark-green)] uppercase tracking-tighter">{t('active_now')}</Text>
-          <div className="w-1.5 h-1.5 rounded-[var(--radius-full)] bg-[var(--aau-dark-green)] animate-pulse" />
+          <Text size="xs" weight="bold" className="text-success uppercase tracking-tighter">{t('active_now')}</Text>
+          <div className="w-1.5 h-1.5 rounded-[var(--radius-full)] bg-success animate-pulse" />
         </div>
       </Card.Footer>
     </Card>

@@ -58,12 +58,12 @@ const CalendarUpcomingWidget = ({
 
   return (
     <Card variant="default" className="upcoming-events-widget">
-      <Card.Header padding="default" className="bg-[var(--bg-highlight)]/20">
+      <Card.Header padding="default" className="bg-bg-highlight/20">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-[var(--aau-blue)]/10 text-[var(--aau-blue)]">
+          <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-primary/10 text-primary">
             <CalendarCheck size={18} strokeWidth={2.5} />
           </div>
-          <span className="text-sm font-black uppercase tracking-tight text-[var(--text-main)]">
+          <span className="text-sm font-black uppercase tracking-tight text-main">
             {t('upcoming')}
           </span>
         </Stack>
@@ -84,7 +84,7 @@ const CalendarUpcomingWidget = ({
                   type="button"
                   className={cn(
                     "upcoming-event-item w-full flex items-center gap-[var(--space-md)] p-[var(--space-md)] text-left transition-all duration-150",
-                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-[var(--bg-highlight)]/50 focus-visible:bg-[var(--bg-highlight)] focus-visible:outline-none"
+                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-bg-highlight/50 focus-visible:bg-bg-highlight/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-inset"
                   )}
                   onClick={() => handleEventClick(e, e.dateKey)}
                 >
@@ -93,51 +93,51 @@ const CalendarUpcomingWidget = ({
                     align="center"
                     justify="center"
                     gap="none"
-                    className="bg-[var(--bg-card)] p-[var(--space-2xs)] rounded-[var(--radius-md)] min-w-[52px] h-[52px] border border-[var(--border-color)]/60 shadow-sm shrink-0"
+                    className="bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] min-w-[52px] h-[52px] border border-[var(--border-color)]/60 shadow-sm shrink-0"
                   >
-                    <span className="text-[0.625rem] font-black text-[var(--text-muted)] uppercase tracking-widest leading-none">
+                    <span className="text-[0.625rem] font-black text-muted uppercase tracking-widest leading-none">
                       {monthNames[e.date.getMonth()].substring(0, 3)}
                     </span>
-                    <span className="text-[1.25rem] font-black text-[var(--aau-blue)] leading-none mt-[2px]">
+                    <span className="text-[1.25rem] font-black text-primary leading-none mt-[2px]">
                       {e.date.getDate()}
                     </span>
                   </Stack>
 
                   {/* Event Info */}
                   <Stack gap="4xs" className="flex-1 min-w-0">
-                    <span className="text-sm font-bold text-[var(--text-main)] truncate leading-snug">
+                    <span className="text-sm font-bold text-main truncate leading-snug">
                       {getEventTitle(e)}
                     </span>
-                    <Stack direction="row" gap="xs" align="center" className="text-[var(--text-muted)]">
+                    <Stack direction="row" gap="xs" align="center" className="text-muted">
                       <Clock size={12} strokeWidth={2.5} />
                       <span className="text-[0.6875rem] font-bold uppercase tracking-tight">{e.time}</span>
                     </Stack>
                     {e.location && (
-                      <Stack direction="row" gap="xs" align="center" className="text-[var(--aau-blue)]/80">
+                      <Stack direction="row" gap="xs" align="center" className="text-primary/80">
                         <MapPin size={12} strokeWidth={2.5} />
                         <span className="text-[0.6875rem] font-bold italic truncate">{e.location}</span>
                       </Stack>
                     )}
                   </Stack>
 
-                  <ChevronRight size={16} className="text-[var(--text-muted)]/40 shrink-0" />
+                  <ChevronRight size={16} className="text-muted/40 shrink-0" />
                 </motion.button>
               ))
             ) : (
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="py-[var(--space-xl)] px-[var(--space-lg)] text-center bg-[var(--bg-highlight)]/5"
+                className="py-[var(--space-xl)] px-[var(--space-lg)] text-center bg-bg-highlight/5"
               >
-                <CalendarCheck size={40} className="text-[var(--text-muted)]/20 mx-auto mb-[var(--space-sm)]" />
-                <p className="text-sm font-bold text-[var(--text-muted)]">{t('no_events_short')}</p>
+                <CalendarCheck size={40} className="text-muted/20 mx-auto mb-[var(--space-sm)]" />
+                <p className="text-sm font-bold text-muted">{t('no_events_short')}</p>
               </motion.div>
             )}
           </AnimatePresence>
         </Stack>
       </Card.Body>
 
-      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/10">
+      <Card.Footer padding="compact" className="bg-bg-highlight/10">
         <Button variant="ghost" full size="sm" onClick={() => navigate('/calendar')} className="text-[0.625rem] tracking-[0.1em]">
           {t('view_all')}
         </Button>

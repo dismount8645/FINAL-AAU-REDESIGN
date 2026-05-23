@@ -31,25 +31,25 @@ const getUrgencyConfig = (deadlineDate: string): UrgencyConfig => {
     level: 'overdue', 
     color: 'var(--color-aau-dark-pink)', 
     icon: AlertCircle,
-    labelClass: 'text-[var(--aau-dark-pink)] font-black uppercase tracking-tighter' 
+    labelClass: 'text-danger font-black uppercase tracking-tighter' 
   }
   if (hoursLeft < 24) return { 
     level: 'critical', 
     color: 'var(--color-aau-dark-pink)', 
     icon: Clock,
-    labelClass: 'text-[var(--aau-dark-pink)] font-bold' 
+    labelClass: 'text-danger font-bold' 
   }
   if (hoursLeft < 72) return { 
     level: 'soon', 
     color: 'var(--color-aau-dark-orange)', 
     icon: Clock,
-    labelClass: 'text-[var(--aau-dark-orange)] font-semibold' 
+    labelClass: 'text-warning font-semibold' 
   }
   return { 
     level: 'normal', 
-    color: 'var(--color-aau-blue)', 
+    color: 'var(--color-primary)', 
     icon: CheckCircle2,
-    labelClass: 'text-[var(--aau-blue)] dark:text-[var(--text-main)]' 
+    labelClass: 'text-primary dark:text-main' 
   }
 }
 
@@ -87,12 +87,12 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
       "deadlines-widget h-full w-full flex flex-col group/widget overflow-hidden",
       "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
     )}>
-      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-[var(--bg-highlight)]/50 backdrop-blur-sm">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Calendar size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
             {t('next_assignment')}
           </Heading>
         </Stack>
@@ -100,7 +100,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
+          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleSeeAll}
           iconRight={ChevronRight}
         >
@@ -118,8 +118,8 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
               <div 
                 key={dl.id} 
                 className={cn(
-                  "p-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-[var(--bg-hover)] group/item cursor-pointer",
-                  dl.urgency.level === 'overdue' && "bg-[var(--aau-dark-pink)]/5 hover:bg-[var(--aau-dark-pink)]/10"
+                  "p-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-bg-hover group/item cursor-pointer",
+                  dl.urgency.level === 'overdue' && "bg-danger/5 hover:bg-danger/10"
                 )}
                 onClick={() => handleDeadlineClick(dl)}
               >
@@ -144,13 +144,13 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
       
       {/* Aesthetic Footer hint */}
       {deadlines.length > 0 && (
-        <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-          <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
+        <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
+          <Text size="xs" weight="medium" className="text-muted italic">
             {deadlines.length} {t('upcoming')}
           </Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-tighter">{t('click_to_view')}</Text>
-            <Clock size={10} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
+            <Text size="xs" weight="bold" className="text-primary uppercase tracking-tighter">{t('click_to_view')}</Text>
+            <Clock size={10} strokeWidth={2.5} className="text-primary" />
           </div>
         </Card.Footer>
       )}

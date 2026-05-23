@@ -48,22 +48,22 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
         className={cn(
           "w-full h-full flex flex-col items-start gap-[var(--space-sm)] p-[var(--space-md)] rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-[var(--bg-card)] transition-all duration-150 text-left outline-none isolate",
           "hover:shadow-[var(--shadow-lg)] hover:border-[var(--aau-blue)] cursor-pointer",
-          "focus-visible:ring-2 focus-visible:ring-[var(--aau-blue)] focus-visible:ring-offset-2"
+          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
         )}
         onClick={() => !isEditing && onOpen(tool.url)}
         aria-label={`${t('open')} ${t(tool.nameKey)}`}
       >
-        <div className="w-10 h-10 rounded-[var(--radius-lg)] bg-[var(--bg-highlight)] text-[var(--aau-blue)] flex items-center justify-center transition-all duration-150 group-hover:bg-[var(--aau-blue)] group-hover:text-white group-hover:scale-110 shadow-sm">
+        <div className="w-10 h-10 rounded-[var(--radius-lg)] bg-bg-highlight text-primary flex items-center justify-center transition-all duration-150 group-hover:bg-primary group-hover:text-white group-hover:scale-110 shadow-sm">
           <Icon size={20} strokeWidth={2} />
         </div>
         
         <div className="mt-auto w-full space-y-[var(--space-2xs)]">
-          <Text weight="bold" size="sm" className="truncate text-[var(--text-main)] group-hover:text-[var(--aau-blue)] transition-colors leading-tight">
+          <Text weight="bold" size="sm" className="truncate text-main group-hover:text-primary transition-colors leading-tight">
             {t(tool.nameKey)}
           </Text>
           <div className="flex items-center gap-1.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-[var(--transition-ease)]">
-            <Text size="xs" weight="black" className="uppercase tracking-widest text-[var(--aau-blue)]">{t('open')}</Text>
-            <ArrowUpRight size={12} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
+            <Text size="xs" weight="black" className="uppercase tracking-widest text-primary">{t('open')}</Text>
+            <ArrowUpRight size={12} strokeWidth={2.5} className="text-primary" />
           </div>
         </div>
       </button>
@@ -76,8 +76,8 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
         className={cn(
           "absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 transition-all duration-150",
           isFav 
-            ? "text-[var(--aau-light-orange)] bg-[var(--bg-highlight)] shadow-sm" 
-            : "text-[var(--text-disabled)] opacity-0 group-hover:opacity-100 hover:text-[var(--text-main)]"
+            ? "text-warning bg-bg-highlight shadow-sm" 
+            : "text-disabled opacity-0 group-hover:opacity-100 hover:text-main"
         )}
         onClick={(e) => { 
           e.stopPropagation()
@@ -131,12 +131,12 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
 
   return (
     <Card className="h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300">
-      <Card.Header padding="compact" className="bg-[var(--bg-highlight)] border-b border-[var(--border-color)]">
+      <Card.Header padding="compact" className="bg-bg-highlight border-b border-[var(--border-color)]">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-[var(--aau-blue)] text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <LayoutGrid size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-[var(--text-main)]">
+          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
             {t('quick_access')}
           </Heading>
         </Stack>
@@ -144,7 +144,7 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-[var(--aau-blue)] hover:bg-[var(--bg-card)]/50"
+          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
         >
@@ -170,13 +170,13 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
       </Card.Body>
 
       {/* Aesthetic Footer - Synchronized with AAU Brand Tokens */}
-      <Card.Footer padding="compact" className="bg-[var(--bg-highlight)]/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-[var(--text-muted)] italic">
+      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
+        <Text size="xs" weight="medium" className="text-muted italic">
           {t('administrative_systems')}
         </Text>
         <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-          <Text size="xs" weight="bold" className="text-[var(--aau-blue)] uppercase tracking-tighter">{t('external_link')}</Text>
-          <ExternalLink size={10} strokeWidth={2.5} className="text-[var(--aau-blue)]" />
+          <Text size="xs" weight="bold" className="text-primary uppercase tracking-tighter">{t('external_link')}</Text>
+          <ExternalLink size={10} strokeWidth={2.5} className="text-primary" />
         </div>
       </Card.Footer>
     </Card>
