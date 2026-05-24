@@ -18,7 +18,7 @@ const DropdownTrigger = forwardRef<HTMLButtonElement, MenuPrimitive.Trigger.Prop
       ref={ref}
       className={cn(
         "inline-flex items-center justify-center outline-none transition-all duration-150",
-        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-[var(--radius-sm)]",
+        "focus-visible:shadow-focus focus-visible:outline-none rounded-[var(--radius-sm)]",
         className
       )}
       {...props}
