@@ -41,7 +41,7 @@ export default function NotificationDetailView({
     <>
       <Card.Header className="bg-bg-card border-b border-border p-lg">
         <Stack direction="row" gap="md" align="center">
-          <div className={`notification-icon-wrapper notif-type--${selectedNotification.type.toLowerCase()} w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border border-border/60 bg-slate-50 dark:bg-white/5 shadow-inner`}>
+          <div className={`notification-icon-wrapper notif-type--${selectedNotification.type.toLowerCase()} w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border border-border/60 bg-bg-placeholder/50 dark:bg-white/5 shadow-inner`}>
             <Icon size={24} strokeWidth={2} className="text-primary" />
           </div>
           <Stack gap="xs">
@@ -55,13 +55,13 @@ export default function NotificationDetailView({
           </Stack>
         </Stack>
       </Card.Header>
-      <Card.Body className="bg-slate-50/50 dark:bg-bg-card p-[var(--space-lg)]">
+      <Card.Body className="bg-bg-placeholder/30 dark:bg-bg-card p-[var(--space-lg)]">
         <div className="notification-detail-card bg-bg-card p-xl rounded-2xl shadow-[var(--shadow-xl)] border border-border flex flex-col min-h-[50vh]">
           <Text size="md" className="leading-relaxed text-main/90 mb-xl flex-1 whitespace-pre-wrap">{selectedNotification.content}</Text>
           <Button
             variant="primary"
             full
-            size="lg"
+            size="md"
             iconRight={ArrowRight}
             onClick={() => onNavigate(selectedNotification.link)}
             className="mt-auto shadow-[var(--shadow-lg)] hover:shadow-primary/20"

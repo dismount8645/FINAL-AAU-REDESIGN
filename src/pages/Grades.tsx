@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react'
 import { FileText } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Stack from '@/components/ui/Stack'
 import Card from '@/components/ui/Card'
 import useStore from '@/store/useStore'
 import EmptyState from '@/components/ui/EmptyState'
 import PageHeader from '@/components/common/PageHeader'
 import { GradesOverview, GradesFilter, GradeRow, type GradeRecord } from './grades/index'
+import { useGradesFilterAndStats } from '@/hooks/useGradesFilterAndStats'
 
 const mockGradesData: GradeRecord[] = [
   {
@@ -91,46 +92,24 @@ const mockGradesData: GradeRecord[] = [
 ]
 
 function Grades() {
-  const { t, localize } = useStore()
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedSemester, setSelectedSemester] = useState<string>('all')
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
+
+  const {
+    searchQuery,
+    setSearchQuery,
+    selectedSemester,
+    setSelectedSemester,
+    gpa,
+    completedEcts,
+    semesterOptions,
+    filteredRecords,
+    gradedCount,
+    totalCount
+  } = useGradesFilterAndStats({ gradesData: mockGradesData, localize })
+
   const dashboardLabel = t('dashboard') === 'dashboard' ? 'Dashboard' : t('dashboard')
-
-  // Calculate stats based on graded records
-  const gradedRecords = useMemo(() => mockGradesData.filter(g => g.grade !== null), [])
-  
-  const gpa = useMemo(() => {
-    if (gradedRecords.length === 0) return 0
-    const totalWeighted = gradedRecords.reduce((sum, r) => sum + (r.grade || 0) * r.ects, 0)
-    const totalEcts = gradedRecords.reduce((sum, r) => sum + r.ects, 0)
-    return parseFloat((totalWeighted / totalEcts).toFixed(2))
-  }, [gradedRecords])
-
-  const completedEcts = useMemo(() => {
-    return gradedRecords.reduce((sum, r) => sum + r.ects, 0)
-  }, [gradedRecords])
-
   const totalPossibleEcts = 180 // European Standard Bachelor is 180 ECTS
-
-  const semesterOptions = useMemo(() => {
-    const list = mockGradesData.map(g => localize(g, 'semester'))
-    return ['all', ...Array.from(new Set(list))]
-  }, [localize])
-
-  const filteredRecords = useMemo(() => {
-    return mockGradesData.filter(r => {
-      const sem = localize(r, 'semester')
-      const matchesSemester = selectedSemester === 'all' || sem === selectedSemester
-
-      const title = localize(r, 'title')
-      const matchesSearch = searchQuery.trim() === '' || 
-        title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.instructor.toLowerCase().includes(searchQuery.toLowerCase())
-
-      return matchesSemester && matchesSearch
-    })
-  }, [searchQuery, selectedSemester, localize])
 
   return (
     <Stack className="grades-page animate-fade-in" gap="none">
@@ -148,8 +127,8 @@ function Grades() {
           gpa={gpa}
           completedEcts={completedEcts}
           totalPossibleEcts={totalPossibleEcts}
-          gradedCount={gradedRecords.length}
-          totalCount={mockGradesData.length}
+          gradedCount={gradedCount}
+          totalCount={totalCount}
         />
 
         <Card className="p-0">
@@ -162,21 +141,37 @@ function Grades() {
           />
 
           <Card.Body className="p-0">
-            {filteredRecords.length > 0 ? (
-              <div className="divide-y divide-border">
-                {filteredRecords.map((record) => (
-                  <GradeRow key={record.id} record={record} />
-                ))}
-              </div>
-            ) : (
-              <div className="py-[var(--space-2xl)] text-center">
-                <EmptyState 
-                  icon={FileText} 
-                  title={t('no_search_results')} 
-                  description={t('no_favorites_match')}
-                />
-              </div>
-            )}
+            <AnimatePresence mode="wait">
+              {filteredRecords.length > 0 ? (
+                <motion.div
+                  key="grades-list"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="divide-y divide-border"
+                >
+                  {filteredRecords.map((record) => (
+                    <GradeRow key={record.id} record={record} />
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="grades-empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="py-[var(--space-2xl)] text-center"
+                >
+                  <EmptyState 
+                    icon={FileText} 
+                    title={t('no_search_results')} 
+                    description={t('no_favorites_match')}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </Card.Body>
         </Card>
       </div>

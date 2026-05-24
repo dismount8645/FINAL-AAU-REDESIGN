@@ -40,7 +40,7 @@ export default function NotificationItemRow({
       direction="row"
       align="center"
       gap="md"
-      className={`notification-item group p-md border-b border-border/40 transition-all duration-200 relative bg-bg-card cursor-pointer hover:bg-slate-50 dark:hover:bg-white/[0.02] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:outline-none ${!notif.isRead ? 'is-unread' : ''} ${isSelected ? 'is-selected bg-primary/5 dark:bg-primary/10' : ''}`}
+      className={`notification-item group p-md border-b border-border/40 transition-all duration-200 relative bg-bg-card cursor-pointer hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:outline-none ${!notif.isRead ? 'is-unread' : ''} ${isSelected ? 'is-selected bg-primary/5 dark:bg-primary/10' : ''}`}
       onClick={onSelect}
       tabIndex={0}
       role="button"
@@ -85,7 +85,7 @@ export default function NotificationItemRow({
               onClick={(e) => onMarkRead(notif.id, e)}
               title={t('mark_as_read')}
               aria-label={t('mark_as_read')}
-              className="bg-white dark:bg-slate-800 border border-border shadow-[var(--shadow-sm)] hover:border-primary"
+              className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
             />
           )}
           <Button
@@ -96,7 +96,7 @@ export default function NotificationItemRow({
             onClick={(e) => (view === 'active' ? onArchive(notif.id, e) : onRestore(notif.id, e))}
             title={view === 'active' ? t('archive') : t('restore')}
             aria-label={view === 'active' ? t('archive') : t('restore')}
-            className="bg-white dark:bg-slate-800 border border-border shadow-[var(--shadow-sm)] hover:border-primary"
+            className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
           />
         </div>
       </div>

@@ -14,7 +14,12 @@ import { FavoritesFilter, FavoritesList } from './favorites/index'
 
 function Favorites() {
   const navigate = useNavigate()
-  const { t, lang, favorites, toggleFavorite, reorderFavorites, courses } = useStore()
+  const t = useStore((state) => state.t)
+  const lang = useStore((state) => state.lang)
+  const favorites = useStore((state) => state.favorites)
+  const toggleFavorite = useStore((state) => state.toggleFavorite)
+  const reorderFavorites = useStore((state) => state.reorderFavorites)
+  const courses = useStore((state) => state.courses)
   const [searchQuery, setSearchQuery] = useState('')
   const [typeFilter, setTypeFilter] = useState<FavoriteType | 'all'>('all')
 

@@ -1,10 +1,18 @@
 import { memo } from 'react'
 import { X, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { getFavoriteColor, getFavoriteLabel } from '@/utils/favorites'
+import { getFavoriteLabel } from '@/utils/favorites'
 import type { FavoriteType } from '@/types'
 import type { Lang } from '@/store/useStore'
 import { translations } from '@/data/translations'
+
+const typeClasses: Record<FavoriteType, string> = {
+  course: 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-foreground',
+  tool: 'bg-success/10 text-success dark:bg-success/20 dark:text-success',
+  file: 'bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning',
+  forum: 'bg-info/10 text-info dark:bg-info/20 dark:text-info',
+  link: 'bg-[var(--aau-light-pink)]/10 text-[var(--aau-light-pink)] dark:bg-[var(--aau-light-pink)]/20 dark:text-[var(--aau-light-pink)]',
+}
 
 export interface FavoriteItemData {
   id: string
@@ -41,7 +49,6 @@ const FavoriteItem = memo(function FavoriteItem({
   draggable = false,
 }: FavoriteItemProps) {
   const Icon = item.icon
-  const typeColor = getFavoriteColor(item.type)
   return (
     <div
       draggable={draggable}
@@ -63,8 +70,10 @@ const FavoriteItem = memo(function FavoriteItem({
       )}
     >
       <div
-        className="flex items-center justify-center w-10 h-10 rounded-[var(--radius-lg)] shrink-0"
-        style={{ background: item.iconBg, color: item.iconColor }}
+        className={cn(
+          "flex items-center justify-center w-10 h-10 rounded-[var(--radius-lg)] shrink-0",
+          typeClasses[item.type]
+        )}
       >
         <Icon size={18} strokeWidth={2} />
       </div>
@@ -74,11 +83,10 @@ const FavoriteItem = memo(function FavoriteItem({
           {item.title}
         </div>
         <span
-          className="inline-flex items-center text-[0.65rem] font-semibold px-1.5 py-0.5 rounded-[var(--radius-pill)] mt-0.5"
-          style={{
-            background: `${typeColor}20`,
-            color: typeColor,
-          }}
+          className={cn(
+            "inline-flex items-center text-[0.65rem] font-semibold px-1.5 py-0.5 rounded-[var(--radius-pill)] mt-0.5",
+            typeClasses[item.type]
+          )}
         >
           {getFavoriteLabel(item.type, lang)}
         </span>

@@ -209,7 +209,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
       </div>
 
       {isSearchExpanded && (
-        <div className="topbar__mobile-search-overlay fixed inset-0 bg-white/90 backdrop-blur-[20px] z-[var(--z-mobile-search,4001)] flex flex-col dark:bg-slate-900/90" ref={mobileSearchRef} role="dialog" aria-modal="true">
+        <div className="topbar__mobile-search-overlay fixed inset-0 bg-bg-card/95 backdrop-blur-[20px] z-[var(--z-mobile-search,4001)] flex flex-col" ref={mobileSearchRef} role="dialog" aria-modal="true">
             <div className="search-overlay-content flex flex-col p-md gap-md bg-card w-full max-w-[calc(100dvw-2rem)] mx-auto box-border border border-border rounded-2xl shadow-xl mt-[var(--space-md)]">
               <div className="flex items-center p-sm gap-sm w-full">
                 <div className="flex-1 w-full">

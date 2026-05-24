@@ -14,7 +14,7 @@ interface CoursesTabsProps {
 }
 
 function CoursesTabs({ activeTab, setActiveTab }: CoursesTabsProps) {
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
 
   return (
     <Tabs

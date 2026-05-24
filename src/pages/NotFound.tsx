@@ -51,7 +51,7 @@ function NotFound() {
               iconSize={20}
             />
           </div>
-          <Text size="xs" weight="bold" className="mt-[var(--space-md)] text-slate-400 uppercase tracking-widest block w-full text-center whitespace-nowrap">
+          <Text size="xs" weight="bold" className="mt-[var(--space-md)] text-text-disabled uppercase tracking-widest block w-full text-center whitespace-nowrap">
             {t('or_try_shortcuts')}
           </Text>
 
@@ -60,7 +60,7 @@ function NotFound() {
             <Button variant="primary" onClick={() => navigate('/')} size="md" icon={LayoutDashboard} pill className="w-full sm:w-auto shadow-[var(--shadow-lg)] shadow-primary/20">
               {t('go_to_dashboard')}
             </Button>
-            <Button variant="secondary" onClick={() => navigate('/courses')} size="md" icon={GraduationCap} pill className="w-full sm:w-auto bg-white dark:bg-white/5 shadow-[var(--shadow-md)]">
+            <Button variant="secondary" onClick={() => navigate('/courses')} size="md" icon={GraduationCap} pill className="w-full sm:w-auto bg-bg-card shadow-[var(--shadow-md)]">
               {t('find_modules')}
             </Button>
             <Button variant="ghost" onClick={() => navigate('/support')} size="md" icon={LifeBuoy} pill className="w-full sm:w-auto">

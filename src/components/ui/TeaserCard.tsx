@@ -123,13 +123,17 @@ const TeaserCard = memo(function TeaserCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      onClick={(e) => onClick?.(e)}
     >
       {/* Primary Semantic Action - Stretched Link Pattern */}
       <Button
         variant="ghost"
         className="absolute inset-0 z-[1] w-full h-full p-0 rounded-none opacity-0 focus-visible:outline-none"
         aria-label={typeof title === 'string' ? title : 'View details'}
-        onClick={(e) => onClick?.(e)}
+        onClick={(e) => {
+          e.stopPropagation()
+          onClick?.(e)
+        }}
       />
 
       {/* Media Layer */}
@@ -261,7 +265,7 @@ const TeaserCard = memo(function TeaserCard({
 /**
  * Dedicated Skeleton for Layout Stability (CLS Prevention)
  */
-function TeaserCardSkeleton({ variant, className }: { variant: 'vertical' | 'horizontal', className?: string }) {
+function TeaserCardSkeleton({ variant, className }: { variant?: 'vertical' | 'horizontal' | null, className?: string }) {
   const isHorizontal = variant === 'horizontal'
   return (
     <div className={cn(teaserCardVariants({ variant, isLoading: true }), className)}>

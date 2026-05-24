@@ -131,7 +131,7 @@ function Messages() {
         subtitle={t('messages_page_subtitle')}
         breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('messages') }]}
       >
-        <Badge variant="default" className="bg-slate-100 text-slate-700 dark:bg-white/10 dark:text-white">{t('communication')}</Badge>
+        <Badge variant="default" className="bg-bg-placeholder text-text-muted">{t('communication')}</Badge>
       </PageHeader>
 
       <Grid>

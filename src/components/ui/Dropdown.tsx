@@ -2,7 +2,7 @@
 
 import React, { type ReactNode, memo, forwardRef, useState } from "react";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -132,10 +132,9 @@ const DropdownWrapper = ({
       >
         {React.Children.map(children, (child) => {
           if (React.isValidElement(child)) {
+            const isButton = typeof child.type === "string" && child.type === "button";
             return (
-              <DropdownItem asChild>
-                {child}
-              </DropdownItem>
+              <DropdownItem render={child} nativeButton={isButton} />
             );
           }
           return child;

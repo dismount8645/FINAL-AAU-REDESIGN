@@ -71,7 +71,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
       <div
         className={`h-full w-full flex flex-col transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform ${
           isEditing
-            ? 'scale-[0.98] ring-2 ring-primary/40 ring-offset-2 dark:ring-offset-slate-900 border-2 border-dashed border-primary/50 bg-primary/[0.01] hover:scale-[0.99] hover:ring-primary/70 hover:border-primary/80 rounded-[var(--radius-lg)] p-1.5'
+            ? 'scale-[0.98] ring-2 ring-primary/40 ring-offset-2 dark:ring-offset-bg-card border-2 border-dashed border-primary/50 bg-primary/[0.01] hover:scale-[0.99] hover:ring-primary/70 hover:border-primary/80 rounded-[var(--radius-lg)] p-1.5'
             : 'scale-100'
         } ${isEditing ? 'is-editing' : ''}`}
       >
@@ -93,7 +93,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
 
             {/* Corner diagonal handle details for resize affordance */}
             <div className="absolute bottom-2 right-2 w-3.5 h-3.5 pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity z-20 flex flex-col justify-end items-end">
-              <ResizeCorner className="text-primary dark:text-sky-400" />
+              <ResizeCorner className="text-primary dark:text-accent" />
             </div>
 
             <Stack className="absolute top-[var(--space-xs)] right-[var(--space-md)] z-10 flex gap-[var(--space-2xs)] bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] shadow-[var(--shadow-md)] dark:border dark:border-border">

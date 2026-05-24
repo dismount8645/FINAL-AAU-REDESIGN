@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useCallback, useMemo, memo, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import type { CalendarEvent } from '@/types'
 import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
@@ -19,7 +19,6 @@ import {
   Plus,
   ChevronLeft,
   ChevronRight,
-  Calendar as CalendarIcon,
 } from 'lucide-react'
 import { useCalendar } from './hooks/useCalendar'
 import { cn } from '@/lib/utils'
@@ -43,7 +42,7 @@ const WeekView = memo(CalendarWeekView)
 const DayView = memo(CalendarDayView)
 
 const Calendar = () => {
-  const { t, isMobile, lang } = useStore()
+  const { t, isMobile } = useStore()
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 
@@ -144,9 +143,8 @@ const Calendar = () => {
       <PageHeader
         pageKey="calendar"
         title={getTitle}
-        titleProps={{ 'data-testid': 'page-header-title' }}
+        titleProps={{ 'data-testid': 'page-header-title' } as any}
         subtitle={t('calendar_subtitle')}
-        icon={CalendarIcon}
         breadcrumbs={[
           { label: t('dashboard'), href: '/' },
           { label: t('calendar') },

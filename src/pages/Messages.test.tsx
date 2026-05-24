@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Messages from '@/pages/Messages'
 import { MemoryRouter } from 'react-router-dom'
@@ -49,7 +49,7 @@ describe('Messages Page', () => {
 
   it('renders in English and handles empty states', () => {
     useStore.setState({ lang: 'en' })
-    const { container } = renderMessages('en')
+    renderMessages('en')
     expect(screen.getAllByText('Mette Jensen').length).toBeGreaterThan(0)
     expect(screen.getByText('Student Guidance')).toBeInTheDocument()
 

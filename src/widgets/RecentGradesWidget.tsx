@@ -87,9 +87,12 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
 
   const { itemsToShow, gridColumns } = useMemo(() => getWidgetDisplayLayout(span, 3, 2), [span])
   const visibleGrades = useMemo(() => (
-    dashboardGrades.slice(0, itemsToShow).map((grade) => ({
-      ...grade,
+    dashboardGrades.slice(0, itemsToShow).map((grade, index) => ({
+      id: index + 1,
+      course: grade.courseEn,
       title: localize(grade, 'course'),
+      score: grade.score,
+      date: '',
     }))
   ), [itemsToShow, localize])
 

@@ -31,7 +31,7 @@ export default function SearchResultFilters({
           pill
           className={
             activeFilter !== cat
-              ? 'dark:text-slate-400 dark:hover:text-white dark:bg-white/5'
+              ? 'dark:text-text-muted dark:bg-bg-highlight/30'
               : 'shadow-[var(--shadow-md)]'
           }
         >

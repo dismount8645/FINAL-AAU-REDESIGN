@@ -39,6 +39,7 @@ export default function FavoritesFilter({
         {TYPE_FILTERS.map((f) => (
           <button
             key={f.value}
+            type="button"
             onClick={() => onTypeFilterChange(f.value)}
             className={`px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-lg)] text-sm font-medium transition-all border focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
               typeFilter === f.value

@@ -59,13 +59,12 @@ const InfoCard = memo(function InfoCard({
 
   return (
     <Card 
-      elevated={elevated} 
+      variant={elevated ? 'elevated' : 'default'} 
       className={cn(
         'info-card transition-all duration-300',
         isClickable && 'hover:shadow-md hover:-translate-y-1 cursor-pointer',
         className
       )} 
-      hasHeader={false} 
       onClick={onClick}
     >
       <Card.Body className="p-md md:p-lg">

@@ -69,3 +69,47 @@ afterEach(() => {
   window.matchMedia = createMatchMedia();
   vi.useRealTimers();
 });
+
+// Mock framer-motion to disable animations and exit transitions in jsdom/Vitest environment
+vi.mock('framer-motion', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('framer-motion')>();
+  const React = await import('react');
+  
+  const createMockComponent = (tag: string) => {
+    const Component = React.forwardRef(({ children, initial, animate, exit, transition, variants, whileHover, whileTap, ...props }: any, ref: any) => {
+      return React.createElement(tag, { ...props, ref }, children);
+    });
+    Component.displayName = `motion.${tag}`;
+    return Component;
+  };
+
+  const mockMotion = {
+    ...actual.motion,
+    create: (Component: any) => {
+      if (typeof Component === 'string') {
+        return createMockComponent(Component);
+      }
+      const Mock = React.forwardRef(({ children, initial, animate, exit, transition, variants, whileHover, whileTap, ...props }: any, ref: any) => {
+        return React.createElement(Component, { ...props, ref }, children);
+      });
+      Mock.displayName = `motion.create`;
+      return Mock;
+    },
+  };
+
+  const tags = [
+    'div', 'span', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'ul', 'li',
+    'svg', 'path', 'nav', 'section', 'article', 'aside', 'header', 'footer', 'a',
+    'img', 'input', 'textarea', 'label', 'form'
+  ];
+  tags.forEach(tag => {
+    (mockMotion as any)[tag] = createMockComponent(tag);
+  });
+
+  return {
+    ...actual,
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => React.createElement(React.Fragment, null, children),
+    motion: mockMotion,
+  };
+});
+

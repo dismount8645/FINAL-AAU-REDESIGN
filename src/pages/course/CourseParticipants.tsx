@@ -22,11 +22,11 @@ function CourseParticipants({
   setParticipantRoleFilter,
   participantsData,
 }: CourseParticipantsProps) {
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
 
   return (
     <div className="animate-fade-in">
-      <Card elevated>
+      <Card variant="elevated">
         <Card.Header className="flex-col items-start gap-md">
           <Heading level={3}>{t('participants')}</Heading>
           <div className="flex flex-col sm:flex-row gap-sm w-full">

@@ -51,11 +51,11 @@ function GradesOverview({
         <Card className="h-[100%] p-[var(--space-sm)]">
           <Card.Body className="p-[var(--space-sm)] flex flex-col justify-between">
             <div>
-              <Text size="xs" weight="extrabold" muted className="uppercase tracking-widest text-slate-400">
+              <Text size="xs" weight="extrabold" muted className="uppercase tracking-widest text-text-disabled">
                 {t('passed_ects')}
               </Text>
               <Heading level={2} className="text-main text-5xl mt-[var(--space-2xs)] font-black leading-none flex items-baseline gap-[var(--space-3xs)]">
-                {completedEcts} <Text size="md" tag="span" muted className="font-semibold text-slate-400">/ {totalPossibleEcts} ECTS</Text>
+                {completedEcts} <Text size="md" tag="span" muted className="font-semibold text-text-disabled">/ {totalPossibleEcts} ECTS</Text>
               </Heading>
             </div>
             <div className="w-[100%] mt-[var(--space-md)]">
@@ -74,13 +74,13 @@ function GradesOverview({
         <Card className="h-[100%] p-[var(--space-sm)]">
           <Card.Body className="p-[var(--space-sm)] flex flex-col justify-between">
             <div>
-              <Text size="xs" weight="extrabold" muted className="uppercase tracking-widest text-slate-400">
+              <Text size="xs" weight="extrabold" muted className="uppercase tracking-widest text-text-disabled">
                 {t('graded_modules')}
               </Text>
               <Heading level={2} className="text-main text-5xl mt-[var(--space-2xs)] font-black leading-none">
-                {gradedCount} <Text size="md" tag="span" muted className="font-semibold text-slate-400">/ {totalCount}</Text>
+                {gradedCount} <Text size="md" tag="span" muted className="font-semibold text-text-disabled">/ {totalCount}</Text>
               </Heading>
-              <Text size="xs" muted className="mt-[var(--space-2xs)] text-slate-500">
+              <Text size="xs" muted className="mt-[var(--space-2xs)] text-text-muted">
                 {t('grades_summary_hint')}
               </Text>
             </div>

@@ -103,7 +103,7 @@ export function WidgetCustomizer({
                 </DialogHeader>
                 <DialogFooter>
                   <DialogClose render={<Button variant="outline" />}>{t('common.cancel')}</DialogClose>
-                  <Button variant="negative" onClick={handleReset}>
+                  <Button variant="danger" onClick={handleReset}>
                     {t('dashboard.reset_confirm')}
                   </Button>
                 </DialogFooter>
