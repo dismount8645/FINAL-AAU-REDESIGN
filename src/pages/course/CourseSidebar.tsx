@@ -23,12 +23,12 @@ function CourseSidebar({
   email,
   setActiveTab,
 }: CourseSidebarProps) {
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
   const navigate = useNavigate()
 
   return (
     <aside className="course-sidebar flex flex-col gap-lg">
-      <Card elevated className="h-fit">
+      <Card variant="elevated" className="h-fit">
         <Card.Header>
           <Text weight="bold" size="lg" className="card__title">{t('quick_access')}</Text>
         </Card.Header>
@@ -94,7 +94,7 @@ function CourseSidebar({
         </Card.Footer>
       </Card>
 
-      <Card elevated className="h-fit">
+      <Card variant="elevated" className="h-fit">
         <Card.Header>
           <Text weight="bold" size="lg" className="card__title">{t('instructor')}</Text>
         </Card.Header>

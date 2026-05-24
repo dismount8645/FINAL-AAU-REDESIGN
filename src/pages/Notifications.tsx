@@ -1,4 +1,5 @@
-import { useState, useMemo, type MouseEvent } from 'react'
+import { useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { FileUp, MessageSquare, Clock, Star, Bell, BellOff, Inbox } from 'lucide-react'
 import PageHeader from '@/components/common/PageHeader'
@@ -9,21 +10,19 @@ import { Text } from '@/components/ui/Typography'
 import EmptyState from '@/components/ui/EmptyState'
 import Badge from '@/components/ui/Badge'
 import useStore from '@/store/useStore'
-import { formatRelativeDateGroup } from '@/utils/dates'
+import { useNotificationsState } from '@/hooks/useNotificationsState'
 import {
-  NotificationItem,
   NotificationItemRow,
   NotificationDetailView,
   NotificationFilters
 } from './notifications/index'
 
 function Notifications() {
-  const { lang, t, decrementNotificationCount, setNotificationCount } = useStore()
+  const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const navigate = useNavigate()
-  const [selectedId, setSelectedId] = useState<number | null>(null)
-  const [view, setView] = useState<'active' | 'archive'>('active')
 
-  const [notifications, setNotifications] = useState<NotificationItem[]>([
+  const initialNotifications = useMemo(() => [
     {
       id: 1,
       type: 'AFLEVERING',
@@ -79,33 +78,22 @@ function Notifications() {
       content: t('notif_5_content'),
       link: '/course/2',
     },
-  ])
+  ], [t])
 
-  const archiveNotification = (id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setNotifications(notifications.map((n) => (n.id === id ? { ...n, archived: true } : n)))
-  }
-
-  const restoreNotification = (id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setNotifications(notifications.map((n) => (n.id === id ? { ...n, archived: false } : n)))
-  }
-
-  const markAsRead = (id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setNotifications(notifications.map((n) => {
-      if (n.id === id && !n.isRead) {
-        decrementNotificationCount()
-        return { ...n, isRead: true }
-      }
-      return n
-    }))
-  }
-
-  const markAllRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, isRead: true })))
-    setNotificationCount(0)
-  }
+  const {
+    view,
+    setView,
+    archiveNotification,
+    restoreNotification,
+    markAsRead,
+    markAllRead,
+    filtered,
+    grouped,
+    selectedNotification,
+    currentSelectedId,
+    unreadCount,
+    setSelectedId
+  } = useNotificationsState({ initialNotifications })
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -116,22 +104,6 @@ function Notifications() {
       default: return Bell
     }
   }
-
-  const filtered = notifications.filter((n) => (view === 'active' ? !n.archived : n.archived))
-
-  const grouped = useMemo(() => {
-    const groups: Record<string, NotificationItem[]> = {}
-    filtered.forEach(n => {
-      const dateKey = formatRelativeDateGroup(n.date, lang)
-      if (!groups[dateKey]) groups[dateKey] = []
-      groups[dateKey].push(n)
-    })
-    return groups
-  }, [filtered, lang])
-
-  const selectedNotification = notifications.find(n => n.id === selectedId) || (filtered.length > 0 ? filtered[0] : null)
-  const currentSelectedId = selectedNotification?.id || null
-  const unreadCount = notifications.filter(n => !n.isRead && !n.archived).length
 
   return (
     <Stack className="container notifications-page flex flex-col pb-[var(--space-2xl)]">
@@ -164,36 +136,54 @@ function Notifications() {
             </div>
 
             <div className="panel-scroll">
-              {filtered.length > 0 ? (
-                Object.entries(grouped).map(([date, items]) => (
-                  <Stack key={date} gap="none">
-                    <div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-slate-50 dark:bg-white/5 border-y border-border/50 first:border-t-0">
-                      <Text size="2xs" weight="black" className="text-slate-500 dark:text-slate-400 tracking-widest uppercase">{date}</Text>
-                    </div>
-                    {items.map((notif) => (
-                      <NotificationItemRow
-                        key={notif.id}
-                        notif={notif}
-                        isSelected={currentSelectedId === notif.id}
-                        view={view}
-                        lang={lang}
-                        t={t}
-                        getIcon={getIcon}
-                        onSelect={() => setSelectedId(notif.id)}
-                        onMarkRead={markAsRead}
-                        onArchive={archiveNotification}
-                        onRestore={restoreNotification}
-                      />
+              <AnimatePresence mode="wait">
+                {filtered.length > 0 ? (
+                  <motion.div
+                    key="notifications-list"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    {Object.entries(grouped).map(([date, items]) => (
+                      <Stack key={date} gap="none">
+                        <div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-bg-placeholder/50 dark:bg-white/5 border-y border-border/50 first:border-t-0">
+                          <Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase">{date}</Text>
+                        </div>
+                        {items.map((notif) => (
+                          <NotificationItemRow
+                            key={notif.id}
+                            notif={notif}
+                            isSelected={currentSelectedId === notif.id}
+                            view={view}
+                            lang={lang}
+                            t={t}
+                            getIcon={getIcon}
+                            onSelect={() => setSelectedId(notif.id)}
+                            onMarkRead={markAsRead}
+                            onArchive={archiveNotification}
+                            onRestore={restoreNotification}
+                          />
+                        ))}
+                      </Stack>
                     ))}
-                  </Stack>
-                ))
-              ) : (
-                <EmptyState
-                  icon={view === 'active' ? BellOff : Inbox}
-                  title={view === 'active' ? t('no_notifications') : t('archive_empty')}
-                  message={view === 'active' ? t('notif_all_caught_up') : ''}
-                />
-              )}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="notifications-empty"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    <EmptyState
+                      icon={view === 'active' ? BellOff : Inbox}
+                      title={view === 'active' ? t('no_notifications') : t('archive_empty')}
+                      message={view === 'active' ? t('notif_all_caught_up') : ''}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </Card>
         </Grid.Item>

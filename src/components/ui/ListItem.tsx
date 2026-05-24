@@ -27,12 +27,22 @@ const ListItem = memo(function ListItem({
 }: ListItemProps) {
   const Tag = href ? 'a' : 'div'
   const linkProps = href ? { href, target: href.startsWith('http') ? '_blank' : undefined, rel: href.startsWith('http') ? 'noopener noreferrer' : undefined } : {}
+  const keyboardProps = (onClick && !href) ? {
+    role: 'button',
+    tabIndex: 0,
+    onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
+        onClick(e as any)
+      }
+    }
+  } : {}
 
   return (
     <Tag
       className={[
         'flex items-center gap-sm px-md py-sm rounded-[var(--radius-sm)] transition-colors duration-150 no-underline text-inherit',
-        (onClick || href) ? 'cursor-pointer hover:bg-bg-hover' : '',
+        (onClick || href) ? 'cursor-pointer hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none' : '',
         active ? 'bg-primary text-primary-foreground font-bold shadow-[var(--shadow-sm)]' : '',
         className,
       ]
@@ -40,6 +50,7 @@ const ListItem = memo(function ListItem({
         .join(' ')}
       onClick={onClick}
       {...linkProps}
+      {...keyboardProps}
       {...props}
     >
       {Icon ? (

@@ -56,7 +56,7 @@ export interface BadgeProps
  */
 const Badge = memo(forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant, pill, interactive, children, className, ...props }, ref) => {
-    const Component = interactive ? motion.span : "span"
+    const Component = (interactive ? motion.span : "span") as any
 
     return (
       <Component

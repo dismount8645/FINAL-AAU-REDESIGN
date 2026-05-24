@@ -20,7 +20,7 @@ function GradeRow({ record }: GradeRowProps) {
           className={`w-[52px] h-[52px] rounded-[var(--radius-pill)] flex flex-col items-center justify-center shrink-0 border-2 font-black text-xl shadow-[var(--shadow-sm)] md:w-[60px] md:h-[60px] ${
             record.grade !== null 
               ? 'bg-primary border-primary text-white dark:border-primary' 
-              : 'bg-slate-100 border-dashed border-slate-300 text-slate-400 dark:bg-white/5 dark:border-white/10 dark:text-slate-500'
+              : 'bg-bg-placeholder border-dashed border-border/60 text-text-disabled dark:bg-bg-highlight/30 dark:border-border/40'
           }`}
           title={record.grade !== null ? `${t('my_grades')}: ${record.grade}` : t('not_graded')}
         >
@@ -29,7 +29,7 @@ function GradeRow({ record }: GradeRowProps) {
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-[var(--space-xs)] flex-wrap">
-            <Badge variant="default" className="font-mono text-[10px] bg-slate-100 dark:bg-white/5 border border-border px-[var(--space-2xs)] py-[var(--space-3xs)] whitespace-nowrap">
+            <Badge variant="default" className="font-mono text-[10px] bg-bg-placeholder border border-border px-[var(--space-2xs)] py-[var(--space-3xs)] whitespace-nowrap">
               {record.code}
             </Badge>
             <Badge variant={record.grade !== null ? 'success' : 'default'} className="text-[10px] whitespace-nowrap">
@@ -54,15 +54,15 @@ function GradeRow({ record }: GradeRowProps) {
       {/* Middle Column: Detailed assessment methods & parameters */}
       <div className="flex-1 flex flex-col gap-[var(--space-2xs)] justify-center">
         <div className="flex items-center gap-[var(--space-3xs)]">
-          <BookOpen className="w-3.5 h-3.5 text-slate-400 shrink-0" strokeWidth={2} />
-          <Text size="xs" className="font-medium text-slate-600 dark:text-slate-300">
-            <span className="text-slate-500 dark:text-slate-400 font-semibold">{t('exam_type')}:</span> {localize(record, 'examType')}
+          <BookOpen className="w-3.5 h-3.5 text-text-disabled shrink-0" strokeWidth={2} />
+          <Text size="xs" className="font-medium text-text-muted">
+            <span className="text-text-muted font-semibold">{t('exam_type')}:</span> {localize(record, 'examType')}
           </Text>
         </div>
 
         <div className="flex items-center gap-[var(--space-3xs)]">
-          <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" strokeWidth={2} />
-          <Text size="xs" className="font-medium text-slate-500">
+          <Calendar className="w-3.5 h-3.5 text-text-disabled shrink-0" strokeWidth={2} />
+          <Text size="xs" className="font-medium text-text-muted">
             <span className="font-semibold">{t('grading_date')}:</span> {record.examDate}
           </Text>
         </div>
@@ -73,10 +73,10 @@ function GradeRow({ record }: GradeRowProps) {
         {record.grade !== null ? (
           <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-0.5" strokeWidth={2} />
         ) : (
-          <AlertCircle className="w-4 h-4 text-slate-400 shrink-0 mt-0.5 animate-pulse" strokeWidth={2} />
+          <AlertCircle className="w-4 h-4 text-text-disabled shrink-0 mt-0.5 animate-pulse" strokeWidth={2} />
         )}
         <div className="min-w-0">
-          <Text size="xs" weight="bold" className="text-slate-800 dark:text-slate-200">
+          <Text size="xs" weight="bold" className="text-main">
             {t('feedback_comments')}
           </Text>
           <Text size="xs" muted className="mt-[var(--space-3xs)] leading-relaxed italic">

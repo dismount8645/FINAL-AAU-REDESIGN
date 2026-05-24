@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ChevronRight, MessageSquare } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
 import Card from '@/components/ui/Card'
@@ -11,6 +12,7 @@ import TeaserCard from '@/components/ui/TeaserCard'
 import useStore, { type CourseWithStatus } from '@/store/useStore'
 
 interface CoursesGridProps {
+  isLoading?: boolean
   sortedCourses: CourseWithStatus[]
   forums: { id: number; title: string; titleEn: string; label: string; labelEn: string; img: string; color: string }[]
   showCourses: boolean
@@ -24,6 +26,7 @@ interface CoursesGridProps {
 }
 
 function CoursesGrid({
+  isLoading = false,
   sortedCourses,
   forums,
   showCourses,
@@ -36,12 +39,13 @@ function CoursesGrid({
   setSearchQuery,
 }: CoursesGridProps) {
   const navigate = useNavigate()
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
 
   return (
     <>
       <Stack
         tag="button"
+        type="button"
         className="section-block-header mt-[var(--space-xl)] w-full text-left border-none bg-transparent p-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-[var(--radius-md)]"
         direction="row"
         align="center"
@@ -59,14 +63,36 @@ function CoursesGrid({
       </Stack>
 
       {showCourses && (
-        <>
-          {sortedCourses.length > 0 ? (
-            <Grid columns={12} gap="lg">
-              {sortedCourses.map((course) => {
-                const courseBadge = t(`course_${course.id}_label`) || t('active')
-                return (
-                  <Grid.Item span={4} tabletSpan={6} mobileSpan={12} key={course.id}>
-                    <div className="h-full cursor-pointer" onClick={() => navigate(`/course/${course.id}`)}>
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Grid columns={12} gap="lg">
+                {[1, 2, 3].map((id) => (
+                  <Grid.Item span={4} tabletSpan={6} mobileSpan={12} key={`skeleton-course-${id}`}>
+                    <TeaserCard variant="vertical" isLoading={true} />
+                  </Grid.Item>
+                ))}
+              </Grid>
+            </motion.div>
+          ) : sortedCourses.length > 0 ? (
+            <motion.div
+              key="courses-grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Grid columns={12} gap="lg">
+                {sortedCourses.map((course) => {
+                  const courseBadge = t(`course_${course.id}_label`) || t('active')
+                  return (
+                    <Grid.Item span={4} tabletSpan={6} mobileSpan={12} key={course.id}>
                       <TeaserCard
                         variant="vertical"
                         image={course.img}
@@ -78,6 +104,7 @@ function CoursesGrid({
                         onStarToggle={() => {
                           toggleFavorite('course', course.id)
                         }}
+                        onClick={() => navigate(`/course/${course.id}`)}
                         action={
                           <Button 
                             variant="primary" 
@@ -89,25 +116,33 @@ function CoursesGrid({
                           </Button>
                         }
                       />
-                    </div>
-                  </Grid.Item>
-                )
-              })}
-            </Grid>
+                    </Grid.Item>
+                  )
+                })}
+              </Grid>
+            </motion.div>
           ) : (
-            <Card className="bg-bg-card border-dashed py-[var(--space-3xl)]">
-              <Stack align="center" justify="center" gap="md">
-                <Icon name="magnifying-glass" className="text-muted opacity-20" size="3xl" />
-                <Text muted>{t('no_search_results')}</Text>
-                {searchQuery && (
-                  <Button variant="ghost" size="sm" onClick={() => setSearchQuery('')}>
-                    {t('clear_search')}
-                  </Button>
-                )}
-              </Stack>
-            </Card>
+            <motion.div
+              key="courses-empty"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Card className="bg-bg-card border-dashed py-[var(--space-3xl)]">
+                <Stack align="center" justify="center" gap="md">
+                  <Icon name="magnifying-glass" className="text-muted opacity-20" size="3xl" />
+                  <Text muted>{t('no_search_results')}</Text>
+                  {searchQuery && (
+                    <Button variant="ghost" size="sm" onClick={() => setSearchQuery('')}>
+                      {t('clear_search')}
+                    </Button>
+                  )}
+                </Stack>
+              </Card>
+            </motion.div>
           )}
-        </>
+        </AnimatePresence>
       )}
 
       <Stack
@@ -118,6 +153,7 @@ function CoursesGrid({
       >
         <Stack
           tag="button"
+          type="button"
           className="section-block-header section-block-header--forums text-left border-none bg-transparent p-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-[var(--radius-md)]"
           direction="row"
           align="center"
@@ -134,31 +170,58 @@ function CoursesGrid({
       </Stack>
 
       {showForums && (
-        <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
-          {forums.map((forum) => (
-            <Grid.Item span={6} tabletSpan={6} mobileSpan={12} key={forum.id}>
-              <div className="h-full cursor-pointer" onClick={() => navigate(`/course/${forum.id}`)}>
-                <TeaserCard
-                  variant="horizontal"
-                  image={forum.img}
-                  badge={t(`forum_${forum.id}_label`)}
-                  badgeColor="default"
-                  title={t(`forum_${forum.id}_title`)}
-                  description={t('shared_forum_description')}
-                  isStarred={isFavorite('forum', forum.id)}
-                  onStarToggle={() => {
-                    toggleFavorite('forum', forum.id)
-                  }}
-                  action={
-                    <Button variant="secondary" size="sm" iconRight={MessageSquare}>
-                      {t('open_forum')}
-                    </Button>
-                  }
-                />
-              </div>
-            </Grid.Item>
-          ))}
-        </Grid>
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <motion.div
+              key="forums-loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
+                {[1, 2].map((id) => (
+                  <Grid.Item span={6} tabletSpan={6} mobileSpan={12} key={`skeleton-forum-${id}`}>
+                    <TeaserCard variant="horizontal" isLoading={true} />
+                  </Grid.Item>
+                ))}
+              </Grid>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="forums-grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
+                {forums.map((forum) => (
+                  <Grid.Item span={6} tabletSpan={6} mobileSpan={12} key={forum.id}>
+                    <TeaserCard
+                      variant="horizontal"
+                      image={forum.img}
+                      badge={t(`forum_${forum.id}_label`)}
+                      badgeColor="default"
+                      title={t(`forum_${forum.id}_title`)}
+                      description={t('shared_forum_description')}
+                      isStarred={isFavorite('forum', forum.id)}
+                      onStarToggle={() => {
+                        toggleFavorite('forum', forum.id)
+                      }}
+                      onClick={() => navigate(`/course/${forum.id}`)}
+                      action={
+                        <Button variant="secondary" size="sm" iconRight={MessageSquare}>
+                          {t('open_forum')}
+                        </Button>
+                      }
+                    />
+                  </Grid.Item>
+                ))}
+              </Grid>
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
     </>
   )

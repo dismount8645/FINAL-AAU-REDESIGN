@@ -28,7 +28,7 @@ function CoursesFilters({
   setActiveFilter,
   labelFilters,
 }: CoursesFiltersProps) {
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
   const [showFilters, setShowFilters] = useState(false)
   const filterRef = useRef<HTMLDivElement>(null)
 
@@ -83,9 +83,10 @@ function CoursesFilters({
             {t('filter')}
           </Button>
           {showFilters && (
-            <div className="absolute top-full right-0 mt-xs min-w-[200px] bg-card border border-border rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] z-50 p-sm animate-slide-in">
+            <div className="absolute top-full right-0 mt-xs min-w-[200px] bg-bg-elevated border border-border rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] z-50 p-sm animate-slide-in">
               <Stack gap="2xs">
                 <button
+                  type="button"
                   className={`w-full text-left px-md py-sm rounded-[var(--radius-md)] text-sm transition-colors ${allBtnClass}`}
                   onClick={() => {
                     setActiveFilter(null)
@@ -97,6 +98,7 @@ function CoursesFilters({
                 {labelFilters.map(label => (
                   <button
                     key={label}
+                    type="button"
                     className={`w-full text-left px-md py-sm rounded-[var(--radius-md)] text-sm transition-colors ${getLabelBtnClass(label)}`}
                     onClick={() => {
                       setActiveFilter(label)

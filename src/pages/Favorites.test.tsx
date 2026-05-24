@@ -7,7 +7,19 @@ import * as favUtils from '@/utils/favorites'
 import { Wrench } from 'lucide-react'
 import { DASHBOARD_CONFIG } from '@/config/dashboard'
 
-vi.mock('@/store/useStore')
+vi.mock('@/store/useStore', () => {
+  let currentState: any = {}
+  const mockFn = vi.fn((selector) => {
+    return selector ? selector(currentState) : currentState
+  })
+  ;(mockFn as any).mockReturnValue = (val: any) => {
+    currentState = val
+    return mockFn
+  }
+  return {
+    default: mockFn,
+  }
+})
 vi.mock('@/utils/favorites', async () => {
   const actual = await vi.importActual('@/utils/favorites')
   return {

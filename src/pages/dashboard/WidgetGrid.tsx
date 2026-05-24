@@ -59,7 +59,7 @@ export function WidgetGrid({
             return (
               <div
                 key={i}
-                className="w-full aspect-square border border-dashed border-slate-200 dark:border-white/10 rounded-[var(--radius-md)]"
+                className="w-full aspect-square border border-dashed border-border/60 dark:border-white/10 rounded-[var(--radius-md)]"
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => onDrop(e, x, y)}
               />
@@ -75,7 +75,6 @@ export function WidgetGrid({
         // lg: grid-cols-4 (24/4 = 6 span)
         // md: grid-cols-3 (12/3 = 4 span)
         // sm: grid-cols-1 (6/1 = 6 span)
-        const lgSpan = widget.span || 6
         const mdSpan = WIDGET_CONFIG[widget.id]?.tabletSpan || 4
         const smSpan = 6
 

@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Star, ArrowRight, LayoutGrid } from 'lucide-react'
+import { Star, ArrowRight, LayoutGrid } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Stack from '@/components/ui/Stack'
 import { Text, Heading } from '@/components/ui/Typography'
 import Button from '@/components/ui/Button'
 import TeaserCard from '@/components/ui/TeaserCard'
 import Card from '@/components/ui/Card'
-import type { WidgetProps, CourseListItem } from '@/types'
-import useStore from '@/store/useStore'
+import type { WidgetProps } from '@/types'
+import useStore, { type CourseWithStatus } from '@/store/useStore'
 import { courses as allCourses } from '@/data/mockData'
 import { cn } from '@/lib/utils'
 
@@ -48,7 +48,7 @@ const EmptyState = memo(({ onAction }: { onAction: () => void }) => {
 })
 
 const ModuleListItem = memo(forwardRef<HTMLDivElement, { 
-  course: CourseListItem, 
+  course: CourseWithStatus, 
   isEditing: boolean,
   onToggleFavorite: (id: number) => void,
   getCourseProgress: (id: number, total: number) => number
@@ -102,7 +102,7 @@ ModuleListItem.displayName = 'ModuleListItem'
 
 // --- Main Component ---
 
-const ModulesWidget = ({ span, isEditing }: WidgetProps) => {
+const ModulesWidget = ({ isEditing }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const courses = useStore(state => state.courses)

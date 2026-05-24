@@ -78,14 +78,14 @@ export function ChatSidebar({
                       size="xs"
                       weight={contact.unread ? 'bold' : 'normal'}
                       className={`truncate ${
-                        contact.unread ? 'text-main' : 'text-slate-600 dark:text-slate-400'
+                        contact.unread ? 'text-main' : 'text-text-muted'
                       }`}
                     >
                       {contact.msg}
                     </Text>
                     <Text
                       size="2xs"
-                      className="mt-[var(--space-2xs)] text-slate-500 dark:text-slate-400 font-medium"
+                      className="mt-[var(--space-2xs)] text-text-muted font-medium"
                     >
                       {contact.time}
                     </Text>

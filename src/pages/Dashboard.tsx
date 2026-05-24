@@ -10,7 +10,7 @@ import useStore from '@/store/useStore'
 import { WidgetCustomizer, WidgetGrid } from './dashboard/index'
 
 function Dashboard() {
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
   const location = useLocation()
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const {

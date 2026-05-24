@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils"
+
 export interface ProgressBarProps {
   /** Værdi mellem 0 og 100 */
   value?: number
@@ -9,6 +11,8 @@ export interface ProgressBarProps {
   showLabel?: boolean | string
   /** Tilgængelighed: beskrivende label for skærmlæsere */
   "aria-label"?: string
+  /** Ekstra styling */
+  className?: string
 }
 
 /**
@@ -23,6 +27,7 @@ export default function ProgressBar({
   height = 6,
   showLabel,
   "aria-label": ariaLabel,
+  className,
 }: ProgressBarProps) {
   const safeValue = Math.min(Math.max(value, 0), 100)
 
@@ -32,7 +37,7 @@ export default function ProgressBar({
 
   return (
     <div
-      className="flex items-center gap-sm"
+      className={cn("flex items-center gap-sm", className)}
       role="progressbar"
       aria-valuemin={0}
       aria-valuemax={100}
@@ -59,3 +64,4 @@ export default function ProgressBar({
     </div>
   )
 }
+

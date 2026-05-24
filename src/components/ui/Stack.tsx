@@ -11,6 +11,7 @@ export interface StackProps extends HTMLAttributes<HTMLElement> {
   tag?: ElementType
   fullWidth?: boolean
   full?: boolean
+  type?: string
 }
 
 const gapClasses: Record<string, string> = {

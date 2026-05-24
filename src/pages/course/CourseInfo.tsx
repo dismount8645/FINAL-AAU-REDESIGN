@@ -5,11 +5,11 @@ import { Heading, Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 
 function CourseInfo() {
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
 
   return (
     <div className="animate-fade-in">
-      <Card elevated>
+      <Card variant="elevated">
         <Card.Header>
           <Heading level={3}>{t('course_information')}</Heading>
         </Card.Header>

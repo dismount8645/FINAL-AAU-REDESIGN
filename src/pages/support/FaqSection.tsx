@@ -42,7 +42,7 @@ function FaqSection() {
           <AccordionItem key={i} value={`faq-${i}`} className="px-md rounded-[var(--radius-md)]">
             <AccordionTrigger><span className="text-left font-medium">{faq.q}</span></AccordionTrigger>
             <AccordionContent>
-              <Text size="sm" className="text-slate-600 dark:text-slate-300 leading-relaxed pb-sm">{linkifyText(faq.a)}</Text>
+              <Text size="sm" className="text-text-muted leading-relaxed pb-sm">{linkifyText(faq.a)}</Text>
             </AccordionContent>
           </AccordionItem>
         ))}

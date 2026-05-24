@@ -51,7 +51,7 @@ const CalendarMonthView = ({
       month === now.getMonth() &&
       year === now.getFullYear()
 
-    const palette = event ? eventPalette[event.color] || {} : {}
+    const palette = event ? eventPalette[event.color] || { bg: '', text: '' } : { bg: '', text: '' }
     const eventStyle = {
       background: palette.bg || event?.color,
       color: palette.text || 'var(--color-text-main)',

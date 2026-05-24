@@ -385,6 +385,22 @@ body {
   padding: 0;
   touch-action: pan-y;
   overscroll-behavior-x: none;
+  transition: background-color var(--transition-normal) var(--transition-ease),
+              color var(--transition-normal) var(--transition-ease);
+}
+
+/* Smooth theme transitions for structural components */
+.layout-main,
+.sidebar,
+.topbar,
+.card,
+.page-header,
+.panel-card,
+.favorite-card {
+  transition: background-color var(--transition-normal) var(--transition-ease),
+              border-color var(--transition-normal) var(--transition-ease),
+              color var(--transition-normal) var(--transition-ease),
+              box-shadow var(--transition-normal) var(--transition-ease);
 }
 
 #root {

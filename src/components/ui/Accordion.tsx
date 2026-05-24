@@ -3,7 +3,6 @@
 import { forwardRef, type ReactNode, memo } from "react"
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
 import { ChevronDown } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 /**

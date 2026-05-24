@@ -5,7 +5,6 @@ import {
   Users, 
   Cloud, 
   Wifi,
-  type LucideIcon
 } from 'lucide-react'
 
 export interface QuickTool {

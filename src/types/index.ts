@@ -70,6 +70,7 @@ export interface CalendarEvent {
   location: string;
   time: string;
   host: string;
+  description?: string;
 }
 
 export type CalendarEvents = Record<string, CalendarEvent>;

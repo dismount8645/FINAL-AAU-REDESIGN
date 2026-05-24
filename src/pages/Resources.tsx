@@ -57,7 +57,7 @@ function Resources() {
 
       <Grid columns={12} gap="lg" className="mt-2xl">
         <Grid.Item span={6} tabletSpan={6} mobileSpan={1}>
-          <Card elevated>
+          <Card variant="elevated">
             <Card.Header>
               <Text weight="bold" size="lg">{t('about_aau_essentials')}</Text>
             </Card.Header>

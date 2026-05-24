@@ -37,7 +37,7 @@ function ContactForm({
 
   return (
     <Card className="h-auto overflow-visible min-h-[200px]">
-      <Card.Body spacing="compact" className="p-lg">
+      <Card.Body padding="compact" className="p-lg">
         <Heading level={3} className="mb-md">{t('send_message_to_support')}</Heading>
         {!isFormOpen ? (
           <Button variant="primary" full onClick={() => setIsFormOpen(true)}>

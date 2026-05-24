@@ -1,4 +1,4 @@
-import { forwardRef, type ElementType, type ReactNode, type CSSProperties } from 'react'
+import { forwardRef, type ElementType, type CSSProperties } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
@@ -99,10 +99,14 @@ const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 
 Heading.displayName = 'Heading'
 
-export interface TextProps extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof textVariants> {
+export interface TextProps 
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'size'>, 
+    Omit<VariantProps<typeof textVariants>, 'size'> {
   bold?: boolean
   tag?: ElementType
   weight?: string | number
+  htmlFor?: string
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | null
 }
 
 /**

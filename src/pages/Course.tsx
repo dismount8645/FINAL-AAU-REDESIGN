@@ -130,7 +130,7 @@ const participantsData = [
 function Course() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { t } = useStore()
+  const t = useStore((state) => state.t)
   const [activeTab, setActiveTab] = useState<string>('modules')
   const [expandedSections, setExpandedSections] = useState<string[]>(() => {
     const course = typedCourseData[Number(id)]

@@ -4,7 +4,6 @@ import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
-import { Text } from '@/components/ui/Typography'
 import { Loader2 } from 'lucide-react'
 
 interface NewEventFormState {

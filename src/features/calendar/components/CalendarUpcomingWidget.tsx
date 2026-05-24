@@ -104,7 +104,7 @@ const CalendarUpcomingWidget = ({
                   </Stack>
 
                   {/* Event Info */}
-                  <Stack gap="4xs" className="flex-1 min-w-0">
+                  <Stack gap="none" className="flex-1 min-w-0">
                     <span className="text-sm font-bold text-main truncate leading-snug">
                       {getEventTitle(e)}
                     </span>
