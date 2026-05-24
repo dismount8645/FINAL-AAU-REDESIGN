@@ -108,7 +108,7 @@ function CourseModules({
                 <button
                   type="button"
                   data-section-id={section.id}
-                  className="w-full text-left p-md px-lg flex items-center justify-between transition-colors duration-200 hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                  className="w-full text-left p-md px-lg flex items-center justify-between transition-colors duration-200 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
                   onClick={() => toggleSection(section.id)}
                   aria-expanded={isExpanded}
                 >

@@ -4,7 +4,7 @@ import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import { EyeOff, GripVertical } from 'lucide-react'
-import ErrorBoundary from '@/components/common/ErrorBoundary'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import ResizeCorner from '@/components/ui/ResizeCorner'
 import { useResizeHandle } from '@/hooks/useResizeHandle'
 
@@ -82,13 +82,13 @@ export const WidgetWrapper = memo(function WidgetWrapper({
               className="absolute top-0 right-0 w-[12px] h-full cursor-ew-resize z-20 group-hover:bg-primary/5 active:bg-primary/15 transition-colors rounded-r-lg"
               title={t('resize_width') || 'Drag to resize width'}
               onMouseDown={(e) => resizeWidth(e, 'width')}
-              onTouchStart={(e) => resizeWidth(e as any, 'width')}
+              onTouchStart={(e) => resizeWidth(e, 'width')}
             />
             <div
               className="absolute bottom-0 left-0 w-full h-[12px] cursor-ns-resize z-20 group-hover:bg-primary/5 active:bg-primary/15 transition-colors rounded-b-lg"
               title={t('resize_height') || 'Drag to resize height'}
               onMouseDown={(e) => resizeHeight(e, 'height')}
-              onTouchStart={(e) => resizeHeight(e as any, 'height')}
+              onTouchStart={(e) => resizeHeight(e, 'height')}
             />
 
             {/* Corner diagonal handle details for resize affordance */}
@@ -99,7 +99,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
             <Stack className="absolute top-[var(--space-xs)] right-[var(--space-md)] z-10 flex gap-[var(--space-2xs)] bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] shadow-[var(--shadow-md)] dark:border dark:border-border">
               <button
                 type="button"
-                className="flex h-11 w-11 items-center justify-center cursor-grab active:cursor-grabbing text-muted hover:text-main focus-visible:ring-2 focus-visible:ring-primary rounded-md border-none bg-transparent focus-visible:outline-none"
+                className="flex h-11 w-11 items-center justify-center cursor-grab active:cursor-grabbing text-muted hover:text-main focus-visible:outline-none focus-visible:shadow-focus rounded-md border-none bg-transparent"
                 title={t('drag_to_reorder') || 'Drag to reorder'}
                 aria-label={t('drag_to_reorder') || 'Drag to reorder'}
                 onKeyDown={(e) => {

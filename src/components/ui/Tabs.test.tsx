@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import Tabs from '@/components/ui/Tabs'
@@ -94,5 +94,57 @@ describe('Tabs', () => {
     expect(tabs).toHaveLength(2)
     expect(tabs[0]).not.toHaveAttribute('id')
     expect(tabs[0]).not.toHaveAttribute('aria-controls')
+  })
+
+  it('renders count badge with 0 value', () => {
+    render(<Tabs items={mockItems} activeTab="tab3" onChange={() => {}} />)
+    expect(screen.getByText('0')).toBeInTheDocument()
+  })
+
+  it('navigates right with ArrowRight key', async () => {
+    const onChange = vi.fn()
+    render(<Tabs items={mockItems} activeTab="tab1" onChange={onChange} />)
+    screen.getAllByRole('tab')[0].focus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(onChange).toHaveBeenCalledWith('tab2')
+  })
+
+  it('navigates left with ArrowLeft key', async () => {
+    const onChange = vi.fn()
+    render(<Tabs items={mockItems} activeTab="tab2" onChange={onChange} />)
+    screen.getAllByRole('tab')[1].focus()
+    await userEvent.keyboard('{ArrowLeft}')
+    expect(onChange).toHaveBeenCalledWith('tab1')
+  })
+
+  it('wraps navigation at edges with ArrowRight', async () => {
+    const onChange = vi.fn()
+    render(<Tabs items={mockItems} activeTab="tab3" onChange={onChange} />)
+    screen.getAllByRole('tab')[2].focus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(onChange).toHaveBeenCalledWith('tab1')
+  })
+
+  it('wraps navigation at edges with ArrowLeft', async () => {
+    const onChange = vi.fn()
+    render(<Tabs items={mockItems} activeTab="tab1" onChange={onChange} />)
+    screen.getAllByRole('tab')[0].focus()
+    await userEvent.keyboard('{ArrowLeft}')
+    expect(onChange).toHaveBeenCalledWith('tab3')
+  })
+
+  it('ignores non-arrow keys during keyboard navigation', () => {
+    const onChange = vi.fn()
+    render(<Tabs items={mockItems} activeTab="tab1" onChange={onChange} />)
+    fireEvent.keyDown(screen.getByRole('tablist'), { key: 'Enter' })
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('shows active indicator bar on active tab', () => {
+    render(<Tabs items={mockItems} activeTab="tab1" onChange={() => {}} />)
+    const tabs = screen.getAllByRole('tab')
+    const indicator = tabs[0].querySelector('.h-\\[3px\\]')
+    expect(indicator).toBeInTheDocument()
+    expect(tabs[1].querySelector('.h-\\[3px\\]')).not.toBeInTheDocument()
   })
 })

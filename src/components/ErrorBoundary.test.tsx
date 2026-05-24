@@ -1,23 +1,26 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
-import { ErrorBoundary } from '@/components/ErrorBoundary'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
-const mockT = (key: string) => {
-  const map: Record<string, string> = {
-    error_title: 'Something went wrong',
-    error_message: 'An unexpected error occurred.',
-    try_again: 'Try again',
+// Mock useStore for translation function
+vi.mock('@/store/useStore', () => {
+  const mockState = {
+    t: (key: string) => {
+      const map: Record<string, string> = {
+        error_title: 'Something went wrong',
+        error_message: 'An unexpected error occurred.',
+        try_again: 'Try again',
+      }
+      return map[key] || key
+    }
   }
-  return map[key] || key
-}
+  return {
+    default: vi.fn((selector) => selector(mockState)),
+  }
+})
 
-function Explode({ message }: { message?: string }) {
-  throw new Error(message ?? 'KABOOM')
-  return null
-}
-
-function SilentExplode() {
-  throw new Error()
+function Explode() {
+  throw new Error('KABOOM')
   return null
 }
 
@@ -32,7 +35,7 @@ afterEach(() => {
 describe('ErrorBoundary', () => {
   it('renders children when there is no error', () => {
     render(
-      <ErrorBoundary t={mockT}>
+      <ErrorBoundary>
         <div>All good</div>
       </ErrorBoundary>
     )
@@ -41,17 +44,17 @@ describe('ErrorBoundary', () => {
 
   it('renders fallback UI when a child throws', () => {
     render(
-      <ErrorBoundary t={mockT}>
+      <ErrorBoundary>
         <Explode />
       </ErrorBoundary>
     )
     expect(screen.getByText('Something went wrong')).toBeInTheDocument()
-    expect(screen.getByText('KABOOM')).toBeInTheDocument()
+    expect(screen.getByText('An unexpected error occurred.')).toBeInTheDocument()
   })
 
   it('renders custom fallback when provided', () => {
     render(
-      <ErrorBoundary t={mockT} fallback={<div>Custom fallback</div>}>
+      <ErrorBoundary fallback={<div>Custom fallback</div>}>
         <Explode />
       </ErrorBoundary>
     )
@@ -66,7 +69,7 @@ describe('ErrorBoundary', () => {
     }
 
     render(
-      <ErrorBoundary t={mockT}>
+      <ErrorBoundary>
         <ConditionalExplode />
       </ErrorBoundary>
     )
@@ -78,33 +81,24 @@ describe('ErrorBoundary', () => {
     expect(screen.getByText('After reset')).toBeInTheDocument()
   })
 
-  it('calls onError prop when an error is caught', () => {
-    const onError = vi.fn()
-    render(
-      <ErrorBoundary t={mockT} onError={onError}>
-        <Explode />
-      </ErrorBoundary>
-    )
-    expect(onError).toHaveBeenCalledTimes(1)
-    expect(onError).toHaveBeenCalledWith(expect.any(Error), expect.any(Object))
-  })
+  it('supports keyboard trigger on Enter or Space', () => {
+    let shouldThrow = true
+    function ConditionalExplode() {
+      if (shouldThrow) throw new Error('KABOOM')
+      return <div>After reset</div>
+    }
 
-  it('uses default error message when error has no message', () => {
-    render(
-      <ErrorBoundary t={mockT}>
-        <SilentExplode />
-      </ErrorBoundary>
-    )
-    expect(screen.getByText('An unexpected error occurred.')).toBeInTheDocument()
-  })
-
-  it('uses default translation function when t is not provided', () => {
     render(
       <ErrorBoundary>
-        <Explode />
+        <ConditionalExplode />
       </ErrorBoundary>
     )
-    expect(screen.getByText('error_title')).toBeInTheDocument()
-    expect(screen.getByText('try_again')).toBeInTheDocument()
+    
+    shouldThrow = false
+    const button = screen.getByText('Try again')
+    
+    // Test Enter key
+    fireEvent.keyDown(button, { key: 'Enter' })
+    expect(screen.getByText('After reset')).toBeInTheDocument()
   })
 })

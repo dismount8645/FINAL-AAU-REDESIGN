@@ -32,6 +32,7 @@ export interface UseSettingsStateReturn {
   messageEmailOffline: boolean
   setMessageEmailOffline: (v: boolean) => void
   activeTabLabel: string
+  isSaving: boolean
   handleSave: () => Promise<void>
   handleTabClick: (id: string) => void
   toggleCat: (id: string) => void
@@ -62,8 +63,10 @@ export function useSettingsState(): UseSettingsStateReturn {
 
   const [messagePrivacy, setMessagePrivacy] = useState<'contacts' | 'courses' | 'anyone'>('courses')
   const [messageEmailOffline, setMessageEmailOffline] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
 
   const handleSave = useCallback(async () => {
+    setIsSaving(true)
     storage.set('userFirstName', firstName)
     storage.set('userLastName', lastName)
     try {
@@ -80,6 +83,8 @@ export function useSettingsState(): UseSettingsStateReturn {
       toast.success(t('settings.save_success'))
     } catch {
       toast.error(t('common.save_error'))
+    } finally {
+      setIsSaving(false)
     }
   }, [firstName, lastName, lang, theme, notifPrefs, forumDigest, forumTracking, forumAutoSubscribe, toast, t])
 
@@ -132,6 +137,7 @@ export function useSettingsState(): UseSettingsStateReturn {
     messageEmailOffline,
     setMessageEmailOffline,
     activeTabLabel,
+    isSaving,
     handleSave,
     handleTabClick,
     toggleCat,

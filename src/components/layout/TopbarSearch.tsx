@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, type KeyboardEvent } from 'react';
+import React, { useState, useRef, useEffect, useMemo, type KeyboardEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, GraduationCap, X } from 'lucide-react';
 import { Text } from '@/components/ui/Typography';
@@ -83,7 +83,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
     setIsDropdownVisible(false);
   }, [location.pathname]);
 
-  const filteredResults = searchQuery.trim()
+  const filteredResults = useMemo(() => searchQuery.trim()
     ? courses.filter(c => {
       const q = searchQuery.toLowerCase();
       /* istanbul ignore next */
@@ -93,7 +93,9 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
         /* istanbul ignore next */
         (c.code && c.code.toLowerCase().includes(q));
     })
-    : [];
+    : [],
+    [courses, searchQuery]
+  );
 
   const handleSearchEnter = (e: KeyboardEvent<HTMLInputElement> | { key: string }) => {
     if ('preventDefault' in e && e.key === 'ArrowDown') {
@@ -185,9 +187,13 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                   <EmptyState icon={Search} title={t('no_search_results')} />
                 </div>
               )}
-              <div className="search-dropdown-footer p-sm px-md text-center border-t border-border cursor-pointer bg-card hover:bg-bg-hover" onClick={() => handleSearchEnter({ key: 'Enter' })}>
+              <button
+                type="button"
+                className="w-full border-none cursor-pointer focus-visible:outline-none focus-visible:shadow-focus search-dropdown-footer p-sm px-md text-center border-t border-border bg-card hover:bg-bg-hover font-medium block"
+                onClick={() => handleSearchEnter({ key: 'Enter' })}
+              >
                 <Text size="sm" className="topbar__all-results">{t('all_results')} &ldquo;{searchQuery}&rdquo;</Text>
-              </div>
+              </button>
             </div>
           )}
         </div>

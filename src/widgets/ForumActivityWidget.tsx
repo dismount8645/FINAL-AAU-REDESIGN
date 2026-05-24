@@ -78,7 +78,7 @@ const ActivityItem = memo(forwardRef<HTMLButtonElement, {
       className={cn(
         "w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150",
         "hover:bg-bg-hover cursor-pointer group/item outline-none",
-        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        "focus-visible:outline-none focus-visible:shadow-focus"
       )}
       onClick={() => onClick(activity.id)}
     >

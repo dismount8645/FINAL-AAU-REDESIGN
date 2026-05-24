@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi } from 'vitest'
 import TabBar from './TabBar'
 import { FileText, Settings } from 'lucide-react'
@@ -41,5 +42,66 @@ describe('TabBar', () => {
       />
     )
     expect(screen.getByTestId('secondary')).toBeInTheDocument()
+  })
+
+  it('renders icons on tabs', () => {
+    render(<TabBar tabs={mockTabs} activeTab="tab1" onChange={() => {}} />)
+    const svgs = document.querySelectorAll('svg')
+    expect(svgs.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('shows active indicator on active tab', () => {
+    render(<TabBar tabs={mockTabs} activeTab="tab1" onChange={() => {}} />)
+    const tab1 = screen.getByTestId('tab-tab1')
+    expect(tab1.querySelector('.h-\\[3px\\]')).toBeInTheDocument()
+    expect(screen.getByTestId('tab-tab2').querySelector('.h-\\[3px\\]')).not.toBeInTheDocument()
+  })
+
+  it('navigates right with ArrowRight key', async () => {
+    const onChange = vi.fn()
+    render(<TabBar tabs={mockTabs} activeTab="tab1" onChange={onChange} />)
+    screen.getByTestId('tab-tab1').focus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(onChange).toHaveBeenCalledWith('tab2')
+  })
+
+  it('navigates left with ArrowLeft key', async () => {
+    const onChange = vi.fn()
+    render(<TabBar tabs={mockTabs} activeTab="tab2" onChange={onChange} />)
+    screen.getByTestId('tab-tab2').focus()
+    await userEvent.keyboard('{ArrowLeft}')
+    expect(onChange).toHaveBeenCalledWith('tab1')
+  })
+
+  it('wraps navigation at edges with ArrowRight', async () => {
+    const onChange = vi.fn()
+    render(<TabBar tabs={mockTabs} activeTab="tab2" onChange={onChange} />)
+    screen.getByTestId('tab-tab2').focus()
+    await userEvent.keyboard('{ArrowRight}')
+    expect(onChange).toHaveBeenCalledWith('tab1')
+  })
+
+  it('wraps navigation at edges with ArrowLeft', async () => {
+    const onChange = vi.fn()
+    render(<TabBar tabs={mockTabs} activeTab="tab1" onChange={onChange} />)
+    screen.getByTestId('tab-tab1').focus()
+    await userEvent.keyboard('{ArrowLeft}')
+    expect(onChange).toHaveBeenCalledWith('tab2')
+  })
+
+  it('ignores non-arrow keys during keyboard navigation', () => {
+    const onChange = vi.fn()
+    render(<TabBar tabs={mockTabs} activeTab="tab1" onChange={onChange} />)
+    const tablist = screen.getByRole('tablist')
+    fireEvent.keyDown(tablist, { key: 'Tab' })
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('sets aria-selected and tabIndex correctly', () => {
+    render(<TabBar tabs={mockTabs} activeTab="tab1" onChange={() => {}} />)
+    expect(screen.getByTestId('tab-tab1')).toHaveAttribute('aria-selected', 'true')
+    expect(screen.getByTestId('tab-tab1')).toHaveAttribute('tabindex', '0')
+    expect(screen.getByTestId('tab-tab2')).toHaveAttribute('aria-selected', 'false')
+    expect(screen.getByTestId('tab-tab2')).toHaveAttribute('tabindex', '-1')
   })
 })

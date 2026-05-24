@@ -11,8 +11,7 @@ export interface UISlice {
   lang: Lang;
   setLang: (lang: Lang) => void;
   t: (key: string) => string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  localize: (obj: any, key?: string) => string;
+  localize: <T extends object>(obj: T, key?: string) => string;
 
   isCollapsed: boolean;
   isMobile: boolean;
@@ -86,11 +85,12 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
 
     return key;
   },
-  localize: (obj, key) => {
+  localize: (obj: object, key?: string) => {
     const { lang } = get();
-    if (!obj) return '';
-    
-    const target = key ? obj[key] : obj;
+    const rec = obj as Record<string, unknown>;
+    if (!rec) return '';
+
+    const target = key ? rec[key] : rec;
     if (target && typeof target === 'object' && target !== null) {
       const tObj = target as Record<string, unknown>;
       if ('da' in tObj || 'en' in tObj) {
@@ -102,9 +102,9 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
       const keyEn = `${key}En`;
       const keyDa = `${key}Da`;
       if (lang === 'en') {
-        return (obj[keyEn] as string) || (obj[key] as string) || '';
+        return (rec[keyEn] as string) || (rec[key] as string) || '';
       }
-      return (obj[keyDa] as string) || (obj[key] as string) || '';
+      return (rec[keyDa] as string) || (rec[key] as string) || '';
     }
 
     return '';

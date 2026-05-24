@@ -45,7 +45,7 @@ export default function SegmentedControl({ options, value, onChange, className =
           key={String(option.value)}
           type="button"
           className={[
-            'segmented-control__option relative flex-1 flex items-center justify-center gap-xs border-none bg-transparent cursor-pointer z-2 text-[0.85rem] font-medium transition-colors duration-150 px-xs active:scale-95 focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-inset focus-visible:outline-none rounded-sm',
+            'segmented-control__option relative flex-1 flex items-center justify-center gap-xs border-none bg-transparent cursor-pointer z-2 text-[0.85rem] font-medium transition-colors duration-150 px-xs active:scale-95 focus-visible:outline-none focus-visible:shadow-focus rounded-sm',
             value === option.value 
               ? 'segmented-control__option--active text-primary' 
               : 'text-text-muted hover:text-text-main',
@@ -57,7 +57,7 @@ export default function SegmentedControl({ options, value, onChange, className =
           title={option.label}
         >
           {OptionIcon && <OptionIcon size={16} strokeWidth={2} aria-hidden="true" />}
-          {option.img && <img src={option.img} alt="" className="w-6 h-auto object-contain rounded-[var(--radius-sm)] shadow-xs transition-transform duration-200 hover:scale-110" />}
+          {option.img && <img src={option.img} alt="" className="w-6 h-6 object-contain rounded-[var(--radius-sm)] shadow-xs transition-transform duration-200 hover:scale-110" />}
           {option.label && <span className="text-[1.1rem] leading-none">{option.label}</span>}
         </button>
         );

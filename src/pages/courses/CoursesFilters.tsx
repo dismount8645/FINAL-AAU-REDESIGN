@@ -1,9 +1,11 @@
-import { useState, useRef, useEffect, memo } from 'react'
+import { memo } from 'react'
 import { Filter, ArrowDownZA, ArrowUpAZ } from 'lucide-react'
 import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import SearchInput from '@/components/ui/SearchInput'
 import useStore from '@/store/useStore'
+import { cn } from '@/lib/utils'
+import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/ui/Dropdown'
 
 interface CoursesFiltersProps {
   searchQuery: string
@@ -29,21 +31,6 @@ function CoursesFilters({
   labelFilters,
 }: CoursesFiltersProps) {
   const t = useStore((state) => state.t)
-  const [showFilters, setShowFilters] = useState(false)
-  const filterRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(e.target as Node)) {
-        setShowFilters(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  const allBtnClass = !activeFilter ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-bg-hover'
-  const getLabelBtnClass = (label: string) => activeFilter === label ? 'bg-primary/10 text-primary font-semibold' : 'hover:bg-bg-hover'
 
   const handleSortToggle = () => {
     if (sortBy === 'status') {
@@ -73,44 +60,41 @@ function CoursesFilters({
         className="w-full md:min-w-[200px] md:max-w-[320px]"
       />
       <Stack direction="row" gap="xs" className="flex items-center gap-xs">
-        <div className="relative flex-1" ref={filterRef}>
-          <Button
-            variant={activeFilter ? 'primary' : 'ghost'}
-            size="sm"
-            icon={Filter}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            {t('filter')}
-          </Button>
-          {showFilters && (
-            <div className="absolute top-full right-0 mt-xs min-w-[200px] bg-bg-elevated border border-border rounded-[var(--radius-xl)] shadow-[var(--shadow-lg)] z-50 p-sm animate-slide-in">
-              <Stack gap="2xs">
-                <button
-                  type="button"
-                  className={`w-full text-left px-md py-sm rounded-[var(--radius-md)] text-sm transition-colors ${allBtnClass}`}
-                  onClick={() => {
-                    setActiveFilter(null)
-                    setShowFilters(false)
-                  }}
+        <div className="relative flex-1">
+          <Dropdown>
+            <DropdownTrigger render={
+              <Button
+                variant={activeFilter ? 'primary' : 'ghost'}
+                size="sm"
+                icon={Filter}
+              >
+                {t('filter')}
+              </Button>
+            } />
+            <DropdownContent align="end" className="min-w-[200px]">
+              <DropdownItem
+                onClick={() => setActiveFilter(null)}
+                className={cn(
+                  "cursor-pointer",
+                  !activeFilter ? 'bg-primary/10 text-primary font-semibold' : ''
+                )}
+              >
+                {t('all')}
+              </DropdownItem>
+              {labelFilters.map(label => (
+                <DropdownItem
+                  key={label}
+                  onClick={() => setActiveFilter(label)}
+                  className={cn(
+                    "cursor-pointer",
+                    activeFilter === label ? 'bg-primary/10 text-primary font-semibold' : ''
+                  )}
                 >
-                  {t('all')}
-                </button>
-                {labelFilters.map(label => (
-                  <button
-                    key={label}
-                    type="button"
-                    className={`w-full text-left px-md py-sm rounded-[var(--radius-md)] text-sm transition-colors ${getLabelBtnClass(label)}`}
-                    onClick={() => {
-                      setActiveFilter(label)
-                      setShowFilters(false)
-                    }}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </Stack>
-            </div>
-          )}
+                  {label}
+                </DropdownItem>
+              ))}
+            </DropdownContent>
+          </Dropdown>
         </div>
         <Button
           variant="ghost"

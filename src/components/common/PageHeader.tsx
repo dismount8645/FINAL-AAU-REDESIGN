@@ -16,7 +16,7 @@ export interface PageHeaderProps {
   breadcrumbs?: BreadcrumbItem[];
   children?: ReactNode;
   className?: string;
-  titleProps?: React.HTMLAttributes<HTMLHeadingElement>;
+  titleProps?: React.HTMLAttributes<HTMLHeadingElement> & { 'data-testid'?: string };
 }
 
 /**

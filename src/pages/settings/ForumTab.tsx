@@ -45,7 +45,7 @@ export default function ForumTab({
                 key={opt.id}
                 type="button"
                 onClick={() => setForumDigest(opt.id as 'none' | 'complete' | 'subjects')}
-                className={`p-md rounded-xl border text-left transition-all cursor-pointer ${forumDigest === opt.id ? 'border-primary bg-primary/5' : 'border-border bg-card'}`}
+                className={`p-md rounded-xl border text-left transition-all duration-150 cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus ${forumDigest === opt.id ? 'border-primary bg-primary/5' : 'border-border bg-card hover:border-primary/20'}`}
               >
                 <Text size="sm" weight="bold" className="text-main">{opt.label}</Text>
                 <Text size="xs" muted className="mt-3xs leading-snug">{opt.desc}</Text>
@@ -65,9 +65,11 @@ export default function ForumTab({
           </Stack>
           <button
             type="button"
+            role="switch"
+            aria-checked={forumTracking}
             aria-labelledby="toggle-label-forum-tracking"
             onClick={() => setForumTracking(!forumTracking)}
-            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] ${forumTracking ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
+            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] focus-visible:outline-none focus-visible:shadow-focus ${forumTracking ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
           >
             <div className={`w-4 h-4 rounded-full bg-white shadow transition-all ${forumTracking ? 'ml-auto' : 'ml-0'}`} />
           </button>
@@ -84,9 +86,11 @@ export default function ForumTab({
           </Stack>
           <button
             type="button"
+            role="switch"
+            aria-checked={forumAutoSubscribe}
             aria-labelledby="toggle-label-forum-auto-subscribe"
             onClick={() => setForumAutoSubscribe(!forumAutoSubscribe)}
-            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] ${forumAutoSubscribe ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
+            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] focus-visible:outline-none focus-visible:shadow-focus ${forumAutoSubscribe ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
           >
             <div className={`w-4 h-4 rounded-full bg-white shadow transition-all ${forumAutoSubscribe ? 'ml-auto' : 'ml-0'}`} />
           </button>

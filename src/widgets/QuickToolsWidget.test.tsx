@@ -6,10 +6,12 @@ import useStore from '@/store/useStore'
 
 // Mock useStore for atomic selectors
 vi.mock('@/store/useStore', () => {
+  const mockFavoritesList: any[] = []
   const mockState = {
     t: (key: string) => key,
-    favorites: [],
+    favorites: mockFavoritesList,
     toggleFavorite: vi.fn(),
+    isFavorite: vi.fn((type: string, id: number) => mockFavoritesList.some((f: any) => f.type === type && f.entityId === id)),
   }
   return {
     default: vi.fn((selector) => selector(mockState)),
@@ -38,6 +40,7 @@ describe('QuickToolsWidget', () => {
         t: mockT,
         favorites: mockFavorites,
         toggleFavorite: mockToggleFavorite,
+        isFavorite: vi.fn((type: string, id: number) => mockFavorites.some((f: any) => f.type === type && f.entityId === id)),
       }
       return selector(state)
     })

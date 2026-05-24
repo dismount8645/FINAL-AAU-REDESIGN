@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
+import { AnimatePresence, motion } from 'framer-motion'
 import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import { useWidgetDrag } from '@/hooks/useWidgetDrag'
@@ -72,15 +73,25 @@ function Dashboard() {
       />
 
       <div className="w-full max-w-[var(--container-max-width)] mx-auto px-[var(--space-md)] pt-[var(--space-lg)] pb-[var(--space-2xl)]">
-        {isEditing && (
-          <WidgetCustomizer
-            hiddenWidgets={hiddenWidgets}
-            widgetLabels={widgetLabels}
-            toggleVisibility={toggleVisibility}
-            resetWidgets={resetWidgets}
-            t={t}
-          />
-        )}
+        <AnimatePresence>
+          {isEditing && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              className="overflow-hidden"
+            >
+              <WidgetCustomizer
+                hiddenWidgets={hiddenWidgets}
+                widgetLabels={widgetLabels}
+                toggleVisibility={toggleVisibility}
+                resetWidgets={resetWidgets}
+                t={t}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <WidgetGrid
           isEditing={isEditing}

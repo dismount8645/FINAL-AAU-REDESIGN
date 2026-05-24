@@ -48,7 +48,7 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
         className={cn(
           "w-full h-full flex flex-col items-start gap-[var(--space-sm)] p-[var(--space-md)] rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card transition-all duration-150 text-left outline-none isolate",
           "hover:shadow-[var(--shadow-lg)] hover:border-primary cursor-pointer",
-          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+          "focus-visible:shadow-focus focus-visible:outline-none"
         )}
         onClick={() => !isEditing && onOpen(tool.url)}
         aria-label={`${t('open')} ${t(tool.nameKey)}`}

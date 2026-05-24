@@ -31,7 +31,7 @@ export default function NotificationsTab({
           <Grid.Item key={ch.id} span={1} mobileSpan={2}>
             <Card
               variant="outlined"
-              className="hover:border-primary/30 transition-colors cursor-pointer"
+              className="hover:border-primary/30 transition-colors"
               onClick={() => setNotifPrefs((prev) => ({ ...prev, [ch.id]: !prev[ch.id as keyof typeof prev] }))}
               role="switch"
               aria-checked={notifPrefs[ch.id as keyof typeof notifPrefs]}

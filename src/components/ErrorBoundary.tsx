@@ -1,63 +1,120 @@
-import { Component, type ErrorInfo, type ReactNode } from "react"
+import { Component, ErrorInfo, ReactNode, KeyboardEvent } from 'react';
+import Card from '@/components/ui/Card';
+import { Text } from '@/components/ui/Typography';
+import { AlertCircle, RefreshCw } from 'lucide-react';
+import Button from '@/components/ui/Button';
+import Stack from '@/components/ui/Stack';
+import useStore from '@/store/useStore';
 
-interface ErrorBoundaryProps {
-  children: ReactNode
-  fallback?: ReactNode
-  onError?: (error: Error, info: ErrorInfo) => void
-  t?: (key: string) => string
+interface Props {
+  children: ReactNode;
+  fallback?: ReactNode;
+  /** Optional name for easier debugging */
+  name?: string;
 }
 
-interface ErrorBoundaryState {
-  hasError: boolean
-  error: Error | null
+/** Simple state interface – we only need to know if an error occurred */
+interface State {
+  hasError: boolean;
 }
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props)
-    this.state = { hasError: false, error: null }
+/**
+ * ErrorBoundary er en klassisk React error‑boundary som fanger uventede fejl
+ * i under‑træet og viser en bruger‑venlig fallback.
+ *
+ * - Den logger fejlen til console (kan udvides til ekstern logging).
+ * - Den giver en “prøv igen”‑knap som nulstiller tilstanden.
+ * - Når fallback‑prop er angivet, renderes den i stedet for den interne
+ *   fallback‑UI.
+ *
+ * Vi tilføjer også tastatur‑support (Enter) for at gøre reset‑knappen
+ * tilgængelig for keyboard‑brugere.
+ */
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false,
+  };
+
+  /** Når en fejl kastes, opdateres state så render‑metoden viser fallback. */
+  public static getDerivedStateFromError(_: Error): State {
+    return { hasError: true };
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error }
+  /** Log fejl til konsol – kan udvides til fjern‑logning senere. */
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error(
+      `Uncaught error in ${this.props.name || 'Component'}:`,
+      error,
+      errorInfo
+    );
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error("[ErrorBoundary] Caught:", error, info.componentStack)
-    this.props.onError?.(error, info)
-  }
+  /** Nulstil error‑state – kaldes fra knappen eller fra tastatur. */
+  private handleReset = () => {
+    this.setState({ hasError: false });
+  };
 
-  handleReset = () => {
-    this.setState({ hasError: false, error: null })
-  }
+  /** Tastatur‑handler for at aktivere reset med Enter‑tasten. */
+  private handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      this.handleReset();
+    }
+  };
 
-  render() {
+  public render() {
     if (this.state.hasError) {
-      if (this.props.fallback) return this.props.fallback
+      if (this.props.fallback) return this.props.fallback;
 
-      const t = this.props.t || ((key: string) => key)
-
-      return (
-        <div className="flex min-h-[400px] items-center justify-center p-[var(--space-lg)]">
-          <div className="flex max-w-md flex-col items-center gap-[var(--space-md)] text-center">
-            <div className="text-4xl">⚠️</div>
-            <h2 className="text-xl font-bold text-foreground">{t('error_title')}</h2>
-            <p className="text-sm text-muted-foreground">
-              {this.state.error?.message || t('error_message')}
-            </p>
-            <button
-              onClick={this.handleReset}
-              className="inline-flex h-10 items-center justify-center rounded-[var(--radius-md)] bg-primary px-sm text-sm font-semibold text-white shadow-[var(--shadow-sm)] transition-all hover:bg-aau-light-blue hover:-translate-y-px hover:shadow-[var(--shadow-md)]"
-            >
-              {t('try_again')}
-            </button>
-          </div>
-        </div>
-      )
+      return <ErrorDisplay onReset={this.handleReset} onKeyDown={this.handleKeyDown} />;
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
 
-export default ErrorBoundary
+/**
+ * UI‑komponent til visning af fejl.
+ * - Bruger Card med variant="outlined" for konsistent styling.
+ * - Tilgængelighed: role="alert", aria‑live="assertive".
+ * - Knappen har både onClick og onKeyDown for fuld tastatur‑support.
+ */
+function ErrorDisplay({
+  onReset,
+  onKeyDown,
+}: {
+  onReset: () => void;
+  onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => void;
+}) {
+  const t = useStore(state => state.t)
+
+  return (
+    <Card
+      variant="outlined"
+      className="p-lg flex flex-col items-center justify-center text-center gap-md min-h-[150px] w-full"
+      role="alert"
+      aria-live="assertive"
+    >
+      <AlertCircle className="text-danger" size={32} aria-hidden="true" />
+      <Stack gap="2xs">
+        <Text weight="bold">{t('error_title')}</Text>
+        <Text size="sm" muted>
+          {t('error_message')}
+        </Text>
+      </Stack>
+      <Button
+        variant="secondary"
+        size="sm"
+        type="button"
+        icon={RefreshCw}
+        onClick={onReset}
+        onKeyDown={onKeyDown}
+        aria-label={t('try_again')}
+      >
+        {t('try_again')}
+      </Button>
+    </Card>
+  );
+}
+
+export default ErrorBoundary;

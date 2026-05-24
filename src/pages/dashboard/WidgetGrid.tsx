@@ -1,4 +1,4 @@
-import { type DragEvent } from 'react'
+import { type DragEvent, useMemo } from 'react'
 import type { Widget, WidgetProps } from '@/types'
 import Grid from '@/components/ui/Grid'
 import { WIDGET_CONFIG } from '@/data/mockData'
@@ -46,27 +46,29 @@ export function WidgetGrid({
   t,
   moveWidget,
 }: WidgetGridProps) {
+  const editGridOverlay = useMemo(() => (
+    <div
+      className="absolute inset-0 grid gap-[var(--space-lg)] pointer-events-none p-[var(--space-md)]"
+      style={{ gridTemplateColumns: 'repeat(24, minmax(0, 1fr))' }}
+    >
+      {Array.from({ length: 24 * 12 }).map((_, i) => {
+        const x = i % 24
+        const y = Math.floor(i / 24)
+        return (
+          <div
+            key={i}
+            className="w-full aspect-square border border-dashed border-border/60 dark:border-white/10 rounded-[var(--radius-md)]"
+            onDragOver={(e) => e.preventDefault()}
+            onDrop={(e) => onDrop(e, x, y)}
+          />
+        )
+      })}
+    </div>
+  ), [onDrop])
+
   return (
     <Grid columns={24} tabletColumns={12} mobileColumns={6} className="dashboard__grid relative">
-      {isEditing && (
-        <div
-          className="absolute inset-0 grid gap-[var(--space-lg)] pointer-events-none p-[var(--space-md)]"
-          style={{ gridTemplateColumns: 'repeat(24, minmax(0, 1fr))' }}
-        >
-          {Array.from({ length: 24 * 12 }).map((_, i) => {
-            const x = i % 24
-            const y = Math.floor(i / 24)
-            return (
-              <div
-                key={i}
-                className="w-full aspect-square border border-dashed border-border/60 dark:border-white/10 rounded-[var(--radius-md)]"
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => onDrop(e, x, y)}
-              />
-            )
-          })}
-        </div>
-      )}
+      {isEditing && editGridOverlay}
       {visibleWidgets.map((widget) => {
         const WidgetComponent = WIDGET_COMPONENTS[widget.id]
         if (!WidgetComponent) return null

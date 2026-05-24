@@ -2,7 +2,7 @@
 
 import { type HTMLAttributes, forwardRef, memo } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-import { motion } from "framer-motion"
+import { motion, type HTMLMotionProps } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 /**
@@ -56,22 +56,31 @@ export interface BadgeProps
  */
 const Badge = memo(forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant, pill, interactive, children, className, ...props }, ref) => {
-    const Component = (interactive ? motion.span : "span") as any
+    if (interactive) {
+      return (
+        <motion.span
+          ref={ref}
+          role="status"
+          className={cn("badge", badgeVariants({ variant, pill, interactive }), className)}
+          whileHover={{ scale: 1.05, y: -4 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ duration: 0.15 }}
+          {...(props as HTMLMotionProps<"span">)}
+        >
+          {children}
+        </motion.span>
+      )
+    }
 
     return (
-      <Component
-        ref={ref as React.Ref<HTMLSpanElement>}
+      <span
+        ref={ref}
         role="status"
         className={cn("badge", badgeVariants({ variant, pill, interactive }), className)}
-        {...(interactive ? {
-          whileHover: { scale: 1.05, translateY: -1 },
-          whileTap: { scale: 0.95 },
-          transition: { duration: 0.15 }
-        } : {})}
-        {...props}
+        {...(props as HTMLAttributes<HTMLSpanElement>)}
       >
         {children}
-      </Component>
+      </span>
     )
   }
 ))

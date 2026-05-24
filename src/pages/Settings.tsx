@@ -1,5 +1,7 @@
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
+import { type KeyboardEvent } from 'react'
 import PageHeader from '@/components/common/PageHeader'
+import { AnimatePresence, motion } from 'framer-motion'
 import Card from '@/components/ui/Card'
 import Stack from '@/components/ui/Stack'
 import Grid from '@/components/ui/Grid'
@@ -81,6 +83,7 @@ function Settings() {
     messageEmailOffline,
     setMessageEmailOffline,
     activeTabLabel,
+    isSaving,
     handleSave,
     handleTabClick,
     toggleCat,
@@ -94,7 +97,7 @@ function Settings() {
       <div className="container pb-2xl">
         <Grid>
           {(!isMobile || mobileView === 'menu') && (
-            <Grid.Item span={4} tabletSpan={3} mobileSpan={12}>
+            <Grid.Item span={4} tabletSpan={2} mobileSpan={12}>
               <Card className="panel-card flex flex-col p-[var(--space-0)] sticky top-32 self-start">
               <Card.Header className="border-b border-border">
                 <Stack direction="row" gap="md" align="center">
@@ -110,6 +113,14 @@ function Settings() {
                       align="center"
                       justify="between"
                       onClick={() => toggleCat(cat.id)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e: KeyboardEvent) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          toggleCat(cat.id)
+                        }
+                      }}
                       className="settings__cat-header cursor-pointer py-sm px-xs hover:bg-bg-hover rounded-[var(--radius-sm)] transition-colors border-l-4 border-border hover:border-primary/40"
                     >                      <Stack direction="row" align="center" gap="sm">
                         {(() => {
@@ -139,7 +150,7 @@ function Settings() {
           )}
 
           {(!isMobile || mobileView === 'pane') && (
-            <Grid.Item span={8} tabletSpan={5} mobileSpan={12}>
+            <Grid.Item span={8} tabletSpan={4} mobileSpan={12}>
               <Card className="panel-card flex flex-col p-[var(--space-0)]">
               <Card.Header className="border-b border-border">
                 <Stack gap="2xs">
@@ -160,59 +171,69 @@ function Settings() {
               </Card.Header>
               
               <Card.Body className="panel-scroll p-lg">
-                {activeTab === 'profil' ? (
-                  <ProfileTab
-                    firstName={firstName}
-                    setFirstName={setFirstName}
-                    lastName={lastName}
-                    setLastName={setLastName}
-                    theme={theme}
-                    setTheme={setTheme}
-                  />
-                ) : activeTab === 'notifikationer' ? (
-                  <NotificationsTab
-                    notifPrefs={notifPrefs}
-                    setNotifPrefs={setNotifPrefs}
-                  />
-                ) : activeTab === 'sprog' ? (
-                  <LanguageTab
-                    lang={lang}
-                    setLang={setLang}
-                  />
-                ) : activeTab === 'forum' ? (
-                  <ForumTab
-                    forumDigest={forumDigest}
-                    setForumDigest={setForumDigest}
-                    forumTracking={forumTracking}
-                    setForumTracking={setForumTracking}
-                    forumAutoSubscribe={forumAutoSubscribe}
-                    setForumAutoSubscribe={setForumAutoSubscribe}
-                  />
-                ) : activeTab === 'kalender' ? (
-                  <CalendarTab
-                    calendarStartDay={calendarStartDay}
-                    setCalendarStartDay={setCalendarStartDay}
-                    calendarDefaultView={calendarDefaultView}
-                    setCalendarDefaultView={setCalendarDefaultView}
-                  />
-                ) : activeTab === 'beskeder' ? (
-                  <MessagesTab
-                    messagePrivacy={messagePrivacy}
-                    setMessagePrivacy={setMessagePrivacy}
-                    messageEmailOffline={messageEmailOffline}
-                    setMessageEmailOffline={setMessageEmailOffline}
-                  />
-                ) : (
-                  <Stack align="center" justify="center" className="settings__empty-state py-[80px] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
-                     <Icon name="gear" size="3xl" className="text-muted opacity-30 mb-md" />
-                     <Text muted>{t('settings.under_development')}</Text>
-                  </Stack>
-                )}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.15 }}
+                  >
+                    {activeTab === 'profil' ? (
+                      <ProfileTab
+                        firstName={firstName}
+                        setFirstName={setFirstName}
+                        lastName={lastName}
+                        setLastName={setLastName}
+                        theme={theme}
+                        setTheme={setTheme}
+                      />
+                    ) : activeTab === 'notifikationer' ? (
+                      <NotificationsTab
+                        notifPrefs={notifPrefs}
+                        setNotifPrefs={setNotifPrefs}
+                      />
+                    ) : activeTab === 'sprog' ? (
+                      <LanguageTab
+                        lang={lang}
+                        setLang={setLang}
+                      />
+                    ) : activeTab === 'forum' ? (
+                      <ForumTab
+                        forumDigest={forumDigest}
+                        setForumDigest={setForumDigest}
+                        forumTracking={forumTracking}
+                        setForumTracking={setForumTracking}
+                        forumAutoSubscribe={forumAutoSubscribe}
+                        setForumAutoSubscribe={setForumAutoSubscribe}
+                      />
+                    ) : activeTab === 'kalender' ? (
+                      <CalendarTab
+                        calendarStartDay={calendarStartDay}
+                        setCalendarStartDay={setCalendarStartDay}
+                        calendarDefaultView={calendarDefaultView}
+                        setCalendarDefaultView={setCalendarDefaultView}
+                      />
+                    ) : activeTab === 'beskeder' ? (
+                      <MessagesTab
+                        messagePrivacy={messagePrivacy}
+                        setMessagePrivacy={setMessagePrivacy}
+                        messageEmailOffline={messageEmailOffline}
+                        setMessageEmailOffline={setMessageEmailOffline}
+                      />
+                    ) : (
+                      <Stack align="center" justify="center" className="settings__empty-state py-[80px] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
+                         <Icon name="gear" size="3xl" className="text-muted opacity-30 mb-md" />
+                         <Text muted>{t('settings.under_development')}</Text>
+                      </Stack>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
               </Card.Body>
 
               {(activeTab === 'profil' || activeTab === 'forum' || activeTab === 'kalender' || activeTab === 'beskeder') && (
                 <Card.Footer className="border-t border-border p-lg">
-                  <Button variant="primary" size="md" onClick={handleSave} className="self-start">{t('settings.save_changes')}</Button>
+                  <Button variant="primary" size="md" onClick={handleSave} loading={isSaving} className="self-start">{t('settings.save_changes')}</Button>
                 </Card.Footer>
               )}
             </Card>

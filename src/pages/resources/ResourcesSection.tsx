@@ -1,4 +1,4 @@
-import { Lock, LucideIcon } from 'lucide-react'
+import { Lock } from 'lucide-react'
 import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
@@ -6,22 +6,7 @@ import SectionHeader from '@/components/ui/SectionHeader'
 import InfoCard from '@/components/ui/InfoCard'
 import useStore from '@/store/useStore'
 import { env } from '@/utils/env'
-
-export interface ResourceTool {
-  id: number
-  icon: LucideIcon
-  bg: string
-  color: string
-  titleKey?: string
-  titleDa?: string
-  titleEn?: string
-  descDa: string
-  descEn: string
-  helpDa?: string
-  helpEn?: string
-  url: string
-  sso?: boolean
-}
+import type { ResourceTool } from '@/types'
 
 interface ResourcesSectionProps {
   title: string
@@ -73,7 +58,7 @@ export default function ResourcesSection({
               >
                 {showSsoWarning && !tool.sso && (
                   <Stack direction="row" gap="xs" className="mt-xs">
-                    <Lock size={14} strokeWidth={2} className="text-amber-500" />
+                    <Lock size={14} strokeWidth={2} className="text-amber-500 dark:text-amber-400/70" />
                     <Text size="2xs" className="text-amber-600 dark:text-amber-400">
                       {t('requires_aau_login')}
                     </Text>

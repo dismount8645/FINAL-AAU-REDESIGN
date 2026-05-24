@@ -8,7 +8,7 @@ import Stack from '@/components/ui/Stack'
 import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import PageHeader from '@/components/common/PageHeader'
-import ErrorBoundary from '@/components/common/ErrorBoundary'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import SegmentedControl from '@/components/ui/SegmentedControl'
 import { Skeleton } from '@/components/ui/Skeleton'
 import useStore from '@/store/useStore'
@@ -95,24 +95,23 @@ const Calendar = () => {
 
   const handleCreateEvent = useCallback((): void => {
     const resultOrPromise = createEventAction(newEvent)
+    if (!resultOrPromise) return
     
-    const processResult = (result: { success: boolean, error?: string } | false) => {
-      if (result && !result.success) {
+    const processResult = (result: { success: boolean, error?: string }) => {
+      if (!result.success) {
         toast.error(t(result.error || 'error_occurred'))
         return
       }
       
-      if (result && result.success) {
-        setActiveModal(null)
-        setNewEvent({ title: '', date: '', startTime: '', endTime: '', course: '', description: '' })
-        toast.success(t('event_created'))
-      }
+      setActiveModal(null)
+      setNewEvent({ title: '', date: '', startTime: '', endTime: '', course: '', description: '' })
+      toast.success(t('event_created'))
     }
 
     if (resultOrPromise instanceof Promise) {
       resultOrPromise.then(processResult)
     } else {
-      processResult(resultOrPromise as any)
+      processResult(resultOrPromise)
     }
   }, [createEventAction, newEvent, t, toast, setActiveModal])
 
@@ -144,7 +143,7 @@ const Calendar = () => {
       <PageHeader
         pageKey="calendar"
         title={getTitle}
-        titleProps={{ 'data-testid': 'page-header-title' } as any}
+        titleProps={{ 'data-testid': 'page-header-title' }}
         subtitle={t('calendar_subtitle')}
         breadcrumbs={[
           { label: t('dashboard'), href: '/' },

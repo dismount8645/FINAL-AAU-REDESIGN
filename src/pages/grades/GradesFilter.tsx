@@ -41,7 +41,7 @@ function GradesFilter({
           id="semester-filter"
           value={selectedSemester}
           onChange={(e) => setSelectedSemester(e.target.value)}
-          className="px-[var(--space-sm)] py-[var(--space-sm)] border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:ring-2 focus-visible:ring-primary focus:border-primary font-medium transition-colors"
+          className="px-[var(--space-sm)] py-[var(--space-sm)] border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:outline-none focus-visible:shadow-focus focus:border-primary font-medium transition-colors"
         >
           {semesterOptions.map((opt) => (
             <option key={opt} value={opt}>

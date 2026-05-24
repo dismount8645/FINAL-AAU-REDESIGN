@@ -37,7 +37,7 @@ function Messages() {
       </PageHeader>
 
       <Grid>
-        <Grid.Item span={4} tabletSpan={3} mobileSpan={4}
+        <Grid.Item span={4} tabletSpan={2} mobileSpan={4}
           className={showChat ? 'hidden md:block' : ''}>
           <ChatSidebar
             view={view}
@@ -52,7 +52,7 @@ function Messages() {
           />
         </Grid.Item>
 
-        <Grid.Item span={8} tabletSpan={5} mobileSpan={4}
+        <Grid.Item span={8} tabletSpan={4} mobileSpan={4}
           className={!showChat ? 'hidden md:block' : ''}>
           <ChatWindow
             activeContact={activeContact}

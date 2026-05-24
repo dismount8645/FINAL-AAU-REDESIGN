@@ -132,7 +132,7 @@ const CalendarWeekView = ({
                       className={cn(
                         "w-full h-full p-2.5 rounded-lg text-left transition-all duration-300",
                         "border border-border/30 shadow-sm group-hover:shadow-lg group-hover:scale-[1.01] group-hover:z-10",
-                        "active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        "active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus"
                       )}
                       style={{
                         background: palette.bg || event.color,

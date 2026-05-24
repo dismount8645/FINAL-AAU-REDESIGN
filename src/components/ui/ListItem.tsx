@@ -1,4 +1,5 @@
 import { memo, type ReactNode, HTMLAttributes } from 'react'
+import { Link } from 'react-router-dom'
 import { type LucideIcon, ChevronRight } from 'lucide-react'
 import { Text } from '@/components/ui/Typography'
 
@@ -25,34 +26,21 @@ const ListItem = memo(function ListItem({
   className = '',
   ...props
 }: ListItemProps) {
-  const Tag = href ? 'a' : 'div'
-  const linkProps = href ? { href, target: href.startsWith('http') ? '_blank' : undefined, rel: href.startsWith('http') ? 'noopener noreferrer' : undefined } : {}
+  const isInternal = href && !href.startsWith('http') && !href.startsWith('//')
+
   const keyboardProps = (onClick && !href) ? {
     role: 'button',
     tabIndex: 0,
     onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
-        onClick(e as any)
+        onClick(e as unknown as React.MouseEvent<HTMLElement>)
       }
     }
   } : {}
 
-  return (
-    <Tag
-      className={[
-        'flex items-center gap-sm px-md py-sm rounded-[var(--radius-sm)] transition-colors duration-150 no-underline text-inherit',
-        (onClick || href) ? 'cursor-pointer hover:bg-bg-hover focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none' : '',
-        active ? 'bg-primary text-primary-foreground font-bold shadow-[var(--shadow-sm)]' : '',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-      onClick={onClick}
-      {...linkProps}
-      {...keyboardProps}
-      {...props}
-    >
+  const content = (
+    <>
       {Icon ? (
         <div className="w-5 flex items-center justify-center shrink-0 text-primary" style={iconColor ? { color: iconColor } : undefined}>
           <Icon size={16} strokeWidth={2} aria-hidden="true" />
@@ -68,7 +56,57 @@ const ListItem = memo(function ListItem({
           <ChevronRight size={14} strokeWidth={2} className="opacity-40 shrink-0" aria-hidden="true" />
         ) : null
       )}
-    </Tag>
+    </>
+  )
+
+  const commonClassName = [
+    'flex items-center gap-sm px-md py-sm rounded-[var(--radius-sm)] transition-colors duration-150 no-underline text-inherit',
+    (onClick || href) ? 'cursor-pointer hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus' : '',
+    active ? 'bg-primary text-primary-foreground font-bold shadow-[var(--shadow-sm)]' : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  if (isInternal && href) {
+    return (
+      <Link
+        to={href}
+        className={commonClassName}
+        onClick={onClick}
+        {...keyboardProps}
+        {...(props as HTMLAttributes<HTMLAnchorElement>)}
+      >
+        {content}
+      </Link>
+    )
+  }
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={href.startsWith('http') ? '_blank' : undefined}
+        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        className={commonClassName}
+        onClick={onClick}
+        {...keyboardProps}
+        {...(props as HTMLAttributes<HTMLAnchorElement>)}
+      >
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <div
+      className={commonClassName}
+      onClick={onClick}
+      {...keyboardProps}
+      {...(props as HTMLAttributes<HTMLDivElement>)}
+    >
+      {content}
+    </div>
   )
 })
 

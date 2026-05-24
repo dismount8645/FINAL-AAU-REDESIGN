@@ -50,7 +50,7 @@ export default function MessagesDropdown() {
         aria-label={t('messages')}
         type="button"
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="menu"
       >
         <Mail size={20} strokeWidth={2} />
         {messageCount > 0 && (
@@ -67,7 +67,7 @@ export default function MessagesDropdown() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-[var(--radius-lg)] border border-border bg-bg-card shadow-xl"
+            className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100dvw-1rem)] overflow-hidden rounded-[var(--radius-lg)] border border-border bg-bg-card shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border pl-md pr-2 py-1">
               <Text size="sm" weight="black" className="uppercase tracking-widest">
@@ -85,46 +85,48 @@ export default function MessagesDropdown() {
                 {t('view_all')}
               </Button>
             </div>
-            <div className="max-h-96 overflow-y-auto">
+            <ul className="max-h-96 overflow-y-auto" role="menu">
               {messagesData.map((m) => (
-                <button
-                  key={m.id}
-                  className="w-full min-h-[44px] cursor-pointer border-b border-border/40 p-md text-left transition-colors hover:bg-bg-hover focus-visible:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
-                  onClick={() => {
-                    navigate('/messages');
-                    setIsOpen(false);
-                  }}
-                  type="button"
-                >
-                  <div className="flex items-center gap-md">
-                    <Avatar
-                      name={lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
-                      size="sm"
-                      status={m.unread ? 'online' : undefined}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between">
-                        <Text size="xs" weight="black" className="truncate">
-                          {lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
-                        </Text>
-                        <Text size="2xs" className="text-muted">
-                          {lang === 'da' ? m.timeDa : m.timeEn}
+                <li key={m.id} role="none">
+                  <button
+                    className="w-full min-h-[44px] cursor-pointer border-b border-border/40 p-md text-left transition-colors hover:bg-bg-hover focus-visible:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
+                    onClick={() => {
+                      navigate('/messages');
+                      setIsOpen(false);
+                    }}
+                    type="button"
+                    role="menuitem"
+                  >
+                    <div className="flex items-center gap-md">
+                      <Avatar
+                        name={lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
+                        size="sm"
+                        status={m.unread ? 'online' : undefined}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center justify-between">
+                          <Text size="xs" weight="black" className="truncate">
+                            {lang === 'da' ? m.nameDa || m.name : m.nameEn || m.name}
+                          </Text>
+                          <Text size="2xs" className="text-muted">
+                            {lang === 'da' ? m.timeDa : m.timeEn}
+                          </Text>
+                        </div>
+                        <Text
+                          size="2xs"
+                          className={cn(
+                            "mt-xs block truncate",
+                            m.unread ? "font-bold text-main" : "text-muted"
+                          )}
+                        >
+                          {lang === 'da' ? m.msgDa : m.msgEn}
                         </Text>
                       </div>
-                      <Text
-                        size="2xs"
-                        className={cn(
-                          "mt-xs block truncate",
-                          m.unread ? "font-bold text-main" : "text-muted"
-                        )}
-                      >
-                        {lang === 'da' ? m.msgDa : m.msgEn}
-                      </Text>
                     </div>
-                  </div>
-                </button>
+                  </button>
+                </li>
               ))}
-            </div>
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>

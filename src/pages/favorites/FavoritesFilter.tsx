@@ -1,4 +1,5 @@
 import SearchInput from '@/components/ui/SearchInput'
+import Button from '@/components/ui/Button'
 import type { FavoriteType } from '@/types'
 
 const TYPE_FILTERS: { label: Record<'da' | 'en', string>; value: FavoriteType | 'all' }[] = [
@@ -37,18 +38,17 @@ export default function FavoritesFilter({
       />
       <div className="flex gap-[var(--space-sm)] flex-wrap">
         {TYPE_FILTERS.map((f) => (
-          <button
+          <Button
             key={f.value}
             type="button"
+            variant={typeFilter === f.value ? 'primary' : 'outline'}
+            size="sm"
             onClick={() => onTypeFilterChange(f.value)}
-            className={`px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-lg)] text-sm font-medium transition-all border focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none ${
-              typeFilter === f.value
-                ? 'bg-primary text-white border-primary'
-                : 'bg-bg-card text-main border-[var(--border-color)] hover:bg-bg-hover'
-            }`}
+            pill
+            className="text-xs font-semibold tracking-normal"
           >
             {f.label[lang]}
-          </button>
+          </Button>
         ))}
       </div>
     </div>
