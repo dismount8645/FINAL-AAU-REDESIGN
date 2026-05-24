@@ -18,7 +18,7 @@ function linkifyText(text: string): React.ReactNode {
 }
 
 function FaqSection() {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   const faqs = [
     { q: t('faq_q1'), a: t('faq_a1') },

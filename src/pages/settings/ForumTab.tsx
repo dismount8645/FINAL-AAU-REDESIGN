@@ -20,7 +20,7 @@ export default function ForumTab({
   forumAutoSubscribe,
   setForumAutoSubscribe,
 }: ForumTabProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Stack gap="xl" className="settings__forum max-w-[var(--container-max-width)]">

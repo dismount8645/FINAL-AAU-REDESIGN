@@ -13,7 +13,7 @@ export default function SearchResultFilters({
   activeFilter,
   onFilterChange,
 }: SearchResultFiltersProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Stack

@@ -18,7 +18,7 @@ function GradesFilter({
   setSelectedSemester,
   semesterOptions,
 }: GradesFilterProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <div className="border-b border-border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-[var(--space-md)] py-[var(--space-md)] px-[var(--space-lg)]">

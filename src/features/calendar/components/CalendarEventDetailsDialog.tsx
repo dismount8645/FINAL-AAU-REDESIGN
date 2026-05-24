@@ -27,7 +27,7 @@ export default function CalendarEventDetailsDialog({
   t,
 }: CalendarEventDetailsDialogProps) {
   const navigate = useNavigate()
-  const { lang } = useStore()
+  const lang = useStore(state => state.lang)
 
   if (!selectedEvent) return null
 

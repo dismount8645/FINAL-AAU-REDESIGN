@@ -38,7 +38,8 @@ export default function PageHeader({
   className,
   titleProps,
 }: PageHeaderProps) {
-  const { t, setBreadcrumbs } = useStore()
+  const t = useStore(state => state.t)
+  const setBreadcrumbs = useStore(state => state.setBreadcrumbs)
 
   const breadcrumbsStr = JSON.stringify(breadcrumbs)
 

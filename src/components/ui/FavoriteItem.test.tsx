@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import FavoriteItem from '@/components/ui/FavoriteItem'
 import { BookOpen } from 'lucide-react'
 
@@ -18,58 +19,39 @@ describe('FavoriteItem', () => {
   const mockOnRemove = vi.fn()
   const mockOnClick = vi.fn()
 
-  it('renders correctly', () => {
-    render(
+  const renderItem = (props = {}) => render(
+    <MemoryRouter>
       <FavoriteItem
         item={mockItem}
         lang="en"
         onRemove={mockOnRemove}
         onClick={mockOnClick}
+        {...props}
       />
-    )
+    </MemoryRouter>
+  )
 
+  it('renders correctly', () => {
+    renderItem()
     expect(screen.getByText('Test Course')).toBeInTheDocument()
     expect(screen.getByText('Course')).toBeInTheDocument()
   })
 
   it('calls onClick when clicked', () => {
-    render(
-      <FavoriteItem
-        item={mockItem}
-        lang="en"
-        onRemove={mockOnRemove}
-        onClick={mockOnClick}
-      />
-    )
-
+    renderItem()
     fireEvent.click(screen.getByText('Test Course'))
     expect(mockOnClick).toHaveBeenCalled()
   })
 
   it('calls onRemove when remove button is clicked', () => {
-    render(
-      <FavoriteItem
-        item={mockItem}
-        lang="en"
-        onRemove={mockOnRemove}
-      />
-    )
-
+    renderItem()
     const removeButton = screen.getByLabelText('Remove from favorites')
     fireEvent.click(removeButton)
-
     expect(mockOnRemove).toHaveBeenCalledWith('course', 101)
   })
 
   it('renders correctly in Danish', () => {
-    render(
-      <FavoriteItem
-        item={mockItem}
-        lang="da"
-        onRemove={mockOnRemove}
-      />
-    )
-
+    renderItem({ lang: 'da' })
     expect(screen.getByText('Kursus')).toBeInTheDocument()
     expect(screen.getByLabelText('Fjern fra favoritter')).toBeInTheDocument()
   })
@@ -79,17 +61,12 @@ describe('FavoriteItem', () => {
     const onDragOver = vi.fn()
     const onDrop = vi.fn()
 
-    render(
-      <FavoriteItem
-        item={mockItem}
-        lang="en"
-        onRemove={mockOnRemove}
-        draggable
-        onDragStart={onDragStart}
-        onDragOver={onDragOver}
-        onDrop={onDrop}
-      />
-    )
+    renderItem({
+      draggable: true,
+      onDragStart,
+      onDragOver,
+      onDrop,
+    })
 
     const container = screen.getByText('Test Course').closest('div[draggable="true"]')
     if (!container) throw new Error('Container not found')

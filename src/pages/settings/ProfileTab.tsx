@@ -25,7 +25,7 @@ export default function ProfileTab({
   theme,
   setTheme,
 }: ProfileTabProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Stack gap="2xl" className="settings__profile-form max-w-[var(--container-max-width)]">

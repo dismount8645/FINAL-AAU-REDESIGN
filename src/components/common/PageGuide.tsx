@@ -222,7 +222,8 @@ interface PageGuideData {
 }
 
 function PageGuide() {
-  const { lang, t } = useStore();
+  const lang = useStore(state => state.lang)
+  const t = useStore(state => state.t)
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [currentGuide, setCurrentGuide] = useState<GuideContent | null>(null);

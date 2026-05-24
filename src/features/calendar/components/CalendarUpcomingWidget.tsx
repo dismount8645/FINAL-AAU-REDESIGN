@@ -30,7 +30,7 @@ const CalendarUpcomingWidget = ({
   handleEventClick,
 }: CalendarUpcomingWidgetProps) => {
   const navigate = useNavigate()
-  const { lang } = useStore()
+  const lang = useStore(state => state.lang)
 
   const futureEvents = useMemo(() => {
     const now = new Date()

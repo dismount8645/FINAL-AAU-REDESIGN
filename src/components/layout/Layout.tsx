@@ -12,6 +12,8 @@ function Layout() {
   const isMobile = useStore((state) => state.isMobile);
   const isMobileOpen = useStore((state) => state.isMobileOpen);
   const t = useStore((state) => state.t);
+  const _lang = useStore((state) => state.lang);
+  void _lang;
   const location = useLocation();
   const isMessages = location.pathname.startsWith('/messages');
   const scrollPositionRef = useRef<number>(0);

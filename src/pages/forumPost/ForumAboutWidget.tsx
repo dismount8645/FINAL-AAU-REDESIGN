@@ -9,7 +9,8 @@ interface ForumAboutWidgetProps {
 }
 
 export default function ForumAboutWidget({ post }: ForumAboutWidgetProps) {
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   return (
     <Card>

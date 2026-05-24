@@ -108,12 +108,8 @@ const ToolItem = memo(forwardRef<HTMLDivElement, {
 const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
-  const favorites = useStore(state => state.favorites)
+  const isFavorite = useStore(state => state.isFavorite)
   const toggleFavorite = useStore(state => state.toggleFavorite)
-
-  const isFavorite = useCallback((id: number) => {
-    return favorites.some(f => f.type === 'tool' && f.entityId === id)
-  }, [favorites])
 
   const displayTools = useMemo(() => quickToolsData.slice(0, 4), [])
 
@@ -160,7 +156,7 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
                 key={tool.id}
                 tool={tool}
                 isEditing={isEditing}
-                isFav={isFavorite(tool.id)}
+                isFav={isFavorite('tool', tool.id)}
                 onToggleFavorite={handleToggleFavorite}
                 onOpen={handleOpenTool}
               />

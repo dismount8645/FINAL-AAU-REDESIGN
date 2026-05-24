@@ -14,7 +14,8 @@ interface TopbarSearchProps {
 export default function TopbarSearch({ children }: TopbarSearchProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { t, courses } = useStore();
+  const t = useStore(state => state.t)
+  const courses = useStore(state => state.courses)
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);

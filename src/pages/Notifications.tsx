@@ -1,7 +1,8 @@
 import { useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { FileUp, MessageSquare, Clock, Star, Bell, BellOff, Inbox } from 'lucide-react'
+import { BellOff, Inbox } from 'lucide-react'
+import { createMockNotifications, getNotificationIcon } from '@/utils/notifications'
 import PageHeader from '@/components/common/PageHeader'
 import Grid from '@/components/ui/Grid'
 import Card from '@/components/ui/Card'
@@ -22,63 +23,7 @@ function Notifications() {
   const lang = useStore(state => state.lang)
   const navigate = useNavigate()
 
-  const initialNotifications = useMemo(() => [
-    {
-      id: 1,
-      type: 'AFLEVERING',
-      text: t('notif_1_text'),
-      date: new Date(),
-      isRead: false,
-      archived: false,
-      course: 'Interaktionsdesign',
-      content: t('notif_1_content'),
-      link: '/course/1',
-    },
-    {
-      id: 2,
-      type: 'FORUM',
-      text: t('notif_2_text'),
-      date: new Date(Date.now() - 3600000 * 2),
-      isRead: false,
-      archived: false,
-      course: 'Interaktionsdesign',
-      content: t('notif_2_content'),
-      link: '/course/1',
-    },
-    {
-      id: 3,
-      type: 'SYSTEM',
-      text: t('notif_3_text'),
-      date: new Date(Date.now() - 86400000),
-      isRead: true,
-      archived: false,
-      course: 'System',
-      content: t('notif_3_content'),
-      link: '/',
-    },
-    {
-      id: 4,
-      type: 'DEADLINE',
-      text: t('notif_4_text'),
-      date: new Date(Date.now() - 86400000 * 2),
-      isRead: true,
-      archived: false,
-      course: 'Administration',
-      content: t('notif_4_content'),
-      link: '/',
-    },
-    {
-      id: 5,
-      type: 'FEEDBACK',
-      text: t('notif_5_text'),
-      date: new Date(Date.now() - 86400000 * 5),
-      isRead: true,
-      archived: false,
-      course: 'Webudvikling',
-      content: t('notif_5_content'),
-      link: '/course/2',
-    },
-  ], [t])
+  const initialNotifications = useMemo(() => createMockNotifications(t), [t])
 
   const {
     view,
@@ -95,15 +40,7 @@ function Notifications() {
     setSelectedId
   } = useNotificationsState({ initialNotifications })
 
-  const getIcon = (type: string) => {
-    switch (type) {
-      case 'AFLEVERING': return FileUp
-      case 'FORUM': return MessageSquare
-      case 'DEADLINE': return Clock
-      case 'FEEDBACK': return Star
-      default: return Bell
-    }
-  }
+  const getIcon = getNotificationIcon
 
   return (
     <Stack className="container notifications-page flex flex-col pb-[var(--space-2xl)]">

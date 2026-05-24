@@ -15,7 +15,7 @@ import {
 } from './support/index'
 
 function Support() {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
   const toast = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [subject, setSubject] = useState('')

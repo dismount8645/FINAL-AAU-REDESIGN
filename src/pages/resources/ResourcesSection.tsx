@@ -40,7 +40,12 @@ export default function ResourcesSection({
   showSsoWarning = true,
   className,
 }: ResourcesSectionProps) {
-  const { t, localize, isFavorite, toggleFavorite } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
+  const isFavorite = useStore(state => state.isFavorite)
+  const toggleFavorite = useStore(state => state.toggleFavorite)
+  const _favorites = useStore(state => state.favorites)
+  void _favorites
 
   return (
     <>

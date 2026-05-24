@@ -16,7 +16,7 @@ export default function MessagesTab({
   messageEmailOffline,
   setMessageEmailOffline,
 }: MessagesTabProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Stack gap="xl" className="settings__messages max-w-[var(--container-max-width)]">

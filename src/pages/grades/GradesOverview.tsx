@@ -21,7 +21,7 @@ function GradesOverview({
   gradedCount,
   totalCount,
 }: GradesOverviewProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Grid columns={12} gap="md" className="w-[100%]">

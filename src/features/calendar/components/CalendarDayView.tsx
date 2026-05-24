@@ -25,7 +25,7 @@ const CalendarDayView = ({
   t,
   handleEventClick,
 }: CalendarDayViewProps) => {
-  const { lang } = useStore()
+  const lang = useStore(state => state.lang)
   
   const { dateKey, dayName, formattedDate, isToday } = useMemo(() => {
     const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`

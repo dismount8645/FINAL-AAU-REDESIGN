@@ -25,7 +25,7 @@ const CalendarMonthView = ({
   handleDayClick,
   getWeekNumber,
 }: CalendarMonthViewProps) => {
-  const { lang } = useStore()
+  const lang = useStore(state => state.lang)
 
   const { days, firstDay, startingWeekNum, year, month } = useMemo(() => {
     const y = currentDate.getFullYear()
