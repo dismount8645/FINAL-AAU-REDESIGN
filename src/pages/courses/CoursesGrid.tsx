@@ -75,7 +75,7 @@ function CoursesGrid({
               <Grid columns={12} gap="lg">
                 {[1, 2, 3].map((id) => (
                   <Grid.Item span={4} tabletSpan={6} mobileSpan={12} key={`skeleton-course-${id}`}>
-                    <TeaserCard variant="vertical" isLoading={true} />
+                    <TeaserCard variant="vertical" isLoading={true} hasAction={true} />
                   </Grid.Item>
                 ))}
               </Grid>
@@ -182,7 +182,7 @@ function CoursesGrid({
               <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
                 {[1, 2].map((id) => (
                   <Grid.Item span={6} tabletSpan={6} mobileSpan={12} key={`skeleton-forum-${id}`}>
-                    <TeaserCard variant="horizontal" isLoading={true} />
+                    <TeaserCard variant="horizontal" isLoading={true} hasAction={true} />
                   </Grid.Item>
                 ))}
               </Grid>

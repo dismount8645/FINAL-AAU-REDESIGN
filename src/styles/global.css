@@ -1032,3 +1032,23 @@ select:focus-visible,
   outline-offset: 2px;
   box-shadow: 0 0 0 4px rgba(89, 79, 191, 0.35);
 }
+
+/* Split Pane Layout Panels (Desktop fixed height, Mobile natural flow) */
+.panel-card {
+  height: calc(100vh - 12rem);
+  min-height: 480px;
+}
+
+.panel-scroll {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  min-height: 0px;
+}
+
+@media (max-width: 768px) {
+  .panel-card {
+    height: auto;
+    min-height: auto;
+  }
+}
+

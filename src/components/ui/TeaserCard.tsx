@@ -72,6 +72,10 @@ export interface TeaserCardProps
   isStarred?: boolean
   /** Custom CSS classes */
   className?: string
+  /** Hint for skeleton rendering to reserve space for action */
+  hasAction?: boolean
+  /** Hint for skeleton rendering to reserve space for progress */
+  hasProgress?: boolean
 }
 
 /**
@@ -100,6 +104,8 @@ const TeaserCard = memo(function TeaserCard({
   action,
   isStarred = false,
   className,
+  hasAction = false,
+  hasProgress = false,
 }: TeaserCardProps) {
   const t = useStore(state => state.t)
 
@@ -114,7 +120,16 @@ const TeaserCard = memo(function TeaserCard({
 
   const isHorizontal = variant === 'horizontal'
 
-  if (isLoading) return <TeaserCardSkeleton variant={variant} className={className} />
+  if (isLoading) {
+    return (
+      <TeaserCardSkeleton 
+        variant={variant} 
+        className={className} 
+        hasAction={hasAction || !!action}
+        hasProgress={hasProgress || progress !== undefined}
+      />
+    )
+  }
 
   return (
     <motion.div
@@ -265,7 +280,17 @@ const TeaserCard = memo(function TeaserCard({
 /**
  * Dedicated Skeleton for Layout Stability (CLS Prevention)
  */
-function TeaserCardSkeleton({ variant, className }: { variant?: 'vertical' | 'horizontal' | null, className?: string }) {
+function TeaserCardSkeleton({ 
+  variant, 
+  className,
+  hasAction = false,
+  hasProgress = false,
+}: { 
+  variant?: 'vertical' | 'horizontal' | null
+  className?: string
+  hasAction?: boolean
+  hasProgress?: boolean
+}) {
   const isHorizontal = variant === 'horizontal'
   return (
     <div className={cn(teaserCardVariants({ variant, isLoading: true }), className)}>
@@ -275,9 +300,9 @@ function TeaserCardSkeleton({ variant, className }: { variant?: 'vertical' | 'ho
       )}>
         <Skeleton variant="rectangular" className="w-full h-full" />
       </div>
-      <div className="flex flex-col flex-1 p-md gap-sm">
-        <div className="flex items-start justify-between">
-          <div className="flex-1 space-y-xs">
+      <div className="flex flex-col flex-1 p-md gap-sm min-w-0">
+        <div className="flex items-start justify-between gap-md">
+          <div className="flex-1 space-y-xs min-w-0">
             <Skeleton variant="text" width="30%" height="0.75rem" />
             <Skeleton variant="text" width="85%" height="1.5rem" />
           </div>
@@ -287,9 +312,16 @@ function TeaserCardSkeleton({ variant, className }: { variant?: 'vertical' | 'ho
           <Skeleton variant="text" width="100%" />
           <Skeleton variant="text" width="95%" />
         </div>
-        <div className="mt-auto pt-md">
-          <Skeleton variant="rectangular" height={8} className="w-full rounded-full" />
-        </div>
+        {hasProgress && (
+          <div className="mt-auto pt-md">
+            <Skeleton variant="rectangular" height={8} className="w-full rounded-full" />
+          </div>
+        )}
+        {hasAction && (
+          <div className="mt-auto pt-md">
+            <Skeleton variant="rectangular" height={40} className="w-full rounded-[var(--radius-md)]" />
+          </div>
+        )}
       </div>
     </div>
   )
