@@ -44,7 +44,7 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       className={cn(
         "w-full text-left flex items-center justify-start gap-[var(--space-md)] py-[var(--space-sm)] px-[var(--space-sm)] rounded-[var(--radius-lg)] transition-all duration-150",
         "hover:bg-bg-highlight/50 border border-transparent hover:border-[var(--border-color)]/40 group/item outline-none",
-        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:shadow-focus",
         !isLast && 'border-b-[var(--border-color)]/20'
       )}
       onClick={onClick}

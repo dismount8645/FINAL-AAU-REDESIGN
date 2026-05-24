@@ -53,9 +53,14 @@ describe('Course Tabs Subcomponents', () => {
   })
 
   describe('CourseResources', () => {
-    it('renders resources links', () => {
+    it('renders all resource links', () => {
       render(<CourseResources />)
       expect(screen.getByText('Litteraturliste')).toBeInTheDocument()
+      expect(screen.getByText('Pensumliste')).toBeInTheDocument()
+      expect(screen.getByText('Eksamensplan')).toBeInTheDocument()
+      expect(screen.getByText('PDF, 2.4 MB')).toBeInTheDocument()
+      expect(screen.getByText('Excel, 150 KB')).toBeInTheDocument()
+      expect(screen.getByText('Link')).toBeInTheDocument()
     })
   })
 
@@ -68,26 +73,30 @@ describe('Course Tabs Subcomponents', () => {
 
   describe('CourseParticipants', () => {
     it('renders search and list of participants', () => {
-      const setParticipantSearch = vi.fn()
-      const setParticipantRoleFilter = vi.fn()
       const participants = [
-        { name: 'John Doe', role: 'student' }
+        { name: 'Alice Student', role: 'student' },
+        { name: 'Bob Teacher', role: 'teacher' },
       ]
 
-      render(
-        <CourseParticipants
-          participantSearch=""
-          setParticipantSearch={setParticipantSearch}
-          participantRoleFilter="all"
-          setParticipantRoleFilter={setParticipantRoleFilter}
-          participantsData={participants}
-        />
-      )
+      render(<CourseParticipants participantsData={participants} />)
+      expect(screen.getByText('Alice Student')).toBeInTheDocument()
+      expect(screen.getByText('Bob Teacher')).toBeInTheDocument()
+    })
 
-      expect(screen.getByText('John Doe')).toBeInTheDocument()
+    it('filters participants by role', () => {
+      const participants = [
+        { name: 'Alice Student', role: 'student' },
+        { name: 'Bob Teacher', role: 'teacher' },
+      ]
+
+      render(<CourseParticipants participantsData={participants} />)
+      expect(screen.getByText('Alice Student')).toBeInTheDocument()
+      expect(screen.getByText('Bob Teacher')).toBeInTheDocument()
+
       const select = screen.getByRole('combobox')
       fireEvent.change(select, { target: { value: 'student' } })
-      expect(setParticipantRoleFilter).toHaveBeenCalledWith('student')
+      expect(screen.getByText('Alice Student')).toBeInTheDocument()
+      expect(screen.queryByText('Bob Teacher')).not.toBeInTheDocument()
     })
   })
 

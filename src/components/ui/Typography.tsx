@@ -122,15 +122,18 @@ const Text = forwardRef<HTMLElement, TextProps>(
     }
 
     // Handle custom sizes not in standard tokens via inline styles to maintain compatibility
-    const isStandardSize = size && size in sizeMap
-    if (!isStandardSize && size) {
+    type TextSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+    const isStandardSize = (s: string): s is TextSize => s in sizeMap
+    const standardSize = size && isStandardSize(size) ? size : undefined
+    
+    if (size && !isStandardSize(size)) {
         resolvedStyle.fontSize = size
     }
 
     return (
       <Tag
         ref={ref}
-        className={cn(textVariants({ size: isStandardSize ? (size as any) : undefined, muted }), className)}
+        className={cn(textVariants({ size: standardSize, muted }), className)}
         style={resolvedStyle}
         {...props}
       />

@@ -64,7 +64,7 @@ export default function ProfileTab({
           ].map((opt) => (
             <button
               key={opt.id}
-              className={`appearance-card group border-2 transition-all duration-200 p-2 rounded-[var(--radius-lg)] ${theme === opt.id ? 'active border-primary bg-primary/5' : 'border-border bg-card hover:border-primary/20'}`}
+              className={`appearance-card group border-2 transition-all duration-150 p-2 rounded-[var(--radius-lg)] active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus hover:-translate-y-0.5 ${theme === opt.id ? 'active border-primary bg-primary/5 shadow-sm' : 'border-border bg-card hover:border-primary/20'}`}
               onClick={() => setTheme(opt.id as Theme)}
               aria-pressed={theme === opt.id}
               aria-label={opt.label}

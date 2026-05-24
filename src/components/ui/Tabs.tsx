@@ -49,7 +49,7 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
             aria-controls={tabId ? `panel-${tabId}` : undefined}
             id={tabId ? `tab-${tabId}` : undefined}
             key={tabId || tab.label || i}
-            className={`relative flex items-center px-md py-sm cursor-pointer transition-all duration-200 font-bold text-sm whitespace-nowrap outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset focus-visible:bg-bg-hover ${isActive ? 'text-primary' : 'text-muted hover:text-main dark:text-white/60 dark:hover:text-white'}`}
+            className={`relative flex items-center px-md py-sm cursor-pointer transition-all duration-200 font-bold text-sm whitespace-nowrap outline-none focus-visible:outline-none focus-visible:shadow-focus focus-visible:bg-bg-hover ${isActive ? 'text-primary' : 'text-muted hover:text-main dark:text-white/60 dark:hover:text-white'}`}
             onClick={() => onChange(tabId)}
           >
             {tab.label}

@@ -95,7 +95,7 @@ export default function NotificationsDropdown() {
         variant="ghost"
         size="icon"
         className={cn(
-          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+          "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
             ? "bg-primary text-white shadow-md" 
             : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
@@ -103,7 +103,7 @@ export default function NotificationsDropdown() {
         onClick={() => setIsOpen(prev => !prev)}
         aria-label={t('notifications')}
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="menu"
         type="button"
       >
         <Bell size={20} strokeWidth={2} />
@@ -123,7 +123,7 @@ export default function NotificationsDropdown() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.95 }}
             transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className="absolute right-0 top-[calc(100%+8px)] w-80 z-50 overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-xl"
+            className="absolute right-0 top-[calc(100%+8px)] w-80 max-w-[calc(100dvw-1rem)] z-50 overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border p-md">
               <Text size="sm" weight="black" className="uppercase tracking-widest text-main">
@@ -136,55 +136,57 @@ export default function NotificationsDropdown() {
                   navigate('/notifications');
                   setIsOpen(false);
                 }}
-                className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 px-1 h-auto"
+                className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus px-1 h-auto"
                 type="button"
               >
                 {t('view_all')}
               </Button>
             </div>
-            <div className="max-h-96 overflow-y-auto">
+            <ul className="max-h-96 overflow-y-auto" role="menu">
               {notificationsData.map((n) => {
                 const Icon = getNotifIcon(n.type);
                 return (
-                  <button
-                    key={n.id}
-                    type="button"
-                    className={cn(
-                      "w-full flex items-start gap-md border-b border-border/40 p-md text-left transition-colors focus-visible:outline-none focus-visible:bg-bg-hover focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary min-h-[44px]",
-                      !n.isRead ? "bg-primary/[0.03] hover:bg-primary/[0.05]" : "hover:bg-bg-hover"
-                    )}
-                    onClick={() => {
-                      navigate('/notifications');
-                      setIsOpen(false);
-                    }}
-                  >
-                    <div
+                  <li key={n.id} role="none">
+                    <button
+                      type="button"
+                      role="menuitem"
                       className={cn(
-                        "flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border/50",
-                        !n.isRead ? "bg-primary/10 text-primary" : "bg-bg-hover text-muted"
+                        "w-full flex items-start gap-md border-b border-border/40 p-md text-left transition-colors focus-visible:outline-none focus-visible:bg-bg-hover focus-visible:shadow-focus min-h-[44px]",
+                        !n.isRead ? "bg-primary/[0.03] hover:bg-primary/[0.05]" : "hover:bg-bg-hover"
                       )}
+                      onClick={() => {
+                        navigate('/notifications');
+                        setIsOpen(false);
+                      }}
                     >
-                      <Icon size={18} strokeWidth={2} />
-                    </div>
-                    <div className="flex flex-1 flex-col min-w-0">
-                      <Text
-                        size="xs"
-                        weight="bold"
-                        className={cn("block truncate", !n.isRead ? "text-main" : "text-muted")}
+                      <div
+                        className={cn(
+                          "flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border/50",
+                          !n.isRead ? "bg-primary/10 text-primary" : "bg-bg-hover text-muted"
+                        )}
                       >
-                        {lang === 'da' ? n.textDa : n.textEn}
-                      </Text>
-                      <Text size="2xs" className="mt-xs text-muted">
-                        {lang === 'da' ? n.dateDa : n.dateEn}
-                      </Text>
-                    </div>
-                    {!n.isRead && (
-                      <div className="mt-xs h-2 w-2 shrink-0 rounded-full bg-primary" />
-                    )}
-                  </button>
+                        <Icon size={18} strokeWidth={2} />
+                      </div>
+                      <div className="flex flex-1 flex-col min-w-0">
+                        <Text
+                          size="xs"
+                          weight="bold"
+                          className={cn("block truncate", !n.isRead ? "text-main" : "text-muted")}
+                        >
+                          {lang === 'da' ? n.textDa : n.textEn}
+                        </Text>
+                        <Text size="2xs" className="mt-xs text-muted">
+                          {lang === 'da' ? n.dateDa : n.dateEn}
+                        </Text>
+                      </div>
+                      {!n.isRead && (
+                        <div className="mt-xs h-2 w-2 shrink-0 rounded-full bg-primary" />
+                      )}
+                    </button>
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </motion.div>
         )}
       </AnimatePresence>

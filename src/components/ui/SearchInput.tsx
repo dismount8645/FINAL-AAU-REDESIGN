@@ -3,6 +3,7 @@ import { Search, X, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Input from "@/components/ui/Input"
 import type { InputProps } from "@/components/ui/Input"
+import Button from "@/components/ui/Button"
 
 export interface SearchInputProps extends Omit<InputProps, "type"> {
   onClear?: () => void
@@ -41,22 +42,26 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           {...props}
         />
         {onClear && value && (
-          <button
+          <Button
             type="button"
             aria-label="Clear search"
             onClick={onClear}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-main transition-colors relative flex items-center justify-center after:absolute after:inset-[-12px] after:content-['']"
+            variant="ghost"
+            size="icon-xs"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-main hover:bg-transparent"
           >
             <X size={16} strokeWidth={2} />
-          </button>
+          </Button>
         )}
         {onSubmit && !onClear && (
-          <button
+          <Button
             type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white p-1.5 rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] hover:scale-105 active:scale-95 transition-all relative after:absolute after:inset-[-8px] after:content-['']"
+            variant="primary"
+            size="icon-xs"
+            className="absolute right-2 top-1/2 -translate-y-1/2 hover:scale-105 active:scale-95 transition-all shadow-[var(--shadow-md)]"
           >
-            <ArrowRight size={iconSize} strokeWidth={2} />
-          </button>
+            <ArrowRight size={finalIconSize} strokeWidth={2} />
+          </Button>
         )}
       </div>
     )

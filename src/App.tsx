@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       <a href="#main-content" className="skip-link">{t('skip_to_content')}</a>
-      <ErrorBoundary t={t}>
+      <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Layout />}>
             {routes.map((route) =>

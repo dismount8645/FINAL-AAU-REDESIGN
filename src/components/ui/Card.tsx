@@ -33,7 +33,7 @@ const cardVariants = cva(
         top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-primary before:z-10",
       },
       interactive: {
-        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/35 focus-visible:ring-offset-2",
+        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:shadow-focus",
         false: "",
       }
     },

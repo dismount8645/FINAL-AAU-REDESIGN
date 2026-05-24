@@ -54,7 +54,7 @@ const mockGrades: GradeRecord[] = [
   },
 ]
 
-const mockLocalize = <T>(obj: T, key: string): string => {
+const mockLocalize = <T extends object>(obj: T, key?: string): string => {
   const typedObj = obj as any
   if (key === 'title') return typedObj.titleEn
   if (key === 'semester') return typedObj.semesterEn

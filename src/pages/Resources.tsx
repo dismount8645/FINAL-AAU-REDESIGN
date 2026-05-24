@@ -47,14 +47,14 @@ function Resources() {
       <ResourcesSection
         title={t('administrative_systems')}
         subtitle={t('administrative_systems_desc')}
-        tools={allTools as any}
+        tools={allTools}
         className="mb-2xl"
       />
 
       <ResourcesSection
         title={t('aau_essentials')}
         subtitle={t('aau_essentials_desc')}
-        tools={allEssentials as any}
+        tools={allEssentials}
       />
 
       <Grid columns={12} gap="lg" className="mt-2xl">

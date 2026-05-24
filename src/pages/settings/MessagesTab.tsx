@@ -66,9 +66,11 @@ export default function MessagesTab({
           </Stack>
           <button
             type="button"
+            role="switch"
+            aria-checked={messageEmailOffline}
             aria-labelledby="toggle-label-message-email-copies"
             onClick={() => setMessageEmailOffline(!messageEmailOffline)}
-            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] ${messageEmailOffline ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
+            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] focus-visible:outline-none focus-visible:shadow-focus ${messageEmailOffline ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
           >
             <div className={`w-4 h-4 rounded-full bg-white shadow transition-all ${messageEmailOffline ? 'ml-auto' : 'ml-0'}`} />
           </button>

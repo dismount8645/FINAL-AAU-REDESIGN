@@ -76,6 +76,9 @@ describe('Settings Tabs Components', () => {
       const emailSwitch = screen.getAllByRole('switch')[0]
       fireEvent.click(emailSwitch)
       expect(setNotifPrefs).toHaveBeenCalled()
+
+      fireEvent.keyDown(emailSwitch, { key: 'Enter' })
+      expect(setNotifPrefs).toHaveBeenCalled()
     })
   })
 
@@ -170,7 +173,7 @@ describe('Settings Tabs Components', () => {
       fireEvent.click(radio)
       expect(setMessagePrivacy).toHaveBeenCalledWith('contacts')
 
-      const emailSwitch = screen.getByRole('button')
+      const emailSwitch = screen.getByRole('switch')
       fireEvent.click(emailSwitch)
       expect(setMessageEmailOffline).toHaveBeenCalled()
     })

@@ -37,7 +37,7 @@ export default function CalendarTab({
               id="pref-first-day"
               value={calendarStartDay}
               onChange={(e) => setCalendarStartDay(e.target.value as 'monday' | 'sunday')}
-              className="w-[100%] max-w-[280px] p-sm border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:ring-2 focus-visible:ring-primary outline-none"
+              className="w-[100%] max-w-[280px] p-sm border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:outline-none focus-visible:shadow-focus"
             >
               <option value="monday">{t('common.monday')}</option>
               <option value="sunday">{t('days.sun')}</option>
@@ -51,7 +51,7 @@ export default function CalendarTab({
               id="pref-default-view"
               value={calendarDefaultView}
               onChange={(e) => setCalendarDefaultView(e.target.value as 'month' | 'week' | 'day')}
-              className="w-[100%] max-w-[280px] p-sm border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:ring-2 focus-visible:ring-primary outline-none"
+              className="w-[100%] max-w-[280px] p-sm border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:outline-none focus-visible:shadow-focus"
             >
               <option value="month">{t('common.month')}</option>
               <option value="week">{t('common.week')}</option>

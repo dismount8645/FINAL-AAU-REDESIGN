@@ -27,7 +27,7 @@ export default function SubmissionDropzone({ onFilesAdded, t }: SubmissionDropzo
     <Stack
       align="center"
       justify="center"
-      className={`dropzone flex flex-col items-center justify-center border-2 border-dashed transition-all rounded-[var(--radius-xl)] p-xl cursor-pointer ${isDragOver ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50 bg-bg-card/50'} focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none`}
+      className={`dropzone flex flex-col items-center justify-center border-2 border-dashed transition-all rounded-[var(--radius-xl)] p-xl cursor-pointer ${isDragOver ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50 bg-bg-card/50'} focus-visible:outline-none focus-visible:shadow-focus`}
       gap="sm"
       tabIndex={0}
       role="button"

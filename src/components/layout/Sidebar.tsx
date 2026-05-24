@@ -93,7 +93,7 @@ export default function Sidebar() {
         aria-modal={isMobileOpen ? true : undefined}
         aria-label={t('navigation_menu')}
         className={`bg-bg-sidebar h-screen flex flex-col p-0 transition-all duration-300 ease-[var(--transition-ease)] border-r border-white/10 fixed top-0 left-0 z-[var(--z-mobile-sidebar)] md:translate-x-0 ${isMobileOpen ? 'translate-x-0 shadow-xl w-[300px]' : 'translate-x-[-100%] overflow-hidden'} ${isCollapsed && !isMobileOpen ? 'w-[var(--sidebar-collapsed-width)]' : 'w-[var(--sidebar-width)]'}`}
-        style={{ maxWidth: 'calc(100vw - var(--sidebar-width))' }}
+        style={{ maxWidth: '100dvw' }}
         data-collapsed={isCollapsed && !isMobileOpen}
       >
 
@@ -102,7 +102,7 @@ export default function Sidebar() {
             <img
               src={logoSrc}
               alt={t('aau_logo_alt')}
-              className={`object-contain transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 ${(isCollapsed && !isMobileOpen) ? 'h-[var(--space-3xl)] w-[var(--space-3xl)]' : 'h-[var(--space-4xl)] w-auto'}`}
+               className={`object-contain transition-all duration-300 ease-in-out hover:scale-105 active:scale-95 ${(isCollapsed && !isMobileOpen) ? 'h-[var(--space-3xl)] w-[var(--space-3xl)]' : 'h-[var(--space-4xl)] w-auto aspect-[4/1]'}`}
             />
           </NavLink>
           {isMobileOpen && (
@@ -111,7 +111,7 @@ export default function Sidebar() {
               onClick={closeSidebar}
               variant="outline"
               size="icon"
-              className="shrink-0 z-10 text-white rounded-lg border-white/30 bg-white/40 hover:bg-white/50 hover:text-white active:scale-95 focus-visible:ring-white/50 focus-visible:ring-2"
+              className="shrink-0 z-10 text-white rounded-lg border-white/30 bg-white/40 hover:bg-white/50 hover:text-white active:scale-95 focus-visible:outline-none focus-visible:shadow-focus"
               aria-label={t('close')}
             >
               <X size={24} strokeWidth={2} />
@@ -187,7 +187,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
       onClick={onClick}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
-        return `group relative flex items-center gap-md p-md h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-md transition-all duration-150 ease-[var(--transition-ease)] font-bold cursor-pointer text-left w-full focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
+        return `group relative flex items-center gap-md p-md h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-md transition-all duration-150 ease-[var(--transition-ease)] font-bold cursor-pointer text-left w-full focus-visible:outline-none focus-visible:shadow-focus ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
       }}
       title={collapsed ? label : undefined}
     >

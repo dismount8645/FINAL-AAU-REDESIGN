@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import Tabs from '@/components/ui/Tabs'
 import useStore from '@/store/useStore'
 
@@ -16,12 +16,14 @@ interface CoursesTabsProps {
 function CoursesTabs({ activeTab, setActiveTab }: CoursesTabsProps) {
   const t = useStore((state) => state.t)
 
+  const items = useMemo(() => tabItems.map((ti) => ({
+    ...ti,
+    label: t(ti.key === 'current' ? 'tab_current' : ti.key === 'finished' ? 'tab_finished' : 'tab_upcoming')
+  })), [t])
+
   return (
     <Tabs
-      items={tabItems.map((ti) => ({
-        ...ti,
-        label: t(ti.key === 'current' ? 'tab_current' : ti.key === 'finished' ? 'tab_finished' : 'tab_upcoming')
-      }))}
+      items={items}
       activeTab={activeTab}
       onChange={(v) => setActiveTab(v as 'current' | 'finished' | 'upcoming')}
     />

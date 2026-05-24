@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useMemo } from 'react'
+import { memo, useMemo, type KeyboardEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
@@ -77,9 +77,16 @@ const Avatar = memo(function Avatar({
 
   return (
     <motion.div
-      role="img"
+      role={onClick ? "button" : "img"}
       aria-label={name ?? 'Avatar'}
-      whileHover={onClick ? { scale: 1.05, translateY: -2 } : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={onClick ? (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      } : undefined}
+      whileHover={onClick ? { scale: 1.05, y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } } : undefined}
       whileTap={onClick ? { scale: 0.95 } : undefined}
       className={cn(
         "relative rounded-[var(--radius-full)] shrink-0 overflow-visible transition-shadow duration-150 isolate",

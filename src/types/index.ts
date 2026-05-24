@@ -1,3 +1,5 @@
+import { type LucideIcon } from 'lucide-react';
+
 export interface CourseItem {
   id: number;
   type: 'pdf' | 'video' | 'link' | 'assignment';
@@ -166,4 +168,20 @@ export interface SettingsData {
   notifications?: Record<string, boolean>
   quietHours?: { start?: string; end?: string }
   forumPreferences?: Record<string, string>
+}
+
+export interface ResourceTool {
+  id: number
+  icon: LucideIcon
+  bg: string
+  color: string
+  titleKey?: string
+  titleDa?: string
+  titleEn?: string
+  descDa: string
+  descEn: string
+  helpDa?: string
+  helpEn?: string
+  url: string
+  sso?: boolean
 }

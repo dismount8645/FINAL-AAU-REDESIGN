@@ -119,14 +119,14 @@ describe('Support', () => {
     vi.useRealTimers()
   })
 
-  it('shows submitting text while form is being sent', () => {
+  it('disables submit button while form is being sent', () => {
     renderSupport('da')
     openForm()
     fillFields('Test emne', 'Test beskrivelse')
     expect(mockToast.error).not.toHaveBeenCalled()
     submitForm()
     expect(mockToast.error).not.toHaveBeenCalled()
-    expect(screen.getByText('Sender...')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Send besked' })).toHaveAttribute('aria-disabled', 'true')
   })
 
   it('closes form on cancel', () => {

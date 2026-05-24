@@ -151,13 +151,17 @@ const CalendarDayView = ({
             </Card.Body>
           </Card>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 bg-muted/20 rounded-[2.5rem] border-4 border-dashed border-border/40 opacity-50 hover:opacity-80 transition-opacity group cursor-pointer" onClick={() => handleEventClick({ id: 0, title: '', color: '', location: '', time: '', host: '' }, dateKey)}>
+          <button
+            type="button"
+            className="w-full flex flex-col items-center justify-center py-24 bg-muted/20 rounded-[2.5rem] border-4 border-dashed border-border/40 opacity-50 hover:opacity-80 transition-opacity group cursor-pointer border-none focus-visible:outline-none focus-visible:shadow-focus"
+            onClick={() => handleEventClick({ id: 0, title: '', color: '', location: '', time: '', host: '' }, dateKey)}
+          >
             <div className="w-20 h-20 rounded-full bg-muted/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-inner">
               <CalendarClock className="w-10 h-10 text-text-muted/40" />
             </div>
             <Text size="xl" weight="black" className="text-text-muted tracking-tight mb-2">{t('no_events_today')}</Text>
             <Text size="sm" className="text-text-muted/60">{t('click_to_add_event')}</Text>
-          </div>
+          </button>
         )}
       </div>
     </Stack>

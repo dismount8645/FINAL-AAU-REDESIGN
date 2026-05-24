@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
+import { MemoryRouter } from 'react-router-dom'
 import { User } from 'lucide-react'
 import ListItem from '@/components/ui/ListItem'
 
@@ -10,7 +11,7 @@ describe('ListItem', () => {
   })
 
   it('renders as link when href is provided', () => {
-    render(<ListItem title="Item" href="/page" />)
+    render(<ListItem title="Item" href="/page" />, { wrapper: MemoryRouter })
     const link = screen.getByText('Item').closest('a')
     expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('href', '/page')
@@ -48,7 +49,7 @@ describe('ListItem', () => {
   })
 
   it('renders chevron when href is provided and no right slot', () => {
-    const { container } = render(<ListItem title="Item" href="/page" />)
+    const { container } = render(<ListItem title="Item" href="/page" />, { wrapper: MemoryRouter })
     expect(container.querySelector('svg')).toBeInTheDocument()
   })
 

@@ -39,14 +39,14 @@ export default function LanguageTab({
               setLang(langOpt.id as 'da' | 'en')
               toast.success(t('settings.lang_changed_success'))
             }}
-             className={`hover:border-primary/40 focus-visible:ring-2 transition-all shrink-0 cursor-pointer ${lang === langOpt.id ? 'border-primary ring-2 ring-primary/10' : ''}`}
+             className={`hover:border-primary/40 transition-all shrink-0 ${lang === langOpt.id ? 'border-primary bg-primary/5 shadow-sm' : ''}`}
           >
             <Card.Body className="p-lg flex gap-xs items-center">
               <div className="flex-1">
                 <Text weight="bold" size="sm" className="text-main">{langOpt.title}</Text>
                 <Text size="xs" muted className="mt-3xs">{langOpt.desc}</Text>
               </div>
-              <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${lang === langOpt.id ? 'border-primary bg-primary' : 'border-slate-300'}`}>
+              <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${lang === langOpt.id ? 'border-primary bg-primary' : 'border-slate-300 dark:border-slate-600'}`}>
                 {lang === langOpt.id && (
                   <div className="w-1.5 h-1.5 rounded-full bg-white" />
                 )}

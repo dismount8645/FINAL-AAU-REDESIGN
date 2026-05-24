@@ -74,8 +74,8 @@ function ContactForm({
               />
             </FormField>
             <div className="flex items-center gap-sm">
-              <Button type="submit" variant="primary" disabled={isSubmitting}>
-                {isSubmitting ? t('support_sending') : t('send_message')}
+              <Button type="submit" variant="primary" disabled={isSubmitting} loading={isSubmitting} aria-label={t('send_message')}>
+                {isSubmitting ? '' : t('send_message')}
               </Button>
               <Button type="button" variant="ghost" size="sm" icon={X} onClick={onCancel}>
                 {t('cancel')}

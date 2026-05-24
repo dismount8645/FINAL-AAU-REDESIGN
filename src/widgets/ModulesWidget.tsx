@@ -66,7 +66,7 @@ const EmptyState = memo(({ onAction }: { onAction: () => void }) => {
   )
 })
 
-const ModuleListItem = memo(forwardRef<HTMLDivElement, { 
+const ModuleListItem = memo(forwardRef<HTMLLIElement, { 
   course: CourseWithStatus, 
   isEditing: boolean,
   onToggleFavorite: (id: number) => void,
@@ -81,7 +81,7 @@ const ModuleListItem = memo(forwardRef<HTMLDivElement, {
   const statusBadge = { label: t(statusConfig.labelKey), color: statusConfig.color }
 
   return (
-    <motion.div 
+    <motion.li 
       ref={ref}
       layout
       initial={{ opacity: 0, scale: 0.95 }}
@@ -103,7 +103,7 @@ const ModuleListItem = memo(forwardRef<HTMLDivElement, {
         onClick={() => !isEditing && navigate(`/course/${course.id}`)}
         className="favorite-card h-full ring-1 ring-[var(--border-color)]/40 hover:ring-primary/40 transition-shadow duration-150"
       />
-    </motion.div>
+    </motion.li>
   )
 }))
 
@@ -164,7 +164,7 @@ const ModulesWidget = ({ isEditing }: WidgetProps) => {
         {starredCourses.length > 0 ? (
           <div className="absolute inset-0 flex flex-col">
             <div className="flex-1 w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-[var(--space-md)] custom-scrollbar scroll-smooth">
-              <div className="flex gap-[var(--space-md)] h-full items-stretch">
+              <ul className="flex gap-[var(--space-md)] h-full items-stretch list-none m-0 p-0">
                 <AnimatePresence mode="popLayout">
                   {starredCourses.map((mod) => (
                     <ModuleListItem 
@@ -177,8 +177,8 @@ const ModulesWidget = ({ isEditing }: WidgetProps) => {
                   ))}
                 </AnimatePresence>
                 {/* Visual Spacer at end */}
-                <div className="w-[var(--space-md)] shrink-0" aria-hidden="true" />
-              </div>
+                <li className="w-[var(--space-md)] shrink-0" aria-hidden="true" />
+              </ul>
             </div>
             
             {/* Aesthetic scroll indicators */}

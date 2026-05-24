@@ -84,7 +84,7 @@ const CalendarUpcomingWidget = ({
                   type="button"
                   className={cn(
                     "upcoming-event-item w-full flex items-center gap-[var(--space-md)] p-[var(--space-md)] text-left transition-all duration-150",
-                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-bg-highlight/50 focus-visible:bg-bg-highlight/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset"
+                    "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-bg-highlight/50 focus-visible:bg-bg-highlight/70 focus-visible:outline-none focus-visible:shadow-focus"
                   )}
                   onClick={() => handleEventClick(e, e.dateKey)}
                 >

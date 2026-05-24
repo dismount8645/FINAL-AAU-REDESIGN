@@ -6,23 +6,15 @@ import SearchInput from '@/components/ui/SearchInput'
 import ListItem from '@/components/ui/ListItem'
 import { Heading } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
+import { useParticipantFilter } from '@/hooks/useParticipantFilter'
 
 interface CourseParticipantsProps {
-  participantSearch: string
-  setParticipantSearch: (val: string) => void
-  participantRoleFilter: string
-  setParticipantRoleFilter: (val: string) => void
   participantsData: { name: string; role: string }[]
 }
 
-function CourseParticipants({
-  participantSearch,
-  setParticipantSearch,
-  participantRoleFilter,
-  setParticipantRoleFilter,
-  participantsData,
-}: CourseParticipantsProps) {
+function CourseParticipants({ participantsData }: CourseParticipantsProps) {
   const t = useStore((state) => state.t)
+  const { searchQuery, setSearchQuery, roleFilter, setRoleFilter, filteredParticipants } = useParticipantFilter(participantsData)
 
   return (
     <div className="animate-fade-in">
@@ -32,15 +24,15 @@ function CourseParticipants({
           <div className="flex flex-col sm:flex-row gap-sm w-full">
             <SearchInput
               placeholder={t('search_participants_placeholder')}
-              value={participantSearch}
-              onChange={(e) => setParticipantSearch(e.target.value)}
-              onClear={() => setParticipantSearch('')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onClear={() => setSearchQuery('')}
             />
             <label htmlFor="participant-role-filter" className="sr-only">{t('filter')}</label>
             <select
               id="participant-role-filter"
-              value={participantRoleFilter}
-              onChange={(e) => setParticipantRoleFilter(e.target.value)}
+              value={roleFilter}
+              onChange={(e) => setRoleFilter(e.target.value)}
               className="px-xs py-2xs rounded-[var(--radius-lg)] border border-border bg-bg-card text-sm text-main outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2 focus:border-primary transition-colors"
             >
               <option value="all">{t('all_roles')}</option>
@@ -51,21 +43,15 @@ function CourseParticipants({
         </Card.Header>
         <Card.Body className="p-[var(--space-0)]">
           <Stack gap="none">
-            {participantsData
-              .filter((p) => {
-                if (participantRoleFilter !== 'all' && p.role !== participantRoleFilter) return false
-                if (participantSearch && !p.name.toLowerCase().includes(participantSearch.toLowerCase())) return false
-                return true
-              })
-              .map((p, i) => (
-                <ListItem
-                  key={i}
-                  icon={Users}
-                  title={p.name}
-                  subtitle={p.role === 'student' ? t('role_student') : t('role_teacher')}
-                  className="border-b border-border/50 last:border-0"
-                />
-              ))}
+            {filteredParticipants.map((p, i) => (
+              <ListItem
+                key={i}
+                icon={Users}
+                title={p.name}
+                subtitle={p.role === 'student' ? t('role_student') : t('role_teacher')}
+                className="border-b border-border/50 last:border-0"
+              />
+            ))}
           </Stack>
         </Card.Body>
       </Card>

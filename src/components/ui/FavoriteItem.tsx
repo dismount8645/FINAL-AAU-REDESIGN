@@ -1,8 +1,9 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, type HTMLMotionProps } from 'framer-motion'
 import { X, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Button from '@/components/ui/Button'
 import { getFavoriteLabel } from '@/utils/favorites'
 import type { FavoriteType } from '@/types'
 import type { Lang } from '@/store/useStore'
@@ -33,9 +34,9 @@ interface FavoriteItemProps {
   lang: Lang
   onRemove: (type: FavoriteType, entityId: number) => void
   onClick?: () => void
-  onDragStart?: (e: React.DragEvent) => void
-  onDragOver?: (e: React.DragEvent) => void
-  onDrop?: (e: React.DragEvent) => void
+  onDragStart?: (e: React.DragEvent<HTMLDivElement>) => void
+  onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void
+  onDrop?: (e: React.DragEvent<HTMLDivElement>) => void
   draggable?: boolean
   compact?: boolean
 }
@@ -54,9 +55,9 @@ const FavoriteItem = memo(function FavoriteItem({
   return (
     <motion.div
       draggable={draggable}
-      onDragStart={onDragStart as any}
-      onDragOver={onDragOver as any}
-      onDrop={onDrop as any}
+      onDragStart={onDragStart as HTMLMotionProps<'div'>['onDragStart']}
+      onDragOver={onDragOver as HTMLMotionProps<'div'>['onDragOver']}
+      onDrop={onDrop as HTMLMotionProps<'div'>['onDrop']}
       onClick={onClick}
       whileHover={{ y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
       whileTap={{ scale: 0.98, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
@@ -115,18 +116,20 @@ const FavoriteItem = memo(function FavoriteItem({
         </span>
       </div>
 
-      <button
+      <Button
         type="button"
+        size="icon-xs"
+        variant="ghost"
         onClick={(e) => { 
           e.stopPropagation()
           e.preventDefault()
           onRemove(item.type, item.entityId) 
         }}
-        className="relative z-30 w-7 h-7 flex items-center justify-center rounded-[var(--radius-lg)] text-muted hover:text-danger hover:bg-danger/10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 focus-visible:ring-2 focus-visible:ring-danger focus-visible:outline-none transition-all shrink-0 after:absolute after:inset-[-8px] after:content-['']"
+        className="relative z-30 text-muted hover:text-danger hover:bg-danger/10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-all shrink-0"
         aria-label={(translations[lang]?.remove_favorite as string) || 'Remove from favorites'}
       >
         <X size={14} strokeWidth={2} />
-      </button>
+      </Button>
     </motion.div>
   )
 })

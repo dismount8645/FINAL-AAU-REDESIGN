@@ -72,19 +72,23 @@ export function WidgetCustomizer({
               width="220px"
             >
               {hiddenWidgets.length > 0 ? (
-                hiddenWidgets.map((w) => (
-                  <button
-                    key={w.id}
-                    type="button"
-                    className="w-full text-left px-xs py-2xs rounded-[var(--radius-md)] text-sm hover:bg-bg-hover transition-colors flex items-center gap-[var(--space-sm)]"
-                    onClick={() => toggleVisibility(w.id)}
-                  >
-                    <Plus size={14} strokeWidth={2} />
-                    {(() => {
-                      /* istanbul ignore next */ return widgetLabels[w.id] || w.id
-                    })()}
-                  </button>
-                ))
+                <ul className="space-y-3xs" role="menu">
+                  {hiddenWidgets.map((w) => (
+                    <li key={w.id} role="none">
+                      <button
+                        type="button"
+                        role="menuitem"
+                        className="w-full text-left px-xs py-2xs rounded-[var(--radius-md)] text-sm hover:bg-bg-hover transition-colors flex items-center gap-[var(--space-sm)] focus-visible:outline-none focus-visible:shadow-focus"
+                        onClick={() => toggleVisibility(w.id)}
+                      >
+                        <Plus size={14} strokeWidth={2} />
+                        {(() => {
+                          /* istanbul ignore next */ return widgetLabels[w.id] || w.id
+                        })()}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               ) : (
                 <Text size="sm" muted className="px-xs py-2xs block">
                   {t('dashboard.all_widgets_added')}

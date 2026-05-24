@@ -47,7 +47,7 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
       className={cn(
         "forum-list-item w-full text-left flex items-center gap-[var(--space-md)] p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150",
         "hover:bg-bg-hover cursor-pointer group/item outline-none",
-        "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 border border-transparent hover:border-[var(--border-color)]/40"
+        "focus-visible:outline-none focus-visible:shadow-focus border border-transparent hover:border-[var(--border-color)]/40"
       )}
       onClick={() => onClick(post.id)}
     >

@@ -3,7 +3,7 @@ import type { GradeRecord } from '@/pages/grades/types'
 
 export interface UseGradesFilterAndStatsOptions {
   gradesData: GradeRecord[]
-  localize: <T>(obj: T, key: string) => string
+  localize: <T extends object>(obj: T, key?: string) => string
 }
 
 export function useGradesFilterAndStats({ gradesData, localize }: UseGradesFilterAndStatsOptions) {

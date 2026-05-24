@@ -80,7 +80,7 @@ export function resolveFavorite(
         id: fav.id,
         type: fav.type,
         entityId: fav.entityId,
-        title: 'titleKey' in tool ? t(tool.titleKey) : (lang === 'da' ? tool.titleDa : tool.titleEn),
+        title: (tool.titleKey ? t(tool.titleKey) : (lang === 'da' ? tool.titleDa : tool.titleEn)) || '',
         icon: Wrench,
         iconBg: getFavoriteBg('tool'),
         iconColor: getFavoriteColor('tool'),

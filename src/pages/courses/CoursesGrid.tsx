@@ -46,7 +46,7 @@ function CoursesGrid({
       <Stack
         tag="button"
         type="button"
-        className="section-block-header mt-[var(--space-xl)] w-full text-left border-none bg-transparent p-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-[var(--radius-md)]"
+        className="section-block-header mt-[var(--space-xl)] w-full text-left border-none bg-transparent p-0 cursor-pointer focus-visible:outline-none focus-visible:shadow-focus rounded-[var(--radius-md)]"
         direction="row"
         align="center"
         gap="sm"
@@ -154,7 +154,7 @@ function CoursesGrid({
         <Stack
           tag="button"
           type="button"
-          className="section-block-header section-block-header--forums text-left border-none bg-transparent p-0 cursor-pointer focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none rounded-[var(--radius-md)]"
+          className="section-block-header section-block-header--forums text-left border-none bg-transparent p-0 cursor-pointer focus-visible:outline-none focus-visible:shadow-focus rounded-[var(--radius-md)]"
           direction="row"
           align="center"
           gap="sm"
