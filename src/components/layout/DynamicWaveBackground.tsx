@@ -16,7 +16,7 @@ const WAVE_MAP = {
 
 export default function DynamicWaveBackground() {
   const location = useLocation();
-  const { isDarkMode } = useStore();
+  const isDarkMode = useStore(state => state.isDarkMode)
   const [imgError, setImgError] = useState(false);
   const [activeUrl, setActiveUrl] = useState('');
   const [isTransitioning, setIsTransitioning] = useState(false);

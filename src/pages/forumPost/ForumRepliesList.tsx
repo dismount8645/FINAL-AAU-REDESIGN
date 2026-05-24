@@ -20,7 +20,8 @@ interface ForumRepliesListProps {
 }
 
 export default function ForumRepliesList({ replies }: ForumRepliesListProps) {
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   return (
     <>

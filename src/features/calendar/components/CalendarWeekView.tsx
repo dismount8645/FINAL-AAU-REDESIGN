@@ -39,7 +39,7 @@ const CalendarWeekView = ({
   t,
   handleEventClick,
 }: CalendarWeekViewProps) => {
-  const { lang } = useStore()
+  const lang = useStore(state => state.lang)
 
   const { weekDays } = useMemo(() => {
     const start = currentDate.getDate() - (currentDate.getDay() || 7) + 1

@@ -10,7 +10,8 @@ interface GradeRowProps {
 }
 
 function GradeRow({ record }: GradeRowProps) {
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   return (
     <div className="flex flex-col lg:flex-row items-stretch gap-[var(--space-lg)] p-[var(--space-lg)] hover:bg-bg-hover transition-colors duration-200">

@@ -13,7 +13,7 @@ interface SupportSidebarProps {
 }
 
 function SupportSidebar({ children }: SupportSidebarProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <aside className="support-sidebar flex flex-col gap-lg">

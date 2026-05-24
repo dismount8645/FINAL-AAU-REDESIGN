@@ -17,7 +17,7 @@ export default function CalendarTab({
   calendarDefaultView,
   setCalendarDefaultView,
 }: CalendarTabProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Stack gap="xl" className="settings__calendar max-w-[var(--container-max-width)]">

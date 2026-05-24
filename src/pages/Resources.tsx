@@ -13,9 +13,11 @@ import { env } from '@/utils/env'
 import { ResourcesSection } from './resources/index'
 
 function Resources() {
-  const { t, isFavorite } = useStore()
+  const t = useStore(state => state.t)
+  const isFavorite = useStore(state => state.isFavorite)
+  const favorites = useStore(state => state.favorites)
 
-  const pinnedTools = useMemo(() => allToolsList.filter(t => isFavorite('tool', t.id)), [isFavorite])
+  const pinnedTools = useMemo(() => allToolsList.filter(t => isFavorite('tool', t.id)), [favorites, isFavorite])
 
   return (
     <Stack tag="main" className="resources-page">

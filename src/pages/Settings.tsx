@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { useToast } from '@/context/ToastContext'
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
 import PageHeader from '@/components/common/PageHeader'
 import Card from '@/components/ui/Card'
@@ -12,8 +9,7 @@ import Icon from '@/components/ui/Icon'
 import Avatar from '@/components/ui/Avatar'
 import ListItem from '@/components/ui/ListItem'
 import useStore from '@/store/useStore'
-import { storage } from '@/utils/storage'
-import { saveSettings } from '@/api/settings'
+import { useSettingsState } from '@/hooks/useSettingsState'
 import {
   ProfileTab,
   NotificationsTab,
@@ -52,103 +48,44 @@ const itemIcons: Record<string, typeof User> = {
 }
 
 function Settings() {
-  const { t, isMobile, theme, setTheme, lang, setLang } = useStore()
-  const [searchParams] = useSearchParams()
-  const [activeTab, setActiveTab] = useState<string>(searchParams.get('tab') || 'profil')
-  const [expandedCats, setExpandedCats] = useState<string[]>(['bruger', 'indstillinger'])
-  const [firstName, setFirstName] = useState(() => storage.get('userFirstName', 'Jacob Krarup'))
-  const [lastName, setLastName] = useState(() => storage.get('userLastName', 'Madsen'))
-  const [notifPrefs, setNotifPrefs] = useState({ email: true, push: true, sms: false })
-  const [mobileView, setMobileView] = useState<'menu' | 'pane'>('menu')
-  const toast = useToast()
+  const t = useStore(state => state.t)
+  const isMobile = useStore(state => state.isMobile)
+  const theme = useStore(state => state.theme)
+  const setTheme = useStore(state => state.setTheme)
+  const lang = useStore(state => state.lang)
+  const setLang = useStore(state => state.setLang)
 
-  // Custom states for newly fleshed-out settings sections
-  const [forumDigest, setForumDigest] = useState<'none' | 'complete' | 'subjects'>('complete')
-  const [forumTracking, setForumTracking] = useState(true)
-  const [forumAutoSubscribe, setForumAutoSubscribe] = useState(true)
-
-  const [calendarStartDay, setCalendarStartDay] = useState<'monday' | 'sunday'>('monday')
-  const [calendarDefaultView, setCalendarDefaultView] = useState<'month' | 'week' | 'day'>('month')
-
-  const [messagePrivacy, setMessagePrivacy] = useState<'contacts' | 'courses' | 'anyone'>('courses')
-  const [messageEmailOffline, setMessageEmailOffline] = useState(true)
-
-  const handleSave = async () => {
-    storage.set('userFirstName', firstName)
-    storage.set('userLastName', lastName)
-    try {
-      await saveSettings({
-        language: lang,
-        theme,
-        notifications: notifPrefs,
-        forumPreferences: {
-          digest: forumDigest,
-          tracking: String(forumTracking),
-          autoSubscribe: String(forumAutoSubscribe),
-        },
-      })
-      toast.success(t('settings.save_success'))
-    } catch {
-      toast.error(t('common.save_error'))
-    }
-  }
-
-  const handleTabClick = (id: string) => {
-    setActiveTab(id)
-    if (isMobile) {
-      setMobileView('pane')
-    }
-  }
-
-  const toggleCat = (id: string): void => {
-    setExpandedCats(expandedCats.includes(id)
-      ? expandedCats.filter((c) => c !== id)
-      : [...expandedCats, id]
-    )
-  }
-
-  const categories = [
-    {
-      id: 'bruger', nameKey: 'categories.user_account', items: [
-        { id: 'profil', nameKey: 'categories.edit_profile' },
-        { id: 'sprog', nameKey: 'categories.select_language' },
-      ],
-    },
-    {
-      id: 'indstillinger', nameKey: 'categories.preferences', items: [
-        { id: 'forum', nameKey: 'categories.forum_settings' },
-        { id: 'editor', nameKey: 'categories.editor_settings' },
-        { id: 'kalender', nameKey: 'categories.calendar_settings' },
-        { id: 'indholdsbank', nameKey: 'categories.content_bank' },
-      ],
-    },
-    {
-      id: 'sikkerhed', nameKey: 'categories.security', items: [
-        { id: 'sikkerhedsnogler', nameKey: 'categories.security_keys' },
-        { id: 'beskeder', nameKey: 'categories.message_settings' },
-        { id: 'notifikationer', nameKey: 'categories.notification_settings' },
-      ],
-    },
-    {
-      id: 'filer', nameKey: 'categories.files', items: [
-        { id: 'arkiver', nameKey: 'cat_file_archives' },
-        { id: 'eksempler', nameKey: 'cat_manage_samples' },
-      ],
-    },
-    {
-      id: 'blogs', nameKey: 'cat_blogs', items: [
-        { id: 'blogindstillinger', nameKey: 'cat_blog_settings' },
-        { id: 'eksterneb', nameKey: 'cat_external_blogs' },
-        { id: 'registrerb', nameKey: 'cat_register_blog' },
-      ],
-    },
-    {
-      id: 'badges', nameKey: 'cat_badges', items: [
-        { id: 'badgeadm', nameKey: 'cat_manage_badges' },
-        { id: 'badgeind', nameKey: 'cat_badge_settings' },
-      ],
-    },
-  ]
+  const {
+    activeTab,
+    expandedCats,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    notifPrefs,
+    setNotifPrefs,
+    mobileView,
+    setMobileView,
+    forumDigest,
+    setForumDigest,
+    forumTracking,
+    setForumTracking,
+    forumAutoSubscribe,
+    setForumAutoSubscribe,
+    calendarStartDay,
+    setCalendarStartDay,
+    calendarDefaultView,
+    setCalendarDefaultView,
+    messagePrivacy,
+    setMessagePrivacy,
+    messageEmailOffline,
+    setMessageEmailOffline,
+    activeTabLabel,
+    handleSave,
+    handleTabClick,
+    toggleCat,
+    categories,
+  } = useSettingsState()
 
   return (
     <Stack className="two-panel-page settings-page">
@@ -217,7 +154,7 @@ function Settings() {
                       {t('common.back')}
                     </Button>
                   )}
-                  <Text weight="bold" size="lg" className="card__title text-main">{t(categories.flatMap((c) => c.items).find((i) => i.id === activeTab)?.nameKey || 'settings')}</Text>
+                  <Text weight="bold" size="lg" className="card__title text-main">{t(activeTabLabel)}</Text>
                   <Text muted size="sm">{t('settings.subtitle')}</Text>
                 </Stack>
               </Card.Header>

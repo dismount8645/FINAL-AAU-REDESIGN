@@ -27,7 +27,8 @@ const replies = [
 function ForumPost() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
   const post = posts.find((p) => p.id === Number(id))
 
   if (!post) {

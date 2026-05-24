@@ -9,7 +9,8 @@ import useStore from '@/store/useStore'
 import { supportLocations, supportDeskHours, supportNotes } from '@/data/support'
 
 function LocalDesksSection() {
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   return (
     <Stack gap="lg">
@@ -67,7 +68,8 @@ const AccordionWrapper = ({ children }: { children: React.ReactNode }) => {
 }
 
 const AccordionItemDummy = ({ city, address, zip }: { city: string, address: string, zip: string }) => {
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
   return (
     <AccordionItem value={city} className="border-b border-border last:border-0">
       <AccordionTrigger>

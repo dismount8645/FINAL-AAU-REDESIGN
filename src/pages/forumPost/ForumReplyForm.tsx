@@ -7,7 +7,7 @@ interface ForumReplyFormProps {
 }
 
 export default function ForumReplyForm({ onReplyClick }: ForumReplyFormProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <div className="mt-xl">

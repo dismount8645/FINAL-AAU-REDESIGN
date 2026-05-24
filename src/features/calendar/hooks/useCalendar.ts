@@ -10,7 +10,8 @@ export const dayNamesDa = ['MAN', 'TIR', 'ONS', 'TOR', 'FRE', 'LØR', 'SØN']
 export const dayNamesEn = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 export function useCalendar() {
-  const { lang, t } = useStore()
+  const lang = useStore(state => state.lang)
+  const t = useStore(state => state.t)
   const [currentDate, setCurrentDate] = useState(new Date(2026, 4, 1))
   const [view, setView] = useState('month')
   const [isPending, setIsPending] = useState(false)

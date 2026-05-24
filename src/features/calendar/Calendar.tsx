@@ -42,7 +42,8 @@ const WeekView = memo(CalendarWeekView)
 const DayView = memo(CalendarDayView)
 
 const Calendar = () => {
-  const { t, isMobile } = useStore()
+  const t = useStore(state => state.t)
+  const isMobile = useStore(state => state.isMobile)
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 

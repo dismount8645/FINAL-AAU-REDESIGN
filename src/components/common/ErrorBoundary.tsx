@@ -86,7 +86,7 @@ function ErrorDisplay({
   onReset: () => void;
   onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => void;
 }) {
-  const { t } = useStore();
+  const t = useStore(state => state.t)
 
   return (
     <Card

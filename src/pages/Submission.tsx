@@ -22,7 +22,7 @@ import {
 function Submission() {
   const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>()
   const navigate = useNavigate()
-  const { t } = useStore()
+  const t = useStore(state => state.t)
   const [files, setFiles] = useState<StagedFile[]>([])
   const [status, setStatus] = useState<string>('draft')
   const [comment, setComment] = useState<string>('')

@@ -14,7 +14,7 @@ export default function NotificationsTab({
   notifPrefs,
   setNotifPrefs,
 }: NotificationsTabProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Stack gap="xl" className="settings__notif-prefs max-w-[var(--container-max-width)]">

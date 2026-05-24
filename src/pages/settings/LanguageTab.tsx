@@ -13,7 +13,7 @@ export default function LanguageTab({
   lang,
   setLang,
 }: LanguageTabProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
   const toast = useToast()
 
   return (

@@ -22,7 +22,8 @@ interface ForumOriginalPostProps {
 }
 
 export default function ForumOriginalPost({ post }: ForumOriginalPostProps) {
-  const { t, localize } = useStore()
+  const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   return (
     <Card className="mb-xl">

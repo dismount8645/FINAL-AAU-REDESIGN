@@ -33,7 +33,7 @@ function ContactForm({
   onSubmit,
   onCancel,
 }: ContactFormProps) {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
 
   return (
     <Card className="h-auto overflow-visible min-h-[200px]">

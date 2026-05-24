@@ -6,7 +6,9 @@ import routes from '@/routes';
 import useStore from '@/store/useStore';
 
 function App() {
-  const { t } = useStore()
+  const t = useStore(state => state.t)
+  const _lang = useStore(state => state.lang)
+  void _lang
   return (
     <Router>
       <a href="#main-content" className="skip-link">{t('skip_to_content')}</a>

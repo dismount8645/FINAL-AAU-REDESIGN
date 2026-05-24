@@ -13,6 +13,25 @@ import { cn } from '@/lib/utils'
 
 import { useMemo, memo, useCallback, forwardRef } from 'react'
 
+// --- Module-level constants/utils ---
+
+const COURSE_STATUS_BADGE_CONFIG = {
+  active: { labelKey: 'active', color: 'success' as const },
+  inactive: { labelKey: 'completed_short', color: 'info' as const },
+  upcoming: { labelKey: 'upcoming', color: 'warning' as const },
+} as const
+
+function getCourseProgressOrDefault(
+  course: CourseWithStatus,
+  getCourseProgress: (id: number, total: number) => number
+): number {
+  const courseData = allCourses[course.id]
+  const totalItems = courseData?.sections.reduce((sum, s) => sum + s.items.length, 0) || 0
+  return totalItems > 0
+    ? getCourseProgress(course.id, totalItems)
+    : course.status === 'inactive' ? 100 : 0
+}
+
 // --- Sub-components ---
 
 const EmptyState = memo(({ onAction }: { onAction: () => void }) => {
@@ -56,20 +75,10 @@ const ModuleListItem = memo(forwardRef<HTMLDivElement, {
   const t = useStore(state => state.t)
   const navigate = useNavigate()
 
-  const progress = useMemo(() => {
-    const courseData = allCourses[course.id]
-    const totalItems = courseData?.sections.reduce((sum, s) => sum + s.items.length, 0) || 0
-    return totalItems > 0 ? getCourseProgress(course.id, totalItems) : (course.status === 'inactive' ? 100 : 0)
-  }, [course, getCourseProgress])
+  const progress = useMemo(() => getCourseProgressOrDefault(course, getCourseProgress), [course, getCourseProgress])
 
-  const statusBadge = useMemo(() => {
-    const config = {
-      active: { label: t('active'), color: 'success' as const },
-      inactive: { label: t('completed_short'), color: 'info' as const },
-      upcoming: { label: t('upcoming'), color: 'warning' as const }
-    }
-    return config[course.status as keyof typeof config] || config.upcoming
-  }, [course.status, t])
+  const statusConfig = COURSE_STATUS_BADGE_CONFIG[course.status as keyof typeof COURSE_STATUS_BADGE_CONFIG] ?? COURSE_STATUS_BADGE_CONFIG.upcoming
+  const statusBadge = { label: t(statusConfig.labelKey), color: statusConfig.color }
 
   return (
     <motion.div 

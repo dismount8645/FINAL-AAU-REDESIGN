@@ -10,7 +10,7 @@ import useStore from '@/store/useStore'
 
 function NotFound() {
   const navigate = useNavigate()
-  const { t } = useStore()
+  const t = useStore(state => state.t)
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = (e: React.FormEvent) => {
