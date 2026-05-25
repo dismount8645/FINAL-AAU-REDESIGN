@@ -348,24 +348,40 @@
     height: 6px;
   }
 
-  ::-webkit-scrollbar-track {
+  .custom-scrollbar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  ::-webkit-scrollbar-track,
+  .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
   }
 
-  ::-webkit-scrollbar-thumb {
+  ::-webkit-scrollbar-thumb,
+  .custom-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15);
     border-radius: var(--radius-pill);
   }
 
-  .dark ::-webkit-scrollbar-thumb {
+  .dark ::-webkit-scrollbar-thumb,
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.15);
   }
 
-  ::-webkit-scrollbar-thumb:hover {
+  ::-webkit-scrollbar-thumb:hover,
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.25);
   }
 
-  .dark ::-webkit-scrollbar-thumb:hover {
+  .dark ::-webkit-scrollbar-thumb:hover,
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.25);
   }
 }
@@ -763,8 +779,8 @@ h3 {
   .input::placeholder,
   input::placeholder,
   textarea::placeholder {
-    color: var(--text-disabled);
-    opacity: 0.8;
+    color: var(--text-muted);
+    opacity: 1;
   }
 
   .input:focus,
@@ -918,6 +934,10 @@ h3 {
 .dark a:not([class*='btn']):not([class*='badge']):hover {
   filter: brightness(1.4);
   text-decoration: underline;
+}
+
+.text-muted {
+  color: var(--text-muted);
 }
 
 .dark .text-muted {

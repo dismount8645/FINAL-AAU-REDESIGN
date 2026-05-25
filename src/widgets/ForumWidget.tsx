@@ -62,7 +62,7 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
             {post.title}
           </Text>
         </div>
-        <Text size="xs" className="text-muted opacity-70 truncate">
+        <Text size="xs" className="text-text-muted truncate">
           {t('by')} <span className="font-bold text-main">{post.author}</span> &bull; {post.time}
         </Text>
       </Stack>
@@ -123,15 +123,15 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <MessageCircle size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
-            {t('course_forum')}
+          <Heading level={4} className="m-0 text-sm font-bold text-main">
+            {t('forum')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
           size="xs"
-          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
+          className="normal-case tracking-normal font-bold text-primary hover:bg-bg-card/50"
           onClick={handleNewPost}
           icon={Plus}
           disabled={isEditing}
@@ -155,7 +155,7 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
       </Card.Body>
 
       <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-muted italic">
+        <Text size="xs" weight="semibold" className="text-text-muted">
           {visiblePosts.length} {t('active_discussions')}
         </Text>
         <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">

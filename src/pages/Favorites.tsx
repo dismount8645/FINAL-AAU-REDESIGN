@@ -18,6 +18,7 @@ function Favorites() {
   const lang = useStore((state) => state.lang)
   const favorites = useStore((state) => state.favorites)
   const toggleFavorite = useStore((state) => state.toggleFavorite)
+  const clearFavorites = useStore((state) => state.clearFavorites)
   const reorderFavorites = useStore((state) => state.reorderFavorites)
   const courses = useStore((state) => state.courses)
   const [searchQuery, setSearchQuery] = useState('')
@@ -56,34 +57,33 @@ function Favorites() {
       />
 
       <div className="container pb-[var(--space-2xl)]">
-        <div className="flex items-center justify-between mb-[var(--space-lg)]">
-          <div className="flex items-center gap-[var(--space-sm)]">
-            <Text size="sm" muted>
+        <div className="flex flex-col gap-sm mb-[var(--space-xl)] bg-bg-highlight/30 dark:bg-white/5 p-4 rounded-[var(--radius-lg)] border border-border/40">
+          <div className="flex items-center justify-between pb-sm border-b border-border/40">
+            <Text size="sm" muted className="font-semibold text-text-muted">
               {resolved.length}/{DASHBOARD_CONFIG.FAVORITES_LIMIT} {t('favorites_limit')}
             </Text>
+            {resolved.length > 0 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={clearFavorites}
+                className="text-xs font-semibold px-2 h-8 rounded-[var(--radius-md)] flex items-center gap-1 hover:bg-bg-hover text-text-muted hover:text-text-main"
+              >
+                <Trash2 className="w-3.5 h-3.5" strokeWidth={2} />
+                {t('remove_all')}
+              </Button>
+            )}
           </div>
-          {resolved.length > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                sorted.forEach(f => toggleFavorite(f.type, f.entityId))
-              }}
-            >
-              <Trash2 className="w-3.5 h-3.5" strokeWidth={2} />
-              {t('remove_all')}
-            </Button>
-          )}
-        </div>
 
-        <FavoritesFilter
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          typeFilter={typeFilter}
-          onTypeFilterChange={setTypeFilter}
-          lang={lang}
-          t={t}
-        />
+          <FavoritesFilter
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            typeFilter={typeFilter}
+            onTypeFilterChange={setTypeFilter}
+            lang={lang}
+            t={t}
+          />
+        </div>
 
         <FavoritesList
           filtered={filtered}

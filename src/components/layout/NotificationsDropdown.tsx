@@ -88,7 +88,7 @@ export default function NotificationsDropdown() {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative flex" ref={dropdownRef}>
       <Button
         ref={buttonRef}
         onKeyDown={handleTriggerKeyDown}
@@ -97,8 +97,8 @@ export default function NotificationsDropdown() {
         className={cn(
           "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
-            ? "bg-primary text-white shadow-md" 
-            : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
+            ? "bg-primary/10 text-primary dark:bg-white/15 dark:text-white shadow-sm" 
+            : "text-text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
         onClick={() => setIsOpen(prev => !prev)}
         aria-label={t('notifications')}
@@ -107,12 +107,12 @@ export default function NotificationsDropdown() {
         type="button"
       >
         <Bell size={20} strokeWidth={2} />
-        {notificationCount > 0 && (
-          <span className="absolute right-1.5 top-1.5 z-10 flex min-h-[18px] min-w-[18px] animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
-            {notificationCount}
-          </span>
-        )}
       </Button>
+      {notificationCount > 0 && (
+        <span className="absolute right-[4px] top-[4px] z-10 flex min-h-[16px] min-w-[16px] pointer-events-none animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
+          {notificationCount}
+        </span>
+      )}
 
       <AnimatePresence>
         {isOpen && (
@@ -126,7 +126,7 @@ export default function NotificationsDropdown() {
             className="absolute right-0 top-[calc(100%+8px)] w-80 max-w-[calc(100dvw-1rem)] z-50 overflow-hidden rounded-xl border border-border bg-bg-elevated shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border p-md">
-              <Text size="sm" weight="black" className="uppercase tracking-widest text-main">
+              <Text size="sm" weight="bold" className="text-main">
                 {t('notifications')}
               </Text>
               <Button
@@ -142,7 +142,7 @@ export default function NotificationsDropdown() {
                 {t('view_all')}
               </Button>
             </div>
-            <ul className="max-h-96 overflow-y-auto" role="menu">
+            <ul className="max-h-96 overflow-y-auto pr-1" role="menu">
               {notificationsData.map((n) => {
                 const Icon = getNotifIcon(n.type);
                 return (

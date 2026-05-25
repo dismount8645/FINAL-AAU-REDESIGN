@@ -9,6 +9,7 @@ import useStore from '@/store/useStore'
 import { ASSETS } from '@/constants'
 import { useCoursesFilterAndSort } from '@/hooks'
 import { CoursesTabs, CoursesFilters, CoursesGrid } from './courses/index'
+import { env } from '@/utils/env'
 
 const forums = [
   { id: 10, title: 'Studienævn for DDK', titleEn: 'Study Board for DDK', label: 'Information', labelEn: 'Information', img: '/assets/img/grafik/billeder/Studerende og studieliv/_2WB0351.jpg', color: 'var(--color-success)' },
@@ -59,7 +60,7 @@ function Courses() {
       <PageHeader
         pageKey="courses"
         title={t('courses')}
-        subtitle={t('courses_page_subtitle')}
+        subtitle={t('courses.subtitle')}
         breadcrumbs={[
           { label: t('dashboard'), href: '/' },
           { label: t('courses') },
@@ -102,26 +103,29 @@ function Courses() {
         />
 
         <Card variant="brand" className="courses__promo-card relative overflow-hidden mt-xl">
-          <Badge variant="warning" className="absolute right-[var(--space-lg)] top-[var(--space-lg)]">
+          <Badge className="absolute right-[var(--space-lg)] top-[var(--space-lg)] bg-[var(--aau-dark-orange)] text-white border-none font-bold shadow-sm">
             {t('enrollment_open')}
           </Badge>
           <div className="courses__promo-bg absolute right-0 top-0 bottom-0 w-[40%] opacity-30 pointer-events-none bg-cover bg-center [mask-image:linear-gradient(to_left,black,transparent)] [-webkit-mask-image:linear-gradient(to_left,black,transparent)]" style={{ backgroundImage: `url('${ASSETS.promo.student}')` }} />
           <Card.Body className="courses__promo-body p-[var(--space-3xl)_var(--space-xl)]">
             <Stack className="courses__promo-content relative z-[1] max-w-[var(--container-max-width)]">
               <Stack direction="row" gap="sm" align="center" className="courses__promo-badge-tag mb-[var(--space-sm)]">
-                <Badge variant="warning" className="inline-flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-[var(--radius-pill)] bg-warning animate-pulse" />
+                <Badge className="inline-flex items-center gap-1.5 bg-[var(--aau-dark-orange)] text-white border-none font-bold shadow-sm">
+                  <span className="w-2 h-2 rounded-[var(--radius-pill)] bg-white animate-pulse" />
                   {t('enrollment_deadline_approaching')}
                 </Badge>
               </Stack>
-              <Heading level={2} className="courses__promo-title mb-[var(--space-md)] text-3xl font-black">
+              <Heading level={2} className="courses__promo-title mb-[var(--space-md)] text-3xl font-black text-white">
                 {t('ready_for_next_semester')}
               </Heading>
-              <Text className="courses__promo-text opacity-85 text-md leading-relaxed block">
+              <Text className="courses__promo-text text-white/90 text-md leading-relaxed block font-medium">
                 {t('upcoming_modules_stads_desc')}
               </Text>
               <div className="courses__promo-action mt-[var(--space-xl)]">
-                <Button variant="ghost">
+                <Button 
+                  onClick={() => env.open('https://kursuskatalog.aau.dk')}
+                  className="bg-white text-primary hover:bg-white/90 hover:-translate-y-1 border-none font-bold px-md h-10 text-xs rounded-[var(--radius-md)] shadow-sm"
+                >
                   {t('course_catalog')}
                 </Button>
               </div>

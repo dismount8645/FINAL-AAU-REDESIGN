@@ -56,7 +56,7 @@ function CoursesGrid({
         <Heading level={2} className="section-block-header__title m-0 text-[1.25rem]">
           {t('your_courses')}
           <Text tag="span" size="sm" muted className="section-block-header__count ml-[var(--space-sm)] font-normal">
-            ({sortedCourses.length} {sortedCourses.length === 1 ? t('active_course_singular') : t('active_courses')})
+            ({sortedCourses.length} {sortedCourses.length === 1 ? t('courses.active_course_singular') : t('courses.active_courses')})
           </Text>
         </Heading>
         <Icon name={showCourses ? 'chevron-down' : 'chevron-right'} className="section-chevron text-[0.9rem] opacity-60 transition-transform duration-[var(--transition-fast)]" />
@@ -111,6 +111,7 @@ function CoursesGrid({
                             size="md" 
                             iconRight={ArrowRight} 
                             pill
+                            className="normal-case tracking-normal"
                           >
                             {t('open_module')}
                           </Button>
@@ -211,7 +212,7 @@ function CoursesGrid({
                       }}
                       onClick={() => navigate(`/course/${forum.id}`)}
                       action={
-                        <Button variant="secondary" size="sm" iconRight={MessageSquare}>
+                        <Button variant="secondary" size="sm" iconRight={MessageSquare} className="normal-case tracking-normal">
                           {t('open_forum')}
                         </Button>
                       }

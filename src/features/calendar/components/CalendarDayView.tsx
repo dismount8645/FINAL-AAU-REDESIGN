@@ -55,7 +55,7 @@ const CalendarDayView = ({
           <Badge 
             variant={isToday ? 'primary' : 'secondary'} 
             className={cn(
-              "px-4 py-1.5 text-[0.65rem] font-black uppercase tracking-[0.2em] rounded-full shadow-sm transition-all duration-300",
+              "px-4 py-1.5 text-[0.65rem] font-black rounded-full shadow-sm transition-all duration-300",
               isToday && "ring-4 ring-primary/10 scale-110"
             )}
           >
@@ -91,7 +91,7 @@ const CalendarDayView = ({
                 <Stack gap="sm">
                   <div className="flex items-center gap-2 text-primary opacity-80 group-hover:opacity-100 transition-opacity">
                     <Info size={14} />
-                    <Text size="xs" weight="black" className="uppercase tracking-[0.2em]">
+                    <Text size="xs" weight="black" className="tracking-wide">
                       {t('event_details')}
                     </Text>
                   </div>
@@ -102,7 +102,7 @@ const CalendarDayView = ({
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6 border-y border-border/50">
                   <Stack gap="xs">
-                    <Text size="xs" weight="bold" className="text-text-muted/50 uppercase tracking-widest">{t('time')}</Text>
+                    <Text size="xs" weight="bold" className="text-text-muted/50">{t('time')}</Text>
                     <Stack direction="row" gap="sm" align="center" className="text-text-main">
                       <CalendarClock className="w-4 h-4 text-primary" />
                       <Text size="sm" weight="bold">{event.time}</Text>
@@ -111,7 +111,7 @@ const CalendarDayView = ({
                   
                   {event.location && (
                     <Stack gap="xs">
-                      <Text size="xs" weight="bold" className="text-text-muted/50 uppercase tracking-widest">{t('location')}</Text>
+                      <Text size="xs" weight="bold" className="text-text-muted/50">{t('location')}</Text>
                       <Stack direction="row" gap="sm" align="center" className="text-text-main">
                         <MapPin className="w-4 h-4 text-primary" />
                         <Text size="sm" weight="bold" className="truncate">{event.location}</Text>
@@ -121,7 +121,7 @@ const CalendarDayView = ({
 
                   {event.host && (
                     <Stack gap="xs">
-                      <Text size="xs" weight="bold" className="text-text-muted/50 uppercase tracking-widest">{t('host')}</Text>
+                      <Text size="xs" weight="bold" className="text-text-muted/50">{t('host')}</Text>
                       <Stack direction="row" gap="sm" align="center" className="text-text-main">
                         <User className="w-4 h-4 text-primary" />
                         <Text size="sm" weight="bold" className="truncate">{event.host}</Text>
@@ -159,8 +159,8 @@ const CalendarDayView = ({
             <div className="w-20 h-20 rounded-full bg-muted/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-inner">
               <CalendarClock className="w-10 h-10 text-text-muted/40" />
             </div>
-            <Text size="xl" weight="black" className="text-text-muted tracking-tight mb-2">{t('no_events_today')}</Text>
-            <Text size="sm" className="text-text-muted/60">{t('click_to_add_event')}</Text>
+            <Text size="xl" weight="black" className="text-text-muted tracking-tight mb-2">{t('calendar.no_events_today')}</Text>
+            <Text size="sm" className="text-text-muted/60">{t('calendar.click_to_add_event')}</Text>
           </button>
         )}
       </div>

@@ -67,11 +67,32 @@ const InfoCard = memo(function InfoCard({
       )} 
       onClick={onClick}
     >
-      <Card.Body className="p-md md:p-lg">
-        <Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start">
+      <Card.Body className="p-md md:p-lg h-full w-full flex flex-col relative">
+        {onStarToggle && (
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className={cn(
+              'absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 transition-all',
+              isStarred 
+                ? 'text-warning bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
+                : 'text-disabled hover:text-primary'
+            )}
+            onClick={handleStarClick}
+            aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
+            pill
+          >
+            <Star 
+              size={16} 
+              strokeWidth={2.5} 
+              fill={isStarred ? 'currentColor' : 'none'} 
+            />
+          </Button>
+        )}
+        <Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start" full>
           <IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} className="shrink-0" />
           
-          <Stack gap="xs" className="flex-1 min-w-0">
+          <Stack gap="xs" className="flex-1 min-w-0 h-full flex flex-col pr-8">
             <Stack direction="row" gap="xs" align="center" className="w-full">
               <Text weight="bold" size="lg" className="truncate leading-tight">{title}</Text>
               
@@ -88,28 +109,6 @@ const InfoCard = memo(function InfoCard({
                   pill
                 >
                   <Info size={16} strokeWidth={2.5} />
-                </Button>
-              )}
-              
-              {onStarToggle && (
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className={cn(
-                    'ml-auto transition-all',
-                    isStarred 
-                      ? 'text-warning bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
-                      : 'text-disabled hover:text-primary'
-                  )}
-                  onClick={handleStarClick}
-                  aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
-                  pill
-                >
-                  <Star 
-                    size={16} 
-                    strokeWidth={2.5} 
-                    fill={isStarred ? 'currentColor' : 'none'} 
-                  />
                 </Button>
               )}
             </Stack>
@@ -140,7 +139,7 @@ const InfoCard = memo(function InfoCard({
               </Text>
             )}
             
-            {children && <div className="mt-xs w-full">{children}</div>}
+            {children && <div className="mt-auto pt-xs w-full">{children}</div>}
           </Stack>
 
           {action && (

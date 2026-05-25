@@ -128,7 +128,7 @@ const Avatar = memo(function Avatar({
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="absolute -bottom-0.5 -right-0.5 rounded-[var(--radius-full)] bg-bg-card shadow-sm"
+          className="absolute bottom-0 right-0 rounded-[var(--radius-full)] bg-bg-card shadow-sm"
           style={{
             width: statusSize,
             height: statusSize,

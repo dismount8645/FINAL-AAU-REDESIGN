@@ -25,7 +25,7 @@ export function useWidgetDrag(initialWidgets: Widget[]): UseWidgetDragReturn {
   };
 
   const toggleVisibility = (id: string) => {
-    setWidgets(widgets.map((w) => (w.id === id ? { ...w, visible: !w.visible } : w)));
+    setWidgets(prev => prev.map((w) => (w.id === id ? { ...w, visible: !w.visible } : w)));
   };
 
   const onDragStart = (e: DragEvent<HTMLElement>, id: string, isEditing: boolean) => {

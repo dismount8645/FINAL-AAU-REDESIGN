@@ -1,5 +1,5 @@
 import SearchInput from '@/components/ui/SearchInput'
-import Button from '@/components/ui/Button'
+import SegmentedControl from '@/components/ui/SegmentedControl'
 import type { FavoriteType } from '@/types'
 
 const TYPE_FILTERS: { label: Record<'da' | 'en', string>; value: FavoriteType | 'all' }[] = [
@@ -28,28 +28,28 @@ export default function FavoritesFilter({
   lang,
   t,
 }: FavoritesFilterProps) {
+  const options = TYPE_FILTERS.map((f) => ({
+    value: f.value,
+    label: f.label[lang],
+  }))
+
   return (
-    <div className="flex flex-col md:flex-row gap-[var(--space-md)] mb-[var(--space-xl)]">
-      <SearchInput
-        placeholder={t('search_favorites_placeholder')}
-        value={searchQuery}
-        onChange={(e) => onSearchChange(e.target.value)}
-        onClear={() => onSearchChange('')}
-      />
-      <div className="flex gap-[var(--space-sm)] flex-wrap">
-        {TYPE_FILTERS.map((f) => (
-          <Button
-            key={f.value}
-            type="button"
-            variant={typeFilter === f.value ? 'primary' : 'outline'}
-            size="sm"
-            onClick={() => onTypeFilterChange(f.value)}
-            pill
-            className="text-xs font-semibold tracking-normal"
-          >
-            {f.label[lang]}
-          </Button>
-        ))}
+    <div className="flex flex-col md:flex-row gap-[var(--space-md)] items-stretch md:items-center">
+      <div className="flex-1">
+        <SearchInput
+          placeholder={t('search_favorites_placeholder')}
+          value={searchQuery}
+          onChange={(e) => onSearchChange(e.target.value)}
+          onClear={() => onSearchChange('')}
+        />
+      </div>
+      <div className="md:w-[480px] max-w-full">
+        <SegmentedControl
+          options={options}
+          value={typeFilter}
+          onChange={(val) => onTypeFilterChange(val as FavoriteType | 'all')}
+          className="!my-0"
+        />
       </div>
     </div>
   )

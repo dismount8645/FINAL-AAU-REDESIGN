@@ -83,6 +83,7 @@ const DialogContent = memo(forwardRef<HTMLDivElement, DialogPrimitive.Popup.Prop
               variant="ghost"
               size="icon-sm"
               pill
+              render={<span />}
               className="absolute top-[var(--space-sm)] right-[var(--space-sm)]"
             />
           }
@@ -125,7 +126,7 @@ const DialogFooter = memo(({
   >
     {children}
     {showCloseButton && (
-      <DialogPrimitive.Close render={<Button variant="outline" size="md" />}>
+      <DialogPrimitive.Close render={<Button variant="outline" size="md" render={<span />} />}>
         Close
       </DialogPrimitive.Close>
     )}

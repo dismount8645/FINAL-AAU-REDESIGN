@@ -36,15 +36,15 @@ export default function MessagesDropdown() {
   }, [close]);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative flex" ref={dropdownRef}>
       <Button
         variant="ghost"
         size="icon"
         className={cn(
           "relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all duration-150 hover:-translate-y-1 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
           isOpen 
-            ? "bg-primary text-primary-foreground shadow-md" 
-            : "text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
+            ? "bg-primary/10 text-primary dark:bg-white/15 dark:text-white shadow-sm" 
+            : "text-text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
         onClick={() => setIsOpen(prev => !prev)}
         aria-label={t('messages')}
@@ -53,12 +53,12 @@ export default function MessagesDropdown() {
         aria-haspopup="menu"
       >
         <Mail size={20} strokeWidth={2} />
-        {messageCount > 0 && (
-          <span className="absolute right-1.5 top-1.5 z-10 flex h-[18px] min-w-[18px] animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-primary-foreground shadow-sm">
-            {messageCount}
-          </span>
-        )}
       </Button>
+      {messageCount > 0 && (
+        <span className="absolute right-[4px] top-[4px] z-10 flex h-[16px] min-w-[16px] pointer-events-none animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
+          {messageCount}
+        </span>
+      )}
 
       <AnimatePresence>
         {isOpen && (
@@ -70,7 +70,7 @@ export default function MessagesDropdown() {
             className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100dvw-1rem)] overflow-hidden rounded-[var(--radius-lg)] border border-border bg-bg-card shadow-xl"
           >
             <div className="flex items-center justify-between border-b border-border pl-md pr-2 py-1">
-              <Text size="sm" weight="black" className="uppercase tracking-widest">
+              <Text size="sm" weight="bold" className="text-main">
                 {t('messages')}
               </Text>
               <Button
@@ -85,7 +85,7 @@ export default function MessagesDropdown() {
                 {t('view_all')}
               </Button>
             </div>
-            <ul className="max-h-96 overflow-y-auto" role="menu">
+            <ul className="max-h-96 overflow-y-auto pr-1" role="menu">
               {messagesData.map((m) => (
                 <li key={m.id} role="none">
                   <button

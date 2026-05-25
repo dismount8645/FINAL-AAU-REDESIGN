@@ -149,13 +149,13 @@ const CalendarMonthView = ({
   return (
     <>
       {/* Header Row */}
-      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-text-muted border-b border-r border-border/60">
+      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60">
         {t('week')}
       </div>
       {dayNames.map((day) => (
         <div 
           key={day} 
-          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-text-muted border-b border-border/60"
+          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-border/60"
         >
           {day}
         </div>
