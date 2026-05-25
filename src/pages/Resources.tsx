@@ -64,12 +64,12 @@ function Resources() {
               <Text weight="bold" size="lg">{t('about_aau_essentials')}</Text>
             </Card.Header>
             <Card.Body>
-              <Text size="md" muted className="mb-lg leading-[1.7] block">
+              <Text size="md" className="text-text-muted mb-lg leading-[1.7] block">
                 {t('about_aau_essentials_desc')}
               </Text>
             </Card.Body>
             <Card.Footer>
-              <Button variant="ghost" size="sm" full iconRight={ExternalLink} onClick={() => env.open('https://support.its.aau.dk/')}>
+              <Button variant="ghost" size="sm" full iconRight={ExternalLink} onClick={() => env.open('https://support.its.aau.dk/')} className="normal-case tracking-normal font-bold text-sm">
                 {t('visit_help_portal')}
               </Button>
             </Card.Footer>
@@ -81,14 +81,19 @@ function Resources() {
             <Card.Decoration icon={Headphones} />
 
             <Card.Body className="h-full flex flex-col justify-center min-h-[200px]">
-              <div className="relative z-[1]">
-                <Text weight="bold" size="xl" className="card__title mb-sm block">
+              <div className="relative z-[1] w-full text-white">
+                <Text weight="bold" size="xl" className="text-white card__title mb-sm block">
                   {t('need_help')}
                 </Text>
-                <Text size="md" muted className="mb-lg block max-w-[85%]">
+                <Text size="md" className="text-white/85 mb-lg block max-w-[85%] font-medium">
                   {t('its_help_desc')}
                 </Text>
-                <Button variant="ghost" full>
+                <Button 
+                  variant="secondary" 
+                  full 
+                  onClick={() => env.open('https://support.its.aau.dk/')}
+                  className="bg-white text-primary border-none hover:bg-white/90 normal-case tracking-normal font-bold text-sm"
+                >
                   {t('contact_support')}
                 </Button>
               </div>

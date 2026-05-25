@@ -92,7 +92,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Calendar size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
+          <Heading level={4} className="m-0 text-sm font-bold text-main">
             {t('next_assignment')}
           </Heading>
         </Stack>

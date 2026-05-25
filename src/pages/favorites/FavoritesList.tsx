@@ -5,11 +5,11 @@ import Card from '@/components/ui/Card'
 import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui/Typography'
-import FavoriteItem from '@/components/ui/FavoriteItem'
+import FavoriteItem, { type FavoriteItemData } from '@/components/ui/FavoriteItem'
 import type { FavoriteType } from '@/types'
 
 interface FavoritesListProps {
-  filtered: any[] // We can type this based on resolveFavorite return type or simply any[]
+  filtered: FavoriteItemData[]
   lang: 'da' | 'en'
   searchQuery: string
   typeFilter: FavoriteType | 'all'

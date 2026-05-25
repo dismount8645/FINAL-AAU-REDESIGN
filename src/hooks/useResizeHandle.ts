@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export function useResizeHandle(
   widgetId: string,
@@ -6,6 +6,12 @@ export function useResizeHandle(
   initialRowSpan: number,
   onResize: (id: string, newSpan: number, newRowSpan: number) => void
 ) {
+  const activeListenersRef = useRef<{
+    onMove: (e: MouseEvent | TouchEvent) => void;
+    onEnd: () => void;
+    isTouch: boolean;
+  } | null>(null);
+
   const handleResize = useCallback((
     e: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>,
     type: 'width' | 'height'
@@ -45,7 +51,10 @@ export function useResizeHandle(
       document.removeEventListener('touchmove', onMove);
       document.removeEventListener('touchend', onEnd);
       document.body.style.userSelect = '';
+      activeListenersRef.current = null;
     };
+
+    activeListenersRef.current = { onMove, onEnd, isTouch };
 
     document.body.style.userSelect = 'none';
     if (isTouch) {
@@ -56,6 +65,22 @@ export function useResizeHandle(
       document.addEventListener('mouseup', onEnd);
     }
   }, [widgetId, initialSpan, initialRowSpan, onResize]);
+
+  useEffect(() => {
+    return () => {
+      if (activeListenersRef.current) {
+        const { onMove, onEnd, isTouch } = activeListenersRef.current;
+        if (isTouch) {
+          document.removeEventListener('touchmove', onMove);
+          document.removeEventListener('touchend', onEnd);
+        } else {
+          document.removeEventListener('mousemove', onMove);
+          document.removeEventListener('mouseup', onEnd);
+        }
+        document.body.style.userSelect = '';
+      }
+    };
+  }, []);
 
   return { handleResize };
 }

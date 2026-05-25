@@ -143,7 +143,7 @@ const Calendar = () => {
       <PageHeader
         pageKey="calendar"
         title={getTitle}
-        titleProps={{ 'data-testid': 'page-header-title' }}
+        titleProps={{ 'data-testid': 'page-header-title', className: 'capitalize' }}
         subtitle={t('calendar_subtitle')}
         breadcrumbs={[
           { label: t('dashboard'), href: '/' },
@@ -151,13 +151,13 @@ const Calendar = () => {
         ]}
         actions={
           <Stack direction="row" gap="sm" className="flex-wrap">
-            <Button variant="ghost" size="sm" icon={Upload} onClick={() => setActiveModal('import')} className="hover:bg-bg-hover">
+            <Button variant="ghost" size="sm" icon={Upload} onClick={() => setActiveModal('import')} className="normal-case tracking-normal hover:bg-bg-hover">
               {t('import_ics')}
             </Button>
-            <Button variant="ghost" size="sm" icon={Download} onClick={() => setActiveModal('export')} className="hover:bg-bg-hover">
+            <Button variant="ghost" size="sm" icon={Download} onClick={() => setActiveModal('export')} className="normal-case tracking-normal hover:bg-bg-hover">
               {t('export_ics')}
             </Button>
-            <Button variant="primary" size="sm" icon={Plus} onClick={() => setActiveModal('new')} className="shadow-sm hover:shadow-md transition-all active:scale-95">
+            <Button variant="primary" size="sm" icon={Plus} onClick={() => setActiveModal('new')} className="normal-case tracking-normal shadow-sm hover:shadow-md transition-all active:scale-95">
               {t('new_event')}
             </Button>
           </Stack>
@@ -169,7 +169,7 @@ const Calendar = () => {
           <Grid columns={12} gap="lg">
             <Grid.Item span={9} mobileSpan={12} className="min-w-0">
               <Card variant="elevated" className="main-calendar-card h-full">
-                <Card.Header padding="default" className="bg-bg-highlight/30 backdrop-blur-md">
+                <Card.Header padding="default" className="bg-bg-highlight/30 backdrop-blur-md min-h-[72px] sm:min-h-[76px] flex items-center">
                   <Stack direction="row" gap="md" align="center" justify="between" className="flex-wrap w-full">
                     <div className="w-full sm:w-auto min-w-[240px]">
                       <SegmentedControl
@@ -227,8 +227,8 @@ const Calendar = () => {
                           key="content"
                           className={cn(
                             "calendar-grid-container bg-[var(--border-color)]/20 min-w-0 grid transition-all duration-300",
-                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,50px)_repeat(7,1fr)]",
-                            view === 'week' && (isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,1fr)] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,80px)_repeat(7,1fr)] min-w-[1200px]"),
+                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,64px)_repeat(7,1fr)]",
+                            view === 'week' && (isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,1fr)] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,96px)_repeat(7,1fr)] min-w-[1200px]"),
                             view === 'day' && "grid-cols-1"
                           )}
                           style={{ gap: '1px' }}

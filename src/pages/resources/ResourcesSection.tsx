@@ -58,8 +58,8 @@ export default function ResourcesSection({
               >
                 {showSsoWarning && !tool.sso && (
                   <Stack direction="row" gap="xs" className="mt-xs">
-                    <Lock size={14} strokeWidth={2} className="text-amber-500 dark:text-amber-400/70" />
-                    <Text size="2xs" className="text-amber-600 dark:text-amber-400">
+                    <Lock size={14} strokeWidth={2} className="text-[var(--aau-dark-orange)] dark:text-amber-400/80" />
+                    <Text size="2xs" className="text-[var(--aau-dark-orange)] dark:text-amber-400 font-bold">
                       {t('requires_aau_login')}
                     </Text>
                   </Stack>

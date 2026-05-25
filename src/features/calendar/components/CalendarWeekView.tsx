@@ -78,7 +78,7 @@ const CalendarWeekView = ({
   return (
     <>
       {/* Time Header */}
-      <div className="calendar-grid-header sticky top-0 z-30 bg-muted/95 backdrop-blur-md p-3 text-center text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-text-muted border-b border-r border-border/60 shadow-sm">
+      <div className="calendar-grid-header sticky top-0 z-30 bg-muted/95 backdrop-blur-md p-3 text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60 shadow-sm">
         {t('time')}
       </div>
 
@@ -88,7 +88,7 @@ const CalendarWeekView = ({
           key={day.dateKey} 
           className="calendar-grid-header sticky top-0 z-30 bg-muted/95 backdrop-blur-md p-3 text-center border-b border-border/60 shadow-sm"
         >
-          <Text size="xs" weight="bold" className="uppercase tracking-[0.2em] text-text-muted block mb-1.5 opacity-80">
+          <Text size="xs" weight="bold" className="text-text-muted block mb-1.5 opacity-80">
             {day.name}
           </Text>
           <Text size="sm" weight="extrabold" className="text-text-main">
@@ -105,7 +105,7 @@ const CalendarWeekView = ({
           <React.Fragment key={`row-${hour}`}>
             {/* Hour Label */}
             <div className="calendar-time-label flex items-start justify-end p-2 pr-4 text-[0.65rem] sm:text-[0.7rem] font-bold text-text-muted bg-muted/5 border-r border-b border-border/40 select-none">
-              {timeStr}
+               {timeStr}
             </div>
 
             {/* Day Slots for this Hour */}
@@ -140,7 +140,7 @@ const CalendarWeekView = ({
                       }}
                     >
                       <Stack gap="2xs">
-                        <Text size="xs" weight="extrabold" className="truncate leading-tight tracking-tight uppercase opacity-90">
+                        <Text size="xs" weight="extrabold" className="truncate leading-tight tracking-tight opacity-90">
                           {getEventTitle(event)}
                         </Text>
                         <Text size="2xs" className="opacity-80 font-bold flex items-center gap-1">

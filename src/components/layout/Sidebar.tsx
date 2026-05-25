@@ -187,7 +187,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
       onClick={onClick}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
-        return `group relative flex items-center gap-md p-md h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/70 no-underline rounded-md transition-all duration-150 ease-[var(--transition-ease)] font-bold cursor-pointer text-left w-full focus-visible:outline-none focus-visible:shadow-focus ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
+        return `group relative flex items-center gap-md p-md h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/85 no-underline rounded-md transition-all duration-150 ease-[var(--transition-ease)] font-bold cursor-pointer text-left w-full focus-visible:outline-none focus-visible:shadow-focus ${active ? 'active bg-white/15 text-white shadow-lg shadow-black/20' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
       }}
       title={collapsed ? label : undefined}
     >
@@ -199,7 +199,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
               <div className="absolute left-0 top-sm bottom-sm w-[4px] bg-white rounded-r-pill shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
             )}
             <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-150 ease-[var(--transition-ease)] ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
-            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 uppercase tracking-tight text-xs font-black"><Text>{label}</Text></span>}
+            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 tracking-tight text-sm font-bold"><Text>{label}</Text></span>}
           </>
         );
       }}

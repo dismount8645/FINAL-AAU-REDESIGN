@@ -85,7 +85,7 @@ export default function ProfileDropdown() {
         <div className={cn(
           "absolute inset-0 rounded-full transition-colors duration-150",
           isOpen
-            ? "bg-primary border-primary"
+            ? "bg-primary/10 border-primary dark:bg-white/15 dark:border-white"
             : "bg-bg-highlight border-border group-hover:border-primary"
         )} />
         <User 
@@ -93,7 +93,7 @@ export default function ProfileDropdown() {
           strokeWidth={2.5} 
           className={cn(
             "relative z-10 transition-colors duration-150",
-            isOpen ? "text-white" : "text-main group-hover:text-primary"
+            isOpen ? "text-primary dark:text-white" : "text-main group-hover:text-primary"
           )} 
         />
       </button>
@@ -111,7 +111,7 @@ export default function ProfileDropdown() {
             role="menu"
           >
             <div className="p-4 bg-bg-highlight/50 border-b border-border">
-              <Text size="sm" weight="black" className="text-main leading-none uppercase tracking-tight">
+              <Text size="sm" weight="bold" className="text-main leading-none">
                 {t('common.user_name') || 'Jacob Krarup Madsen'}
               </Text>
               <Text size="xs" muted className="mt-1 font-bold opacity-60 italic">
@@ -158,7 +158,7 @@ export default function ProfileDropdown() {
                   role="menuitem"
                 >
                   <LogOut size={16} strokeWidth={2.5} className="shrink-0" />
-                  <Text size="sm" weight="black" className="leading-none uppercase tracking-widest">
+                  <Text size="sm" weight="bold" className="leading-none text-danger">
                     {t('logout')}
                   </Text>
                 </button>

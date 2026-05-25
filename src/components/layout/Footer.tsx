@@ -19,25 +19,25 @@ function Footer() {
               <Text size="sm" weight="bold" className="text-main">
                 Tel: <a href="tel:+4599402020" className="text-primary hover:text-accent hover:underline decoration-2 underline-offset-4 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">+45 9940 2020</a>
               </Text>
-              <Text size="xs" muted weight="medium" className="opacity-80">
+            <Text size="xs" className="text-text-muted" weight="medium">
                 {t('aau_it_services')}
               </Text>
             </Stack>
           </Stack>
           
           {/* Navigation & Copyright - Right Anchor */}
-          <Stack gap="lg" align="start" className="md:items-end flex-1">
+          <Stack gap="lg" className="items-start md:items-end flex-1 w-full">
             <nav className="flex flex-col md:flex-row gap-md md:gap-xl items-start md:items-center">
-              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                 <Text size="sm" weight="bold">ITS Support</Text>
               </a>
-              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                 <Text size="sm" weight="bold">{t('accessibility_statement')}</Text>
               </a>
               <Button
                 variant="ghost"
                 onClick={(e) => e.preventDefault()}
-                className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
+                className="text-text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
               >
                 {t('service_status')}
               </Button>
@@ -45,7 +45,7 @@ function Footer() {
             
             <div className="w-full h-px bg-border/20 md:w-48" />
             
-            <Text size="xs" muted className="opacity-60 font-medium text-left md:text-right leading-relaxed">
+            <Text size="xs" className="text-text-muted font-medium text-left md:text-right leading-relaxed">
               &copy; {new Date().getFullYear()} Aalborg Universitet. {t('rights_reserved')}
               <br />
               <span className="text-[10px] uppercase tracking-widest font-black text-primary/40 mt-1 block">Vibe Coder Optimized &bull; {new Date().getFullYear()}</span>

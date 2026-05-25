@@ -142,7 +142,7 @@ const ModulesWidget = ({ isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Star size={18} fill="currentColor" className="text-[var(--aau-light-gold)]" />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
+          <Heading level={4} className="m-0 text-sm font-bold text-main">
             {t('my_favorites')}
           </Heading>
         </Stack>

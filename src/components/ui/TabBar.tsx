@@ -54,7 +54,7 @@ export default function TabBar({ tabs, activeTab, onChange, secondaryAction }: T
               tabIndex={isActive ? 0 : -1}
               data-testid={`tab-${tab.id}`}
               onClick={() => onChange(tab.id)}
-              className={`relative px-md py-sm text-sm font-bold transition-all flex items-center gap-xs outline-none focus-visible:outline-none focus-visible:shadow-focus rounded-sm ${
+              className={`relative px-md py-sm text-sm font-bold transition-all flex items-center gap-xs outline-none focus-visible:outline-none focus-visible:shadow-focus rounded-sm before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] ${
                 isActive ? 'text-primary' : 'text-muted hover:text-main'
               }`}
             >

@@ -9,6 +9,7 @@ export interface FavoriteSlice {
   toggleFavorite: (type: FavoriteType, entityId: number) => void
   reorderFavorites: (fromIndex: number, toIndex: number) => void
   isFavorite: (type: FavoriteType, entityId: number) => boolean
+  clearFavorites: () => void
 }
 
 export const createFavoriteSlice: StateCreator<AppState, [], [], FavoriteSlice> = (set, get) => ({
@@ -44,5 +45,8 @@ export const createFavoriteSlice: StateCreator<AppState, [], [], FavoriteSlice> 
   isFavorite: (type, entityId) => {
     const { favorites } = get()
     return favorites.some(f => f.type === type && f.entityId === entityId)
+  },
+  clearFavorites: () => {
+    set({ favorites: [] })
   },
 })

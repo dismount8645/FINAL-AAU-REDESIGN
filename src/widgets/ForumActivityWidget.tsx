@@ -144,8 +144,8 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <MessageCircle size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-xs font-black uppercase tracking-tight text-main">
-            {t('forum_activity')}
+          <Heading level={4} className="m-0 text-sm font-bold text-main">
+            {t('course.forum_activity')}
           </Heading>
         </Stack>
         

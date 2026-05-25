@@ -93,7 +93,7 @@ const headerVariants = cva(
     variants: {
       padding: {
         default: "p-md lg:p-lg",
-        compact: "p-sm",
+        compact: "py-sm px-md",
         none: "p-0",
       },
     },
@@ -115,7 +115,7 @@ const bodyVariants = cva("flex-1 min-w-0", {
   variants: {
     padding: {
       default: "p-md lg:p-lg",
-      compact: "p-sm",
+      compact: "py-sm px-md",
       none: "p-0",
     },
   },
@@ -138,7 +138,7 @@ const footerVariants = cva(
     variants: {
       padding: {
         default: "p-md lg:p-lg",
-        compact: "p-sm",
+        compact: "py-sm px-md",
         none: "p-0",
       },
     },

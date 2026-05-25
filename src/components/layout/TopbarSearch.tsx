@@ -189,10 +189,10 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               )}
               <button
                 type="button"
-                className="w-full border-none cursor-pointer focus-visible:outline-none focus-visible:shadow-focus search-dropdown-footer p-sm px-md text-center border-t border-border bg-card hover:bg-bg-hover font-medium block"
+                className="w-full border-none cursor-pointer focus-visible:outline-none focus-visible:shadow-focus search-dropdown-footer p-sm px-md text-center border-t border-border bg-card hover:bg-bg-hover font-medium block relative before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
                 onClick={() => handleSearchEnter({ key: 'Enter' })}
               >
-                <Text size="sm" className="topbar__all-results">{t('all_results')} &ldquo;{searchQuery}&rdquo;</Text>
+                <span className="text-sm font-medium topbar__all-results">{t('all_results')} &ldquo;{searchQuery}&rdquo;</span>
               </button>
             </div>
           )}
@@ -204,7 +204,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
           ref={mobileTriggerRef}
           variant="ghost"
           size="icon"
-          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 text-muted bg-transparent hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
+          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 text-text-main bg-transparent hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           onClick={() => setIsSearchExpanded(true)}
           aria-label={t('search_placeholder')}
           type="button"

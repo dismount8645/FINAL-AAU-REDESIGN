@@ -42,6 +42,7 @@ vi.mock('react-router-dom', async () => {
 describe('Favorites Page', () => {
   const mockT = vi.fn((key) => key)
   const mockToggleFavorite = vi.fn()
+  const mockClearFavorites = vi.fn()
   const mockReorderFavorites = vi.fn()
   const mockSetBreadcrumbs = vi.fn()
 
@@ -69,6 +70,7 @@ describe('Favorites Page', () => {
     lang: 'en',
     favorites: mockFavorites,
     toggleFavorite: mockToggleFavorite,
+    clearFavorites: mockClearFavorites,
     reorderFavorites: mockReorderFavorites,
     courses: mockCourses,
     setBreadcrumbs: mockSetBreadcrumbs,
@@ -160,7 +162,7 @@ describe('Favorites Page', () => {
     const removeAllButton = screen.getByText('remove_all')
     fireEvent.click(removeAllButton)
 
-    expect(mockToggleFavorite).toHaveBeenCalledWith('course', 1)
+    expect(mockClearFavorites).toHaveBeenCalled()
   })
 
   it('navigates to favorite link when clicked', () => {

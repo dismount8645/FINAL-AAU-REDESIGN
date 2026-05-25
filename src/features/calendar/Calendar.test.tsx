@@ -36,7 +36,7 @@ describe('Calendar Page', () => {
   it('renders monthly view by default', () => {
     renderCalendar('da')
     expect(screen.getByText('maj 2026')).toBeInTheDocument()
-    expect(screen.getByText('MAN')).toBeInTheDocument()
+    expect(screen.getByText('Man')).toBeInTheDocument()
     expect(screen.getByText('Studiegruppe')).toBeInTheDocument()
   })
 
@@ -125,7 +125,7 @@ describe('Calendar Page', () => {
   it('renders in English', () => {
     renderCalendar('en')
     expect(screen.getByText('May 2026')).toBeInTheDocument()
-    expect(screen.getByText('MON')).toBeInTheDocument()
+    expect(screen.getByText('Mon')).toBeInTheDocument()
     expect(screen.getByText('Study Group')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Week' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Day' })).toBeInTheDocument()

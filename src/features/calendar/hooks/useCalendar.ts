@@ -6,8 +6,8 @@ import { storage } from '@/utils/storage'
 
 export const monthNamesDa = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december']
 export const monthNamesEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-export const dayNamesDa = ['MAN', 'TIR', 'ONS', 'TOR', 'FRE', 'LØR', 'SØN']
-export const dayNamesEn = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+export const dayNamesDa = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn']
+export const dayNamesEn = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 export function useCalendar() {
   const lang = useStore(state => state.lang)
@@ -28,13 +28,13 @@ export function useCalendar() {
 
   const monthNames = useMemo(() => Array.from({ length: 12 }, (_, i) => t(`month_${i}`)), [t])
   const dayNames = useMemo(() => [
-    t('day_mon'),
-    t('day_tue'),
-    t('day_wed'),
-    t('day_thu'),
-    t('day_fri'),
-    t('day_sat'),
-    t('day_sun'),
+    t('days.mon'),
+    t('days.tue'),
+    t('days.wed'),
+    t('days.thu'),
+    t('days.fri'),
+    t('days.sat'),
+    t('days.sun'),
   ], [t])
 
   const getWeekNumber = useCallback((date: Date) => {

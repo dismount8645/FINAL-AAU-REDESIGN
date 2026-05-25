@@ -57,13 +57,13 @@ const CalendarUpcomingWidget = ({
   }
 
   return (
-    <Card variant="default" className="upcoming-events-widget">
-      <Card.Header padding="default" className="bg-bg-highlight/20">
+    <Card variant="default" className="upcoming-events-widget h-full">
+      <Card.Header padding="default" className="bg-bg-highlight/20 min-h-[72px] sm:min-h-[76px] flex items-center">
         <Stack direction="row" align="center" gap="sm">
           <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-primary/10 text-primary">
             <CalendarCheck size={18} strokeWidth={2.5} />
           </div>
-          <span className="text-sm font-black uppercase tracking-tight text-main">
+          <span className="text-sm font-bold text-main">
             {t('upcoming')}
           </span>
         </Stack>
@@ -129,7 +129,7 @@ const CalendarUpcomingWidget = ({
                 animate={{ opacity: 1 }}
                 className="py-[var(--space-xl)] px-[var(--space-lg)] text-center bg-bg-highlight/5"
               >
-                <CalendarCheck size={40} className="text-muted/20 mx-auto mb-[var(--space-sm)]" />
+                <CalendarCheck size={40} className="text-muted/65 mx-auto mb-[var(--space-sm)]" />
                 <p className="text-sm font-bold text-muted">{t('no_events_short')}</p>
               </motion.div>
             )}
@@ -138,7 +138,7 @@ const CalendarUpcomingWidget = ({
       </Card.Body>
 
       <Card.Footer padding="compact" className="bg-bg-highlight/10">
-        <Button variant="ghost" full size="sm" onClick={() => navigate('/calendar')} className="text-[0.625rem] tracking-[0.1em]">
+        <Button variant="ghost" full size="sm" onClick={() => navigate('/calendar')} className="normal-case tracking-normal text-xs font-bold">
           {t('view_all')}
         </Button>
       </Card.Footer>

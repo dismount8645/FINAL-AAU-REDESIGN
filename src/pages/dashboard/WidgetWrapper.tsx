@@ -7,6 +7,7 @@ import { EyeOff, GripVertical } from 'lucide-react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import ResizeCorner from '@/components/ui/ResizeCorner'
 import { useResizeHandle } from '@/hooks/useResizeHandle'
+import { WIDGET_CONFIG } from '@/data/mockData'
 
 interface WidgetWrapperProps {
   widget: Widget
@@ -45,13 +46,16 @@ export const WidgetWrapper = memo(function WidgetWrapper({
   t,
   moveWidget,
 }: WidgetWrapperProps) {
-  const { handleResize: resizeWidth } = useResizeHandle(widget.id, widget.span, widget.rowSpan || 1, resizeWidget)
-  const { handleResize: resizeHeight } = useResizeHandle(widget.id, widget.span, widget.rowSpan || 1, resizeWidget)
+  const defaultRowSpan = WIDGET_CONFIG[widget.id]?.rowSpan || 1
+  const resolvedRowSpan = widget.rowSpan || defaultRowSpan
+
+  const { handleResize: resizeWidth } = useResizeHandle(widget.id, widget.span, resolvedRowSpan, resizeWidget)
+  const { handleResize: resizeHeight } = useResizeHandle(widget.id, widget.span, resolvedRowSpan, resizeWidget)
 
   return (
     <Grid.Item
       span={widget.span}
-      rowSpan={widget.rowSpan || 1}
+      rowSpan={resolvedRowSpan}
       x={x}
       y={y}
       tabletSpan={tabletSpan}
