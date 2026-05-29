@@ -13,7 +13,7 @@ import { env } from '@/utils/env'
 
 import { DASHBOARD_CONFIG } from '@/config/dashboard'
 
-export default function FavoritesWidget({ isEditing }: WidgetProps) {
+export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
@@ -44,19 +44,20 @@ export default function FavoritesWidget({ isEditing }: WidgetProps) {
           <div className="p-2 bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Star size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('favorites')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
-          size="sm"
+          size={span && span > 4 ? "sm" : "icon-xs"}
           className="text-[0.65rem] font-black uppercase tracking-widest text-primary"
           onClick={handleSeeAll}
           iconRight={ChevronRight}
+          aria-label={t('see_all')}
         >
-          {t('see_all')}
+          {span && span > 4 ? t('see_all') : ''}
         </Button>
       </Card.Header>
 

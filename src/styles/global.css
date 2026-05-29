@@ -102,6 +102,8 @@
   --spacing-lg: var(--space-lg);
   --spacing-xl: var(--space-xl);
   --spacing-2xl: var(--space-2xl);
+  --spacing-3xl: var(--space-3xl);
+  --spacing-4xl: var(--space-4xl);
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
@@ -1070,5 +1072,27 @@ select:focus-visible,
     height: auto;
     min-height: auto;
   }
+}
+
+/* Accessibility contrast overrides for SegmentedControl in the dark sidebar */
+#sidebar .segmented-control {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+#sidebar .segmented-control__slider {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#sidebar .segmented-control__option {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#sidebar .segmented-control__option:hover {
+  color: #ffffff;
+}
+
+#sidebar .segmented-control__option--active {
+  color: #ffffff !important;
 }
 

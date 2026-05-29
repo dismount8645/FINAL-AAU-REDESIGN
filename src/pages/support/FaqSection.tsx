@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { memo } from 'react'
 import Card from '@/components/ui/Card'
 import SectionHeader from '@/components/ui/SectionHeader'

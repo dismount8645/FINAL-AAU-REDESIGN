@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -146,11 +146,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -160,11 +158,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,13 +209,13 @@ interface NotificationsTabProps {
   setNotifPrefs: React.Dispatch&lt;React.SetStateAction&lt;{ email: boolean; push: boolean; sms: boolean }&gt;&gt;
 }
 &nbsp;
-export default function NotificationsTab({
+export default function <span class="fstat-no" title="function not covered" >NotificationsTab({</span>
   notifPrefs,
   setNotifPrefs,
 }: NotificationsTabProps) {
-  const t = useStore(state =&gt; state.t)
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack gap="xl" className="settings__notif-prefs max-w-[var(--container-max-width)]"&gt;
       &lt;Stack gap="xs"&gt;
         &lt;Text weight="bold" size="md" className="text-main"&gt;{t('settings.notif_preferences')}&lt;/Text&gt;
@@ -226,12 +226,12 @@ export default function NotificationsTab({
           { id: 'email', label: t('settings.notif_channel_email'), desc: t('settings.notif_channel_email_desc') },
           { id: 'push', label: t('settings.notif_channel_push'), desc: t('settings.notif_channel_push_desc') },
           { id: 'sms', label: t('settings.notif_channel_sms'), desc: t('settings.notif_channel_sms_desc') },
-        ].map((ch) =&gt; (
-          &lt;Grid.Item key={ch.id} span={1} mobileSpan={2}&gt;
+        ].<span class="fstat-no" title="function not covered" >map((c</span>h) =&gt; (
+<span class="cstat-no" title="statement not covered" >          &lt;Grid.Item key={ch.id} span={1} mobileSpan={2}&gt;</span>
             &lt;Card
               variant="outlined"
               className="hover:border-primary/30 transition-colors"
-              onClick={() =&gt; setNotifPrefs((prev) =&gt; ({ ...prev, [ch.id]: !prev[ch.id as keyof typeof prev] }))}
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >s</span>etNotifPrefs((p</span>rev) =&gt; (<span class="cstat-no" title="statement not covered" >{ ...prev, [ch.id]: !prev[ch.id as keyof typeof prev] }))</span>}</span>
               role="switch"
               aria-checked={notifPrefs[ch.id as keyof typeof notifPrefs]}
             &gt;
@@ -241,7 +241,7 @@ export default function NotificationsTab({
                     &lt;Text weight="bold" size="sm" className="text-main"&gt;{ch.label}&lt;/Text&gt;
                     &lt;Text muted size="xs"&gt;{ch.desc}&lt;/Text&gt;
                   &lt;/Stack&gt;
-                  &lt;div className={`w-11 h-6 rounded-[var(--radius-pill)] flex items-center px-[2px] transition-colors ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}&gt;
+                  &lt;div className={`w-11 h-6 rounded-[var(--radius-pill)] flex items-center px-[var(--space-2xs)] transition-colors ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}&gt;
                     &lt;div className={`w-5 h-5 rounded-[var(--radius-pill)] bg-white shadow-[var(--shadow-sm)] transition-all ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'translate-x-5' : 'translate-x-0'}`} /&gt;
                   &lt;/div&gt;
                 &lt;/Stack&gt;
@@ -271,7 +271,7 @@ export default function NotificationsTab({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

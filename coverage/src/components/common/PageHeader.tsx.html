@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -219,21 +219,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1513x</span>
-<span class="cline-any cline-yes">1513x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">443x</span>
-<span class="cline-any cline-yes">212x</span>
-<span class="cline-any cline-yes">212x</span>
-<span class="cline-any cline-yes">212x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">443x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -322,34 +322,34 @@ export interface PageHeaderProps {
  * - `aria-label` beskriver siden (fallback til title eller pageKey).
  * - Alt layout er styret af design‑tokens (var(--space-*) osv.).
  */
-export default function PageHeader({
+export default function <span class="fstat-no" title="function not covered" >PageHeader({</span>
   pageKey,
   title,
   subtitle,
-  wave = false,
-  flat = false,
+  wave = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  flat = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
   actions,
-  actionsAlign = 'start',
+  actionsAlign = <span class="branch-0 cbranch-no" title="branch not covered" >'start',</span>
   breadcrumbs,
   children,
   className,
   titleProps,
 }: PageHeaderProps) {
-  const t = useStore(state =&gt; state.t)
-  const setBreadcrumbs = useStore(state =&gt; state.setBreadcrumbs)
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >setBreadcrumbs = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.setBreadcrumbs)</span></span>
 &nbsp;
-  const breadcrumbsStr = JSON.stringify(breadcrumbs)
+  const breadcrumbsStr = <span class="cstat-no" title="statement not covered" >JSON.stringify(breadcrumbs)</span>
 &nbsp;
-  useEffect(() =&gt; {
-    setBreadcrumbs(breadcrumbsStr ? JSON.parse(breadcrumbsStr) : undefined)
-    return () =&gt; {
-      setBreadcrumbs(undefined)
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  useEffect(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    setBreadcrumbs(breadcrumbsStr ? JSON.parse(breadcrumbsStr) : undefined)</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    return () =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >      setBreadcrumbs(undefined)</span>
     }
   }, [breadcrumbsStr, setBreadcrumbs])
 &nbsp;
-  const headerLabel = title || t(pageKey || '')
+  const headerLabel = <span class="cstat-no" title="statement not covered" >title || t(pageKey || '')</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;header
       role="banner"
       aria-label={headerLabel}
@@ -418,7 +418,7 @@ export default function PageHeader({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

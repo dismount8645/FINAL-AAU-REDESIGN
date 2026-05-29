@@ -100,9 +100,9 @@ describe('useStore', () => {
     const options = useStore.persist.getOptions()
     if (!options.migrate) throw new Error('No migrate function')
     const oldState = {
-      toolFavorites: [1, 5, 6],
+      toolFavorites: [1, '5', 6],
       courses: [
-        { id: 1, isStarred: true },
+        { id: '1', isStarred: true },
         { id: 2, isStarred: false },
         { id: 3, isStarred: true },
       ],
@@ -281,5 +281,25 @@ describe('useStore', () => {
     }
     const migrated = options.migrate!(oldStateWithDupes, 1) as any
     expect(migrated.favorites).toHaveLength(1)
+  })
+
+  it('handles validation failure during rehydration', () => {
+    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const options = useStore.persist.getOptions()
+    const rehydrateCallback = options.onRehydrateStorage?.(useStore.getState())
+    if (rehydrateCallback) {
+      rehydrateCallback(123 as any)
+      expect(consoleWarnSpy).toHaveBeenCalled()
+    }
+    consoleWarnSpy.mockRestore()
+  })
+
+  it('handles validation failure during migration', () => {
+    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const options = useStore.persist.getOptions()
+    const invalidMigrated = options.migrate!(123, -1) as any
+    expect(consoleWarnSpy).toHaveBeenCalled()
+    expect(invalidMigrated).toBe(123)
+    consoleWarnSpy.mockRestore()
   })
 })

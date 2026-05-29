@@ -77,7 +77,7 @@ vi.mock('framer-motion', async (importOriginal) => {
   
   const createMockComponent = (tag: string) => {
     type MockProps = React.PropsWithChildren<Record<string, unknown>>;
-    const Component = React.forwardRef<HTMLElement, MockProps>(({ children, initial, animate, exit, transition, variants, whileHover, whileTap, ...props }: MockProps, ref: React.Ref<HTMLElement>) => {
+    const Component = React.forwardRef<HTMLElement, MockProps>(({ children, initial: _initial, animate: _animate, exit: _exit, transition: _transition, variants: _variants, whileHover: _whileHover, whileTap: _whileTap, ...props }: MockProps, ref: React.Ref<HTMLElement>) => {
       return React.createElement(tag, { ...props, ref }, children);
     });
     Component.displayName = `motion.${tag}`;
@@ -91,7 +91,7 @@ vi.mock('framer-motion', async (importOriginal) => {
         return createMockComponent(Component);
       }
       type MockProps = React.PropsWithChildren<Record<string, unknown>>;
-      const Mock = React.forwardRef<HTMLElement, MockProps>(({ children, initial, animate, exit, transition, variants, whileHover, whileTap, ...props }: MockProps, ref: React.Ref<HTMLElement>) => {
+      const Mock = React.forwardRef<HTMLElement, MockProps>(({ children, initial: _initial, animate: _animate, exit: _exit, transition: _transition, variants: _variants, whileHover: _whileHover, whileTap: _whileTap, ...props }: MockProps, ref: React.Ref<HTMLElement>) => {
         return React.createElement(Component as React.ComponentType<MockProps>, { ...props, ref }, children);
       });
       Mock.displayName = `motion.create`;

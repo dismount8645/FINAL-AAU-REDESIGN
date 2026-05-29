@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.63% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">54.54% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.63% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -211,7 +211,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -243,7 +243,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -253,8 +253,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
-<span class="cline-any cline-yes">53x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -323,9 +323,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -348,7 +348,7 @@ import type { FavoriteType } from '@/types'
 import type { Lang } from '@/store/useStore'
 import { translations } from '@/data/translations'
 &nbsp;
-const typeClasses: Record&lt;FavoriteType, string&gt; = {
+const typeClasses: Record&lt;FavoriteType, string&gt; = <span class="cstat-no" title="statement not covered" >{</span>
   course: 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-foreground',
   tool: 'bg-success/10 text-success dark:bg-success/20 dark:text-success',
   file: 'bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning',
@@ -380,7 +380,7 @@ interface FavoriteItemProps {
   compact?: boolean
 }
 &nbsp;
-const FavoriteItem = memo(function FavoriteItem({
+const <span class="cstat-no" title="statement not covered" >FavoriteItem = memo(function <span class="fstat-no" title="function not covered" >FavoriteItem({</span></span>
   item,
   lang,
   onRemove,
@@ -388,10 +388,10 @@ const FavoriteItem = memo(function FavoriteItem({
   onDragStart,
   onDragOver,
   onDrop,
-  draggable = false,
+  draggable = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
 }: FavoriteItemProps) {
-  const Icon = item.icon
-  return (
+  const Icon = <span class="cstat-no" title="statement not covered" >item.icon</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;motion.div
       draggable={draggable}
       onDragStart={onDragStart as HTMLMotionProps&lt;'div'&gt;['onDragStart']}
@@ -401,7 +401,7 @@ const FavoriteItem = memo(function FavoriteItem({
       whileHover={{ y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
       whileTap={{ scale: 0.98, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
       className={cn(
-        "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card hover:border-primary/30 focus-within:ring-2 focus-within:ring-primary focus-within:outline-none transition-all cursor-pointer select-none",
+        "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card hover:border-primary/30 focus-within:shadow-focus focus-within:outline-none transition-all cursor-pointer select-none",
         draggable &amp;&amp; "active:opacity-60",
       )}
     &gt;
@@ -459,13 +459,13 @@ const FavoriteItem = memo(function FavoriteItem({
         type="button"
         size="icon-xs"
         variant="ghost"
-        onClick={(e) =&gt; { 
-          e.stopPropagation()
-          e.preventDefault()
-          onRemove(item.type, item.entityId) 
+<span class="fstat-no" title="function not covered" >        onClick={(e</span>) =&gt; { 
+<span class="cstat-no" title="statement not covered" >          e.stopPropagation()</span>
+<span class="cstat-no" title="statement not covered" >          e.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >          onRemove(item.type, item.entityId) </span>
         }}
         className="relative z-30 text-muted hover:text-danger hover:bg-danger/10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-all shrink-0"
-        aria-label={(translations[lang]?.remove_favorite as string) || <span class="branch-1 cbranch-no" title="branch not covered" >'Remove from favorites'}</span>
+        aria-label={(translations[lang]?.remove_favorite as string) || 'Remove from favorites'}
       &gt;
         &lt;X size={14} strokeWidth={2} /&gt;
       &lt;/Button&gt;
@@ -481,7 +481,7 @@ export default FavoriteItem
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

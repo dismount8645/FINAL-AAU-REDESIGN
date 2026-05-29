@@ -57,7 +57,7 @@ function Favorites() {
       />
 
       <div className="container pb-[var(--space-2xl)]">
-        <div className="flex flex-col gap-sm mb-[var(--space-xl)] bg-bg-highlight/30 dark:bg-white/5 p-4 rounded-[var(--radius-lg)] border border-border/40">
+        <div className="flex flex-col gap-sm mb-[var(--space-xl)] bg-bg-highlight/30 dark:bg-white/5 p-md rounded-[var(--radius-lg)] border border-border/40">
           <div className="flex items-center justify-between pb-sm border-b border-border/40">
             <Text size="sm" muted className="font-semibold text-text-muted">
               {resolved.length}/{DASHBOARD_CONFIG.FAVORITES_LIMIT} {t('favorites_limit')}
@@ -67,7 +67,7 @@ function Favorites() {
                 variant="ghost"
                 size="sm"
                 onClick={clearFavorites}
-                className="text-xs font-semibold px-2 h-8 rounded-[var(--radius-md)] flex items-center gap-1 hover:bg-bg-hover text-text-muted hover:text-text-main"
+                className="text-xs font-semibold px-[var(--space-xs)] h-[2rem] rounded-[var(--radius-md)] flex items-center gap-[var(--space-xs)] hover:bg-bg-hover text-text-muted hover:text-text-main"
               >
                 <Trash2 className="w-3.5 h-3.5" strokeWidth={2} />
                 {t('remove_all')}

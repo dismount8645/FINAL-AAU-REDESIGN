@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.77% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -141,27 +141,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -179,7 +179,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,18 +201,18 @@ export interface DashboardLayoutProps {
   widgets?: Widget[];
 }
 &nbsp;
-export default function DashboardLayout({ title, widgets: initialWidgets }: DashboardLayoutProps) {
-  const { widgets, onDragStart, onDragEnd, onDragOver } = useWidgetDrag(initialWidgets || DEFAULT_WIDGETS);
+export default function <span class="fstat-no" title="function not covered" >DashboardLayout({</span> title, widgets: initialWidgets }: DashboardLayoutProps) {
+  const { widgets, onDragStart, onDragEnd, <span class="cstat-no" title="statement not covered" >onDragOver } = useWidgetDrag(initialWidgets || DEFAULT_WIDGETS);</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack className="w-full flex-1 gap-lg lg:gap-xl"&gt;
       &lt;Stack className="w-full mb-md md:mb-xl"&gt;
         &lt;Heading level={2}&gt;{title}&lt;/Heading&gt;
       &lt;/Stack&gt;
 &nbsp;
       &lt;Grid columns={12} gap="md" className="w-full"&gt;
-        {widgets.filter(w =&gt; w.visible).map((widget) =&gt; (
-          &lt;Grid.Item
+        {widgets.<span class="fstat-no" title="function not covered" >filter(w</span> =&gt; <span class="cstat-no" title="statement not covered" >w.visible)</span>.<span class="fstat-no" title="function not covered" >map((w</span>idget) =&gt; (
+<span class="cstat-no" title="statement not covered" >          &lt;Grid.Item</span>
             key={widget.id}
             span={widget.span}
             className="w-full transition-transform duration-150 ease-[0.4,0,0.2,1] hover:-translate-y-1 focus-visible:outline-none focus-visible:shadow-focus rounded-lg md:rounded-xl cursor-grab active:cursor-grabbing"
@@ -220,9 +220,9 @@ export default function DashboardLayout({ title, widgets: initialWidgets }: Dash
             role="button"
             tabIndex={0}
             aria-label={`Widget: ${widget.id}`}
-            onDragStart={(e) =&gt; onDragStart(e, widget.id, true)}
+<span class="fstat-no" title="function not covered" >            onDragStart={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >onDragStart(e, widget.id, true)}</span>
             onDragEnd={onDragEnd}
-            onDragOver={(e) =&gt; onDragOver(e, widget.id)}
+<span class="fstat-no" title="function not covered" >            onDragOver={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >onDragOver(e, widget.id)}</span>
 <span class="fstat-no" title="function not covered" >            onKeyDown={(e</span>) =&gt; {
 <span class="cstat-no" title="statement not covered" >              if (e.key === 'Enter' || e.key === ' ') {</span>
 <span class="cstat-no" title="statement not covered" >                e.preventDefault();</span>
@@ -231,7 +231,7 @@ export default function DashboardLayout({ title, widgets: initialWidgets }: Dash
               }
             }}
           &gt;
-            {widget.content ? (<span class="branch-0 cbranch-no" title="branch not covered" >widget.content as React.ReactNode) : &lt;</span>WidgetPlaceholder widgetId={widget.id} /&gt;}
+            {widget.content ? (widget.content as React.ReactNode) : &lt;WidgetPlaceholder widgetId={widget.id} /&gt;}
           &lt;/Grid.Item&gt;
         ))}
       &lt;/Grid&gt;
@@ -239,8 +239,8 @@ export default function DashboardLayout({ title, widgets: initialWidgets }: Dash
   );
 }
 &nbsp;
-function WidgetPlaceholder({ widgetId }: { widgetId: string }) {
-  return (
+function <span class="fstat-no" title="function not covered" >WidgetPlaceholder({</span> widgetId }: { widgetId: string }) {
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div className="w-full min-h-[160px] flex items-center justify-center rounded-md md:rounded-lg xl:rounded-xl border-2 border-dashed border-border bg-bg-body dark:bg-card/30" aria-label={`Loading widget ${widgetId}`}&gt;
       &lt;p className="text-sm md:text-base text-muted font-medium"&gt;Widget {widgetId}&lt;/p&gt;
     &lt;/div&gt;
@@ -253,7 +253,7 @@ function WidgetPlaceholder({ widgetId }: { widgetId: string }) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

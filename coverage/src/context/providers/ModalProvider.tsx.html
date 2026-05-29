@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -107,29 +107,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">168x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,30 +142,30 @@ interface ModalProviderProps {
   children: ReactNode;
 }
 &nbsp;
-export function ModalProvider({ children }: ModalProviderProps) {
-  const [modals, setModals] = useState&lt;ActiveModal[]&gt;([])
+export function <span class="fstat-no" title="function not covered" >ModalProvider({</span> children }: ModalProviderProps) {
+  const [modals, <span class="cstat-no" title="statement not covered" >setModals] = useState&lt;ActiveModal[]&gt;([])</span>
 &nbsp;
-  const openModal = useCallback((id: string, data: Record&lt;string, unknown&gt; = {}) =&gt; {
-    setModals((prev) =&gt; [...prev.filter((m) =&gt; m.id !== id), { id, data }])
+  const <span class="cstat-no" title="statement not covered" >openModal = <span class="fstat-no" title="function not covered" >useCallback((i</span>d: string, data: Record&lt;string, unknown&gt; = <span class="branch-0 cbranch-no" title="branch not covered" >{}) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    setModals((p</span>rev) =&gt; <span class="cstat-no" title="statement not covered" >[...prev.<span class="fstat-no" title="function not covered" >filter((m</span>) =&gt; <span class="cstat-no" title="statement not covered" >m.id !== id)</span>, { id, data }])</span></span>
   }, [])
 &nbsp;
-  const closeModal = useCallback((id: string) =&gt; {
-    setModals((prev) =&gt; prev.filter((m) =&gt; m.id !== id))
+  const <span class="cstat-no" title="statement not covered" >closeModal = <span class="fstat-no" title="function not covered" >useCallback((i</span>d: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    setModals((p</span>rev) =&gt; <span class="cstat-no" title="statement not covered" >prev.<span class="fstat-no" title="function not covered" >filter((m</span>) =&gt; <span class="cstat-no" title="statement not covered" >m.id !== id)</span>)</span></span>
   }, [])
 &nbsp;
-  const closeAll = useCallback(() =&gt; {
-    setModals([])
+  const <span class="cstat-no" title="statement not covered" >closeAll = <span class="fstat-no" title="function not covered" >useCallback(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    setModals([])</span>
   }, [])
 &nbsp;
-  const isOpen = useCallback((id: string) =&gt; {
-    return modals.some((m) =&gt; m.id === id)
+  const <span class="cstat-no" title="statement not covered" >isOpen = <span class="fstat-no" title="function not covered" >useCallback((i</span>d: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return modals.<span class="fstat-no" title="function not covered" >some((m</span>) =&gt; <span class="cstat-no" title="statement not covered" >m.id === id)</span></span>
   }, [modals])
 &nbsp;
-  const getModalData = useCallback((id: string) =&gt; {
-    return modals.find((m) =&gt; m.id === id)?.data || {}
+  const <span class="cstat-no" title="statement not covered" >getModalData = <span class="fstat-no" title="function not covered" >useCallback((i</span>d: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return modals.<span class="fstat-no" title="function not covered" >find((m</span>) =&gt; <span class="cstat-no" title="statement not covered" >m.id === id)</span>?.data || {}</span>
   }, [modals])
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;ModalContext.Provider value={{ openModal, closeModal, closeAll, isOpen, getModalData, activeModals: modals }}&gt;
       {children}
     &lt;/ModalContext.Provider&gt;
@@ -178,7 +178,7 @@ export function ModalProvider({ children }: ModalProviderProps) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

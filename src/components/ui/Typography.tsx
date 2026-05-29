@@ -143,7 +143,7 @@ const Text = forwardRef<HTMLElement, TextProps>(
 
 Text.displayName = 'Text'
 
-export interface CaptionProps extends React.HTMLAttributes<HTMLSpanElement> {}
+export type CaptionProps = React.HTMLAttributes<HTMLSpanElement>
 
 const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
   ({ className, style, ...props }, ref) => (
@@ -161,5 +161,6 @@ const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
 
 Caption.displayName = 'Caption'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { Heading, Text, Caption, headingVariants, textVariants }
 export default Text

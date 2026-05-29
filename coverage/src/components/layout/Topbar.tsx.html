@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>25/25</span>
+                <span class='fraction'>0/25</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>24/24</span>
+                <span class='fraction'>0/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -188,28 +188,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
-<span class="cline-any cline-yes">163x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,7 +237,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">69x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,7 +260,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -297,27 +297,27 @@ import Button from '@/components/ui/Button';
 &nbsp;
 import { getAutomaticBreadcrumbs } from '@/utils/breadcrumbs';
 &nbsp;
-export default function Topbar() {
-  const location = useLocation();
-  const isCollapsed = useStore(state =&gt; state.isCollapsed);
-  const isMobile = useStore(state =&gt; state.isMobile);
-  const isMobileOpen = useStore(state =&gt; state.isMobileOpen);
-  const toggleSidebar = useStore(state =&gt; state.toggleSidebar);
-  const t = useStore(state =&gt; state.t);
-  const lang = useStore(state =&gt; state.lang);
-  const courses = useStore(state =&gt; state.courses);
-  const breadcrumbs = useStore(state =&gt; state.breadcrumbs);
-  const theme = useStore(state =&gt; state.theme);
-  const setTheme = useStore(state =&gt; state.setTheme);
+export default function <span class="fstat-no" title="function not covered" >Topbar() {</span>
+  const <span class="cstat-no" title="statement not covered" >location = useLocation();</span>
+  const <span class="cstat-no" title="statement not covered" >isCollapsed = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.isCollapsed)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >isMobile = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.isMobile)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >isMobileOpen = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.isMobileOpen)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >toggleSidebar = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.toggleSidebar)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >lang = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.lang)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >courses = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.courses)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >breadcrumbs = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.breadcrumbs)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >theme = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.theme)</span>;</span>
+  const <span class="cstat-no" title="statement not covered" >setTheme = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.setTheme)</span>;</span>
 &nbsp;
-  const activeBreadcrumbs = (breadcrumbs &amp;&amp; breadcrumbs.length &gt; 0)
+  const activeBreadcrumbs = (<span class="cstat-no" title="statement not covered" >breadcrumbs &amp;&amp; breadcrumbs.length &gt; 0)</span>
     ? breadcrumbs
     : getAutomaticBreadcrumbs(location.pathname, lang, courses, t);
 &nbsp;
   /* istanbul ignore next */
   const sidebarIcon = (isCollapsed || (isMobile &amp;&amp; !isMobileOpen)) ? &lt;Menu size={20} strokeWidth={2} /&gt; : isMobileOpen ? &lt;X size={20} strokeWidth={2} /&gt; : &lt;AlignJustify size={20} strokeWidth={2} /&gt;;
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;nav
       className={`fixed top-0 left-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-[var(--z-sticky)] border-b border-border transition-all duration-300 ease-in-out w-full pr-[var(--space-md)] ${
         isMobile
@@ -331,7 +331,7 @@ export default function Topbar() {
         &lt;Button
           variant="ghost"
           size="icon"
-          className="w-11 h-11 text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
+          className="w-11 h-11 text-text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           onClick={toggleSidebar}
           aria-label={t('toggle_sidebar')}
           type="button"
@@ -348,15 +348,15 @@ export default function Topbar() {
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
               className="hidden md:flex flex-row items-center flex-wrap gap-2xs ml-sm"
             &gt;
-              {activeBreadcrumbs.map((crumb, idx) =&gt; (
-                &lt;Fragment key={idx}&gt;
+              {activeBreadcrumbs.<span class="fstat-no" title="function not covered" >map((c</span>rumb, idx) =&gt; (
+<span class="cstat-no" title="statement not covered" >                &lt;Fragment key={idx}&gt;</span>
                   {idx &gt; 0 &amp;&amp; &lt;ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-muted" /&gt;}
                   {crumb.href ? (
-                    &lt;Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold uppercase tracking-tighter focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;
-                      &lt;Text size="xs"&gt;{crumb.label}&lt;/Text&gt;
+                    &lt;Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;
+                      &lt;Text tag="span" size="xs"&gt;{crumb.label}&lt;/Text&gt;
                     &lt;/Link&gt;
                   ) : (
-                    &lt;Text weight="black" size="xs" className="text-main uppercase tracking-tight"&gt;{crumb.label}&lt;/Text&gt;
+                    &lt;Text tag="span" weight="bold" size="xs" className="text-text-main"&gt;{crumb.label}&lt;/Text&gt;
                   )}
                 &lt;/Fragment&gt;
               ))}
@@ -370,8 +370,8 @@ export default function Topbar() {
         &lt;Button
           variant="ghost"
           size="icon"
-          onClick={() =&gt; setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-          className="group w-11 h-11 text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
+<span class="fstat-no" title="function not covered" >          onClick={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}</span>
+          className="group w-11 h-11 text-text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
           title={`${t('appearance')}: ${theme}`}
           aria-label={`${t('appearance')}: ${theme}`}
           type="button"
@@ -400,7 +400,7 @@ export default function Topbar() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

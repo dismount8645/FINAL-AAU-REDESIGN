@@ -56,6 +56,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         {onSubmit && !onClear && (
           <Button
             type="submit"
+            aria-label="Submit search"
             variant="primary"
             size="icon-xs"
             className="absolute right-2 top-1/2 -translate-y-1/2 hover:scale-105 active:scale-95 transition-all shadow-[var(--shadow-md)]"

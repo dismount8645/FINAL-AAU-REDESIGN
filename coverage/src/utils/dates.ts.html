@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -113,93 +113,93 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">208x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">30x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">125x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">133x</span>
-<span class="cline-any cline-yes">133x</span>
-<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">133x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">133x</span>
-<span class="cline-any cline-yes">57x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">76x</span>
-<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">52x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { translations } from '@/data/translations'
 import type { Lang } from '@/store/useStore'
 &nbsp;
-export function localeForLang(lang: Lang): string {
-  return lang === 'da' ? 'da-DK' : 'en-US'
+export function <span class="fstat-no" title="function not covered" >localeForLang(l</span>ang: Lang): string {
+<span class="cstat-no" title="statement not covered" >  return lang === 'da' ? 'da-DK' : 'en-US'</span>
 }
 &nbsp;
-export function hoursFromNow(hours: number, from = new Date()): string {
-  const date = new Date(from)
-  date.setHours(date.getHours() + hours)
-  return date.toISOString()
+export function <span class="fstat-no" title="function not covered" >hoursFromNow(h</span>ours: number, from = <span class="branch-0 cbranch-no" title="branch not covered" >new Date()): string {</span>
+  const date = <span class="cstat-no" title="statement not covered" >new Date(from)</span>
+<span class="cstat-no" title="statement not covered" >  date.setHours(date.getHours() + hours)</span>
+<span class="cstat-no" title="statement not covered" >  return date.toISOString()</span>
 }
 &nbsp;
-export function getHoursUntil(date: string | Date, from = new Date()): number {
-  return (new Date(date).getTime() - from.getTime()) / (1000 * 60 * 60)
+export function <span class="fstat-no" title="function not covered" >getHoursUntil(d</span>ate: string | Date, from = <span class="branch-0 cbranch-no" title="branch not covered" >new Date()): number {</span>
+<span class="cstat-no" title="statement not covered" >  return (new Date(date).getTime() - from.getTime()) / (1000 * 60 * 60)</span>
 }
 &nbsp;
-export function formatShortDate(date: Date, lang: Lang): string {
-  return date.toLocaleDateString(localeForLang(lang), { day: 'numeric', month: 'short' })
+export function <span class="fstat-no" title="function not covered" >formatShortDate(d</span>ate: Date, lang: Lang): string {
+<span class="cstat-no" title="statement not covered" >  return date.toLocaleDateString(localeForLang(lang), { day: 'numeric', month: 'short' })</span>
 }
 &nbsp;
-export function formatTime(date: Date, lang: Lang): string {
-  return date.toLocaleTimeString(localeForLang(lang), { hour: '2-digit', minute: '2-digit' })
+export function <span class="fstat-no" title="function not covered" >formatTime(d</span>ate: Date, lang: Lang): string {
+<span class="cstat-no" title="statement not covered" >  return date.toLocaleTimeString(localeForLang(lang), { hour: '2-digit', minute: '2-digit' })</span>
 }
 &nbsp;
-export function formatLongDateTime(date: Date, lang: Lang): string {
-  return date.toLocaleString(localeForLang(lang), { dateStyle: 'long', timeStyle: 'short' })
+export function <span class="fstat-no" title="function not covered" >formatLongDateTime(d</span>ate: Date, lang: Lang): string {
+<span class="cstat-no" title="statement not covered" >  return date.toLocaleString(localeForLang(lang), { dateStyle: 'long', timeStyle: 'short' })</span>
 }
 &nbsp;
-export function formatRelativeDateGroup(date: Date, lang: Lang, now = new Date()): string {
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
-  const yesterday = new Date(today)
-  yesterday.setDate(yesterday.getDate() - 1)
+export function <span class="fstat-no" title="function not covered" >formatRelativeDateGroup(d</span>ate: Date, lang: Lang, now = <span class="branch-0 cbranch-no" title="branch not covered" >new Date()): string {</span>
+  const today = <span class="cstat-no" title="statement not covered" >new Date(now.getFullYear(), now.getMonth(), now.getDate())</span>
+  const yesterday = <span class="cstat-no" title="statement not covered" >new Date(today)</span>
+<span class="cstat-no" title="statement not covered" >  yesterday.setDate(yesterday.getDate() - 1)</span>
 &nbsp;
-  const target = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  const target = <span class="cstat-no" title="statement not covered" >new Date(date.getFullYear(), date.getMonth(), date.getDate())</span>
 &nbsp;
-  if (target.getTime() === today.getTime()) {
-    return translations[lang].today as string as string
+<span class="cstat-no" title="statement not covered" >  if (target.getTime() === today.getTime()) {</span>
+<span class="cstat-no" title="statement not covered" >    return translations[lang].today as string as string</span>
   }
 &nbsp;
-  if (target.getTime() === yesterday.getTime()) {
-    return translations[lang].yesterday as string as string
+<span class="cstat-no" title="statement not covered" >  if (target.getTime() === yesterday.getTime()) {</span>
+<span class="cstat-no" title="statement not covered" >    return translations[lang].yesterday as string as string</span>
   }
 &nbsp;
-  return formatShortDate(date, lang)
+<span class="cstat-no" title="statement not covered" >  return formatShortDate(date, lang)</span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -208,7 +208,7 @@ export function formatRelativeDateGroup(date: Date, lang: Lang, now = new Date()
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

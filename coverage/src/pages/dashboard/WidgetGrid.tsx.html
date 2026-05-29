@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/15</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -183,7 +183,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,15 +218,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5472x</span>
-<span class="cline-any cline-yes">5472x</span>
-<span class="cline-any cline-yes">5472x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -238,21 +238,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">92x</span>
-<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">92x</span>
-<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">92x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,7 +290,7 @@ import {
 } from '@/widgets'
 import { WidgetWrapper } from './WidgetWrapper'
 &nbsp;
-const WIDGET_COMPONENTS: Record&lt;string, React.ComponentType&lt;WidgetProps&gt;&gt; = {
+const WIDGET_COMPONENTS: Record&lt;string, React.ComponentType&lt;WidgetProps&gt;&gt; = <span class="cstat-no" title="statement not covered" >{</span>
   favorites: FavoritesWidget,
   quickOverview: QuickOverviewWidget,
   deadlines: DeadlinesWidget,
@@ -312,7 +312,7 @@ interface WidgetGridProps {
   moveWidget: (id: string, direction: 'left' | 'right') =&gt; void
 }
 &nbsp;
-export function WidgetGrid({
+export function <span class="fstat-no" title="function not covered" >WidgetGrid({</span>
   isEditing,
   visibleWidgets,
   draggedItemId,
@@ -325,15 +325,15 @@ export function WidgetGrid({
   t,
   moveWidget,
 }: WidgetGridProps) {
-  const editGridOverlay = useMemo(() =&gt; (
-    &lt;div
+  const <span class="cstat-no" title="statement not covered" >editGridOverlay = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; (</span></span>
+<span class="cstat-no" title="statement not covered" >    &lt;div</span>
       className="absolute inset-0 grid gap-[var(--space-lg)] pointer-events-none p-[var(--space-md)]"
       style={{ gridTemplateColumns: 'repeat(24, minmax(0, 1fr))' }}
     &gt;
-      {Array.from({ length: 24 * 12 }).map((_, i) =&gt; {
-        const x = i % 24
-        const y = Math.floor(i / 24)
-        return (
+      {Array.from({ length: 24 * 12 }).<span class="fstat-no" title="function not covered" >map((_</span>, i) =&gt; {
+        const x = <span class="cstat-no" title="statement not covered" >i % 24</span>
+        const y = <span class="cstat-no" title="statement not covered" >Math.floor(i / 24)</span>
+<span class="cstat-no" title="statement not covered" >        return (</span>
           &lt;div
             key={i}
             className="w-full aspect-square border border-dashed border-border/60 dark:border-white/10 rounded-[var(--radius-md)]"
@@ -345,21 +345,21 @@ export function WidgetGrid({
     &lt;/div&gt;
   ), [onDrop])
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Grid columns={24} tabletColumns={12} mobileColumns={6} className="dashboard__grid relative"&gt;
       {isEditing &amp;&amp; editGridOverlay}
-      {visibleWidgets.map((widget) =&gt; {
-        const WidgetComponent = WIDGET_COMPONENTS[widget.id]
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (!WidgetComponent) <span class="cstat-no" title="statement not covered" >return null</span>
+      {visibleWidgets.<span class="fstat-no" title="function not covered" >map((w</span>idget) =&gt; {
+        const WidgetComponent = <span class="cstat-no" title="statement not covered" >WIDGET_COMPONENTS[widget.id]</span>
+<span class="cstat-no" title="statement not covered" >        if (!WidgetComponent) <span class="cstat-no" title="statement not covered" >return null</span></span>
         
         // Strictly align with UI Architect's request:
         // lg: grid-cols-4 (24/4 = 6 span)
         // md: grid-cols-3 (12/3 = 4 span)
         // sm: grid-cols-1 (6/1 = 6 span)
-        const mdSpan = WIDGET_CONFIG[widget.id]?.tabletSpan || <span class="branch-1 cbranch-no" title="branch not covered" >4</span>
-        const smSpan = 6
+        const mdSpan = <span class="cstat-no" title="statement not covered" >WIDGET_CONFIG[widget.id]?.tabletSpan || 4</span>
+        const smSpan = <span class="cstat-no" title="statement not covered" >6</span>
 &nbsp;
-        return (
+<span class="cstat-no" title="statement not covered" >        return (</span>
           &lt;WidgetWrapper
             key={widget.id}
             widget={widget}
@@ -391,7 +391,7 @@ export function WidgetGrid({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

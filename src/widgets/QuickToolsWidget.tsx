@@ -110,6 +110,8 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
   const t = useStore(state => state.t)
   const isFavorite = useStore(state => state.isFavorite)
   const toggleFavorite = useStore(state => state.toggleFavorite)
+  const _favorites = useStore(state => state.favorites)
+  void _favorites
 
   const displayTools = useMemo(() => quickToolsData.slice(0, 4), [])
 
@@ -132,7 +134,7 @@ const QuickToolsWidget = ({ isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <LayoutGrid size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('quick_access')}
           </Heading>
         </Stack>

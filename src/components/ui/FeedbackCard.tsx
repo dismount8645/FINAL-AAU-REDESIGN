@@ -5,7 +5,7 @@ import Badge from '@/components/ui/Badge'
 
 const feedbackCardVariants = cva(
   [
-    "p-md rounded-[var(--radius-md)] bg-bg-card border-l-[3px] shadow-[var(--shadow-sm)] transition-all duration-200",
+    "p-md rounded-[var(--radius-md)] bg-bg-card border-l-[3px] shadow-[var(--shadow-sm)] transition-all duration-150",
     "isolate overflow-hidden"
   ],
   {

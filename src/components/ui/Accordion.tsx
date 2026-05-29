@@ -84,7 +84,7 @@ export interface LegacyAccordionProps {
 const OldAccordion = ({ title, defaultOpen = false, children, className }: LegacyAccordionProps) => {
   return (
     <Accordion defaultValue={defaultOpen ? ["item-1"] : []} className={className}>
-      <AccordionItem value="item-1" className="border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] bg-bg-card overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300">
+      <AccordionItem value="item-1" className="border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] bg-bg-card overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-150">
         <AccordionTrigger className="bg-bg-highlight/30">{title}</AccordionTrigger>
         <AccordionContent>{children}</AccordionContent>
       </AccordionItem>

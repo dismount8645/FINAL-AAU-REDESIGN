@@ -32,7 +32,7 @@ export default function SegmentedControl({ options, value, onChange, className =
       onClick={handleContainerClick}
     >
       <div
-        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-bg-card rounded-[calc(var(--radius-md)-2px)] transition-transform duration-200 z-1 shadow-[var(--shadow-sm)]"
+        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-bg-card rounded-[calc(var(--radius-md)-2px)] transition-transform duration-150 z-1 shadow-[var(--shadow-sm)]"
         style={{
           width: `calc(${sliderWidth}% - 4px)`,
           transform: `translateX(calc(${activeIndex * 100}%))`,
@@ -57,7 +57,7 @@ export default function SegmentedControl({ options, value, onChange, className =
           title={option.label}
         >
           {OptionIcon && <OptionIcon size={16} strokeWidth={2} aria-hidden="true" />}
-          {option.img && <img src={option.img} alt="" className="w-6 h-6 object-contain rounded-[var(--radius-sm)] shadow-xs transition-transform duration-200 hover:scale-110" />}
+          {option.img && <img src={option.img} alt="" className="w-6 h-6 object-contain rounded-[var(--radius-sm)] shadow-xs transition-transform duration-150 hover:scale-110" />}
           {option.label && <span className="text-[0.85rem] leading-none">{option.label}</span>}
         </button>
         );

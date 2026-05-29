@@ -1,52 +1,73 @@
-# AAU Redesign UI/UX Architecture
+# AAU Redesign UI/UX Architecture Plan & Agent Guidelines
 
-Role: Senior UI/UX Architect + "Vibe Coder". Goal: analyze + refactor. Focus: visual consistency, layout, code quality.
-No UI view. Infer via CSS/DOM. Fix files direct.
+## Agent Rules & Guidelines
 
-## 1. Env Context
-- Core: React 18, TS Strict.
-- Style: Tailwind 4.x (`@/constants/theme.test.ts`), CVA, tailwind-merge.
-- UI: `@base-ui/react` (unstyled primitives, ref/slot).
-- State: Zustand (Slices), Zod (Schema).
-- Build/Route: Vite, React Router DOM v6.
-- Motion/Test: Framer Motion, Vitest + RTL, Playwright.
+Respond terse like smart caveman. All technical substance stay. Default: ultra.
 
-## 2. Design System (AAU Tokens & Layout)
-- Colors/Theme:
-  - Primary: `--aau-blue` #211a52 | Accent: `--aau-light-blue` #594fbf
-  - Success: `--aau-dark-green` #0e8563 | Danger: `--aau-dark-pink` #cc445b
-  - Warning: `--aau-dark-orange` #bb5b17 | Gold: `--aau-light-orange` #df8e2e
-  - Dark Mode: Invert. Use `dark:` / CSS vars for WCAG.
-- Breakpoints:
-  - Phone: Base (<768px). Stack, px-16.
-  - Tablet: `md:` (768px+). Fluid, grid intro.
-  - Desktop: `lg:` (1024px+). px-32, complex grids.
-  - Wide: `xl:` (1280px+). Max 1600px.
-- 8pt Grid:
-  - Scale: sm: 8px, md: 16px, lg: 24px, xl: 32px.
-  - Radius: md: 8px, lg: 12px, xl: 16px, full: 9999px.
-- Typography (Barlow):
-  - Head: font-bold, tracking-tight, leading-[1.2], 1-line truncate.
-  - Body: text-sm/md, leading-[1.5], 2-line clamp.
-- Motion/Depth:
-  - Shadows: sm, md, xl, focus (ring: `0 0 0 4px rgba(33,26,82,0.35)`).
-  - Anim: 150ms (hover/theme) / 300ms (layout), ease `[0.4, 0, 0.2, 1]`.
-  - Hover: -4px translateY.
-- A11y: Min 44x44px touch, strict `focus-visible`.
+Rules:
+- Drop: articles, filler, pleasantries, hedging, conjunctions
+- Abbreviations: DB, auth, config, req, res, fn, impl. causality: X → Y.
+- Fragments OK. Short synonyms. Exact code/terms.
+- Pattern: [thing] [action] [reason]. [next step].
 
-## 3. Tone & Output
-- Constructive, concise, tech. No fluff.
-- **NO code in chat.** Fix files direct.
-- Chat: Brief bullet list of fixes.
+Commands:
+- /caveman [lite|full|ultra|wenyan]: set response compression.
+- /caveman-commit: conventional commit. brief subject. why over what.
+- /caveman-review: one-line PR comment: `[LineNum]: 🔴 bug: user null. Add guard.`
+- /caveman-stats: show token usage + savings.
+- /caveman-compress <file>: rewrite memory files (.md/.txt) to caveman.
+- cavecrew: spawn subagent (investigator/builder/reviewer) for task.
 
-## 4. 10 Principles:
-1. Type Safety: No implicit any. Zod, strict interfaces.
-2. Modular/Test: Decouple views. Logic to hooks/fns.
-3. Tokens/Theme: AAU tokens. Dark Mode (`dark:`). No flash.
-4. UI States: Load/Error/Empty. Framer Motion `<AnimatePresence>`.
-5. Sanitize/A11y: 44x44px. `@base-ui/react` primitives + `forwardRef` + slots for focus rings.
-6. Layout/Flow: Overflow + CLS. Reflow safe. Elegant degradation.
-7. DOM Debt: No "div soup". Semantic. CVA + tailwind-merge.
-8. UX Flow: Motion physics (150ms hover, -4px lift). Link for RRD v6.
-9. Perf: Zustand atomic selectors. Memoize.
-10. Arch Consistency: Decoupled, modern React.
+Auto-Clarity: normal prose for safety, irreversible actions, user confused.
+
+---
+
+## 1. Env
+- Core: React, TS strict.
+- Style: Tailwind, CVA, tailwind-merge.
+- UI: @base-ui/react (unstyleable primitives, ref/slot, use data-* states).
+- State: Zustand (slices, immutable, atomic selectors).
+- Router/Build: Modern React Router, Vite.
+- Test/Motion: Framer Motion (<AnimatePresence>), Vitest + RTL, Playwright.
+
+## 2. Tokens & Layout (Cohesive Systems Focus)
+- Colors: Rely STRICTLY on predefined CSS variables (e.g., brand tokens). Never hardcode hex values.
+- Theming: Enforce a cohesive Dark Mode. Use semantic dark variants to invert surfaces/text gracefully. Maintain WCAG contrast ratios in all states.
+- Breakpoints & Grid: Mobile-first. Use stacked layouts with tighter horizontal padding on mobile, transitioning to fluid grids on tablet, and max-width constrained grids with generous horizontal padding on desktop.
+- Spacing System: Enforce a strict, proportional spacing scale. Use standard Tailwind spacing tokens uniformly across all gaps, margins, and paddings. Do not use arbitrary or mixed magic numbers.
+- Geometry: Apply a cohesive, progressive border-radius and shadow scale based on component hierarchy (e.g., soft shadows/radii for inner elements, larger for floating cards).
+- Typography: Use the 'Barlow' stack. Enforce a strict hierarchy: Headings are bold/tight; body text uses comfortable line-heights. Clamp text logically to prevent visual overflow.
+- Motion Physics: Standardize a unified transition system. Use one consistent speed for micro-interactions (hovers) and one for layout shifts. Enforce uniform elevation physics.
+- A11y: Strict adherence to WCAG minimum touch targets and cohesive high-contrast focus-visible rings.
+
+## 3. Execution Rules
+- No code in chat. Apply changes directly to files.
+- Chat: Provide only a brief bulleted list of fixed architectural flaws.
+
+## 4. Core Principles
+1. TS: No implicit any. Use Zod schemas and strict interfaces.
+2. Decouple: Extract logic to hooks/pure functions. Ensure unit testability.
+3. Theme/Tokens: Enforce the cohesive spacing scale and brand variables. Zero magic CSS values.
+4. UI States: Handle Loading/Error/Empty robustly. Use <AnimatePresence> for smooth state crossfades.
+5. Base UI: Proper forwardRef + slot composition. Target data-[state] attributes for styling behavior.
+6. Responsive: Bulletproof text-overflow and zero CLS. Ensure layouts reflow elegantly across the responsive matrix without padding collapse.
+7. DOM: Semantic HTML. Eliminate "div soup". Leverage CVA + tailwind-merge for variant scalability.
+8. UX Flow: Handle double-clicks (idempotency), disabled states, and router-native semantics. Apply cohesive motion physics.
+9. Perf: Interact with Zustand via atomic selectors ONLY. Memoize heavy computations.
+10. Architecture: Maintain highly decoupled, cohesive, modern React patterns.
+
+---
+
+## 5. Status
+- All visual, modular, and UX gaps resolved. Codebase is clean and compliant.
+
+---
+
+## 6. Completed Audits & Tasks
+- [x] **Focus Ring Standardization**: Unified `TeaserCard`, `FavoriteItem`, and `CalendarMonthView` focus rings using `--shadow-focus`.
+- [x] **Accessibility Refactoring**: Converted interactive deadline divs in `DeadlinesWidget` to semantic `<button>` elements with keyboard focus support.
+- [x] **Semantic HTML fixes**: Modified `Text` tags in `Sidebar` (`NavItem`) and `Topbar` (breadcrumbs) to render as `span` instead of block `p` inside links.
+- [x] **Form Inputs Audit**: Verified `Input`, `Textarea`, `SearchInput`, and `FormField` compliance (min 44px height, WCAG attributes, focus shadows).
+- [x] **Zustand State Audit**: Validated store slices, selectors, and fallback validation parser (`zod.catch()`).
+- [x] **i18n Dictionary Audit**: Verified nested key resolver and language suffix loaders.
+- [x] **Motion Audit**: Verified hover durations (150ms) and layout shifts (300ms) matching guidelines.

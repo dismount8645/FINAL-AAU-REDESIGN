@@ -49,7 +49,7 @@ const CalendarDayView = ({
   }
 
   return (
-    <Stack gap="xl" className="calendar-day-detail p-6 sm:p-10 animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
+    <Stack gap="xl" className="calendar-day-detail p-[var(--space-lg)] sm:p-[var(--space-xl)] animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
       <Stack gap="md" className="relative">
         <div className="flex items-center gap-4">
           <Badge 
@@ -86,7 +86,7 @@ const CalendarDayView = ({
               style={{ backgroundColor: event.color }}
             />
             
-            <Card.Body className="p-8 sm:p-10 pl-10 sm:pl-12 bg-card group-hover:bg-muted/5 transition-colors">
+            <Card.Body className="p-[var(--space-xl)] sm:p-[var(--space-2xl)] pl-[var(--space-2xl)] sm:pl-[var(--space-2xl)] bg-card group-hover:bg-muted/5 transition-colors">
               <Stack gap="xl">
                 <Stack gap="sm">
                   <div className="flex items-center gap-2 text-primary opacity-80 group-hover:opacity-100 transition-opacity">
@@ -100,7 +100,7 @@ const CalendarDayView = ({
                   </Heading>
                 </Stack>
 
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 py-6 border-y border-border/50">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[var(--space-lg)] py-[var(--space-lg)] border-y border-border/50">
                   <Stack gap="xs">
                     <Text size="xs" weight="bold" className="text-text-muted/50">{t('time')}</Text>
                     <Stack direction="row" gap="sm" align="center" className="text-text-main">
@@ -131,8 +131,8 @@ const CalendarDayView = ({
                 </div>
 
                 {event.description && (
-                  <Stack gap="sm" className="bg-muted/30 p-6 rounded-xl border border-border/50 relative overflow-hidden group/desc">
-                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover/desc:opacity-10 transition-opacity">
+                  <Stack gap="sm" className="bg-muted/30 p-[var(--space-lg)] rounded-xl border border-border/50 relative overflow-hidden group/desc">
+                    <div className="absolute top-0 right-0 p-[var(--space-md)] opacity-5 group-hover/desc:opacity-10 transition-opacity">
                       <Info size={40} />
                     </div>
                     <Text size="sm" className="text-text-muted leading-relaxed relative z-10 italic">
@@ -141,7 +141,7 @@ const CalendarDayView = ({
                   </Stack>
                 )}
 
-                <div className="flex justify-end pt-2">
+                <div className="flex justify-end pt-[var(--space-sm)]">
                   <div className="flex items-center gap-2 text-primary font-bold text-sm group-hover:gap-4 transition-all">
                     <span>{t('view_full_details')}</span>
                     <ArrowRight size={18} />
@@ -153,13 +153,13 @@ const CalendarDayView = ({
         ) : (
           <button
             type="button"
-            className="w-full flex flex-col items-center justify-center py-24 bg-muted/20 rounded-[2.5rem] border-4 border-dashed border-border/40 opacity-50 hover:opacity-80 transition-opacity group cursor-pointer border-none focus-visible:outline-none focus-visible:shadow-focus"
+            className="w-full flex flex-col items-center justify-center py-[var(--space-4xl)] bg-muted/20 rounded-[var(--radius-3xl)] border-4 border-dashed border-border/40 opacity-50 hover:opacity-80 transition-opacity group cursor-pointer border-none focus-visible:outline-none focus-visible:shadow-focus"
             onClick={() => handleEventClick({ id: 0, title: '', color: '', location: '', time: '', host: '' }, dateKey)}
           >
-            <div className="w-20 h-20 rounded-full bg-muted/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+            <div className="w-[5rem] h-[5rem] rounded-full bg-muted/40 flex items-center justify-center mb-[var(--space-lg)] group-hover:scale-110 transition-transform duration-500 shadow-inner">
               <CalendarClock className="w-10 h-10 text-text-muted/40" />
             </div>
-            <Text size="xl" weight="black" className="text-text-muted tracking-tight mb-2">{t('calendar.no_events_today')}</Text>
+            <Text size="xl" weight="black" className="text-text-muted tracking-tight mb-[var(--space-sm)]">{t('calendar.no_events_today')}</Text>
             <Text size="sm" className="text-text-muted/60">{t('calendar.click_to_add_event')}</Text>
           </button>
         )}

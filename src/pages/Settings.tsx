@@ -222,7 +222,7 @@ function Settings() {
                         setMessageEmailOffline={setMessageEmailOffline}
                       />
                     ) : (
-                      <Stack align="center" justify="center" className="settings__empty-state py-[80px] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
+                      <Stack align="center" justify="center" className="settings__empty-state py-[var(--space-3xl)] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
                          <Icon name="gear" size="3xl" className="text-muted opacity-30 mb-md" />
                          <Text muted>{t('settings.under_development')}</Text>
                       </Stack>

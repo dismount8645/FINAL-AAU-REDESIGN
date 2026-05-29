@@ -68,10 +68,10 @@ export default function Topbar() {
                   {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-muted" />}
                   {crumb.href ? (
                     <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
-                      <Text size="xs">{crumb.label}</Text>
+                      <Text tag="span" size="xs">{crumb.label}</Text>
                     </Link>
                   ) : (
-                    <Text weight="bold" size="xs" className="text-text-main">{crumb.label}</Text>
+                    <Text tag="span" weight="bold" size="xs" className="text-text-main">{crumb.label}</Text>
                   )}
                 </Fragment>
               ))}

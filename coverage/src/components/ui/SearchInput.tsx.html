@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -143,7 +143,8 @@
 <a name='L78'></a><a href='#L78'>78</a>
 <a name='L79'></a><a href='#L79'>79</a>
 <a name='L80'></a><a href='#L80'>80</a>
-<a name='L81'></a><a href='#L81'>81</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -156,7 +157,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,7 +176,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">156x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -211,15 +212,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">156x</span>
-<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">145x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -236,7 +238,7 @@ export interface SearchInputProps extends Omit&lt;InputProps, "type"&gt; {
   iconSize?: number
 }
 &nbsp;
-const SearchInput = forwardRef&lt;HTMLInputElement, SearchInputProps&gt;(
+const <span class="cstat-no" title="statement not covered" >SearchInput = <span class="fstat-no" title="function not covered" >forwardRef&lt;HTMLInputElement, SearchInputProps&gt;(</span></span>
   (
     {
       value,
@@ -255,7 +257,7 @@ const SearchInput = forwardRef&lt;HTMLInputElement, SearchInputProps&gt;(
     /* istanbul ignore next */
     const finalIconSize = iconSize ?? 16
     const input = (
-      &lt;div className={cn("relative flex-1", className)}&gt;
+<span class="cstat-no" title="statement not covered" >      &lt;div className={cn("relative flex-1", className)}&gt;</span>
         &lt;Search size={finalIconSize} strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" /&gt;
         &lt;Input
           ref={ref}
@@ -281,6 +283,7 @@ const SearchInput = forwardRef&lt;HTMLInputElement, SearchInputProps&gt;(
         {onSubmit &amp;&amp; !onClear &amp;&amp; (
           &lt;Button
             type="submit"
+            aria-label="Submit search"
             variant="primary"
             size="icon-xs"
             className="absolute right-2 top-1/2 -translate-y-1/2 hover:scale-105 active:scale-95 transition-all shadow-[var(--shadow-md)]"
@@ -291,15 +294,15 @@ const SearchInput = forwardRef&lt;HTMLInputElement, SearchInputProps&gt;(
       &lt;/div&gt;
     )
 &nbsp;
-    if (onSubmit) {
-      return &lt;form onSubmit={(e) =&gt; { e.preventDefault(); onSubmit(e) }} className="w-full"&gt;{input}&lt;/form&gt;
+<span class="cstat-no" title="statement not covered" >    if (onSubmit) {</span>
+<span class="cstat-no" title="statement not covered" >      return &lt;form <span class="fstat-no" title="function not covered" >onSubmit={(e</span>) =&gt; { <span class="cstat-no" title="statement not covered" >e.preventDefault(); <span class="cstat-no" title="statement not covered" >o</span>nSubmit(e) }</span>} className="w-full"&gt;{input}&lt;/form&gt;</span>
     }
 &nbsp;
-    return input
+<span class="cstat-no" title="statement not covered" >    return input</span>
   }
 )
 &nbsp;
-SearchInput.displayName = "SearchInput"
+<span class="cstat-no" title="statement not covered" >SearchInput.displayName = "SearchInput"</span>
 &nbsp;
 export { SearchInput }
 export default SearchInput
@@ -310,7 +313,7 @@ export default SearchInput
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

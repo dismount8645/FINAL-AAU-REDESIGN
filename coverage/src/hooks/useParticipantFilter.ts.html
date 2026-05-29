@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -108,18 +108,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">38x</span>
-<span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useMemo } from 'react'
 &nbsp;
@@ -136,19 +136,19 @@ interface UseParticipantFilterResult {
   filteredParticipants: Participant[]
 }
 &nbsp;
-export function useParticipantFilter(participantsData: Participant[]): UseParticipantFilterResult {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [roleFilter, setRoleFilter] = useState('all')
+export function <span class="fstat-no" title="function not covered" >useParticipantFilter(p</span>articipantsData: Participant[]): UseParticipantFilterResult {
+  const [searchQuery, <span class="cstat-no" title="statement not covered" >setSearchQuery] = useState('')</span>
+  const [roleFilter, <span class="cstat-no" title="statement not covered" >setRoleFilter] = useState('all')</span>
 &nbsp;
-  const filteredParticipants = useMemo(() =&gt; {
-    return participantsData.filter((p) =&gt; {
-      if (roleFilter !== 'all' &amp;&amp; p.role !== roleFilter) return false
-      if (searchQuery &amp;&amp; !p.name.toLowerCase().includes(searchQuery.toLowerCase())) return false
-      return true
+  const <span class="cstat-no" title="statement not covered" >filteredParticipants = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    return participantsData.<span class="fstat-no" title="function not covered" >filter((p</span>) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (roleFilter !== 'all' &amp;&amp; p.role !== roleFilter) <span class="cstat-no" title="statement not covered" >return false</span></span>
+<span class="cstat-no" title="statement not covered" >      if (searchQuery &amp;&amp; !p.name.toLowerCase().includes(searchQuery.toLowerCase())) <span class="cstat-no" title="statement not covered" >return false</span></span>
+<span class="cstat-no" title="statement not covered" >      return true</span>
     })
   }, [participantsData, searchQuery, roleFilter])
 &nbsp;
-  return { searchQuery, setSearchQuery, roleFilter, setRoleFilter, filteredParticipants }
+<span class="cstat-no" title="statement not covered" >  return { searchQuery, setSearchQuery, roleFilter, setRoleFilter, filteredParticipants }</span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -157,7 +157,7 @@ export function useParticipantFilter(participantsData: Participant[]): UsePartic
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
