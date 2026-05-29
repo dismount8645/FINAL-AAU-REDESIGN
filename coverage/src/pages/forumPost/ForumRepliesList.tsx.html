@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -149,19 +149,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,11 +212,11 @@ interface ForumRepliesListProps {
   replies: ReplyItem[]
 }
 &nbsp;
-export default function ForumRepliesList({ replies }: ForumRepliesListProps) {
-  const t = useStore(state =&gt; state.t)
-  const localize = useStore(state =&gt; state.localize)
+export default function <span class="fstat-no" title="function not covered" >ForumRepliesList({</span> replies }: ForumRepliesListProps) {
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >localize = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.localize)</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;&gt;
       &lt;Heading level={3} className="mb-lg"&gt;
         {t('replies_title')}
@@ -224,8 +224,8 @@ export default function ForumRepliesList({ replies }: ForumRepliesListProps) {
 &nbsp;
       {replies.length &gt; 0 ? (
         &lt;Stack gap="md"&gt;
-          {replies.map((r) =&gt; (
-            &lt;Card key={r.id} variant="outlined"&gt;
+          {replies.<span class="fstat-no" title="function not covered" >map((r</span>) =&gt; (
+<span class="cstat-no" title="statement not covered" >            &lt;Card key={r.id} variant="outlined"&gt;</span>
               &lt;Card.Body&gt;
                 &lt;Stack gap="sm"&gt;
                   &lt;Stack direction="row" align="center" gap="sm"&gt;
@@ -250,7 +250,7 @@ export default function ForumRepliesList({ replies }: ForumRepliesListProps) {
           ))}
         &lt;/Stack&gt;
       ) : (
-<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;Text muted&gt;{t('no_replies_yet')}&lt;/Text&gt;</span>
+        &lt;Text muted&gt;{t('no_replies_yet')}&lt;/Text&gt;
       )}
     &lt;/&gt;
   )
@@ -262,7 +262,7 @@ export default function ForumRepliesList({ replies }: ForumRepliesListProps) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

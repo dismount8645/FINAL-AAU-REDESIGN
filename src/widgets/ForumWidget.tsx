@@ -123,7 +123,7 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <MessageCircle size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('forum')}
           </Heading>
         </Stack>

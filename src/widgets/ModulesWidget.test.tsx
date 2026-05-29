@@ -153,4 +153,26 @@ describe('ModulesWidget', () => {
     renderWidget(mockCourses, 'da', 4, false)
     expect(screen.getByText('Course 1')).toBeInTheDocument()
   })
+
+  it('does not navigate on find modules when isEditing is true', () => {
+    renderWidget([], 'da', 12, true)
+    const findBtn = screen.getByText('Find moduler')
+    fireEvent.click(findBtn)
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
+
+  it('does not navigate on see all click when isEditing is true', () => {
+    renderWidget(mockCourses, 'da', 12, true)
+    const seeAllBtn = screen.getByText('Se alle')
+    fireEvent.click(seeAllBtn)
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
+
+  it('renders a course with invalid status to test upcoming fallback', () => {
+    const customCourses = [
+      { id: 9, title: 'Edge Status Course', isStarred: true, status: 'invalid-status' as any, img: '' },
+    ]
+    renderWidget(customCourses)
+    expect(screen.getByText('Edge Status Course')).toBeInTheDocument()
+  })
 })

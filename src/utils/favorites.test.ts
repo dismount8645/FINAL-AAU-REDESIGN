@@ -10,6 +10,7 @@ import {
 import { BookOpen, Wrench, FileText, MessageSquare, Link } from 'lucide-react'
 import type { FavoriteItem } from '@/types'
 import type { CourseWithStatus } from '@/store/useStore'
+import { allToolsList } from '@/data/tools'
 
 describe('favorites utility', () => {
   describe('getFavoriteIcon', () => {
@@ -57,6 +58,10 @@ describe('favorites utility', () => {
       expect(getFavoriteLabel('file', 'en')).toBe('File')
       expect(getFavoriteLabel('forum', 'en')).toBe('Forum')
       expect(getFavoriteLabel('link', 'en')).toBe('Link')
+    })
+
+    it('returns type if label is missing in translations', () => {
+      expect(getFavoriteLabel('nonexistent' as any, 'da')).toBe('nonexistent')
     })
   })
 
@@ -118,6 +123,16 @@ describe('favorites utility', () => {
       
       const resolvedEn = resolveFavorite(fav, 'en', mockCourses, t)
       expect(resolvedEn?.title).toBe('Outlook Mail')
+    })
+
+    it('resolves tool with missing title fields to empty string', () => {
+      const mockTool = { id: 9999, category: 'other', url: '', titleDa: '', titleEn: '' } as any
+      allToolsList.push(mockTool)
+      const fav: FavoriteItem = { id: 'f1', type: 'tool', entityId: 9999, addedAt: 0, order: 0 }
+      const resolved = resolveFavorite(fav, 'da', mockCourses, t)
+      expect(resolved?.title).toBe('')
+      const idx = allToolsList.indexOf(mockTool)
+      if (idx > -1) allToolsList.splice(idx, 1)
     })
 
     it('returns null if tool not found', () => {

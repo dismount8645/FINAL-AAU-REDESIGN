@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -219,16 +219,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,12 +258,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -333,21 +333,21 @@ interface WidgetCustomizerProps {
   t: (key: string) =&gt; string
 }
 &nbsp;
-export function WidgetCustomizer({
+export function <span class="fstat-no" title="function not covered" >WidgetCustomizer({</span>
   hiddenWidgets,
   widgetLabels,
   toggleVisibility,
   resetWidgets,
   t,
 }: WidgetCustomizerProps) {
-  const [resetDialogOpen, setResetDialogOpen] = useState(false)
+  const [resetDialogOpen, <span class="cstat-no" title="statement not covered" >setResetDialogOpen] = useState(false)</span>
 &nbsp;
-  const handleReset = () =&gt; {
-    resetWidgets()
-    setResetDialogOpen(false)
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleReset = () =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    resetWidgets()</span>
+<span class="cstat-no" title="statement not covered" >    setResetDialogOpen(false)</span>
   }
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Card
       variant="default"
       accent="left"
@@ -380,16 +380,16 @@ export function WidgetCustomizer({
             &gt;
               {hiddenWidgets.length &gt; 0 ? (
                 &lt;ul className="space-y-3xs" role="menu"&gt;
-                  {hiddenWidgets.map((w) =&gt; (
-                    &lt;li key={w.id} role="none"&gt;
+                  {hiddenWidgets.<span class="fstat-no" title="function not covered" >map((w</span>) =&gt; (
+<span class="cstat-no" title="statement not covered" >                    &lt;li key={w.id} role="none"&gt;</span>
                       &lt;button
                         type="button"
                         role="menuitem"
                         className="w-full text-left px-xs py-2xs rounded-[var(--radius-md)] text-sm hover:bg-bg-hover transition-colors flex items-center gap-[var(--space-sm)] focus-visible:outline-none focus-visible:shadow-focus"
-                        onClick={() =&gt; toggleVisibility(w.id)}
+<span class="fstat-no" title="function not covered" >                        onClick={() =&gt; <span class="cstat-no" title="statement not covered" >t</span>oggleVisibility(w.id)}</span>
                       &gt;
                         &lt;Plus size={14} strokeWidth={2} /&gt;
-                        {(() =&gt; {
+                        {(() =&gt; <span class="fstat-no" title="function not covered" >{</span>
                           /* istanbul ignore next */ return widgetLabels[w.id] || w.id
                         })()}
                       &lt;/button&gt;
@@ -433,7 +433,7 @@ export function WidgetCustomizer({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

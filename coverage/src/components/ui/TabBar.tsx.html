@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.23% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/21</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>16/18</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -153,45 +153,45 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">101x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">101x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">202x</span>
-<span class="cline-any cline-yes">202x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,47 +225,47 @@ interface TabBarProps {
   secondaryAction?: React.ReactNode
 }
 &nbsp;
-export default function TabBar({ tabs, activeTab, onChange, secondaryAction }: TabBarProps) {
-  const handleKeyDown = (e: React.KeyboardEvent&lt;HTMLDivElement&gt;) =&gt; {
-    if (e.key !== 'ArrowRight' &amp;&amp; e.key !== 'ArrowLeft') return;
-    e.preventDefault();
+export default function <span class="fstat-no" title="function not covered" >TabBar({</span> tabs, activeTab, onChange, secondaryAction }: TabBarProps) {
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleKeyDown = (e</span>: React.KeyboardEvent&lt;HTMLDivElement&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (e.key !== 'ArrowRight' &amp;&amp; e.key !== 'ArrowLeft') <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
 &nbsp;
-    const tabButtons = Array.from(e.currentTarget.children).filter(
-      (el): el is HTMLButtonElement =&gt; el.tagName === 'BUTTON'
+    const tabButtons = <span class="cstat-no" title="statement not covered" >Array.from(e.currentTarget.children).<span class="fstat-no" title="function not covered" >filter(</span></span>
+      (el): el is HTMLButtonElement =&gt; <span class="cstat-no" title="statement not covered" >el.tagName === 'BUTTON'</span>
     );
-    const activeIndex = tabButtons.findIndex(btn =&gt; btn.getAttribute('aria-selected') === 'true');
+    const activeIndex = <span class="cstat-no" title="statement not covered" >tabButtons.<span class="fstat-no" title="function not covered" >findIndex(b</span>tn =&gt; <span class="cstat-no" title="statement not covered" >btn.getAttribute('aria-selected') === 'true')</span>;</span>
     
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (activeIndex === -1) <span class="cstat-no" title="statement not covered" >return;</span>
+<span class="cstat-no" title="statement not covered" >    if (activeIndex === -1) <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
-    let nextIndex = activeIndex;
-    if (e.key === 'ArrowRight') {
-      nextIndex = (activeIndex + 1) % tabButtons.length;
-    } else <span class="missing-if-branch" title="else path not taken" >E</span>if (e.key === 'ArrowLeft') {
-      nextIndex = (activeIndex - 1 + tabButtons.length) % tabButtons.length;
+    let nextIndex = <span class="cstat-no" title="statement not covered" >activeIndex;</span>
+<span class="cstat-no" title="statement not covered" >    if (e.key === 'ArrowRight') {</span>
+<span class="cstat-no" title="statement not covered" >      nextIndex = (activeIndex + 1) % tabButtons.length;</span>
+    } else <span class="cstat-no" title="statement not covered" >if (e.key === 'ArrowLeft') {</span>
+<span class="cstat-no" title="statement not covered" >      nextIndex = (activeIndex - 1 + tabButtons.length) % tabButtons.length;</span>
     }
 &nbsp;
-    tabButtons[nextIndex].focus();
-    onChange(tabs[nextIndex].id);
+<span class="cstat-no" title="statement not covered" >    tabButtons[nextIndex].focus();</span>
+<span class="cstat-no" title="statement not covered" >    onChange(tabs[nextIndex].id);</span>
   };
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack direction="row" justify="between" align="center" className="w-full"&gt;
       &lt;div 
         role="tablist" 
         onKeyDown={handleKeyDown} 
         className="flex flex-row gap-none"
       &gt;
-        {tabs.map(tab =&gt; {
-          const isActive = activeTab === tab.id;
-          return (
+        {tabs.<span class="fstat-no" title="function not covered" >map(t</span>ab =&gt; {
+          const isActive = <span class="cstat-no" title="statement not covered" >activeTab === tab.id;</span>
+<span class="cstat-no" title="statement not covered" >          return (</span>
             &lt;button
               key={tab.id}
               role="tab"
               aria-selected={isActive}
               tabIndex={isActive ? 0 : -1}
               data-testid={`tab-${tab.id}`}
-              onClick={() =&gt; onChange(tab.id)}
-              className={`relative px-md py-sm text-sm font-bold transition-all flex items-center gap-xs outline-none focus-visible:outline-none focus-visible:shadow-focus rounded-sm ${
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; <span class="cstat-no" title="statement not covered" >o</span>nChange(tab.id)}</span>
+              className={`relative px-md py-sm text-sm font-bold transition-all flex items-center gap-xs outline-none focus-visible:outline-none focus-visible:shadow-focus rounded-sm before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] ${
                 isActive ? 'text-primary' : 'text-muted hover:text-main'
               }`}
             &gt;
@@ -289,7 +289,7 @@ export default function TabBar({ tabs, activeTab, onChange, secondaryAction }: T
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

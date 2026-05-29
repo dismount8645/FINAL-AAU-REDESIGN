@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useCallback } from 'react'
 import type { CalendarEvents, CalendarEvent } from '@/types'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
@@ -38,11 +38,10 @@ const CalendarMonthView = ({
     return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m }
   }, [currentDate, getWeekNumber])
 
-  const getEventTitle = (event: CalendarEvent) => {
-    return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
-  }
-
-  const renderDay = (dayIndex: number) => {
+  const renderDay = useCallback((dayIndex: number) => {
+    const getEventTitle = (event: CalendarEvent) => {
+      return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
+    }
     const dateKey = `${year}-${month}-${dayIndex}`
     const event = events[dateKey]
     const now = new Date()
@@ -61,8 +60,8 @@ const CalendarMonthView = ({
       <Stack
         key={`day-${dayIndex}`}
         className={cn(
-          "calendar-day min-h-[100px] sm:min-h-[120px] p-2 flex flex-col gap-1.5 relative transition-all duration-200 bg-card group cursor-pointer",
-          "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:ring-2 focus-within:ring-primary/50",
+          "calendar-day min-h-[100px] sm:min-h-[120px] p-[var(--space-sm)] flex flex-col gap-[var(--space-2xs)] relative transition-all duration-150 bg-card group cursor-pointer",
+          "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:shadow-focus focus-within:outline-none",
           isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
         )}
         onClick={() => (event ? handleEventClick(event, dateKey) : handleDayClick(dateKey))}
@@ -86,7 +85,7 @@ const CalendarMonthView = ({
 
         {event && (
           <div
-            className="calendar-event-mini w-full px-2 py-1.5 rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden"
+            className="calendar-event-mini w-full px-[var(--space-sm)] py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden"
             style={eventStyle}
             onClick={(e) => {
               e.stopPropagation()
@@ -97,7 +96,7 @@ const CalendarMonthView = ({
               {getEventTitle(event)}
             </Text>
             {event.time && (
-              <Text size="2xs" className="opacity-80 block truncate mt-0.5 font-medium">
+              <Text size="2xs" className="opacity-80 block truncate mt-[var(--space-2xs)] font-medium">
                 {event.time}
               </Text>
             )}
@@ -105,7 +104,7 @@ const CalendarMonthView = ({
         )}
       </Stack>
     )
-  }
+  }, [year, month, events, handleEventClick, handleDayClick, t, lang])
 
   // Generate all grid cells (8 columns x 6 rows = 48 items)
   const gridCells = useMemo(() => {
@@ -149,13 +148,13 @@ const CalendarMonthView = ({
   return (
     <>
       {/* Header Row */}
-      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60">
+      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-sm)] text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60">
         {t('week')}
       </div>
       {dayNames.map((day) => (
         <div 
           key={day} 
-          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-3 text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-border/60"
+          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-sm)] text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-border/60"
         >
           {day}
         </div>

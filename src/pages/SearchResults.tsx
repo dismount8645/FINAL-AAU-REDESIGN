@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import PageHeader from '@/components/common/PageHeader'
 import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
@@ -13,6 +14,10 @@ import {
 
 function SearchResults() {
   const t = useStore(state => state.t)
+  const isFavorite = useStore(state => state.isFavorite)
+  const toggleFavorite = useStore(state => state.toggleFavorite)
+  const _favorites = useStore(state => state.favorites)
+  void _favorites
   const navigate = useNavigate()
   const { query, results, filteredResults, categories, activeFilter, setActiveFilter, getActionLabel, subtitle } = useSearch()
 
@@ -28,35 +33,59 @@ function SearchResults() {
         ]}
       />
 
-      <div className="container pb-3xl">
-        {results.length > 0 ? (
-          <Stack gap="xl">
-            <SearchResultFilters
-              categories={categories}
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
-            />
+      <div className="container pb-[var(--space-3xl)]">
+        <AnimatePresence mode="wait">
+          {results.length > 0 ? (
+            <motion.div
+              key="results"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.15 }}
+            >
+              <Stack gap="xl">
+                <SearchResultFilters
+                  categories={categories}
+                  activeFilter={activeFilter}
+                  onFilterChange={setActiveFilter}
+                />
 
-            <Grid columns={12} gap="lg">
-              {filteredResults.map((res) => (
-                <Grid.Item span={12} tabletSpan={6} mobileSpan={1} key={res.path}>
-                  <SearchResultCard
-                    item={res}
-                    query={query}
-                    actionLabel={getActionLabel(res)}
-                    onClick={() => navigate(res.path)}
-                  />
-                </Grid.Item>
-              ))}
-            </Grid>
-          </Stack>
-        ) : (
-          <EmptyState
-            icon={Search}
-            title={t('no_search_results')}
-            description={t('search_no_results_desc')}
-          />
-        )}
+                <Grid columns={12} gap="lg">
+                  {filteredResults.map((res) => {
+                    const isCourse = res.path.startsWith('/course/')
+                    const courseId = isCourse ? Number(res.path.split('/').pop()) : null
+                    return (
+                      <Grid.Item span={12} tabletSpan={6} mobileSpan={1} key={res.path}>
+                        <SearchResultCard
+                          item={res}
+                          query={query}
+                          actionLabel={getActionLabel(res)}
+                          onClick={() => navigate(res.path)}
+                          isStarred={courseId !== null ? isFavorite('course', courseId) : undefined}
+                          onStarToggle={courseId !== null ? () => toggleFavorite('course', courseId) : undefined}
+                        />
+                      </Grid.Item>
+                    )
+                  })}
+                </Grid>
+              </Stack>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.15 }}
+            >
+              <EmptyState
+                icon={Search}
+                title={t('no_search_results')}
+                description={t('search_no_results_desc')}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </Stack>
   )

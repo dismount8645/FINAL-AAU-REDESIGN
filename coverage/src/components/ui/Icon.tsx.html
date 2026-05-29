@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -160,7 +160,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,7 +179,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,7 +189,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -209,9 +209,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">407x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">407x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -243,7 +243,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 &nbsp;
-const iconNameMap: Record&lt;string, LucideIcon&gt; = {
+const iconNameMap: Record&lt;string, LucideIcon&gt; = <span class="cstat-no" title="statement not covered" >{</span>
   'cloud-arrow-up': CloudUpload,
   'file': File,
   'square-check': CheckSquare,
@@ -262,7 +262,7 @@ export interface IconProps extends SVGProps&lt;SVGSVGElement&gt; {
   strokeWidth?: number
 }
 &nbsp;
-const sizeMap: Record&lt;string, number&gt; = {
+const sizeMap: Record&lt;string, number&gt; = <span class="cstat-no" title="statement not covered" >{</span>
   xs: 12,
   sm: 14,
   md: 16,
@@ -272,7 +272,7 @@ const sizeMap: Record&lt;string, number&gt; = {
   '3xl': 48,
 }
 &nbsp;
-const variantColors: Record&lt;string, string&gt; = {
+const variantColors: Record&lt;string, string&gt; = <span class="cstat-no" title="statement not covered" >{</span>
   primary: 'text-primary',
   accent: 'text-accent',
   success: 'text-success',
@@ -282,19 +282,19 @@ const variantColors: Record&lt;string, string&gt; = {
   muted: 'text-muted',
 }
 &nbsp;
-export default function Icon({
+export default function <span class="fstat-no" title="function not covered" >Icon({</span>
   icon: IconComponent,
   name,
   variant,
-  size = 'md',
+  size = <span class="branch-0 cbranch-no" title="branch not covered" >'md',</span>
   label,
   className,
   style,
   ...props
 }: IconProps) {
-  const FinalIcon = IconComponent || (name ? iconNameMap[name] : undefined) || HelpCircle
+  const FinalIcon = <span class="cstat-no" title="statement not covered" >IconComponent || (name ? iconNameMap[name] : undefined) || HelpCircle</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;FinalIcon
       size={sizeMap[size]}
       strokeWidth={2}
@@ -319,7 +319,7 @@ export default function Icon({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

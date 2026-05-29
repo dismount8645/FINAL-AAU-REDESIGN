@@ -127,6 +127,10 @@ describe('Settings Tabs Components', () => {
       const trackingToggle = screen.getByLabelText('Forumsporing')
       fireEvent.click(trackingToggle)
       expect(setForumTracking).toHaveBeenCalledWith(false)
+
+      const autoSubscribeToggle = screen.getByLabelText('Automatisk abonnement')
+      fireEvent.click(autoSubscribeToggle)
+      expect(setForumAutoSubscribe).toHaveBeenCalledWith(true)
     })
   })
 
@@ -150,6 +154,10 @@ describe('Settings Tabs Components', () => {
       const startDaySelect = screen.getAllByRole('combobox')[0]
       fireEvent.change(startDaySelect, { target: { value: 'sunday' } })
       expect(setCalendarStartDay).toHaveBeenCalledWith('sunday')
+
+      const defaultViewSelect = screen.getAllByRole('combobox')[1]
+      fireEvent.change(defaultViewSelect, { target: { value: 'week' } })
+      expect(setCalendarDefaultView).toHaveBeenCalledWith('week')
     })
   })
 

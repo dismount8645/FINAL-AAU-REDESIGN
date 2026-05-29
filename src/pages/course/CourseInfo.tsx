@@ -21,7 +21,7 @@ function CourseInfo() {
             </Stack>
             <Stack gap="xs">
               <Text weight="bold">{t('learning_goals')}</Text>
-              <ul className="list-disc pl-5 text-muted space-y-3xs">
+              <ul className="list-disc pl-[var(--space-lg)] text-muted space-y-3xs">
                 <li>{t('goal_understand_principles')}</li>
                 <li>{t('goal_apply_methods')}</li>
               </ul>

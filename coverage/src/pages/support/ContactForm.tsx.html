@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -189,29 +189,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">171x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">51x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -226,7 +211,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,7 +268,7 @@ interface ContactFormProps {
   onCancel: () =&gt; void
 }
 &nbsp;
-function ContactForm({
+function <span class="fstat-no" title="function not covered" >ContactForm({</span>
   subject,
   setSubject,
   description,
@@ -280,14 +280,14 @@ function ContactForm({
   onSubmit,
   onCancel,
 }: ContactFormProps) {
-  const t = useStore(state =&gt; state.t)
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Card className="h-auto overflow-visible min-h-[200px]"&gt;
       &lt;Card.Body padding="compact" className="p-lg"&gt;
         &lt;Heading level={3} className="mb-md"&gt;{t('send_message_to_support')}&lt;/Heading&gt;
         {!isFormOpen ? (
-          &lt;Button variant="primary" full onClick={() =&gt; setIsFormOpen(true)}&gt;
+          &lt;Button variant="primary" full <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etIsFormOpen(true)}&gt;</span>
             {t('write_a_message')}
           &lt;/Button&gt;
         ) : (
@@ -302,7 +302,7 @@ function ContactForm({
                 placeholder={t('support_subject_placeholder')}
                 value={subject}
                 error={fieldErrors.subject}
-                onChange={(e) =&gt; setSubject(e.target.value)}
+<span class="fstat-no" title="function not covered" >                onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSubject(e.target.value)}</span>
               /&gt;
             &lt;/FormField&gt;
 &nbsp;
@@ -317,7 +317,7 @@ function ContactForm({
                 rows={4}
                 value={description}
                 error={fieldErrors.description}
-                onChange={(e) =&gt; setDescription(e.target.value)}
+<span class="fstat-no" title="function not covered" >                onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setDescription(e.target.value)}</span>
               /&gt;
             &lt;/FormField&gt;
             &lt;div className="flex items-center gap-sm"&gt;
@@ -343,7 +343,7 @@ export default memo(ContactForm)
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

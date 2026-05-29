@@ -40,7 +40,7 @@ export default function NotificationItemRow({
       direction="row"
       align="center"
       gap="md"
-      className={`notification-item group p-md border-b border-border/40 transition-all duration-200 relative bg-bg-card cursor-pointer hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus ${!notif.isRead ? 'is-unread' : ''} ${isSelected ? 'is-selected bg-primary/5 dark:bg-primary/10' : ''}`}
+      className={`notification-item group p-md border-b border-border/40 transition-all duration-150 relative bg-bg-card cursor-pointer hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus ${!notif.isRead ? 'is-unread' : ''} ${isSelected ? 'is-selected bg-primary/5 dark:bg-primary/10' : ''}`}
       onClick={onSelect}
       tabIndex={0}
       role="button"

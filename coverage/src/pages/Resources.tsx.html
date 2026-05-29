@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -168,7 +168,13 @@
 <a name='L103'></a><a href='#L103'>103</a>
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a>
-<a name='L106'></a><a href='#L106'>106</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,14 +189,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">55x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">204x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,8 +245,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -257,6 +263,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -287,14 +299,15 @@ import { allTools, allEssentials, allToolsList } from '@/data/tools'
 import { env } from '@/utils/env'
 import { ResourcesSection } from './resources/index'
 &nbsp;
-function Resources() {
-  const t = useStore(state =&gt; state.t)
-  const isFavorite = useStore(state =&gt; state.isFavorite)
-  const favorites = useStore(state =&gt; state.favorites)
+function <span class="fstat-no" title="function not covered" >Resources() {</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >isFavorite = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.isFavorite)</span></span>
+  const <span class="cstat-no" title="statement not covered" >favorites = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.favorites)</span></span>
 &nbsp;
-  const pinnedTools = useMemo(() =&gt; allToolsList.filter(t =&gt; isFavorite('tool', t.id)), [favorites, isFavorite])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const <span class="cstat-no" title="statement not covered" >pinnedTools = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; <span class="cstat-no" title="statement not covered" >a</span>llToolsList.<span class="fstat-no" title="function not covered" >filter(t</span> =&gt; <span class="cstat-no" title="statement not covered" >isFavorite('tool', t.id))</span>, [</span>favorites, isFavorite])</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack tag="main" className="resources-page"&gt;
       &lt;PageHeader
         pageKey="toolbox"
@@ -339,12 +352,12 @@ function Resources() {
               &lt;Text weight="bold" size="lg"&gt;{t('about_aau_essentials')}&lt;/Text&gt;
             &lt;/Card.Header&gt;
             &lt;Card.Body&gt;
-              &lt;Text size="md" muted className="mb-lg leading-[1.7] block"&gt;
+              &lt;Text size="md" className="text-text-muted mb-lg leading-[1.7] block"&gt;
                 {t('about_aau_essentials_desc')}
               &lt;/Text&gt;
             &lt;/Card.Body&gt;
             &lt;Card.Footer&gt;
-              &lt;Button variant="ghost" size="sm" full iconRight={ExternalLink} onClick={() =&gt; env.open('https://support.its.aau.dk/')}&gt;
+              &lt;Button variant="ghost" size="sm" full iconRight={ExternalLink} <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >e</span>nv.open('https://support.its.aau.dk/')} c</span>lassName="normal-case tracking-normal font-bold text-sm"&gt;
                 {t('visit_help_portal')}
               &lt;/Button&gt;
             &lt;/Card.Footer&gt;
@@ -356,14 +369,19 @@ function Resources() {
             &lt;Card.Decoration icon={Headphones} /&gt;
 &nbsp;
             &lt;Card.Body className="h-full flex flex-col justify-center min-h-[200px]"&gt;
-              &lt;div className="relative z-[1]"&gt;
-                &lt;Text weight="bold" size="xl" className="card__title mb-sm block"&gt;
+              &lt;div className="relative z-[1] w-full text-white"&gt;
+                &lt;Text weight="bold" size="xl" className="text-white card__title mb-sm block"&gt;
                   {t('need_help')}
                 &lt;/Text&gt;
-                &lt;Text size="md" muted className="mb-lg block max-w-[85%]"&gt;
+                &lt;Text size="md" className="text-white/85 mb-lg block max-w-[85%] font-medium"&gt;
                   {t('its_help_desc')}
                 &lt;/Text&gt;
-                &lt;Button variant="ghost" full&gt;
+                &lt;Button 
+                  variant="secondary" 
+                  full 
+<span class="fstat-no" title="function not covered" >                  onClick={() =&gt; <span class="cstat-no" title="statement not covered" >e</span>nv.open('https://support.its.aau.dk/')}</span>
+                  className="bg-white text-primary border-none hover:bg-white/90 normal-case tracking-normal font-bold text-sm"
+                &gt;
                   {t('contact_support')}
                 &lt;/Button&gt;
               &lt;/div&gt;
@@ -385,7 +403,7 @@ export default Resources
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

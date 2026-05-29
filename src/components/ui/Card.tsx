@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  */
 const cardVariants = cva(
   [
-    "group relative flex flex-col h-full transition-all duration-300 ease-[var(--transition-ease)]",
+    "group relative flex flex-col h-full transition-all duration-150 ease-[var(--transition-ease)]",
     "bg-bg-card border border-border/60 rounded-xl",
     "isolate overflow-hidden"
   ],
@@ -23,7 +23,7 @@ const cardVariants = cva(
         outlined: "bg-transparent border-2 border-border hover:border-primary",
         brand: [
           "bg-gradient-to-br from-primary to-[var(--aau-light-blue)] text-white border-none shadow-lg",
-          "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity duration-300"
+          "after:absolute after:inset-0 after:bg-white/5 after:opacity-0 hover:after:opacity-100 after:transition-opacity duration-150"
         ],
         ghost: "bg-transparent border-none shadow-none hover:bg-bg-highlight/50",
       },
@@ -58,7 +58,7 @@ export interface CardProps
 const CardRoot = memo(forwardRef<HTMLDivElement, CardProps>(
   ({ variant, accent, interactive, children, className, as: Component = "div", onClick, ...props }, ref) => {
     const isClickable = interactive || !!onClick;
-    const MotionComponent = motion.create(Component as React.ComponentType<any>);
+    const MotionComponent = motion.create(Component as React.ElementType);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter" || e.key === " ") {

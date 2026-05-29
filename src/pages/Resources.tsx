@@ -17,6 +17,7 @@ function Resources() {
   const isFavorite = useStore(state => state.isFavorite)
   const favorites = useStore(state => state.favorites)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const pinnedTools = useMemo(() => allToolsList.filter(t => isFavorite('tool', t.id)), [favorites, isFavorite])
 
   return (

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -164,25 +164,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">160x</span>
-<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">40x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">211x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">211x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -191,9 +189,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -230,31 +230,31 @@ interface ResourcesSectionProps {
   className?: string
 }
 &nbsp;
-export default function ResourcesSection({
+export default function <span class="fstat-no" title="function not covered" >ResourcesSection({</span>
   title,
   subtitle,
   tools,
-  isStarredOnly = false,
-  showSsoWarning = true,
+  isStarredOnly = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
+  showSsoWarning = <span class="branch-0 cbranch-no" title="branch not covered" >true,</span>
   className,
 }: ResourcesSectionProps) {
-  const t = useStore(state =&gt; state.t)
-  const localize = useStore(state =&gt; state.localize)
-  const isFavorite = useStore(state =&gt; state.isFavorite)
-  const toggleFavorite = useStore(state =&gt; state.toggleFavorite)
-  const _favorites = useStore(state =&gt; state.favorites)
-  void _favorites
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >localize = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.localize)</span></span>
+  const <span class="cstat-no" title="statement not covered" >isFavorite = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.isFavorite)</span></span>
+  const <span class="cstat-no" title="statement not covered" >toggleFavorite = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.toggleFavorite)</span></span>
+  const <span class="cstat-no" title="statement not covered" >_favorites = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.favorites)</span></span>
+<span class="cstat-no" title="statement not covered" >  void _favorites</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;&gt;
       &lt;SectionHeader title={title} subtitle={subtitle} /&gt;
       &lt;Grid columns={12} gap="lg" className={className}&gt;
-        {tools.map((tool) =&gt; {
-          const titleText = tool.titleKey 
+        {tools.<span class="fstat-no" title="function not covered" >map((t</span>ool) =&gt; {
+          const titleText = <span class="cstat-no" title="statement not covered" >tool.titleKey </span>
             ? t(tool.titleKey) 
             : localize(tool, 'title')
 &nbsp;
-          return (
+<span class="cstat-no" title="statement not covered" >          return (</span>
             &lt;Grid.Item span={4} tabletSpan={6} mobileSpan={1} key={tool.id}&gt;
               &lt;InfoCard
                 icon={tool.icon}
@@ -265,14 +265,14 @@ export default function ResourcesSection({
                 description={localize(tool, 'desc')}
                 elevated
                 isStarred={isStarredOnly ? true : isFavorite('tool', tool.id)}
-                onStarToggle={() =&gt; toggleFavorite('tool', tool.id)}
+<span class="fstat-no" title="function not covered" >                onStarToggle={() =&gt; <span class="cstat-no" title="statement not covered" >t</span>oggleFavorite('tool', tool.id)}</span>
                 helpText={isStarredOnly ? undefined : localize(tool, 'help')}
-                onClick={() =&gt; env.open(tool.url)}
+<span class="fstat-no" title="function not covered" >                onClick={() =&gt; <span class="cstat-no" title="statement not covered" >e</span>nv.open(tool.url)}</span>
               &gt;
                 {showSsoWarning &amp;&amp; !tool.sso &amp;&amp; (
                   &lt;Stack direction="row" gap="xs" className="mt-xs"&gt;
-                    &lt;Lock size={14} strokeWidth={2} className="text-amber-500 dark:text-amber-400/70" /&gt;
-                    &lt;Text size="2xs" className="text-amber-600 dark:text-amber-400"&gt;
+                    &lt;Lock size={14} strokeWidth={2} className="text-[var(--aau-dark-orange)] dark:text-amber-400/80" /&gt;
+                    &lt;Text size="2xs" className="text-[var(--aau-dark-orange)] dark:text-amber-400 font-bold"&gt;
                       {t('requires_aau_login')}
                     &lt;/Text&gt;
                   &lt;/Stack&gt;
@@ -292,7 +292,7 @@ export default function ResourcesSection({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

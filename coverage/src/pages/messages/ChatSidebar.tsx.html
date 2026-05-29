@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">82.6% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>19/23</span>
+                <span class='fraction'>0/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -218,7 +218,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">53x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,17 +227,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">87x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -288,7 +288,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -328,7 +328,7 @@ interface ChatSidebarProps {
   t: (key: string) =&gt; string
 }
 &nbsp;
-export function ChatSidebar({
+export function <span class="fstat-no" title="function not covered" >ChatSidebar({</span>
   view,
   setView,
   filteredContacts,
@@ -339,7 +339,7 @@ export function ChatSidebar({
   restoreContact,
   t,
 }: ChatSidebarProps) {
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Card className="messages-list-panel panel-card flex flex-col p-[var(--space-0)]"&gt;
       &lt;div className="px-md pt-md border-b border-border"&gt;
         &lt;TabBar
@@ -348,17 +348,17 @@ export function ChatSidebar({
             { id: 'archive', label: t('archive_tab'), icon: Archive },
           ]}
           activeTab={view}
-          onChange={(id) =&gt; setView(id as typeof view)}
+<span class="fstat-no" title="function not covered" >          onChange={(i</span>d) =&gt; <span class="cstat-no" title="statement not covered" >setView(id as typeof view)}</span>
         /&gt;
       &lt;/div&gt;
       &lt;div className="panel-scroll"&gt;
         {filteredContacts.length &gt; 0 ? (
-          filteredContacts.map((contact) =&gt; (
-            &lt;Stack
+          filteredContacts.<span class="fstat-no" title="function not covered" >map((c</span>ontact) =&gt; (
+<span class="cstat-no" title="statement not covered" >            &lt;Stack</span>
               key={contact.id}
-              onClick={() =&gt; {
-                setActiveContactId(contact.id)
-                setShowChat(true)
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setActiveContactId(contact.id)</span>
+<span class="cstat-no" title="statement not covered" >                setShowChat(true)</span>
               }}
               tabIndex={0}
               role="button"
@@ -408,8 +408,8 @@ export function ChatSidebar({
                       size="xs"
                       icon={view === 'active' ? Archive : Undo2}
                       aria-label={view === 'active' ? 'Archive contact' : 'Restore contact'}
-                      onClick={(e: MouseEvent&lt;HTMLButtonElement&gt;) =&gt;
-                        view === 'active' ? archiveContact(contact.id, e) : restoreContact(contact.id, e)
+<span class="fstat-no" title="function not covered" >                      onClick={(e</span>: MouseEvent&lt;HTMLButtonElement&gt;) =&gt;
+<span class="cstat-no" title="statement not covered" >                        view === 'active' ? archiveContact(contact.id, e) : restoreContact(contact.id, e)</span>
                       }
                       pill
                       className="bg-bg-card border border-border/50 hover:border-primary shadow-[var(--shadow-sm)]"
@@ -433,7 +433,7 @@ export function ChatSidebar({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

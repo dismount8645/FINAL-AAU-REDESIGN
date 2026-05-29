@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.42% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/28</span>
+                <span class='fraction'>0/28</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/21</span>
+                <span class='fraction'>0/21</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -130,43 +130,43 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,44 +187,44 @@ export interface UseGradesFilterAndStatsOptions {
   localize: &lt;T extends object&gt;(obj: T, key?: string) =&gt; string
 }
 &nbsp;
-export function useGradesFilterAndStats({ gradesData, localize }: UseGradesFilterAndStatsOptions) {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedSemester, setSelectedSemester] = useState&lt;string&gt;('all')
+export function <span class="fstat-no" title="function not covered" >useGradesFilterAndStats({</span> gradesData, localize }: UseGradesFilterAndStatsOptions) {
+  const [searchQuery, <span class="cstat-no" title="statement not covered" >setSearchQuery] = useState('')</span>
+  const [selectedSemester, <span class="cstat-no" title="statement not covered" >setSelectedSemester] = useState&lt;string&gt;('all')</span>
 &nbsp;
-  const gradedRecords = useMemo(() =&gt; gradesData.filter(g =&gt; g.grade !== null), [gradesData])
+  const <span class="cstat-no" title="statement not covered" >gradedRecords = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; <span class="cstat-no" title="statement not covered" >g</span>radesData.<span class="fstat-no" title="function not covered" >filter(g</span> =&gt; <span class="cstat-no" title="statement not covered" >g.grade !== null)</span>, [</span>gradesData])</span>
 &nbsp;
-  const gpa = useMemo(() =&gt; {
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (gradedRecords.length === 0) <span class="cstat-no" title="statement not covered" >return 0</span>
-    const totalWeighted = gradedRecords.reduce((sum, r) =&gt; sum + (r.grade || <span class="branch-1 cbranch-no" title="branch not covered" >0) * r</span>.ects, 0)
-    const totalEcts = gradedRecords.reduce((sum, r) =&gt; sum + r.ects, 0)
-    return parseFloat((totalWeighted / totalEcts).toFixed(2))
+  const <span class="cstat-no" title="statement not covered" >gpa = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (gradedRecords.length === 0) <span class="cstat-no" title="statement not covered" >return 0</span></span>
+    const totalWeighted = <span class="cstat-no" title="statement not covered" >gradedRecords.<span class="fstat-no" title="function not covered" >reduce((s</span>um, r) =&gt; <span class="cstat-no" title="statement not covered" >sum + (r.grade || 0) * r.ects, 0</span>)</span>
+    const totalEcts = <span class="cstat-no" title="statement not covered" >gradedRecords.<span class="fstat-no" title="function not covered" >reduce((s</span>um, r) =&gt; <span class="cstat-no" title="statement not covered" >sum + r.ects, 0</span>)</span>
+<span class="cstat-no" title="statement not covered" >    return parseFloat((totalWeighted / totalEcts).toFixed(2))</span>
   }, [gradedRecords])
 &nbsp;
-  const completedEcts = useMemo(() =&gt; {
-    return gradedRecords.reduce((sum, r) =&gt; sum + r.ects, 0)
+  const <span class="cstat-no" title="statement not covered" >completedEcts = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    return gradedRecords.<span class="fstat-no" title="function not covered" >reduce((s</span>um, r) =&gt; <span class="cstat-no" title="statement not covered" >sum + r.ects, 0</span>)</span>
   }, [gradedRecords])
 &nbsp;
-  const semesterOptions = useMemo(() =&gt; {
-    const list = gradesData.map(g =&gt; localize(g, 'semester'))
-    return ['all', ...Array.from(new Set(list))]
+  const <span class="cstat-no" title="statement not covered" >semesterOptions = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; {</span></span>
+    const list = <span class="cstat-no" title="statement not covered" >gradesData.<span class="fstat-no" title="function not covered" >map(g</span> =&gt; <span class="cstat-no" title="statement not covered" >localize(g, 'semester'))</span></span>
+<span class="cstat-no" title="statement not covered" >    return ['all', ...Array.from(new Set(list))]</span>
   }, [gradesData, localize])
 &nbsp;
-  const filteredRecords = useMemo(() =&gt; {
-    return gradesData.filter(r =&gt; {
-      const sem = localize(r, 'semester')
-      const matchesSemester = selectedSemester === 'all' || sem === selectedSemester
+  const <span class="cstat-no" title="statement not covered" >filteredRecords = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    return gradesData.<span class="fstat-no" title="function not covered" >filter(r</span> =&gt; {</span>
+      const sem = <span class="cstat-no" title="statement not covered" >localize(r, 'semester')</span>
+      const matchesSemester = <span class="cstat-no" title="statement not covered" >selectedSemester === 'all' || sem === selectedSemester</span>
 &nbsp;
-      const title = localize(r, 'title')
-      const matchesSearch = searchQuery.trim() === '' ||
+      const title = <span class="cstat-no" title="statement not covered" >localize(r, 'title')</span>
+      const matchesSearch = <span class="cstat-no" title="statement not covered" >searchQuery.trim() === '' ||</span>
         title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         r.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
         r.instructor.toLowerCase().includes(searchQuery.toLowerCase())
 &nbsp;
-      return matchesSemester &amp;&amp; matchesSearch
+<span class="cstat-no" title="statement not covered" >      return matchesSemester &amp;&amp; matchesSearch</span>
     })
   }, [gradesData, searchQuery, selectedSemester, localize])
 &nbsp;
-  return {
+<span class="cstat-no" title="statement not covered" >  return {</span>
     searchQuery,
     setSearchQuery,
     selectedSemester,
@@ -244,7 +244,7 @@ export function useGradesFilterAndStats({ gradesData, localize }: UseGradesFilte
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

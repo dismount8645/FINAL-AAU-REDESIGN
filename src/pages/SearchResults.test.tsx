@@ -159,4 +159,14 @@ describe('SearchResults Page', () => {
     expect(strong).toBeInTheDocument()
     expect(strong?.textContent).toBe('Design')
   })
+
+  it('toggles favorite on a course search result', () => {
+    const toggleSpy = vi.spyOn(useStore.getState(), 'toggleFavorite')
+    renderSearchResults('da')
+    const starBtn = screen.getByLabelText(/til favoritter|to favorites/i)
+    expect(starBtn).toBeInTheDocument()
+    fireEvent.click(starBtn)
+    expect(toggleSpy).toHaveBeenCalledWith('course', 1)
+    toggleSpy.mockRestore()
+  })
 })

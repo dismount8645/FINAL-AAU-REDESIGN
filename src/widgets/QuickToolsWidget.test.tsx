@@ -4,6 +4,17 @@ import QuickToolsWidget from '@/widgets/QuickToolsWidget'
 import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store/useStore'
 
+vi.mock('@/constants/tools', async () => {
+  const actual = await vi.importActual('@/constants/tools') as any
+  return {
+    ...actual,
+    quickToolsData: [
+      { id: 1, nameKey: 'digital_exam', url: 'https://digitalservices.aau.dk/dse/exam', icon: 'invalid_icon_fallback' as any, category: 'studies' },
+      ...actual.quickToolsData.slice(1)
+    ]
+  }
+})
+
 // Mock useStore for atomic selectors
 vi.mock('@/store/useStore', () => {
   const mockFavoritesList: any[] = []

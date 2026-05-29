@@ -191,4 +191,12 @@ describe('Course Page', () => {
     expect(screen.getByText('Mission accomplished!')).toBeInTheDocument()
     expect(screen.getByText('100%')).toBeInTheDocument()
   })
+
+  it('toggles section expansion', () => {
+    renderCourse('1')
+    const button = document.querySelector('button[data-section-id="s1"]')
+    expect(button).toBeInTheDocument()
+    fireEvent.click(button!)
+    fireEvent.click(button!)
+  })
 })

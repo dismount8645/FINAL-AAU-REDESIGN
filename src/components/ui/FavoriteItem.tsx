@@ -62,7 +62,7 @@ const FavoriteItem = memo(function FavoriteItem({
       whileHover={{ y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
       whileTap={{ scale: 0.98, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
       className={cn(
-        "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card hover:border-primary/30 focus-within:ring-2 focus-within:ring-primary focus-within:outline-none transition-all cursor-pointer select-none",
+        "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card hover:border-primary/30 focus-within:shadow-focus focus-within:outline-none transition-all cursor-pointer select-none",
         draggable && "active:opacity-60",
       )}
     >

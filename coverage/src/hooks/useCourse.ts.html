@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/18</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -126,38 +126,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -173,39 +173,39 @@ interface UseCourseReturn {
   progress: number
 }
 &nbsp;
-export function useCourse(courseId: string | number): UseCourseReturn {
-  const navigate = useNavigate()
-  const data = (courses as Record&lt;string | number, CourseData&gt;)[courseId]
+export function <span class="fstat-no" title="function not covered" >useCourse(c</span>ourseId: string | number): UseCourseReturn {
+  const <span class="cstat-no" title="statement not covered" >navigate = useNavigate()</span>
+  const data = (<span class="cstat-no" title="statement not covered" >courses as Record&lt;string | number, CourseData&gt;)[courseId]</span>
 &nbsp;
-  const [completedItems, setCompletedItems] = useState&lt;number[]&gt;(() =&gt; {
-    return storage.get(`courseProgress_${courseId}`, [])
+  const [completedItems, <span class="cstat-no" title="statement not covered" >setCompletedItems] = <span class="fstat-no" title="function not covered" >useState&lt;number[]&gt;(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    return storage.get(`courseProgress_${courseId}`, [])</span>
   })
 &nbsp;
-  useEffect(() =&gt; {
-    if (!data) navigate('/courses')
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  useEffect(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (!data) <span class="cstat-no" title="statement not covered" >navigate('/courses')</span></span>
   }, [courseId, data, navigate])
 &nbsp;
-  useEffect(() =&gt; {
-    if (data) {
-      storage.set(`courseProgress_${courseId}`, completedItems)
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  useEffect(() =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (data) {</span>
+<span class="cstat-no" title="statement not covered" >      storage.set(`courseProgress_${courseId}`, completedItems)</span>
     }
   }, [completedItems, courseId, data])
 &nbsp;
-  const toggleItem = useCallback((itemId: number) =&gt; {
-    setCompletedItems((prev) =&gt;
-      prev.includes(itemId) ? prev.filter((i) =&gt; i !== itemId) : [...prev, itemId]
+  const <span class="cstat-no" title="statement not covered" >toggleItem = <span class="fstat-no" title="function not covered" >useCallback((i</span>temId: number) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    setCompletedItems((p</span>rev) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      prev.includes(itemId) ? prev.<span class="fstat-no" title="function not covered" >filter((i</span>) =&gt; <span class="cstat-no" title="statement not covered" >i !== itemId)</span> : [...prev, itemId]</span>
     )
   }, [])
 &nbsp;
-  const totalItems = data
-    ? data.sections.reduce((acc: number, section) =&gt; acc + section.items.length, 0)
+  const totalItems = <span class="cstat-no" title="statement not covered" >data</span>
+    ? data.sections.<span class="fstat-no" title="function not covered" >reduce((a</span>cc: number, section) =&gt; <span class="cstat-no" title="statement not covered" >acc + section.items.length, 0</span>)
     : 0
 &nbsp;
-  const progress = totalItems &gt; 0
+  const progress = <span class="cstat-no" title="statement not covered" >totalItems &gt; 0</span>
     ? Math.round((completedItems.length / totalItems) * 100)
     : 0
 &nbsp;
-  return { data, completedItems, toggleItem, totalItems, progress }
+<span class="cstat-no" title="statement not covered" >  return { data, completedItems, toggleItem, totalItems, progress }</span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -214,7 +214,7 @@ export function useCourse(courseId: string | number): UseCourseReturn {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

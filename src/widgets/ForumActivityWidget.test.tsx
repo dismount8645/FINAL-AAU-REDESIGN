@@ -64,4 +64,11 @@ describe('ForumActivityWidget', () => {
     fireEvent.click(item)
     expect(mockNavigate).toHaveBeenCalledWith('/forum/1')
   })
+
+  it('does not navigate on activity item click when isEditing is true', () => {
+    renderWithProviders(<ForumActivityWidget span={12} isEditing={true} />)
+    const item = screen.getByText('Spørgsmål til teksten')
+    fireEvent.click(item)
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
 })

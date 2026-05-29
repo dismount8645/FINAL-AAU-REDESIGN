@@ -109,8 +109,11 @@ describe('Calendar Page', () => {
   })
 
   it('renders upcoming events widget and clicks event', () => {
+    const today = new Date()
+    const futureDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2)
+    const dateKey = `${futureDate.getFullYear()}-${futureDate.getMonth()}-${futureDate.getDate()}`
     localStorage.setItem('aauCalendarEvents', JSON.stringify({
-      '2026-4-25': { id: 104, title: 'Deadline', color: 'var(--color-danger)', location: 'Online Submission', time: '23:59', host: 'AAU Moodle' },
+      [dateKey]: { id: 104, title: 'Deadline', color: 'var(--color-danger)', location: 'Online Submission', time: '23:59', host: 'AAU Moodle' },
     }))
     renderCalendar('da')
     expect(screen.getByText('Kommende')).toBeInTheDocument()
@@ -320,9 +323,14 @@ describe('Calendar Page', () => {
   })
 
   it('sorts multiple future events in upcoming widget', () => {
+    const today = new Date()
+    const future1 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2)
+    const future2 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5)
+    const key1 = `${future1.getFullYear()}-${future1.getMonth()}-${future1.getDate()}`
+    const key2 = `${future2.getFullYear()}-${future2.getMonth()}-${future2.getDate()}`
     localStorage.setItem('aauCalendarEvents', JSON.stringify({
-      '2026-4-20': { id: 401, title: 'Future Event 1', color: 'var(--color-primary)', location: 'A', time: '10:00', host: 'Host 1' },
-      '2026-4-25': { id: 402, title: 'Future Event 2', color: 'var(--color-primary)', location: 'B', time: '11:00', host: 'Host 2' },
+      [key1]: { id: 401, title: 'Future Event 1', color: 'var(--color-primary)', location: 'A', time: '10:00', host: 'Host 1' },
+      [key2]: { id: 402, title: 'Future Event 2', color: 'var(--color-primary)', location: 'B', time: '11:00', host: 'Host 2' },
     }))
     renderCalendar('da')
     expect(screen.getByText('Kommende')).toBeInTheDocument()

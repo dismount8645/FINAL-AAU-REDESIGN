@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -228,11 +228,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">111x</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -246,12 +246,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -292,12 +292,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">106x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">125x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -305,7 +305,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -371,12 +371,12 @@ import {
   NotificationFilters
 } from './notifications/index'
 &nbsp;
-function Notifications() {
-  const t = useStore(state =&gt; state.t)
-  const lang = useStore(state =&gt; state.lang)
-  const navigate = useNavigate()
+function <span class="fstat-no" title="function not covered" >Notifications() {</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >lang = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.lang)</span></span>
+  const <span class="cstat-no" title="statement not covered" >navigate = useNavigate()</span>
 &nbsp;
-  const initialNotifications = useMemo(() =&gt; createMockNotifications(t), [t])
+  const <span class="cstat-no" title="statement not covered" >initialNotifications = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >useMemo(() =&gt; c</span>reateMockNotifications(t), [</span>t])</span>
 &nbsp;
   const {
     view,
@@ -390,12 +390,12 @@ function Notifications() {
     selectedNotification,
     currentSelectedId,
     unreadCount,
-    setSelectedId
+<span class="cstat-no" title="statement not covered" >    setSelectedId</span>
   } = useNotificationsState({ initialNotifications })
 &nbsp;
-  const getIcon = getNotificationIcon
+  const getIcon = <span class="cstat-no" title="statement not covered" >getNotificationIcon</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack className="container notifications-page flex flex-col pb-[var(--space-2xl)]"&gt;
       &lt;PageHeader
         pageKey="notifications"
@@ -435,13 +435,13 @@ function Notifications() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.15 }}
                   &gt;
-                    {Object.entries(grouped).map(([date, items]) =&gt; (
-                      &lt;Stack key={date} gap="none"&gt;
+                    {Object.entries(grouped).<span class="fstat-no" title="function not covered" >map(([</span>date, items]) =&gt; (
+<span class="cstat-no" title="statement not covered" >                      &lt;Stack key={date} gap="none"&gt;</span>
                         &lt;div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-bg-placeholder/50 dark:bg-white/5 border-y border-border/50 first:border-t-0"&gt;
                           &lt;Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase"&gt;{date}&lt;/Text&gt;
                         &lt;/div&gt;
-                        {items.map((notif) =&gt; (
-                          &lt;NotificationItemRow
+                        {items.<span class="fstat-no" title="function not covered" >map((n</span>otif) =&gt; (
+<span class="cstat-no" title="statement not covered" >                          &lt;NotificationItemRow</span>
                             key={notif.id}
                             notif={notif}
                             isSelected={currentSelectedId === notif.id}
@@ -449,7 +449,7 @@ function Notifications() {
                             lang={lang}
                             t={t}
                             getIcon={getIcon}
-                            onSelect={() =&gt; setSelectedId(notif.id)}
+<span class="fstat-no" title="function not covered" >                            onSelect={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSelectedId(notif.id)}</span>
                             onMarkRead={markAsRead}
                             onArchive={archiveNotification}
                             onRestore={restoreNotification}
@@ -502,7 +502,7 @@ export default Notifications
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

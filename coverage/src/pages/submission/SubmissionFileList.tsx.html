@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -124,22 +124,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -162,19 +162,19 @@ interface SubmissionFileListProps {
   t: (key: string) =&gt; string
 }
 &nbsp;
-export default function SubmissionFileList({
+export default function <span class="fstat-no" title="function not covered" >SubmissionFileList({</span>
   files,
   onRemoveFile,
   t,
 }: SubmissionFileListProps) {
-  if (files.length === 0) return null
+<span class="cstat-no" title="statement not covered" >  if (files.length === 0) <span class="cstat-no" title="statement not covered" >return null</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack gap="md" className="submission__files mt-[var(--space-xl)]"&gt;
       &lt;Heading level={4}&gt;{t('selected_files')}&lt;/Heading&gt;
       &lt;Stack gap="sm"&gt;
-        {files.map((file) =&gt; (
-          &lt;Stack key={file.id} direction="row" align="center" gap="sm" className="file-chip"&gt;
+        {files.<span class="fstat-no" title="function not covered" >map((f</span>ile) =&gt; (
+<span class="cstat-no" title="statement not covered" >          &lt;Stack key={file.id} direction="row" align="center" gap="sm" className="file-chip"&gt;</span>
             &lt;Icon name="file" /&gt;
             &lt;Text weight="semibold"&gt;{file.name}&lt;/Text&gt;
             &lt;Text muted size="sm"&gt;({file.size})&lt;/Text&gt;
@@ -182,7 +182,7 @@ export default function SubmissionFileList({
               variant="ghost"
               size="xs"
               icon={Trash2}
-              onClick={() =&gt; onRemoveFile(file.id)}
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; <span class="cstat-no" title="statement not covered" >o</span>nRemoveFile(file.id)}</span>
               aria-label={t('submission_remove_file')}
               className="submission__remove-btn text-[var(--color-danger)]"
             /&gt;
@@ -199,7 +199,7 @@ export default function SubmissionFileList({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -31,7 +31,7 @@ const StatusItem = memo(function StatusItem({
   return (
     <div
       className={cn(
-        "flex items-center gap-[var(--space-md)] px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-md)] transition-all duration-200",
+        "flex items-center gap-[var(--space-md)] px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-md)] transition-all duration-150",
         onClick ? "cursor-pointer hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus" : "cursor-default",
         unread && "bg-bg-highlight",
         className
