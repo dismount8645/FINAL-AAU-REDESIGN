@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>31/31</span>
+                <span class='fraction'>0/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -219,8 +219,7 @@
 <a name='L154'></a><a href='#L154'>154</a>
 <a name='L155'></a><a href='#L155'>155</a>
 <a name='L156'></a><a href='#L156'>156</a>
-<a name='L157'></a><a href='#L157'>157</a>
-<a name='L158'></a><a href='#L158'>158</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L157'></a><a href='#L157'>157</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -248,7 +247,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -265,22 +264,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">259x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">259x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">259x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,38 +403,38 @@ export interface InfoCardProps {
   helpText?: string
 }
 &nbsp;
-const InfoCard = memo(function InfoCard({
+const <span class="cstat-no" title="statement not covered" >InfoCard = memo(function <span class="fstat-no" title="function not covered" >InfoCard({</span></span>
   icon,
   iconBg,
   iconColor,
-  iconSize = 'md',
+  iconSize = <span class="branch-0 cbranch-no" title="branch not covered" >'md',</span>
   title,
   description,
   action,
-  direction = 'row',
+  direction = <span class="branch-0 cbranch-no" title="branch not covered" >'row',</span>
   elevated,
-  className = '',
+  className = <span class="branch-0 cbranch-no" title="branch not covered" >'',</span>
   onClick,
   children,
-  isStarred = false,
+  isStarred = <span class="branch-0 cbranch-no" title="branch not covered" >false,</span>
   onStarToggle,
   helpText,
 }: InfoCardProps) {
-  const [showHelp, setShowHelp] = useState(false)
+  const [showHelp, <span class="cstat-no" title="statement not covered" >setShowHelp] = useState(false)</span>
 &nbsp;
-  const handleStarClick = useCallback((e: MouseEvent) =&gt; {
-    e.stopPropagation()
-    onStarToggle?.()
+  const <span class="cstat-no" title="statement not covered" >handleStarClick = <span class="fstat-no" title="function not covered" >useCallback((e</span>: MouseEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    e.stopPropagation()</span>
+<span class="cstat-no" title="statement not covered" >    onStarToggle?.()</span>
   }, [onStarToggle])
 &nbsp;
-  const handleHelpClick = useCallback((e: MouseEvent) =&gt; {
-    e.stopPropagation()
-    setShowHelp(v =&gt; !v)
+  const <span class="cstat-no" title="statement not covered" >handleHelpClick = <span class="fstat-no" title="function not covered" >useCallback((e</span>: MouseEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    e.stopPropagation()</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    setShowHelp(v</span> =&gt; <span class="cstat-no" title="statement not covered" >!v)</span></span>
   }, [])
 &nbsp;
-  const isClickable = !!onClick
+  const isClickable = <span class="cstat-no" title="statement not covered" >!!onClick</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Card 
       variant={elevated ? 'elevated' : 'default'} 
       className={cn(
@@ -446,11 +444,32 @@ const InfoCard = memo(function InfoCard({
       )} 
       onClick={onClick}
     &gt;
-      &lt;Card.Body className="p-md md:p-lg"&gt;
-        &lt;Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start"&gt;
+      &lt;Card.Body className="p-md md:p-lg h-full w-full flex flex-col relative"&gt;
+        {onStarToggle &amp;&amp; (
+          &lt;Button
+            variant="ghost"
+            size="icon-sm"
+            className={cn(
+              'absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 transition-all',
+              isStarred 
+                ? 'text-warning bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
+                : 'text-disabled hover:text-primary'
+            )}
+            onClick={handleStarClick}
+            aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
+            pill
+          &gt;
+            &lt;Star 
+              size={16} 
+              strokeWidth={2.5} 
+              fill={isStarred ? 'currentColor' : 'none'} 
+            /&gt;
+          &lt;/Button&gt;
+        )}
+        &lt;Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start" full&gt;
           &lt;IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} className="shrink-0" /&gt;
           
-          &lt;Stack gap="xs" className="flex-1 min-w-0"&gt;
+          &lt;Stack gap="xs" className="flex-1 min-w-0 h-full flex flex-col pr-8"&gt;
             &lt;Stack direction="row" gap="xs" align="center" className="w-full"&gt;
               &lt;Text weight="bold" size="lg" className="truncate leading-tight"&gt;{title}&lt;/Text&gt;
               
@@ -469,28 +488,6 @@ const InfoCard = memo(function InfoCard({
                   &lt;Info size={16} strokeWidth={2.5} /&gt;
                 &lt;/Button&gt;
               )}
-              
-              {onStarToggle &amp;&amp; (
-                &lt;Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className={cn(
-                    'ml-auto transition-all',
-                    isStarred 
-                      ? 'text-warning bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
-                      : 'text-disabled hover:text-primary'
-                  )}
-                  onClick={handleStarClick}
-                  aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
-                  pill
-                &gt;
-                  &lt;Star 
-                    size={16} 
-                    strokeWidth={2.5} 
-                    fill={isStarred ? 'currentColor' : 'none'} 
-                  /&gt;
-                &lt;/Button&gt;
-              )}
             &lt;/Stack&gt;
 &nbsp;
             &lt;AnimatePresence initial={false}&gt;
@@ -500,7 +497,7 @@ const InfoCard = memo(function InfoCard({
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+                  transition={{ duration: 0.15 }}
                   className="overflow-hidden"
                 &gt;
                   &lt;Text 
@@ -519,7 +516,7 @@ const InfoCard = memo(function InfoCard({
               &lt;/Text&gt;
             )}
             
-            {children &amp;&amp; &lt;div className="mt-xs w-full"&gt;{children}&lt;/div&gt;}
+            {children &amp;&amp; &lt;div className="mt-auto pt-xs w-full"&gt;{children}&lt;/div&gt;}
           &lt;/Stack&gt;
 &nbsp;
           {action &amp;&amp; (
@@ -541,7 +538,7 @@ export default InfoCard
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

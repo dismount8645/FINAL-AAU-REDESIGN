@@ -51,7 +51,7 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
     >
       <div className="flex flex-col items-center justify-center min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
         <Text size="xs" weight="black" className="text-primary leading-none">{hours}</Text>
-        <Text size="xs" weight="bold" className="text-muted leading-none mt-1 opacity-60 font-mono">{minutes}</Text>
+        <Text size="xs" weight="bold" className="text-muted leading-none mt-[var(--space-xs)] opacity-60 font-mono">{minutes}</Text>
       </div>
       <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
         {t(event.titleKey)}
@@ -65,7 +65,7 @@ OverviewItem.displayName = 'OverviewItem'
 /**
  * QuickOverviewWidget - Real-time schedule and upcoming agenda.
  */
-const QuickOverviewWidget = ({ isEditing }: WidgetProps) => {
+const QuickOverviewWidget = ({ span, isEditing }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
 
@@ -83,19 +83,20 @@ const QuickOverviewWidget = ({ isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Calendar size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('common.quick_overview')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
-          size="xs"
+          size={span && span > 4 ? "xs" : "icon-xs"}
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleGoToCalendar}
           iconRight={ChevronRight}
+          aria-label={t('calendar')}
         >
-          {t('calendar')}
+          {span && span > 4 ? t('calendar') : ''}
         </Button>
       </Card.Header>
 
@@ -118,7 +119,7 @@ const QuickOverviewWidget = ({ isEditing }: WidgetProps) => {
         <Text size="xs" weight="medium" className="text-muted italic">
           {t('todays_schedule')}
         </Text>
-        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
+        <div className="flex items-center gap-[var(--space-xs)] opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-[var(--space-sm)] group-hover/widget:translate-x-0">
           <Button 
             variant="ghost" 
             size="xs" 

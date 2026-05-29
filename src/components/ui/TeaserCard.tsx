@@ -21,7 +21,7 @@ const teaserCardVariants = cva(
     'bg-bg-card border border-border rounded-xl',
     'shadow-sm hover:shadow-xl hover:border-primary',
     'transition-all duration-150 ease-[var(--transition-ease)] hover:-translate-y-1',
-    'focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2',
+    'focus-within:shadow-focus focus-within:outline-none',
     '@container/teaser cursor-pointer'
   ],
   {

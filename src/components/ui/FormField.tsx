@@ -16,7 +16,7 @@ export interface FormFieldProps {
 /**
  * FormField – wrapper der håndterer label, help‑tekst og fejl‑meddelelser.
  * - Tilføjer `aria-describedby` og `aria-invalid` automatisk.
- * - Garanterer 44 × 44 px touch‑mål på interaktive elementer via children.
+ * - Garanterer 44 x 44 px touch-maal paa interaktive elementer via children.
  */
 export default function FormField({
   id,

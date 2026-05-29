@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.29% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/17</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">71.42% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>20/28</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">35.29% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/17</span>
+                <span class='fraction'>0/19</span>
             </div>
         
             
@@ -199,7 +199,11 @@
 <a name='L134'></a><a href='#L134'>134</a>
 <a name='L135'></a><a href='#L135'>135</a>
 <a name='L136'></a><a href='#L136'>136</a>
-<a name='L137'></a><a href='#L137'>137</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -228,7 +232,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -246,15 +251,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">93x</span>
-<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">93x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -264,7 +267,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -319,7 +327,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -344,6 +352,7 @@ import { EyeOff, GripVertical } from 'lucide-react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import ResizeCorner from '@/components/ui/ResizeCorner'
 import { useResizeHandle } from '@/hooks/useResizeHandle'
+import { WIDGET_CONFIG } from '@/data/mockData'
 &nbsp;
 interface WidgetWrapperProps {
   widget: Widget
@@ -364,7 +373,7 @@ interface WidgetWrapperProps {
   moveWidget: (id: string, direction: 'left' | 'right') =&gt; void
 }
 &nbsp;
-export const WidgetWrapper = memo(function WidgetWrapper({
+export const <span class="cstat-no" title="statement not covered" >WidgetWrapper = memo(function <span class="fstat-no" title="function not covered" >WidgetWrapper({</span></span>
   widget,
   x,
   y,
@@ -382,13 +391,16 @@ export const WidgetWrapper = memo(function WidgetWrapper({
   t,
   moveWidget,
 }: WidgetWrapperProps) {
-  const { handleResize: resizeWidth } = useResizeHandle(widget.id, widget.span, widget.rowSpan || 1, resizeWidget)
-  const { handleResize: resizeHeight } = useResizeHandle(widget.id, widget.span, widget.rowSpan || 1, resizeWidget)
+  const defaultRowSpan = <span class="cstat-no" title="statement not covered" >WIDGET_CONFIG[widget.id]?.rowSpan || 1</span>
+  const resolvedRowSpan = <span class="cstat-no" title="statement not covered" >widget.rowSpan || defaultRowSpan</span>
 &nbsp;
-  return (
+  const { handleResize: <span class="cstat-no" title="statement not covered" >resizeWidth } = useResizeHandle(widget.id, widget.span, resolvedRowSpan, resizeWidget)</span>
+  const { handleResize: <span class="cstat-no" title="statement not covered" >resizeHeight } = useResizeHandle(widget.id, widget.span, resolvedRowSpan, resizeWidget)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Grid.Item
       span={widget.span}
-      rowSpan={widget.rowSpan || 1}
+      rowSpan={resolvedRowSpan}
       x={x}
       y={y}
       tabletSpan={tabletSpan}
@@ -400,7 +412,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
           : ''
       }`}
       draggable={isEditing}
-      onDragStart={(e: DragEvent&lt;HTMLElement&gt;) =&gt; onDragStart(e, widget.id, isEditing)}
+<span class="fstat-no" title="function not covered" >      onDragStart={(e</span>: DragEvent&lt;HTMLElement&gt;) =&gt; <span class="cstat-no" title="statement not covered" >onDragStart(e, widget.id, isEditing)}</span>
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
 <span class="fstat-no" title="function not covered" >      onDrop={(e</span>: DragEvent&lt;HTMLElement&gt;) =&gt; <span class="cstat-no" title="statement not covered" >onDrop(e, widget.id)}</span>
@@ -417,13 +429,13 @@ export const WidgetWrapper = memo(function WidgetWrapper({
             {/* Visual handle edge indicator overlays */}
             &lt;div
               className="absolute top-0 right-0 w-[12px] h-full cursor-ew-resize z-20 group-hover:bg-primary/5 active:bg-primary/15 transition-colors rounded-r-lg"
-              title={t('resize_width') || <span class="branch-1 cbranch-no" title="branch not covered" >'Drag to resize width'}</span>
+              title={t('resize_width') || 'Drag to resize width'}
 <span class="fstat-no" title="function not covered" >              onMouseDown={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >resizeWidth(e, 'width')}</span>
 <span class="fstat-no" title="function not covered" >              onTouchStart={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >resizeWidth(e, 'width')}</span>
             /&gt;
             &lt;div
               className="absolute bottom-0 left-0 w-full h-[12px] cursor-ns-resize z-20 group-hover:bg-primary/5 active:bg-primary/15 transition-colors rounded-b-lg"
-              title={t('resize_height') || <span class="branch-1 cbranch-no" title="branch not covered" >'Drag to resize height'}</span>
+              title={t('resize_height') || 'Drag to resize height'}
 <span class="fstat-no" title="function not covered" >              onMouseDown={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >resizeHeight(e, 'height')}</span>
 <span class="fstat-no" title="function not covered" >              onTouchStart={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >resizeHeight(e, 'height')}</span>
             /&gt;
@@ -437,8 +449,8 @@ export const WidgetWrapper = memo(function WidgetWrapper({
               &lt;button
                 type="button"
                 className="flex h-11 w-11 items-center justify-center cursor-grab active:cursor-grabbing text-muted hover:text-main focus-visible:outline-none focus-visible:shadow-focus rounded-md border-none bg-transparent"
-                title={t('drag_to_reorder') || <span class="branch-1 cbranch-no" title="branch not covered" >'Drag to reorder'}</span>
-                aria-label={t('drag_to_reorder') || <span class="branch-1 cbranch-no" title="branch not covered" >'Drag to reorder'}</span>
+                title={t('drag_to_reorder') || 'Drag to reorder'}
+                aria-label={t('drag_to_reorder') || 'Drag to reorder'}
 <span class="fstat-no" title="function not covered" >                onKeyDown={(e</span>) =&gt; {
 <span class="cstat-no" title="statement not covered" >                  if (e.key === 'ArrowLeft') {</span>
 <span class="cstat-no" title="statement not covered" >                    e.preventDefault();</span>
@@ -455,7 +467,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
                 variant="ghost"
                 size="sm"
                 icon={EyeOff}
-                onClick={() =&gt; toggleVisibility(widget.id)}
+<span class="fstat-no" title="function not covered" >                onClick={() =&gt; <span class="cstat-no" title="statement not covered" >t</span>oggleVisibility(widget.id)}</span>
                 aria-label={t('hide_widget')}
                 className="w-[var(--space-2xl)] h-[var(--space-2xl)] p-0"
               /&gt;
@@ -478,7 +490,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

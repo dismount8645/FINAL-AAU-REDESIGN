@@ -87,6 +87,17 @@ describe('FavoritesWidget', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/favorites')
   })
 
+  it('does not navigate when "see_all" is clicked and isEditing is true', () => {
+    render(
+      <MemoryRouter>
+        <FavoritesWidget span={6} isEditing={true} />
+      </MemoryRouter>
+    )
+
+    fireEvent.click(screen.getByText(/see_all/i))
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
+
   it('renders empty state when no favorites', () => {
     const mockStore = useStore as any
     const state = {

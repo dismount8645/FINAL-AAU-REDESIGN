@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -212,12 +212,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -255,22 +253,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -284,7 +284,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -302,11 +302,11 @@ import Card from '@/components/ui/Card'
 import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui/Typography'
-import FavoriteItem from '@/components/ui/FavoriteItem'
+import FavoriteItem, { type FavoriteItemData } from '@/components/ui/FavoriteItem'
 import type { FavoriteType } from '@/types'
 &nbsp;
 interface FavoritesListProps {
-  filtered: any[] // We can type this based on resolveFavorite return type or simply any[]
+  filtered: FavoriteItemData[]
   lang: 'da' | 'en'
   searchQuery: string
   typeFilter: FavoriteType | 'all'
@@ -317,7 +317,7 @@ interface FavoritesListProps {
   onGoToDashboard: () =&gt; void
 }
 &nbsp;
-export default function FavoritesList({
+export default function <span class="fstat-no" title="function not covered" >FavoritesList({</span>
   filtered,
   lang,
   searchQuery,
@@ -328,10 +328,10 @@ export default function FavoritesList({
   onNavigate,
   onGoToDashboard,
 }: FavoritesListProps) {
-  const [dragIndex, setDragIndex] = useState&lt;number | null&gt;(null)
-  const [dropTargetIndex, setDropTargetIndex] = useState&lt;number | null&gt;(null)
+  const [dragIndex, <span class="cstat-no" title="statement not covered" >setDragIndex] = useState&lt;number | null&gt;(null)</span>
+  const [dropTargetIndex, <span class="cstat-no" title="statement not covered" >setDropTargetIndex] = useState&lt;number | null&gt;(null)</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;AnimatePresence mode="wait"&gt;
       {filtered.length === 0 ? (
         &lt;motion.div
@@ -370,29 +370,29 @@ export default function FavoritesList({
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
           }}
         &gt;
-          {filtered.map((item, index) =&gt; (
-            &lt;div
+          {filtered.<span class="fstat-no" title="function not covered" >map((i</span>tem, index) =&gt; (
+<span class="cstat-no" title="statement not covered" >            &lt;div</span>
               key={item.id}
               draggable
-              onDragStart={() =&gt; setDragIndex(index)}
-              onDragOver={(e) =&gt; {
-                e.preventDefault()
-                setDropTargetIndex(index)
-                <span class="missing-if-branch" title="else path not taken" >E</span>if (dragIndex !== null &amp;&amp; dragIndex !== index) {
-                  onReorder(dragIndex, index)
-                  setDragIndex(index)
+<span class="fstat-no" title="function not covered" >              onDragStart={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etDragIndex(index)}</span>
+<span class="fstat-no" title="function not covered" >              onDragOver={(e</span>) =&gt; {
+<span class="cstat-no" title="statement not covered" >                e.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >                setDropTargetIndex(index)</span>
+<span class="cstat-no" title="statement not covered" >                if (dragIndex !== null &amp;&amp; dragIndex !== index) {</span>
+<span class="cstat-no" title="statement not covered" >                  onReorder(dragIndex, index)</span>
+<span class="cstat-no" title="statement not covered" >                  setDragIndex(index)</span>
                 }
               }}
 <span class="fstat-no" title="function not covered" >              onDragLeave={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etDropTargetIndex(null)}</span>
-              onDragEnd={() =&gt; {
-                setDragIndex(null)
-                setDropTargetIndex(null)
+<span class="fstat-no" title="function not covered" >              onDragEnd={() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                setDragIndex(null)</span>
+<span class="cstat-no" title="statement not covered" >                setDropTargetIndex(null)</span>
               }}
               className={
                 dragIndex === index
                   ? 'opacity-40 border-2 border-dashed border-primary rounded-[var(--radius-lg)] bg-primary/5 transition-all'
                   : dropTargetIndex === index
-                  ? <span class="branch-0 cbranch-no" title="branch not covered" >'border-2 border-primary/60 rounded-[var(--radius-lg)] bg-primary/[0.04] transition-all'</span>
+                  ? 'border-2 border-primary/60 rounded-[var(--radius-lg)] bg-primary/[0.04] transition-all'
                   : ''
               }
             &gt;
@@ -400,7 +400,7 @@ export default function FavoritesList({
                 item={item}
                 lang={lang}
                 onRemove={onRemove}
-                onClick={() =&gt; onNavigate(item.link, item.external)}
+<span class="fstat-no" title="function not covered" >                onClick={() =&gt; <span class="cstat-no" title="statement not covered" >o</span>nNavigate(item.link, item.external)}</span>
                 draggable
                 compact
               /&gt;
@@ -418,7 +418,7 @@ export default function FavoritesList({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

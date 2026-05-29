@@ -92,17 +92,17 @@ const ActivityItem = memo(forwardRef<HTMLButtonElement, {
         />
         
         {showSnippet && (
-          <div className="pl-10 relative">
+          <div className="pl-[var(--space-xl)] relative">
             <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-primary/20 transition-colors" />
             <Text size="xs" className="forum-activity__snippet text-muted leading-relaxed relative">
-              <span className="text-primary/40 dark:text-primary/70 mr-1 font-serif text-lg leading-none absolute -left-4 -top-1">&ldquo;</span>
+              <span className="text-primary/40 dark:text-primary/70 mr-[var(--space-xs)] font-serif text-lg leading-none absolute -left-[var(--space-md)] -top-[var(--space-xs)]">&ldquo;</span>
               <span className="italic">{localize(activity, 'snippet')}</span>
-              <span className="text-primary/40 dark:text-primary/70 ml-0.5 font-serif text-lg leading-none">&rdquo;</span>
+              <span className="text-primary/40 dark:text-primary/70 ml-[var(--space-2xs)] font-serif text-lg leading-none">&rdquo;</span>
             </Text>
           </div>
         )}
 
-        <div className="pl-10 mt-1 flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/item:opacity-100 transition-all duration-300 -translate-x-2 group-hover/item:translate-x-0">
+        <div className="pl-[var(--space-xl)] mt-[var(--space-xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/item:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover/item:translate-x-0">
           <div className="h-px w-4 bg-primary/30" />
           <Text size="xs" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
           <ArrowRight size={10} strokeWidth={3} className="text-primary dark:text-white" />
@@ -144,19 +144,20 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <MessageCircle size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
-            {t('course.forum_activity')}
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
+            {span && span > 4 ? t('course.forum_activity') : t('course.forum')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
-          size="xs"
+          size={span && span > 4 ? "xs" : "icon-xs"}
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
+          aria-label={t('view_all')}
         >
-          {t('view_all')}
+          {span && span > 4 ? t('view_all') : ''}
         </Button>
       </Card.Header>
 

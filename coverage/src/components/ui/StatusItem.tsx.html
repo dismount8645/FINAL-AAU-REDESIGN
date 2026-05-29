@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>26/26</span>
+                <span class='fraction'>0/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -160,7 +160,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,7 +172,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">132x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -184,9 +184,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,22 +239,22 @@ export interface StatusItemProps {
   className?: string
 }
 &nbsp;
-const StatusItem = memo(function StatusItem({
+const <span class="cstat-no" title="statement not covered" >StatusItem = memo(function <span class="fstat-no" title="function not covered" >StatusItem({</span></span>
   icon: Icon,
   iconColor,
   title,
   subtitle,
   subtitleIcon,
-  subtitleClassName = '',
+  subtitleClassName = <span class="branch-0 cbranch-no" title="branch not covered" >'',</span>
   right,
   onClick,
   unread,
-  className = '',
+  className = <span class="branch-0 cbranch-no" title="branch not covered" >'',</span>
 }: StatusItemProps) {
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div
       className={cn(
-        "flex items-center gap-[var(--space-md)] px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-md)] transition-all duration-200",
+        "flex items-center gap-[var(--space-md)] px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-md)] transition-all duration-150",
         onClick ? "cursor-pointer hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus" : "cursor-default",
         unread &amp;&amp; "bg-bg-highlight",
         className
@@ -262,10 +262,10 @@ const StatusItem = memo(function StatusItem({
       onClick={onClick}
       tabIndex={onClick ? 0 : undefined}
       role={onClick ? 'button' : undefined}
-      onKeyDown={onClick ? (e) =&gt; {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onClick?.(e as unknown as React.MouseEvent&lt;HTMLDivElement&gt;)
+      onKeyDown={<span class="fstat-no" title="function not covered" >onClick ? (e</span>) =&gt; {
+<span class="cstat-no" title="statement not covered" >        if (e.key === 'Enter' || e.key === ' ') {</span>
+<span class="cstat-no" title="statement not covered" >          e.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >          onClick?.(e as unknown as React.MouseEvent&lt;HTMLDivElement&gt;)</span>
         }
       } : undefined}
     &gt;
@@ -307,7 +307,7 @@ export default StatusItem
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

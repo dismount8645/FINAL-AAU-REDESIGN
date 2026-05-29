@@ -164,7 +164,7 @@ const Calendar = () => {
         }
       />
 
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <div className="container pb-[var(--space-3xl)]">
         <ErrorBoundary name="CalendarContent">
           <Grid columns={12} gap="lg">
             <Grid.Item span={9} mobileSpan={12} className="min-w-0">

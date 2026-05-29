@@ -59,11 +59,11 @@ function Course() {
     }
   }, [expandedSections])
 
-  if (!data) return null
+
 
   const totalItems = useMemo(
-    () => data.sections.reduce((acc, section) => acc + section.items.length, 0),
-    [data.sections]
+    () => data?.sections.reduce((acc, section) => acc + section.items.length, 0) || 0,
+    [data]
   )
   const progress = totalItems > 0 ? Math.round((completedItems.length / totalItems) * 100) : 0
 
@@ -71,6 +71,8 @@ function Course() {
     () => courseTabItems.map((ti) => ({ ...ti, label: t(ti.label) })),
     [t]
   )
+
+  if (!data) return null
 
   return (
     <Stack gap="none" className="container animate-fade-in">

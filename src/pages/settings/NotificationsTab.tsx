@@ -42,7 +42,7 @@ export default function NotificationsTab({
                     <Text weight="bold" size="sm" className="text-main">{ch.label}</Text>
                     <Text muted size="xs">{ch.desc}</Text>
                   </Stack>
-                  <div className={`w-11 h-6 rounded-[var(--radius-pill)] flex items-center px-[2px] transition-colors ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}>
+                  <div className={`w-11 h-6 rounded-[var(--radius-pill)] flex items-center px-[var(--space-2xs)] transition-colors ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}>
                     <div className={`w-5 h-5 rounded-[var(--radius-pill)] bg-white shadow-[var(--shadow-sm)] transition-all ${notifPrefs[ch.id as keyof typeof notifPrefs] ? 'translate-x-5' : 'translate-x-0'}`} />
                   </div>
                 </Stack>

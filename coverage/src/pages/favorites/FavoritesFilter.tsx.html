@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -123,7 +123,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,26 +149,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">90x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,10 +176,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import SearchInput from '@/components/ui/SearchInput'
-import Button from '@/components/ui/Button'
+import SegmentedControl from '@/components/ui/SegmentedControl'
 import type { FavoriteType } from '@/types'
 &nbsp;
-const TYPE_FILTERS: { label: Record&lt;'da' | 'en', string&gt;; value: FavoriteType | 'all' }[] = [
+const TYPE_FILTERS: { label: Record&lt;'da' | 'en', string&gt;; value: FavoriteType | 'all' }[] = <span class="cstat-no" title="statement not covered" >[</span>
   { label: { da: 'Alle', en: 'All' }, value: 'all' },
   { label: { da: 'Kurser', en: 'Courses' }, value: 'course' },
   { label: { da: 'Værktøjer', en: 'Tools' }, value: 'tool' },
@@ -197,7 +197,7 @@ interface FavoritesFilterProps {
   t: (key: string) =&gt; string
 }
 &nbsp;
-export default function FavoritesFilter({
+export default function <span class="fstat-no" title="function not covered" >FavoritesFilter({</span>
   searchQuery,
   onSearchChange,
   typeFilter,
@@ -205,28 +205,28 @@ export default function FavoritesFilter({
   lang,
   t,
 }: FavoritesFilterProps) {
-  return (
-    &lt;div className="flex flex-col md:flex-row gap-[var(--space-md)] mb-[var(--space-xl)]"&gt;
-      &lt;SearchInput
-        placeholder={t('search_favorites_placeholder')}
-        value={searchQuery}
-        onChange={(e) =&gt; onSearchChange(e.target.value)}
-        onClear={() =&gt; onSearchChange('')}
-      /&gt;
-      &lt;div className="flex gap-[var(--space-sm)] flex-wrap"&gt;
-        {TYPE_FILTERS.map((f) =&gt; (
-          &lt;Button
-            key={f.value}
-            type="button"
-            variant={typeFilter === f.value ? 'primary' : 'outline'}
-            size="sm"
-            onClick={() =&gt; onTypeFilterChange(f.value)}
-            pill
-            className="text-xs font-semibold tracking-normal"
-          &gt;
-            {f.label[lang]}
-          &lt;/Button&gt;
-        ))}
+  const options = <span class="cstat-no" title="statement not covered" >TYPE_FILTERS.<span class="fstat-no" title="function not covered" >map((f</span>) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    value: f.value,
+    label: f.label[lang],
+  }))
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;div className="flex flex-col md:flex-row gap-[var(--space-md)] items-stretch md:items-center"&gt;
+      &lt;div className="flex-1"&gt;
+        &lt;SearchInput
+          placeholder={t('search_favorites_placeholder')}
+          value={searchQuery}
+<span class="fstat-no" title="function not covered" >          onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >onSearchChange(e.target.value)}</span>
+<span class="fstat-no" title="function not covered" >          onClear={() =&gt; <span class="cstat-no" title="statement not covered" >o</span>nSearchChange('')}</span>
+        /&gt;
+      &lt;/div&gt;
+      &lt;div className="md:w-[480px] max-w-full"&gt;
+        &lt;SegmentedControl
+          options={options}
+          value={typeFilter}
+<span class="fstat-no" title="function not covered" >          onChange={(v</span>al) =&gt; <span class="cstat-no" title="statement not covered" >onTypeFilterChange(val as FavoriteType | 'all')}</span>
+          className="!my-0"
+        /&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   )
@@ -238,7 +238,7 @@ export default function FavoritesFilter({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

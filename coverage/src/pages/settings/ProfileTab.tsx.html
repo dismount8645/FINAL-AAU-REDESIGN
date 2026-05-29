@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -183,11 +183,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">95x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,14 +196,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -220,10 +218,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">84x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -268,7 +268,7 @@ interface ProfileTabProps {
   setTheme: (theme: Theme) =&gt; void
 }
 &nbsp;
-export default function ProfileTab({
+export default function <span class="fstat-no" title="function not covered" >ProfileTab({</span>
   firstName,
   setFirstName,
   lastName,
@@ -276,9 +276,9 @@ export default function ProfileTab({
   theme,
   setTheme,
 }: ProfileTabProps) {
-  const t = useStore(state =&gt; state.t)
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack gap="2xl" className="settings__profile-form max-w-[var(--container-max-width)]"&gt;
       &lt;Stack direction="row" gap="lg" align="start" className="profile-hero pb-xl border-b border-border/50 flex-col sm:flex-row"&gt;
         &lt;Avatar name={`${firstName} ${lastName}`} size={96} className="ring-4 ring-primary/10 shrink-0" /&gt;
@@ -291,12 +291,12 @@ export default function ProfileTab({
       &lt;Grid columns={2} gap="md"&gt;
         &lt;Grid.Item span={1} mobileSpan={2}&gt;
           &lt;FormField id="settings-first-name" label={t('settings.first_name')}&gt;
-            &lt;Input id="settings-first-name" value={firstName} onChange={(e) =&gt; setFirstName(e.target.value)} /&gt;
+            &lt;Input id="settings-first-name" value={firstName} <span class="fstat-no" title="function not covered" >onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setFirstName(e.target.value)} /&gt;</span>
           &lt;/FormField&gt;
         &lt;/Grid.Item&gt;
         &lt;Grid.Item span={1} mobileSpan={2}&gt;
           &lt;FormField id="settings-last-name" label={t('settings.last_name')}&gt;
-            &lt;Input id="settings-last-name" value={lastName} onChange={(e) =&gt; setLastName(e.target.value)} /&gt;
+            &lt;Input id="settings-last-name" value={lastName} <span class="fstat-no" title="function not covered" >onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setLastName(e.target.value)} /&gt;</span>
           &lt;/FormField&gt;
         &lt;/Grid.Item&gt;
       &lt;/Grid&gt;
@@ -312,11 +312,11 @@ export default function ProfileTab({
             { id: 'light', icon: Sun, label: t('theme.light') },
             { id: 'system', icon: Monitor, label: t('theme.system') },
             { id: 'dark', icon: Moon, label: t('theme.dark') }
-          ].map((opt) =&gt; (
-            &lt;button
+          ].<span class="fstat-no" title="function not covered" >map((o</span>pt) =&gt; (
+<span class="cstat-no" title="statement not covered" >            &lt;button</span>
               key={opt.id}
               className={`appearance-card group border-2 transition-all duration-150 p-2 rounded-[var(--radius-lg)] active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus hover:-translate-y-0.5 ${theme === opt.id ? 'active border-primary bg-primary/5 shadow-sm' : 'border-border bg-card hover:border-primary/20'}`}
-              onClick={() =&gt; setTheme(opt.id as Theme)}
+<span class="fstat-no" title="function not covered" >              onClick={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etTheme(opt.id as Theme)}</span>
               aria-pressed={theme === opt.id}
               aria-label={opt.label}
             &gt;
@@ -349,7 +349,7 @@ export default function ProfileTab({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

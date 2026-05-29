@@ -19,6 +19,8 @@ interface SearchResultCardProps {
   query: string
   actionLabel: string
   onClick: () => void
+  isStarred?: boolean
+  onStarToggle?: () => void
 }
 
 export default function SearchResultCard({
@@ -26,6 +28,8 @@ export default function SearchResultCard({
   query,
   actionLabel,
   onClick,
+  isStarred,
+  onStarToggle,
 }: SearchResultCardProps) {
   return (
     <TeaserCard
@@ -34,6 +38,8 @@ export default function SearchResultCard({
       badge={item.group}
       title={<HighlightText text={item.label} query={query} />}
       description={item.description}
+      isStarred={isStarred}
+      onStarToggle={onStarToggle}
       action={
         <Button variant="primary" size="md" iconRight={ArrowRight} pill className="px-md" onClick={(e) => { e.stopPropagation(); onClick() }}>
           {actionLabel}

@@ -63,6 +63,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <input
         ref={ref}
         type={type}
+        id={props.id ?? generatedId}
         aria-invalid={error ? true : undefined}
         aria-describedby={ariaDescribedBy}
         className={cn(

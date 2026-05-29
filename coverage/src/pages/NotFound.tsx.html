@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -150,20 +150,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">27x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,7 +185,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -198,13 +198,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -225,19 +225,19 @@ import SearchInput from '@/components/ui/SearchInput'
 import PageHeader from '@/components/common/PageHeader'
 import useStore from '@/store/useStore'
 &nbsp;
-function NotFound() {
-  const navigate = useNavigate()
-  const t = useStore(state =&gt; state.t)
-  const [searchQuery, setSearchQuery] = useState('')
+function <span class="fstat-no" title="function not covered" >NotFound() {</span>
+  const <span class="cstat-no" title="statement not covered" >navigate = useNavigate()</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const [searchQuery, <span class="cstat-no" title="statement not covered" >setSearchQuery] = useState('')</span>
 &nbsp;
-  const handleSearch = (e: React.FormEvent) =&gt; {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleSearch = (e</span>: React.FormEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    e.preventDefault()</span>
+<span class="cstat-no" title="statement not covered" >    if (searchQuery.trim()) {</span>
+<span class="cstat-no" title="statement not covered" >      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)</span>
     }
   }
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack className="container pb-[var(--space-2xl)]"&gt;
       &lt;PageHeader
         pageKey="not_found"
@@ -263,7 +263,7 @@ function NotFound() {
             &lt;SearchInput
               placeholder={t('search_placeholder')}
               value={searchQuery}
-              onChange={(e) =&gt; setSearchQuery(e.target.value)}
+<span class="fstat-no" title="function not covered" >              onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
               onSubmit={handleSearch}
               iconSize={20}
             /&gt;
@@ -274,13 +274,13 @@ function NotFound() {
 &nbsp;
           {/* Action Buttons */}
           &lt;Stack direction="row" gap="md" wrap className="justify-center px-sm w-full sm:w-auto"&gt;
-            &lt;Button variant="primary" onClick={() =&gt; navigate('/')} size="md" icon={LayoutDashboard} pill className="w-full sm:w-auto shadow-[var(--shadow-lg)] shadow-primary/20"&gt;
+            &lt;Button variant="primary" <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate('/')} s</span>ize="md" icon={LayoutDashboard} pill className="w-full sm:w-auto shadow-[var(--shadow-lg)] shadow-primary/20"&gt;
               {t('go_to_dashboard')}
             &lt;/Button&gt;
-            &lt;Button variant="secondary" onClick={() =&gt; navigate('/courses')} size="md" icon={GraduationCap} pill className="w-full sm:w-auto bg-bg-card shadow-[var(--shadow-md)]"&gt;
+            &lt;Button variant="secondary" <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate('/courses')} s</span>ize="md" icon={GraduationCap} pill className="w-full sm:w-auto bg-bg-card shadow-[var(--shadow-md)]"&gt;
               {t('find_modules')}
             &lt;/Button&gt;
-            &lt;Button variant="ghost" onClick={() =&gt; navigate('/support')} size="md" icon={LifeBuoy} pill className="w-full sm:w-auto"&gt;
+            &lt;Button variant="ghost" <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate('/support')} s</span>ize="md" icon={LifeBuoy} pill className="w-full sm:w-auto"&gt;
               {t('contact_support')}
             &lt;/Button&gt;
           &lt;/Stack&gt;
@@ -298,7 +298,7 @@ export default NotFound
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

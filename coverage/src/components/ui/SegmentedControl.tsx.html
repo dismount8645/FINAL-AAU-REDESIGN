@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -148,19 +148,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">193x</span>
-<span class="cline-any cline-yes">143x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">143x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">143x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,8 +169,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">405x</span>
-<span class="cline-any cline-yes">405x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,8 +183,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -214,50 +214,50 @@ export interface SegmentedControlProps {
   containerClickRotates?: boolean;
 }
 &nbsp;
-export default function SegmentedControl({ options, value, onChange, className = '', containerClickRotates = false }: SegmentedControlProps) {
-  const activeIndex = options.findIndex(opt =&gt; opt.value === value);
-  const sliderWidth = 100 / options.length;
+export default function <span class="fstat-no" title="function not covered" >SegmentedControl({</span> options, value, onChange, className = <span class="branch-0 cbranch-no" title="branch not covered" >'', c</span>ontainerClickRotates = <span class="branch-0 cbranch-no" title="branch not covered" >false }: SegmentedControlProps) {</span>
+  const activeIndex = <span class="cstat-no" title="statement not covered" >options.<span class="fstat-no" title="function not covered" >findIndex(o</span>pt =&gt; <span class="cstat-no" title="statement not covered" >opt.value === value)</span>;</span>
+  const sliderWidth = <span class="cstat-no" title="statement not covered" >100 / options.length;</span>
 &nbsp;
-  const handleContainerClick = () =&gt; {
-    if (containerClickRotates) {
-      const nextIndex = (activeIndex + 1) % options.length;
-      onChange(options[nextIndex].value);
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleContainerClick = () =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >    if (containerClickRotates) {</span>
+      const <span class="cstat-no" title="statement not covered" >nextIndex = (activeIndex + 1) % options.length;</span>
+<span class="cstat-no" title="statement not covered" >      onChange(options[nextIndex].value);</span>
     }
   };
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div
       className={`segmented-control relative flex p-0.5 bg-bg-input border border-border rounded-[var(--radius-md)] h-[38px] w-full overflow-hidden my-xs ${className}`}
       onClick={handleContainerClick}
     &gt;
       &lt;div
-        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-bg-card rounded-[calc(var(--radius-md)-2px)] transition-transform duration-200 z-1 shadow-[var(--shadow-sm)]"
+        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-bg-card rounded-[calc(var(--radius-md)-2px)] transition-transform duration-150 z-1 shadow-[var(--shadow-sm)]"
         style={{
           width: `calc(${sliderWidth}% - 4px)`,
           transform: `translateX(calc(${activeIndex * 100}%))`,
         }}
       /&gt;
-      {options.map((option) =&gt; {
-        const OptionIcon = option.icon;
-        return (
+      {options.<span class="fstat-no" title="function not covered" >map((o</span>ption) =&gt; {
+        const OptionIcon = <span class="cstat-no" title="statement not covered" >option.icon;</span>
+<span class="cstat-no" title="statement not covered" >        return (</span>
         &lt;button
           key={String(option.value)}
           type="button"
           className={[
-            'segmented-control__option relative flex-1 flex items-center justify-center gap-xs border-none bg-transparent cursor-pointer z-2 text-[0.85rem] font-medium transition-colors duration-150 px-xs active:scale-95 focus-visible:outline-none focus-visible:shadow-focus rounded-sm',
+            'segmented-control__option relative flex-1 flex items-center justify-center gap-xs border-none bg-transparent cursor-pointer z-2 text-[0.85rem] font-medium transition-colors duration-150 px-xs active:scale-95 focus-visible:outline-none focus-visible:shadow-focus rounded-sm before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-[\'\']',
             value === option.value 
               ? 'segmented-control__option--active text-primary' 
               : 'text-text-muted hover:text-text-main',
           ].filter(Boolean).join(' ')}
-          onClick={(e) =&gt; {
-            e.stopPropagation();
-            onChange(option.value);
+<span class="fstat-no" title="function not covered" >          onClick={(e</span>) =&gt; {
+<span class="cstat-no" title="statement not covered" >            e.stopPropagation();</span>
+<span class="cstat-no" title="statement not covered" >            onChange(option.value);</span>
           }}
           title={option.label}
         &gt;
           {OptionIcon &amp;&amp; &lt;OptionIcon size={16} strokeWidth={2} aria-hidden="true" /&gt;}
-          {option.img &amp;&amp; &lt;img src={option.img} alt="" className="w-6 h-6 object-contain rounded-[var(--radius-sm)] shadow-xs transition-transform duration-200 hover:scale-110" /&gt;}
-          {option.label &amp;&amp; &lt;span className="text-[1.1rem] leading-none"&gt;{option.label}&lt;/span&gt;}
+          {option.img &amp;&amp; &lt;img src={option.img} alt="" className="w-6 h-6 object-contain rounded-[var(--radius-sm)] shadow-xs transition-transform duration-150 hover:scale-110" /&gt;}
+          {option.label &amp;&amp; &lt;span className="text-[0.85rem] leading-none"&gt;{option.label}&lt;/span&gt;}
         &lt;/button&gt;
         );
       })}
@@ -271,7 +271,7 @@ export default function SegmentedControl({ options, value, onChange, className =
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

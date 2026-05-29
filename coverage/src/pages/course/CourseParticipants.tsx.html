@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -140,28 +140,26 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -171,7 +169,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -201,11 +201,11 @@ interface CourseParticipantsProps {
   participantsData: { name: string; role: string }[]
 }
 &nbsp;
-function CourseParticipants({ participantsData }: CourseParticipantsProps) {
-  const t = useStore((state) =&gt; state.t)
-  const { searchQuery, setSearchQuery, roleFilter, setRoleFilter, filteredParticipants } = useParticipantFilter(participantsData)
+function <span class="fstat-no" title="function not covered" >CourseParticipants({</span> participantsData }: CourseParticipantsProps) {
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore((s</span>tate) =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const { searchQuery, setSearchQuery, roleFilter, setRoleFilter, <span class="cstat-no" title="statement not covered" >filteredParticipants } = useParticipantFilter(participantsData)</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;div className="animate-fade-in"&gt;
       &lt;Card variant="elevated"&gt;
         &lt;Card.Header className="flex-col items-start gap-md"&gt;
@@ -214,14 +214,14 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
             &lt;SearchInput
               placeholder={t('search_participants_placeholder')}
               value={searchQuery}
-              onChange={(e) =&gt; setSearchQuery(e.target.value)}
-              onClear={() =&gt; setSearchQuery('')}
+<span class="fstat-no" title="function not covered" >              onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setSearchQuery(e.target.value)}</span>
+<span class="fstat-no" title="function not covered" >              onClear={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSearchQuery('')}</span>
             /&gt;
             &lt;label htmlFor="participant-role-filter" className="sr-only"&gt;{t('filter')}&lt;/label&gt;
             &lt;select
               id="participant-role-filter"
               value={roleFilter}
-              onChange={(e) =&gt; setRoleFilter(e.target.value)}
+<span class="fstat-no" title="function not covered" >              onChange={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >setRoleFilter(e.target.value)}</span>
               className="px-xs py-2xs rounded-[var(--radius-lg)] border border-border bg-bg-card text-sm text-main outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2 focus:border-primary transition-colors"
             &gt;
               &lt;option value="all"&gt;{t('all_roles')}&lt;/option&gt;
@@ -232,8 +232,8 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
         &lt;/Card.Header&gt;
         &lt;Card.Body className="p-[var(--space-0)]"&gt;
           &lt;Stack gap="none"&gt;
-            {filteredParticipants.map((p, i) =&gt; (
-              &lt;ListItem
+            {filteredParticipants.<span class="fstat-no" title="function not covered" >map((p</span>, i) =&gt; (
+<span class="cstat-no" title="statement not covered" >              &lt;ListItem</span>
                 key={i}
                 icon={Users}
                 title={p.name}
@@ -256,7 +256,7 @@ export default memo(CourseParticipants)
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

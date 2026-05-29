@@ -63,7 +63,7 @@ const GradeItem = memo(forwardRef<HTMLDivElement, {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
-                <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-5 px-1.5 flex items-center">
+                <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-[1.25rem] px-[var(--space-2xs)] flex items-center">
                   {t('not_graded')}
                 </Badge>
               </motion.div>
@@ -110,19 +110,20 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Trophy size={18} strokeWidth={2} />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
-            {t('grades.recent_grades')}
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
+            {span && span > 4 ? t('grades.recent_grades') : t('grades.page_title')}
           </Heading>
         </Stack>
         
         <Button
           variant="ghost"
-          size="xs"
+          size={span && span > 4 ? "xs" : "icon-xs"}
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
+          aria-label={t('view_all')}
         >
-          {t('view_all')}
+          {span && span > 4 ? t('view_all') : ''}
         </Button>
       </Card.Header>
 

@@ -108,18 +108,18 @@ function CourseModules({
                 <button
                   type="button"
                   data-section-id={section.id}
-                  className="w-full text-left p-md px-lg flex items-center justify-between transition-colors duration-200 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
+                  className="w-full text-left p-md px-lg flex items-center justify-between transition-colors duration-150 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
                   onClick={() => toggleSection(section.id)}
                   aria-expanded={isExpanded}
                 >
                   <Stack direction="row" align="center" gap="sm" className="flex-1 min-w-0 text-left">
                     <div className={`status-dot w-2 h-2 rounded-[var(--radius-pill)] shrink-0 ${progress > 50 ? 'active bg-success shadow-[0_0_6px_rgba(var(--color-success-rgb),0.3)]' : 'pending bg-[var(--color-border)] dark:bg-white/20'}`} />
-                    <Heading level={4} className="m-0 truncate text-left">{t(`course_${courseId}_${section.id}_title`)}</Heading>
+                    <Heading level={4} as="h2" className="m-0 truncate text-left">{t(`course_${courseId}_${section.id}_title`)}</Heading>
                   </Stack>
                   {isExpanded ? (
-                    <ChevronUp size={18} strokeWidth={2} className="text-muted transition-transform duration-200" />
+                    <ChevronUp size={18} strokeWidth={2} className="text-muted transition-transform duration-150" />
                   ) : (
-                    <ChevronDown size={18} strokeWidth={2} className="text-muted transition-transform duration-200" />
+                    <ChevronDown size={18} strokeWidth={2} className="text-muted transition-transform duration-150" />
                   )}
                 </button>
               </Card.Header>

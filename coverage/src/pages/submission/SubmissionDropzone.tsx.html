@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.88% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/18</span>
+                <span class='fraction'>0/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">41.17% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/17</span>
+                <span class='fraction'>0/17</span>
             </div>
         
             
@@ -137,36 +137,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,12 +161,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -199,26 +199,26 @@ interface SubmissionDropzoneProps {
   t: (key: string) =&gt; string
 }
 &nbsp;
-export default function SubmissionDropzone({ onFilesAdded, t }: SubmissionDropzoneProps) {
-  const [isDragOver, setIsDragOver] = useState(false)
-  const fileInputRef = useRef&lt;HTMLInputElement&gt;(null)
+export default function <span class="fstat-no" title="function not covered" >SubmissionDropzone({</span> onFilesAdded, t }: SubmissionDropzoneProps) {
+  const [isDragOver, <span class="cstat-no" title="statement not covered" >setIsDragOver] = useState(false)</span>
+  const <span class="cstat-no" title="statement not covered" >fileInputRef = useRef&lt;HTMLInputElement&gt;(null)</span>
 &nbsp;
-  const <span class="fstat-no" title="function not covered" >handleClick = () =&gt; {</span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleClick = () =&gt; {</span></span>
 <span class="cstat-no" title="statement not covered" >    fileInputRef.current?.click()</span>
   }
 &nbsp;
-  const <span class="fstat-no" title="function not covered" >handleKeyDown = (e</span>: React.KeyboardEvent) =&gt; {
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >handleKeyDown = (e</span>: React.KeyboardEvent) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    if (e.key === 'Enter' || e.key === ' ') {</span>
 <span class="cstat-no" title="statement not covered" >      e.preventDefault()</span>
 <span class="cstat-no" title="statement not covered" >      fileInputRef.current?.click()</span>
     }
   }
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack
       align="center"
       justify="center"
-      className={`dropzone flex flex-col items-center justify-center border-2 border-dashed transition-all rounded-[var(--radius-xl)] p-xl cursor-pointer ${isDragOver ? <span class="branch-0 cbranch-no" title="branch not covered" >'border-primary bg-primary/5' : '</span>border-border hover:border-primary/50 bg-bg-card/50'} focus-visible:outline-none focus-visible:shadow-focus`}
+      className={`dropzone flex flex-col items-center justify-center border-2 border-dashed transition-all rounded-[var(--radius-xl)] p-xl cursor-pointer ${isDragOver ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50 bg-bg-card/50'} focus-visible:outline-none focus-visible:shadow-focus`}
       gap="sm"
       tabIndex={0}
       role="button"
@@ -243,9 +243,9 @@ export default function SubmissionDropzone({ onFilesAdded, t }: SubmissionDropzo
         type="file"
         multiple
         className="submission__hidden-input hidden"
-        onChange={(e) =&gt; {
-          if (e.target.files) {
-            onFilesAdded(e.target.files)
+<span class="fstat-no" title="function not covered" >        onChange={(e</span>) =&gt; {
+<span class="cstat-no" title="statement not covered" >          if (e.target.files) {</span>
+<span class="cstat-no" title="statement not covered" >            onFilesAdded(e.target.files)</span>
           }
         }}
       /&gt;
@@ -259,7 +259,7 @@ export default function SubmissionDropzone({ onFilesAdded, t }: SubmissionDropzo
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

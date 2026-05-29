@@ -70,4 +70,22 @@ describe('ForumWidget', () => {
     fireEvent.click(btn)
     expect(mockNavigate).toHaveBeenCalledWith('/forum/new')
   })
+
+  it('navigates to forum page when "se_all" is clicked', () => {
+    renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+    const btn = screen.getByRole('button', { name: /se alle/i })
+    fireEvent.click(btn)
+    expect(mockNavigate).toHaveBeenCalledWith('/forum')
+  })
+
+  it('does not navigate on se_all or post click when isEditing is true', () => {
+    renderWithProviders(<ForumWidget span={12} isEditing={true} professor="Prof. Hansen" />)
+    const item = screen.getByText('Spørgsmål til litteraturen i uge 2')
+    fireEvent.click(item)
+    expect(mockNavigate).not.toHaveBeenCalled()
+
+    const btn = screen.getByRole('button', { name: /se alle/i })
+    fireEvent.click(btn)
+    expect(mockNavigate).not.toHaveBeenCalled()
+  })
 })

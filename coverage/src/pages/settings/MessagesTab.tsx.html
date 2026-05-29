@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/5</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -162,11 +162,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -183,15 +181,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -215,7 +213,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,15 +237,15 @@ interface MessagesTabProps {
   setMessageEmailOffline: (val: boolean) =&gt; void
 }
 &nbsp;
-export default function MessagesTab({
+export default function <span class="fstat-no" title="function not covered" >MessagesTab({</span>
   messagePrivacy,
   setMessagePrivacy,
   messageEmailOffline,
   setMessageEmailOffline,
 }: MessagesTabProps) {
-  const t = useStore(state =&gt; state.t)
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack gap="xl" className="settings__messages max-w-[var(--container-max-width)]"&gt;
       &lt;div className="flex flex-col gap-[var(--space-2xs)]"&gt;
         &lt;Text weight="bold" size="md" className="text-main"&gt;
@@ -263,14 +263,14 @@ export default function MessagesTab({
               { id: 'contacts', title: t('settings.privacy_contacts'), desc: t('settings.privacy_contacts_desc') },
               { id: 'courses', title: t('settings.privacy_courses'), desc: t('settings.privacy_courses_desc') },
               { id: 'anyone', title: t('settings.privacy_anyone'), desc: t('settings.privacy_anyone_desc') }
-            ].map(item =&gt; (
-              &lt;label key={item.id} htmlFor={`msgPrivacy-${item.id}`} className="flex gap-md p-md rounded-xl border border-border cursor-pointer hover:bg-bg-hover transition-colors"&gt;
+            ].<span class="fstat-no" title="function not covered" >map(i</span>tem =&gt; (
+<span class="cstat-no" title="statement not covered" >              &lt;label key={item.id} htmlFor={`msgPrivacy-${item.id}`} className="flex gap-md p-md rounded-xl border border-border cursor-pointer hover:bg-bg-hover transition-colors"&gt;</span>
                 &lt;input 
                   id={`msgPrivacy-${item.id}`}
                   type="radio" 
                   name="msgPrivacy" 
                   checked={messagePrivacy === item.id}
-                  onChange={() =&gt; setMessagePrivacy(item.id as 'contacts' | 'courses' | 'anyone')}
+<span class="fstat-no" title="function not covered" >                  onChange={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etMessagePrivacy(item.id as 'contacts' | 'courses' | 'anyone')}</span>
                   className="mt-3xs cursor-pointer"
                 /&gt;
                 &lt;div&gt;
@@ -296,10 +296,10 @@ export default function MessagesTab({
             role="switch"
             aria-checked={messageEmailOffline}
             aria-labelledby="toggle-label-message-email-copies"
-            onClick={() =&gt; setMessageEmailOffline(!messageEmailOffline)}
-            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] focus-visible:outline-none focus-visible:shadow-focus ${messageEmailOffline ? 'bg-primary' : <span class="branch-1 cbranch-no" title="branch not covered" >'bg-slate-300 dark:bg-white/20'}`}</span>
+<span class="fstat-no" title="function not covered" >            onClick={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etMessageEmailOffline(!messageEmailOffline)}</span>
+            className={`relative w-11 h-7 rounded-full flex items-center px-3xs transition-colors cursor-pointer after:absolute after:inset-[-12px] focus-visible:outline-none focus-visible:shadow-focus ${messageEmailOffline ? 'bg-primary' : 'bg-slate-300 dark:bg-white/20'}`}
           &gt;
-            &lt;div className={`w-4 h-4 rounded-full bg-white shadow transition-all ${messageEmailOffline ? 'ml-auto' : <span class="branch-1 cbranch-no" title="branch not covered" >'ml-0'}`} /&gt;</span>
+            &lt;div className={`w-4 h-4 rounded-full bg-white shadow transition-all ${messageEmailOffline ? 'ml-auto' : 'ml-0'}`} /&gt;
           &lt;/button&gt;
         &lt;/div&gt;
       &lt;/Stack&gt;
@@ -313,7 +313,7 @@ export default function MessagesTab({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

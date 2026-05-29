@@ -80,7 +80,7 @@ const CalendarUpcomingWidget = ({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  transition={{ delay: idx * 0.05, duration: 0.2 }}
+                  transition={{ delay: idx * 0.05, duration: 0.15 }}
                   type="button"
                   className={cn(
                     "upcoming-event-item w-full flex items-center gap-[var(--space-md)] p-[var(--space-md)] text-left transition-all duration-150",

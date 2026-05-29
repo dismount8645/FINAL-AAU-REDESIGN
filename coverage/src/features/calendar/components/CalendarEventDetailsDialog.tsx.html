@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/14</span>
+                <span class='fraction'>0/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -204,17 +204,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">113x</span>
-<span class="cline-any cline-yes">379x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">113x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -245,9 +245,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -278,10 +278,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -309,7 +309,7 @@ interface CalendarEventDetailsDialogProps {
   t: (key: string) =&gt; string
 }
 &nbsp;
-export default function CalendarEventDetailsDialog({
+export default function <span class="fstat-no" title="function not covered" >CalendarEventDetailsDialog({</span>
   isOpen,
   onClose,
   selectedEvent,
@@ -317,17 +317,17 @@ export default function CalendarEventDetailsDialog({
   monthNames,
   t,
 }: CalendarEventDetailsDialogProps) {
-  const navigate = useNavigate()
-  const lang = useStore(state =&gt; state.lang)
+  const <span class="cstat-no" title="statement not covered" >navigate = useNavigate()</span>
+  const <span class="cstat-no" title="statement not covered" >lang = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.lang)</span></span>
 &nbsp;
-  if (!selectedEvent) return null
+<span class="cstat-no" title="statement not covered" >  if (!selectedEvent) <span class="cstat-no" title="statement not covered" >return null</span></span>
 &nbsp;
-  const getEventTitle = (e: CalendarEvent) =&gt; {
-    return e.title || (lang === 'da' ? e.titleDa : e.titleEn) || <span class="branch-2 cbranch-no" title="branch not covered" >''</span>
+  const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >getEventTitle = (e</span>: CalendarEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return e.title || (lang === 'da' ? e.titleDa : e.titleEn) || ''</span>
   }
 &nbsp;
-  return (
-    &lt;Dialog open={isOpen} onOpenChange={(open) =&gt; !open &amp;&amp; onClose()}&gt;
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;Dialog open={isOpen} <span class="fstat-no" title="function not covered" >onOpenChange={(o</span>pen) =&gt; <span class="cstat-no" title="statement not covered" >!open &amp;&amp; onClose()}&gt;</span>
       &lt;DialogContent&gt;
         &lt;Stack
           direction="row"
@@ -357,10 +357,10 @@ export default function CalendarEventDetailsDialog({
                 {t('date_and_time')}
               &lt;/Text&gt;
               &lt;Text weight="semibold"&gt;
-                {(() =&gt; {
-                  const [y, m, d_num] = selectedEvent.dateKey.split('-').map(Number)
-                  const date = new Date(y, m, d_num)
-                  return `${dayNames[(date.getDay() + 6) % 7]} d. ${date.getDate()}. ${monthNames[date.getMonth()]}`
+                {(() =&gt; <span class="fstat-no" title="function not covered" >{</span>
+                  const [y, m, d_num] = <span class="cstat-no" title="statement not covered" >selectedEvent.dateKey.split('-').map(Number)</span>
+                  const date = <span class="cstat-no" title="statement not covered" >new Date(y, m, d_num)</span>
+<span class="cstat-no" title="statement not covered" >                  return `${dayNames[(date.getDay() + 6) % 7]} d. ${date.getDate()}. ${monthNames[date.getMonth()]}`</span>
                 })()}
               &lt;/Text&gt;
               &lt;Text size="sm" muted&gt;
@@ -391,10 +391,10 @@ export default function CalendarEventDetailsDialog({
           {t('event_detail_desc')}
         &lt;/Text&gt;
         &lt;Stack direction="row" gap="sm" className="calendar__detail-actions mt-[var(--space-lg)]"&gt;
-          &lt;Button variant="primary" full onClick={() =&gt; navigate('/course/1')}&gt;
+          &lt;Button variant="primary" full <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate('/course/1')}&gt;</span>
             {t('go_to_module')}
           &lt;/Button&gt;
-          &lt;Button variant="secondary" full onClick={() =&gt; navigate('/submission/1')}&gt;
+          &lt;Button variant="secondary" full <span class="fstat-no" title="function not covered" >onClick={() =&gt; <span class="cstat-no" title="statement not covered" >n</span>avigate('/submission/1')}&gt;</span>
             {t('full_info')}
           &lt;/Button&gt;
         &lt;/Stack&gt;
@@ -409,7 +409,7 @@ export default function CalendarEventDetailsDialog({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

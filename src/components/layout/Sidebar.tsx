@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp, Settings, X, Globe } from 'lucide-react';
-import { Text } from '@/components/ui/Typography';
 import SegmentedControl from '@/components/ui/SegmentedControl';
 import useStore from '@/store/useStore'
 import Stack from '@/components/ui/Stack';
@@ -136,9 +135,9 @@ export default function Sidebar() {
             <div className={`flex flex-col gap-md pt-xs ${isCollapsed && !isMobileOpen ? 'w-full px-2xs' : ''}`}>
               {!isCollapsed || isMobileOpen ? (
                 <Stack gap="xs">
-                  <Stack direction="row" align="center" gap="xs" className="px-sm text-white/40">
+                  <Stack direction="row" align="center" gap="xs" className="px-sm text-white/60">
                     <Globe size={14} strokeWidth={2} />
-                    <Text size="2xs" weight="bold" className="uppercase tracking-wider">{t('cat_select_language')}</Text>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">{t('cat_select_language')}</span>
                   </Stack>
                   <SegmentedControl
                     options={[
@@ -199,7 +198,7 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
               <div className="absolute left-0 top-sm bottom-sm w-[4px] bg-white rounded-r-pill shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
             )}
             <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-150 ease-[var(--transition-ease)] ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
-            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 tracking-tight text-sm font-bold"><Text>{label}</Text></span>}
+            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 tracking-tight text-sm font-bold">{label}</span>}
           </>
         );
       }}

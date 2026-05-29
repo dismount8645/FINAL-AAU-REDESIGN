@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import DeadlinesWidget from '@/widgets/DeadlinesWidget'
 import { renderWithProviders } from '@/test/test-utils'
 import useStore from '@/store/useStore'
+import * as dates from '@/utils/dates'
 
 // Mock useNavigate
 const mockNavigate = vi.fn()
@@ -84,5 +85,23 @@ describe('DeadlinesWidget', () => {
     expect(screen.getByText('Mandag 09:00')).toHaveClass('text-danger')
     
     vi.restoreAllMocks()
+  })
+
+  it('handles overdue deadlines', () => {
+    const spy = vi.spyOn(dates, 'getHoursUntil').mockReturnValue(-5)
+    
+    renderWithProviders(<DeadlinesWidget span={12} isEditing={false} />)
+    const button = screen.getByRole('button', { name: /To-Do App/i })
+    expect(button.className).toContain('bg-danger/5')
+    
+    spy.mockRestore()
+  })
+
+  it('supports keyboard focus and navigation', () => {
+    renderWithProviders(<DeadlinesWidget span={12} isEditing={false} />)
+    const button = screen.getByRole('button', { name: /To-Do App/i })
+    expect(button).toBeInTheDocument()
+    button.focus()
+    expect(button).toHaveFocus()
   })
 })

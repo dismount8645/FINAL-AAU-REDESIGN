@@ -118,6 +118,8 @@ const ModulesWidget = ({ isEditing }: WidgetProps) => {
   const isFavorite = useStore(state => state.isFavorite)
   const toggleFavorite = useStore(state => state.toggleFavorite)
   const getCourseProgress = useStore(state => state.getCourseProgress)
+  const _favorites = useStore(state => state.favorites)
+  void _favorites
 
   const starredCourses = useMemo(() => 
     courses.filter(c => isFavorite('course', c.id)),
@@ -142,7 +144,7 @@ const ModulesWidget = ({ isEditing }: WidgetProps) => {
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
             <Star size={18} fill="currentColor" className="text-[var(--aau-light-gold)]" />
           </div>
-          <Heading level={4} className="m-0 text-sm font-bold text-main">
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('my_favorites')}
           </Heading>
         </Stack>

@@ -61,6 +61,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       <textarea
         ref={ref}
         rows={rows}
+        id={props.id ?? generatedId}
         aria-invalid={error ? "true" : undefined}
         aria-describedby={ariaDescribedBy}
         className={cn(

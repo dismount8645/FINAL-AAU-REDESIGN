@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -129,8 +129,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,41 +188,41 @@ import { Heading, Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import Button from '@/components/ui/Button'
 &nbsp;
-function Footer() {
-  const t = useStore(state =&gt; state.t)
-  return (
+function <span class="fstat-no" title="function not covered" >Footer() {</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;footer className="footer-main py-xl border-t border-border bg-bg-card relative z-10 w-full overflow-hidden"&gt;
       &lt;div className="container"&gt;
         &lt;div className="flex flex-col md:flex-row justify-between items-stretch md:items-end gap-xl"&gt;
           {/* Support Card - Left Anchor */}
           &lt;Stack gap="sm" className="bg-bg-card p-lg rounded-xl border border-border shadow-sm max-w-[420px] w-full isolate relative overflow-hidden group/footer-card"&gt;
             &lt;div className="absolute top-0 left-0 w-1 h-full bg-primary opacity-60" /&gt;
-            &lt;Heading level={4} className="font-bold text-main transition-colors group-hover/footer-card:text-primary"&gt;
+            &lt;Heading level={2} as="h2" className="font-bold text-main transition-colors group-hover/footer-card:text-primary text-lg"&gt;
               {t('contact_its_support')}
             &lt;/Heading&gt;
             &lt;Stack gap="xs"&gt;
               &lt;Text size="sm" weight="bold" className="text-main"&gt;
                 Tel: &lt;a href="tel:+4599402020" className="text-primary hover:text-accent hover:underline decoration-2 underline-offset-4 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;+45 9940 2020&lt;/a&gt;
               &lt;/Text&gt;
-              &lt;Text size="xs" muted weight="medium" className="opacity-80"&gt;
+            &lt;Text size="xs" className="text-text-muted" weight="medium"&gt;
                 {t('aau_it_services')}
               &lt;/Text&gt;
             &lt;/Stack&gt;
           &lt;/Stack&gt;
           
           {/* Navigation &amp; Copyright - Right Anchor */}
-          &lt;Stack gap="lg" align="start" className="md:items-end flex-1"&gt;
+          &lt;Stack gap="lg" className="items-start md:items-end flex-1 w-full"&gt;
             &lt;nav className="flex flex-col md:flex-row gap-md md:gap-xl items-start md:items-center"&gt;
-              &lt;a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;
+              &lt;a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;
                 &lt;Text size="sm" weight="bold"&gt;ITS Support&lt;/Text&gt;
               &lt;/a&gt;
-              &lt;a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;
+              &lt;a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs"&gt;
                 &lt;Text size="sm" weight="bold"&gt;{t('accessibility_statement')}&lt;/Text&gt;
               &lt;/a&gt;
               &lt;Button
                 variant="ghost"
 <span class="fstat-no" title="function not covered" >                onClick={(e</span>) =&gt; <span class="cstat-no" title="statement not covered" >e.preventDefault()}</span>
-                className="text-muted hover:text-primary transition-all duration-200 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
+                className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
               &gt;
                 {t('service_status')}
               &lt;/Button&gt;
@@ -230,10 +230,10 @@ function Footer() {
             
             &lt;div className="w-full h-px bg-border/20 md:w-48" /&gt;
             
-            &lt;Text size="xs" muted className="opacity-60 font-medium text-left md:text-right leading-relaxed"&gt;
+            &lt;Text size="xs" className="text-text-muted font-medium text-left md:text-right leading-relaxed"&gt;
               &amp;copy; {new Date().getFullYear()} Aalborg Universitet. {t('rights_reserved')}
               &lt;br /&gt;
-              &lt;span className="text-[10px] uppercase tracking-widest font-black text-primary/40 mt-1 block"&gt;Vibe Coder Optimized &amp;bull; {new Date().getFullYear()}&lt;/span&gt;
+              &lt;span className="text-[10px] uppercase tracking-widest font-black text-white/50 mt-1 block"&gt;Vibe Coder Optimized &amp;bull; {new Date().getFullYear()}&lt;/span&gt;
             &lt;/Text&gt;
           &lt;/Stack&gt;
         &lt;/div&gt;
@@ -250,7 +250,7 @@ export default Footer
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

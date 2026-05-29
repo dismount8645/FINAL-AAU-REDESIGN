@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -180,10 +180,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">75x</span>
-<span class="cline-any cline-yes">75x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,7 +193,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">76x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -230,18 +230,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">300x</span>
-<span class="cline-any cline-yes">300x</span>
-<span class="cline-any cline-yes">76x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -259,7 +259,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">152x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -285,11 +285,11 @@ import { Heading, Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import { supportLocations, supportDeskHours, supportNotes } from '@/data/support'
 &nbsp;
-function LocalDesksSection() {
-  const t = useStore(state =&gt; state.t)
-  const localize = useStore(state =&gt; state.localize)
+function <span class="fstat-no" title="function not covered" >LocalDesksSection() {</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >localize = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.localize)</span></span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack gap="lg"&gt;
       &lt;Card&gt;
         &lt;SectionHeader
@@ -298,8 +298,8 @@ function LocalDesksSection() {
           className="mb-sm"
         /&gt;
         &lt;AccordionWrapper&gt;
-          {supportLocations.map((loc, i) =&gt; (
-            &lt;AccordionItemDummy key={`loc-${i}`} city={loc.city} address={loc.address} zip={loc.zip} /&gt;
+          {supportLocations.<span class="fstat-no" title="function not covered" >map((l</span>oc, i) =&gt; (
+<span class="cstat-no" title="statement not covered" >            &lt;AccordionItemDummy key={`loc-${i}`} city={loc.city} address={loc.address} zip={loc.zip} /&gt;</span>
           ))}
         &lt;/AccordionWrapper&gt;
       &lt;/Card&gt;
@@ -336,18 +336,18 @@ function LocalDesksSection() {
 // Internal small helpers to render the exact Accordion structure from parent
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/Accordion'
 &nbsp;
-const AccordionWrapper = ({ children }: { children: React.ReactNode }) =&gt; {
-  return (
+const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >AccordionWrapper = ({</span> children }: { children: React.ReactNode }) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Accordion&gt;
       {children}
     &lt;/Accordion&gt;
   )
 }
 &nbsp;
-const AccordionItemDummy = ({ city, address, zip }: { city: string, address: string, zip: string }) =&gt; {
-  const t = useStore(state =&gt; state.t)
-  const localize = useStore(state =&gt; state.localize)
-  return (
+const <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >AccordionItemDummy = ({</span> city, address, zip }: { city: string, address: string, zip: string }) =&gt; {</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >localize = <span class="fstat-no" title="function not covered" >useStore(s</span>tate =&gt; <span class="cstat-no" title="statement not covered" >state.localize)</span></span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;AccordionItem value={city} className="border-b border-border last:border-0"&gt;
       &lt;AccordionTrigger&gt;
         &lt;span className="text-left font-semibold text-main"&gt;{city}&lt;/span&gt;
@@ -364,8 +364,8 @@ const AccordionItemDummy = ({ city, address, zip }: { city: string, address: str
               {t('opening_hours_service_desk')}
             &lt;/Text&gt;
             &lt;Stack gap="2xs"&gt;
-              {supportDeskHours.map((oh, j) =&gt; (
-                &lt;KeyValue
+              {supportDeskHours.<span class="fstat-no" title="function not covered" >map((o</span>h, j) =&gt; (
+<span class="cstat-no" title="statement not covered" >                &lt;KeyValue</span>
                   key={j}
                   label={localize(oh, 'days')}
                   value={oh.hours}
@@ -388,7 +388,7 @@ export default memo(LocalDesksSection)
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/16</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -191,9 +191,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -204,31 +204,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -244,7 +241,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -305,10 +305,10 @@ import PageHeader from '@/components/common/PageHeader'
 import useStore from '@/store/useStore'
 import { WidgetCustomizer, WidgetGrid } from './dashboard/index'
 &nbsp;
-function Dashboard() {
-  const t = useStore((state) =&gt; state.t)
-  const location = useLocation()
-  const [isEditing, setIsEditing] = useState&lt;boolean&gt;(false)
+function <span class="fstat-no" title="function not covered" >Dashboard() {</span>
+  const <span class="cstat-no" title="statement not covered" >t = <span class="fstat-no" title="function not covered" >useStore((s</span>tate) =&gt; <span class="cstat-no" title="statement not covered" >state.t)</span></span>
+  const <span class="cstat-no" title="statement not covered" >location = useLocation()</span>
+  const [isEditing, <span class="cstat-no" title="statement not covered" >setIsEditing] = useState&lt;boolean&gt;(false)</span>
   const {
     widgets,
     toggleVisibility,
@@ -319,16 +319,16 @@ function Dashboard() {
     onDragOver,
     onDrop,
     draggedItemId,
-    moveWidget,
+<span class="cstat-no" title="statement not covered" >    moveWidget,</span>
   } = useWidgetDrag(DEFAULT_WIDGETS)
 &nbsp;
-  const hiddenWidgets = useMemo(
-    () =&gt; DEFAULT_WIDGETS.filter((dw) =&gt; !widgets.find((w) =&gt; w.id === dw.id)?.visible),
+  const <span class="cstat-no" title="statement not covered" >hiddenWidgets = <span class="fstat-no" title="function not covered" >useMemo(</span></span>
+    () =&gt; <span class="cstat-no" title="statement not covered" >DEFAULT_WIDGETS.<span class="fstat-no" title="function not covered" >filter((d</span>w) =&gt; <span class="cstat-no" title="statement not covered" >!widgets.<span class="fstat-no" title="function not covered" >find((w</span>) =&gt; <span class="cstat-no" title="statement not covered" >w.id === dw.id)</span>?.visible)</span>,</span>
     [widgets]
   )
 &nbsp;
-  const widgetLabels = useMemo&lt;Record&lt;string, string&gt;&gt;(
-    () =&gt; ({
+  const <span class="cstat-no" title="statement not covered" >widgetLabels = <span class="fstat-no" title="function not covered" >useMemo&lt;Record&lt;string, string&gt;&gt;(</span></span>
+    () =&gt; (<span class="cstat-no" title="statement not covered" >{</span>
       favorites: t('nav.favorites'),
       quickOverview: t('common.quick_overview'),
       deadlines: t('common.deadline'),
@@ -338,9 +338,9 @@ function Dashboard() {
     [t]
   )
 &nbsp;
-  const visibleWidgets = useMemo(() =&gt; widgets.filter((w) =&gt; w.visible), [widgets])
+  const <span class="cstat-no" title="statement not covered" >visibleWidgets = <span class="fstat-no" title="function not covered" >useMemo(() =&gt; <span class="cstat-no" title="statement not covered" >w</span>idgets.<span class="fstat-no" title="function not covered" >filter((w</span>) =&gt; <span class="cstat-no" title="statement not covered" >w.visible)</span>, [</span>widgets])</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Stack
       className={`dashboard-page relative ${
         isEditing
@@ -359,7 +359,7 @@ function Dashboard() {
             variant="primary"
             size="sm"
             icon={isEditing ? Check : Edit}
-            onClick={() =&gt; setIsEditing(!isEditing)}
+<span class="fstat-no" title="function not covered" >            onClick={() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etIsEditing(!isEditing)}</span>
             className="dashboard__edit-trigger transition-all duration-[var(--transition-fast)]"
           &gt;
             {isEditing ? t('common.done') : t('dashboard.edit_dashboard')}
@@ -374,7 +374,7 @@ function Dashboard() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
               className="overflow-hidden"
             &gt;
               &lt;WidgetCustomizer
@@ -415,7 +415,7 @@ export default Dashboard
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-05-24T15:29:22.331Z
+                at 2026-05-29T08:07:49.807Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
