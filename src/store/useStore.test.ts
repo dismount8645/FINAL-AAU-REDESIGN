@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import useStore from '@/store/useStore'
+import { PersistedStateSchema } from '@/lib/schemas/store'
 
 describe('useStore', () => {
   beforeEach(() => {
@@ -301,5 +302,32 @@ describe('useStore', () => {
     expect(consoleWarnSpy).toHaveBeenCalled()
     expect(invalidMigrated).toBe(123)
     consoleWarnSpy.mockRestore()
+  })
+
+  it('handles persist parse error and rehydration', () => {
+    const originalParse = PersistedStateSchema.parse
+    PersistedStateSchema.parse = () => { throw new Error('parse error') }
+
+    const options = useStore.persist.getOptions()
+    const migrated = options.migrate?.({ invalidField: true }, 0)
+    expect(migrated).toBeDefined()
+
+    const rehydrateCallback = (options.onRehydrateStorage as any)?.()
+    if (rehydrateCallback) {
+      rehydrateCallback({ lang: 'invalid-lang-type' })
+    }
+
+    PersistedStateSchema.parse = originalParse
+  })
+
+  it('handles clearFavorites', () => {
+    useStore.getState().clearFavorites()
+    expect(useStore.getState().favorites).toEqual([])
+  })
+
+  it('handles t key fallback', () => {
+    expect(useStore.getState().t('non.existent.key')).toBe('non.existent.key')
+    expect(useStore.getState().localize(null as any)).toBe('')
+    expect(useStore.getState().localize({ someField: 'val' })).toBe('')
   })
 })

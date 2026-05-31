@@ -96,6 +96,9 @@ export const translations: Translations = {
       send_message: 'Send besked',
       forum_thread: 'Forumtråd',
       date_and_time: 'Dato & Tid',
+      details: 'Detaljer',
+      read_more: 'Læs mere',
+      click_to_view: 'Klik for at se',
     },
     nav: {
       dashboard: 'Dashboard',
@@ -161,6 +164,7 @@ export const translations: Translations = {
       favorites_empty: 'Du har ingen favoritter endnu',
       favorites_empty_hint: 'Stjernemarkér kurser, værktøjer, filer og fora for at samle dem her.',
       favorites_remove_all: 'Fjern alle',
+      active_now: 'Aktiv nu',
     },
     settings: {
       subtitle: 'Opdater dine personlige oplysninger og præferencer.',
@@ -354,6 +358,9 @@ export const translations: Translations = {
       contact_its_support: 'Kontakt ITS Support',
       accessibility_statement: 'Tilgængelighedserklæring',
       aau_it_services: 'AAU IT Services - Aalborg Universitet',
+      system_status: 'Systemstatus',
+      gdpr_faq: 'GDPR FAQ',
+      it_support_portal: 'IT-supportportal',
     },
     submission: {
       success: 'Opgave afleveret!',
@@ -377,6 +384,8 @@ export const translations: Translations = {
       pre_checklist: 'Tjekliste før aflevering',
       help: 'Hjælp til aflevering',
       view_guide: 'Se afleveringsguide',
+      pre_submission_checklist: 'Tjekliste før aflevering',
+      view_submission_guide: 'Se afleveringsguide',
     },
     messages: {
       page_subtitle: 'Send beskeder og kommunikér med dine medstuderende og undervisere.',
@@ -402,6 +411,9 @@ export const translations: Translations = {
       all_caught_up: 'Du er helt ajour!',
       select_notification: 'Vælg en notifikation',
       detail_hint: 'Klik på en notifikation for at se detaljer',
+      notif_all_caught_up: 'Du er helt ajour!',
+      notif_select_notification: 'Vælg en notifikation',
+      notif_detail_hint: 'Klik på en notifikation for at se detaljer',
     },
     grades: {
       page_title: 'Karakterer',
@@ -422,6 +434,8 @@ export const translations: Translations = {
       my_grades: 'Mine Karakterer',
       recent_grades: 'Seneste karakterer',
       not_graded: 'Ikke bedømt',
+      no_grades_message: 'Ingen karakterer endnu.',
+      no_recent_grades: 'Ingen seneste karakterer.',
     },
     resources: {
       toolbox_subtitle: 'Centrale systemer og værktøjer for din studietid.',
@@ -457,6 +471,8 @@ export const translations: Translations = {
       time_label: 'Tidspunkt',
       no_replies_yet: 'Ingen svar endnu.',
       start_discussion: 'Vær den første til at starte en diskussion i dette modul.',
+      course_forum: 'Kursusforum',
+      active_discussions: 'Aktive diskussioner',
     },
     calendar: {
       title: 'Kalender',
@@ -488,6 +504,8 @@ export const translations: Translations = {
       no_events_today: 'Ingen begivenheder i dag',
       click_to_add_event: 'Klik for at tilføje en begivenhed',
       deadline_wednesday: 'Onsdag 12:00',
+      event_details: 'Begivenhedsdetaljer',
+      view_full_details: 'Se fulde detaljer',
     },
     search: {
       results: 'Søgeresultater',
@@ -723,6 +741,9 @@ export const translations: Translations = {
       send_message: 'Send message',
       forum_thread: 'Forum Thread',
       date_and_time: 'Date & Time',
+      details: 'Details',
+      read_more: 'Read more',
+      click_to_view: 'Click to view',
     },
     nav: {
       dashboard: 'Dashboard',
@@ -788,6 +809,7 @@ export const translations: Translations = {
       favorites_empty: 'You have no favorites yet',
       favorites_empty_hint: 'Star courses, tools, files, and forums to collect them here.',
       favorites_remove_all: 'Remove all',
+      active_now: 'Active now',
     },
     settings: {
       subtitle: 'Update your personal information and preferences.',
@@ -981,6 +1003,9 @@ export const translations: Translations = {
       contact_its_support: 'Contact ITS Support',
       accessibility_statement: 'Accessibility Statement',
       aau_it_services: 'AAU IT Services - Aalborg University',
+      system_status: 'System Status',
+      gdpr_faq: 'GDPR FAQ',
+      it_support_portal: 'IT Support Portal',
     },
     submission: {
       success: 'Assignment Submitted!',
@@ -1004,6 +1029,8 @@ export const translations: Translations = {
       pre_checklist: 'Pre-submission checklist',
       help: 'Submission help',
       view_guide: 'View submission guide',
+      pre_submission_checklist: 'Pre-submission checklist',
+      view_submission_guide: 'View submission guide',
     },
     messages: {
       page_subtitle: 'Send messages and communicate with your fellow students and teachers.',
@@ -1029,6 +1056,9 @@ export const translations: Translations = {
       all_caught_up: "You're all caught up!",
       select_notification: 'Select a notification',
       detail_hint: 'Click a notification to view details',
+      notif_all_caught_up: "You're all caught up!",
+      notif_select_notification: 'Select a notification',
+      notif_detail_hint: 'Click a notification to view details',
     },
     grades: {
       page_title: 'Grades',
@@ -1049,6 +1079,8 @@ export const translations: Translations = {
       my_grades: 'My Grades',
       recent_grades: 'Recent Grades',
       not_graded: 'Not Graded',
+      no_grades_message: 'No grades yet.',
+      no_recent_grades: 'No recent grades.',
     },
     resources: {
       toolbox_subtitle: 'Central systems and tools for your studies.',
@@ -1084,6 +1116,8 @@ export const translations: Translations = {
       time_label: 'Time',
       no_replies_yet: 'No replies yet.',
       start_discussion: 'Be the first to start a discussion in this module.',
+      course_forum: 'Course Forum',
+      active_discussions: 'Active Discussions',
     },
     calendar: {
       title: 'Calendar',
@@ -1115,6 +1149,8 @@ export const translations: Translations = {
       no_events_today: 'No events today',
       click_to_add_event: 'Click to add an event',
       deadline_wednesday: 'Wednesday 12:00',
+      event_details: 'Event Details',
+      view_full_details: 'View Full Details',
     },
     search: {
       results: 'Search Results',
