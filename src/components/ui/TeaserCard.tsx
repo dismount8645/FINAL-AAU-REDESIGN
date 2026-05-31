@@ -1,7 +1,6 @@
 import { memo, useMemo, type ReactNode, type MouseEvent } from 'react'
 import { Star, ChevronRight } from 'lucide-react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 import useStore from '@/store/useStore'
@@ -10,84 +9,28 @@ import Badge from '@/components/ui/Badge'
 import { Heading, Text } from '@/components/ui/Typography'
 import { Skeleton } from '@/components/ui/Skeleton'
 import Button from '@/components/ui/Button'
+import Card from '@/components/ui/Card'
 
-/**
- * TeaserCard Variants - Senior UI/UX Architect refinement.
- * Enforces the 8pt grid, AAU design tokens, and smooth physics.
- */
-const teaserCardVariants = cva(
-  [
-    'group relative flex flex-col overflow-hidden h-full min-w-0 max-w-full isolate',
-    'bg-bg-card border border-border rounded-xl',
-    'shadow-sm hover:shadow-xl hover:border-primary',
-    'transition-all duration-150 ease-[var(--transition-ease)] hover:-translate-y-1',
-    'focus-within:shadow-focus focus-within:outline-none',
-    '@container/teaser cursor-pointer'
-  ],
-  {
-    variants: {
-      variant: {
-        vertical: 'flex-col',
-        horizontal: 'flex-col lg:flex-row min-h-[180px]',
-      },
-      isLoading: {
-        true: 'cursor-default pointer-events-none hover:transform-none hover:shadow-[var(--shadow-sm)]',
-        false: '',
-      }
-    },
-    defaultVariants: {
-      variant: 'vertical',
-      isLoading: false,
-    },
-  }
-)
-
-export interface TeaserCardProps
-  extends VariantProps<typeof teaserCardVariants> {
-  /** Unique ID for shared element transitions */
+export interface TeaserCardProps {
   layoutId?: string
-  /** Loading state for skeleton rendering */
   isLoading?: boolean
-  /** Optional image URL */
+  variant?: 'vertical' | 'horizontal'
   image?: string
-  /** Content for the badge */
   badge?: ReactNode
-  /** Color variant for the badge */
   badgeColor?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary'
-  /** Primary title of the card */
   title?: ReactNode
-  /** Descriptive text below the title */
   description?: string
-  /** Progress percentage (0-100) */
   progress?: number
-  /** Color of the progress bar */
   progressColor?: string
-  /** Click handler for the main card action */
   onClick?: (e: MouseEvent) => void
-  /** Callback for toggling the star state */
   onStarToggle?: (starred: boolean) => void
-  /** Optional additional action node */
   action?: ReactNode
-  /** Starred state */
   isStarred?: boolean
-  /** Custom CSS classes */
   className?: string
-  /** Hint for skeleton rendering to reserve space for action */
   hasAction?: boolean
-  /** Hint for skeleton rendering to reserve space for progress */
   hasProgress?: boolean
 }
 
-/**
- * TeaserCard - High-performance UI component for course modules and content previews.
- * 
- * Architectural Refinements:
- * 1. Modularize: Extract sub-components for better maintainability.
- * 2. Accessibility: Ensure 44x44px targets and proper semantic buttons.
- * 3. Tokens: Strict usage of --aau-* brand variables and 8pt grid steps.
- * 4. Motion: 150ms hover responses and spring-based micro-interactions.
- * 5. Performance: Memoized sub-renders and optimized state selection.
- */
 const TeaserCard = memo(function TeaserCard({
   layoutId,
   isLoading = false,
@@ -108,6 +51,7 @@ const TeaserCard = memo(function TeaserCard({
   hasProgress = false,
 }: TeaserCardProps) {
   const t = useStore(state => state.t)
+  const isHorizontal = variant === 'horizontal'
 
   const progressData = useMemo(() => {
     if (progress === undefined || isLoading) return null
@@ -117,8 +61,6 @@ const TeaserCard = memo(function TeaserCard({
       label: rounded > 0 ? `${rounded}% ${t('completed_short')}` : null
     }
   }, [progress, t, isLoading])
-
-  const isHorizontal = variant === 'horizontal'
 
   if (isLoading) {
     return (
@@ -132,15 +74,15 @@ const TeaserCard = memo(function TeaserCard({
   }
 
   return (
-    <motion.div
+    <Card
       layoutId={layoutId}
-      className={cn(teaserCardVariants({ variant, isLoading }), className)}
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      onClick={(e) => onClick?.(e)}
+      className={cn(
+        'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1 @container/teaser',
+        isHorizontal ? 'flex-col lg:flex-row min-h-[180px]' : 'flex-col',
+        className
+      )}
+      onClick={(e) => onClick?.(e as any)}
     >
-      {/* Primary Semantic Action - Stretched Link Pattern */}
       <Button
         variant="ghost"
         className="absolute inset-0 z-[1] w-full h-full p-0 rounded-none opacity-0 focus-visible:outline-none"
@@ -151,7 +93,6 @@ const TeaserCard = memo(function TeaserCard({
         }}
       />
 
-      {/* Media Layer */}
       {image && (
         <div 
           className={cn(
@@ -182,7 +123,6 @@ const TeaserCard = memo(function TeaserCard({
         </div>
       )}
 
-      {/* Content Layer */}
       <div className="relative z-[2] flex flex-col flex-1 p-md gap-xs min-w-0">
         <div className="flex items-start justify-between gap-md">
           <div className="flex-1 min-w-0">
@@ -199,7 +139,6 @@ const TeaserCard = memo(function TeaserCard({
             </Heading>
           </div>
 
-          {/* Favorite Toggle */}
           <Button
             size="icon-sm"
             variant="ghost"
@@ -244,7 +183,6 @@ const TeaserCard = memo(function TeaserCard({
           </Text>
         )}
 
-        {/* Progress Section */}
         {progressData && (
           <div className="mt-auto pt-xs space-y-2xs">
             <ProgressBar 
@@ -268,18 +206,14 @@ const TeaserCard = memo(function TeaserCard({
           </div>
         )}
 
-        {/* Interactive Cue */}
         <div className="absolute bottom-md right-md opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ease-[var(--transition-ease)] pointer-events-none">
           <ChevronRight size={20} strokeWidth={2.5} className="text-primary" />
         </div>
       </div>
-    </motion.div>
+    </Card>
   )
 })
 
-/**
- * Dedicated Skeleton for Layout Stability (CLS Prevention)
- */
 function TeaserCardSkeleton({ 
   variant, 
   className,
@@ -293,7 +227,11 @@ function TeaserCardSkeleton({
 }) {
   const isHorizontal = variant === 'horizontal'
   return (
-    <div className={cn(teaserCardVariants({ variant, isLoading: true }), className)}>
+    <Card className={cn(
+      isHorizontal ? 'flex-col lg:flex-row min-h-[180px]' : 'flex-col',
+      'pointer-events-none',
+      className
+    )}>
       <div className={cn(
         'relative shrink-0 overflow-hidden bg-bg-card',
         isHorizontal ? 'w-full lg:w-[260px] aspect-video lg:h-full' : 'w-full aspect-video'
@@ -323,7 +261,7 @@ function TeaserCardSkeleton({
           </div>
         )}
       </div>
-    </div>
+    </Card>
   )
 }
 

@@ -6,7 +6,8 @@ import SectionHeader from '@/components/ui/SectionHeader'
 import KeyValue from '@/components/ui/KeyValue'
 import { Heading, Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
-import { supportLocations, supportDeskHours, supportNotes } from '@/data/support'
+import mockData from '@/data/mockData.json'
+const { supportLocations, supportDeskHours, supportNotes } = mockData
 
 function LocalDesksSection() {
   const t = useStore(state => state.t)

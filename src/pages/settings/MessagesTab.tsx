@@ -2,6 +2,7 @@ import FormField from '@/components/ui/FormField'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
+import SettingsSection from './SettingsSection'
 
 interface MessagesTabProps {
   messagePrivacy: 'contacts' | 'courses' | 'anyone'
@@ -19,15 +20,7 @@ export default function MessagesTab({
   const t = useStore(state => state.t)
 
   return (
-    <Stack gap="xl" className="settings__messages max-w-[var(--container-max-width)]">
-      <div className="flex flex-col gap-[var(--space-2xs)]">
-        <Text weight="bold" size="md" className="text-main">
-          {t('settings.message_prefs')}
-        </Text>
-        <Text muted size="sm">
-          {t('settings.message_desc')}
-        </Text>
-      </div>
+    <SettingsSection titleKey="settings.message_prefs" descKey="settings.message_desc" className="settings__messages max-w-[var(--container-max-width)]">
 
       <Stack gap="lg" className="mt-sm">
         <FormField label={t('settings.who_can_contact')}>
@@ -76,6 +69,6 @@ export default function MessagesTab({
           </button>
         </div>
       </Stack>
-    </Stack>
+    </SettingsSection>
   )
 }

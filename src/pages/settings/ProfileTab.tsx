@@ -7,6 +7,7 @@ import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import useStore, { type Theme } from '@/store/useStore'
+import SettingsSection from './SettingsSection'
 
 interface ProfileTabProps {
   firstName: string
@@ -28,7 +29,7 @@ export default function ProfileTab({
   const t = useStore(state => state.t)
 
   return (
-    <Stack gap="2xl" className="settings__profile-form max-w-[var(--container-max-width)]">
+    <SettingsSection titleKey="settings.profile" descKey="settings.profile_desc" className="settings__profile-form max-w-[var(--container-max-width)]">
       <Stack direction="row" gap="lg" align="start" className="profile-hero pb-xl border-b border-border/50 flex-col sm:flex-row">
         <Avatar name={`${firstName} ${lastName}`} size={96} className="ring-4 ring-primary/10 shrink-0" />
         <Stack gap="sm" className="items-start">
@@ -88,6 +89,6 @@ export default function ProfileTab({
           ))}
         </div>
       </Stack>
-    </Stack>
+    </SettingsSection>
   )
 }
