@@ -1,8 +1,8 @@
 import Card from '@/components/ui/Card'
-import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import { useToast } from '@/context/ToastContext'
 import useStore from '@/store/useStore'
+import SettingsSection from './SettingsSection'
 
 interface LanguageTabProps {
   lang: 'da' | 'en'
@@ -17,15 +17,7 @@ export default function LanguageTab({
   const toast = useToast()
 
   return (
-    <Stack gap="xl" className="settings__language max-w-[36rem]">
-      <div className="flex flex-col gap-[var(--space-xs)]">
-        <Text weight="bold" size="md" className="text-main">
-          {t('settings.select_language')}
-        </Text>
-        <Text muted size="sm">
-          {t('settings.language_desc')}
-        </Text>
-      </div>
+    <SettingsSection titleKey="settings.select_language" descKey="settings.language_desc" className="settings__language max-w-[36rem]">
 
       <div className="mt-2xs grid grid-cols-1 sm:grid-cols-2 gap-md">
         {[
@@ -55,6 +47,6 @@ export default function LanguageTab({
           </Card>
         ))}
       </div>
-    </Stack>
+    </SettingsSection>
   )
 }

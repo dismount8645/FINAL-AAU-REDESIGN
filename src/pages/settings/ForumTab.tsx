@@ -2,6 +2,7 @@ import FormField from '@/components/ui/FormField'
 import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
+import SettingsSection from './SettingsSection'
 
 interface ForumTabProps {
   forumDigest: 'none' | 'complete' | 'subjects'
@@ -23,15 +24,7 @@ export default function ForumTab({
   const t = useStore(state => state.t)
 
   return (
-    <Stack gap="xl" className="settings__forum max-w-[var(--container-max-width)]">
-      <div className="flex flex-col gap-[var(--space-2xs)]">
-        <Text weight="bold" size="md" className="text-main">
-          {t('settings.forum_prefs')}
-        </Text>
-        <Text muted size="sm">
-          {t('settings.forum_desc')}
-        </Text>
-      </div>
+    <SettingsSection titleKey="settings.forum_prefs" descKey="settings.forum_desc" className="settings__forum max-w-[var(--container-max-width)]">
 
       <Stack gap="lg" className="mt-sm">
         <FormField label={t('settings.email_digest_type')}>
@@ -96,6 +89,6 @@ export default function ForumTab({
           </button>
         </div>
       </Stack>
-    </Stack>
+    </SettingsSection>
   )
 }

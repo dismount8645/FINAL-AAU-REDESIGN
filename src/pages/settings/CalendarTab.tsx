@@ -1,8 +1,7 @@
 import FormField from '@/components/ui/FormField'
 import Grid from '@/components/ui/Grid'
-import Stack from '@/components/ui/Stack'
-import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
+import SettingsSection from './SettingsSection'
 
 interface CalendarTabProps {
   calendarStartDay: 'monday' | 'sunday'
@@ -20,15 +19,7 @@ export default function CalendarTab({
   const t = useStore(state => state.t)
 
   return (
-    <Stack gap="xl" className="settings__calendar max-w-[var(--container-max-width)]">
-      <div className="flex flex-col gap-[var(--space-2xs)]">
-        <Text weight="bold" size="md" className="text-main">
-          {t('settings.calendar_prefs')}
-        </Text>
-        <Text muted size="sm">
-          {t('settings.calendar_desc')}
-        </Text>
-      </div>
+    <SettingsSection titleKey="settings.calendar_prefs" descKey="settings.calendar_desc" className="settings__calendar max-w-[var(--container-max-width)]">
 
       <Grid columns={2} gap="md" className="mt-sm">
         <Grid.Item span={1} mobileSpan={2}>
@@ -60,6 +51,6 @@ export default function CalendarTab({
           </FormField>
         </Grid.Item>
       </Grid>
-    </Stack>
+    </SettingsSection>
   )
 }
