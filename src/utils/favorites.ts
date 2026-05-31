@@ -1,4 +1,4 @@
-import { BookOpen, Wrench, FileText, MessageSquare, Link, type LucideIcon } from 'lucide-react'
+import { BookOpen, Wrench, FileText, MessageSquare, type LucideIcon } from 'lucide-react'
 import type { FavoriteItem, FavoriteType } from '@/types'
 import type { CourseWithStatus, Lang } from '@/store/useStore'
 import { courses as coursesMap } from '@/data/mockData'
@@ -6,7 +6,7 @@ import { forums } from '@/data/mockData'
 import { allToolsList } from '@/data/tools'
 import { translations } from '@/data/translations'
 
-export interface ResolvedFavorite {
+interface ResolvedFavorite {
   id: string
   type: FavoriteType
   entityId: number
@@ -18,17 +18,7 @@ export interface ResolvedFavorite {
   external?: boolean
 }
 
-export function getFavoriteIcon(type: FavoriteType): LucideIcon {
-  switch (type) {
-    case 'course': return BookOpen
-    case 'tool': return Wrench
-    case 'file': return FileText
-    case 'forum': return MessageSquare
-    case 'link': return Link
-  }
-}
-
-export function getFavoriteColor(type: FavoriteType): string {
+function getFavoriteColor(type: FavoriteType): string {
   switch (type) {
     case 'course': return 'var(--color-primary)'
     case 'tool': return 'var(--color-success)'
@@ -38,7 +28,7 @@ export function getFavoriteColor(type: FavoriteType): string {
   }
 }
 
-export function getFavoriteBg(type: FavoriteType): string {
+function getFavoriteBg(type: FavoriteType): string {
   switch (type) {
     case 'course': return 'rgba(59, 130, 246, 0.1)'
     case 'tool': return 'rgba(16, 185, 129, 0.1)'

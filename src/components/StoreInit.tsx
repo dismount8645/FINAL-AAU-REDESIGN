@@ -21,7 +21,7 @@ export default function StoreInit({ children }: { children: ReactNode }) {
     /* istanbul ignore next */
     if (typeof window === 'undefined') return
     
-    document.body.classList.toggle('dark-mode', isDarkMode)
+    document.documentElement.classList.toggle('dark-mode', isDarkMode)
     document.documentElement.classList.toggle('dark', isDarkMode)
   }, [isDarkMode])
 

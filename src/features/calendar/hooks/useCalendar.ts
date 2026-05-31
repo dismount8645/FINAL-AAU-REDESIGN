@@ -4,11 +4,6 @@ import { defaultEvents } from '@/data/mockData'
 import { CalendarEvents, CalendarEvent } from '@/types'
 import { storage } from '@/utils/storage'
 
-export const monthNamesDa = ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december']
-export const monthNamesEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-export const dayNamesDa = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn']
-export const dayNamesEn = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
 export function useCalendar() {
   const lang = useStore(state => state.lang)
   const t = useStore(state => state.t)

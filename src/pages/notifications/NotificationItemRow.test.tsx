@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import type { MouseEvent } from 'react'
-import { describe, it, expect, vi } from 'vitest'
+import { it, expect, vi } from 'vitest'
 import NotificationItemRow from './NotificationItemRow'
 import type { NotificationItem } from './types'
 
@@ -27,8 +26,11 @@ const baseNotif: NotificationItem = {
   type: 'Info',
   text: 'Test notification',
   course: 'DD101',
-  date: '2024-01-15',
+  date: new Date('2024-01-15'),
   isRead: false,
+  archived: false,
+  content: '',
+  link: '',
 }
 
 function renderRow(overrides: Partial<NotificationItem> = {}, view: 'active' | 'archive' = 'active', isSelected = false) {

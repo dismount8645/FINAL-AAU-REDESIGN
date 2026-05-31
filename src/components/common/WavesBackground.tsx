@@ -11,6 +11,7 @@ export default function WavesBackground({ page }: WavesBackgroundProps) {
       alt={`Dekorativ bølgegrafik for ${page} side`}
       className="waves-bg"
       aria-hidden="true"
+      loading="lazy"
     />
   )
 }
