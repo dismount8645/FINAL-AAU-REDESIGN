@@ -1,4 +1,4 @@
-export interface WidgetDisplayLayout {
+interface WidgetDisplayLayout {
   itemsToShow: number
   gridColumns: number
 }

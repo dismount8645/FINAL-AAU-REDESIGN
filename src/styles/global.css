@@ -391,8 +391,6 @@ body {
 }
 
 .layout-main,
-.sidebar,
-.topbar,
 .page-header,
 .panel-card {
   transition: background-color var(--transition-normal) var(--transition-ease),
@@ -462,17 +460,6 @@ body.sidebar-collapsed .layout-main {
   }
 }
 
-/* Topbar Synchronization */
-.topbar {
-  transition: padding-left var(--transition-slow) var(--transition-ease), background-color var(--transition-normal);
-}
-
-@media (max-width: 767px) {
-  .topbar {
-    padding-left: 0;
-  }
-}
-
 /* PageHeader refinements */
 .page-header {
   position: relative;
@@ -529,14 +516,12 @@ body.sidebar-collapsed .layout-main {
 }
 
 /* Fix for the "squeezed" modal regression */
-.dialog-content,
 [role="dialog"] {
   min-width: 320px;
 }
 
 @media (max-width: 400px) {
 
-  .dialog-content,
   [role="dialog"] {
     min-width: calc(100vw - 2rem);
     width: calc(100vw - 2rem);
@@ -646,15 +631,13 @@ h3 {
     background-color: var(--bg-card);
   }
 
-  [role="dialog"],
-  .dialog-content {
+  [role="dialog"] {
     background-color: var(--bg-card);
     color: var(--text-main);
     border: 1.5px solid var(--border-color);
     box-shadow: 0 0 20px rgba(139, 129, 255, 0.1), 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   }
 
-  .input,
   input,
   textarea,
   select {
@@ -663,14 +646,12 @@ h3 {
     color: var(--text-main);
   }
 
-  .input::placeholder,
   input::placeholder,
   textarea::placeholder {
     color: var(--text-muted);
     opacity: 1;
   }
 
-  .input:focus,
   input:focus {
     border-color: var(--color-primary);
     box-shadow: 0 0 0 4px rgba(139, 129, 255, 0.2);
@@ -778,19 +759,6 @@ h3 {
   /* slate-400 */
 }
 
-.dark .btn--secondary,
-.dark .btn--tertiary,
-.dark .btn--ghost {
-  color: #e2e8f0;
-  /* slate-200 */
-}
-
-.dark .btn--secondary:hover,
-.dark .btn--tertiary:hover,
-.dark .btn--ghost:hover {
-  color: white;
-  background-color: rgba(255, 255, 255, 0.1);
-}
 
 .dark .card {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);

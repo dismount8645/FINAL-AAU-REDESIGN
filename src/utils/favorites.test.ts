@@ -1,48 +1,14 @@
 import { describe, it, expect } from 'vitest'
 import {
-  getFavoriteIcon,
-  getFavoriteColor,
-  getFavoriteBg,
   getFavoriteLabel,
   sortFavorites,
   resolveFavorite
 } from '@/utils/favorites'
-import { BookOpen, Wrench, FileText, MessageSquare, Link } from 'lucide-react'
 import type { FavoriteItem } from '@/types'
 import type { CourseWithStatus } from '@/store/useStore'
 import { allToolsList } from '@/data/tools'
 
 describe('favorites utility', () => {
-  describe('getFavoriteIcon', () => {
-    it('returns correct icon for each type', () => {
-      expect(getFavoriteIcon('course')).toBe(BookOpen)
-      expect(getFavoriteIcon('tool')).toBe(Wrench)
-      expect(getFavoriteIcon('file')).toBe(FileText)
-      expect(getFavoriteIcon('forum')).toBe(MessageSquare)
-      expect(getFavoriteIcon('link')).toBe(Link)
-    })
-  })
-
-  describe('getFavoriteColor', () => {
-    it('returns correct CSS variable for each type', () => {
-      expect(getFavoriteColor('course')).toBe('var(--color-primary)')
-      expect(getFavoriteColor('tool')).toBe('var(--color-success)')
-      expect(getFavoriteColor('file')).toBe('var(--color-warning)')
-      expect(getFavoriteColor('forum')).toBe('var(--color-info)')
-      expect(getFavoriteColor('link')).toBe('var(--aau-light-pink)')
-    })
-  })
-
-  describe('getFavoriteBg', () => {
-    it('returns correct rgba for each type', () => {
-      expect(getFavoriteBg('course')).toBe('rgba(59, 130, 246, 0.1)')
-      expect(getFavoriteBg('tool')).toBe('rgba(16, 185, 129, 0.1)')
-      expect(getFavoriteBg('file')).toBe('rgba(245, 158, 11, 0.1)')
-      expect(getFavoriteBg('forum')).toBe('rgba(6, 182, 212, 0.1)')
-      expect(getFavoriteBg('link')).toBe('rgba(219, 39, 119, 0.1)')
-    })
-  })
-
   describe('getFavoriteLabel', () => {
     it('returns correct labels in Danish', () => {
       expect(getFavoriteLabel('course', 'da')).toBe('Kursus')

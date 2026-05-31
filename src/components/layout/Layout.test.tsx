@@ -56,13 +56,6 @@ describe('Layout', () => {
     expect(screen.getByText('Page content')).toBeInTheDocument()
   })
 
-  it('applies sidebar-collapsed class when isCollapsed is true', () => {
-    useStore.setState({ isCollapsed: true, isMobile: false, isMobileOpen: false })
-    const { container } = renderLayout('/')
-    const root = container.querySelector('.sidebar-collapsed')
-    expect(root).toBeInTheDocument()
-  })
-
   it('does not modify body overflow on desktop', () => {
     useStore.setState({ isMobile: false, isMobileOpen: true })
     renderLayout('/')

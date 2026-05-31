@@ -1,6 +1,4 @@
 export { useCalendar } from '@/features/calendar/hooks/useCalendar'
-export { useCourse } from '@/hooks/useCourse'
-export { useResponsiveSize } from '@/hooks/useResponsiveSize'
 export { useWidgetDrag } from '@/hooks/useWidgetDrag'
 export { useCoursesFilterAndSort } from '@/hooks/useCoursesFilterAndSort'
 export { useMessagesState } from '@/hooks/useMessagesState'

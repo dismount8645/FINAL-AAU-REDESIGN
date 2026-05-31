@@ -3,7 +3,6 @@ import { render, type RenderOptions } from '@testing-library/react'
 import { type ReactElement, type ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { ToastProvider } from '@/context/providers/ToastProvider'
-import { ModalProvider } from '@/context/providers/ModalProvider'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
 interface AllProvidersProps {
@@ -18,9 +17,7 @@ export const AllProviders = ({ children, initialRoute = '/' }: AllProvidersProps
   <MemoryRouter initialEntries={[initialRoute]}>
     <ErrorBoundary>
       <ToastProvider>
-        <ModalProvider>
-          {children}
-        </ModalProvider>
+        {children}
       </ToastProvider>
     </ErrorBoundary>
   </MemoryRouter>

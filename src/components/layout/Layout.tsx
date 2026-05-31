@@ -8,7 +8,6 @@ import useStore from '@/store/useStore'
 import PageSkeleton from '@/components/ui/PageSkeleton';
 
 function Layout() {
-  const isCollapsed = useStore((state) => state.isCollapsed);
   const isMobile = useStore((state) => state.isMobile);
   const isMobileOpen = useStore((state) => state.isMobileOpen);
   const t = useStore((state) => state.t);
@@ -56,7 +55,7 @@ function Layout() {
   }, [location.pathname]);
 
   return (
-    <div className={`flex min-h-screen w-full relative ${isCollapsed ? 'sidebar-collapsed' : ''}`}>
+    <div className="flex min-h-screen w-full relative">
       <a href="#main-content" className="skip-link">
         {t('skip_to_content')}
       </a>
