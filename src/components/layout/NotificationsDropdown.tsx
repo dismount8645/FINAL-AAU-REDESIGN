@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -7,85 +6,24 @@ import useStore from '@/store/useStore';
 import { notificationsData } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
+import { useDropdown } from '@/hooks/useDropdown';
+
+const getNotifIcon = (type: string) => {
+  switch (type) {
+    case 'AFLEVERING': return FileUp;
+    case 'FORUM': return MessageSquare;
+    case 'DEADLINE': return Clock;
+    case 'FEEDBACK': return Star;
+    default: return Bell;
+  }
+};
 
 export default function NotificationsDropdown() {
   const navigate = useNavigate();
   const t = useStore((state) => state.t);
   const lang = useStore((state) => state.lang);
   const notificationCount = useStore((state) => state.notificationCount);
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const close = useCallback(() => {
-    setIsOpen(false);
-    buttonRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        const firstItem = menuRef.current?.querySelector<HTMLElement>('button.w-full');
-        firstItem?.focus();
-      }, 50);
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [close]);
-
-  const getNotifIcon = (type: string) => {
-    switch (type) {
-      case 'AFLEVERING': return FileUp;
-      case 'FORUM': return MessageSquare;
-      case 'DEADLINE': return Clock;
-      case 'FEEDBACK': return Star;
-      default: return Bell;
-    }
-  };
-
-  const handleMenuKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === 'Escape') {
-      close();
-      return;
-    }
-    
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button[type="button"].w-full'));
-      const activeIdx = items.indexOf(document.activeElement as HTMLElement);
-      
-      let nextIdx = activeIdx;
-      if (e.key === 'ArrowDown') {
-        nextIdx = activeIdx < items.length - 1 ? activeIdx + 1 : 0;
-      } else {
-        nextIdx = activeIdx > 0 ? activeIdx - 1 : items.length - 1;
-      }
-      items[nextIdx].focus();
-    }
-  };
-
-  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      setIsOpen(true);
-    }
-  };
+  const { isOpen, setIsOpen, dropdownRef, menuRef, buttonRef, toggle, handleMenuKeyDown, handleTriggerKeyDown } = useDropdown();
 
   return (
     <div className="relative flex" ref={dropdownRef}>
@@ -100,7 +38,7 @@ export default function NotificationsDropdown() {
             ? "bg-primary/10 text-primary dark:bg-white/15 dark:text-white shadow-sm" 
             : "text-text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={toggle}
         aria-label={t('notifications')}
         aria-expanded={isOpen}
         aria-haspopup="menu"
