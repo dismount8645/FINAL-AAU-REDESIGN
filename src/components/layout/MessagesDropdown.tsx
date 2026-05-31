@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail } from 'lucide-react';
 import { Text } from '@/components/ui/Typography';
@@ -8,32 +7,14 @@ import { messagesData } from '@/data/mockData';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
+import { useDropdown } from '@/hooks/useDropdown';
 
 export default function MessagesDropdown() {
   const navigate = useNavigate();
   const t = useStore((state) => state.t);
   const lang = useStore((state) => state.lang);
   const messageCount = useStore((state) => state.messageCount);
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const close = useCallback(() => setIsOpen(false), []);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) close();
-    };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [close]);
+  const { isOpen, setIsOpen, dropdownRef, toggle } = useDropdown();
 
   return (
     <div className="relative flex" ref={dropdownRef}>
@@ -46,7 +27,7 @@ export default function MessagesDropdown() {
             ? "bg-primary/10 text-primary dark:bg-white/15 dark:text-white shadow-sm" 
             : "text-text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
         )}
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={toggle}
         aria-label={t('messages')}
         type="button"
         aria-expanded={isOpen}
@@ -85,9 +66,9 @@ export default function MessagesDropdown() {
                 {t('view_all')}
               </Button>
             </div>
-            <ul className="max-h-96 overflow-y-auto pr-1" role="menu">
+            <ul className="max-h-96 overflow-y-auto pr-1">
               {messagesData.map((m) => (
-                <li key={m.id} role="none">
+                <li key={m.id}>
                   <button
                     className="w-full min-h-[44px] cursor-pointer border-b border-border/40 p-md text-left transition-colors hover:bg-bg-hover focus-visible:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
                     onClick={() => {
@@ -95,7 +76,6 @@ export default function MessagesDropdown() {
                       setIsOpen(false);
                     }}
                     type="button"
-                    role="menuitem"
                   >
                     <div className="flex items-center gap-md">
                       <Avatar

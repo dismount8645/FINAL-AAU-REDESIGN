@@ -9,7 +9,7 @@ import useStore from '@/store/useStore'
 import { ToastProvider } from '@/context/providers/ToastProvider'
 import { PersistedStateSchema } from '@/lib/schemas/store'
 
-import { formatDate, formatFullDate, formatTime } from '@/utils/formatters'
+import { formatDate, formatFullDate, formatTime } from '@/utils/dates'
 import { env } from '@/utils/env'
 import { storage } from '@/utils/storage'
 

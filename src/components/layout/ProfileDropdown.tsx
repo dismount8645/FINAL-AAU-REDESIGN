@@ -1,70 +1,22 @@
-import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { User, Settings, LogOut } from 'lucide-react';
 import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useDropdown } from '@/hooks/useDropdown';
 
 export default function ProfileDropdown() {
   const t = useStore((state) => state.t);
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-
-  const close = () => {
-    setIsOpen(false);
-    buttonRef.current?.focus();
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (dropdownRef.current && !dropdownRef.current.contains(target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        const firstItem = menuRef.current?.querySelector<HTMLElement>('[role="menuitem"]');
-        firstItem?.focus();
-      }, 50);
-    }
-  }, [isOpen]);
+  const { isOpen, setIsOpen, dropdownRef, menuRef, buttonRef, toggle, handleMenuKeyDown, handleTriggerKeyDown } = useDropdown();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === 'Escape') {
-      close();
+      setIsOpen(false);
+      buttonRef.current?.focus();
       return;
     }
-    
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const menuItems = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="menuitem"]'));
-      const activeIdx = menuItems.indexOf(document.activeElement as HTMLElement);
-      
-      let nextIdx = activeIdx;
-      if (e.key === 'ArrowDown') {
-        nextIdx = activeIdx < menuItems.length - 1 ? activeIdx + 1 : 0;
-      } else {
-        nextIdx = activeIdx > 0 ? activeIdx - 1 : menuItems.length - 1;
-      }
-      
-      menuItems[nextIdx].focus();
-    }
-  };
-
-  const handleTriggerKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      setIsOpen(true);
-    }
+    handleMenuKeyDown(e);
   };
 
   return (
@@ -75,7 +27,7 @@ export default function ProfileDropdown() {
         className="group relative flex h-11 w-11 items-center justify-center rounded-full border-2 transition-all duration-150 active:scale-95 shadow-sm focus-visible:outline-none focus-visible:shadow-focus"
         onClick={(e) => {
           e.stopPropagation();
-          setIsOpen(!isOpen);
+          toggle();
         }}
         aria-label={t('user_menu')}
         aria-expanded={isOpen}
