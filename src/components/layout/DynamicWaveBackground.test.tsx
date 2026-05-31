@@ -24,31 +24,31 @@ describe('DynamicWaveBackground', () => {
     const { container } = renderAtPath('/')
     const el = container.querySelector('.dynamic-waves') as HTMLElement
     expect(el).toBeInTheDocument()
-    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-01.png')
+    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-01.webp')
   })
 
   it('uses exact path match', () => {
     const { container } = renderAtPath('/courses')
     const el = container.querySelector('.dynamic-waves') as HTMLElement
-    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-02.png')
+    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-02.webp')
   })
 
   it('uses prefix path match', () => {
     const { container } = renderAtPath('/course/123')
     const el = container.querySelector('.dynamic-waves') as HTMLElement
-    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-07.png')
+    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-07.webp')
   })
 
   it('uses fallback when no path matches', () => {
     const { container } = renderAtPath('/some-random-path')
     const el = container.querySelector('.dynamic-waves') as HTMLElement
-    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-10.png')
+    expect(el.style.backgroundImage).toContain('AAU_BOELGER_RGB-10.webp')
   })
 
   it('uses dark mode URL when isDarkMode is true', () => {
     const { container } = renderAtPath('/', true)
     const el = container.querySelector('.dynamic-waves') as HTMLElement
-    expect(el.style.backgroundImage).toContain('AAU_BOELGER_WHITE-01.png')
+    expect(el.style.backgroundImage).toContain('AAU_BOELGER_WHITE-01.webp')
   })
 
   it('handles image load and transition', () => {

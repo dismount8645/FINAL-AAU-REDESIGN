@@ -24,7 +24,7 @@ const rawCourseData: Record<number, Omit<CourseRaw, 'sections'> & { sections: { 
     code: 'DD101',
     professor: 'Morten Jensen',
     email: 'mj@create.aau.dk',
-    img: '/assets/img/grafik/billeder/Undervisning/_2WB0207.jpg',
+    img: '/assets/img/grafik/billeder/Undervisning/_2WB0207.webp',
     sections: [
       {
         id: 's1',
@@ -53,7 +53,7 @@ const rawCourseData: Record<number, Omit<CourseRaw, 'sections'> & { sections: { 
     code: 'WEB202',
     professor: 'Lise Sørensen',
     email: 'ls@create.aau.dk',
-    img: '/assets/img/grafik/billeder/Forskning/_DSC0400.jpg',
+    img: '/assets/img/grafik/billeder/Forskning/_DSC0400.webp',
     sections: [
       {
         id: 'w1',
@@ -81,7 +81,7 @@ const rawCourseData: Record<number, Omit<CourseRaw, 'sections'> & { sections: { 
     code: 'VT303',
     professor: 'Anders Nielsen',
     email: 'an@hum.aau.dk',
-    img: '/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.jpg',
+    img: '/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.webp',
     sections: [
       {
         id: 'v1',
