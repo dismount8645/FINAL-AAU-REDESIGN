@@ -15,6 +15,16 @@ export function getHoursUntil(date: string | Date, from = new Date()): number {
   return (new Date(date).getTime() - from.getTime()) / (1000 * 60 * 60)
 }
 
+export function formatDate(date: Date | string | number, lang: Lang, options?: Intl.DateTimeFormatOptions): string {
+  const d = new Date(date)
+  const locale = lang === 'da' ? 'da-DK' : 'en-GB'
+  return d.toLocaleDateString(locale, { day: 'numeric', month: 'short', ...options })
+}
+
+export function formatFullDate(date: Date | string | number, lang: Lang): string {
+  return formatDate(date, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+}
+
 export function formatShortDate(date: Date, lang: Lang): string {
   return date.toLocaleDateString(localeForLang(lang), { day: 'numeric', month: 'short' })
 }
