@@ -6,6 +6,7 @@ import {
   ContactForm,
   SupportSidebar,
 } from './index'
+import { linkifyText } from './FaqSection'
 import useStore from '@/store/useStore'
 
 // Mock useToast
@@ -115,5 +116,11 @@ describe('Support Sections Subcomponents', () => {
       expect(screen.getByText('Selvbetjening')).toBeInTheDocument()
       expect(screen.getByTestId('child')).toBeInTheDocument()
     })
+  })
+
+  it('linkifyText handles non-http links', () => {
+    render(<>{linkifyText('see support.its.aau.dk or http://test.com')}</>)
+    const link = screen.getByText('support.its.aau.dk')
+    expect(link).toHaveAttribute('href', 'https://support.its.aau.dk')
   })
 })
