@@ -38,3 +38,12 @@ __pycache__/
 # Aider
 .aider*
 env_file.env
+
+# Coverage reports
+coverage/
+
+# QA screenshots
+qa-screenshots/
+
+# Test artifacts
+test-results.json
