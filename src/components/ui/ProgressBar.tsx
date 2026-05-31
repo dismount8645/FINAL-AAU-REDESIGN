@@ -31,10 +31,6 @@ export default function ProgressBar({
 }: ProgressBarProps) {
   const safeValue = Math.min(Math.max(value, 0), 100)
 
-  if (import.meta.env.DEV) {
-    console.debug('ProgressBar rendered', { value: safeValue, color })
-  }
-
   return (
     <div
       className={cn("flex items-center gap-sm", className)}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Phone, Globe } from 'lucide-react'
 import { useToast } from '@/context/ToastContext'
 import PageHeader from '@/components/common/PageHeader'
@@ -23,13 +23,10 @@ function Support() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<{ subject: boolean; description: boolean }>({ subject: false, description: false })
 
-  useEffect(() => {
-    console.log('STATE UPDATED! subject:', JSON.stringify(subject), 'description:', JSON.stringify(description))
-  }, [subject, description])
+
 
   const handleSendSupport = async (e?: React.FormEvent) => {
     if (e) e.preventDefault()
-    console.log('handleSendSupport CALLED! subject:', JSON.stringify(subject), 'description:', JSON.stringify(description))
     const errors = { subject: !subject.trim(), description: !description.trim() }
     setFieldErrors(errors)
 

@@ -17,13 +17,13 @@ describe('Sidebar', () => {
       t: (key: string) => {
         if (key === 'aau_logo_center_src') {
           return useStore.getState().lang === 'da'
-            ? '/assets/img/grafik/logoer/__AAU_CENTER_WHITE.png'
-            : '/assets/img/grafik/logoer/__AAU_CENTER_WHITE_UK.png'
+            ? '/assets/img/grafik/logoer/__AAU_CENTER_WHITE.webp'
+            : '/assets/img/grafik/logoer/__AAU_CENTER_WHITE_UK.webp'
         }
         if (key === 'aau_logo_left_src') {
           return useStore.getState().lang === 'da'
-            ? '/assets/img/grafik/logoer/__AAU_LEFT_WHITE.png'
-            : '/assets/img/grafik/logoer/__AAU_LEFT_WHITE_UK.png'
+            ? '/assets/img/grafik/logoer/__AAU_LEFT_WHITE.webp'
+            : '/assets/img/grafik/logoer/__AAU_LEFT_WHITE_UK.webp'
         }
         return key
       },
@@ -65,7 +65,7 @@ describe('Sidebar', () => {
       </MemoryRouter>
     )
     const logo = screen.getByAltText('aau_logo_alt')
-    expect(logo.getAttribute('src')).toContain('__AAU_LEFT_WHITE.png')
+    expect(logo.getAttribute('src')).toContain('__AAU_LEFT_WHITE.webp')
   })
 
   it('renders collapsed logo (symbol)', () => {
@@ -76,7 +76,7 @@ describe('Sidebar', () => {
       </MemoryRouter>
     )
     const logo = screen.getByAltText('aau_logo_alt')
-    expect(logo.getAttribute('src')).toContain('__AAU_CENTER_WHITE.png')
+    expect(logo.getAttribute('src')).toContain('__AAU_CENTER_WHITE.webp')
   })
 
   it('renders collapsed EN logo', () => {
@@ -87,7 +87,7 @@ describe('Sidebar', () => {
       </MemoryRouter>
     )
     const logo = screen.getByAltText('aau_logo_alt')
-    expect(logo.getAttribute('src')).toContain('__AAU_CENTER_WHITE_UK.png')
+    expect(logo.getAttribute('src')).toContain('__AAU_CENTER_WHITE_UK.webp')
   })
 
   it('renders expanded EN logo', () => {
@@ -98,7 +98,7 @@ describe('Sidebar', () => {
       </MemoryRouter>
     )
     const logo = screen.getByAltText('aau_logo_alt')
-    expect(logo.getAttribute('src')).toContain('__AAU_LEFT_WHITE_UK.png')
+    expect(logo.getAttribute('src')).toContain('__AAU_LEFT_WHITE_UK.webp')
   })
 
   it('calls setLang when language option is clicked', () => {

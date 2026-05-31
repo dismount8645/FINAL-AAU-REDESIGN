@@ -14,8 +14,11 @@ function run(cmd: string) {
 }
 
 async function main() {
-  const token = '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';
-  const repoName = 'dismount8645/aau-redesign';
+  const token = process.env.GITHUB_TOKEN;
+  const repoName = process.env.GITHUB_REPO || 'dismount8645/aau-redesign';
+  if (!token) {
+    throw new Error('GITHUB_TOKEN environment variable not set');
+  }
   const authedUrl = `https://${token}@github.com/${repoName}.git`;
 
   try {
@@ -26,11 +29,11 @@ async function main() {
       run('git init');
     }
 
-    run('git config user.name "AI Assistant"');
-    run('git config user.email "assistant@aistudio.google"');
+    run(`git config user.name "${process.env.GIT_USER || 'AI Assistant'}"`);
+    run(`git config user.email "${process.env.GIT_EMAIL || 'assistant@aistudio.google'}"`);
 
     run('git add -A');
-    run('git commit -m "Standardize UI interactive touch targets, expand normalization register, and refine accessibility mappings"');
+    run(`git commit -m "${process.env.GIT_COMMIT_MESSAGE || 'Update'}"`);
 
     try {
       run('git remote remove origin');
