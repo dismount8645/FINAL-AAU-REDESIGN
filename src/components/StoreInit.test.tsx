@@ -71,7 +71,7 @@ describe('StoreInit', () => {
       listeners.change?.()
     })
 
-    expect(document.body.classList.contains('dark-mode')).toBe(true)
+    expect(document.documentElement.classList.contains('dark-mode')).toBe(true)
     expect(document.documentElement.classList.contains('dark')).toBe(true)
 
     addEventListenerSpy.mockRestore()
@@ -94,7 +94,7 @@ describe('StoreInit', () => {
       listeners.change?.()
     })
 
-    expect(document.body.classList.contains('dark-mode')).toBe(true)
+    expect(document.documentElement.classList.contains('dark-mode')).toBe(true)
     expect(useStore.getState().theme).toBe('dark')
   })
 
@@ -111,10 +111,10 @@ describe('StoreInit', () => {
     removeEventListenerSpy.mockRestore()
   })
 
-  it('toggles dark-mode class on body when isDarkMode changes', () => {
+  it('toggles dark-mode class on html when isDarkMode changes', () => {
     useStore.setState({ theme: 'dark', isDarkMode: true })
     render(<StoreInit><div /></StoreInit>)
-    expect(document.body.classList.contains('dark-mode')).toBe(true)
+    expect(document.documentElement.classList.contains('dark-mode')).toBe(true)
     expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 })
