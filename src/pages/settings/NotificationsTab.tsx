@@ -4,6 +4,7 @@ import Stack from '@/components/ui/Stack'
 import Input from '@/components/ui/Input'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
+import SettingsSection from './SettingsSection'
 
 interface NotificationsTabProps {
   notifPrefs: { email: boolean; push: boolean; sms: boolean }
@@ -17,11 +18,7 @@ export default function NotificationsTab({
   const t = useStore(state => state.t)
 
   return (
-    <Stack gap="xl" className="settings__notif-prefs max-w-[var(--container-max-width)]">
-      <Stack gap="xs">
-        <Text weight="bold" size="md" className="text-main">{t('settings.notif_preferences')}</Text>
-        <Text muted size="sm">{t('settings.notif_preferences_desc')}</Text>
-      </Stack>
+    <SettingsSection titleKey="settings.notif_preferences" descKey="settings.notif_preferences_desc" className="settings__notif-prefs max-w-[var(--container-max-width)]">
       <Grid columns={2} gap="md">
         {[
           { id: 'email', label: t('settings.notif_channel_email'), desc: t('settings.notif_channel_email_desc') },
@@ -62,6 +59,6 @@ export default function NotificationsTab({
           <Input id="quiet-hours-end" type="time" defaultValue="07:00" />
         </div>
       </Stack>
-    </Stack>
+    </SettingsSection>
   )
 }

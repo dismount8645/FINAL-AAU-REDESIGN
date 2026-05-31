@@ -28,14 +28,13 @@ describe('TeaserCard', () => {
     expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '75')
   })
 
-  it('calls onClick when card is clicked via the overlay button', () => {
+  it('calls onClick when card is clicked', () => {
     const handleClick = vi.fn()
     renderWithProviders(<TeaserCard onClick={handleClick} title="Click Me" />)
-    
-    // The main action is now an overlay button for A11y
-    const overlayButton = screen.getByRole('button', { name: /click me/i })
-    fireEvent.click(overlayButton)
-    
+
+    const card = screen.getAllByRole('button', { name: /click me/i })[0]
+    fireEvent.click(card)
+
     expect(handleClick).toHaveBeenCalled()
   })
 
