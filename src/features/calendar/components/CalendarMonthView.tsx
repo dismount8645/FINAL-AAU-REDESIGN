@@ -60,16 +60,19 @@ const CalendarMonthView = ({
       <Stack
         key={`day-${dayIndex}`}
         className={cn(
-          "calendar-day min-h-[100px] sm:min-h-[120px] p-[var(--space-sm)] flex flex-col gap-[var(--space-2xs)] relative transition-all duration-150 bg-card group cursor-pointer",
-          "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:shadow-focus focus-within:outline-none",
+          "calendar-day min-h-[100px] sm:min-h-[120px] p-[var(--space-sm)] flex flex-col gap-[var(--space-2xs)] relative transition-all duration-150 bg-card group",
+          "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:z-10",
           isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
         )}
-        onClick={() => (event ? handleEventClick(event, dateKey) : handleDayClick(dateKey))}
-        tabIndex={0}
-        role="button"
-        aria-label={`${dayIndex}. ${t('month_' + month)}`}
       >
-        <div className="flex justify-between items-start">
+        <button
+          type="button"
+          onClick={() => handleDayClick(dateKey)}
+          className="absolute inset-0 w-full h-full opacity-0 z-0 cursor-pointer focus-visible:opacity-100 focus-visible:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label={`${dayIndex}. ${t('month_' + month)} - ${t('create_event')}`}
+        />
+
+        <div className="flex justify-between items-start pointer-events-none z-10 relative" aria-hidden="true">
           <Text
             weight="bold"
             className={cn(
@@ -84,13 +87,16 @@ const CalendarMonthView = ({
         </div>
 
         {event && (
-          <div
-            className="calendar-event-mini w-full px-[var(--space-sm)] py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden"
+          <button
+            type="button"
+            className="calendar-event-mini w-full px-[var(--space-sm)] py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden focus-visible:outline-none focus-visible:shadow-focus z-10 relative"
             style={eventStyle}
             onClick={(e) => {
               e.stopPropagation()
               handleEventClick(event, dateKey)
             }}
+            aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
+            title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
             <Text size="xs" weight="bold" className="truncate block select-none leading-tight">
               {getEventTitle(event)}
@@ -100,7 +106,7 @@ const CalendarMonthView = ({
                 {event.time}
               </Text>
             )}
-          </div>
+          </button>
         )}
       </Stack>
     )

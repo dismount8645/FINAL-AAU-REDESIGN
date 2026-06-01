@@ -128,11 +128,13 @@ const CalendarWeekView = ({
                   >
                     <button
                       type="button"
+                      title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
+                      aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
                       onClick={() => handleEventClick(event, day.dateKey)}
                       className={cn(
                         "w-full h-full p-2.5 rounded-lg text-left transition-all duration-300",
                         "border border-border/30 shadow-sm group-hover:shadow-lg group-hover:scale-[1.01] group-hover:z-10",
-                        "active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus"
+                        "active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus focus-visible:z-10"
                       )}
                       style={{
                         background: palette.bg || event.color,
