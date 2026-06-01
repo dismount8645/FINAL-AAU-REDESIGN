@@ -60,7 +60,7 @@ const CalendarMonthView = ({
       <Stack
         key={`day-${dayIndex}`}
         className={cn(
-          "calendar-day min-h-[100px] sm:min-h-[120px] p-[var(--space-sm)] flex flex-col gap-[var(--space-2xs)] relative transition-all duration-150 bg-card group",
+          "calendar-day min-w-0 min-h-[100px] sm:min-h-[120px] p-xs sm:p-[var(--space-sm)] flex flex-col gap-[var(--space-2xs)] relative transition-all duration-150 bg-card group",
           "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:z-10",
           isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
         )}
@@ -89,7 +89,7 @@ const CalendarMonthView = ({
         {event && (
           <button
             type="button"
-            className="calendar-event-mini w-full px-[var(--space-sm)] py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden focus-visible:outline-none focus-visible:shadow-focus z-10 relative"
+            className="calendar-event-mini w-full px-xs py-2xs sm:px-[var(--space-sm)] sm:py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden focus-visible:outline-none focus-visible:shadow-focus z-10 relative"
             style={eventStyle}
             onClick={(e) => {
               e.stopPropagation()
@@ -98,11 +98,11 @@ const CalendarMonthView = ({
             aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
             title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
-            <Text size="xs" weight="bold" className="truncate block select-none leading-tight">
+            <Text size="xs" weight="bold" className="line-clamp-2 block select-none leading-tight">
               {getEventTitle(event)}
             </Text>
             {event.time && (
-              <Text size="2xs" className="opacity-80 block truncate mt-[var(--space-2xs)] font-medium">
+              <Text size="2xs" className="opacity-80 block line-clamp-2 mt-[var(--space-2xs)] font-medium">
                 {event.time}
               </Text>
             )}
@@ -123,7 +123,7 @@ const CalendarMonthView = ({
       cells.push(
         <div 
           key={`wn-${rowWeekNum}`} 
-          className="calendar-week-num flex items-center justify-center bg-muted/20 text-[0.65rem] sm:text-xs font-bold text-text-muted border-r border-b border-border/40 select-none"
+          className="calendar-week-num flex items-center justify-center bg-muted/20 text-[0.65rem] sm:text-xs font-bold text-text-muted border-r border-b border-border/40 select-none min-w-0"
         >
           {rowWeekNum}
         </div>
@@ -139,7 +139,7 @@ const CalendarMonthView = ({
           cells.push(
             <div 
               key={`empty-${row}-${col}`} 
-              className="calendar-day empty bg-muted/5 opacity-40 border-b border-r border-border/30" 
+              className="calendar-day empty bg-muted/5 opacity-40 border-b border-r border-border/30 min-w-0" 
             />
           )
         } else {
@@ -160,7 +160,7 @@ const CalendarMonthView = ({
       {dayNames.map((day) => (
         <div 
           key={day} 
-          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-sm)] text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-border/60"
+          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-sm)] text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-border/60 min-w-0 truncate"
         >
           {day}
         </div>

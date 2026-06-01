@@ -227,8 +227,8 @@ const Calendar = () => {
                           key="content"
                           className={cn(
                             "calendar-grid-container bg-[var(--border-color)]/20 min-w-0 grid transition-all duration-300",
-                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,64px)_repeat(7,1fr)]",
-                            view === 'week' && (isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,1fr)] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,96px)_repeat(7,1fr)] min-w-[1200px]"),
+                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,64px)_repeat(7,minmax(0,1fr))] min-w-[700px] md:min-w-[950px] lg:min-w-0",
+                            view === 'week' && (isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,minmax(0,1fr))] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,96px)_repeat(7,minmax(0,1fr))] min-w-[1200px]"),
                             view === 'day' && "grid-cols-1"
                           )}
                           style={{ gap: '1px' }}
