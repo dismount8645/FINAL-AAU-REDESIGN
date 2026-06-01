@@ -47,3 +47,9 @@ qa-screenshots/
 
 # Test artifacts
 test-results.json
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+e2e/screenshots/

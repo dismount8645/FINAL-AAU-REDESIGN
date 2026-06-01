@@ -101,13 +101,13 @@ const LessonItem = memo(forwardRef<HTMLDivElement, LessonItemProps>(
         role={isInteractive ? 'button' : undefined}
         {...props}
       >
-        <div className={cn(lessonIconVariants({ type }))}>
+        <div className={lessonIconVariants({ type })}>
           <IconComponent size={18} strokeWidth={2.5} aria-hidden="true" />
         </div>
         
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-main m-0 truncate text-sm leading-tight">{title}</p>
-          {metadata && <p className="text-xs text-muted m-0 mt-1 truncate">{metadata}</p>}
+          <p className="font-bold text-main m-0 text-sm leading-tight">{title}</p>
+          {metadata && <p className="text-xs text-muted m-0 mt-1">{metadata}</p>}
         </div>
 
         <button
