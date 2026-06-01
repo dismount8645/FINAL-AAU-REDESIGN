@@ -18,6 +18,8 @@ vi.mock('react-router-dom', async () => {
 
 describe('Calendar Page', () => {
   beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date(2026, 4, 15))
     vi.clearAllMocks()
     localStorage.clear()
   })
@@ -338,41 +340,41 @@ describe('Calendar Page', () => {
     expect(screen.getAllByText('Future Event 1').length).toBeGreaterThan(0)
   })
 
-  it('handles month starting on a Sunday (firstDay < 0 edge case)', async () => {
+  it('handles month starting on a Sunday (firstDay < 0 edge case)', () => {
     renderCalendar('da')
     // Default is May 2026.
     // May -> April
-    await userEvent.click(screen.getByRole('button', { name: /forrige|previous/i }))
-    await waitFor(() => expect(screen.getByTestId('page-header-title')).toHaveTextContent(/april 2026/i))
+    fireEvent.click(screen.getByRole('button', { name: /forrige|previous/i }))
+    expect(screen.getByTestId('page-header-title')).toHaveTextContent(/april 2026/i)
     
     // April -> March (Starts on Sunday)
-    await userEvent.click(screen.getByRole('button', { name: /forrige|previous/i }))
-    await waitFor(() => expect(screen.getByTestId('page-header-title')).toHaveTextContent(/marts 2026/i))
+    fireEvent.click(screen.getByRole('button', { name: /forrige|previous/i }))
+    expect(screen.getByTestId('page-header-title')).toHaveTextContent(/marts 2026/i)
   })
 
-  it('handles Sunday in week view (getDay() || 7 edge case)', async () => {
+  it('handles Sunday in week view (getDay() || 7 edge case)', () => {
     renderCalendar('da')
     // Switch to week view (May 1, 2026 - Friday)
-    await userEvent.click(screen.getByRole('button', { name: 'Uge' }))
-    await waitFor(() => expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i))
+    fireEvent.click(screen.getByRole('button', { name: 'Uge' }))
+    expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i)
     
     // Week 18 -> Week 19
-    await userEvent.click(screen.getByRole('button', { name: /næste|next/i }))
-    await waitFor(() => expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i))
+    fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
+    expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i)
   })
 
-  it('handles Sunday in day view (dayNames fallback edge case)', async () => {
+  it('handles Sunday in day view (dayNames fallback edge case)', () => {
     renderCalendar('da')
     // Switch to Day view (May 1, 2026 - Friday)
-    await userEvent.click(screen.getByRole('button', { name: 'Dag' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
     expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i)
     
     // May 1 -> May 2
-    await userEvent.click(screen.getByRole('button', { name: /næste|next/i }))
+    fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
     expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i)
 
     // May 2 -> May 3 (Sunday)
-    await userEvent.click(screen.getByRole('button', { name: /næste|next/i }))
+    fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
     expect(screen.getByTestId('page-header-title')).toHaveTextContent(/maj 2026/i)
   })
 
@@ -385,10 +387,9 @@ describe('Calendar Page', () => {
   it('opens new event modal when clicking an empty day', () => {
     renderCalendar('da')
     // Click on the first day of the month (May 1) which has no event
-    const dayCells = document.querySelectorAll('.calendar-day:not(.empty)')
-    if (dayCells.length > 0) {
-      const firstDay = dayCells[0] as HTMLElement
-      fireEvent.click(firstDay)
+    const dayBtn = document.querySelector('.calendar-day:not(.empty) button')
+    if (dayBtn) {
+      fireEvent.click(dayBtn)
       expect(screen.getByText('Opret begivenhed')).toBeInTheDocument()
     }
   })

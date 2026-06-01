@@ -23,6 +23,30 @@ export interface CourseWithStatus extends CourseListItem {
 
 export interface AppState extends UISlice, CourseSlice, FavoriteSlice {}
 
+const lazyStorage = {
+  getItem: (name: string) => {
+    if (typeof window === 'undefined') return null
+    try {
+      const str = window.localStorage.getItem(name)
+      return str ? JSON.parse(str) : null
+    } catch {
+      return null
+    }
+  },
+  setItem: (name: string, newValue: any) => {
+    if (typeof window === 'undefined') return
+    try {
+      window.localStorage.setItem(name, JSON.stringify(newValue))
+    } catch {}
+  },
+  removeItem: (name: string) => {
+    if (typeof window === 'undefined') return
+    try {
+      window.localStorage.removeItem(name)
+    } catch {}
+  }
+}
+
 const useStore = create<AppState>()(
   persist(
     (set, get, store) => ({
@@ -33,6 +57,7 @@ const useStore = create<AppState>()(
     {
       name: 'aau-app-store',
       version: 2,
+      storage: lazyStorage,
       onRehydrateStorage: () => (state) => {
         /* istanbul ignore next */
         if (!state || typeof window === 'undefined') return

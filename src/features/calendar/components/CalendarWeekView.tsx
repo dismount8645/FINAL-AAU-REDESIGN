@@ -123,7 +123,7 @@ const CalendarWeekView = ({
                 return (
                   <div
                     key={`slot-${day.dateKey}-${hour}`}
-                    className="calendar-day p-1 border-b border-r border-border/40 group relative"
+                    className="calendar-day min-w-0 p-1 border-b border-r border-border/40 group relative"
                     style={{ gridRow: `span ${duration}` }}
                   >
                     <button
@@ -142,7 +142,7 @@ const CalendarWeekView = ({
                       }}
                     >
                       <Stack gap="2xs">
-                        <Text size="xs" weight="extrabold" className="truncate leading-tight tracking-tight opacity-90">
+                        <Text size="xs" weight="extrabold" className="line-clamp-2 block leading-tight tracking-tight opacity-90">
                           {getEventTitle(event)}
                         </Text>
                         <Text size="2xs" className="opacity-80 font-bold flex items-center gap-1">
@@ -150,7 +150,7 @@ const CalendarWeekView = ({
                           {event.time}
                         </Text>
                         {event.location && (
-                          <Text size="2xs" className="opacity-70 truncate mt-1.5 font-medium border-t border-current/10 pt-1">
+                          <Text size="2xs" className="opacity-70 line-clamp-1 block mt-1.5 font-medium border-t border-current/10 pt-1">
                             {event.location}
                           </Text>
                         )}
@@ -163,7 +163,7 @@ const CalendarWeekView = ({
               return (
                 <div 
                   key={`slot-${day.dateKey}-${hour}`} 
-                  className="calendar-day bg-card hover:bg-muted/30 transition-colors border-b border-r border-border/40 min-h-[60px]" 
+                  className="calendar-day min-w-0 bg-card hover:bg-muted/30 transition-colors border-b border-r border-border/40 min-h-[60px]" 
                 />
               )
             })}
