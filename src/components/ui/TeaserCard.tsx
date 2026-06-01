@@ -124,7 +124,7 @@ const TeaserCard = memo(function TeaserCard({
       )}
 
       <div className="relative z-[2] flex flex-col flex-1 p-md gap-xs min-w-0">
-        <div className="flex items-start justify-between gap-md">
+        <div className="flex items-start justify-between gap-md shrink-0">
           <div className="flex-1 min-w-0">
             {!image && badge && (
               <Badge variant={badgeColor} className="mb-xs font-bold">
@@ -133,7 +133,7 @@ const TeaserCard = memo(function TeaserCard({
             )}
             <Heading 
               level={3} 
-              className="m-0 text-[1.125rem] font-bold leading-tight text-main transition-colors group-hover:text-primary line-clamp-2"
+              className="m-0 text-[1.125rem] font-bold leading-tight text-main transition-colors group-hover:text-primary line-clamp-2 md:text-[1.125rem]"
             >
               {title}
             </Heading>
@@ -177,7 +177,7 @@ const TeaserCard = memo(function TeaserCard({
         {description && (
           <Text 
             size="sm" 
-            className="line-clamp-2 leading-relaxed text-muted"
+            className="line-clamp-2 leading-relaxed text-muted shrink-0"
           >
             {description}
           </Text>
