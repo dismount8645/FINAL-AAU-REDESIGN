@@ -7,7 +7,7 @@ import ProgressBar from '@/components/ProgressBar'
 import LessonItem from '@/components/LessonItem'
 import { Heading, Text } from '@/components/Typography'
 import useStore from '@/lib/store'
-import type { CourseItem } from '@/types'
+import type { CourseItem } from '@/lib/types'
 
 const LessonItemRow = memo(function LessonItemRow({
   item,

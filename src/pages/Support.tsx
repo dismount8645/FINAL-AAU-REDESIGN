@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Phone, Globe } from 'lucide-react'
-import { useToast } from '@/context/ToastContext'
+import { useToast } from '@/components/Toast'
 import PageHeader from '@/components/PageHeader'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'

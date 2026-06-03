@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import ForumWidget from '@/components/ForumWidget'
-import { renderWithProviders } from '@/test/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 import useStore from '@/lib/store'
 
 const mockNavigate = vi.fn()

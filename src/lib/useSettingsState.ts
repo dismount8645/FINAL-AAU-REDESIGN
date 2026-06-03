@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, type Dispatch, type SetStateAction } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useToast } from '@/context/ToastContext'
+import { useToast } from '@/components/Toast'
 import useStore from '@/lib/store'
 import { storage } from '@/lib/storage'
 import { saveSettings } from '@/lib/api'

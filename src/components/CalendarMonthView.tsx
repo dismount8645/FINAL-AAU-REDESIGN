@@ -1,5 +1,5 @@
 import { memo, useMemo, useCallback } from 'react'
-import type { CalendarEvents, CalendarEvent } from '@/types'
+import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'

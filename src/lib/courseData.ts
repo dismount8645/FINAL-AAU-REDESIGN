@@ -1,4 +1,4 @@
-import type { CourseItem } from '@/types'
+import type { CourseItem } from '@/lib/types'
 
 interface CourseSection {
   id: string

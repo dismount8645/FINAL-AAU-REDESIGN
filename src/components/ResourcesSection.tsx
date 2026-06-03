@@ -6,7 +6,7 @@ import SectionHeader from '@/components/SectionHeader'
 import InfoCard from '@/components/InfoCard'
 import useStore from '@/lib/store'
 import { env } from '@/lib/env'
-import type { ResourceTool } from '@/types'
+import type { ResourceTool } from '@/lib/types'
 
 interface ResourcesSectionProps {
   title: string

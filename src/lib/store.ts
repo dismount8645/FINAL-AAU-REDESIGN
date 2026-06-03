@@ -1,6 +1,6 @@
 import { create, StateCreator } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { CourseListItem, FavoriteItem, CalendarEvents, FavoriteType } from '@/types'
+import type { CourseListItem, FavoriteItem, CalendarEvents, FavoriteType } from '@/lib/types'
 import { PersistedStateSchema } from '@/lib/schemas/store'
 import { Theme, Lang, computeIsDarkMode } from '@/lib/theme'
 import { translations } from '@/lib/translations'
