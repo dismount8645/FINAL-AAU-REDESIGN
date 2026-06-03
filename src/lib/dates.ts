@@ -1,5 +1,6 @@
-import { translations } from '@/lib/translations'
-import type { Lang } from '@/lib/store'
+import { describe, it, expect } from 'vitest';
+import type { Lang } from '@/lib/store';
+import { translations } from '@/lib/translations';
 
 function localeForLang(lang: Lang): string {
   return lang === 'da' ? 'da-DK' : 'en-US'
@@ -43,4 +44,14 @@ export function formatRelativeDateGroup(date: Date, lang: Lang, now = new Date()
   }
 
   return formatShortDate(date, lang)
+}
+
+if (import.meta.vitest) {
+  describe('dates', () => {
+    it('formats time in en and da', () => {
+      const d = new Date('2026-05-28T12:00:00')
+      expect(formatTime(d, 'en')).toBeDefined()
+      expect(formatTime(d, 'da')).toBeDefined()
+    })
+  })
 }

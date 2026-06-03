@@ -18,6 +18,9 @@ export default defineConfig({
     react(),
     ...(process.env.ANALYZE ? [visualizer({ open: false, gzipSize: true, brotliSize: true, template: 'raw-data', filename: 'stats.json' })] : []),
   ],
+  define: {
+    'import.meta.vitest': 'undefined',
+  },
   build: {
     chunkSizeWarningLimit: 400,
     rollupOptions: {
@@ -33,6 +36,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/lib/setup.ts',
+    includeSource: ['src/**/*.{js,ts,jsx,tsx}'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*'],

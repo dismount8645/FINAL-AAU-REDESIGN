@@ -1,4 +1,6 @@
-import { Skeleton } from '@/components/Skeleton'
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { Skeleton } from '@/components/Skeleton';
 
 export default function PageSkeleton() {
   return (
@@ -23,4 +25,16 @@ export default function PageSkeleton() {
       </div>
     </div>
   )
+}
+
+if (import.meta.vitest) {
+  describe('PageSkeleton', () => {
+    it('renders loading status container', () => {
+      render(<PageSkeleton />)
+      const status = screen.getByRole('status')
+      expect(status).toBeInTheDocument()
+      expect(status).toHaveAttribute('aria-busy', 'true')
+      expect(status).toHaveAttribute('aria-live', 'polite')
+    })
+  })
 }

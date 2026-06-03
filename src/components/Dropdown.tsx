@@ -1,9 +1,16 @@
+import React, { type ReactNode, memo, forwardRef, useState } from 'react';
+import { describe, it, expect, vi } from 'vitest';
+import { Menu as MenuPrimitive } from '@base-ui/react/menu';
+import { motion } from 'framer-motion';
+import { AllProviders, render, screen, userEvent, waitFor } from '@/lib/test-utils';
+import { cn } from '@/lib/utils';
+
 "use client"
 
-import React, { type ReactNode, memo, forwardRef, useState } from "react";
-import { Menu as MenuPrimitive } from "@base-ui/react/menu";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+
+
+
+
 
 /**
  * Dropdown (Menu) - High-performance AAU UI component.
@@ -152,3 +159,124 @@ export {
   DropdownPortal,
   DropdownWrapper as default
 };
+
+const _testDropdown = DropdownWrapper;
+
+if (import.meta.vitest) {
+  describe('Dropdown', () => {
+    const trigger = <button data-testid="trigger">Open</button>
+  
+    it('renders trigger element', () => {
+      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
+      expect(screen.getByTestId('trigger')).toBeInTheDocument()
+    })
+  
+    it('is closed by default', () => {
+      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+    })
+  
+    it('opens when clicking trigger', async () => {
+      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
+      
+      await userEvent.click(screen.getByTestId('trigger'))
+      
+      await waitFor(() => {
+        expect(screen.getByRole('menu')).toBeInTheDocument()
+      })
+    })
+  
+    it('closes when clicking trigger again', async () => {
+      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
+      
+      await userEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+      
+      await userEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
+    })
+  
+    it('closes when clicking outside', async () => {
+      render(
+        <AllProviders>
+          <div>
+            <_testDropdown trigger={trigger}>Content</_testDropdown>
+            <button data-testid="outside">Outside</button>
+          </div>
+        </AllProviders>
+      )
+      
+      await userEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+      
+      await userEvent.click(screen.getByTestId('outside'))
+      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
+    })
+  
+    it('closes when pressing Escape', async () => {
+      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
+      
+      await userEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+      
+      await userEvent.keyboard('{Escape}')
+      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
+    })
+  
+    it('supports controlled mode with isOpen', async () => {
+      const { rerender } = render(<_testDropdown trigger={trigger} isOpen={false}>Content</_testDropdown>, { wrapper: AllProviders })
+      
+      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+      
+      rerender(<_testDropdown trigger={trigger} isOpen>Content</_testDropdown>)
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+    })
+  
+    it('calls onToggle in controlled mode when clicking trigger', async () => {
+      const onToggle = vi.fn()
+      render(<_testDropdown trigger={trigger} isOpen={false} onToggle={onToggle}>Content</_testDropdown>, { wrapper: AllProviders })
+      
+      await userEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(onToggle).toHaveBeenCalled())
+    })
+  
+    it('calls onClose in controlled mode when clicking outside', async () => {
+      const onClose = vi.fn()
+      render(
+        <AllProviders>
+          <div>
+            <_testDropdown trigger={trigger} isOpen onClose={onClose}>Content</_testDropdown>
+            <button data-testid="outside">Outside</button>
+          </div>
+        </AllProviders>
+      )
+      
+      await userEvent.click(screen.getByTestId('outside'))
+      await waitFor(() => expect(onClose).toHaveBeenCalled())
+    })
+  
+    it('applies custom width when provided', async () => {
+      render(<_testDropdown trigger={trigger} isOpen width="300px">Content</_testDropdown>, { wrapper: AllProviders })
+      await waitFor(() => {
+        const menu = screen.getByRole('menu')
+        expect(menu.style.minWidth).toBe('300px')
+      })
+    })
+  
+    it('applies custom className', async () => {
+      render(<_testDropdown trigger={trigger} isOpen className="my-dropdown">Content</_testDropdown>, { wrapper: AllProviders })
+      await waitFor(() => {
+        const menu = screen.getByRole('menu')
+        expect(menu).toHaveClass('my-dropdown')
+      })
+    })
+  
+    it('calls onClose in controlled mode when pressing Escape', async () => {
+      const onClose = vi.fn()
+      render(<_testDropdown trigger={trigger} isOpen onClose={onClose}>Content</_testDropdown>, { wrapper: AllProviders })
+  
+      await userEvent.keyboard('{Escape}')
+      await waitFor(() => expect(onClose).toHaveBeenCalled())
+    })
+  })
+}

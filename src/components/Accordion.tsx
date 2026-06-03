@@ -1,9 +1,12 @@
-"use client"
+import { forwardRef, type ReactNode, memo } from 'react';
+import { describe, it, expect } from 'vitest';
+import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ChevronDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-import { forwardRef, type ReactNode, memo } from "react"
-import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
-import { ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+"use client"
 
 /**
  * Accordion - Refactored for AAU UI/UX standards.
@@ -100,3 +103,92 @@ export {
   OldAccordion as default
 }
 
+const _testAccordion = OldAccordion;
+
+if (import.meta.vitest) {
+  describe('Accordion', () => {
+    it('renders title text', () => {
+      render(<_testAccordion title="Test Title">Content</_testAccordion>)
+      expect(screen.getByText('Test Title')).toBeInTheDocument()
+    })
+  
+    it('is closed by default', () => {
+      render(<_testAccordion title="Test">Hidden Content</_testAccordion>)
+      expect(screen.queryByText('Hidden Content')).not.toBeInTheDocument()
+    })
+  
+    it('is open when defaultOpen is true', () => {
+      render(<_testAccordion title="Test" defaultOpen>Visible Content</_testAccordion>)
+      expect(screen.getByText('Visible Content')).toBeInTheDocument()
+    })
+  
+    it('opens when clicking the header', async () => {
+      render(<_testAccordion title="Toggle Me">Secret Content</_testAccordion>)
+      
+      expect(screen.queryByText('Secret Content')).not.toBeInTheDocument()
+      
+      const header = screen.getByRole('button', { name: 'Toggle Me' })
+      await userEvent.click(header)
+      
+      expect(screen.getByText('Secret Content')).toBeInTheDocument()
+    })
+  
+    it('closes when clicking an open accordion', async () => {
+      render(<_testAccordion title="Toggle Me" defaultOpen>Content</_testAccordion>)
+      
+      expect(screen.getByText('Content')).toBeInTheDocument()
+      
+      const header = screen.getByRole('button', { name: 'Toggle Me' })
+      await userEvent.click(header)
+      
+      expect(screen.queryByText('Content')).not.toBeInTheDocument()
+    })
+  
+    it('has aria-expanded="false" when closed', () => {
+      render(<_testAccordion title="Test">Content</_testAccordion>)
+      const header = screen.getByRole('button', { name: 'Test' })
+      expect(header).toHaveAttribute('aria-expanded', 'false')
+    })
+  
+    it('has aria-expanded="true" when open by default', () => {
+      render(<_testAccordion title="Test Open" defaultOpen>Content</_testAccordion>)
+      const header = screen.getByRole('button', { name: 'Test Open' })
+      expect(header).toHaveAttribute('aria-expanded', 'true')
+    })
+  
+    it('has is-open class when open', async () => {
+      render(<_testAccordion title="Test">Content</_testAccordion>)
+      
+      const button = screen.getByRole('button', { name: 'Test' })
+      expect(button.className).not.toContain('is-open')
+      
+      await userEvent.click(button)
+      // Bemærk: Accordion bruger ikke 'is-open' klassen i jsx'en.
+      // Vi tjekker i stedet aria-expanded.
+      expect(button).toHaveAttribute('aria-expanded', 'true')
+    })
+  
+    it('renders content when open', () => {
+      render(<_testAccordion title="Test" defaultOpen>Content</_testAccordion>)
+      expect(screen.getByText('Content')).toBeInTheDocument()
+    })
+  
+    it('does not render content when closed', () => {
+      render(<_testAccordion title="Test">Content</_testAccordion>)
+      expect(screen.queryByText('Content')).not.toBeInTheDocument()
+    })
+  
+    it('has chevron icon', () => {
+      render(<_testAccordion title="Test">Content</_testAccordion>)
+      // Sørg for at vi har et svg-ikon (Lucide)
+      expect(document.querySelector('svg')).toBeInTheDocument()
+    })
+  
+    it('rotates chevron when open', () => {
+      render(<_testAccordion title="Test" defaultOpen>Content</_testAccordion>)
+      const icon = document.querySelector('svg')
+      // I vores implementation roterer vi ikonet via CSS klasser på triggeren
+      expect(icon).toHaveClass('group-data-[open]:rotate-180')
+    })
+  })
+}

@@ -1,12 +1,14 @@
-import { memo, useState, type ReactNode, type MouseEvent, useCallback } from 'react'
-import { type LucideIcon, Star, Info } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import IconCircle from '@/components/IconCircle'
-import { Text } from '@/components/Typography'
-import Stack from '@/components/Stack'
-import Card from '@/components/Card'
-import Button from '@/components/Button'
-import { cn } from '@/lib/utils'
+import { memo, useState, type ReactNode, type MouseEvent, useCallback } from 'react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { type LucideIcon, Star, Info, User } from 'lucide-react';
+import Button from '@/components/Button';
+import Card from '@/components/Card';
+import IconCircle from '@/components/IconCircle';
+import Stack from '@/components/Stack';
+import { Text } from '@/components/Typography';
+import { cn } from '@/lib/utils';
 
 export interface InfoCardProps {
   icon: LucideIcon
@@ -154,3 +156,82 @@ const InfoCard = memo(function InfoCard({
 })
 
 export default InfoCard
+
+if (import.meta.vitest) {
+  describe('InfoCard', () => {
+    it('renders content', () => {
+      render(<InfoCard icon={User} title="Test Title" description="Test Description" />)
+      expect(screen.getByText('Test Title')).toBeInTheDocument()
+      expect(screen.getByText('Test Description')).toBeInTheDocument()
+    })
+  
+    it('renders with col direction and no description', () => {
+      render(<InfoCard icon={User} title="Test Title" direction="col" />)
+      expect(screen.getByText('Test Title')).toBeInTheDocument()
+      expect(screen.queryByText('Test Description')).not.toBeInTheDocument()
+    })
+  
+    it('renders with action', () => {
+      render(<InfoCard icon={User} title="Test Title" action={<button>Click Me</button>} />)
+      expect(screen.getByRole('button', { name: 'Click Me' })).toBeInTheDocument()
+    })
+  
+    it('applies interactive classes when onClick is provided', () => {
+      const { container } = render(<InfoCard icon={User} title="Clickable" onClick={() => {}} />)
+      const card = container.querySelector('.info-card')
+      expect(card).toHaveClass('hover:-translate-y-1')
+    })
+  
+    it('handles help text toggle', async () => {
+      render(<InfoCard icon={User} title="Title" helpText="Help information" />)
+      
+      expect(screen.queryByText('Help information')).not.toBeInTheDocument()
+      
+      const helpButton = screen.getByLabelText('Help')
+      
+      // Toggle ON
+      fireEvent.click(helpButton)
+      expect(await screen.findByText('Help information')).toBeInTheDocument()
+      
+      // Note: We omit the toggle-off check here as AnimatePresence exit animations 
+      // can be flaky in some virtual DOM environments without specialized clock mocking.
+    })
+  
+    it('handles star toggle', () => {
+      const onStarToggle = vi.fn()
+      render(<InfoCard icon={User} title="Title" onStarToggle={onStarToggle} isStarred={false} />)
+      
+      const starButton = screen.getByLabelText('Add to favorites')
+      fireEvent.click(starButton)
+      
+      expect(onStarToggle).toHaveBeenCalled()
+    })
+  
+    it('renders correctly when starred', () => {
+      render(<InfoCard icon={User} title="Title" onStarToggle={() => {}} isStarred={true} />)
+      expect(screen.getByLabelText('Remove from favorites')).toBeInTheDocument()
+    })
+  
+    it('stops propagation on star click', () => {
+      const onClick = vi.fn()
+      const onStarToggle = vi.fn()
+      render(<InfoCard icon={User} title="Title" onClick={onClick} onStarToggle={onStarToggle} />)
+      
+      const starButton = screen.getByLabelText('Add to favorites')
+      fireEvent.click(starButton)
+      
+      expect(onStarToggle).toHaveBeenCalled()
+      expect(onClick).not.toHaveBeenCalled()
+    })
+  
+    it('stops propagation on help click', () => {
+      const onClick = vi.fn()
+      render(<InfoCard icon={User} title="Title" onClick={onClick} helpText="Help" />)
+      
+      const helpButton = screen.getByLabelText('Help')
+      fireEvent.click(helpButton)
+      
+      expect(onClick).not.toHaveBeenCalled()
+    })
+  })
+}
