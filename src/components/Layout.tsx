@@ -83,36 +83,36 @@ function Layout() {
 
 export default Layout;
 
-vi.mock('./Sidebar', () => ({
-  default: () => <div data-testid="sidebar">Sidebar</div>,
-}))
-
-vi.mock('./Topbar', () => ({
-  default: () => <div data-testid="topbar">Topbar</div>,
-}))
-
-vi.mock('./Footer', () => ({
-  default: () => <div data-testid="footer">Footer</div>,
-}))
-
-vi.mock('./DynamicWaveBackground', () => ({
-  default: () => <div data-testid="wave-bg">Wave</div>,
-}))
-
-function renderLayout(path = '/') {
-  return render(
-    <MemoryRouter initialEntries={[path]}>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<div>Page content</div>} />
-          <Route path="/messages" element={<div>Messages page</div>} />
-        </Route>
-      </Routes>
-    </MemoryRouter>
-  )
-}
 
 if (import.meta.vitest) {
+  vi.mock('./Sidebar', () => ({
+    default: () => <div data-testid="sidebar">Sidebar</div>,
+  }))
+  
+  vi.mock('./Topbar', () => ({
+    default: () => <div data-testid="topbar">Topbar</div>,
+  }))
+  
+  vi.mock('./Footer', () => ({
+    default: () => <div data-testid="footer">Footer</div>,
+  }))
+  
+  vi.mock('./DynamicWaveBackground', () => ({
+    default: () => <div data-testid="wave-bg">Wave</div>,
+  }))
+  
+  function renderLayout(path = '/') {
+    return render(
+      <MemoryRouter initialEntries={[path]}>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<div>Page content</div>} />
+            <Route path="/messages" element={<div>Messages page</div>} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    )
+  }
   describe('Layout', () => {
     beforeEach(() => {
       useStore.setState({

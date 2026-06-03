@@ -93,42 +93,42 @@ function SearchResults() {
 
 export default SearchResults
 
-// Mock mockData to include a result with an unknown group
-vi.mock('@/lib/mockData', async () => {
-  const actual = await vi.importActual('@/lib/mockData') as any
-  return {
-    ...actual,
-    courses: {
-      ...actual.courses,
-      999: {
-        title: 'Unknown Group Item',
-        titleEn: 'Unknown Group Item',
-        group: 'Unknown Group',
-        sections: []
-      }
-    }
-  }
-})
-
-// Mock react-router-dom
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-    useLocation: vi.fn()
-  }
-})
-
-const mockLocation = (search: string = '') => ({
-  pathname: '/search',
-  search,
-  hash: '',
-  state: null,
-  key: 'default'
-})
 
 if (import.meta.vitest) {
+  // Mock mockData to include a result with an unknown group
+  vi.mock('@/lib/mockData', async () => {
+    const actual = await vi.importActual('@/lib/mockData') as any
+    return {
+      ...actual,
+      courses: {
+        ...actual.courses,
+        999: {
+          title: 'Unknown Group Item',
+          titleEn: 'Unknown Group Item',
+          group: 'Unknown Group',
+          sections: []
+        }
+      }
+    }
+  })
+  
+  // Mock react-router-dom
+  vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: vi.fn(),
+      useLocation: vi.fn()
+    }
+  })
+  
+  const mockLocation = (search: string = '') => ({
+    pathname: '/search',
+    search,
+    hash: '',
+    state: null,
+    key: 'default'
+  })
   describe('SearchResults Page', () => {
     const mockNavigate = vi.fn()
   

@@ -64,24 +64,24 @@ export default function SubmissionDropzone({ onFilesAdded, t }: SubmissionDropzo
   )
 }
 
-const mockOnFilesAdded = vi.fn()
-const mockT = vi.fn((key: string) => {
-  const map: Record<string, string> = {
-    click_or_drag: 'Klik eller træk filer',
-    submission_or_zip: ' eller ZIP',
-  }
-  return map[key] || key
-})
-
-function renderDropzone() {
-  return render(<SubmissionDropzone onFilesAdded={mockOnFilesAdded} t={mockT} />)
-}
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
 
 if (import.meta.vitest) {
+  const mockOnFilesAdded = vi.fn()
+  const mockT = vi.fn((key: string) => {
+    const map: Record<string, string> = {
+      click_or_drag: 'Klik eller træk filer',
+      submission_or_zip: ' eller ZIP',
+    }
+    return map[key] || key
+  })
+  
+  function renderDropzone() {
+    return render(<SubmissionDropzone onFilesAdded={mockOnFilesAdded} t={mockT} />)
+  }
+  
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
   it('renders dropzone with translated text', () => {
     renderDropzone()
     expect(screen.getByText('Klik eller træk filer')).toBeInTheDocument()

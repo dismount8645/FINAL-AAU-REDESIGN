@@ -77,25 +77,25 @@ function NotFound() {
 
 export default NotFound
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
-
-function renderNotFound(lang: 'da' | 'en' = 'da') {
-  useStore.setState({ lang, t: (key: string) => key })
-  return render(
-    <MemoryRouter>
-      <NotFound />
-    </MemoryRouter>
-  )
-}
-
+let mockNavigate
 if (import.meta.vitest) {
+  const mockNavigate = vi.fn()
+  vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: () => mockNavigate,
+    }
+  })
+  
+  function renderNotFound(lang: 'da' | 'en' = 'da') {
+    useStore.setState({ lang, t: (key: string) => key })
+    return render(
+      <MemoryRouter>
+        <NotFound />
+      </MemoryRouter>
+    )
+  }
   describe('NotFound', () => {
     beforeEach(() => {
       vi.clearAllMocks()

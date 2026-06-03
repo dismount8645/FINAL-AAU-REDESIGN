@@ -105,67 +105,67 @@ export default function NotificationItemRow({
   )
 }
 
-const mockOnSelect = vi.fn()
-const mockOnMarkRead = vi.fn()
-const mockOnArchive = vi.fn()
-const mockOnRestore = vi.fn()
-const mockT = vi.fn((key: string) => key)
-
-vi.mock('@/lib/dates', async () => {
-  const actual = await vi.importActual('@/lib/dates')
-  return {
-    ...actual,
-    formatTime: () => '2 hours ago',
-  }
-})
-
-vi.mock('lucide-react', async () => {
-  const actual = await vi.importActual('lucide-react')
-  return {
-    ...actual,
-    Info: () => <svg data-testid="mock-icon" />,
-  }
-})
-
-const baseNotif: NotificationItem = {
-  id: 1,
-  type: 'Info',
-  text: 'Test notification',
-  course: 'DD101',
-  date: new Date('2024-01-15'),
-  isRead: false,
-  archived: false,
-  content: '',
-  link: '',
-}
-
-function renderRow(overrides: Partial<NotificationItem> = {}, view: 'active' | 'archive' = 'active', isSelected = false) {
-  const getIcon = vi.fn(() => {
-    const { Info } = require('lucide-react')
-    return Info
-  })
-
-  return render(
-    <NotificationItemRow
-      notif={{ ...baseNotif, ...overrides }}
-      isSelected={isSelected}
-      view={view}
-      lang="da"
-      t={mockT}
-      getIcon={getIcon}
-      onSelect={mockOnSelect}
-      onMarkRead={mockOnMarkRead}
-      onArchive={mockOnArchive}
-      onRestore={mockOnRestore}
-    />
-  )
-}
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
 
 if (import.meta.vitest) {
+  const mockOnSelect = vi.fn()
+  const mockOnMarkRead = vi.fn()
+  const mockOnArchive = vi.fn()
+  const mockOnRestore = vi.fn()
+  const mockT = vi.fn((key: string) => key)
+  
+  vi.mock('@/lib/dates', async () => {
+    const actual = await vi.importActual('@/lib/dates')
+    return {
+      ...actual,
+      formatTime: () => '2 hours ago',
+    }
+  })
+  
+  vi.mock('lucide-react', async () => {
+    const actual = await vi.importActual('lucide-react')
+    return {
+      ...actual,
+      Info: () => <svg data-testid="mock-icon" />,
+    }
+  })
+  
+  const baseNotif: NotificationItem = {
+    id: 1,
+    type: 'Info',
+    text: 'Test notification',
+    course: 'DD101',
+    date: new Date('2024-01-15'),
+    isRead: false,
+    archived: false,
+    content: '',
+    link: '',
+  }
+  
+  function renderRow(overrides: Partial<NotificationItem> = {}, view: 'active' | 'archive' = 'active', isSelected = false) {
+    const getIcon = vi.fn(() => {
+      const { Info } = require('lucide-react')
+      return Info
+    })
+  
+    return render(
+      <NotificationItemRow
+        notif={{ ...baseNotif, ...overrides }}
+        isSelected={isSelected}
+        view={view}
+        lang="da"
+        t={mockT}
+        getIcon={getIcon}
+        onSelect={mockOnSelect}
+        onMarkRead={mockOnMarkRead}
+        onArchive={mockOnArchive}
+        onRestore={mockOnRestore}
+      />
+    )
+  }
+  
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
   it('renders notification type, course and text', () => {
     renderRow()
     expect(screen.getByText('Info')).toBeInTheDocument()
