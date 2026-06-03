@@ -179,16 +179,16 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
 
 export default memo(ForumWidget)
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
-
+let mockNavigate
 if (import.meta.vitest) {
+  const mockNavigate = vi.fn()
+  vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: () => mockNavigate,
+    }
+  })
   describe('ForumWidget', () => {
     beforeEach(() => {
       vi.clearAllMocks()

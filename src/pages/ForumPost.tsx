@@ -79,26 +79,26 @@ function ForumPost() {
 
 export default ForumPost
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useParams: vi.fn(),
-  }
-})
-
-function renderForumPost(id = '1') {
-  vi.mocked(useParams).mockReturnValue({ id })
-  return render(
-    <MemoryRouter initialEntries={[`/forum/${id}`]}>
-      <Routes>
-        <Route path="/forum/:id" element={<ForumPost />} />
-      </Routes>
-    </MemoryRouter>
-  )
-}
 
 if (import.meta.vitest) {
+  vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useParams: vi.fn(),
+    }
+  })
+  
+  function renderForumPost(id = '1') {
+    vi.mocked(useParams).mockReturnValue({ id })
+    return render(
+      <MemoryRouter initialEntries={[`/forum/${id}`]}>
+        <Routes>
+          <Route path="/forum/:id" element={<ForumPost />} />
+        </Routes>
+      </MemoryRouter>
+    )
+  }
   describe('ForumPost', () => {
     beforeEach(() => {
       vi.clearAllMocks()
