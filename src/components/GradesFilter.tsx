@@ -1,7 +1,9 @@
-import { memo } from 'react'
-import SearchInput from '@/components/SearchInput'
-import { Heading } from '@/components/Typography'
-import useStore from '@/lib/store'
+import { memo } from 'react';
+import { it, expect, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import SearchInput from '@/components/SearchInput';
+import { Heading } from '@/components/Typography';
+import useStore from '@/lib/store';
 
 interface GradesFilterProps {
   searchQuery: string
@@ -57,3 +59,56 @@ function GradesFilter({
 }
 
 export default memo(GradesFilter)
+
+const mockSetSearchQuery = vi.fn()
+const mockSetSelectedSemester = vi.fn()
+const semesterOptions = ['all', '2024 Fall', '2025 Spring']
+
+function renderFilter(searchQuery = '', selectedSemester = 'all') {
+  return render(
+    <GradesFilter
+      searchQuery={searchQuery}
+      setSearchQuery={mockSetSearchQuery}
+      selectedSemester={selectedSemester}
+      setSelectedSemester={mockSetSelectedSemester}
+      semesterOptions={semesterOptions}
+    />
+  )
+}
+
+if (import.meta.vitest) {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    useStore.setState({ lang: 'da' })
+  })
+
+  it('renders heading with translated title', () => {
+    renderFilter()
+    expect(screen.getByText('Karakterblade og Eksamensbevis')).toBeInTheDocument()
+  })
+  
+  it('renders search input with placeholder', () => {
+    renderFilter()
+    const input = screen.getByPlaceholderText('Søg efter mængde, kode...')
+    expect(input).toBeInTheDocument()
+  })
+  
+  it('calls setSearchQuery on search input change', () => {
+    renderFilter()
+    const input = screen.getByPlaceholderText('Søg efter mængde, kode...')
+    fireEvent.change(input, { target: { value: 'test' } })
+    expect(mockSetSearchQuery).toHaveBeenCalledWith('test')
+  })
+  
+  it('renders semester filter select with options', () => {
+    renderFilter()
+    const select = screen.getByLabelText('Filter')
+    expect(select).toBeInTheDocument()
+  })
+  
+  it('renders semester filter options', () => {
+    renderFilter()
+    const allOption = screen.getByText('Alle semestre')
+    expect(allOption).toBeInTheDocument()
+  })
+}

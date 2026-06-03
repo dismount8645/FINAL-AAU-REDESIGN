@@ -1,6 +1,8 @@
-import type { ReactNode } from 'react'
-import { Heading, Text } from '@/components/Typography'
-import Stack from '@/components/Stack'
+import type { ReactNode } from 'react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import Stack from '@/components/Stack';
+import { Heading, Text } from '@/components/Typography';
 
 export interface SectionHeaderProps {
   title: string
@@ -22,4 +24,18 @@ export default function SectionHeader({ title, subtitle, level = 2, actions, cla
       </Stack>
     </div>
   )
+}
+
+if (import.meta.vitest) {
+  describe('SectionHeader', () => {
+    it('renders title', () => {
+      render(<SectionHeader title="Section" />)
+      expect(screen.getByText('Section')).toBeInTheDocument()
+    })
+  
+    it('renders actions', () => {
+      render(<SectionHeader title="Section" actions={<button>Action</button>} />)
+      expect(screen.getByRole('button', { name: 'Action' })).toBeInTheDocument()
+    })
+  })
 }

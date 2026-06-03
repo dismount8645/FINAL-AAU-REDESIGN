@@ -1,6 +1,8 @@
-import { forwardRef, useId, type TextareaHTMLAttributes } from "react"
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
+import { forwardRef, useId, type TextareaHTMLAttributes } from 'react';
+import { describe, it, expect } from 'vitest';
+import { render } from '@testing-library/react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const textareaVariants = cva(
   "flex min-h-[44px] w-full rounded-[var(--radius-lg)] border-[1.5px] transition-[border-color,box-shadow,background] duration-150 text-main focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800/50 disabled:text-slate-400 dark:disabled:text-slate-500 placeholder:text-disabled",
@@ -83,3 +85,33 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 Textarea.displayName = "Textarea"
 
 export default Textarea
+
+if (import.meta.vitest) {
+  describe('Textarea', () => {
+    it('renders textarea element', () => {
+      const { container } = render(<Textarea />)
+      expect(container.querySelector('textarea')).toBeInTheDocument()
+    })
+  
+    it('applies border-danger when error is true', () => {
+      const { container } = render(<Textarea error />)
+      expect(container.querySelector('textarea')).toHaveClass('border-danger')
+    })
+  
+    it.each([
+      ['none', 'resize-none'],
+      ['vertical', 'resize-y'],
+      ['horizontal', 'resize-x'],
+      ['both', 'resize'],
+    ] as const)('applies resize class "%s"', (resize, expectedClass) => {
+      const { container } = render(<Textarea resize={resize} />)
+      expect(container.querySelector('textarea')).toHaveClass(expectedClass)
+    })
+  
+    it('does not apply resize class when resize is not set', () => {
+      const { container } = render(<Textarea />)
+      const textarea = container.querySelector('textarea')
+      expect(textarea).not.toHaveClass('resize-none', 'resize-y', 'resize-x', 'resize')
+    })
+  })
+}

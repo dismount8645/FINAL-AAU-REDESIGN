@@ -1,5 +1,7 @@
-import { forwardRef, type HTMLAttributes, type ElementType } from 'react'
-import { cn } from '@/lib/utils'
+import { forwardRef, type HTMLAttributes, type ElementType } from 'react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { cn } from '@/lib/utils';
 
 export interface StackProps extends HTMLAttributes<HTMLElement> {
   direction?: 'row' | 'col'
@@ -82,3 +84,31 @@ const Stack = forwardRef<HTMLDivElement, StackProps>(({
 Stack.displayName = 'Stack'
 export default Stack
 
+if (import.meta.vitest) {
+  describe('Stack DOM Props', () => {
+    it('should not pass fullWidth to the DOM element', () => {
+      render(<Stack fullWidth data-testid="stack">Test</Stack>)
+      const element = screen.getByTestId('stack')
+      expect(element.getAttribute('fullWidth')).toBeNull()
+    })
+  
+    it('applies flex-wrap class when wrap is true', () => {
+      render(<Stack wrap data-testid="stack-wrap">Content</Stack>)
+      const el = screen.getByTestId('stack-wrap')
+      expect(el.classList.contains('flex-wrap')).toBe(true)
+    })
+  
+    it('applies flex-row class when direction is row', () => {
+      render(<Stack direction="row" data-testid="stack-row">Content</Stack>)
+      const el = screen.getByTestId('stack-row')
+      expect(el.classList.contains('flex-row')).toBe(true)
+    })
+  
+    it('applies w-full h-full when full is true', () => {
+      render(<Stack full data-testid="stack-full">Content</Stack>)
+      const el = screen.getByTestId('stack-full')
+      expect(el.classList.contains('w-full')).toBe(true)
+      expect(el.classList.contains('h-full')).toBe(true)
+    })
+  })
+}
