@@ -71,7 +71,7 @@ export default function Topbar() {
                       <Text tag="span" size="sm" weight="semibold">{crumb.label}</Text>
                     </Link>
                   ) : (
-                    <Text tag="span" weight="black" size="sm" className="text-text-main">{crumb.label}</Text>
+                    <Text tag="span" weight="black" size="md" className="text-text-main tracking-tight">{crumb.label}</Text>
                   )}
                 </Fragment>
               ))}
@@ -92,7 +92,7 @@ export default function Topbar() {
           type="button"
         >
           <span className="transition-transform duration-300 group-hover:rotate-[15deg]">
-            {theme === 'dark' ? <Moon size={20} strokeWidth={2} /> : theme === 'light' ? <Sun size={20} strokeWidth={2} /> : <Monitor size={20} strokeWidth={2} />}
+            {theme === 'dark' ? <Moon size={20} strokeWidth={2} /> : theme === 'light' ? <Sun size={20} strokeWidth={2} /> : <div title={t('theme.system')}><Monitor size={20} strokeWidth={2} /></div>}
           </span>
         </Button>
 

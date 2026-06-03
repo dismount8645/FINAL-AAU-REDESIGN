@@ -334,6 +334,7 @@
   .custom-scrollbar {
     scrollbar-width: thin !important;
     -ms-overflow-style: auto !important;
+    overflow-x: auto;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
@@ -345,6 +346,14 @@
   ::-webkit-scrollbar-track,
   .custom-scrollbar::-webkit-scrollbar-track {
     background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track:horizontal {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: var(--radius-pill);
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-track:horizontal {
+    background: rgba(255, 255, 255, 0.05);
   }
 
   ::-webkit-scrollbar-thumb,
