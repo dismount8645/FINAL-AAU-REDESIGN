@@ -104,10 +104,8 @@
   --spacing-2xl: var(--space-2xl);
   --spacing-3xl: var(--space-3xl);
   --spacing-4xl: var(--space-4xl);
-  --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
   --ease-default: var(--transition-ease);
   --animate-default: var(--transition-normal);
 }
@@ -334,14 +332,14 @@
   }
 
   .custom-scrollbar {
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
+    scrollbar-width: thin !important;
+    -ms-overflow-style: auto !important;
   }
 
   .custom-scrollbar::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
+    display: block !important;
+    width: 6px !important;
+    height: 6px !important;
   }
 
   ::-webkit-scrollbar-track,
@@ -401,8 +399,10 @@ body {
 
 #root {
   overflow-x: clip;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
-  max-width: 100vw;
   position: relative;
 }
 
@@ -548,7 +548,7 @@ body.sidebar-collapsed .layout-main {
   grid-auto-rows: var(--dashboard-row-height);
 }
 
-@container layout-main (max-width: 960px) {
+@container layout-main (max-width: 800px) {
   .grid-container {
     grid-template-columns: repeat(var(--tablet-grid-cols, 6), minmax(0, 1fr));
     gap: var(--grid-gap-tablet, var(--space-md));
@@ -559,7 +559,11 @@ body.sidebar-collapsed .layout-main {
   }
 }
 
-@container layout-main (max-width: 680px) {
+@container layout-main (max-width: 640px) {
+  /* Form/Text container query */
+}
+
+@container layout-main (max-width: 400px) {
   .grid-container {
     grid-template-columns: repeat(var(--mobile-grid-cols, 1), minmax(0, 1fr));
     gap: var(--grid-gap-mobile, var(--space-sm));
