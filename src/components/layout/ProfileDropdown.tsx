@@ -4,7 +4,7 @@ import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useDropdown } from '@/hooks/useDropdown';
+import { useDropdown } from '@/lib/useDropdown';
 
 export default function ProfileDropdown() {
   const t = useStore((state) => state.t);

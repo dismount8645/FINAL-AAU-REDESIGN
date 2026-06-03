@@ -12,13 +12,13 @@ const mockOnDragOver = vi.fn()
 const mockOnDrop = vi.fn()
 const mockT = vi.fn((key: string) => key)
 
-vi.mock('@/data/mockData', () => ({
+vi.mock('@/lib/mockData', () => ({
   WIDGET_CONFIG: {
     test_widget: { rowSpan: 2, tabletSpan: 4 },
   },
 }))
 
-vi.mock('@/hooks/useResizeHandle', () => ({
+vi.mock('@/lib/useResizeHandle', () => ({
   useResizeHandle: () => ({ handleResize: mockResize }),
 }))
 

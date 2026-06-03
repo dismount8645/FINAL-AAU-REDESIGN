@@ -1,4 +1,4 @@
-import { getWaveSrc } from '@/constants/waves'
+import { getWaveSrc } from '@/lib/waves'
 
 export interface WavesBackgroundProps {
   page?: string;

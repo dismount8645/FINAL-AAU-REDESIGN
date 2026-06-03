@@ -3,7 +3,7 @@ import PageHeader from '@/components/common/PageHeader'
 import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
 import Badge from '@/components/ui/Badge'
-import { useMessagesState } from '@/hooks/useMessagesState'
+import { useMessagesState } from '@/lib/useMessagesState'
 import { ChatSidebar, ChatWindow } from './messages/index'
 
 function Messages() {

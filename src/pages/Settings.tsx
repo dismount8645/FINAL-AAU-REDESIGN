@@ -11,7 +11,7 @@ import Icon from '@/components/ui/Icon'
 import Avatar from '@/components/ui/Avatar'
 import ListItem from '@/components/ui/ListItem'
 import useStore from '@/store/useStore'
-import { useSettingsState } from '@/hooks/useSettingsState'
+import { useSettingsState } from '@/lib/useSettingsState'
 import {
   ProfileTab,
   NotificationsTab,

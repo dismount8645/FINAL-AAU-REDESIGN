@@ -10,7 +10,7 @@ import ProfileDropdown from './ProfileDropdown';
 import TopbarSearch from './TopbarSearch';
 import Button from '@/components/ui/Button';
 
-import { getAutomaticBreadcrumbs } from '@/utils/breadcrumbs';
+import { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs';
 
 export default function Topbar() {
   const location = useLocation();

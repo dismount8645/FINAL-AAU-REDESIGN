@@ -3,9 +3,9 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import Favorites from '@/pages/Favorites'
 import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store/useStore'
-import * as favUtils from '@/utils/favorites'
+import * as favUtils from '@/lib/favorites'
 import { Wrench } from 'lucide-react'
-import { DASHBOARD_CONFIG } from '@/config/dashboard'
+import { DASHBOARD_CONFIG } from '@/lib/dashboard'
 
 vi.mock('@/store/useStore', () => {
   let currentState: any = {}
@@ -20,8 +20,8 @@ vi.mock('@/store/useStore', () => {
     default: mockFn,
   }
 })
-vi.mock('@/utils/favorites', async () => {
-  const actual = await vi.importActual('@/utils/favorites')
+vi.mock('@/lib/favorites', async () => {
+  const actual = await vi.importActual('@/lib/favorites')
   return {
     ...actual,
     resolveFavorite: vi.fn(),

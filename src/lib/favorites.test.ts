@@ -3,10 +3,10 @@ import {
   getFavoriteLabel,
   sortFavorites,
   resolveFavorite
-} from '@/utils/favorites'
+} from '@/lib/favorites'
 import type { FavoriteItem } from '@/types'
 import type { CourseWithStatus } from '@/store/useStore'
-import { allToolsList } from '@/data/tools'
+import { allToolsList } from '@/lib/tools'
 
 describe('favorites utility', () => {
   describe('getFavoriteLabel', () => {
