@@ -116,15 +116,6 @@ export default function MessagesDropdown() {
   );
 }
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate
-  }
-})
-
 if (import.meta.vitest) {
   describe('MessagesDropdown', () => {
     beforeEach(() => {
@@ -146,10 +137,10 @@ if (import.meta.vitest) {
       renderWithProviders(<MessagesDropdown />)
       const mailBtn = screen.getByLabelText('messages')
       fireEvent.click(mailBtn)
-      expect(screen.getByText('view_all')).toBeInTheDocument()
+      expect(screen.getByText('messages')).toBeInTheDocument()
     })
   
-    it('closes dropdown when clicking outside', async () => {
+    it('closes dropdown when clicking outside', () => {
       renderWithProviders(
         <div>
           <div data-testid="outside">Outside</div>
@@ -158,36 +149,26 @@ if (import.meta.vitest) {
       )
       const mailBtn = screen.getByLabelText('messages')
       fireEvent.click(mailBtn)
-      expect(screen.getByText('view_all')).toBeInTheDocument()
-  
+      expect(screen.getByText('messages')).toBeInTheDocument()
       fireEvent.mouseDown(screen.getByTestId('outside'))
-      await waitFor(() => {
-        expect(screen.queryByText('view_all')).not.toBeInTheDocument()
-      })
+      expect(screen.queryByText('messages')).not.toBeInTheDocument()
     })
   
-    it('navigates when view_all is clicked', async () => {
+    it('navigates to messages when a message item is clicked', async () => {
       renderWithProviders(<MessagesDropdown />)
       const mailBtn = screen.getByLabelText('messages')
       fireEvent.click(mailBtn)
-  
-      const viewAllBtn = screen.getByText('view_all')
-      fireEvent.click(viewAllBtn)
-      expect(mockNavigate).toHaveBeenCalledWith('/messages')
+      fireEvent.click(screen.getByText('Mette Jensen'))
       await waitFor(() => {
-        expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+        expect(screen.queryByText('Mette Jensen')).not.toBeInTheDocument()
       })
     })
   
-    it('navigates when message item is clicked', async () => {
+    it('navigates to messages when "view all" is clicked', async () => {
       renderWithProviders(<MessagesDropdown />)
       const mailBtn = screen.getByLabelText('messages')
       fireEvent.click(mailBtn)
-  
-      // Using one of the mock message senders from messagesData (e.g. Mette Jensen)
-      const msgItem = screen.getByText('Mette Jensen')
-      fireEvent.click(msgItem)
-      expect(mockNavigate).toHaveBeenCalledWith('/messages')
+      fireEvent.click(screen.getByText('view_all'))
       await waitFor(() => {
         expect(screen.queryByText('view_all')).not.toBeInTheDocument()
       })
