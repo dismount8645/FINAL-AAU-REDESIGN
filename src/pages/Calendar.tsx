@@ -11,7 +11,7 @@ import PageHeader from '@/components/PageHeader'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import SegmentedControl from '@/components/SegmentedControl'
 import { Skeleton } from '@/components/Skeleton'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { useToast } from '@/context/ToastContext'
 import {
   Upload,

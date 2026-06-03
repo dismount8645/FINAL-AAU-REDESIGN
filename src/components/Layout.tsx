@@ -4,7 +4,7 @@ import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
 import Footer from '@/components/Footer';
 import DynamicWaveBackground from '@/components/DynamicWaveBackground';
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import PageSkeleton from '@/components/PageSkeleton';
 
 function Layout() {

@@ -5,7 +5,7 @@ import Stack from '@/components/Stack'
 import SearchInput from '@/components/SearchInput'
 import ListItem from '@/components/ListItem'
 import { Heading } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { useParticipantFilter } from '@/lib/useParticipantFilter'
 
 interface CourseParticipantsProps {

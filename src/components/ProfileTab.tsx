@@ -6,7 +6,7 @@ import Avatar from '@/components/Avatar'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
-import useStore, { type Theme } from '@/store/useStore'
+import useStore, { type Theme } from '@/lib/store'
 import SettingsSection from './SettingsSection'
 
 interface ProfileTabProps {

@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import SearchResults from '@/pages/SearchResults'
 import { MemoryRouter, useLocation, useNavigate } from 'react-router-dom'
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 
 
 // Mock mockData to include a result with an unknown group

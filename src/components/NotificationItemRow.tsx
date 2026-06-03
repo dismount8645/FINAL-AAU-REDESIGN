@@ -6,7 +6,7 @@ import { Text } from '@/components/Typography'
 import { formatTime } from '@/lib/dates'
 import { NotificationItem } from './notificationsTypes'
 import { LucideIcon } from 'lucide-react'
-import type { Lang } from '@/store/useStore'
+import type { Lang } from '@/lib/store'
 
 interface NotificationItemRowProps {
   notif: NotificationItem

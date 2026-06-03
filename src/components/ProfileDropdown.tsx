@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { User, Settings, LogOut } from 'lucide-react';
 import { Text } from '@/components/Typography';
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useDropdown } from '@/lib/useDropdown';

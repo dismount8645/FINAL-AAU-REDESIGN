@@ -2,7 +2,7 @@ import { render, act } from '@testing-library/react'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
 import DynamicWaveBackground from '@/components/DynamicWaveBackground'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 function renderAtPath(pathname: string, isDarkMode = false) {
   useStore.setState({ isDarkMode })

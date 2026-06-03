@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import { Text } from '@/components/Typography'
 import { useToast } from '@/context/ToastContext'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 
 interface LanguageTabProps {

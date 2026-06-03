@@ -7,7 +7,7 @@ import { useWidgetDrag } from '@/lib/useWidgetDrag'
 import { DEFAULT_WIDGETS } from '@/lib/mockData'
 import { Edit, Check } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { WidgetCustomizer, WidgetGrid } from '@/components'
 
 function Dashboard() {

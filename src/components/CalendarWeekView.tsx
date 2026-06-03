@@ -2,7 +2,7 @@ import React, { memo, useMemo } from 'react'
 import type { CalendarEvents, CalendarEvent } from '@/types'
 import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { eventPalette } from './calendarConstants'
 import { cn } from '@/lib/utils'
 

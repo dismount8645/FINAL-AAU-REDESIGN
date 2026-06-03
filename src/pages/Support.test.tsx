@@ -1,7 +1,7 @@
 import { renderWithProviders, screen, fireEvent, act } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Support from '@/pages/Support'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 const mockToast = { error: vi.fn(), success: vi.fn(), info: vi.fn() }
 

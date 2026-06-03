@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Calendar from '@/pages/Calendar'
 import { MemoryRouter } from 'react-router-dom'
 import { ToastProvider } from "@/context/providers/ToastProvider";
-import useStore from "@/store/useStore";
+import useStore from "@/lib/store";
 
 // Mock react-router-dom
 const mockNavigate = vi.fn()

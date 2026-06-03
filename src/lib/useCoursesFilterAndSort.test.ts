@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
 import { useCoursesFilterAndSort } from '@/lib/useCoursesFilterAndSort'
-import type { CourseWithStatus } from '@/store/useStore'
+import type { CourseWithStatus } from '@/lib/store'
 
 const mockCourses: CourseWithStatus[] = [
   { id: 1, code: 'CS101', status: 'active', img: 'img1.png', title: 'Intro to CS', titleEn: 'Intro to CS', label: 'Computer Science', labelEn: 'Computer Science' },

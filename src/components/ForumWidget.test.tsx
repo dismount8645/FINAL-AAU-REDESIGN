@@ -2,7 +2,7 @@ import { screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import ForumWidget from '@/components/ForumWidget'
 import { renderWithProviders } from '@/test/test-utils'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {

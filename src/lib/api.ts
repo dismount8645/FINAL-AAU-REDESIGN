@@ -1,4 +1,5 @@
 import { API_RETRY_BACKOFF } from '@/lib'
+import type { SettingsData, SubmissionData, SupportFormData } from '@/types'
 
 export function isRetryableError(error: unknown): boolean {
   if (error instanceof TypeError) return true
@@ -147,3 +148,12 @@ export class ApiClient {
 }
 
 export const api = new ApiClient()
+
+export const saveSettings = (data: SettingsData) =>
+  api.put('/settings', data, () => ({ success: true }))
+
+export const submitAssignment = (data: SubmissionData) =>
+  api.post('/submissions', data, () => ({ success: true, submissionId: 'MOCK-001' }))
+
+export const submitSupportTicket = (data: SupportFormData) =>
+  api.post('/support/tickets', data, () => ({ success: true, ticketId: 'MOCK-001' }))

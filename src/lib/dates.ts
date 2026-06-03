@@ -1,5 +1,5 @@
 import { translations } from '@/lib/translations'
-import type { Lang } from '@/store/useStore'
+import type { Lang } from '@/lib/store'
 
 function localeForLang(lang: Lang): string {
   return lang === 'da' ? 'da-DK' : 'en-US'

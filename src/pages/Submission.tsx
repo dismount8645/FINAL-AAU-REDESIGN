@@ -8,9 +8,9 @@ import Grid from '@/components/Grid'
 import Button from '@/components/Button'
 import Textarea from '@/components/Textarea'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { storage } from '@/lib/storage'
-import { submitAssignment } from '@/api/submissions'
+import { submitAssignment } from '@/lib/api'
 import {
   StagedFile,
   SubmissionSuccess,

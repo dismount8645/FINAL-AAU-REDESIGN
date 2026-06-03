@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { Calendar, BookOpen, Hourglass, CheckCircle2, AlertCircle } from 'lucide-react'
 import Badge from '@/components/Badge'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import type { GradeRecord } from './gradesTypes'
 
 interface GradeRowProps {

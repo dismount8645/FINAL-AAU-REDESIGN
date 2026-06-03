@@ -1,4 +1,4 @@
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import PageHeader from '@/components/PageHeader'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'

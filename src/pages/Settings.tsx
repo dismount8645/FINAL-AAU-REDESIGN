@@ -10,7 +10,7 @@ import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import Avatar from '@/components/Avatar'
 import ListItem from '@/components/ListItem'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { useSettingsState } from '@/lib/useSettingsState'
 import {
   ProfileTab,

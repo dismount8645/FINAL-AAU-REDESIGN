@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import Button from '@/components/Button'
 import { getFavoriteLabel } from '@/lib/favorites'
 import type { FavoriteType } from '@/types'
-import type { Lang } from '@/store/useStore'
+import type { Lang } from '@/lib/store'
 import { translations } from '@/lib/translations'
 
 const typeClasses: Record<FavoriteType, string> = {

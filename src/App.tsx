@@ -3,7 +3,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import Layout from '@/components/Layout';
 import NotFound from '@/pages/NotFound';
 import routes from '@/routes';
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 
 function App() {
   const t = useStore(state => state.t)

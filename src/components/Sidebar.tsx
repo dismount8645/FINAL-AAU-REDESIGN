@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp, Settings, X, Globe } from 'lucide-react';
 import SegmentedControl from '@/components/SegmentedControl';
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import Stack from '@/components/Stack';
 import Button from '@/components/Button';
 

@@ -2,7 +2,7 @@ import Card from '@/components/Card'
 import Stack from '@/components/Stack'
 import { Heading, Text } from '@/components/Typography'
 import { User, Clock } from 'lucide-react'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 export interface ReplyItem {
   id: number
