@@ -1,7 +1,7 @@
 import { lazy, type ComponentType, type LazyExoticComponent } from 'react'
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'))
-const Calendar = lazy(() => import('@/features/calendar/Calendar'))
+const Calendar = lazy(() => import('@/pages/Calendar'))
 const Courses = lazy(() => import('@/pages/Courses'))
 const Course = lazy(() => import('@/pages/Course'))
 const Support = lazy(() => import('@/pages/Support'))

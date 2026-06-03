@@ -1,8 +1,8 @@
 import { useState, useCallback, type ReactNode } from 'react'
 import { X } from 'lucide-react'
-import { Text } from '@/components/ui/Typography'
-import Button from '@/components/ui/Button'
-import Stack from '@/components/ui/Stack'
+import { Text } from '@/components/Typography'
+import Button from '@/components/Button'
+import Stack from '@/components/Stack'
 import { ToastContext, type Toast, type ToastOptions } from '@/context/ToastContext'
 
 let toastId = 0

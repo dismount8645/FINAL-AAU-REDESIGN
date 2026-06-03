@@ -1,4 +1,4 @@
-import type { GradeRecord } from '@/pages/grades/types'
+import type { GradeRecord } from '@/components/gradesTypes'
 
 export const BACHELOR_TOTAL_ECTS = 180
 

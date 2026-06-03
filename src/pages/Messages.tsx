@@ -1,10 +1,10 @@
 import useStore from '@/store/useStore'
-import PageHeader from '@/components/common/PageHeader'
-import Grid from '@/components/ui/Grid'
-import Stack from '@/components/ui/Stack'
-import Badge from '@/components/ui/Badge'
+import PageHeader from '@/components/PageHeader'
+import Grid from '@/components/Grid'
+import Stack from '@/components/Stack'
+import Badge from '@/components/Badge'
 import { useMessagesState } from '@/lib/useMessagesState'
-import { ChatSidebar, ChatWindow } from './messages/index'
+import { ChatSidebar, ChatWindow } from '@/components'
 
 function Messages() {
   const t = useStore(state => state.t)

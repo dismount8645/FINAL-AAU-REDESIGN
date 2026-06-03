@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import Layout from '@/components/layout/Layout';
+import Layout from '@/components/Layout';
 import NotFound from '@/pages/NotFound';
 import routes from '@/routes';
 import useStore from '@/store/useStore';

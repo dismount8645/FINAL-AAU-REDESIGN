@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import PageHeader from '@/components/common/PageHeader'
-import Grid from '@/components/ui/Grid'
-import Stack from '@/components/ui/Stack'
-import EmptyState from '@/components/ui/EmptyState'
+import PageHeader from '@/components/PageHeader'
+import Grid from '@/components/Grid'
+import Stack from '@/components/Stack'
+import EmptyState from '@/components/EmptyState'
 import useStore from '@/store/useStore'
 import { useSearch } from '@/lib/useSearch'
 import {
   SearchResultCard,
   SearchResultFilters,
-} from './searchResults/index'
+} from '@/components'
 
 function SearchResults() {
   const t = useStore(state => state.t)

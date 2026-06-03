@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useMemo, memo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import Stack from '@/components/ui/Stack'
-import Grid from '@/components/ui/Grid'
-import Tabs from '@/components/ui/Tabs'
-import ModuleHeader from '@/components/ui/ModuleHeader'
+import Stack from '@/components/Stack'
+import Grid from '@/components/Grid'
+import Tabs from '@/components/Tabs'
+import ModuleHeader from '@/components/ModuleHeader'
 import useStore from '@/store/useStore'
 import { storage } from '@/lib/storage'
 import { courseData, participantsData, courseTabItems } from '@/lib/courseData'
@@ -11,7 +11,7 @@ import {
   CourseSidebar,
   CourseBreadcrumbs,
   CourseTabContent,
-} from './course/index'
+} from '@/components'
 
 function Course() {
   const { id } = useParams<{ id: string }>()

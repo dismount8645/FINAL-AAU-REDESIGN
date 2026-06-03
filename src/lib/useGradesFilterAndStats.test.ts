@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
 import { useGradesFilterAndStats } from '@/lib/useGradesFilterAndStats'
-import type { GradeRecord } from '@/pages/grades/types'
+import type { GradeRecord } from '@/components/gradesTypes'
 
 const mockGrades: GradeRecord[] = [
   {
