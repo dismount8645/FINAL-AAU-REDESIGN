@@ -1,5 +1,5 @@
 import { useState, useMemo, type MouseEvent } from 'react'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { formatRelativeDateGroup } from '@/lib/dates'
 import type { NotificationItem } from '@/components/notificationsTypes'
 

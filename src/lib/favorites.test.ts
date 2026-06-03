@@ -5,7 +5,7 @@ import {
   resolveFavorite
 } from '@/lib/favorites'
 import type { FavoriteItem } from '@/types'
-import type { CourseWithStatus } from '@/store/useStore'
+import type { CourseWithStatus } from '@/lib/store'
 import { allToolsList } from '@/lib/tools'
 
 describe('favorites utility', () => {

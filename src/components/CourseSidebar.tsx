@@ -7,7 +7,7 @@ import ListItem from '@/components/ListItem'
 import Button from '@/components/Button'
 import Avatar from '@/components/Avatar'
 import { Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { ASSETS } from '@/lib'
 
 interface CourseSidebarProps {

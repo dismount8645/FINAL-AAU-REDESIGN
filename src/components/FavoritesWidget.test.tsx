@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import FavoritesWidget from '@/components/FavoritesWidget'
 import { MemoryRouter } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import * as favUtils from '@/lib/favorites'
 import { BookOpen } from 'lucide-react'
 
-vi.mock('@/store/useStore')
+vi.mock('@/lib/store')
 vi.mock('@/lib/favorites', async () => {
   const actual = await vi.importActual('@/lib/favorites')
   return {

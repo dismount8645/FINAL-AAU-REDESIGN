@@ -2,7 +2,7 @@ import { render, screen, act } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import Layout from '@/components/Layout'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 vi.mock('./Sidebar', () => ({
   default: () => <div data-testid="sidebar">Sidebar</div>,

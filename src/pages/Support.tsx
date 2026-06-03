@@ -5,8 +5,8 @@ import PageHeader from '@/components/PageHeader'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'
 import InfoCard from '@/components/InfoCard'
-import useStore from '@/store/useStore'
-import { submitSupportTicket } from '@/api/support'
+import useStore from '@/lib/store'
+import { submitSupportTicket } from '@/lib/api'
 import {
   FaqSection,
   LocalDesksSection,

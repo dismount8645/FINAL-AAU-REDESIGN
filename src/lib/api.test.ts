@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { ApiClient, api, withTimeout, withRetry, isRetryableError } from '@/api/index'
+import { ApiClient, api, withTimeout, withRetry, isRetryableError } from '@/lib/api'
 
 describe('isRetryableError', () => {
   it('returns true for TypeError (network errors)', () => {

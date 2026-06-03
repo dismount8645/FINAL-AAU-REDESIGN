@@ -2,12 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import Favorites from '@/pages/Favorites'
 import { MemoryRouter } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import * as favUtils from '@/lib/favorites'
 import { Wrench } from 'lucide-react'
 import { DASHBOARD_CONFIG } from '@/lib/dashboard'
 
-vi.mock('@/store/useStore', () => {
+vi.mock('@/lib/store', () => {
   let currentState: any = {}
   const mockFn = vi.fn((selector) => {
     return selector ? selector(currentState) : currentState

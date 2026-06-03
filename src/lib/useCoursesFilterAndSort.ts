@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import type { CourseWithStatus, Lang } from '@/store/useStore'
+import type { CourseWithStatus, Lang } from '@/lib/store'
 
 export interface UseCoursesFilterAndSortProps {
   courses: CourseWithStatus[]

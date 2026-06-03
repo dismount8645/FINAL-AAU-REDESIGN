@@ -8,7 +8,7 @@ import {
   CalendarTab,
   MessagesTab,
 } from './index'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 // Mock useToast
 const mockToast = {

@@ -1,6 +1,6 @@
 import FormField from '@/components/FormField'
 import Grid from '@/components/Grid'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 
 interface CalendarTabProps {

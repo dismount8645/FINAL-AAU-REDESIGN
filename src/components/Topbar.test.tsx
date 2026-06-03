@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Topbar from '@/components/Topbar'
 import { MemoryRouter } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 // Mock useNavigate
 const mockNavigate = vi.fn()

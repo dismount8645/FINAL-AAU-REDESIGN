@@ -1,7 +1,7 @@
 import FormField from '@/components/FormField'
 import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 
 interface ForumTabProps {

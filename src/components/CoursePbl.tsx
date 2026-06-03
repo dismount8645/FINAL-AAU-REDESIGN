@@ -6,7 +6,7 @@ import Stack from '@/components/Stack'
 import Button from '@/components/Button'
 import ListItem from '@/components/ListItem'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 function CoursePbl() {
   const t = useStore((state) => state.t)

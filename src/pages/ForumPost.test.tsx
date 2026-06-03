@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import ForumPost from '@/pages/ForumPost'
 import { MemoryRouter, Route, Routes, useParams } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')

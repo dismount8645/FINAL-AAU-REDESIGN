@@ -3,7 +3,7 @@ import { Filter, ArrowDownZA, ArrowUpAZ } from 'lucide-react'
 import Stack from '@/components/Stack'
 import Button from '@/components/Button'
 import SearchInput from '@/components/SearchInput'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { cn } from '@/lib/utils'
 import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/Dropdown'
 

@@ -3,7 +3,7 @@ import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'
 import Input from '@/components/Input'
 import { Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 
 interface NotificationsTabProps {

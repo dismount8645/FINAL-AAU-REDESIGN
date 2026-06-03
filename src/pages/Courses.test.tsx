@@ -2,7 +2,7 @@ import { screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Courses from '@/pages/Courses'
 import { renderWithProviders } from '@/test/test-utils'
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 
 // Mock useNavigate
 const mockNavigate = vi.fn()

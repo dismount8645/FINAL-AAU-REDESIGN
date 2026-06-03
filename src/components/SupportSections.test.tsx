@@ -7,7 +7,7 @@ import {
   SupportSidebar,
 } from './index'
 import { linkifyText } from './FaqSection'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 // Mock useToast
 const mockToast = {

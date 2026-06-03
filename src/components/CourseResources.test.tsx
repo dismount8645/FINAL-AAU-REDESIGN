@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { it, expect, vi } from 'vitest'
 import CourseResources from './CourseResources'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
-vi.mock('@/store/useStore', () => ({
+vi.mock('@/lib/store', () => ({
   default: vi.fn(),
 }))
 

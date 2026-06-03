@@ -10,7 +10,7 @@ import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import Badge from '@/components/Badge'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { useNotificationsState } from '@/lib/useNotificationsState'
 import {
   NotificationItemRow,

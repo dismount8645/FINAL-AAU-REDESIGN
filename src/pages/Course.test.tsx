@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Course from '@/pages/Course'
 import { MemoryRouter, Route, Routes, useParams, useNavigate } from 'react-router-dom'
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 
 // Mock react-router-dom
 vi.mock('react-router-dom', async () => {

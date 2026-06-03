@@ -1,9 +1,9 @@
 import { useState, useCallback, useMemo, type Dispatch, type SetStateAction } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useToast } from '@/context/ToastContext'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { storage } from '@/lib/storage'
-import { saveSettings } from '@/api/settings'
+import { saveSettings } from '@/lib/api'
 import { SETTINGS_CATEGORIES } from '@/lib/settingsCategories'
 
 export interface UseSettingsStateReturn {

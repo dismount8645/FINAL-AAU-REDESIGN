@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Mail } from 'lucide-react';
 import { Text } from '@/components/Typography';
 import Avatar from '@/components/Avatar';
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 import { messagesData } from '@/lib/mockData';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
