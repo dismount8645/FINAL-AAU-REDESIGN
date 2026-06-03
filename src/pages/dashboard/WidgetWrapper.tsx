@@ -73,9 +73,9 @@ export const WidgetWrapper = memo(function WidgetWrapper({
       onDrop={(e: DragEvent<HTMLElement>) => onDrop(e, widget.id)}
     >
       <div
-        className={`h-full w-full flex flex-col transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform ${
+        className={`h-full w-full flex flex-col overflow-y-auto transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] will-change-transform ${
           isEditing
-            ? 'scale-[0.98] ring-2 ring-primary/40 ring-offset-2 dark:ring-offset-bg-card border-2 border-dashed border-primary/50 bg-primary/[0.01] hover:scale-[0.99] hover:ring-primary/70 hover:border-primary/80 rounded-[var(--radius-lg)] p-1.5'
+            ? 'scale-[0.98] ring-2 ring-primary/40 ring-offset-2 dark:ring-offset-bg-card border-2 border-dashed border-primary/50 bg-primary/[0.01] hover:scale-[0.99] hover:ring-primary/70 hover:border-primary/80 rounded-[var(--radius-lg)] p-sm md:p-lg'
             : 'scale-100'
         } ${isEditing ? 'is-editing' : ''}`}
       >
@@ -130,7 +130,7 @@ export const WidgetWrapper = memo(function WidgetWrapper({
           </>
         )}
         <ErrorBoundary name={widget.id}>
-          <div className="flex-1 flex flex-col min-h-0 w-full h-full isolate">
+          <div className="flex-1 flex flex-col min-h-0 w-full h-full isolate flex-wrap">
             <WidgetComponent span={widget.span} isEditing={isEditing} />
           </div>
         </ErrorBoundary>

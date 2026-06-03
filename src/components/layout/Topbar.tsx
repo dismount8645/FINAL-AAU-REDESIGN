@@ -68,10 +68,10 @@ export default function Topbar() {
                   {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-muted" />}
                   {crumb.href ? (
                     <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
-                      <Text tag="span" size="xs">{crumb.label}</Text>
+                      <Text tag="span" size="sm" weight="semibold">{crumb.label}</Text>
                     </Link>
                   ) : (
-                    <Text tag="span" weight="bold" size="xs" className="text-text-main">{crumb.label}</Text>
+                    <Text tag="span" weight="black" size="sm" className="text-text-main">{crumb.label}</Text>
                   )}
                 </Fragment>
               ))}
@@ -87,8 +87,8 @@ export default function Topbar() {
           size="icon"
           onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
           className="group w-11 h-11 text-text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
-          title={`${t('appearance')}: ${theme}`}
-          aria-label={`${t('appearance')}: ${theme}`}
+          title={`${t('appearance')}: ${t('theme.' + theme)}`}
+          aria-label={`${t('appearance')}: ${t('theme.' + theme)}`}
           type="button"
         >
           <span className="transition-transform duration-300 group-hover:rotate-[15deg]">
