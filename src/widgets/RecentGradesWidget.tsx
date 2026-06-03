@@ -11,8 +11,8 @@ import Button from '@/components/ui/Button'
 import EmptyState from '@/components/ui/EmptyState'
 import type { WidgetProps } from '@/types'
 import useStore from '@/store/useStore'
-import { dashboardGrades } from '@/data/dashboardWidgets'
-import { getWidgetDisplayLayout } from '@/utils/widgetLayout'
+import { dashboardGrades } from '@/lib/dashboardWidgets'
+import { getWidgetDisplayLayout } from '@/lib/widgetLayout'
 import { cn } from '@/lib/utils'
 
 interface Grade {

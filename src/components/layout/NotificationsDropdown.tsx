@@ -3,10 +3,10 @@ import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Text } from '@/components/ui/Typography';
 import useStore from '@/store/useStore';
-import { notificationsData } from '@/data/mockData';
+import { notificationsData } from '@/lib/mockData';
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
-import { useDropdown } from '@/hooks/useDropdown';
+import { useDropdown } from '@/lib/useDropdown';
 
 const getNotifIcon = (type: string) => {
   switch (type) {

@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/Typography'
 import SectionHeader from '@/components/ui/SectionHeader'
 import InfoCard from '@/components/ui/InfoCard'
 import useStore from '@/store/useStore'
-import { env } from '@/utils/env'
+import { env } from '@/lib/env'
 import type { ResourceTool } from '@/types'
 
 interface ResourcesSectionProps {

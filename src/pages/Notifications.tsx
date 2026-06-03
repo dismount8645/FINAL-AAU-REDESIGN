@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { BellOff, Inbox } from 'lucide-react'
-import { createMockNotifications, getNotificationIcon } from '@/utils/notifications'
+import { createMockNotifications, getNotificationIcon } from '@/lib/notifications'
 import PageHeader from '@/components/common/PageHeader'
 import Grid from '@/components/ui/Grid'
 import Card from '@/components/ui/Card'
@@ -11,7 +11,7 @@ import { Text } from '@/components/ui/Typography'
 import EmptyState from '@/components/ui/EmptyState'
 import Badge from '@/components/ui/Badge'
 import useStore from '@/store/useStore'
-import { useNotificationsState } from '@/hooks/useNotificationsState'
+import { useNotificationsState } from '@/lib/useNotificationsState'
 import {
   NotificationItemRow,
   NotificationDetailView,

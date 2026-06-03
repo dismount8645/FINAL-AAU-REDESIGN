@@ -1,5 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Calendar from '@/features/calendar/Calendar'
 import { MemoryRouter } from 'react-router-dom'

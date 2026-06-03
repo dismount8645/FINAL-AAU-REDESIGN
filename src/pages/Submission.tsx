@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button'
 import Textarea from '@/components/ui/Textarea'
 import { Heading, Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
-import { storage } from '@/utils/storage'
+import { storage } from '@/lib/storage'
 import { submitAssignment } from '@/api/submissions'
 import {
   StagedFile,

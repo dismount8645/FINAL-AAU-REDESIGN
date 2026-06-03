@@ -5,8 +5,8 @@ import Grid from '@/components/ui/Grid'
 import Tabs from '@/components/ui/Tabs'
 import ModuleHeader from '@/components/ui/ModuleHeader'
 import useStore from '@/store/useStore'
-import { storage } from '@/utils/storage'
-import { courseData, participantsData, courseTabItems } from '@/data/courseData'
+import { storage } from '@/lib/storage'
+import { courseData, participantsData, courseTabItems } from '@/lib/courseData'
 import {
   CourseSidebar,
   CourseBreadcrumbs,

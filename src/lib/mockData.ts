@@ -8,7 +8,7 @@ import type {
   WidgetConfigMap,
   Widget,
 } from '@/types'
-import mockDataJson from '@/data/mockData.json'
+import mockDataJson from '@/lib/mockData.json'
 
 export const courses: CoursesMap = mockDataJson.courses as unknown as CoursesMap
 export const courseList: CourseListItem[] = mockDataJson.courseList as CourseListItem[]

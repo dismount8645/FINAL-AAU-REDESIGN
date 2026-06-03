@@ -6,7 +6,7 @@ import { createCourseSlice, CourseSlice } from './slices/courseSlice'
 import { createFavoriteSlice, FavoriteSlice } from './slices/favoriteSlice'
 import { PersistedStateSchema } from '@/lib/schemas/store'
 
-import { Theme, Lang, computeIsDarkMode } from '@/utils/theme'
+import { Theme, Lang, computeIsDarkMode } from '@/lib/theme'
 
 export type { Theme, Lang }
 export { computeIsDarkMode }

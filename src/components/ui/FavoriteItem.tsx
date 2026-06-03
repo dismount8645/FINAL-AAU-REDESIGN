@@ -4,10 +4,10 @@ import { motion, type HTMLMotionProps } from 'framer-motion'
 import { X, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Button from '@/components/ui/Button'
-import { getFavoriteLabel } from '@/utils/favorites'
+import { getFavoriteLabel } from '@/lib/favorites'
 import type { FavoriteType } from '@/types'
 import type { Lang } from '@/store/useStore'
-import { translations } from '@/data/translations'
+import { translations } from '@/lib/translations'
 
 const typeClasses: Record<FavoriteType, string> = {
   course: 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-foreground',

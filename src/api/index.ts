@@ -1,4 +1,4 @@
-import { API_RETRY_BACKOFF } from '@/constants'
+import { API_RETRY_BACKOFF } from '@/lib'
 
 export function isRetryableError(error: unknown): boolean {
   if (error instanceof TypeError) return true

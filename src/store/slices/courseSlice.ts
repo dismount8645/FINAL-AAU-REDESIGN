@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand'
 import { AppState, CourseWithStatus } from '@/store/useStore'
 import type { CalendarEvents } from '@/types'
-import { courseList as initialCourses } from '@/data/mockData'
+import { courseList as initialCourses } from '@/lib/mockData'
 
 export interface CourseSlice {
   courses: CourseWithStatus[]

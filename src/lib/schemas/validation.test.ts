@@ -16,7 +16,7 @@ import {
   courseList,
   defaultEvents,
   notificationsData,
-} from '@/data/mockData'
+} from '@/lib/mockData'
 
 describe('CourseItemSchema', () => {
   it('validates a course item with all fields', () => {

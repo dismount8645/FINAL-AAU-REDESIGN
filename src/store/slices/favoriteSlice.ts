@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand'
 import { AppState } from '@/store/useStore'
 import type { FavoriteItem, FavoriteType } from '@/types'
-import { DASHBOARD_CONFIG } from '@/config/dashboard'
+import { DASHBOARD_CONFIG } from '@/lib/dashboard'
 
 export interface FavoriteSlice {
   favorites: FavoriteItem[]

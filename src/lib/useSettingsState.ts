@@ -2,9 +2,9 @@ import { useState, useCallback, useMemo, type Dispatch, type SetStateAction } fr
 import { useSearchParams } from 'react-router-dom'
 import { useToast } from '@/context/ToastContext'
 import useStore from '@/store/useStore'
-import { storage } from '@/utils/storage'
+import { storage } from '@/lib/storage'
 import { saveSettings } from '@/api/settings'
-import { SETTINGS_CATEGORIES } from '@/constants/settingsCategories'
+import { SETTINGS_CATEGORIES } from '@/lib/settingsCategories'
 
 export interface UseSettingsStateReturn {
   activeTab: string

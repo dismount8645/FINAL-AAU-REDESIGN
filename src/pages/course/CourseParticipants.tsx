@@ -6,7 +6,7 @@ import SearchInput from '@/components/ui/SearchInput'
 import ListItem from '@/components/ui/ListItem'
 import { Heading } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
-import { useParticipantFilter } from '@/hooks/useParticipantFilter'
+import { useParticipantFilter } from '@/lib/useParticipantFilter'
 
 interface CourseParticipantsProps {
   participantsData: { name: string; role: string }[]

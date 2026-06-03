@@ -6,10 +6,10 @@ import Stack from '@/components/ui/Stack'
 import { Text } from '@/components/ui/Typography'
 import Button from '@/components/ui/Button'
 import useStore from '@/store/useStore'
-import { sortFavorites, resolveFavorite } from '@/utils/favorites'
+import { sortFavorites, resolveFavorite } from '@/lib/favorites'
 import type { FavoriteType } from '@/types'
-import { env } from '@/utils/env'
-import { DASHBOARD_CONFIG } from '@/config/dashboard'
+import { env } from '@/lib/env'
+import { DASHBOARD_CONFIG } from '@/lib/dashboard'
 import { FavoritesFilter, FavoritesList } from './favorites/index'
 
 function Favorites() {
