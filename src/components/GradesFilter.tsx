@@ -60,23 +60,23 @@ function GradesFilter({
 
 export default memo(GradesFilter)
 
-const mockSetSearchQuery = vi.fn()
-const mockSetSelectedSemester = vi.fn()
-const semesterOptions = ['all', '2024 Fall', '2025 Spring']
-
-function renderFilter(searchQuery = '', selectedSemester = 'all') {
-  return render(
-    <GradesFilter
-      searchQuery={searchQuery}
-      setSearchQuery={mockSetSearchQuery}
-      selectedSemester={selectedSemester}
-      setSelectedSemester={mockSetSelectedSemester}
-      semesterOptions={semesterOptions}
-    />
-  )
-}
 
 if (import.meta.vitest) {
+  const mockSetSearchQuery = vi.fn()
+  const mockSetSelectedSemester = vi.fn()
+  const semesterOptions = ['all', '2024 Fall', '2025 Spring']
+  
+  function renderFilter(searchQuery = '', selectedSemester = 'all') {
+    return render(
+      <GradesFilter
+        searchQuery={searchQuery}
+        setSearchQuery={mockSetSearchQuery}
+        selectedSemester={selectedSemester}
+        setSelectedSemester={mockSetSelectedSemester}
+        semesterOptions={semesterOptions}
+      />
+    )
+  }
   beforeEach(() => {
     vi.clearAllMocks()
     useStore.setState({ lang: 'da' })

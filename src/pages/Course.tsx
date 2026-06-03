@@ -127,17 +127,17 @@ function Course() {
 
 export default memo(Course)
 
-// Mock react-router-dom
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: vi.fn(),
-    useParams: vi.fn()
-  }
-})
 
 if (import.meta.vitest) {
+  // Mock react-router-dom
+  vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: vi.fn(),
+      useParams: vi.fn()
+    }
+  })
   describe('Course Page', () => {
     const mockNavigate = vi.fn()
     

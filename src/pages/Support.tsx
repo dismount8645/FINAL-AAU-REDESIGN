@@ -129,17 +129,17 @@ function Support() {
 
 export default Support
 
-const mockToast = { error: vi.fn(), success: vi.fn(), info: vi.fn() }
-
-vi.mock('@/components/Toast', async () => {
-  const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
-  return {
-    ...actual,
-    useToast: () => mockToast,
-  }
-})
 
 if (import.meta.vitest) {
+  const mockToast = { error: vi.fn(), success: vi.fn(), info: vi.fn() }
+  
+  vi.mock('@/components/Toast', async () => {
+    const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
+    return {
+      ...actual,
+      useToast: () => mockToast,
+    }
+  })
   describe('Support', () => {
     beforeEach(() => {
       vi.clearAllMocks()

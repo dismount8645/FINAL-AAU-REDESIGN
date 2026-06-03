@@ -141,73 +141,73 @@ export const WidgetWrapper = memo(function WidgetWrapper({
   )
 })
 
-const mockResize = vi.fn()
-const mockMoveWidget = vi.fn()
-const mockToggleVisibility = vi.fn()
-const mockOnDragStart = vi.fn()
-const mockOnDragEnd = vi.fn()
-const mockOnDragOver = vi.fn()
-const mockOnDrop = vi.fn()
-const mockT = vi.fn((key: string) => key)
-
-vi.mock('@/lib/mockData', async () => {
-  const actual = await vi.importActual('@/lib/mockData')
-  return {
-    ...actual,
-    WIDGET_CONFIG: {
-      test_widget: { rowSpan: 2, tabletSpan: 4 },
-    },
-  }
-})
-
-vi.mock('@/lib/useResizeHandle', async () => {
-  const actual = await vi.importActual('@/lib/useResizeHandle')
-  return {
-    ...actual,
-    useResizeHandle: () => ({ handleResize: mockResize }),
-  }
-})
-
-const baseWidget: Widget = {
-  id: 'test_widget',
-  type: 'widget',
-  span: 6,
-  rowSpan: 2,
-  x: 0,
-  y: 0,
-  visible: true,
-}
-
-const WidgetComponent = () => <div data-testid="widget-content">Widget Content</div>
-
-function renderWrapper(isEditing = false, isDragged = false, overrides: Partial<Widget> = {}) {
-  return render(
-    <WidgetWrapper
-      widget={{ ...baseWidget, ...overrides }}
-      x={baseWidget.x}
-      y={baseWidget.y}
-      tabletSpan={4}
-      mobileSpan={6}
-      isEditing={isEditing}
-      isDragged={isDragged}
-      WidgetComponent={WidgetComponent}
-      onDragStart={mockOnDragStart}
-      onDragEnd={mockOnDragEnd}
-      onDragOver={mockOnDragOver}
-      onDrop={mockOnDrop}
-      toggleVisibility={mockToggleVisibility}
-      resizeWidget={mockResize}
-      t={mockT}
-      moveWidget={mockMoveWidget}
-    />
-  )
-}
-
-beforeEach(() => {
-  vi.clearAllMocks()
-})
 
 if (import.meta.vitest) {
+  const mockResize = vi.fn()
+  const mockMoveWidget = vi.fn()
+  const mockToggleVisibility = vi.fn()
+  const mockOnDragStart = vi.fn()
+  const mockOnDragEnd = vi.fn()
+  const mockOnDragOver = vi.fn()
+  const mockOnDrop = vi.fn()
+  const mockT = vi.fn((key: string) => key)
+  
+  vi.mock('@/lib/mockData', async () => {
+    const actual = await vi.importActual('@/lib/mockData')
+    return {
+      ...actual,
+      WIDGET_CONFIG: {
+        test_widget: { rowSpan: 2, tabletSpan: 4 },
+      },
+    }
+  })
+  
+  vi.mock('@/lib/useResizeHandle', async () => {
+    const actual = await vi.importActual('@/lib/useResizeHandle')
+    return {
+      ...actual,
+      useResizeHandle: () => ({ handleResize: mockResize }),
+    }
+  })
+  
+  const baseWidget: Widget = {
+    id: 'test_widget',
+    type: 'widget',
+    span: 6,
+    rowSpan: 2,
+    x: 0,
+    y: 0,
+    visible: true,
+  }
+  
+  const WidgetComponent = () => <div data-testid="widget-content">Widget Content</div>
+  
+  function renderWrapper(isEditing = false, isDragged = false, overrides: Partial<Widget> = {}) {
+    return render(
+      <WidgetWrapper
+        widget={{ ...baseWidget, ...overrides }}
+        x={baseWidget.x}
+        y={baseWidget.y}
+        tabletSpan={4}
+        mobileSpan={6}
+        isEditing={isEditing}
+        isDragged={isDragged}
+        WidgetComponent={WidgetComponent}
+        onDragStart={mockOnDragStart}
+        onDragEnd={mockOnDragEnd}
+        onDragOver={mockOnDragOver}
+        onDrop={mockOnDrop}
+        toggleVisibility={mockToggleVisibility}
+        resizeWidget={mockResize}
+        t={mockT}
+        moveWidget={mockMoveWidget}
+      />
+    )
+  }
+  
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
   it('renders widget content', () => {
     renderWrapper()
     expect(screen.getByTestId('widget-content')).toBeInTheDocument()

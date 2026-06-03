@@ -100,23 +100,23 @@ export default function ProfileTab({
   )
 }
 
-// Mock useToast
-const mockToast = {
-  success: vi.fn(),
-  error: vi.fn(),
-  info: vi.fn(),
-  warning: vi.fn(),
-}
-
-vi.mock('@/components/Toast', async () => {
-  const actual = await vi.importActual('@/components/Toast')
-  return {
-    ...actual,
-    useToast: () => mockToast,
-  }
-})
-
+let mockToast
 if (import.meta.vitest) {
+  // Mock useToast
+  const mockToast = {
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn(),
+  }
+  
+  vi.mock('@/components/Toast', async () => {
+    const actual = await vi.importActual('@/components/Toast')
+    return {
+      ...actual,
+      useToast: () => mockToast,
+    }
+  })
   describe('Settings Tabs Components', () => {
     beforeEach(() => {
       useStore.setState({ lang: 'da' })

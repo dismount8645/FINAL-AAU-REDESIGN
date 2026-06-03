@@ -247,22 +247,22 @@ function Settings() {
 
 export default Settings
 
-const mockToast = {
-  success: vi.fn(),
-  error: vi.fn(),
-  info: vi.fn(),
-  warning: vi.fn()
-}
-
-vi.mock('@/components/Toast', async () => {
-  const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
-  return {
-    ...actual,
-    useToast: () => mockToast,
-  }
-})
-
+let mockToast
 if (import.meta.vitest) {
+  const mockToast = {
+    success: vi.fn(),
+    error: vi.fn(),
+    info: vi.fn(),
+    warning: vi.fn()
+  }
+  
+  vi.mock('@/components/Toast', async () => {
+    const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
+    return {
+      ...actual,
+      useToast: () => mockToast,
+    }
+  })
   describe('Settings Page', () => {
     beforeEach(() => {
       vi.clearAllMocks()

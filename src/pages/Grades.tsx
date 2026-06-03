@@ -108,31 +108,31 @@ function Grades() {
 
 export default Grades
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
-
-function renderGrades(lang: 'da' | 'en' = 'da') {
-  useStore.setState({
-    lang,
-    t: (key: string) => {
-      const val = (translations as any)[lang]?.[key]
-      return typeof val === 'string' ? val : key
-    },
-  })
-  return render(
-    <MemoryRouter>
-      <Grades />
-    </MemoryRouter>
-  )
-}
-
+let mockNavigate
 if (import.meta.vitest) {
+  const mockNavigate = vi.fn()
+  vi.mock('react-router-dom', async () => {
+    const actual = await vi.importActual('react-router-dom')
+    return {
+      ...actual,
+      useNavigate: () => mockNavigate,
+    }
+  })
+  
+  function renderGrades(lang: 'da' | 'en' = 'da') {
+    useStore.setState({
+      lang,
+      t: (key: string) => {
+        const val = (translations as any)[lang]?.[key]
+        return typeof val === 'string' ? val : key
+      },
+    })
+    return render(
+      <MemoryRouter>
+        <Grades />
+      </MemoryRouter>
+    )
+  }
   describe('Grades', () => {
     beforeEach(() => {
       vi.clearAllMocks()
