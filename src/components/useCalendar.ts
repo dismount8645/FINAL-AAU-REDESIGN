@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import useStore from '@/lib/store'
 import { defaultEvents } from '@/lib/mockData'
-import { CalendarEvents, CalendarEvent } from '@/types'
+import { CalendarEvents, CalendarEvent } from '@/lib/types'
 import { storage } from '@/lib/storage'
 
 export function useCalendar() {

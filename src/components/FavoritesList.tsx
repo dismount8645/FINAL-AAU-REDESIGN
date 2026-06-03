@@ -6,7 +6,7 @@ import Stack from '@/components/Stack'
 import Button from '@/components/Button'
 import { Heading, Text } from '@/components/Typography'
 import FavoriteItem, { type FavoriteItemData } from '@/components/FavoriteItem'
-import type { FavoriteType } from '@/types'
+import type { FavoriteType } from '@/lib/types'
 
 interface FavoritesListProps {
   filtered: FavoriteItemData[]

@@ -1,6 +1,6 @@
 import Card from '@/components/Card'
 import { Text } from '@/components/Typography'
-import { useToast } from '@/context/ToastContext'
+import { useToast } from '@/components/Toast'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 

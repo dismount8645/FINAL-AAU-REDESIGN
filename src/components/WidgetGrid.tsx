@@ -1,5 +1,5 @@
 import { type DragEvent, useMemo } from 'react'
-import type { Widget, WidgetProps } from '@/types'
+import type { Widget, WidgetProps } from '@/lib/types'
 import Grid from '@/components/Grid'
 import { WIDGET_CONFIG } from '@/lib/mockData'
 import {

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo, memo, useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
-import type { CalendarEvent } from '@/types'
+import type { CalendarEvent } from '@/lib/types'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'
 import Card from '@/components/Card'
@@ -12,7 +12,7 @@ import ErrorBoundary from '@/components/ErrorBoundary'
 import SegmentedControl from '@/components/SegmentedControl'
 import { Skeleton } from '@/components/Skeleton'
 import useStore from '@/lib/store'
-import { useToast } from '@/context/ToastContext'
+import { useToast } from '@/components/Toast'
 import {
   Upload,
   Download,

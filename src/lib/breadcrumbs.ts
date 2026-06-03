@@ -1,4 +1,4 @@
-import { type CourseListItem } from '@/types';
+import { type CourseListItem } from '@/lib/types';
 
 export const getAutomaticBreadcrumbs = (
   pathname: string,

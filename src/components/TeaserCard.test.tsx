@@ -1,6 +1,6 @@
 import { screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import { renderWithProviders } from '@/test/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 import TeaserCard from '@/components/TeaserCard'
 
 describe('TeaserCard', () => {

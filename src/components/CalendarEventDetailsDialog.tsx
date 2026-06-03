@@ -6,7 +6,7 @@ import Badge from '@/components/Badge'
 import Icon from '@/components/Icon'
 import Button from '@/components/Button'
 import { Heading, Text } from '@/components/Typography'
-import type { CalendarEvent } from '@/types'
+import type { CalendarEvent } from '@/lib/types'
 import useStore from '@/lib/store'
 
 interface CalendarEventDetailsDialogProps {

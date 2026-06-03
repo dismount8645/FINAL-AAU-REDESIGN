@@ -7,7 +7,7 @@ import { Text, Heading } from '@/components/Typography'
 import Card from '@/components/Card'
 import Stack from '@/components/Stack'
 import Button from '@/components/Button'
-import type { WidgetProps } from '@/types'
+import type { WidgetProps } from '@/lib/types'
 import useStore from '@/lib/store'
 import { cn } from '@/lib/utils'
 

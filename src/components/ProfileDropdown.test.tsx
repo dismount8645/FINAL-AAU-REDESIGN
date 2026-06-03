@@ -1,4 +1,4 @@
-import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import ProfileDropdown from '@/components/ProfileDropdown'
 import useStore from '@/lib/store'

@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import type { CalendarEvents, CalendarEvent } from '@/types'
+import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import Card from '@/components/Card'
 import Stack from '@/components/Stack'
 import Badge from '@/components/Badge'

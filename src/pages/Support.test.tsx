@@ -1,12 +1,12 @@
-import { renderWithProviders, screen, fireEvent, act } from '@/test/test-utils'
+import { renderWithProviders, screen, fireEvent, act } from '@/lib/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Support from '@/pages/Support'
 import useStore from '@/lib/store'
 
 const mockToast = { error: vi.fn(), success: vi.fn(), info: vi.fn() }
 
-vi.mock('@/context/ToastContext', async () => {
-  const actual = await vi.importActual<typeof import('@/context/ToastContext')>('@/context/ToastContext')
+vi.mock('@/components/Toast', async () => {
+  const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
   return {
     ...actual,
     useToast: () => mockToast,

@@ -1,5 +1,5 @@
 import { memo, type DragEvent } from 'react'
-import type { Widget, WidgetProps } from '@/types'
+import type { Widget, WidgetProps } from '@/lib/types'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'
 import Button from '@/components/Button'

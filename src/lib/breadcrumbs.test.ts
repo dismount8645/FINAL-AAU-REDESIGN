@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { getAutomaticBreadcrumbs } from './breadcrumbs';
-import { type CourseListItem } from '@/types';
+import { type CourseListItem } from '@/lib/types';
 
 const mockCourses: CourseListItem[] = [
   { id: 1, title: 'Matematik 1', titleEn: 'Math 1', code: 'MAT1' }

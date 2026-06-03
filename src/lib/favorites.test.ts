@@ -4,7 +4,7 @@ import {
   sortFavorites,
   resolveFavorite
 } from '@/lib/favorites'
-import type { FavoriteItem } from '@/types'
+import type { FavoriteItem } from '@/lib/types'
 import type { CourseWithStatus } from '@/lib/store'
 import { allToolsList } from '@/lib/tools'
 
