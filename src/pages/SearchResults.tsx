@@ -6,7 +6,7 @@ import Grid from '@/components/ui/Grid'
 import Stack from '@/components/ui/Stack'
 import EmptyState from '@/components/ui/EmptyState'
 import useStore from '@/store/useStore'
-import { useSearch } from '@/hooks/useSearch'
+import { useSearch } from '@/lib/useSearch'
 import {
   SearchResultCard,
   SearchResultFilters,

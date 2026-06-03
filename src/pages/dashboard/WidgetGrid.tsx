@@ -1,7 +1,7 @@
 import { type DragEvent, useMemo } from 'react'
 import type { Widget, WidgetProps } from '@/types'
 import Grid from '@/components/ui/Grid'
-import { WIDGET_CONFIG } from '@/data/mockData'
+import { WIDGET_CONFIG } from '@/lib/mockData'
 import {
   FavoritesWidget,
   QuickOverviewWidget,

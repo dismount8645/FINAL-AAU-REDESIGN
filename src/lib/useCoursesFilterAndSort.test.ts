@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
-import { useCoursesFilterAndSort } from '@/hooks/useCoursesFilterAndSort'
+import { useCoursesFilterAndSort } from '@/lib/useCoursesFilterAndSort'
 import type { CourseWithStatus } from '@/store/useStore'
 
 const mockCourses: CourseWithStatus[] = [

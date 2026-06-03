@@ -9,8 +9,8 @@ import Card from '@/components/ui/Card'
 import Button from '@/components/ui/Button'
 import type { WidgetProps } from '@/types'
 import useStore from '@/store/useStore'
-import { dashboardForumPosts } from '@/data/dashboardWidgets'
-import { getWidgetDisplayLayout } from '@/utils/widgetLayout'
+import { dashboardForumPosts } from '@/lib/dashboardWidgets'
+import { getWidgetDisplayLayout } from '@/lib/widgetLayout'
 import { cn } from '@/lib/utils'
 
 interface ForumPost {

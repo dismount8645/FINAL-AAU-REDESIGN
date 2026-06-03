@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import DeadlinesWidget from '@/widgets/DeadlinesWidget'
 import { renderWithProviders } from '@/test/test-utils'
 import useStore from '@/store/useStore'
-import * as dates from '@/utils/dates'
+import * as dates from '@/lib/dates'
 
 // Mock useNavigate
 const mockNavigate = vi.fn()

@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import { AppState, BreadcrumbItem } from '@/store/useStore';
-import { Theme, Lang, computeIsDarkMode } from '@/utils/theme';
-import { translations } from '@/data/translations';
+import { Theme, Lang, computeIsDarkMode } from '@/lib/theme';
+import { translations } from '@/lib/translations';
 
 export interface UISlice {
   theme: Theme;

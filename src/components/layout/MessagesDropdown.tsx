@@ -3,11 +3,11 @@ import { Mail } from 'lucide-react';
 import { Text } from '@/components/ui/Typography';
 import Avatar from '@/components/ui/Avatar';
 import useStore from '@/store/useStore';
-import { messagesData } from '@/data/mockData';
+import { messagesData } from '@/lib/mockData';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { useDropdown } from '@/hooks/useDropdown';
+import { useDropdown } from '@/lib/useDropdown';
 
 export default function MessagesDropdown() {
   const navigate = useNavigate();

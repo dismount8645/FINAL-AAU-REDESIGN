@@ -6,8 +6,8 @@ import useStore from '@/store/useStore';
 
 
 // Mock mockData to include a result with an unknown group
-vi.mock('@/data/mockData', async () => {
-  const actual = await vi.importActual('@/data/mockData') as any
+vi.mock('@/lib/mockData', async () => {
+  const actual = await vi.importActual('@/lib/mockData') as any
   return {
     ...actual,
     courses: {

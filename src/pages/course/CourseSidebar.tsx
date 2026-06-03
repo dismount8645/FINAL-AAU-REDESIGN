@@ -8,7 +8,7 @@ import Button from '@/components/ui/Button'
 import Avatar from '@/components/ui/Avatar'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
-import { ASSETS } from '@/constants'
+import { ASSETS } from '@/lib'
 
 interface CourseSidebarProps {
   courseId: string

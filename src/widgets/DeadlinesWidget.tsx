@@ -8,9 +8,9 @@ import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import type { WidgetProps } from '@/types'
 import useStore from '@/store/useStore'
-import { dashboardDeadlines } from '@/data/dashboardWidgets'
-import { getHoursUntil, hoursFromNow } from '@/utils/dates'
-import { getWidgetDisplayLayout } from '@/utils/widgetLayout'
+import { dashboardDeadlines } from '@/lib/dashboardWidgets'
+import { getHoursUntil, hoursFromNow } from '@/lib/dates'
+import { getWidgetDisplayLayout } from '@/lib/widgetLayout'
 import { cn } from '@/lib/utils'
 
 // --- Helpers & Constants ---

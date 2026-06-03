@@ -1,4 +1,4 @@
-import { translations } from '@/data/translations'
+import { translations } from '@/lib/translations'
 import type { Lang } from '@/store/useStore'
 
 function localeForLang(lang: Lang): string {

@@ -1,10 +1,10 @@
 import { BookOpen, Wrench, FileText, MessageSquare, type LucideIcon } from 'lucide-react'
 import type { FavoriteItem, FavoriteType } from '@/types'
 import type { CourseWithStatus, Lang } from '@/store/useStore'
-import { courses as coursesMap } from '@/data/mockData'
-import { forums } from '@/data/mockData'
-import { allToolsList } from '@/data/tools'
-import { translations } from '@/data/translations'
+import { courses as coursesMap } from '@/lib/mockData'
+import { forums } from '@/lib/mockData'
+import { allToolsList } from '@/lib/tools'
+import { translations } from '@/lib/translations'
 
 interface ResolvedFavorite {
   id: string

@@ -1,5 +1,5 @@
 import { useState, useRef, type DragEvent } from 'react';
-import { DEFAULT_WIDGETS } from '@/data/mockData';
+import { DEFAULT_WIDGETS } from '@/lib/mockData';
 import type { Widget } from '@/types';
 
 interface UseWidgetDragReturn {

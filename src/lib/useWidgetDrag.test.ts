@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
-import { useWidgetDrag } from '@/hooks/useWidgetDrag'
+import { useWidgetDrag } from '@/lib/useWidgetDrag'
 
 describe('useWidgetDrag', () => {
   const initialWidgets = [

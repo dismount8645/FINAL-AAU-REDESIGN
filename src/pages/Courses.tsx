@@ -6,10 +6,10 @@ import Badge from '@/components/ui/Badge'
 import { Heading, Text } from '@/components/ui/Typography'
 import Button from '@/components/ui/Button'
 import useStore from '@/store/useStore'
-import { ASSETS } from '@/constants'
-import { useCoursesFilterAndSort } from '@/hooks'
+import { ASSETS } from '@/lib'
+import { useCoursesFilterAndSort } from '@/lib'
 import { CoursesTabs, CoursesFilters, CoursesGrid } from './courses/index'
-import { env } from '@/utils/env'
+import { env } from '@/lib/env'
 
 const forums = [
   { id: 10, title: 'Studienævn for DDK', titleEn: 'Study Board for DDK', label: 'Information', labelEn: 'Information', img: '/assets/img/grafik/billeder/Studerende og studieliv/_2WB0369.webp', color: 'var(--color-success)' },

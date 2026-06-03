@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react'
 import useStore, { computeIsDarkMode } from '@/store/useStore'
-import { env } from '@/utils/env'
+import { env } from '@/lib/env'
 
 export default function StoreInit({ children }: { children: ReactNode }) {
   const theme = useStore((s) => s.theme)

@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest'
 import Grades from '@/pages/Grades'
 import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store/useStore'
-import { translations } from '@/data/translations'
+import { translations } from '@/lib/translations'
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {

@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import TeaserCard from '@/components/ui/TeaserCard'
-import { ASSETS } from '@/constants'
+import { ASSETS } from '@/lib'
 import HighlightText from './HighlightText'
 
 export interface SearchResultItem {

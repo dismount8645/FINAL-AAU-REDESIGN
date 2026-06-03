@@ -9,7 +9,7 @@ const mockOnArchive = vi.fn()
 const mockOnRestore = vi.fn()
 const mockT = vi.fn((key: string) => key)
 
-vi.mock('@/utils/dates', () => ({
+vi.mock('@/lib/dates', () => ({
   formatTime: () => '2 hours ago',
 }))
 

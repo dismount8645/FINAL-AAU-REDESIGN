@@ -7,8 +7,8 @@ import useStore from '@/store/useStore'
 import EmptyState from '@/components/ui/EmptyState'
 import PageHeader from '@/components/common/PageHeader'
 import { GradesOverview, GradesFilter, GradeRow } from './grades/index'
-import { useGradesFilterAndStats } from '@/hooks/useGradesFilterAndStats'
-import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/data/mockGrades'
+import { useGradesFilterAndStats } from '@/lib/useGradesFilterAndStats'
+import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/mockGrades'
 
 function Grades() {
   const t = useStore(state => state.t)

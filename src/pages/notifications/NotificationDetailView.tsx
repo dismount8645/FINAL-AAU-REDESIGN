@@ -4,7 +4,7 @@ import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui/Typography'
 import EmptyState from '@/components/ui/EmptyState'
-import { formatLongDateTime } from '@/utils/dates'
+import { formatLongDateTime } from '@/lib/dates'
 import { NotificationItem } from './types'
 import type { Lang } from '@/store/useStore'
 

@@ -8,8 +8,8 @@ import Stack from '@/components/ui/Stack'
 import Button from '@/components/ui/Button'
 import { Text } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
-import { allTools, allEssentials, allToolsList } from '@/data/tools'
-import { env } from '@/utils/env'
+import { allTools, allEssentials, allToolsList } from '@/lib/tools'
+import { env } from '@/lib/env'
 import { ResourcesSection } from './resources/index'
 
 function Resources() {

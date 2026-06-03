@@ -6,8 +6,8 @@ import Button from '@/components/ui/Button'
 import { EyeOff, GripVertical } from 'lucide-react'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import ResizeCorner from '@/components/ui/ResizeCorner'
-import { useResizeHandle } from '@/hooks/useResizeHandle'
-import { WIDGET_CONFIG } from '@/data/mockData'
+import { useResizeHandle } from '@/lib/useResizeHandle'
+import { WIDGET_CONFIG } from '@/lib/mockData'
 
 interface WidgetWrapperProps {
   widget: Widget

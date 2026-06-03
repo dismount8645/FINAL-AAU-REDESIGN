@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import useStore from '@/store/useStore'
-import { defaultEvents } from '@/data/mockData'
+import { defaultEvents } from '@/lib/mockData'
 import { CalendarEvents, CalendarEvent } from '@/types'
-import { storage } from '@/utils/storage'
+import { storage } from '@/lib/storage'
 
 export function useCalendar() {
   const lang = useStore(state => state.lang)

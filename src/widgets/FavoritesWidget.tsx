@@ -7,11 +7,11 @@ import Button from '@/components/ui/Button'
 import { Text, Heading } from '@/components/ui/Typography'
 import useStore from '@/store/useStore'
 import type { WidgetProps } from '@/types'
-import { sortFavorites, resolveFavorite } from '@/utils/favorites'
+import { sortFavorites, resolveFavorite } from '@/lib/favorites'
 import FavoriteItem from '@/components/ui/FavoriteItem'
-import { env } from '@/utils/env'
+import { env } from '@/lib/env'
 
-import { DASHBOARD_CONFIG } from '@/config/dashboard'
+import { DASHBOARD_CONFIG } from '@/lib/dashboard'
 
 export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
   const navigate = useNavigate()
