@@ -114,4 +114,3 @@ vi.mock('framer-motion', async (importOriginal) => {
     motion: mockMotion,
   };
 });
-

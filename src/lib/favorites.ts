@@ -1,5 +1,5 @@
 import { BookOpen, Wrench, FileText, MessageSquare, type LucideIcon } from 'lucide-react'
-import type { FavoriteItem, FavoriteType } from '@/types'
+import type { FavoriteItem, FavoriteType } from '@/lib/types'
 import type { CourseWithStatus, Lang } from '@/lib/store'
 import { courses as coursesMap } from '@/lib/mockData'
 import { forums } from '@/lib/mockData'

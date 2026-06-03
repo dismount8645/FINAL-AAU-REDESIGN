@@ -1,5 +1,5 @@
 import { API_RETRY_BACKOFF } from '@/lib'
-import type { SettingsData, SubmissionData, SupportFormData } from '@/types'
+import type { SettingsData, SubmissionData, SupportFormData } from '@/lib/types'
 
 export function isRetryableError(error: unknown): boolean {
   if (error instanceof TypeError) return true

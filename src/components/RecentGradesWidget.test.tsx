@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import RecentGradesWidget from '@/components/RecentGradesWidget'
-import { renderWithProviders } from '@/test/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 
 // Mock useNavigate
 const mockNavigate = vi.fn()

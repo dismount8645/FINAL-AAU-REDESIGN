@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, act } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import { ToastProvider } from '@/context/providers/ToastProvider'
-import { useToast, type ToastOptions } from '@/context/ToastContext'
+import { ToastProvider, useToast, type ToastOptions } from '@/components/Toast'
 import { useEffect } from 'react'
 
 interface TestComponentProps {

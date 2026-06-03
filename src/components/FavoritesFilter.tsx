@@ -1,6 +1,6 @@
 import SearchInput from '@/components/SearchInput'
 import SegmentedControl from '@/components/SegmentedControl'
-import type { FavoriteType } from '@/types'
+import type { FavoriteType } from '@/lib/types'
 
 const TYPE_FILTERS: { label: Record<'da' | 'en', string>; value: FavoriteType | 'all' }[] = [
   { label: { da: 'Alle', en: 'All' }, value: 'all' },

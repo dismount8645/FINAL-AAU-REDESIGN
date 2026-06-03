@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import QuickOverviewWidget from '@/components/QuickOverviewWidget'
-import { renderWithProviders } from '@/test/test-utils'
+import { renderWithProviders } from '@/lib/test-utils'
 
 // Mock useNavigate
 const mockNavigate = vi.fn()

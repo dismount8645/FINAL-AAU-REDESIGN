@@ -5,7 +5,7 @@ import { X, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Button from '@/components/Button'
 import { getFavoriteLabel } from '@/lib/favorites'
-import type { FavoriteType } from '@/types'
+import type { FavoriteType } from '@/lib/types'
 import type { Lang } from '@/lib/store'
 import { translations } from '@/lib/translations'
 

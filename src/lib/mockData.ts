@@ -7,7 +7,7 @@ import type {
   Notification,
   WidgetConfigMap,
   Widget,
-} from '@/types'
+} from '@/lib/types'
 import mockDataJson from '@/lib/mockData.json'
 
 export const courses: CoursesMap = mockDataJson.courses as unknown as CoursesMap

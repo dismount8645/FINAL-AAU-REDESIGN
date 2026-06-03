@@ -1,4 +1,4 @@
-import { AllProviders, render, screen, userEvent, waitFor } from '@/test/test-utils'
+import { AllProviders, render, screen, userEvent, waitFor } from '@/lib/test-utils'
 import { describe, it, expect, vi } from 'vitest'
 import Dropdown from '@/components/Dropdown'
 

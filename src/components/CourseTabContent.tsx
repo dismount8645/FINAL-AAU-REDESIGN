@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ForumWidget } from '@/components'
 import { CourseModules, CourseResources, CourseInfo, CourseParticipants, CoursePbl } from './index'
-import type { CourseItem } from '@/types'
+import type { CourseItem } from '@/lib/types'
 
 interface CourseTabContentProps {
   activeTab: string

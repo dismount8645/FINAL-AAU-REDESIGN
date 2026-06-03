@@ -17,7 +17,7 @@ const mockToast = {
   warning: vi.fn(),
 }
 
-vi.mock('@/context/ToastContext', () => ({
+vi.mock('@/components/Toast', () => ({
   useToast: () => mockToast,
 }))
 

@@ -1,4 +1,4 @@
-import { render, screen, AllProviders } from '@/test/test-utils'
+import { render, screen, AllProviders } from '@/lib/test-utils'
 import { describe, it, expect } from 'vitest'
 import { Inbox } from 'lucide-react'
 import EmptyState from '@/components/EmptyState'

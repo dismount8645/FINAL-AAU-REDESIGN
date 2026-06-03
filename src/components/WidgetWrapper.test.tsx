@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { it, expect, vi } from 'vitest'
 import { WidgetWrapper } from './WidgetWrapper'
-import type { Widget } from '@/types'
+import type { Widget } from '@/lib/types'
 
 const mockResize = vi.fn()
 const mockMoveWidget = vi.fn()
