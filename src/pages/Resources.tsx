@@ -1,16 +1,16 @@
 import { useMemo } from 'react'
 import { Headphones, ExternalLink } from 'lucide-react'
-import PageHeader from '@/components/common/PageHeader'
+import PageHeader from '@/components/PageHeader'
 
-import Grid from '@/components/ui/Grid'
-import Card from '@/components/ui/Card'
-import Stack from '@/components/ui/Stack'
-import Button from '@/components/ui/Button'
-import { Text } from '@/components/ui/Typography'
+import Grid from '@/components/Grid'
+import Card from '@/components/Card'
+import Stack from '@/components/Stack'
+import Button from '@/components/Button'
+import { Text } from '@/components/Typography'
 import useStore from '@/store/useStore'
 import { allTools, allEssentials, allToolsList } from '@/lib/tools'
 import { env } from '@/lib/env'
-import { ResourcesSection } from './resources/index'
+import { ResourcesSection } from '@/components'
 
 function Resources() {
   const t = useStore(state => state.t)

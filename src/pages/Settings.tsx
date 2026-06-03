@@ -1,15 +1,15 @@
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
-import PageHeader from '@/components/common/PageHeader'
+import PageHeader from '@/components/PageHeader'
 import { AnimatePresence, motion } from 'framer-motion'
-import Card from '@/components/ui/Card'
-import Stack from '@/components/ui/Stack'
-import Grid from '@/components/ui/Grid'
-import { Text } from '@/components/ui/Typography'
-import Button from '@/components/ui/Button'
-import Icon from '@/components/ui/Icon'
-import Avatar from '@/components/ui/Avatar'
-import ListItem from '@/components/ui/ListItem'
+import Card from '@/components/Card'
+import Stack from '@/components/Stack'
+import Grid from '@/components/Grid'
+import { Text } from '@/components/Typography'
+import Button from '@/components/Button'
+import Icon from '@/components/Icon'
+import Avatar from '@/components/Avatar'
+import ListItem from '@/components/ListItem'
 import useStore from '@/store/useStore'
 import { useSettingsState } from '@/lib/useSettingsState'
 import {
@@ -19,7 +19,7 @@ import {
   ForumTab,
   CalendarTab,
   MessagesTab,
-} from './settings/index'
+} from '@/components'
 
 const catIcons: Record<string, typeof User> = {
   bruger: User,

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Phone, Globe } from 'lucide-react'
 import { useToast } from '@/context/ToastContext'
-import PageHeader from '@/components/common/PageHeader'
-import Grid from '@/components/ui/Grid'
-import Stack from '@/components/ui/Stack'
-import InfoCard from '@/components/ui/InfoCard'
+import PageHeader from '@/components/PageHeader'
+import Grid from '@/components/Grid'
+import Stack from '@/components/Stack'
+import InfoCard from '@/components/InfoCard'
 import useStore from '@/store/useStore'
 import { submitSupportTicket } from '@/api/support'
 import {
@@ -12,7 +12,7 @@ import {
   LocalDesksSection,
   ContactForm,
   SupportSidebar,
-} from './support/index'
+} from '@/components'
 
 function Support() {
   const t = useStore(state => state.t)

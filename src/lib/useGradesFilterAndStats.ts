@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import type { GradeRecord } from '@/pages/grades/types'
+import type { GradeRecord } from '@/components/gradesTypes'
 
 export interface UseGradesFilterAndStatsOptions {
   gradesData: GradeRecord[]

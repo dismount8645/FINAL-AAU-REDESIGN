@@ -1,14 +1,14 @@
 import { useState, useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import Stack from '@/components/ui/Stack'
-import Button from '@/components/ui/Button'
+import Stack from '@/components/Stack'
+import Button from '@/components/Button'
 import { useWidgetDrag } from '@/lib/useWidgetDrag'
 import { DEFAULT_WIDGETS } from '@/lib/mockData'
 import { Edit, Check } from 'lucide-react'
-import PageHeader from '@/components/common/PageHeader'
+import PageHeader from '@/components/PageHeader'
 import useStore from '@/store/useStore'
-import { WidgetCustomizer, WidgetGrid } from './dashboard/index'
+import { WidgetCustomizer, WidgetGrid } from '@/components'
 
 function Dashboard() {
   const t = useStore((state) => state.t)

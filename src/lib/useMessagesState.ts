@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo, type MouseEvent } from 'react'
 import { useLocation } from 'react-router-dom'
 import useStore from '@/store/useStore'
-import type { Contact } from '@/pages/messages/index'
+import type { Contact } from '@/components/index'
 
 export interface UseMessagesStateReturn {
   view: 'active' | 'archive'

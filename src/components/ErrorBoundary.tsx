@@ -1,9 +1,9 @@
 import { Component, ErrorInfo, ReactNode, KeyboardEvent } from 'react';
-import Card from '@/components/ui/Card';
-import { Text } from '@/components/ui/Typography';
+import Card from '@/components/Card';
+import { Text } from '@/components/Typography';
 import { AlertCircle, RefreshCw } from 'lucide-react';
-import Button from '@/components/ui/Button';
-import Stack from '@/components/ui/Stack';
+import Button from '@/components/Button';
+import Stack from '@/components/Stack';
 import useStore from '@/store/useStore';
 
 interface Props {

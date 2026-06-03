@@ -1,16 +1,16 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Trash2 } from 'lucide-react'
-import PageHeader from '@/components/common/PageHeader'
-import Stack from '@/components/ui/Stack'
-import { Text } from '@/components/ui/Typography'
-import Button from '@/components/ui/Button'
+import PageHeader from '@/components/PageHeader'
+import Stack from '@/components/Stack'
+import { Text } from '@/components/Typography'
+import Button from '@/components/Button'
 import useStore from '@/store/useStore'
 import { sortFavorites, resolveFavorite } from '@/lib/favorites'
 import type { FavoriteType } from '@/types'
 import { env } from '@/lib/env'
 import { DASHBOARD_CONFIG } from '@/lib/dashboard'
-import { FavoritesFilter, FavoritesList } from './favorites/index'
+import { FavoritesFilter, FavoritesList } from '@/components'
 
 function Favorites() {
   const navigate = useNavigate()

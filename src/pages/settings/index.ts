@@ -1,6 +1,0 @@
-export { default as ProfileTab } from './ProfileTab'
-export { default as NotificationsTab } from './NotificationsTab'
-export { default as LanguageTab } from './LanguageTab'
-export { default as ForumTab } from './ForumTab'
-export { default as CalendarTab } from './CalendarTab'
-export { default as MessagesTab } from './MessagesTab'
