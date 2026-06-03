@@ -125,15 +125,6 @@ export default function ProfileDropdown() {
   );
 }
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate
-  }
-})
-
 if (import.meta.vitest) {
   describe('ProfileDropdown', () => {
     beforeEach(() => {

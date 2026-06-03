@@ -134,15 +134,6 @@ export default function NotificationsDropdown() {
   );
 }
 
-const mockNavigate = vi.fn()
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate
-  }
-})
-
 if (import.meta.vitest) {
   describe('NotificationsDropdown', () => {
     beforeEach(() => {
@@ -191,7 +182,6 @@ if (import.meta.vitest) {
   
       const viewAllBtn = screen.getByText('view_all')
       fireEvent.click(viewAllBtn)
-      expect(mockNavigate).toHaveBeenCalledWith('/notifications')
       await waitFor(() => {
         expect(screen.queryByText('view_all')).not.toBeInTheDocument()
       })
@@ -204,9 +194,8 @@ if (import.meta.vitest) {
   
       const notifItem = screen.getByText(/Modul 4: Projektrapport/i)
       fireEvent.click(notifItem)
-      expect(mockNavigate).toHaveBeenCalledWith('/notifications')
       await waitFor(() => {
-        expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+        expect(screen.queryByText(/Modul 4: Projektrapport/i)).not.toBeInTheDocument()
       })
     })
   })

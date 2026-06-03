@@ -61,12 +61,16 @@ console.warn = (...args) => {
 const initialStore = useStore.getInitialState();
 
 beforeEach(() => {
-  window.matchMedia = createMatchMedia();
+  if (typeof window !== 'undefined') {
+    window.matchMedia = createMatchMedia();
+  }
 });
 
 afterEach(() => {
   useStore.setState(initialStore, true);
-  window.matchMedia = createMatchMedia();
+  if (typeof window !== 'undefined') {
+    window.matchMedia = createMatchMedia();
+  }
   vi.useRealTimers();
 });
 
