@@ -67,7 +67,7 @@ export function WidgetGrid({
   ), [onDrop])
 
   return (
-    <Grid columns={24} tabletColumns={12} mobileColumns={6} className="dashboard__grid relative">
+    <Grid columns={24} tabletColumns={12} mobileColumns={6} className="dashboard__grid relative" style={{ gridAutoRows: 'minmax(100px, auto)' }}>
       {isEditing && editGridOverlay}
       {visibleWidgets.map((widget) => {
         const WidgetComponent = WIDGET_COMPONENTS[widget.id]

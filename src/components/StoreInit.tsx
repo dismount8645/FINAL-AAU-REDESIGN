@@ -28,16 +28,20 @@ export default function StoreInit({ children }: { children: ReactNode }) {
   useEffect(() => {
     const handleResize = () => {
       const width = env.getInnerWidth()
+      // Mobile: < 768
       const isPhone = width < 768
       setIsMobile(isPhone)
 
       if (width >= 1024) {
+        // Desktop: >= 1024
         useStore.getState().setCollapsed(false)
         useStore.getState().setIsMobileOpen(false)
       } else if (width >= 768) {
+        // Tablet: >= 768 and < 1024
         useStore.getState().setCollapsed(true)
         useStore.getState().setIsMobileOpen(false)
       } else {
+        // Mobile: < 768
         useStore.getState().setCollapsed(true)
       }
     }

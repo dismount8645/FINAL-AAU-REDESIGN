@@ -49,9 +49,8 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       )}
       onClick={onClick}
     >
-      <div className="flex flex-col items-center justify-center min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
-        <Text size="xs" weight="black" className="text-primary leading-none">{hours}</Text>
-        <Text size="xs" weight="bold" className="text-muted leading-none mt-[var(--space-xs)] opacity-60 font-mono">{minutes}</Text>
+      <div className="flex items-center justify-center min-w-[56px] py-[var(--space-2xs)] px-[var(--space-xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
+        <Text size="xs" weight="bold" className="text-primary leading-none font-mono">{hours}:{minutes}</Text>
       </div>
       <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
         {t(event.titleKey)}
@@ -102,6 +101,9 @@ const QuickOverviewWidget = ({ span, isEditing }: WidgetProps) => {
 
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)]">
+          <Text size="xs" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
+            {t('todays_schedule')}
+          </Text>
           <AnimatePresence mode="popLayout">
             {todayEvents.map((event, index) => (
               <OverviewItem
@@ -115,10 +117,7 @@ const QuickOverviewWidget = ({ span, isEditing }: WidgetProps) => {
         </div>
       </Card.Body>
 
-      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-muted italic">
-          {t('todays_schedule')}
-        </Text>
+      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-end items-center">
         <div className="flex items-center gap-[var(--space-xs)] opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-[var(--space-sm)] group-hover/widget:translate-x-0">
           <Button 
             variant="ghost" 

@@ -51,7 +51,7 @@ export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
         
         <Button
           variant="ghost"
-          size={span && span > 4 ? "sm" : "icon-xs"}
+          size={span && span > 4 ? "xs" : "icon-xs"}
           className="text-[0.65rem] font-black uppercase tracking-widest text-primary"
           onClick={handleSeeAll}
           iconRight={ChevronRight}

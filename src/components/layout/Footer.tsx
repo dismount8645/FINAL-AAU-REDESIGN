@@ -8,9 +8,9 @@ function Footer() {
   return (
     <footer className="footer-main py-xl border-t border-border bg-bg-card relative z-10 w-full overflow-hidden">
       <div className="container">
-        <div className="flex flex-col md:flex-row justify-between items-stretch md:items-end gap-xl">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-xl">
           {/* Support Card - Left Anchor */}
-          <Stack gap="sm" className="bg-bg-card p-lg rounded-xl border border-border shadow-sm max-w-[420px] w-full isolate relative overflow-hidden group/footer-card">
+          <Stack gap="sm" className="bg-bg-card p-lg rounded-xl border border-border shadow-sm col-span-12 md:col-span-5 lg:col-span-4 w-full isolate relative overflow-hidden group/footer-card">
             <div className="absolute top-0 left-0 w-1 h-full bg-primary opacity-60" />
             <Heading level={2} as="h2" className="font-bold text-main transition-colors group-hover/footer-card:text-primary text-lg">
               {t('contact_its_support')}
@@ -26,7 +26,7 @@ function Footer() {
           </Stack>
           
           {/* Navigation & Copyright - Right Anchor */}
-          <Stack gap="lg" className="items-start md:items-end flex-1 w-full">
+          <Stack gap="lg" className="items-start md:items-end col-span-12 md:col-span-7 lg:col-span-8 w-full">
             <nav className="flex flex-col md:flex-row gap-md md:gap-xl items-start md:items-center">
               <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
                 <Text size="sm" weight="bold">ITS Support</Text>
