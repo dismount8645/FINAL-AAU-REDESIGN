@@ -49,8 +49,10 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       )}
       onClick={onClick}
     >
-      <div className="flex items-center justify-center min-w-[56px] py-[var(--space-2xs)] px-[var(--space-xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
-        <Text size="xs" weight="bold" className="text-primary leading-none font-mono">{hours}:{minutes}</Text>
+      <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
+        <Text size="xs" weight="black" className="text-primary leading-none">{hours}</Text>
+        <span className="text-primary text-xs font-black leading-none">:</span>
+        <Text size="xs" weight="bold" className="text-muted leading-none opacity-60 font-mono">{minutes}</Text>
       </div>
       <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
         {t(event.titleKey)}
