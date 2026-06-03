@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
 import { useNotificationsState } from '@/lib/useNotificationsState'
 import useStore from '@/store/useStore'
-import type { NotificationItem } from '@/pages/notifications/types'
+import type { NotificationItem } from '@/components/notificationsTypes'
 
 vi.mock('@/store/useStore', () => {
   let currentState: any = {}

@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import PageHeader from '@/components/common/PageHeader'
-import Card from '@/components/ui/Card'
-import Stack from '@/components/ui/Stack'
-import Grid from '@/components/ui/Grid'
-import Button from '@/components/ui/Button'
-import Textarea from '@/components/ui/Textarea'
-import { Heading, Text } from '@/components/ui/Typography'
+import PageHeader from '@/components/PageHeader'
+import Card from '@/components/Card'
+import Stack from '@/components/Stack'
+import Grid from '@/components/Grid'
+import Button from '@/components/Button'
+import Textarea from '@/components/Textarea'
+import { Heading, Text } from '@/components/Typography'
 import useStore from '@/store/useStore'
 import { storage } from '@/lib/storage'
 import { submitAssignment } from '@/api/submissions'
@@ -17,7 +17,7 @@ import {
   SubmissionDropzone,
   SubmissionFileList,
   SubmissionDetails,
-} from './submission/index'
+} from '@/components'
 
 function Submission() {
   const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>()

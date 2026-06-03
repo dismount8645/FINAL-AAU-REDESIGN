@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-react'
-import Stack from '@/components/ui/Stack'
-import { Text } from '@/components/ui/Typography'
-import Button from '@/components/ui/Button'
-import SearchInput from '@/components/ui/SearchInput'
-import PageHeader from '@/components/common/PageHeader'
+import Stack from '@/components/Stack'
+import { Text } from '@/components/Typography'
+import Button from '@/components/Button'
+import SearchInput from '@/components/SearchInput'
+import PageHeader from '@/components/PageHeader'
 import useStore from '@/store/useStore'
 
 function NotFound() {

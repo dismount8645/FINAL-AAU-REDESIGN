@@ -1,6 +1,0 @@
-export { default as DeadlinesWidget } from "@/widgets/DeadlinesWidget"
-export { default as ForumActivityWidget } from "@/widgets/ForumActivityWidget"
-export { default as ForumWidget } from "@/widgets/ForumWidget"
-export { default as FavoritesWidget } from "@/widgets/FavoritesWidget"
-export { default as QuickOverviewWidget } from "@/widgets/QuickOverviewWidget"
-export { default as RecentGradesWidget } from "@/widgets/RecentGradesWidget"
