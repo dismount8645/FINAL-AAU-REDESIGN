@@ -2,7 +2,7 @@ import { render, screen, fireEvent, act } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Messages from '@/pages/Messages'
 import { MemoryRouter } from 'react-router-dom'
-import useStore, { type Lang } from '@/store/useStore';
+import useStore, { type Lang } from '@/lib/store';
 
 describe('Messages Page', () => {
   beforeEach(() => {

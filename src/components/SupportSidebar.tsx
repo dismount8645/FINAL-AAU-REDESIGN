@@ -6,7 +6,7 @@ import Button from '@/components/Button'
 import SectionHeader from '@/components/SectionHeader'
 import ListItem from '@/components/ListItem'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 interface SupportSidebarProps {
   children?: React.ReactNode

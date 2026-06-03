@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react'
 import WavesBackground from '@/components/WavesBackground'
 import { Heading, Text } from '@/components/Typography'
 import Stack from '@/components/Stack'
-import useStore, { type BreadcrumbItem } from '@/store/useStore'
+import useStore, { type BreadcrumbItem } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
 export interface PageHeaderProps {

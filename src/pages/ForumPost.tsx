@@ -5,7 +5,7 @@ import Stack from '@/components/Stack'
 import Button from '@/components/Button'
 import { Heading } from '@/components/Typography'
 import Grid from '@/components/Grid'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import {
   ForumOriginalPost,
   ForumRepliesList,

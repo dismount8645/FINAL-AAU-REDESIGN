@@ -6,7 +6,7 @@ import { Text } from '@/components/Typography'
 import Button from '@/components/Button'
 import SearchInput from '@/components/SearchInput'
 import PageHeader from '@/components/PageHeader'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 function NotFound() {
   const navigate = useNavigate()

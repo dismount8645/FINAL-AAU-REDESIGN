@@ -4,7 +4,7 @@ import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
 import SectionHeader from '@/components/SectionHeader'
 import InfoCard from '@/components/InfoCard'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { env } from '@/lib/env'
 import type { ResourceTool } from '@/types'
 

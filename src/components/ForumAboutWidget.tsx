@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import Stack from '@/components/Stack'
 import { Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import type { Post } from './ForumOriginalPost'
 
 interface ForumAboutWidgetProps {

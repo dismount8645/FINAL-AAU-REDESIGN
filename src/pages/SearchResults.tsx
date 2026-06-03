@@ -5,7 +5,7 @@ import PageHeader from '@/components/PageHeader'
 import Grid from '@/components/Grid'
 import Stack from '@/components/Stack'
 import EmptyState from '@/components/EmptyState'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { useSearch } from '@/lib/useSearch'
 import {
   SearchResultCard,

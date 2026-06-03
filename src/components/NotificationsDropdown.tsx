@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Text } from '@/components/Typography';
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 import { notificationsData } from '@/lib/mockData';
 import { cn } from '@/lib/utils';
 import Button from '@/components/Button';

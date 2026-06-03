@@ -1,7 +1,7 @@
 import { render, act } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import StoreInit from '@/components/StoreInit'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 describe('StoreInit', () => {
   beforeEach(() => {

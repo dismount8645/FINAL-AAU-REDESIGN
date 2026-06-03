@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes, type MouseEventHandler, memo } from 'r
 import { cva, type VariantProps } from 'class-variance-authority'
 import { type LucideIcon, FileText, Play, Link2, Upload, File, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 type LessonType = 'pdf' | 'video' | 'link' | 'assignment' | 'file'
 

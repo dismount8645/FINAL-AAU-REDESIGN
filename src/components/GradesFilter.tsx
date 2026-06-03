@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import SearchInput from '@/components/SearchInput'
 import { Heading } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 interface GradesFilterProps {
   searchQuery: string

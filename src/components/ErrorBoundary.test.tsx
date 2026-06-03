@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
 // Mock useStore for translation function
-vi.mock('@/store/useStore', () => {
+vi.mock('@/lib/store', () => {
   const mockState = {
     t: (key: string) => {
       const map: Record<string, string> = {

@@ -4,7 +4,7 @@ import Stack from '@/components/Stack'
 import Grid from '@/components/Grid'
 import Tabs from '@/components/Tabs'
 import ModuleHeader from '@/components/ModuleHeader'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { storage } from '@/lib/storage'
 import { courseData, participantsData, courseTabItems } from '@/lib/courseData'
 import {

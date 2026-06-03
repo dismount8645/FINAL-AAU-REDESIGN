@@ -4,7 +4,7 @@ import Card from '@/components/Card'
 import Stack from '@/components/Stack'
 import ListItem from '@/components/ListItem'
 import { Heading } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 function CourseResources() {
   const t = useStore((state) => state.t)

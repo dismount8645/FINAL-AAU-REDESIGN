@@ -1,7 +1,7 @@
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import NotificationsDropdown from '@/components/NotificationsDropdown'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {

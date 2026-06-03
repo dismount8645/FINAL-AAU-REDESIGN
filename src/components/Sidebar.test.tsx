@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import Sidebar from '@/components/Sidebar'
 import { MemoryRouter } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 describe('Sidebar', () => {
   beforeEach(() => {

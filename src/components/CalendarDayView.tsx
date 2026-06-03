@@ -4,7 +4,7 @@ import Card from '@/components/Card'
 import Stack from '@/components/Stack'
 import Badge from '@/components/Badge'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import { CalendarClock, MapPin, User, Info, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 

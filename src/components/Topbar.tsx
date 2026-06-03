@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { Menu, X, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Text } from '@/components/Typography';
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 import NotificationsDropdown from './NotificationsDropdown';
 import MessagesDropdown from './MessagesDropdown';
 import ProfileDropdown from './ProfileDropdown';

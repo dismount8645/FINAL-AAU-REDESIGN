@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect, beforeEach } from 'vitest'
 import Footer from '@/components/Footer'
 import { MemoryRouter } from 'react-router-dom'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 
 describe('Footer Component', () => {
   beforeEach(() => {

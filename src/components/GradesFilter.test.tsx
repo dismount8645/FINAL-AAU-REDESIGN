@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { it, expect, vi } from 'vitest'
 import GradesFilter from './GradesFilter'
 
-vi.mock('@/store/useStore', () => ({
+vi.mock('@/lib/store', () => ({
   default: (selector: any) => {
     const state = { t: (key: string) => key }
     return selector(state)

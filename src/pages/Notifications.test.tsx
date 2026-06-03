@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Notifications from '@/pages/Notifications'
 import { MemoryRouter } from 'react-router-dom'
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 
 const mockNavigate = vi.fn()
 vi.mock('react-router-dom', async () => {

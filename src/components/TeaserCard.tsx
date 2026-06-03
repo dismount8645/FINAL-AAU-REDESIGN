@@ -3,7 +3,7 @@ import { Star, ChevronRight } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
-import useStore from '@/store/useStore'
+import useStore from '@/lib/store'
 import ProgressBar from '@/components/ProgressBar'
 import Badge from '@/components/Badge'
 import { Heading, Text } from '@/components/Typography'

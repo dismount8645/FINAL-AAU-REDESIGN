@@ -6,7 +6,7 @@ import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import { formatLongDateTime } from '@/lib/dates'
 import { NotificationItem } from './notificationsTypes'
-import type { Lang } from '@/store/useStore'
+import type { Lang } from '@/lib/store'
 
 interface NotificationDetailViewProps {
   selectedNotification: NotificationItem | null

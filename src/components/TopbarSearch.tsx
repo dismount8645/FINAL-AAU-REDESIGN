@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, GraduationCap, X } from 'lucide-react';
 import { Text } from '@/components/Typography';
 import EmptyState from '@/components/EmptyState';
-import useStore from '@/store/useStore';
+import useStore from '@/lib/store';
 import SearchInput from '@/components/SearchInput';
 import Button from '@/components/Button';
 
