@@ -1,11 +1,19 @@
+import { forwardRef, memo } from 'react';
+import { describe, it, expect } from 'vitest';
+import { Button as BaseButton, type ButtonProps as BaseButtonProps } from '@base-ui/react/button';
+import { render, screen } from '@testing-library/react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Loader2, type LucideIcon, Plus, Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
 "use client"
 
 /* eslint-disable react-refresh/only-export-components */
-import { forwardRef, memo } from "react";
-import { Button as BaseButton, type ButtonProps as BaseButtonProps } from "@base-ui/react/button";
-import { cva, type VariantProps } from "class-variance-authority";
-import { Loader2, type LucideIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
+
+
+
+
+
 
 /**
  * Button Variants - Senior UI/UX Architect refinement.
@@ -113,3 +121,45 @@ Button.displayName = "Button";
 
 export { Button, buttonVariants };
 export default Button;
+
+if (import.meta.vitest) {
+  describe('Button', () => {
+    it('renders with default props', () => {
+      render(<Button>Test</Button>)
+      expect(screen.getByRole('button', { name: 'Test' })).toBeInTheDocument()
+    })
+  
+    it('renders with icon only', () => {
+      const { container } = render(<Button icon={Plus} aria-label="Add" />)
+      expect(screen.getByLabelText('Add')).toBeInTheDocument()
+      expect(container.querySelector('svg')).toBeInTheDocument()
+    })
+  
+    it('renders with icon and text', () => {
+      render(<Button icon={Plus}>Add</Button>)
+      expect(screen.getByRole('button', { name: 'Add' })).toBeInTheDocument()
+      expect(screen.getByRole('button').querySelector('svg')).toBeInTheDocument()
+    })
+  
+    it('renders with iconRight', () => {
+      render(<Button iconRight={Check}>Done</Button>)
+      expect(screen.getByRole('button', { name: 'Done' })).toBeInTheDocument()
+    })
+  
+    it('renders in loading state', () => {
+      render(<Button loading>Submit</Button>)
+      const button = screen.getByRole('button')
+      // Base UI uses aria-disabled="true" by default for accessibility continuity
+      expect(button).toHaveAttribute('aria-disabled', 'true')
+      expect(button.querySelector('.animate-spin')).toBeInTheDocument()
+    })
+  
+    it('applies pill and full classes', () => {
+      const { rerender } = render(<Button pill>Pill</Button>)
+      expect(screen.getByRole('button')).toHaveClass('rounded-[var(--radius-full)]')
+  
+      rerender(<Button full>Full</Button>)
+      expect(screen.getByRole('button')).toHaveClass('w-full')
+    })
+  })
+}

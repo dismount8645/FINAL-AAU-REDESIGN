@@ -1,19 +1,22 @@
-import { useMemo, useCallback, memo, forwardRef } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Star, Hourglass, Trophy } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import StatusItem from '@/components/StatusItem'
-import Stack from '@/components/Stack'
-import { Text, Heading } from '@/components/Typography'
-import Badge from '@/components/Badge'
-import Card from '@/components/Card'
-import Button from '@/components/Button'
-import EmptyState from '@/components/EmptyState'
-import type { WidgetProps } from '@/lib/types'
-import useStore from '@/lib/store'
-import { dashboardGrades } from '@/lib/dashboardWidgets'
-import { getWidgetDisplayLayout } from '@/lib/widgetLayout'
-import { cn } from '@/lib/utils'
+import { useMemo, useCallback, memo, forwardRef } from 'react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { screen, fireEvent } from '@testing-library/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronRight, Star, Hourglass, Trophy } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Badge from '@/components/Badge';
+import Button from '@/components/Button';
+import Card from '@/components/Card';
+import EmptyState from '@/components/EmptyState';
+import Stack from '@/components/Stack';
+import StatusItem from '@/components/StatusItem';
+import { Text, Heading } from '@/components/Typography';
+import { dashboardGrades } from '@/lib/dashboardWidgets';
+import useStore from '@/lib/store';
+import { renderWithProviders } from '@/lib/test-utils';
+import type { WidgetProps } from '@/lib/types';
+import { cn } from '@/lib/utils';
+import { getWidgetDisplayLayout } from '@/lib/widgetLayout';
 
 interface Grade {
   id: number
@@ -174,3 +177,63 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
 RecentGradesWidget.displayName = 'RecentGradesWidget'
 
 export default memo(RecentGradesWidget)
+
+// Mock useNavigate
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  }
+})
+
+if (import.meta.vitest) {
+  describe('RecentGradesWidget', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+    })
+  
+    it('renders correctly for large span (12)', () => {
+      renderWithProviders(<RecentGradesWidget span={12} isEditing={false} />)
+      expect(screen.getByText(/Seneste karakterer/i)).toBeInTheDocument()
+      expect(screen.getByText('Digital Design')).toBeInTheDocument()
+      expect(screen.getByText('7')).toBeInTheDocument()
+      expect(screen.getByText('10')).toBeInTheDocument()
+    })
+  
+    it('renders correctly for small span (4)', () => {
+      renderWithProviders(<RecentGradesWidget span={4} isEditing={false} />)
+      // Should show 2 items
+      expect(screen.getByText('Digital Design')).toBeInTheDocument()
+      expect(screen.getByText('Videnskabsteori')).toBeInTheDocument()
+      expect(screen.queryByText('Webudvikling')).not.toBeInTheDocument()
+    })
+  
+    it('navigates to grades when footer button is clicked', () => {
+      renderWithProviders(<RecentGradesWidget span={12} isEditing={false} />)
+      const btn = screen.getByText(/Se alle/i)
+      fireEvent.click(btn)
+      expect(mockNavigate).toHaveBeenCalledWith('/grades')
+    })
+  
+    it('does not navigate when isEditing is true', () => {
+      renderWithProviders(<RecentGradesWidget span={12} isEditing={true} />)
+      const btn = screen.getByText(/Se alle/i)
+      fireEvent.click(btn)
+      expect(mockNavigate).not.toHaveBeenCalled()
+    })
+  
+    it('shows "not graded" badge for ungraded courses', () => {
+      renderWithProviders(<RecentGradesWidget span={12} isEditing={false} />)
+      expect(screen.getByText('Ikke bedømt')).toBeInTheDocument()
+    })
+  
+    it('renders 2 items for medium span (8)', () => {
+      renderWithProviders(<RecentGradesWidget span={8} isEditing={false} />)
+      expect(screen.getByText('Digital Design')).toBeInTheDocument()
+      expect(screen.getByText('Videnskabsteori')).toBeInTheDocument()
+      expect(screen.queryByText('Webudvikling')).not.toBeInTheDocument()
+    })
+  })
+}

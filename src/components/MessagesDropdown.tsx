@@ -1,13 +1,15 @@
-import { useNavigate } from 'react-router-dom';
-import { Mail } from 'lucide-react';
-import { Text } from '@/components/Typography';
-import Avatar from '@/components/Avatar';
-import useStore from '@/lib/store';
-import { messagesData } from '@/lib/mockData';
-import { cn } from '@/lib/utils';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Mail } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Avatar from '@/components/Avatar';
 import Button from '@/components/Button';
+import { Text } from '@/components/Typography';
+import { messagesData } from '@/lib/mockData';
+import useStore from '@/lib/store';
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
 import { useDropdown } from '@/lib/useDropdown';
+import { cn } from '@/lib/utils';
 
 export default function MessagesDropdown() {
   const navigate = useNavigate();
@@ -112,4 +114,83 @@ export default function MessagesDropdown() {
       </AnimatePresence>
     </div>
   );
+}
+
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate
+  }
+})
+
+if (import.meta.vitest) {
+  describe('MessagesDropdown', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      useStore.setState({
+        lang: 'da',
+        t: (key: string) => key,
+        messageCount: 3,
+      })
+    })
+  
+    it('renders the messages button', () => {
+      renderWithProviders(<MessagesDropdown />)
+      expect(screen.getByLabelText('messages')).toBeInTheDocument()
+      expect(screen.getByText('3')).toBeInTheDocument()
+    })
+  
+    it('opens dropdown when message button is clicked', () => {
+      renderWithProviders(<MessagesDropdown />)
+      const mailBtn = screen.getByLabelText('messages')
+      fireEvent.click(mailBtn)
+      expect(screen.getByText('view_all')).toBeInTheDocument()
+    })
+  
+    it('closes dropdown when clicking outside', async () => {
+      renderWithProviders(
+        <div>
+          <div data-testid="outside">Outside</div>
+          <MessagesDropdown />
+        </div>
+      )
+      const mailBtn = screen.getByLabelText('messages')
+      fireEvent.click(mailBtn)
+      expect(screen.getByText('view_all')).toBeInTheDocument()
+  
+      fireEvent.mouseDown(screen.getByTestId('outside'))
+      await waitFor(() => {
+        expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+      })
+    })
+  
+    it('navigates when view_all is clicked', async () => {
+      renderWithProviders(<MessagesDropdown />)
+      const mailBtn = screen.getByLabelText('messages')
+      fireEvent.click(mailBtn)
+  
+      const viewAllBtn = screen.getByText('view_all')
+      fireEvent.click(viewAllBtn)
+      expect(mockNavigate).toHaveBeenCalledWith('/messages')
+      await waitFor(() => {
+        expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+      })
+    })
+  
+    it('navigates when message item is clicked', async () => {
+      renderWithProviders(<MessagesDropdown />)
+      const mailBtn = screen.getByLabelText('messages')
+      fireEvent.click(mailBtn)
+  
+      // Using one of the mock message senders from messagesData (e.g. Mette Jensen)
+      const msgItem = screen.getByText('Mette Jensen')
+      fireEvent.click(msgItem)
+      expect(mockNavigate).toHaveBeenCalledWith('/messages')
+      await waitFor(() => {
+        expect(screen.queryByText('view_all')).not.toBeInTheDocument()
+      })
+    })
+  })
 }

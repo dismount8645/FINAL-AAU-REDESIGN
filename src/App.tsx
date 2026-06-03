@@ -1,9 +1,11 @@
+import { describe, it } from 'vitest';
+import { render } from '@testing-library/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Layout from '@/components/Layout';
+import useStore from '@/lib/store';
 import NotFound from '@/pages/NotFound';
 import routes from '@/routes';
-import useStore from '@/lib/store';
 
 function App() {
   const t = useStore(state => state.t)
@@ -31,3 +33,11 @@ function App() {
 }
 
 export default App;
+
+if (import.meta.vitest) {
+  describe('App', () => {
+    it('renders without crashing', () => {
+      render(<App />)
+    })
+  })
+}

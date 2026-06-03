@@ -1,15 +1,18 @@
-import { useNavigate } from 'react-router-dom'
-import { ChevronRight, Reply, MessageSquare, Book, MessageCircle, ArrowRight } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Stack from '@/components/Stack'
-import { Text, Heading } from '@/components/Typography'
-import StatusItem from '@/components/StatusItem'
-import Card from '@/components/Card'
-import Button from '@/components/Button'
-import type { WidgetProps } from '@/lib/types'
-import useStore from '@/lib/store'
-import { useMemo, memo, useCallback, forwardRef } from 'react'
-import { cn } from '@/lib/utils'
+import { useMemo, memo, useCallback, forwardRef } from 'react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { screen, fireEvent } from '@testing-library/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronRight, Reply, MessageSquare, Book, MessageCircle, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import Button from '@/components/Button';
+import Card from '@/components/Card';
+import Stack from '@/components/Stack';
+import StatusItem from '@/components/StatusItem';
+import { Text, Heading } from '@/components/Typography';
+import useStore from '@/lib/store';
+import { renderWithProviders } from '@/lib/test-utils';
+import type { WidgetProps } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 interface Activity {
   id: number
@@ -192,3 +195,74 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
 
 export default memo(ForumActivityWidget)
 
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  }
+})
+
+if (import.meta.vitest) {
+  describe('ForumActivityWidget', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+    })
+  
+    it('renders correctly', () => {
+      renderWithProviders(<ForumActivityWidget span={12} isEditing={false} />)
+      expect(screen.getByText('Forum aktivitet')).toBeInTheDocument()
+      expect(screen.getByText('Spørgsmål til teksten')).toBeInTheDocument()
+      expect(screen.getByText('Gruppesøgning')).toBeInTheDocument()
+      expect(screen.getByText('Pensumliste')).toBeInTheDocument()
+    })
+  
+    it('renders limited number of items based on span', () => {
+      renderWithProviders(<ForumActivityWidget span={4} isEditing={false} />)
+      expect(screen.getByText('Spørgsmål til teksten')).toBeInTheDocument()
+      expect(screen.queryByText('Pensumliste')).not.toBeInTheDocument()
+    })
+  
+    it('renders 2 items for medium span (8) without snippets', () => {
+      renderWithProviders(<ForumActivityWidget span={8} isEditing={false} />)
+      expect(screen.getByText('Spørgsmål til teksten')).toBeInTheDocument()
+      expect(screen.getByText('Gruppesøgning')).toBeInTheDocument()
+      expect(screen.queryByText('Pensumliste')).not.toBeInTheDocument()
+      expect(screen.queryByText(/Jeg har lagt de nye slides op nu/)).not.toBeInTheDocument()
+    })
+  
+    it('shows snippets for large span', () => {
+      renderWithProviders(<ForumActivityWidget span={12} isEditing={false} />)
+      expect(screen.getByText(/Jeg har lagt de nye slides op nu/)).toBeInTheDocument()
+    })
+  
+    it('navigates to courses when view all is clicked', () => {
+      renderWithProviders(<ForumActivityWidget span={12} isEditing={false} />)
+      const btn = screen.getByText('Se alle')
+      fireEvent.click(btn)
+      expect(mockNavigate).toHaveBeenCalledWith('/courses')
+    })
+  
+    it('does not navigate when isEditing is true', () => {
+      renderWithProviders(<ForumActivityWidget span={12} isEditing={true} />)
+      const btn = screen.getByText('Se alle')
+      fireEvent.click(btn)
+      expect(mockNavigate).not.toHaveBeenCalled()
+    })
+  
+    it('navigates to forum post when activity item is clicked', () => {
+      renderWithProviders(<ForumActivityWidget span={12} isEditing={false} />)
+      const item = screen.getByText('Spørgsmål til teksten')
+      fireEvent.click(item)
+      expect(mockNavigate).toHaveBeenCalledWith('/forum/1')
+    })
+  
+    it('does not navigate on activity item click when isEditing is true', () => {
+      renderWithProviders(<ForumActivityWidget span={12} isEditing={true} />)
+      const item = screen.getByText('Spørgsmål til teksten')
+      fireEvent.click(item)
+      expect(mockNavigate).not.toHaveBeenCalled()
+    })
+  })
+}

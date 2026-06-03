@@ -1,5 +1,7 @@
-import type { ReactNode } from 'react'
-import { Text } from '@/components/Typography'
+import type { ReactNode } from 'react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { Text } from '@/components/Typography';
 
 export interface KeyValueProps {
   label: string
@@ -15,4 +17,24 @@ export default function KeyValue({ label, value, divider, className = '' }: KeyV
       <Text size="sm" weight="bold" className="m-0">{value}</Text>
     </div>
   )
+}
+
+if (import.meta.vitest) {
+  describe('KeyValue', () => {
+    it('renders label and value', () => {
+      render(<KeyValue label="Key" value="Value" />)
+      expect(screen.getByText('Key')).toBeInTheDocument()
+      expect(screen.getByText('Value')).toBeInTheDocument()
+    })
+  
+    it('renders with divider class', () => {
+      const { container } = render(<KeyValue label="K" value="V" divider />)
+      expect(container.firstChild).toHaveClass('border-b')
+    })
+  
+    it('renders with custom className', () => {
+      const { container } = render(<KeyValue label="K" value="V" className="custom" />)
+      expect(container.firstChild).toHaveClass('custom')
+    })
+  })
 }

@@ -1,14 +1,20 @@
-import { useMemo } from 'react'
-import { FileText } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Stack from '@/components/Stack'
-import Card from '@/components/Card'
-import useStore from '@/lib/store'
-import EmptyState from '@/components/EmptyState'
-import PageHeader from '@/components/PageHeader'
-import { GradesOverview, GradesFilter, GradeRow } from '@/components'
-import { useGradesFilterAndStats } from '@/lib/useGradesFilterAndStats'
-import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/mockGrades'
+import { useMemo } from 'react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FileText } from 'lucide-react';
+import { MemoryRouter } from 'react-router-dom';
+import GradesOverview from '@/components/GradesOverview';
+import GradesFilter from '@/components/GradesFilter';
+import GradeRow from '@/components/GradeRow';
+import Card from '@/components/Card';
+import EmptyState from '@/components/EmptyState';
+import PageHeader from '@/components/PageHeader';
+import Stack from '@/components/Stack';
+import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/mockGrades';
+import useStore from '@/lib/store';
+import { translations } from '@/lib/translations';
+import { useGradesFilterAndStats } from '@/lib/useGradesFilterAndStats';
 
 function Grades() {
   const t = useStore(state => state.t)
@@ -101,3 +107,56 @@ function Grades() {
 }
 
 export default Grades
+
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  }
+})
+
+function renderGrades(lang: 'da' | 'en' = 'da') {
+  useStore.setState({
+    lang,
+    t: (key: string) => {
+      const val = (translations as any)[lang]?.[key]
+      return typeof val === 'string' ? val : key
+    },
+  })
+  return render(
+    <MemoryRouter>
+      <Grades />
+    </MemoryRouter>
+  )
+}
+
+if (import.meta.vitest) {
+  describe('Grades', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+    })
+  
+    it('renders in Danish', () => {
+      renderGrades('da')
+      expect(screen.getByText(/Karakterer/i)).toBeInTheDocument()
+      expect(screen.getByText(/Vægtet GSN/i)).toBeInTheDocument()
+    })
+  
+    it('renders in English', () => {
+      renderGrades('en')
+      expect(screen.getByText(/Grades/i)).toBeInTheDocument()
+      expect(screen.getByText(/Weighted GPA/i)).toBeInTheDocument()
+    })
+  
+    it('renders breadcrumb with dashboard link', () => {
+      renderGrades('da')
+      const breadcrumbs = useStore.getState().breadcrumbs
+      expect(breadcrumbs).toEqual([
+        { label: 'Dashboard', href: '/' },
+        { label: 'Karakterer' },
+      ])
+    })
+  })
+}

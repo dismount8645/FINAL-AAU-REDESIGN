@@ -1,7 +1,9 @@
-import { type ReactNode } from 'react'
-import { type LucideIcon } from 'lucide-react'
-import { Heading, Text } from '@/components/Typography'
-import { cn } from '@/lib/utils'
+import { type ReactNode } from 'react';
+import { describe, it, expect } from 'vitest';
+import { type LucideIcon, Inbox } from 'lucide-react';
+import { Heading, Text } from '@/components/Typography';
+import { render, screen, AllProviders } from '@/lib/test-utils';
+import { cn } from '@/lib/utils';
 
 export interface EmptyStateProps {
   icon?: LucideIcon
@@ -25,3 +27,16 @@ export default function EmptyState({ icon: Icon, title, message, description, ac
   )
 }
 
+if (import.meta.vitest) {
+  describe('EmptyState', () => {
+    it('renders correctly', () => {
+      render(<EmptyState title="Test" icon={Inbox} />, { wrapper: AllProviders })
+      expect(screen.getByText('Test')).toBeInTheDocument()
+    })
+  
+    it('renders without icon', () => {
+      render(<EmptyState title="No Icon" />, { wrapper: AllProviders })
+      expect(screen.getByText('No Icon')).toBeInTheDocument()
+    })
+  })
+}

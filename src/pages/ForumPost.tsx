@@ -1,17 +1,17 @@
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
-import PageHeader from '@/components/PageHeader'
-import Stack from '@/components/Stack'
-import Button from '@/components/Button'
-import { Heading } from '@/components/Typography'
-import Grid from '@/components/Grid'
-import useStore from '@/lib/store'
-import {
-  ForumOriginalPost,
-  ForumRepliesList,
-  ForumReplyForm,
-  ForumAboutWidget,
-} from '@/components'
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { ArrowLeft } from 'lucide-react';
+import { useParams, Link, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
+import ForumOriginalPost from '@/components/ForumOriginalPost';
+import ForumRepliesList from '@/components/ForumRepliesList';
+import ForumReplyForm from '@/components/ForumReplyForm';
+import ForumAboutWidget from '@/components/ForumAboutWidget';
+import Button from '@/components/Button';
+import Grid from '@/components/Grid';
+import PageHeader from '@/components/PageHeader';
+import Stack from '@/components/Stack';
+import { Heading } from '@/components/Typography';
+import useStore from '@/lib/store';
 
 const posts = [
   { id: 1, titleDa: 'Spørgsmål til litteraturen i uge 2', titleEn: 'Questions regarding literature week 2', author: 'Mads Mikkelsen', timeDa: 'For 2 timer siden', timeEn: '2 hours ago', replies: 4, contentDa: 'Hej alle sammen. Jeg sidder og læser pensum for uge 2 og har et par spørgsmål til teksten. Kan nogen hjælpe mig med at forstå afsnittet om brugercentreret design?', contentEn: 'Hi everyone. I am reading the curriculum for week 2 and have a few questions about the text. Can anyone help me understand the section on user-centered design?' },
@@ -79,3 +79,61 @@ function ForumPost() {
 
 export default ForumPost
 
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useParams: vi.fn(),
+  }
+})
+
+function renderForumPost(id = '1') {
+  vi.mocked(useParams).mockReturnValue({ id })
+  return render(
+    <MemoryRouter initialEntries={[`/forum/${id}`]}>
+      <Routes>
+        <Route path="/forum/:id" element={<ForumPost />} />
+      </Routes>
+    </MemoryRouter>
+  )
+}
+
+if (import.meta.vitest) {
+  describe('ForumPost', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      useStore.setState({ lang: 'da', t: (key: string) => key })
+    })
+  
+    it('renders post content for a valid ID', () => {
+      renderForumPost('1')
+      expect(screen.getAllByText(/Spørgsmål til litteraturen i uge 2/i).length).toBeGreaterThan(0)
+    })
+  
+    it('renders not found for invalid ID', () => {
+      renderForumPost('999')
+      expect(screen.getByText('forum_post_not_found')).toBeInTheDocument()
+    })
+  
+    it('renders author and timestamp', () => {
+      renderForumPost('1')
+      expect(screen.getAllByText(/Mads Mikkelsen/i).length).toBeGreaterThan(0)
+    })
+  
+    it('renders replies for a post with replies', () => {
+      renderForumPost('1')
+      expect(screen.getByText(/Anders Nielsen/i)).toBeInTheDocument()
+    })
+  
+    it('renders in English', () => {
+      useStore.setState({ lang: 'en' })
+      renderForumPost('1')
+      expect(screen.getAllByText(/Questions regarding literature week 2/i).length).toBeGreaterThan(0)
+    })
+  
+    it('renders back link', () => {
+      renderForumPost('1')
+      expect(screen.getByText('back_to_forum')).toBeInTheDocument()
+    })
+  })
+}

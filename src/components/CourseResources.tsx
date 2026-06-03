@@ -1,10 +1,12 @@
-import { memo } from 'react'
-import { FileSignature, Book, Clock } from 'lucide-react'
-import Card from '@/components/Card'
-import Stack from '@/components/Stack'
-import ListItem from '@/components/ListItem'
-import { Heading } from '@/components/Typography'
-import useStore from '@/lib/store'
+import { memo } from 'react';
+import { it, expect, vi, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { FileSignature, Book, Clock } from 'lucide-react';
+import Card from '@/components/Card';
+import ListItem from '@/components/ListItem';
+import Stack from '@/components/Stack';
+import { Heading } from '@/components/Typography';
+import useStore from '@/lib/store';
 
 function CourseResources() {
   const t = useStore((state) => state.t)
@@ -28,3 +30,21 @@ function CourseResources() {
 }
 
 export default memo(CourseResources)
+
+if (import.meta.vitest) {
+  beforeEach(() => {
+    useStore.setState({ lang: 'da' })
+  })
+
+  it('renders heading with translated title', () => {
+    render(<CourseResources />)
+    expect(screen.getByText('Ressourcer')).toBeInTheDocument()
+  })
+  
+  it('renders three list items with translated labels', () => {
+    render(<CourseResources />)
+    expect(screen.getByText('Pensumliste')).toBeInTheDocument()
+    expect(screen.getByText('Litteraturliste')).toBeInTheDocument()
+    expect(screen.getByText('Eksamensplan')).toBeInTheDocument()
+  })
+}
