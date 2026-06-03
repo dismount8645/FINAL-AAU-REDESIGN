@@ -394,13 +394,13 @@ if (import.meta.vitest) {
     it('handles mobile view tab clicks and back button', () => {
       useStore.setState({ isMobile: true, lang: 'en' })
       renderWithProviders(<Settings />)
-      const tab = screen.getByText('Profile')
+      const tab = screen.getByText('Edit Profile')
       fireEvent.click(tab)
       const backBtn = screen.getByText('Back')
       expect(backBtn).toBeInTheDocument()
 
       fireEvent.click(backBtn)
-      expect(screen.queryByText('Profile')).toBeInTheDocument()
+      expect(screen.queryByText('Edit Profile')).toBeInTheDocument()
     })
   })
 }
