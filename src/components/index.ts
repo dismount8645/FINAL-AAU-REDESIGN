@@ -2,6 +2,9 @@ export * from "@/components/Accordion"
 export * from "@/components/Avatar"
 export * from "@/components/Badge"
 export * from '@/components/ui/Button'
+export * from '@/components/ui/Checkbox'
+export * from '@/components/ui/Radio'
+export * from '@/components/ui/Select'
 export * from "@/components/Card"
 export * from "@/components/Dialog"
 export * from "@/components/Dropdown"

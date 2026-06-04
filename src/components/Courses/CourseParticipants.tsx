@@ -4,6 +4,7 @@ import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
 import { SearchInput } from '@/components/FormControls'
 import ListItem from '@/components/ListItem'
+import Select from '@/components/ui/Select'
 import { Heading } from '@/components/Typography'
 import useStore from '@/lib/store'
 import { useParticipantFilter } from '@/lib/useParticipantFilter'
@@ -29,16 +30,16 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
               onClear={() => setSearchQuery('')}
             />
             <label htmlFor="participant-role-filter" className="sr-only">{t('filter')}</label>
-            <select
+            <Select
               id="participant-role-filter"
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="px-xs py-2xs rounded-[var(--radius-lg)] border border-border bg-bg-card text-sm text-main outline-none focus-visible:outline-2 focus-visible:outline-[var(--ring)] focus-visible:outline-offset-2 focus:border-primary transition-colors"
+              className="sm:w-[150px]"
             >
               <option value="all">{t('all_roles')}</option>
               <option value="student">{t('role_student')}</option>
               <option value="teacher">{t('role_teacher')}</option>
-            </select>
+            </Select>
           </div>
         </Card.Header>
         <Card.Body className="p-[var(--space-0)]">
