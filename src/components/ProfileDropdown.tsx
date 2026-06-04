@@ -7,9 +7,11 @@ import useStore from '@/lib/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
 import { useDropdown } from '@/lib/useDropdown';
 import { cn } from '@/lib/utils';
+import { useUserStore } from '@/store/userStore';
 
 export default function ProfileDropdown() {
   const t = useStore((state) => state.t);
+  const { firstName, lastName } = useUserStore();
   const { isOpen, setIsOpen, dropdownRef, menuRef, buttonRef, toggle, handleMenuKeyDown, handleTriggerKeyDown } = useDropdown();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -66,7 +68,7 @@ export default function ProfileDropdown() {
           >
             <div className="p-4 bg-bg-highlight/50 border-b border-border">
               <Text size="sm" weight="bold" className="text-main leading-none">
-                {t('common.user_name') || 'Jacob Krarup Madsen'}
+                {`${firstName} ${lastName}`}
               </Text>
               <Text size="xs" muted className="mt-1 font-bold opacity-60 italic">
                 {t('common.user_role') || 'Studerende'}

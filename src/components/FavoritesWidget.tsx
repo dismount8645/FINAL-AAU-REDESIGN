@@ -111,7 +111,7 @@ export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
   )
 }
 
-let mockNavigate
+let mockNavigate: any
 if (import.meta.vitest) {
   vi.mock('@/lib/favorites', async () => {
     const actual = await vi.importActual('@/lib/favorites')
@@ -122,7 +122,7 @@ if (import.meta.vitest) {
     }
   })
   
-  const mockNavigate = vi.fn()
+  mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
     return {
@@ -132,12 +132,12 @@ if (import.meta.vitest) {
   })
   describe('FavoritesWidget', () => {
     const mockCourses = [
-      { id: 1, title: 'Course 1', titleEn: 'Course 1', sections: [] },
-    ]
+      { id: 1, title: 'Course 1', titleEn: 'Course 1', sections: [], status: 'active', label: 'Course 1', labelEn: 'Course 1', img: '' },
+    ] as any
   
     const mockFavorites = [
-      { id: 'fav1', type: 'course', entityId: 1, order: 0 },
-    ]
+      { id: 'fav1', type: 'course', entityId: 1, order: 0, addedAt: Date.now() },
+    ] as any
   
     const mockResolvedCourse = {
       id: 'fav1',
@@ -230,7 +230,8 @@ if (import.meta.vitest) {
         type: 'course',
         entityId: i,
         order: i,
-      }))
+        addedAt: Date.now(),
+      })) as any
       useStore.setState({ favorites: manyFavorites, courses: mockCourses })
   
       render(
@@ -248,7 +249,8 @@ if (import.meta.vitest) {
         type: 'course',
         entityId: i,
         order: i,
-      }))
+        addedAt: Date.now(),
+      })) as any
       useStore.setState({ lang: 'da', favorites: manyFavorites, courses: mockCourses })
   
       render(

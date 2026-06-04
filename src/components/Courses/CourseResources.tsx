@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { it, expect, vi, beforeEach } from 'vitest';
+import { it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { FileSignature, Book, Clock } from 'lucide-react';
 import Card from '@/components/Card';

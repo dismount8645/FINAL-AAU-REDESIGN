@@ -5,16 +5,17 @@ import Input from '@/components/ui/Input'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
+import { useUserStore } from '@/store/userStore'
 
 interface NotificationsTabProps {
-  notifPrefs: { email: boolean; push: boolean; sms: boolean }
-  setNotifPrefs: React.Dispatch<React.SetStateAction<{ email: boolean; push: boolean; sms: boolean }>>
+  notifPrefs?: { email: boolean; push: boolean; sms: boolean }
+  setNotifPrefs?: (prefs: { email: boolean; push: boolean; sms: boolean } | ((prev: { email: boolean; push: boolean; sms: boolean }) => { email: boolean; push: boolean; sms: boolean })) => void
 }
 
-export default function NotificationsTab({
-  notifPrefs,
-  setNotifPrefs,
-}: NotificationsTabProps) {
+export default function NotificationsTab(props: NotificationsTabProps) {
+  const store = useUserStore()
+  const notifPrefs = props.notifPrefs ?? store.notifPrefs
+  const setNotifPrefs = props.setNotifPrefs ?? store.setNotifPrefs
   const t = useStore(state => state.t)
 
   return (

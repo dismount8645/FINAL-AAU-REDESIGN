@@ -164,9 +164,9 @@ function Submission() {
 
 export default Submission
 
-let mockNavigate
+let mockNavigate: ReturnType<typeof vi.fn>
 if (import.meta.vitest) {
-  const mockNavigate = vi.fn()
+  mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
     return {

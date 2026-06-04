@@ -4,20 +4,22 @@ import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 import Radio from '@/components/ui/Radio'
+import { useUserStore } from '@/store/userStore'
 
 interface MessagesTabProps {
-  messagePrivacy: 'contacts' | 'courses' | 'anyone'
-  setMessagePrivacy: (val: 'contacts' | 'courses' | 'anyone') => void
-  messageEmailOffline: boolean
-  setMessageEmailOffline: (val: boolean) => void
+  messagePrivacy?: 'contacts' | 'courses' | 'anyone'
+  setMessagePrivacy?: (val: 'contacts' | 'courses' | 'anyone') => void
+  messageEmailOffline?: boolean
+  setMessageEmailOffline?: (val: boolean) => void
 }
 
-export default function MessagesTab({
-  messagePrivacy,
-  setMessagePrivacy,
-  messageEmailOffline,
-  setMessageEmailOffline,
-}: MessagesTabProps) {
+export default function MessagesTab(props: MessagesTabProps) {
+  const store = useUserStore()
+  const messagePrivacy = props.messagePrivacy ?? store.messagePrivacy
+  const setMessagePrivacy = props.setMessagePrivacy ?? store.setMessagePrivacy
+  const messageEmailOffline = props.messageEmailOffline ?? store.messageEmailOffline
+  const setMessageEmailOffline = props.setMessageEmailOffline ?? store.setMessageEmailOffline
+
   const t = useStore(state => state.t)
 
   return (
