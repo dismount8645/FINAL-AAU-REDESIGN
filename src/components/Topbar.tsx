@@ -8,7 +8,7 @@ import MessagesDropdown from './MessagesDropdown';
 import NotificationsDropdown from './NotificationsDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import TopbarSearch from './TopbarSearch';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
 import { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs';
 import useStore from '@/lib/store';

@@ -5,7 +5,7 @@ import { Text } from '@/components/Typography';
 import EmptyState from '@/components/EmptyState';
 import useStore from '@/lib/store';
 import { SearchInput } from '@/components/FormControls';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 
 interface TopbarSearchProps {
   children: React.ReactNode;

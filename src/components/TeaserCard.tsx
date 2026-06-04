@@ -4,7 +4,7 @@ import { screen, fireEvent } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Star, ChevronRight } from 'lucide-react';
 import Badge from '@/components/Badge';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import ProgressBar from '@/components/ProgressBar';
 import { Skeleton } from '@/components/Skeleton';

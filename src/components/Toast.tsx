@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
 import { X } from 'lucide-react'
 import { Text } from '@/components/Typography'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { Stack } from '@/components/LayoutPrimitives'
 
 export interface Toast {

@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Headphones, ExternalLink } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import ResourcesSection from '@/components/ResourcesSection';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';

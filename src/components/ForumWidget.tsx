@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, MessageCircle, ArrowRight, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Badge from '@/components/Badge';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';

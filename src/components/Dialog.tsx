@@ -4,7 +4,7 @@ import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
 import { render, screen } from '@testing-library/react';
 import { motion } from 'framer-motion';
 import { XIcon } from 'lucide-react';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
 "use client"

@@ -1,7 +1,7 @@
 import { Bell, ArrowRight, LucideIcon } from 'lucide-react'
 import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import { formatLongDateTime } from '@/lib/dates'

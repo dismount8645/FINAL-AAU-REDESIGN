@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
 import { notificationsData } from '@/lib/mockData';
 import useStore from '@/lib/store';

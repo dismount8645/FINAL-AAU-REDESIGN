@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { ChevronRight, Clock, AlertCircle, CheckCircle2, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Stack } from '@/components/LayoutPrimitives';
 import StatusItem from '@/components/StatusItem';

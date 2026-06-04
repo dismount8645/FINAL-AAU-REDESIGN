@@ -1,6 +1,6 @@
 import { Archive, CheckCheck } from 'lucide-react'
 import TabBar from '@/components/TabBar'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 
 interface NotificationFiltersProps {
   view: 'active' | 'archive'

@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Filter, ArrowDownZA, ArrowUpAZ } from 'lucide-react'
 import { Stack } from '@/components/LayoutPrimitives'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { SearchInput } from '@/components/FormControls'
 import useStore from '@/lib/store'
 import { cn } from '@/lib/utils'

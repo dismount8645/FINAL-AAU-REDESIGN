@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
 import { messagesData } from '@/lib/mockData';
 import useStore from '@/lib/store';
