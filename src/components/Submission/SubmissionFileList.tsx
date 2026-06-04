@@ -3,7 +3,7 @@ import Icon from '@/components/Icon'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
 import { Stack } from '@/components/LayoutPrimitives'
-import { StagedFile } from '@/components/submissionTypes'
+import { StagedFile } from '@/types'
 
 interface SubmissionFileListProps {
   files: StagedFile[]

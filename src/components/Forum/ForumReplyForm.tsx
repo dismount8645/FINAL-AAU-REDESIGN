@@ -1,6 +1,6 @@
 import Button from '@/components/ui/Button'
 import { Reply } from 'lucide-react'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 interface ForumReplyFormProps {
   onReplyClick?: () => void

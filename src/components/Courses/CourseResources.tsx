@@ -6,7 +6,7 @@ import Card from '@/components/Card';
 import ListItem from '@/components/ListItem';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 function CourseResources() {
   const t = useStore((state) => state.t)

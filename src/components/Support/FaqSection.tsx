@@ -4,7 +4,7 @@ import Card from '@/components/Card'
 import SectionHeader from '@/components/SectionHeader'
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion'
 import { Text } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 function linkifyText(text: string): React.ReactNode {
   const urlPattern = /(https?:\/\/[^\s]+|[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g

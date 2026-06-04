@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 import { Stack, type StackProps } from '@/components/LayoutPrimitives';
 import PageHeader, { type PageHeaderProps } from '@/components/PageHeader';
-import { type BreadcrumbItem } from '@/lib/store';
+import { type BreadcrumbItem } from '@/store';
 import { describe, it, expect } from 'vitest';
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '@/lib/test-utils';

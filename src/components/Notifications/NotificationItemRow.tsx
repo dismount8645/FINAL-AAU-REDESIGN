@@ -2,12 +2,12 @@ import { type MouseEvent } from 'react';
 import { it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Check, Archive, Undo2, LucideIcon } from 'lucide-react';
-import { type NotificationItem } from '@/components/notificationsTypes';
+import { type NotificationItem } from '@/types';
 import Button from '@/components/ui/Button';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { formatTime } from '@/lib/dates';
-import type { Lang } from '@/lib/store';
+import type { Lang } from '@/store';
 
 interface NotificationItemRowProps {
   notif: NotificationItem

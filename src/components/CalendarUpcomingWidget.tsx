@@ -8,7 +8,7 @@ import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/ui/Button'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import { cn } from '@/lib/utils'
 
 interface CalendarUpcomingWidgetProps {

@@ -10,7 +10,7 @@ import { Grid } from '@/components/LayoutPrimitives';
 import PageLayout from '@/components/PageLayout';
 import { Text } from '@/components/Typography';
 import { env } from '@/lib/env';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { allTools, allEssentials, allToolsList } from '@/lib/tools';
 
 function Resources() {

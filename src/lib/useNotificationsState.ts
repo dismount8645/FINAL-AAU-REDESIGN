@@ -1,9 +1,9 @@
 import { useState, useMemo, type MouseEvent } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import type { NotificationItem } from '@/components/notificationsTypes';
+import type { NotificationItem } from '@/types';
 import { formatRelativeDateGroup } from '@/lib/dates';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 export interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]

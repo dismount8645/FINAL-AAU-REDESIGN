@@ -11,7 +11,7 @@ import { Button } from '@/components/ui';
 import PageLayout from '@/components/PageLayout';
 import { cn } from '@/lib/utils';
 import { DEFAULT_WIDGETS } from '@/lib/mockData';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { useWidgetDrag } from '@/lib/useWidgetDrag';
 
 function Dashboard() {

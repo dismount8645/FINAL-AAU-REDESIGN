@@ -17,7 +17,8 @@ import SegmentedControl from '@/components/SegmentedControl';
 import { Skeleton } from '@/components/Skeleton';
 import { useToast, ToastProvider } from '@/components/Toast';
 import { useCalendar } from '@/components/useCalendar';
-import useStore from '@/lib/store';
+import useStore from '@/store';
+import { STORAGE_KEYS } from '@/lib/constants';
 import type { CalendarEvent } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -380,7 +381,7 @@ if (import.meta.vitest) {
       const today = new Date()
       const futureDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2)
       const dateKey = `${futureDate.getFullYear()}-${futureDate.getMonth()}-${futureDate.getDate()}`
-      localStorage.setItem('aauCalendarEvents', JSON.stringify({
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({
         [dateKey]: { id: 104, title: 'Deadline', color: 'var(--color-danger)', location: 'Online Submission', time: '23:59', host: 'AAU Moodle' },
       }))
       renderCalendar('da')
@@ -403,7 +404,7 @@ if (import.meta.vitest) {
     })
   
     it('handles empty events state in upcoming widget', () => {
-      localStorage.setItem('aauCalendarEvents', JSON.stringify({}))
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({}))
       renderCalendar('da')
       expect(screen.getByText('Ingen begivenheder')).toBeInTheDocument()
     })
@@ -422,7 +423,7 @@ if (import.meta.vitest) {
     })
   
     it('renders day view with no events message', () => {
-      localStorage.setItem('aauCalendarEvents', JSON.stringify({}))
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({}))
       renderCalendar('da')
       fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
       expect(screen.getByText('Ingen begivenheder')).toBeInTheDocument()
@@ -508,7 +509,7 @@ if (import.meta.vitest) {
     })
   
     it('renders with empty localStorage on initial load (uses default events)', () => {
-      localStorage.removeItem('aauCalendarEvents')
+      localStorage.removeItem(STORAGE_KEYS.CALENDAR_EVENTS)
       renderCalendar('da')
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
       expect(screen.getByText('Studiegruppe')).toBeInTheDocument()
@@ -557,7 +558,7 @@ if (import.meta.vitest) {
   
     it('filters out past events in upcoming widget', () => {
       // Store a past event in localStorage
-      localStorage.setItem('aauCalendarEvents', JSON.stringify({
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({
         '2026-1-1': { id: 201, title: 'Old Event', color: 'var(--aau-light-blue)', location: 'Room A', time: '10:00', host: 'Test' },
       }))
       renderCalendar('da')
@@ -572,7 +573,7 @@ if (import.meta.vitest) {
     })
   
     it('renders day view with an event', () => {
-      localStorage.setItem('aauCalendarEvents', JSON.stringify({
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({
         '2026-4-1': { id: 301, title: 'May Day Event', color: 'var(--color-primary)', location: 'Room 101', time: '09:00 - 10:00', host: 'Test Host' },
       }))
       renderCalendar('da')
@@ -596,7 +597,7 @@ if (import.meta.vitest) {
       const future2 = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 5)
       const key1 = `${future1.getFullYear()}-${future1.getMonth()}-${future1.getDate()}`
       const key2 = `${future2.getFullYear()}-${future2.getMonth()}-${future2.getDate()}`
-      localStorage.setItem('aauCalendarEvents', JSON.stringify({
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({
         [key1]: { id: 401, title: 'Future Event 1', color: 'var(--color-primary)', location: 'A', time: '10:00', host: 'Host 1' },
         [key2]: { id: 402, title: 'Future Event 2', color: 'var(--color-primary)', location: 'B', time: '11:00', host: 'Host 2' },
       }))
