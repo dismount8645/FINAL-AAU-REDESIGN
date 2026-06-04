@@ -4,6 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { SearchInput } from '@/components/FormControls';
 import { Heading } from '@/components/Typography';
 import useStore from '@/lib/store';
+import Select from '@/components/ui/Select';
 
 interface GradesFilterProps {
   searchQuery: string
@@ -39,11 +40,11 @@ function GradesFilter({
         </div>
         
         <label htmlFor="semester-filter" className="sr-only">{t('filter')}</label>
-        <select
+        <Select
           id="semester-filter"
           value={selectedSemester}
           onChange={(e) => setSelectedSemester(e.target.value)}
-          className="px-[var(--space-sm)] py-[var(--space-sm)] border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:outline-none focus-visible:shadow-focus focus:border-primary font-medium transition-colors"
+          className="sm:w-[180px]"
         >
           {semesterOptions.map((opt) => (
             <option key={opt} value={opt}>
@@ -52,7 +53,7 @@ function GradesFilter({
                 : opt}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
     </div>
   )

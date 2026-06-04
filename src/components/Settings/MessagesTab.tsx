@@ -3,6 +3,7 @@ import { Stack } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
+import Radio from '@/components/ui/Radio'
 
 interface MessagesTabProps {
   messagePrivacy: 'contacts' | 'courses' | 'anyone'
@@ -30,20 +31,19 @@ export default function MessagesTab({
               { id: 'courses', title: t('settings.privacy_courses'), desc: t('settings.privacy_courses_desc') },
               { id: 'anyone', title: t('settings.privacy_anyone'), desc: t('settings.privacy_anyone_desc') }
             ].map(item => (
-              <label key={item.id} htmlFor={`msgPrivacy-${item.id}`} className="flex gap-md p-md rounded-xl border border-border cursor-pointer hover:bg-bg-hover transition-colors">
-                <input 
+              <div key={item.id} className="flex gap-md p-md rounded-xl border border-border hover:bg-bg-hover transition-colors">
+                <Radio 
                   id={`msgPrivacy-${item.id}`}
-                  type="radio" 
                   name="msgPrivacy" 
                   checked={messagePrivacy === item.id}
                   onChange={() => setMessagePrivacy(item.id as 'contacts' | 'courses' | 'anyone')}
-                  className="mt-3xs cursor-pointer"
+                  className="mt-3xs"
                 />
-                <div>
+                <label htmlFor={`msgPrivacy-${item.id}`} className="cursor-pointer flex-1 select-none">
                   <Text size="sm" weight="bold" className="text-main">{item.title}</Text>
                   <Text size="xs" muted className="mt-3xs leading-normal">{item.desc}</Text>
-                </div>
-              </label>
+                </label>
+              </div>
             ))}
           </div>
         </FormField>
