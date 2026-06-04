@@ -3,7 +3,7 @@ import { Users } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout'
 import { SearchInput } from '@/components/ui'
-import { ListItem } from '@/components/ui'
+import { MasterItem } from '@/components/ui'
 import Select from '@/components/ui/Select'
 import { Heading } from '@/components/ui'
 import useStore from '@/store'
@@ -45,9 +45,9 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
         <Card.Body className="p-[var(--space-0)]">
           <Stack gap="none">
             {filteredParticipants.map((p, i) => (
-              <ListItem
+              <MasterItem
                 key={i}
-                icon={Users}
+                leading={Users}
                 title={p.name}
                 subtitle={p.role === 'student' ? t('role_student') : t('role_teacher')}
                 className="border-b border-border/50 last:border-0"

@@ -8,7 +8,6 @@ import LocalDesksSection from './LocalDesksSection';
 import ContactForm from './ContactForm';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { ListItem } from '@/components/ui';
 import { SectionHeader } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { Heading, Text } from '@/components/ui';
@@ -35,7 +34,15 @@ function SupportSidebar({ children }: SupportSidebarProps) {
             { label: t('guide_teachers'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
             { label: t('guide_staff'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
           ].map((item, i) => (
-            <ListItem key={i} title={item.label} href={item.url} className="text-primary hover:underline underline-offset-2" />
+            <a
+              key={i}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block py-2xs px-xs text-sm text-primary hover:underline underline-offset-2 rounded-md hover:bg-bg-hover transition-colors"
+            >
+              {item.label}
+            </a>
           ))}
         </Stack>
       </Card>

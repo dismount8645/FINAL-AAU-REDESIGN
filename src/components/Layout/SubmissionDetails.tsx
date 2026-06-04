@@ -11,7 +11,7 @@ interface SubmissionDetailsProps {
 
 export default function SubmissionDetails({ t }: SubmissionDetailsProps) {
   return (
-    <aside className="course-sidebar">
+    <Stack gap="lg">
       <Card>
         <Card.Header>
           <Text weight="bold" size="lg" className="card__title">{t('pre_submission_checklist')}</Text>
@@ -52,6 +52,6 @@ export default function SubmissionDetails({ t }: SubmissionDetailsProps) {
           </Button>
         </Card.Footer>
       </Card>
-    </aside>
+    </Stack>
   )
 }
