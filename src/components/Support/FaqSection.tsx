@@ -1,9 +1,9 @@
 /* eslint-disable react-refresh/only-export-components */
 import { memo } from 'react'
-import Card from '@/components/Card'
-import SectionHeader from '@/components/SectionHeader'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion'
-import { Text } from '@/components/Typography'
+import { Card } from '@/components/ui'
+import { SectionHeader } from '@/components/ui'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
+import { Text } from '@/components/ui'
 import useStore from '@/store'
 
 function linkifyText(text: string): React.ReactNode {

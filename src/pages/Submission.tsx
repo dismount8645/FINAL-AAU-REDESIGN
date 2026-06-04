@@ -6,17 +6,17 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { StagedFile } from '@/types';
 import { SubmissionSuccess, SubmissionDropzone, SubmissionFileList, SubmissionDetails } from '@/components/Submission';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import { Card } from '@/components/ui';
+import { Grid } from '@/components/Layout';
+import { PageHeader } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
 import Textarea from '@/components/ui/Textarea';
-import { Heading, Text } from '@/components/Typography';
+import { Heading, Text } from '@/components/ui';
 import { submitAssignment } from '@/lib/api';
 import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 
 function Submission() {
   const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>()

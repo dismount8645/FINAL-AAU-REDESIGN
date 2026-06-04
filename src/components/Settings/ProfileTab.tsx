@@ -7,13 +7,13 @@ import ForumTab from './ForumTab';
 import CalendarTab from './CalendarTab';
 import MessagesTab from './MessagesTab';
 import SettingsSection from './SettingsSection';
-import Avatar from '@/components/Avatar';
+import { Avatar } from '@/components/ui';
 import Button from '@/components/ui/Button';
-import { FormField } from '@/components/FormControls';
-import { Grid } from '@/components/LayoutPrimitives';
+import { FormField } from '@/components/ui';
+import { Grid } from '@/components/Layout';
 import Input from '@/components/ui/Input';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text } from '@/components/Typography';
+import { Stack } from '@/components/Layout';
+import { Text } from '@/components/ui';
 import useStore, { type Theme } from '@/store';
 import { useUserStore } from '@/store/userStore';
 
@@ -112,8 +112,8 @@ if (import.meta.vitest) {
     warning: vi.fn(),
   }
   
-  vi.mock('@/components/Toast', async () => {
-    const actual = await vi.importActual('@/components/Toast')
+  vi.mock('@/components/ui/Toast', async () => {
+    const actual = await vi.importActual<typeof import('@/components/ui/Toast')>('@/components/ui/Toast')
     return {
       ...actual,
       useToast: () => mockToast,

@@ -3,14 +3,14 @@ import { describe, it, expect, vi } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Star, ChevronRight } from 'lucide-react';
-import Badge from '@/components/Badge';
+import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import ProgressBar from '@/components/ProgressBar';
-import { Skeleton } from '@/components/Skeleton';
-import { Heading, Text } from '@/components/Typography';
+import { Card } from '@/components/ui';
+import { ProgressBar } from '@/components/ui';
+import { Skeleton } from '@/components/ui';
+import { Heading, Text } from '@/components/ui';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
 
 export interface TeaserCardProps {

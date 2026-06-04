@@ -2,17 +2,17 @@ import { useState, useEffect, useCallback, memo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent, within } from '@testing-library/react';
 import { CoursesTabs, CoursesFilters, CoursesGrid } from '@/components/Courses';
-import Badge from '@/components/Badge';
+import { Badge } from '@/components/ui';
 import { Button } from '@/components/ui';
-import PageLayout from '@/components/PageLayout';
-import Card from '@/components/Card';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Heading, Text } from '@/components/Typography';
+import { PageLayout } from '@/components/Layout';
+import { Card } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Heading, Text } from '@/components/ui';
 import { ASSETS } from '@/lib';
 import { useCoursesFilterAndSort } from '@/hooks';
 import { env } from '@/lib/env';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 
 const forums = [
   { id: 10, title: 'Studienævn for DDK', titleEn: 'Study Board for DDK', label: 'Information', labelEn: 'Information', img: '/images/student-life/2wb0369.webp', color: 'var(--color-success)' },

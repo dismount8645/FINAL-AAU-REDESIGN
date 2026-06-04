@@ -4,17 +4,17 @@ import { screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, MessageCircle, ArrowRight, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Badge from '@/components/Badge';
+import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text, Heading } from '@/components/Typography';
-import { dashboardForumPosts } from '@/lib/dashboardWidgets';
+import { Card } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Text, Heading } from '@/components/ui';
+import { dashboardForumPosts } from '@/config/dashboardWidgets';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { getWidgetDisplayLayout } from '@/lib/widgetLayout';
+import { getWidgetDisplayLayout } from '@/config/widgetLayout';
 
 interface ForumPost {
   id: number

@@ -1,23 +1,23 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
-import PageLayout from '@/components/PageLayout'
+import { PageLayout } from '@/components/Layout'
 import { AnimatePresence, motion } from 'framer-motion'
-import Card from '@/components/Card'
-import { Stack, Grid } from '@/components/LayoutPrimitives'
-import { Text } from '@/components/Typography'
+import { Card } from '@/components/ui'
+import { Stack, Grid } from '@/components/Layout'
+import { Text } from '@/components/ui'
 import { Button } from '@/components/ui'
-import Icon from '@/components/Icon'
-import Avatar from '@/components/Avatar'
-import ListItem from '@/components/ListItem'
+import { Icon } from '@/components/ui'
+import { Avatar } from '@/components/ui'
+import { ListItem } from '@/components/ui'
 import useStore from '@/store'
 import { STORAGE_KEYS } from '@/lib/constants'
-import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils'
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
 import { useState, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useToast } from '@/components/Toast'
+import { useToast } from '@/components/ui'
 import { useUserStore } from '@/store/userStore'
-import { SETTINGS_CATEGORIES } from '@/lib/settingsCategories'
+import { SETTINGS_CATEGORIES } from '@/config/settingsCategories'
 import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
 
 const catIcons: Record<string, typeof User> = {
@@ -235,8 +235,8 @@ if (import.meta.vitest) {
     warning: vi.fn()
   }
   
-  vi.mock('@/components/Toast', async () => {
-    const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
+  vi.mock('@/components/ui/Toast', async () => {
+    const actual = await vi.importActual<typeof import('@/components/ui/Toast')>('@/components/ui/Toast')
     return {
       ...actual,
       useToast: () => mockToast,

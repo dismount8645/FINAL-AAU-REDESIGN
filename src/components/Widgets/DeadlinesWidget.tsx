@@ -4,18 +4,18 @@ import { screen, fireEvent } from '@testing-library/react';
 import { ChevronRight, Clock, AlertCircle, CheckCircle2, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import { Stack } from '@/components/LayoutPrimitives';
-import StatusItem from '@/components/StatusItem';
-import { Text, Heading } from '@/components/Typography';
-import { dashboardDeadlines } from '@/lib/dashboardWidgets';
+import { Card } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { StatusItem } from '@/components/ui';
+import { Text, Heading } from '@/components/ui';
+import { dashboardDeadlines } from '@/config/dashboardWidgets';
 import * as dates from '@/lib/dates';
 import { getHoursUntil, hoursFromNow } from '@/lib/dates';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { getWidgetDisplayLayout } from '@/lib/widgetLayout';
+import { getWidgetDisplayLayout } from '@/config/widgetLayout';
 
 // --- Helpers & Constants ---
 

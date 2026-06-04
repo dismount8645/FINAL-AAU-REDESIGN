@@ -2,7 +2,7 @@ import React, { type ReactNode, memo, forwardRef, useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 import { motion } from 'framer-motion';
-import { AllProviders, render, screen, userEvent, waitFor } from '@/lib/test-utils';
+import { AllProviders, render, screen, userEvent, waitFor } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
 
 "use client"

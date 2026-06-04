@@ -2,7 +2,7 @@ import { memo, type ReactNode, MouseEventHandler } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { type LucideIcon, Bell } from 'lucide-react';
-import { Text } from '@/components/Typography';
+import { Text } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 export interface StatusItemProps {

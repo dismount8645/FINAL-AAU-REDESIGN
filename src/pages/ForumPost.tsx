@@ -5,10 +5,10 @@ import { useParams, Link, useNavigate, MemoryRouter, Route, Routes } from 'react
 import { ForumOriginalPost, ForumRepliesList, ForumReplyForm } from '@/components/Forum';
 import { ForumAboutWidget } from '@/components/Widgets';
 import Button from '@/components/ui/Button';
-import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Heading } from '@/components/Typography';
+import { Grid } from '@/components/Layout';
+import { PageHeader } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
+import { Heading } from '@/components/ui';
 import useStore from '@/store';
 
 const posts = [

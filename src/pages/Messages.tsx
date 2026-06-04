@@ -3,9 +3,9 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { ChatSidebar } from '@/components/Messages';
 import { ChatWindow } from '@/components/Messages';
-import Badge from '@/components/Badge';
-import { Grid } from '@/components/LayoutPrimitives';
-import PageLayout from '@/components/PageLayout';
+import { Badge } from '@/components/ui';
+import { Grid } from '@/components/Layout';
+import { PageLayout } from '@/components/Layout';
 import useStore, { type Lang } from '@/store';
 import { useMessagesState } from '@/hooks';
 

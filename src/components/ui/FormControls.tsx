@@ -4,8 +4,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text } from '@/components/Typography';
+import { Stack } from '@/components/Layout';
+import { Text } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 import { Input, type InputProps } from '@/components/ui/Input';

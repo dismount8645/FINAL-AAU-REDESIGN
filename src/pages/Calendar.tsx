@@ -9,13 +9,13 @@ import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingW
 
 
 import { Button } from '@/components/ui';
-import Card from '@/components/Card';
-import ErrorBoundary from '@/components/ErrorBoundary';
-import { Grid, Stack } from '@/components/LayoutPrimitives';
-import PageLayout from '@/components/PageLayout';
-import SegmentedControl from '@/components/SegmentedControl';
-import { Skeleton } from '@/components/Skeleton';
-import { useToast, ToastProvider } from '@/components/Toast';
+import { Card } from '@/components/ui';
+import { ErrorBoundary } from '@/components/Layout';
+import { Grid, Stack } from '@/components/Layout';
+import { PageLayout } from '@/components/Layout';
+import { SegmentedControl } from '@/components/ui';
+import { Skeleton } from '@/components/ui';
+import { useToast, ToastProvider } from '@/components/ui';
 import { useCalendar } from '@/hooks';
 import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';

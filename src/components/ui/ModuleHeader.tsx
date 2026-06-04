@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Calendar, UserCheck, MapPin } from 'lucide-react';
-import Badge from '@/components/Badge';
+import { Badge } from '@/components/ui';
 
 export interface ModuleHeaderProps {
   image?: string
