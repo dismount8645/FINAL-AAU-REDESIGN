@@ -86,49 +86,47 @@ export const getAutomaticBreadcrumbs = (
   return crumbs;
 };
 
-const mockCourses: CourseListItem[] = [
-  { id: 1, title: 'Matematik 1', titleEn: 'Math 1', code: 'MAT1' }
-] as unknown as CourseListItem[];
+import { courseList } from '@/data/registry';
 
 const mockT = (key: string) => key;
 
 if (import.meta.vitest) {
   describe('getAutomaticBreadcrumbs', () => {
     it('returns dashboard for root', () => {
-      const result = getAutomaticBreadcrumbs('/', 'da', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/', 'da', courseList, mockT);
       expect(result).toEqual([{ label: 'dashboard' }]);
     });
   
     it('returns course details crumbs', () => {
-      const result = getAutomaticBreadcrumbs('/course/1', 'da', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/course/1', 'da', courseList, mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
-        { label: 'Matematik 1' }
+        { label: 'Digital Design og Kommunikation' }
       ]);
     });
   
     it('returns course details crumbs in English', () => {
-      const result = getAutomaticBreadcrumbs('/course/1', 'en', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/course/1', 'en', courseList, mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
-        { label: 'Math 1' }
+        { label: 'Digital Design and Communication' }
       ]);
     });
   
     it('returns submission crumbs', () => {
-      const result = getAutomaticBreadcrumbs('/submission/1/2', 'da', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/submission/1/2', 'da', courseList, mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
-        { label: 'Matematik 1', href: '/course/1' },
+        { label: 'Digital Design og Kommunikation', href: '/course/1' },
         { label: 'submission' }
       ]);
     });
   
     it('returns forum crumbs', () => {
-      const result = getAutomaticBreadcrumbs('/forum/1', 'da', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/forum/1', 'da', courseList, mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
@@ -137,7 +135,7 @@ if (import.meta.vitest) {
     });
   
     it('returns exact match for settings', () => {
-      const result = getAutomaticBreadcrumbs('/settings', 'da', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/settings', 'da', courseList, mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'settings' }
@@ -145,7 +143,7 @@ if (import.meta.vitest) {
     });
   
     it('handles general segments fallback', () => {
-      const result = getAutomaticBreadcrumbs('/some/other/path', 'da', mockCourses, mockT);
+      const result = getAutomaticBreadcrumbs('/some/other/path', 'da', courseList, mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'some', href: '/some' },
