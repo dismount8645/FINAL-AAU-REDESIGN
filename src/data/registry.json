@@ -1,9 +1,12 @@
 {
-  "courses": {
-    "1": {
+  "courses": [
+    {
+      "id": 1,
       "title": "Digital Design og Kommunikation",
       "titleEn": "Digital Design and Communication",
       "code": "DD101",
+      "label": "Modul 4",
+      "labelEn": "Module 4",
       "professor": "Morten Jensen",
       "email": "mj@create.aau.dk",
       "img": "/assets/img/grafik/billeder/Undervisning/_2WB0207.jpg",
@@ -38,10 +41,13 @@
         }
       ]
     },
-    "2": {
+    {
+      "id": 2,
       "title": "Webudvikling og CMS",
       "titleEn": "Web Development and CMS",
       "code": "WEB202",
+      "label": "Modul 2",
+      "labelEn": "Module 2",
       "professor": "Lise Sørensen",
       "email": "ls@create.aau.dk",
       "img": "/assets/img/grafik/billeder/Forskning/_DSC0400.jpg",
@@ -75,10 +81,13 @@
         }
       ]
     },
-    "3": {
+    {
+      "id": 3,
       "title": "Videnskabsteori",
       "titleEn": "Philosophy of Science",
       "code": "VT303",
+      "label": "Modul 1",
+      "labelEn": "Module 1",
       "professor": "Anders Nielsen",
       "email": "an@hum.aau.dk",
       "img": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.jpg",
@@ -110,14 +119,41 @@
           ]
         }
       ]
+    },
+    {
+      "id": 4,
+      "title": "Problembaseret Læring (PBL)",
+      "titleEn": "Problem Based Learning (PBL)",
+      "code": "PBL404",
+      "label": "Afsluttet (Efterår)",
+      "labelEn": "Completed (Autumn)",
+      "professor": "Susanne Bødker",
+      "email": "sbdker@cs.aau.dk",
+      "img": "/assets/img/grafik/billeder/Forskning/_DSC0988.jpg",
+      "semester": "Efterår 2023",
+      "campus": "Campus Aalborg",
+      "color": "var(--aau-dark-grey)",
+      "tab": "finished",
+      "nextAssignment": null,
+      "sections": []
+    },
+    {
+      "id": 5,
+      "title": "Bachelorprojekt",
+      "titleEn": "Bachelor Project",
+      "code": "BP505",
+      "label": "Kommende (Efterår)",
+      "labelEn": "Upcoming (Autumn)",
+      "professor": "Klaus Marius Hansen",
+      "email": "kmh@cs.aau.dk",
+      "img": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5786.jpg",
+      "semester": "Efterår 2024",
+      "campus": "Campus Aalborg",
+      "color": "var(--color-warning-dark)",
+      "tab": "upcoming",
+      "nextAssignment": null,
+      "sections": []
     }
-  },
-  "courseList": [
-    { "id": 1, "title": "Digital Design og Kommunikation", "titleEn": "Digital Design and Communication", "label": "Modul 4", "labelEn": "Module 4", "code": "DD101", "img": "/assets/img/grafik/billeder/Undervisning/_2WB0207.jpg" },
-    { "id": 2, "title": "Webudvikling og CMS", "titleEn": "Web Development and CMS", "label": "Modul 2", "labelEn": "Module 2", "code": "WD202", "img": "/assets/img/grafik/billeder/Forskning/_DSC0400.jpg" },
-    { "id": 3, "title": "Videnskabsteori", "titleEn": "Philosophy of Science", "label": "Modul 1", "labelEn": "Module 1", "code": "ST303", "img": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.jpg" },
-    { "id": 4, "title": "Problembaseret Læring (PBL)", "titleEn": "Problem Based Learning (PBL)", "label": "Afsluttet (Efterår)", "labelEn": "Completed (Autumn)", "code": "PBL404", "img": "/assets/img/grafik/billeder/Forskning/_DSC0988.jpg", "color": "var(--aau-dark-grey)", "tab": "finished" },
-    { "id": 5, "title": "Bachelorprojekt", "titleEn": "Bachelor Project", "label": "Kommende (Efterår)", "labelEn": "Upcoming (Autumn)", "code": "BP505", "img": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5786.jpg", "color": "var(--color-warning-dark)", "tab": "upcoming" }
   ],
   "forums": [
     { "id": 10, "title": "Studienævn for DDK", "titleEn": "Study Board for DDK", "label": "Information", "labelEn": "Information", "img": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0351.jpg", "color": "var(--color-success)" },
@@ -134,7 +170,7 @@
       "name": "Mette Jensen",
       "roleDa": "Studerende",
       "roleEn": "Student",
-      "msgDa": "Har du set slides fra i går?",
+      "msgDa": "Har du slides fra i går?",
       "msgEn": "Did you see the slides from yesterday?",
       "timeDa": "10:45",
       "timeEn": "10:45 AM",
@@ -259,7 +295,25 @@
     { "id": 8, "titleDa": "Word & Office", "titleEn": "Word & Office", "iconName": "FileText", "bg": "rgba(234, 67, 53, 0.1)", "color": "#ea4335", "descDa": "Office-pakken online.", "descEn": "Office suite online.", "url": "https://office.com", "sso": true },
     { "id": 9, "titleDa": "OneNote", "titleEn": "OneNote", "iconName": "Book", "bg": "rgba(236, 72, 153, 0.1)", "color": "var(--aau-light-pink)", "descDa": "Digitale noter og idéer.", "descEn": "Digital notes and ideas.", "url": "https://onenote.com", "sso": true },
     { "id": 10, "titleDa": "Forms", "titleEn": "Forms", "iconName": "ClipboardList", "bg": "rgba(16, 185, 129, 0.1)", "color": "var(--aau-light-green)", "descDa": "Spørgeskemaer og quizzer.", "descEn": "Surveys and quizzes.", "url": "https://forms.office.com", "sso": true },
-    { "id": 11, "titleDa": "Panopto", "titleEn": "Panopto", "iconName": "Video", "bg": "rgba(236, 72, 153, 0.1)", "color": "var(--aau-light-pink)", "descDa": "Videooptagelse og streaming.", "descEn": "Video recording and streaming.", "url": "https://aau.cloud.panopto.eu", "sso": true, "helpDa": "Panopto er AAUs platform for videooptagelse og streaming af forelæsninger.", "helpEn": "Panopto is AAU's platform for video recording and streaming of lectures." },
+    { "id": 11, "titleDa": "Panopto", "titleEn": "Panopto", "iconName": "Video", "bg": "rgba(236, 72, 153, 0.1)", "color": "var(--aau-light-pink)", "descDa": "Videooptagelse og streaming.", "descEn": "Video recording and streaming.", "url": "https://aau.cloud.panopto.eu", "sso": true, "helpDa": "Panopto er AAUs platform for videooptagelse og streaming of forelæsninger.", "helpEn": "Panopto is AAU's platform for video recording and streaming of lectures." },
     { "id": 12, "titleDa": "Zoom", "titleEn": "Zoom", "iconName": "Video", "bg": "rgba(14, 165, 233, 0.1)", "color": "#0ea5e9", "descDa": "Video-konferenceværktøj.", "descEn": "Video conferencing tool.", "url": "https://aau.zoom.us", "sso": false }
+  ],
+  "participantsData": [
+    { "name": "Mette Jensen", "role": "student" },
+    { "name": "Anders Nielsen", "role": "student" },
+    { "name": "Sofie Pedersen", "role": "student" },
+    { "name": "Emil Hansen", "role": "student" },
+    { "name": "Laura Madsen", "role": "student" },
+    { "name": "Oliver Christensen", "role": "student" },
+    { "name": "Emma Rasmussen", "role": "student" },
+    { "name": "Morten Jensen", "role": "teacher" }
+  ],
+  "courseTabItems": [
+    { "key": "modules", "label": "tab_modules" },
+    { "key": "forum", "label": "tab_forums" },
+    { "key": "resources", "label": "tab_resources" },
+    { "key": "info", "label": "tab_info" },
+    { "key": "participants", "label": "tab_participants" },
+    { "key": "pbl", "label": "tab_pbl_group" }
   ]
 }

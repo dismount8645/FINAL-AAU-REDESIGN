@@ -1,5 +1,5 @@
 import { LucideIcon, PenSquare, FileText, BookOpen, Wifi, Mail, Users, Cloud, Book, ClipboardList, Video } from 'lucide-react'
-import mockData from '@/data/mockData.json'
+import mockData from '@/data/registry.json'
 import type { ResourceTool } from '@/lib/types'
 
 const ICON_MAP: Record<string, LucideIcon> = {
