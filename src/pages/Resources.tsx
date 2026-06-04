@@ -1,8 +1,5 @@
 import { useMemo } from 'react';
-import { beforeEach, describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
 import { Headphones, ExternalLink } from 'lucide-react';
-import { MemoryRouter } from 'react-router-dom';
 import { ResourcesSection } from '@/components/Resources';
 import { Button } from '@/components/ui';
 import { Card } from '@/components/ui';
@@ -111,23 +108,27 @@ function Resources() {
 
 export default Resources
 
-const mockOpen = vi.fn()
-
-beforeEach(() => {
-  mockOpen.mockClear()
-  vi.spyOn(window, 'open').mockImplementation(mockOpen)
-})
-
-const renderWithLang = (lang: 'da' | 'en') => {
-  useStore.setState({ lang, favorites: [] })
-  return render(
-    <MemoryRouter>
-      <Resources />
-    </MemoryRouter>
-  )
-}
-
 if (import.meta.vitest) {
+  const { describe, it, expect, vi, beforeEach } = import.meta.vitest as unknown as typeof import('vitest')
+  const { render, screen, fireEvent } = await import('@testing-library/react')
+  const { MemoryRouter } = await import('react-router-dom')
+
+  const mockOpen = vi.fn()
+
+  beforeEach(() => {
+    mockOpen.mockClear()
+    vi.spyOn(window, 'open').mockImplementation(mockOpen)
+  })
+
+  const renderWithLang = (lang: 'da' | 'en') => {
+    useStore.setState({ lang, favorites: [] })
+    return render(
+      <MemoryRouter>
+        <Resources />
+      </MemoryRouter>
+    )
+  }
+
   describe('Resources', () => {
     it('renders correctly in Danish', () => {
       renderWithLang('da')
