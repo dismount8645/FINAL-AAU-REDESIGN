@@ -99,7 +99,7 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
     if (target && typeof target === 'object' && target !== null) {
       const tObj = target as Record<string, unknown>;
       if ('da' in tObj || 'en' in tObj) {
-        return (tObj[lang] as string) || (tObj['da'] as string) || '';
+        return (tObj[lang] as string) || (tObj['da'] as string) || (tObj['en'] as string) || '';
       }
     }
 
@@ -107,9 +107,9 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
       const keyEn = `${key}En`;
       const keyDa = `${key}Da`;
       if (lang === 'en') {
-        return (rec[keyEn] as string) || (rec[key] as string) || '';
+        return (rec[keyEn] as string) || (rec[key] as string) || (rec[keyDa] as string) || '';
       }
-      return (rec[keyDa] as string) || (rec[key] as string) || '';
+      return (rec[keyDa] as string) || (rec[key] as string) || (rec[keyEn] as string) || '';
     }
 
     return '';
