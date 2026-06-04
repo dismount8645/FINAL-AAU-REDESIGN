@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
+import { cn } from '@/lib/utils';
 
 export interface SectionHeaderProps {
   title: string
@@ -14,7 +15,7 @@ export interface SectionHeaderProps {
 
 export default function SectionHeader({ title, subtitle, level = 2, actions, className = '' }: SectionHeaderProps) {
   return (
-    <div className={`mb-lg ${className}`}>
+    <div className={cn('mb-lg', className)}>
       <Stack direction="row" align="center" justify="between">
         <Stack gap="2xs">
           <Heading level={level} className="m-0">{title}</Heading>

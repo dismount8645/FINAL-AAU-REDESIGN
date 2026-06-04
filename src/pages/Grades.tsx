@@ -9,8 +9,7 @@ import GradesFilter from '@/components/GradesFilter';
 import GradeRow from '@/components/GradeRow';
 import Card from '@/components/Card';
 import EmptyState from '@/components/EmptyState';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import PageLayout from '@/components/PageLayout';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/mockGrades';
 import useStore from '@/lib/store';
 import { translations } from '@/lib/translations';
@@ -39,16 +38,16 @@ function Grades() {
   )
 
   return (
-    <Stack className="grades-page animate-fade-in" gap="none">
-      <PageHeader
-        title={t('grades_page_title')}
-        subtitle={t('grades_page_subtitle')}
-        breadcrumbs={[
-          { label: dashboardLabel, href: '/' },
-          { label: t('grades_page_title') },
-        ]}
-      />
-
+    <PageLayout
+      className="grades-page animate-fade-in"
+      gap="none"
+      title={t('grades_page_title')}
+      subtitle={t('grades_page_subtitle')}
+      breadcrumbs={[
+        { label: dashboardLabel, href: '/' },
+        { label: t('grades_page_title') },
+      ]}
+    >
       <div className="container pb-[var(--space-2xl)] mt-[var(--space-lg)] flex flex-col gap-[var(--space-lg)]">
         <GradesOverview
           gpa={gpa}
@@ -102,7 +101,7 @@ function Grades() {
           </Card.Body>
         </Card>
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 

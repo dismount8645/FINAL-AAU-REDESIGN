@@ -8,14 +8,13 @@ import { CalendarMonthView, CalendarWeekView, CalendarDayView } from '@/componen
 import CalendarUpcomingWidget from '@/components/CalendarUpcomingWidget';
 import CalendarNewEventDialog from '@/components/CalendarNewEventDialog';
 import CalendarEventDetailsDialog from '@/components/CalendarEventDetailsDialog';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 import Card from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
+import { Grid, Stack } from '@/components/LayoutPrimitives';
+import PageLayout from '@/components/PageLayout';
 import SegmentedControl from '@/components/SegmentedControl';
 import { Skeleton } from '@/components/Skeleton';
-import { Stack } from '@/components/LayoutPrimitives';
 import { useToast, ToastProvider } from '@/components/Toast';
 import { useCalendar } from '@/components/useCalendar';
 import useStore from '@/lib/store';
@@ -132,30 +131,30 @@ const Calendar = () => {
   ], [t])
 
   return (
-    <Stack className="calendar-page w-full min-h-screen bg-bg-body">
-      <PageHeader
-        pageKey="calendar"
-        title={getTitle}
-        titleProps={{ 'data-testid': 'page-header-title', className: 'capitalize' }}
-        subtitle={t('calendar_subtitle')}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: t('calendar') },
-        ]}
-        actions={
-          <Stack direction="row" gap="sm" className="flex-wrap">
-            <Button variant="ghost" size="sm" icon={Upload} onClick={() => setActiveModal('import')} className="normal-case tracking-normal hover:bg-bg-hover">
-              {t('import_ics')}
-            </Button>
-            <Button variant="ghost" size="sm" icon={Download} onClick={() => setActiveModal('export')} className="normal-case tracking-normal hover:bg-bg-hover">
-              {t('export_ics')}
-            </Button>
-            <Button variant="primary" size="sm" icon={Plus} onClick={() => setActiveModal('new')} className="normal-case tracking-normal shadow-sm hover:shadow-md transition-all active:scale-95">
-              {t('new_event')}
-            </Button>
-          </Stack>
-        }
-      />
+    <PageLayout
+      className="calendar-page w-full min-h-screen bg-bg-body"
+      pageKey="calendar"
+      title={getTitle}
+      titleProps={{ 'data-testid': 'page-header-title', className: 'capitalize' }}
+      subtitle={t('calendar_subtitle')}
+      breadcrumbs={[
+        { label: t('dashboard'), href: '/' },
+        { label: t('calendar') },
+      ]}
+      actions={
+        <Stack direction="row" gap="sm" className="flex-wrap">
+          <Button variant="ghost" size="sm" icon={Upload} onClick={() => setActiveModal('import')} className="normal-case tracking-normal hover:bg-bg-hover">
+            {t('import_ics')}
+          </Button>
+          <Button variant="ghost" size="sm" icon={Download} onClick={() => setActiveModal('export')} className="normal-case tracking-normal hover:bg-bg-hover">
+            {t('export_ics')}
+          </Button>
+          <Button variant="primary" size="sm" icon={Plus} onClick={() => setActiveModal('new')} className="normal-case tracking-normal shadow-sm hover:shadow-md transition-all active:scale-95">
+            {t('new_event')}
+          </Button>
+        </Stack>
+      }
+    >
 
       <div className="container pb-[var(--space-3xl)]">
         <ErrorBoundary name="CalendarContent">
@@ -266,7 +265,7 @@ const Calendar = () => {
           t={t}
         />
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 

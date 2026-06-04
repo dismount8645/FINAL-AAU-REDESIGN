@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { cn } from '@/lib/utils';
 
 export interface TabItem {
   id?: string
@@ -41,7 +42,7 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
   };
 
   return (
-    <div role="tablist" onKeyDown={handleKeyDown} className={`flex flex-nowrap overflow-x-auto no-scrollbar border-b border-border gap-0 ${className}`}>
+    <div role="tablist" onKeyDown={handleKeyDown} className={cn('flex flex-nowrap overflow-x-auto no-scrollbar border-b border-border gap-0', className)}>
       {items.map((tab, i) => {
         const isActive = activeTab === (tab.id || tab.key)
         const tabId = tab.id || tab.key
@@ -53,13 +54,19 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
             aria-controls={tabId ? `panel-${tabId}` : undefined}
             id={tabId ? `tab-${tabId}` : undefined}
             key={tabId || tab.label || i}
-            className={`relative flex items-center px-md py-sm cursor-pointer transition-all duration-150 font-bold text-sm whitespace-nowrap outline-none focus-visible:outline-none focus-visible:shadow-focus focus-visible:bg-bg-hover before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-[''] ${isActive ? 'text-primary' : 'text-muted hover:text-main dark:text-white/60 dark:hover:text-white'}`}
+            className={cn(
+              "relative flex items-center px-md py-sm cursor-pointer transition-all duration-150 font-bold text-sm whitespace-nowrap outline-none focus-visible:outline-none focus-visible:shadow-focus focus-visible:bg-bg-hover before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
+              isActive ? 'text-primary' : 'text-muted hover:text-main dark:text-white/60 dark:hover:text-white'
+            )}
             onClick={() => onChange(tabId)}
           >
             {tab.label}
             {tab.count !== undefined ? (
               <span 
-                className={`ml-sm px-2xs py-0.5 rounded-[var(--radius-pill)] text-[10px] font-black tracking-tighter uppercase transition-colors ${isActive ? 'bg-primary text-white' : 'bg-muted dark:bg-white/10 text-muted'}`}
+                className={cn(
+                  'ml-sm px-2xs py-0.5 rounded-[var(--radius-pill)] text-[10px] font-black tracking-tighter uppercase transition-colors',
+                  isActive ? 'bg-primary text-white' : 'bg-muted dark:bg-white/10 text-muted'
+                )}
               >
                 {tab.count}
               </span>

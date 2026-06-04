@@ -8,9 +8,8 @@ import { NotificationItemRow, NotificationDetailView, NotificationFilters } from
 import Badge from '@/components/Badge';
 import Card from '@/components/Card';
 import EmptyState from '@/components/EmptyState';
-import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import { Grid, Stack } from '@/components/LayoutPrimitives';
+import PageLayout from '@/components/PageLayout';
 import { Text } from '@/components/Typography';
 import { createMockNotifications, getNotificationIcon } from '@/lib/notifications';
 import useStore from '@/lib/store';
@@ -41,21 +40,22 @@ function Notifications() {
   const getIcon = getNotificationIcon
 
   return (
-    <Stack className="container notifications-page flex flex-col pb-[var(--space-2xl)]">
-      <PageHeader
-        pageKey="notifications"
-        title={t('notifications')}
-        subtitle={t('notifications_page_subtitle')}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: t('notifications') },
-        ]}
-        className="!mb-[var(--space-lg)]"
-      >
+    <PageLayout
+      className="container notifications-page flex flex-col pb-[var(--space-2xl)]"
+      pageKey="notifications"
+      title={t('notifications')}
+      subtitle={t('notifications_page_subtitle')}
+      breadcrumbs={[
+        { label: t('dashboard'), href: '/' },
+        { label: t('notifications') },
+      ]}
+      headerClassName="!mb-[var(--space-lg)]"
+      headerChildren={
         <Badge variant={unreadCount > 0 ? 'danger' : 'default'} className={unreadCount > 0 ? 'bg-primary text-white shadow-[var(--shadow-md)] font-black px-xs' : ''}>
           {unreadCount} {unreadCount === 1 ? t('new_singular') : t('new_plural')}
         </Badge>
-      </PageHeader>
+      }
+    >
 
       <Grid>
         <Grid.Item span={4} tabletSpan={2} mobileSpan={4}>
@@ -135,7 +135,7 @@ function Notifications() {
           </Card>
         </Grid.Item>
       </Grid>
-    </Stack>
+    </PageLayout>
   )
 }
 
