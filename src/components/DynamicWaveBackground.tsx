@@ -4,6 +4,7 @@ import { render, act } from '@testing-library/react';
 import { useLocation, MemoryRouter, Routes, Route } from 'react-router-dom';
 import { ASSETS } from '@/lib';
 import useStore from '@/lib/store';
+import { getWaveSrc } from '@/lib/waves';
 
 const WAVE_MAP = {
   '/': { num: '01', color: 'rgba(0, 33, 79, 0.05)' },         // Dashboard - Deep Blue
@@ -82,6 +83,22 @@ export default function DynamicWaveBackground() {
       <div className="dynamic-waves__overlay" />
     </div>
   );
+}
+
+export interface WavesBackgroundProps {
+  page?: string;
+}
+
+export function WavesBackground({ page }: WavesBackgroundProps) {
+  return (
+    <img
+      src={getWaveSrc(page)}
+      alt={`Dekorativ bølgegrafik for ${page} side`}
+      className="waves-bg"
+      aria-hidden="true"
+      loading="lazy"
+    />
+  )
 }
 
 function renderAtPath(pathname: string, isDarkMode = false) {
@@ -166,6 +183,16 @@ if (import.meta.vitest) {
       expect(container.querySelector('.dynamic-waves')).not.toBeInTheDocument()
   
       globalThis.Image = originalImage
+    })
+  })
+
+  describe('WavesBackground', () => {
+    it('renders waves background correctly', () => {
+      const { container } = render(<WavesBackground page="home" />)
+      const img = container.querySelector('img')
+      expect(img).toBeInTheDocument()
+      expect(img).toHaveAttribute('src')
+      expect(img).toHaveClass('waves-bg')
     })
   })
 }

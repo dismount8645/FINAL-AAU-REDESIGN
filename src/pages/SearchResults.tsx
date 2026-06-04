@@ -6,9 +6,9 @@ import { useNavigate, MemoryRouter, useLocation } from 'react-router-dom';
 import SearchResultCard from '@/components/SearchResultCard';
 import SearchResultFilters from '@/components/SearchResultFilters';
 import EmptyState from '@/components/EmptyState';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import useStore from '@/lib/store';
 import { useSearch } from '@/lib/useSearch';
 

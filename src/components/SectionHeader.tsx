@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
 
 export interface SectionHeaderProps {

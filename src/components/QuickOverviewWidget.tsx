@@ -6,7 +6,7 @@ import { ChevronRight, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';
 import useStore from '@/lib/store';
 import { renderWithProviders } from '@/lib/test-utils';

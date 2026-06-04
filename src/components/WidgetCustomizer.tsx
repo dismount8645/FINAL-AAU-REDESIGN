@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Widget } from '@/lib/types'
 import Card from '@/components/Card'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/Button'
 import { Text } from '@/components/Typography'
 import Dropdown from '@/components/Dropdown'
@@ -15,7 +15,7 @@ import {
   DialogFooter,
   DialogClose,
 } from '@/components/Dialog'
-import IconCircle from '@/components/IconCircle'
+import { IconCircle } from '@/components/Icon'
 import { Edit, Plus, RotateCcw } from 'lucide-react'
 
 interface WidgetCustomizerProps {

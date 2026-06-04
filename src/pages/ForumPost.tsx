@@ -7,9 +7,9 @@ import ForumRepliesList from '@/components/ForumRepliesList';
 import ForumReplyForm from '@/components/ForumReplyForm';
 import ForumAboutWidget from '@/components/ForumAboutWidget';
 import Button from '@/components/Button';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Heading } from '@/components/Typography';
 import useStore from '@/lib/store';
 

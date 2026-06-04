@@ -8,7 +8,7 @@ import Badge from '@/components/Badge';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
 import { ASSETS, useCoursesFilterAndSort } from '@/lib';
 import { env } from '@/lib/env';

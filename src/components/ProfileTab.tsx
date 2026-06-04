@@ -9,10 +9,10 @@ import MessagesTab from './MessagesTab';
 import SettingsSection from './SettingsSection';
 import Avatar from '@/components/Avatar';
 import Button from '@/components/Button';
-import FormField from '@/components/FormField';
-import Grid from '@/components/Grid';
-import Input from '@/components/Input';
-import Stack from '@/components/Stack';
+import { FormField } from '@/components/FormControls';
+import { Grid } from '@/components/LayoutPrimitives';
+import { Input } from '@/components/FormControls';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import useStore, { type Theme } from '@/lib/store';
 

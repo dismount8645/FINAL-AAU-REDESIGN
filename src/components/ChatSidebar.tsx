@@ -1,7 +1,7 @@
 import { type MouseEvent, type KeyboardEvent } from 'react'
 import { Archive, Undo2, MessageSquare } from 'lucide-react'
 import Card from '@/components/Card'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/Button'
 import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'

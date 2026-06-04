@@ -1,9 +1,9 @@
 import { useEffect, type ReactNode } from 'react';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
-import WavesBackground from '@/components/WavesBackground';
+import { WavesBackground } from '@/components/DynamicWaveBackground';
 import useStore, { type BreadcrumbItem } from '@/lib/store';
 import { cn } from '@/lib/utils';
 

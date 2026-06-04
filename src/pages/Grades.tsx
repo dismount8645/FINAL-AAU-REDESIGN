@@ -10,7 +10,7 @@ import GradeRow from '@/components/GradeRow';
 import Card from '@/components/Card';
 import EmptyState from '@/components/EmptyState';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/mockGrades';
 import useStore from '@/lib/store';
 import { translations } from '@/lib/translations';

@@ -1,7 +1,7 @@
 import React, { memo, useMemo, useCallback } from 'react'
 import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import Card from '@/components/Card'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Badge from '@/components/Badge'
 import { Heading, Text } from '@/components/Typography'
 import useStore from '@/lib/store'

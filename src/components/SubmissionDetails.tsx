@@ -1,6 +1,6 @@
 import { Book } from 'lucide-react'
 import Card from '@/components/Card'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/Button'
 import Icon from '@/components/Icon'
 import { Text } from '@/components/Typography'

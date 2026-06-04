@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Clock, MapPin, User as UserIcon } from 'lucide-react'
 import { Dialog, DialogContent } from '@/components/Dialog'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Badge from '@/components/Badge'
 import Icon from '@/components/Icon'
 import Button from '@/components/Button'
