@@ -1,5 +1,12 @@
 import { z } from 'zod'
-import { FavoriteItemSchema } from './favorite'
+
+const FavoriteItemSchema = z.object({
+  id: z.string(),
+  type: z.enum(['course', 'tool', 'file', 'forum', 'link']),
+  entityId: z.number(),
+  addedAt: z.number(),
+  order: z.number(),
+})
 
 export const PersistedStateSchema = z.object({
   theme: z.enum(['system', 'light', 'dark']).catch('system'),
