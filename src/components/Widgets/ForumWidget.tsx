@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { Text, Heading } from '@/components/ui';
-import { dashboardForumPosts } from '@/config/dashboardWidgets';
+import { dashboardForumPosts } from '@/data/registry';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
@@ -237,7 +237,7 @@ if (import.meta.vitest) {
       renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
       const item = screen.getByText('Spørgsmål til litteraturen i uge 2')
       fireEvent.click(item)
-      expect(mockNavigate).toHaveBeenCalledWith('/forum/1')
+      expect(mockNavigate).toHaveBeenCalledWith('/forum/501')
     })
   
     it('navigates to new post when button is clicked', () => {

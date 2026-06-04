@@ -11,7 +11,7 @@ import { EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { StatusItem } from '@/components/ui';
 import { Text, Heading } from '@/components/ui';
-import { dashboardGrades } from '@/config/dashboardWidgets';
+import { dashboardGrades } from '@/data/registry';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
