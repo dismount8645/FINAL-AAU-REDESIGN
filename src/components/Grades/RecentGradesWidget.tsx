@@ -1,15 +1,14 @@
-import { useMemo, useCallback, memo, forwardRef } from 'react';
+import { useMemo, useCallback, memo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Star, Hourglass, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Badge } from '@/components/ui';
+import { Badge, MasterItem } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout';
-import { StatusItem } from '@/components/ui';
 import { Text, Heading } from '@/components/ui';
 import { dashboardGrades } from '@/data/registry';
 import useStore from '@/store';
@@ -18,67 +17,7 @@ import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { getWidgetDisplayLayout } from '@/config/widgetLayout';
 
-interface Grade {
-  id: number
-  course: string
-  title: string
-  score: string | number | null
-  date: string
-}
 
-/**
- * GradeItem - Individual grade entry with refactored A11y and tokens.
- */
-const GradeItem = memo(forwardRef<HTMLDivElement, { 
-  grade: Grade 
-}>(({ grade }, ref) => {
-  const t = useStore(state => state.t)
-  
-  return (
-    <motion.div
-      ref={ref}
-      layout
-      initial={{ opacity: 0, y: 5 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.15 }}
-      className="group/item"
-    >
-      <StatusItem
-        icon={grade.score !== null ? Star : Hourglass}
-        iconColor={grade.score !== null ? 'var(--color-warning)' : 'var(--color-text-disabled)'}
-        title={grade.title}
-        className="bg-transparent hover:bg-bg-hover px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150"
-        right={
-          <AnimatePresence mode="wait">
-            {grade.score !== null ? (
-              <motion.div
-                key="score"
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                className="recent-grades__score flex items-center justify-center w-8 h-8 bg-primary text-white rounded-[var(--radius-full)] text-[0.75rem] font-black shadow-sm group-hover/item:scale-110 transition-transform"
-              >
-                {grade.score}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="pending"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-              >
-                <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-[1.25rem] px-[var(--space-2xs)] flex items-center">
-                  {t('not_graded')}
-                </Badge>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        }
-      />
-    </motion.div>
-  )
-}))
-
-GradeItem.displayName = 'GradeItem'
 
 /**
  * RecentGradesWidget - Performance overview and academic results.
@@ -135,10 +74,49 @@ const RecentGradesWidget = ({ span, isEditing }: WidgetProps) => {
           <div className="grid gap-[var(--space-xs)]" style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}>
             <AnimatePresence mode="popLayout">
               {visibleGrades.map((g) => (
-                <GradeItem
+                <motion.div
                   key={g.id || g.title}
-                  grade={g as Grade}
-                />
+                  layout
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.15 }}
+                  className="group/item"
+                >
+                  <MasterItem
+                    onClick={() => {
+                      if (!isEditing) navigate('/grades')
+                    }}
+                    className="bg-transparent hover:bg-bg-hover px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150 border-none"
+                    leading={g.score !== null ? Star : Hourglass}
+                    leadingClassName={g.score !== null ? 'text-warning' : 'text-text-disabled'}
+                    title={g.title}
+                    trailing={
+                      <AnimatePresence mode="wait">
+                        {g.score !== null ? (
+                          <motion.div
+                            key="score"
+                            initial={{ scale: 0.5 }}
+                            animate={{ scale: 1 }}
+                            className="recent-grades__score flex items-center justify-center w-8 h-8 bg-primary text-white rounded-[var(--radius-full)] text-[0.75rem] font-black shadow-sm group-hover/item:scale-110 transition-transform"
+                          >
+                            {g.score}
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="pending"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                          >
+                            <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-[1.25rem] px-[var(--space-2xs)] flex items-center">
+                              {t('not_graded')}
+                            </Badge>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    }
+                  />
+                </motion.div>
               ))}
             </AnimatePresence>
           </div>

@@ -1,13 +1,12 @@
-import { useMemo, memo, useCallback, forwardRef } from 'react';
+import { useMemo, useCallback, memo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
-import { ChevronRight, Clock, AlertCircle, CheckCircle2, Calendar } from 'lucide-react';
+import { Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout';
-import { StatusItem } from '@/components/ui';
-import { Text, Heading } from '@/components/ui';
+import { Text, Heading, MasterItem } from '@/components/ui';
 import { dashboardDeadlines } from '@/data/registry';
 import * as dates from '@/lib/dates';
 import { getHoursUntil, hoursFromNow } from '@/lib/dates';
@@ -67,40 +66,6 @@ interface ProcessedDeadline {
   title: string
   urgency: UrgencyConfig
 }
-
-interface DeadlineItemProps {
-  deadline: ProcessedDeadline
-  onClick: (deadline: ProcessedDeadline) => void
-  t: (key: string) => string
-}
-
-const DeadlineItem = memo(forwardRef<HTMLButtonElement, DeadlineItemProps>(
-  ({ deadline, onClick, t }, ref) => {
-    return (
-      <button
-        ref={ref}
-        type="button"
-        className={cn(
-          "w-full text-left p-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-bg-hover group/item cursor-pointer outline-none border border-transparent hover:border-[var(--border-color)]/40",
-          "focus-visible:shadow-focus focus-visible:outline-none",
-          deadline.urgency.level === 'overdue' && "bg-danger/5 hover:bg-danger/10"
-        )}
-        onClick={() => onClick(deadline)}
-      >
-        <StatusItem
-          icon={deadline.urgency.icon}
-          iconColor={deadline.urgency.color}
-          title={deadline.title}
-          subtitle={t(deadline.dateKey)}
-          subtitleClassName={cn(deadline.urgency.labelClass, "text-xs mt-0.5")}
-          className="bg-transparent hover:bg-transparent px-[var(--space-2xs)]"
-        />
-      </button>
-    )
-  }
-))
-
-DeadlineItem.displayName = 'DeadlineItem'
 
 // --- Main Component ---
 
@@ -165,11 +130,24 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
             style={{ gridTemplateColumns: `repeat(${gridColumns}, minmax(0, 1fr))` }}
           >
             {deadlines.map((dl) => (
-              <DeadlineItem
+              <MasterItem
                 key={dl.id}
-                deadline={dl}
-                onClick={handleDeadlineClick}
-                t={t}
+                onClick={() => handleDeadlineClick(dl)}
+                className={cn(
+                  "p-[var(--space-2xs)] border border-transparent rounded-[var(--radius-lg)] hover:border-[var(--border-color)]/40",
+                  dl.urgency.level === 'overdue' && "bg-danger/5 hover:bg-danger/10"
+                )}
+                leading={
+                  <div className="shrink-0 flex items-center justify-center" style={{ color: dl.urgency.color }}>
+                    <dl.urgency.icon size={20} strokeWidth={2} />
+                  </div>
+                }
+                title={dl.title}
+                subtitle={
+                  <span className={cn(dl.urgency.labelClass, "text-xs mt-0.5")}>
+                    {t(dl.dateKey)}
+                  </span>
+                }
               />
             ))}
           </div>
