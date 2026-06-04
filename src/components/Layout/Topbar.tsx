@@ -21,14 +21,13 @@ export default function Topbar() {
   const toggleSidebar = useStore(state => state.toggleSidebar);
   const t = useStore(state => state.t);
   const lang = useStore(state => state.lang);
-  const courses = useStore(state => state.courses);
   const breadcrumbs = useStore(state => state.breadcrumbs);
   const theme = useStore(state => state.theme);
   const setTheme = useStore(state => state.setTheme);
 
   const activeBreadcrumbs = (breadcrumbs && breadcrumbs.length > 0)
     ? breadcrumbs
-    : getAutomaticBreadcrumbs(location.pathname, lang, courses, t);
+    : getAutomaticBreadcrumbs(location.pathname, lang, t);
 
   /* istanbul ignore next */
   const sidebarIcon = (isCollapsed || (isMobile && !isMobileOpen)) ? <Menu size={20} strokeWidth={2} /> : isMobileOpen ? <X size={20} strokeWidth={2} /> : <AlignJustify size={20} strokeWidth={2} />;
