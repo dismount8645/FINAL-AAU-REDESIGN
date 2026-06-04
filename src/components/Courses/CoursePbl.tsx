@@ -4,7 +4,7 @@ import { Card } from '@/components/ui'
 import { Grid } from '@/components/Layout'
 import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import { ListItem } from '@/components/ui'
+import { MasterItem } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 
@@ -38,8 +38,8 @@ function CoursePbl() {
                 </Card.Header>
                 <Card.Body className="p-sm">
                   <Stack>
-                    <ListItem title="Draft_v2.pdf" icon={FileSignature} />
-                    <ListItem title="User_Testing_Data.xlsx" icon={FileSignature} />
+                    <MasterItem title="Draft_v2.pdf" leading={FileSignature} />
+                    <MasterItem title="User_Testing_Data.xlsx" leading={FileSignature} />
                   </Stack>
                 </Card.Body>
               </Card>
@@ -49,8 +49,8 @@ function CoursePbl() {
                 </Card.Header>
                 <Card.Body className="p-sm">
                   <Stack>
-                    <ListItem title={t('pbl_peer_feedback')} subtitle={t('pbl_tomorrow') + ', 12:00'} icon={Clock} />
-                    <ListItem title={t('pbl_final_submission')} subtitle={t('pbl_friday') + ', 23:59'} icon={Clock} />
+                    <MasterItem title={t('pbl_peer_feedback')} subtitle={t('pbl_tomorrow') + ', 12:00'} leading={Clock} />
+                    <MasterItem title={t('pbl_final_submission')} subtitle={t('pbl_friday') + ', 23:59'} leading={Clock} />
                   </Stack>
                 </Card.Body>
               </Card>

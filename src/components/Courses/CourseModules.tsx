@@ -10,6 +10,7 @@ import type { CourseItem } from '@/lib/types'
 
 import { FileText, Play, Link2, Upload, File, Check } from 'lucide-react'
 import { MasterItem } from '@/components/ui'
+import { useFormat } from '@/hooks'
 
 const LessonItemRow = memo(function LessonItemRow({
   item,
@@ -36,9 +37,9 @@ const LessonItemRow = memo(function LessonItemRow({
     onToggleItem(item.id)
   }, [item.id, onToggleItem])
 
-  const metadata = item.size || item.duration || (item.deadline
-    ? `${t('deadline')}: ${t(`course_deadline_${item.id === 105 ? 'fri_12' : 'mon_09'}`)}`
-    : '') || t('external_resource')
+  const { getCourseItemMetadata } = useFormat()
+
+  const metadata = getCourseItemMetadata(item)
 
   const iconMap = {
     pdf: FileText,
