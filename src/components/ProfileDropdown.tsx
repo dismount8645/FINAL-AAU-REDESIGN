@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Text } from '@/components/Typography';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
-import { useDropdown } from '@/lib/useDropdown';
+import { useDropdown } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/userStore';
 

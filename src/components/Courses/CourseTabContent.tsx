@@ -9,7 +9,7 @@ import CourseInfo from './CourseInfo';
 import CourseParticipants from './CourseParticipants';
 import CoursePbl from './CoursePbl';
 import CourseSidebar from './CourseSidebar';
-import ForumWidget from '@/components/ForumWidget';
+import { ForumWidget } from '@/components/Widgets';
 import type { CourseItem } from '@/lib/types';
 
 interface CourseTabContentProps {

@@ -4,8 +4,8 @@ import { screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '@/lib/test-utils';
 import { Trash2, Wrench } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import FavoritesFilter from '@/components/FavoritesFilter';
-import FavoritesList from '@/components/FavoritesList';
+import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
+
 import Button from '@/components/ui/Button';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';

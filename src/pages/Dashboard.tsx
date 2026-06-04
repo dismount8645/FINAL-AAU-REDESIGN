@@ -5,14 +5,14 @@ import { renderWithProviders } from '@/lib/test-utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Edit, Check } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
-import { WidgetCustomizer } from '@/components/WidgetCustomizer';
-import { WidgetGrid } from '@/components/WidgetGrid';
+import { WidgetCustomizer } from '@/components/Widgets';
+import { WidgetGrid } from '@/components/Widgets';
 import { Button } from '@/components/ui';
 import PageLayout from '@/components/PageLayout';
 import { cn } from '@/lib/utils';
-import { DEFAULT_WIDGETS } from '@/lib/mockData';
+import { DEFAULT_WIDGETS } from '@/data/mockData';
 import useStore from '@/store';
-import { useWidgetDrag } from '@/lib/useWidgetDrag';
+import { useWidgetDrag } from '@/hooks';
 
 function Dashboard() {
   const t = useStore((state) => state.t)

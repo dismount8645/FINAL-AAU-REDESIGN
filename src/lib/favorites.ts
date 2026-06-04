@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { BookOpen, Wrench, FileText, MessageSquare, type LucideIcon } from 'lucide-react';
-import { courses as coursesMap, forums } from '@/lib/mockData';
+import { courses as coursesMap, forums } from '@/data/mockData';
 import type { CourseWithStatus, Lang } from '@/store';
 import { allToolsList } from '@/lib/tools';
 import { translations } from '@/lib/translations';

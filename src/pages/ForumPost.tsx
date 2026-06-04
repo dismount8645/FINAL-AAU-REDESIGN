@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { ArrowLeft } from 'lucide-react';
 import { useParams, Link, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ForumOriginalPost, ForumRepliesList, ForumReplyForm } from '@/components/Forum';
-import ForumAboutWidget from '@/components/ForumAboutWidget';
+import { ForumAboutWidget } from '@/components/Widgets';
 import Button from '@/components/ui/Button';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';

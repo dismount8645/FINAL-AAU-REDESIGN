@@ -5,7 +5,7 @@ import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
-import FavoriteItem, { type FavoriteItemData } from '@/components/FavoriteItem'
+import { FavoriteItem, type FavoriteItemData } from '@/components/Favorites'
 import type { FavoriteType } from '@/lib/types'
 
 interface FavoritesListProps {

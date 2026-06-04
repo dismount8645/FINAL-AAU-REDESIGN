@@ -4,10 +4,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { AnimatePresence } from 'framer-motion';
 import { Upload, Download, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
-import { CalendarMonthView, CalendarWeekView, CalendarDayView } from '@/components/CalendarViews';
-import CalendarUpcomingWidget from '@/components/CalendarUpcomingWidget';
-import CalendarNewEventDialog from '@/components/CalendarNewEventDialog';
-import CalendarEventDetailsDialog from '@/components/CalendarEventDetailsDialog';
+import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingWidget, CalendarNewEventDialog, CalendarEventDetailsDialog } from '@/components/Calendar';
+
+
+
 import { Button } from '@/components/ui';
 import Card from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -16,7 +16,7 @@ import PageLayout from '@/components/PageLayout';
 import SegmentedControl from '@/components/SegmentedControl';
 import { Skeleton } from '@/components/Skeleton';
 import { useToast, ToastProvider } from '@/components/Toast';
-import { useCalendar } from '@/components/useCalendar';
+import { useCalendar } from '@/hooks';
 import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';
 import type { CalendarEvent } from '@/lib/types';
