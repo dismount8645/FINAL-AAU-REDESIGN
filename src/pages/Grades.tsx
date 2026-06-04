@@ -13,24 +13,42 @@ import { PageLayout } from '@/components/Layout';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/data/mockGrades';
 import useStore from '@/store';
 import { translations } from '@/lib/translations';
-import { useGradesFilterAndStats } from '@/hooks';
+import { useFilteredCollection } from '@/hooks';
 
 function Grades() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
 
+  // ── stats (computed from full dataset, not filtered) ─────────────────────
+  const gradedRecords = useMemo(
+    () => mockGradesData.filter(g => g.grade !== null),
+    []
+  )
+  const gpa = useMemo(() => {
+    if (gradedRecords.length === 0) return 0
+    const totalWeighted = gradedRecords.reduce((sum, r) => sum + (r.grade || 0) * r.ects, 0)
+    const totalEcts     = gradedRecords.reduce((sum, r) => sum + r.ects, 0)
+    return parseFloat((totalWeighted / totalEcts).toFixed(2))
+  }, [gradedRecords])
+  const completedEcts = useMemo(
+    () => gradedRecords.reduce((sum, r) => sum + r.ects, 0),
+    [gradedRecords]
+  )
+
+  // ── search + filter via generic hook ─────────────────────────────────────
   const {
     searchQuery,
     setSearchQuery,
-    selectedSemester,
-    setSelectedSemester,
-    gpa,
-    completedEcts,
-    semesterOptions,
-    filteredRecords,
-    gradedCount,
-    totalCount
-  } = useGradesFilterAndStats({ gradesData: mockGradesData, localize })
+    activeFilter: selectedSemester,
+    setActiveFilter: setSelectedSemester,
+    filterOptions: semesterOptions,
+    items: filteredRecords,
+  } = useFilteredCollection(mockGradesData, {
+    searchKeys: r => [localize(r, 'title'), r.code, r.instructor],
+    filterKey:  r => localize(r, 'semester'),
+    filterDefault: 'all',
+    filterOptions: items => ['all', ...Array.from(new Set(items.map(r => localize(r, 'semester'))))],
+  })
 
   const dashboardLabel = useMemo(
     () => t('dashboard') === 'dashboard' ? 'Dashboard' : t('dashboard'),
@@ -53,15 +71,15 @@ function Grades() {
           gpa={gpa}
           completedEcts={completedEcts}
           totalPossibleEcts={BACHELOR_TOTAL_ECTS}
-          gradedCount={gradedCount}
-          totalCount={totalCount}
+          gradedCount={gradedRecords.length}
+          totalCount={mockGradesData.length}
         />
 
         <Card className="p-0">
           <GradesFilter
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
-            selectedSemester={selectedSemester}
+            selectedSemester={selectedSemester ?? 'all'}
             setSelectedSemester={setSelectedSemester}
             semesterOptions={semesterOptions}
           />
