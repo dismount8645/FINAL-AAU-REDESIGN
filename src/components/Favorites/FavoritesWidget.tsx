@@ -5,7 +5,7 @@ import { Star, ChevronRight, BookOpen } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
-import FavoriteItem from '@/components/FavoriteItem';
+import { FavoriteItem } from '@/components/Favorites';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';

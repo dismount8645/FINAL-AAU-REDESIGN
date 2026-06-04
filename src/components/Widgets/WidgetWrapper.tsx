@@ -7,9 +7,9 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { Grid } from '@/components/LayoutPrimitives';
 import ResizeCorner from '@/components/ResizeCorner';
 import { Stack } from '@/components/LayoutPrimitives';
-import { WIDGET_CONFIG } from '@/lib/mockData';
+import { WIDGET_CONFIG } from '@/data/mockData';
 import type { Widget, WidgetProps } from '@/lib/types';
-import { useResizeHandle } from '@/lib/useResizeHandle';
+import { useResizeHandle } from '@/hooks';
 
 interface WidgetWrapperProps {
   widget: Widget
@@ -154,8 +154,8 @@ if (import.meta.vitest) {
   }))
   const mockT = vi.fn((key: string) => key)
   
-  vi.mock('@/lib/mockData', async () => {
-    const actual = await vi.importActual('@/lib/mockData')
+  vi.mock('@/data/mockData', async () => {
+    const actual = await vi.importActual('@/data/mockData')
     return {
       ...actual,
       WIDGET_CONFIG: {
@@ -164,8 +164,8 @@ if (import.meta.vitest) {
     }
   })
   
-  vi.mock('@/lib/useResizeHandle', async () => {
-    const actual = await vi.importActual('@/lib/useResizeHandle')
+  vi.mock('@/hooks/useResizeHandle', async () => {
+    const actual = await vi.importActual('@/hooks/useResizeHandle')
     return {
       ...actual,
       useResizeHandle: () => ({ handleResize: hoisted.mockResize }),

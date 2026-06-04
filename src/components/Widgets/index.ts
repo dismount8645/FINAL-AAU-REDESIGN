@@ -1,0 +1,8 @@
+export { default as DeadlinesWidget } from './DeadlinesWidget'
+export { default as ForumActivityWidget } from './ForumActivityWidget'
+export { default as ForumWidget } from './ForumWidget'
+export { default as QuickOverviewWidget } from './QuickOverviewWidget'
+export { default as ForumAboutWidget } from './ForumAboutWidget'
+export * from './WidgetWrapper'
+export * from './WidgetCustomizer'
+export * from './WidgetGrid'

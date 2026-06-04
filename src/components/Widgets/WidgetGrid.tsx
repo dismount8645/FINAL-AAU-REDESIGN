@@ -1,12 +1,12 @@
 import { type DragEvent, useMemo } from 'react'
 import type { Widget, WidgetProps } from '@/lib/types'
 import { Grid } from '@/components/LayoutPrimitives'
-import { WIDGET_CONFIG } from '@/lib/mockData'
-import FavoritesWidget from '@/components/FavoritesWidget'
-import QuickOverviewWidget from '@/components/QuickOverviewWidget'
-import DeadlinesWidget from '@/components/DeadlinesWidget'
-import RecentGradesWidget from '@/components/RecentGradesWidget'
-import ForumActivityWidget from '@/components/ForumActivityWidget'
+import { WIDGET_CONFIG } from '@/data/mockData'
+import { FavoritesWidget } from '@/components/Favorites'
+import QuickOverviewWidget from './QuickOverviewWidget'
+import DeadlinesWidget from './DeadlinesWidget'
+import { RecentGradesWidget } from '@/components/Grades'
+import ForumActivityWidget from './ForumActivityWidget'
 import { WidgetWrapper } from './WidgetWrapper'
 
 const WIDGET_COMPONENTS: Record<string, React.ComponentType<WidgetProps>> = {

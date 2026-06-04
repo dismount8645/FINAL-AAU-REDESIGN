@@ -9,7 +9,7 @@ import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';
 import useStore from '@/store';
-import { useSearch } from '@/lib/useSearch';
+import { useSearch } from '@/hooks';
 
 function SearchResults() {
   const t = useStore(state => state.t)
@@ -95,8 +95,8 @@ export default SearchResults
 
 if (import.meta.vitest) {
   // Mock mockData to include a result with an unknown group
-  vi.mock('@/lib/mockData', async () => {
-    const actual = await vi.importActual('@/lib/mockData') as any
+  vi.mock('@/data/mockData', async () => {
+    const actual = await vi.importActual('@/data/mockData') as any
     return {
       ...actual,
       courses: {
