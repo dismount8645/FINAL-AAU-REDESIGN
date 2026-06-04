@@ -3,7 +3,7 @@ import { it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { FileSignature, Book, Clock } from 'lucide-react';
 import { Card } from '@/components/ui';
-import { ListItem } from '@/components/ui';
+import { MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { Heading } from '@/components/ui';
 import useStore from '@/store';
@@ -19,9 +19,9 @@ function CourseResources() {
         </Card.Header>
         <Card.Body>
           <Stack gap="md">
-            <ListItem icon={FileSignature} title={t('syllabus')} subtitle="PDF, 2.4 MB" onClick={(e) => e.preventDefault()} />
-            <ListItem icon={Book} title={t('reading_list')} subtitle="Excel, 150 KB" onClick={(e) => e.preventDefault()} />
-            <ListItem icon={Clock} title={t('exam_schedule')} subtitle="Link" onClick={(e) => e.preventDefault()} />
+            <MasterItem leading={FileSignature} title={t('syllabus')} subtitle="PDF, 2.4 MB" onClick={(e) => e.preventDefault()} />
+            <MasterItem leading={Book} title={t('reading_list')} subtitle="Excel, 150 KB" onClick={(e) => e.preventDefault()} />
+            <MasterItem leading={Clock} title={t('exam_schedule')} subtitle="Link" onClick={(e) => e.preventDefault()} />
           </Stack>
         </Card.Body>
       </Card>

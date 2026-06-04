@@ -4,8 +4,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BellOff, Inbox } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
-import { NotificationItemRow, NotificationDetailView, NotificationFilters } from '@/components/Notifications';
-import { Badge } from '@/components/ui';
+import { NotificationDetailView, NotificationFilters } from '@/components/Notifications';
+import { Badge, MasterItem } from '@/components/ui';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import { Grid, Stack } from '@/components/Layout';
@@ -14,6 +14,9 @@ import { Text } from '@/components/ui';
 import { createMockNotifications, getNotificationIcon } from '@/lib/notifications';
 import useStore from '@/store';
 import { useNotificationsState } from '@/hooks';
+import Button from '@/components/ui/Button';
+import { Check, Archive, Undo2 } from 'lucide-react';
+import { formatTime } from '@/lib/dates';
 
 function Notifications() {
   const t = useStore(state => state.t)
@@ -85,21 +88,75 @@ function Notifications() {
                         <div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-bg-placeholder/50 dark:bg-white/5 border-y border-border/50 first:border-t-0">
                           <Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase">{date}</Text>
                         </div>
-                        {items.map((notif) => (
-                          <NotificationItemRow
-                            key={notif.id}
-                            notif={notif}
-                            isSelected={currentSelectedId === notif.id}
-                            view={view}
-                            lang={lang}
-                            t={t}
-                            getIcon={getIcon}
-                            onSelect={() => setSelectedId(notif.id)}
-                            onMarkRead={markAsRead}
-                            onArchive={archiveNotification}
-                            onRestore={restoreNotification}
-                          />
-                        ))}
+                        {items.map((notif) => {
+                          const Icon = getIcon(notif.type)
+                          return (
+                            <MasterItem
+                              key={notif.id}
+                              selected={currentSelectedId === notif.id}
+                              unread={!notif.isRead}
+                              onClick={() => setSelectedId(notif.id)}
+                              className="notification-item"
+                              leading={
+                                <div className={`notification-icon-wrapper notif-type--${notif.type.toLowerCase()} w-11 h-11 rounded-[var(--radius-xl)] flex items-center justify-center shrink-0 transition-all duration-300 shadow-[var(--shadow-sm)] border border-border/50 ${notif.isRead ? 'opacity-60 grayscale' : 'scale-105'}`}>
+                                  <Icon size={20} strokeWidth={2} className={notif.isRead ? 'text-muted' : 'text-primary'} />
+                                </div>
+                              }
+                              title={
+                                <Stack direction="row" align="center" gap="xs" className="mb-0.5">
+                                  <Text size="2xs" weight="black" className="text-primary uppercase tracking-tighter opacity-80">{notif.type}</Text>
+                                  <Text size="2xs" muted className="opacity-40">&bull;</Text>
+                                  <Text size="2xs" weight="bold" muted className="truncate">{notif.course}</Text>
+                                </Stack>
+                              }
+                              subtitle={
+                                <Text weight={notif.isRead ? 'medium' : 'black'} size="sm" className={`truncate ${notif.isRead ? 'text-muted' : 'text-main'}`}>{notif.text}</Text>
+                              }
+                              meta={
+                                <Text size="2xs" muted className="mt-[var(--space-2xs)] opacity-60">
+                                  {formatTime(notif.date, lang)}
+                                </Text>
+                              }
+                              trailing={
+                                <div className="notification-meta flex items-center gap-sm shrink-0">
+                                  {!notif.isRead && (
+                                    <div className="w-2.5 h-2.5 rounded-[var(--radius-pill)] bg-primary shadow-[0_0_6px_rgba(var(--color-primary-rgb),0.5)]" />
+                                  )}
+                                  <div className="notification-actions flex gap-3xs opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                                    {!notif.isRead && (
+                                      <Button
+                                        variant="ghost"
+                                        size="icon-sm"
+                                        pill
+                                        icon={Check}
+                                        onClick={(e) => {
+                                          e.stopPropagation()
+                                          markAsRead(notif.id, e)
+                                        }}
+                                        title={t('mark_as_read')}
+                                        aria-label={t('mark_as_read')}
+                                        className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
+                                      />
+                                    )}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon-sm"
+                                      pill
+                                      icon={view === 'active' ? Archive : Undo2}
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        view === 'active' ? archiveNotification(notif.id, e) : restoreNotification(notif.id, e)
+                                      }}
+                                      title={view === 'active' ? t('archive') : t('restore')}
+                                      aria-label={view === 'active' ? t('archive') : t('restore')}
+                                      className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
+                                    />
+                                  </div>
+                                </div>
+                              }
+                            />
+                          )
+                        })}
                       </Stack>
                     ))}
                   </motion.div>

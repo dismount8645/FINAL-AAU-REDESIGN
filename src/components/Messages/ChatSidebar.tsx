@@ -1,9 +1,9 @@
-import { type MouseEvent, type KeyboardEvent } from 'react'
+import { type MouseEvent } from 'react'
 import { Archive, Undo2, MessageSquare } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import { Heading, Text } from '@/components/ui'
+import { Heading, Text, MasterItem } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
 import { Avatar } from '@/components/ui'
 import { TabBar } from '@/components/ui'
@@ -47,50 +47,41 @@ export function ChatSidebar({
       <div className="panel-scroll">
         {filteredContacts.length > 0 ? (
           filteredContacts.map((contact) => (
-            <Stack
+            <MasterItem
               key={contact.id}
+              selected={activeContactId === contact.id}
+              unread={contact.unread}
               onClick={() => {
                 setActiveContactId(contact.id)
                 setShowChat(true)
               }}
-              tabIndex={0}
-              role="button"
-              onKeyDown={(e: KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault()
-                  setActiveContactId(contact.id)
-                  setShowChat(true)
-                }
-              }}
-              className={`contact-item group border-b border-border/40 cursor-pointer hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus transition-colors p-md relative ${
-                activeContactId === contact.id ? 'active bg-bg-highlight dark:bg-white/5' : ''
-              }`}
-            >
-              {activeContactId === contact.id && <div className="panel-active-indicator" />}
-              <Stack direction="row" justify="between" align="center" className="w-full">
-                <Stack direction="row" gap="sm" align="center" className="flex-1 min-w-0">
-                  <Avatar name={contact.name} size="sm" />
-                  <Stack gap="2xs" className="flex-1 min-w-0">
-                    <Heading level={4} className="truncate">
-                      {contact.name}
-                    </Heading>
-                    <Text
-                      size="xs"
-                      weight={contact.unread ? 'bold' : 'normal'}
-                      className={`truncate ${
-                        contact.unread ? 'text-main' : 'text-text-muted'
-                      }`}
-                    >
-                      {contact.msg}
-                    </Text>
-                    <Text
-                      size="2xs"
-                      className="mt-[var(--space-2xs)] text-text-muted font-medium"
-                    >
-                      {contact.time}
-                    </Text>
-                  </Stack>
-                </Stack>
+              className="contact-item"
+              leading={<Avatar name={contact.name} size="sm" />}
+              title={
+                <Heading level={4} className="truncate">
+                  {contact.name}
+                </Heading>
+              }
+              subtitle={
+                <Text
+                  size="xs"
+                  weight={contact.unread ? 'bold' : 'normal'}
+                  className={`truncate ${
+                    contact.unread ? 'text-main' : 'text-text-muted'
+                  }`}
+                >
+                  {contact.msg}
+                </Text>
+              }
+              meta={
+                <Text
+                  size="2xs"
+                  className="mt-[var(--space-2xs)] text-text-muted font-medium"
+                >
+                  {contact.time}
+                </Text>
+              }
+              trailing={
                 <Stack direction="row" gap="sm" align="center" className="shrink-0 ml-sm">
                   {contact.unread && !contact.archived && (
                     <div className="w-2.5 h-2.5 rounded-[var(--radius-pill)] bg-primary shadow-[0_0_6px_rgba(var(--color-primary-rgb),0.4)]" />
@@ -101,16 +92,17 @@ export function ChatSidebar({
                       size="xs"
                       icon={view === 'active' ? Archive : Undo2}
                       aria-label={view === 'active' ? 'Archive contact' : 'Restore contact'}
-                      onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                      onClick={(e: MouseEvent<HTMLButtonElement>) => {
+                        e.stopPropagation()
                         view === 'active' ? archiveContact(contact.id, e) : restoreContact(contact.id, e)
-                      }
+                      }}
                       pill
                       className="bg-bg-card border border-border/50 hover:border-primary shadow-[var(--shadow-sm)]"
                     />
                   </div>
                 </Stack>
-              </Stack>
-            </Stack>
+              }
+            />
           ))
         ) : (
           <EmptyState icon={MessageSquare} title={t('no_messages_found')} />

@@ -9,6 +9,8 @@ import useStore from '@/store'
 import mockData from '@/data/registry.json'
 const { supportLocations, supportDeskHours, supportNotes } = mockData
 
+import { AccordionWrapper, AccordionItemRow } from '@/components/ui'
+
 function LocalDesksSection() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
@@ -23,7 +25,30 @@ function LocalDesksSection() {
         />
         <AccordionWrapper>
           {supportLocations.map((loc, i) => (
-            <AccordionItemDummy key={`loc-${i}`} city={loc.city} address={loc.address} zip={loc.zip} />
+            <AccordionItemRow key={`loc-${i}`} value={loc.city} title={loc.city}>
+              <Stack gap="sm" className="pb-2xs">
+                <div>
+                  <Text size="sm" className="text-main">{loc.address}</Text>
+                  <Text size="xs" className="text-muted">{loc.zip}</Text>
+                </div>
+                <div className="border-t border-border pt-2xs">
+                  <Text size="xs" weight="semibold" className="flex items-center gap-3xs text-muted mb-3xs">
+                    <Clock size={14} strokeWidth={2} />
+                    {t('opening_hours_service_desk')}
+                  </Text>
+                  <Stack gap="2xs">
+                    {supportDeskHours.map((oh, j) => (
+                      <KeyValue
+                        key={j}
+                        label={localize(oh, 'days')}
+                        value={oh.hours}
+                        divider={false}
+                      />
+                    ))}
+                  </Stack>
+                </div>
+              </Stack>
+            </AccordionItemRow>
           ))}
         </AccordionWrapper>
       </Card>
@@ -54,53 +79,6 @@ function LocalDesksSection() {
         </Stack>
       </Card>
     </Stack>
-  )
-}
-
-// Internal small helpers to render the exact Accordion structure from parent
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
-
-const AccordionWrapper = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <Accordion>
-      {children}
-    </Accordion>
-  )
-}
-
-const AccordionItemDummy = ({ city, address, zip }: { city: string, address: string, zip: string }) => {
-  const t = useStore(state => state.t)
-  const localize = useStore(state => state.localize)
-  return (
-    <AccordionItem value={city} className="border-b border-border last:border-0">
-      <AccordionTrigger>
-        <span className="text-left font-semibold text-main">{city}</span>
-      </AccordionTrigger>
-      <AccordionContent>
-        <Stack gap="sm" className="pb-2xs">
-          <div>
-            <Text size="sm" className="text-main">{address}</Text>
-            <Text size="xs" className="text-muted">{zip}</Text>
-          </div>
-          <div className="border-t border-border pt-2xs">
-            <Text size="xs" weight="semibold" className="flex items-center gap-3xs text-muted mb-3xs">
-              <Clock size={14} strokeWidth={2} />
-              {t('opening_hours_service_desk')}
-            </Text>
-            <Stack gap="2xs">
-              {supportDeskHours.map((oh, j) => (
-                <KeyValue
-                  key={j}
-                  label={localize(oh, 'days')}
-                  value={oh.hours}
-                  divider={false}
-                />
-              ))}
-            </Stack>
-          </div>
-        </Stack>
-      </AccordionContent>
-    </AccordionItem>
   )
 }
 

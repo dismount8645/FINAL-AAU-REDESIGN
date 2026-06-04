@@ -2,7 +2,7 @@
 import { memo } from 'react'
 import { Card } from '@/components/ui'
 import { SectionHeader } from '@/components/ui'
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
+import { AccordionWrapper, AccordionItemRow } from '@/components/ui'
 import { Text } from '@/components/ui'
 import useStore from '@/store'
 
@@ -38,16 +38,13 @@ function FaqSection() {
         level={2}
         className="mb-sm"
       />
-      <Accordion className="space-y-sm">
+      <AccordionWrapper>
         {faqs.map((faq, i) => (
-          <AccordionItem key={i} value={`faq-${i}`} className="px-md rounded-[var(--radius-md)]">
-            <AccordionTrigger><span className="text-left font-medium">{faq.q}</span></AccordionTrigger>
-            <AccordionContent>
-              <Text size="sm" className="text-text-muted leading-relaxed pb-sm">{linkifyText(faq.a)}</Text>
-            </AccordionContent>
-          </AccordionItem>
+          <AccordionItemRow key={i} value={`faq-${i}`} title={faq.q}>
+            <Text size="sm" className="text-text-muted leading-relaxed pb-sm">{linkifyText(faq.a)}</Text>
+          </AccordionItemRow>
         ))}
-      </Accordion>
+      </AccordionWrapper>
     </Card>
   )
 }
