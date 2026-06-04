@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import Button from '@/components/Button'
 import TeaserCard from '@/components/TeaserCard'
 import { ASSETS } from '@/lib'
-import HighlightText from './HighlightText'
+import HighlightText from '@/components/HighlightText'
 
 export interface SearchResultItem {
   label: string
