@@ -127,24 +127,24 @@ export default memo(Course)
 
 
 if (import.meta.vitest) {
-  // Mock react-router-dom
-  vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom')
+  const mockNavigate = vi.hoisted(() => vi.fn())
+  const mockUseParams = vi.hoisted(() => vi.fn(() => ({ id: '1' })))
+  
+  vi.mock('react-router-dom', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('react-router-dom')>()
     return {
       ...actual,
-      useNavigate: vi.fn(),
-      useParams: vi.fn()
+      useNavigate: () => mockNavigate,
+      useParams: mockUseParams,
     }
   })
+
   describe('Course Page', () => {
-    const mockNavigate = vi.fn()
-    
     beforeEach(() => {
       vi.clearAllMocks()
       localStorage.clear()
       useStore.setState({ lang: 'da' })
-      vi.mocked(useNavigate).mockReturnValue(mockNavigate)
-      vi.mocked(useParams).mockReturnValue({ id: '1' })
+      mockUseParams.mockReturnValue({ id: '1' })
     })
   
     const renderCourse = (id = '1') => {
@@ -168,7 +168,7 @@ if (import.meta.vitest) {
     })
   
     it('renders course details for ID 2', () => {
-      vi.mocked(useParams).mockReturnValue({ id: '2' })
+      mockUseParams.mockReturnValue({ id: '2' })
       renderCourse('2')
       expect(screen.getAllByText('Webudvikling og CMS').length).toBeGreaterThan(0)
       expect(screen.getAllByText('Projekt: Byg en To-Do App').length).toBeGreaterThan(0)
@@ -195,7 +195,7 @@ if (import.meta.vitest) {
     })
   
     it('navigates to courses if course ID is invalid', () => {
-      vi.mocked(useParams).mockReturnValue({ id: '999' })
+      mockUseParams.mockReturnValue({ id: '999' })
       renderCourse('999')
       expect(mockNavigate).toHaveBeenCalledWith('/courses')
     })
@@ -215,7 +215,7 @@ if (import.meta.vitest) {
   
     it('renders course in English with English section titles', () => {
       useStore.setState({ lang: 'en' })
-      vi.mocked(useParams).mockReturnValue({ id: '2' })
+      mockUseParams.mockReturnValue({ id: '2' })
       renderCourse('2')
       expect(screen.getAllByText('Web Development and CMS').length).toBeGreaterThan(0)
       expect(screen.getByText('Module 1: HTML & CSS Fundamentals')).toBeInTheDocument()

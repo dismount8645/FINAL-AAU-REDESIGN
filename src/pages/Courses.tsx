@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, memo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, within } from '@testing-library/react';
 import { CoursesTabs, CoursesFilters, CoursesGrid } from '@/components/Courses';
 import Badge from '@/components/Badge';
 import Button from '@/components/ui/Button';
@@ -24,8 +24,6 @@ function Courses() {
   const courses = useStore((state) => state.courses)
   const toggleFavorite = useStore((state) => state.toggleFavorite)
   const isFavorite = useStore((state) => state.isFavorite)
-  const _favorites = useStore((state) => state.favorites)
-  void _favorites
 
   const [showCourses, setShowCourses] = useState<boolean>(true)
   const [showForums, setShowForums] = useState<boolean>(true)
@@ -244,9 +242,9 @@ if (import.meta.vitest) {
       const filterBtn = screen.getByText('Filter')
       fireEvent.click(filterBtn)
       expect(screen.getByText('Alle')).toBeInTheDocument()
-      const labelBtns = screen.getAllByText('Modul 4')
-      // First one is in filter dropdown, click it
-      fireEvent.click(labelBtns[0])
+      const dropdownContent = document.querySelector('[data-slot="dropdown-content"]')!
+      const labelBtn = within(dropdownContent as HTMLElement).getByText('Modul 4')
+      fireEvent.click(labelBtn)
     })
   
     it('opens filter dropdown and clears filter with All', () => {
