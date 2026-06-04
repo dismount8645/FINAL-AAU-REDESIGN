@@ -14,8 +14,8 @@ import useStore from '@/lib/store';
 import { renderWithProviders } from '@/lib/test-utils';
 
 const forums = [
-  { id: 10, title: 'Studienævn for DDK', titleEn: 'Study Board for DDK', label: 'Information', labelEn: 'Information', img: '/assets/img/grafik/billeder/Studerende og studieliv/_2WB0369.webp', color: 'var(--color-success)' },
-  { id: 11, title: 'Semesterforum (4. Semester)', titleEn: 'Semester Forum (4th Semester)', label: 'Fælles', labelEn: 'Shared', img: '/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.webp', color: 'var(--color-primary)' },
+  { id: 10, title: 'Studienævn for DDK', titleEn: 'Study Board for DDK', label: 'Information', labelEn: 'Information', img: '/images/student-life/2wb0369.webp', color: 'var(--color-success)' },
+  { id: 11, title: 'Semesterforum (4. Semester)', titleEn: 'Semester Forum (4th Semester)', label: 'Fælles', labelEn: 'Shared', img: '/images/campus/2wb3689.webp', color: 'var(--color-primary)' },
 ]
 
 function Courses() {
@@ -143,12 +143,10 @@ function Courses() {
 
 export default memo(Courses)
 
-let mockNavigate: ReturnType<typeof vi.fn>
 if (import.meta.vitest) {
-  // Mock useNavigate
-  mockNavigate = vi.fn()
+  const mockNavigate = vi.hoisted(() => vi.fn())
   vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom')
+    const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
     return {
       ...actual,
       useNavigate: () => mockNavigate,

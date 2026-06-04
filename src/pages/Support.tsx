@@ -128,10 +128,13 @@ export default Support
 
 
 if (import.meta.vitest) {
-  const mockToast = { error: vi.fn(), success: vi.fn(), info: vi.fn() }
-  
-  vi.mock('@/components/Toast', async () => {
-    const actual = await vi.importActual<typeof import('@/components/Toast')>('@/components/Toast')
+  const mockToast = vi.hoisted(() => ({
+    toast: vi.fn(),
+    error: vi.fn(),
+    success: vi.fn(),
+  }))
+  vi.mock('@/components/Toast', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@/components/Toast')>()
     return {
       ...actual,
       useToast: () => mockToast,
