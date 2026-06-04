@@ -82,6 +82,7 @@ export interface Message {
   type: 'in' | 'out';
   textDa: string;
   textEn: string;
+  timestamp?: string;
 }
 
 export interface MessageThread {
@@ -96,6 +97,7 @@ export interface MessageThread {
   timeDa: string;
   timeEn: string;
   unread: boolean;
+  archived?: boolean;
   messages: Message[];
 }
 
@@ -107,6 +109,7 @@ export interface Notification {
   dateDa: string;
   dateEn: string;
   isRead: boolean;
+  archived?: boolean;
   courseDa: string;
   courseEn: string;
   contentDa: string;
