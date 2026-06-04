@@ -1,8 +1,8 @@
 import { useEffect, type ReactNode } from 'react';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Heading, Text } from '@/components/Typography';
+import { Stack } from '@/components/Layout';
+import { Heading, Text } from '@/components/ui';
 import useStore, { type BreadcrumbItem } from '@/store';
 import { cn } from '@/lib/utils';
 

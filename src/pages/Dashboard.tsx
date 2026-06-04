@@ -1,14 +1,14 @@
 import { useState, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Edit, Check } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { WidgetCustomizer } from '@/components/Widgets';
 import { WidgetGrid } from '@/components/Widgets';
 import { Button } from '@/components/ui';
-import PageLayout from '@/components/PageLayout';
+import { PageLayout } from '@/components/Layout';
 import { cn } from '@/lib/utils';
 import { DEFAULT_WIDGETS } from '@/data/mockData';
 import useStore from '@/store';

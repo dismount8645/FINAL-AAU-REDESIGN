@@ -1,12 +1,12 @@
 import { type MouseEvent, type KeyboardEvent } from 'react'
 import { Archive, Undo2, MessageSquare } from 'lucide-react'
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import { Heading, Text } from '@/components/Typography'
-import EmptyState from '@/components/EmptyState'
-import Avatar from '@/components/Avatar'
-import TabBar from '@/components/TabBar'
+import { Heading, Text } from '@/components/ui'
+import { EmptyState } from '@/components/ui'
+import { Avatar } from '@/components/ui'
+import { TabBar } from '@/components/ui'
 import type { Contact } from '@/types'
 
 interface ChatSidebarProps {

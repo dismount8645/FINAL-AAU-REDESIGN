@@ -2,8 +2,8 @@
 import { render, type RenderOptions } from '@testing-library/react'
 import { type ReactElement, type ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { ToastProvider } from '@/components/Toast'
-import ErrorBoundary from '@/components/ErrorBoundary'
+import { ToastProvider } from '@/components/ui'
+import { ErrorBoundary } from '@/components/Layout'
 
 interface AllProvidersProps {
   children: ReactNode;

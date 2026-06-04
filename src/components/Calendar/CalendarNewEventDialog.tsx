@@ -1,6 +1,6 @@
 import React from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/Dialog'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'

@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
 import { X } from 'lucide-react'
-import { Text } from '@/components/Typography'
+import { Text } from '@/components/ui'
 import Button from '@/components/ui/Button'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Stack } from '@/components/Layout'
 
 export interface Toast {
   id: number;

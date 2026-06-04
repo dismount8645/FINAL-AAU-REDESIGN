@@ -1,8 +1,8 @@
 import { Trash2 } from 'lucide-react'
-import Icon from '@/components/Icon'
+import { Icon } from '@/components/ui'
 import Button from '@/components/ui/Button'
-import { Heading, Text } from '@/components/Typography'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Heading, Text } from '@/components/ui'
+import { Stack } from '@/components/Layout'
 import { StagedFile } from '@/types'
 
 interface SubmissionFileListProps {

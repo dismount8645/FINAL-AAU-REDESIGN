@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text, Heading } from '@/components/Typography';
+import { Card } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
 

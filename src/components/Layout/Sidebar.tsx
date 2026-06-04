@@ -4,8 +4,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp, Settings, X, Globe } from 'lucide-react';
 import { NavLink, useLocation, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import SegmentedControl from '@/components/SegmentedControl';
-import { Stack } from '@/components/LayoutPrimitives';
+import { SegmentedControl } from '@/components/ui';
+import { Stack } from '@/components/Layout';
 import useStore from '@/store';
 
 export default function Sidebar() {

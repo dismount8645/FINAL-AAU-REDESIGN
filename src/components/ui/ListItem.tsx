@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { type LucideIcon, ChevronRight, User } from 'lucide-react';
 import { Link, MemoryRouter } from 'react-router-dom';
-import { Text } from '@/components/Typography';
+import { Text } from '@/components/ui';
 
 export interface ListItemProps extends HTMLAttributes<HTMLElement> {
   icon?: LucideIcon

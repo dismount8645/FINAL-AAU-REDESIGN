@@ -1,5 +1,5 @@
 import { Archive, CheckCheck } from 'lucide-react'
-import TabBar from '@/components/TabBar'
+import { TabBar } from '@/components/ui'
 import Button from '@/components/ui/Button'
 
 interface NotificationFiltersProps {

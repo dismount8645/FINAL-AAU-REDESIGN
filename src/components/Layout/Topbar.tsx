@@ -4,12 +4,12 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';
 import { Link, useLocation, MemoryRouter } from 'react-router-dom';
-import { MessagesDropdown } from './Messages';
+import { MessagesDropdown } from '../Messages';
 import NotificationsDropdown from './NotificationsDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import TopbarSearch from './TopbarSearch';
 import Button from '@/components/ui/Button';
-import { Text } from '@/components/Typography';
+import { Text } from '@/components/ui';
 import { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs';
 import useStore from '@/store';
 

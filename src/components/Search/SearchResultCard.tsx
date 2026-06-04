@@ -1,8 +1,8 @@
 import { ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import TeaserCard from '@/components/TeaserCard'
+import { TeaserCard } from '@/components/ui'
 import { ASSETS } from '@/lib'
-import HighlightText from '@/components/HighlightText'
+import { HighlightText } from '@/components/ui'
 
 export interface SearchResultItem {
   label: string

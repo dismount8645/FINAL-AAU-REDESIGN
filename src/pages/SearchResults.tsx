@@ -4,10 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search } from 'lucide-react';
 import { useNavigate, MemoryRouter, useLocation } from 'react-router-dom';
 import { SearchResultCard, SearchResultFilters } from '@/components/Search';
-import EmptyState from '@/components/EmptyState';
-import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import { EmptyState } from '@/components/ui';
+import { Grid } from '@/components/Layout';
+import { PageHeader } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
 import useStore from '@/store';
 import { useSearch } from '@/hooks';
 

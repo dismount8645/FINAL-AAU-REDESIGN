@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { LucideIcon } from 'lucide-react';
 import { FileText, Settings } from 'lucide-react';
-import { Stack } from '@/components/LayoutPrimitives';
+import { Stack } from '@/components/Layout';
 
 interface Tab {
   id: string

@@ -3,9 +3,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text } from '@/components/Typography';
+import { Card } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Text } from '@/components/ui';
 import useStore from '@/store';
 
 interface Props {

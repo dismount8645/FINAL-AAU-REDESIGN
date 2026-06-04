@@ -7,11 +7,11 @@ import FaqSection from './FaqSection';
 import LocalDesksSection from './LocalDesksSection';
 import ContactForm from './ContactForm';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import ListItem from '@/components/ListItem';
-import SectionHeader from '@/components/SectionHeader';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Heading, Text } from '@/components/Typography';
+import { Card } from '@/components/ui';
+import { ListItem } from '@/components/ui';
+import { SectionHeader } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Heading, Text } from '@/components/ui';
 import useStore from '@/store';
 
 interface SupportSidebarProps {

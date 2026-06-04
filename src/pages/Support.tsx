@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Phone, Globe } from 'lucide-react';
-import { Grid } from '@/components/LayoutPrimitives';
-import InfoCard from '@/components/InfoCard';
-import PageLayout from '@/components/PageLayout';
-import { Stack } from '@/components/LayoutPrimitives';
-import { useToast } from '@/components/Toast';
+import { Grid } from '@/components/Layout';
+import { InfoCard } from '@/components/ui';
+import { PageLayout } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
+import { useToast } from '@/components/ui';
 import { submitSupportTicket } from '@/lib/api';
 import useStore from '@/store';
-import { renderWithProviders, screen, fireEvent, act } from '@/lib/test-utils';
+import { renderWithProviders, screen, fireEvent, act } from '@/test/test-utils';
 import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar } from '@/components/Support';
 
 function Support() {
@@ -133,8 +133,8 @@ if (import.meta.vitest) {
     error: vi.fn(),
     success: vi.fn(),
   }))
-  vi.mock('@/components/Toast', async (importOriginal) => {
-    const actual = await importOriginal<typeof import('@/components/Toast')>()
+  vi.mock('@/components/ui/Toast', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('@/components/ui/Toast')>()
     return {
       ...actual,
       useToast: () => mockToast,

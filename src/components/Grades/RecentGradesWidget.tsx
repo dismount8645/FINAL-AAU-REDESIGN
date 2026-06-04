@@ -4,19 +4,19 @@ import { screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Star, Hourglass, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Badge from '@/components/Badge';
+import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
-import Card from '@/components/Card';
-import EmptyState from '@/components/EmptyState';
-import { Stack } from '@/components/LayoutPrimitives';
-import StatusItem from '@/components/StatusItem';
-import { Text, Heading } from '@/components/Typography';
-import { dashboardGrades } from '@/lib/dashboardWidgets';
+import { Card } from '@/components/ui';
+import { EmptyState } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { StatusItem } from '@/components/ui';
+import { Text, Heading } from '@/components/ui';
+import { dashboardGrades } from '@/config/dashboardWidgets';
 import useStore from '@/store';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { getWidgetDisplayLayout } from '@/lib/widgetLayout';
+import { getWidgetDisplayLayout } from '@/config/widgetLayout';
 
 interface Grade {
   id: number

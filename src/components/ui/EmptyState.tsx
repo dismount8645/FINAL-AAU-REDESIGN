@@ -1,8 +1,8 @@
 import { type ReactNode } from 'react';
 import { describe, it, expect } from 'vitest';
 import { type LucideIcon, Inbox } from 'lucide-react';
-import { Heading, Text } from '@/components/Typography';
-import { render, screen, AllProviders } from '@/lib/test-utils';
+import { Heading, Text } from '@/components/ui';
+import { render, screen, AllProviders } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
 
 export interface EmptyStateProps {
