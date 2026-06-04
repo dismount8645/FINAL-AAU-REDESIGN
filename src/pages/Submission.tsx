@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { ArrowLeft } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import type { StagedFile } from '@/types';
+import type { StagedFile } from '@/lib/types';
 import { SubmissionSuccess, SubmissionDropzone, SubmissionFileList } from '@/components/Submission';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';

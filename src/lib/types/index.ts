@@ -1,34 +1,105 @@
-import { type LucideIcon } from 'lucide-react';
+import { type RefObject } from 'react'
+import { type LucideIcon } from 'lucide-react'
 
-export interface CourseItem {
-  id: number;
-  type: 'pdf' | 'video' | 'link' | 'assignment';
-  title: string;
-  titleEn: string;
-  size?: string;
-  duration?: string;
-  deadline?: string;
-  deadlineEn?: string;
+export interface StagedFile {
+  name: string
+  size: string
+  id: string
 }
 
+export interface GradeRecord {
+  id: number
+  code: string
+  titleDa: string
+  titleEn: string
+  grade: number | null
+  ects: number
+  semesterDa: string
+  semesterEn: string
+  examDate: string
+  examTypeDa: string
+  examTypeEn: string
+  feedbackDa: string
+  feedbackEn: string
+  instructor: string
+}
+
+export interface ChatMessage {
+  id: number
+  type: 'in' | 'out'
+  text: string
+  timestamp?: string
+}
+
+export interface Contact {
+  id: number
+  name: string
+  role: string
+  msg: string
+  time: string
+  unread: boolean
+  archived: boolean
+  messages: ChatMessage[]
+}
+
+export interface CourseItem {
+  id: number
+  type: 'pdf' | 'video' | 'link' | 'assignment'
+  title: string
+  titleEn: string
+  size?: string
+  duration?: string
+  deadline?: string
+  deadlineEn?: string
+}
+
+export interface NotificationItem {
+  id: number
+  type: string
+  text: string
+  date: Date
+  isRead: boolean
+  archived: boolean
+  course: string
+  content: string
+  link: string
+}
+
+
+export interface SubmissionDropzoneProps {
+  onFilesAdded: (files: FileList) => void
+  t: (key: string) => string
+}
+
+export interface ChatWindowProps {
+  activeContact: Contact | undefined
+  chatBodyRef: RefObject<HTMLDivElement>
+  messageText: string
+  setMessageText: (val: string) => void
+  handleSend: () => void
+  setShowChat: (val: boolean) => void
+  t: (key: string) => string
+}
+
+// Additional interfaces from legacy types.ts
 export interface CourseSection {
-  id: string;
-  title: string;
-  titleEn: string;
-  items: CourseItem[];
+  id: string
+  title: string
+  titleEn: string
+  items: CourseItem[]
 }
 
 export interface NextAssignment {
-  title: string;
-  titleEn: string;
-  deadline: string;
-  deadlineEn: string;
-  submissionId: string;
+  title: string
+  titleEn: string
+  deadline: string
+  deadlineEn: string
+  submissionId: string
 }
 
 export interface CourseData {
-  title: string;
-  titleEn: string;
+  title: string
+  titleEn: string
   code: string;
   professor: string;
   email: string;

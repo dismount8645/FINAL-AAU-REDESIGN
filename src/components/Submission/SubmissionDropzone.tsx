@@ -4,11 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { Icon } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { Heading, Text } from '@/components/ui';
-
-interface SubmissionDropzoneProps {
-  onFilesAdded: (files: FileList) => void
-  t: (key: string) => string
-}
+import type { SubmissionDropzoneProps } from '@/lib/types';
 
 export default function SubmissionDropzone({ onFilesAdded, t }: SubmissionDropzoneProps) {
   const [isDragOver, setIsDragOver] = useState(false)
