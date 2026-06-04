@@ -222,13 +222,13 @@ if (import.meta.vitest) {
         t: (key: string) => {
           if (key === 'aau_logo_center_src') {
             return useStore.getState().lang === 'da'
-              ? '/assets/img/grafik/logoer/__AAU_CENTER_WHITE.webp'
-              : '/assets/img/grafik/logoer/__AAU_CENTER_WHITE_UK.webp'
+              ? '/images/logos/aau-center-white.webp'
+              : '/images/logos/aau-center-white-uk.webp'
           }
           if (key === 'aau_logo_left_src') {
             return useStore.getState().lang === 'da'
-              ? '/assets/img/grafik/logoer/__AAU_LEFT_WHITE.webp'
-              : '/assets/img/grafik/logoer/__AAU_LEFT_WHITE_UK.webp'
+              ? '/images/logos/aau-left-white.webp'
+              : '/images/logos/aau-left-white-uk.webp'
           }
           return key
         },
