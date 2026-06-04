@@ -5,10 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import Avatar from '@/components/Avatar';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
-import { messagesData } from '@/lib/mockData';
+import { messagesData } from '@/data/mockData';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
-import { useDropdown } from '@/lib/useDropdown';
+import { useDropdown } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 export default function MessagesDropdown() {

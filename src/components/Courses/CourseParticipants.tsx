@@ -7,7 +7,7 @@ import ListItem from '@/components/ListItem'
 import Select from '@/components/ui/Select'
 import { Heading } from '@/components/Typography'
 import useStore from '@/store'
-import { useParticipantFilter } from '@/lib/useParticipantFilter'
+import { useParticipantFilter } from '@/hooks'
 
 interface CourseParticipantsProps {
   participantsData: { name: string; role: string }[]

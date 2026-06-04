@@ -4,10 +4,10 @@ import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
-import { notificationsData } from '@/lib/mockData';
+import { notificationsData } from '@/data/mockData';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
-import { useDropdown } from '@/lib/useDropdown';
+import { useDropdown } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 const getNotifIcon = (type: string) => {

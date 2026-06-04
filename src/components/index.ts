@@ -9,7 +9,6 @@ export * from "@/components/Card"
 export * from "@/components/Dialog"
 export * from "@/components/Dropdown"
 export * from "@/components/EmptyState"
-export * from "@/components/FavoriteItem"
 export * from "@/components/FormControls"
 export * from "@/components/LayoutPrimitives"
 export * from "@/components/Icon"
@@ -28,25 +27,8 @@ export * from "@/components/TabBar"
 export * from "@/components/Tabs"
 export * from "@/components/TeaserCard"
 export * from "@/components/Typography"
-export { default as DeadlinesWidget } from "@/components/DeadlinesWidget"
-export { default as ForumActivityWidget } from "@/components/ForumActivityWidget"
-export { default as ForumWidget } from "@/components/ForumWidget"
-export { default as FavoritesWidget } from "@/components/FavoritesWidget"
-export { default as QuickOverviewWidget } from "@/components/QuickOverviewWidget"
-export { default as RecentGradesWidget } from "@/components/RecentGradesWidget"
 export * from './Courses'
-export * from './WidgetWrapper'
-export * from './WidgetCustomizer'
-export * from './WidgetGrid'
-export { default as FavoritesFilter } from './FavoritesFilter'
-export { default as FavoritesList } from './FavoritesList'
 export * from './Forum'
-export { default as ForumAboutWidget } from './ForumAboutWidget'
-export { default as GradeRow } from './GradeRow'
-export { default as GradesOverview } from './GradesOverview'
-export { default as GradesFilter } from './GradesFilter'
-export * from './ChatSidebar'
-export * from './ChatWindow'
 export * from './Notifications'
 export { default as ResourcesSection } from './ResourcesSection'
 export type { ResourceTool } from '@/lib/types'
@@ -55,7 +37,8 @@ export * from './Search'
 export * from './Settings'
 export * from './Submission'
 export * from './Support'
-export { CalendarMonthView, CalendarWeekView, CalendarDayView } from './CalendarViews'
-export { default as CalendarUpcomingWidget } from './CalendarUpcomingWidget'
-export { default as CalendarNewEventDialog } from './CalendarNewEventDialog'
-export { default as CalendarEventDetailsDialog } from './CalendarEventDetailsDialog'
+export * from './Calendar'
+export * from './Favorites'
+export * from './Grades'
+export * from './Messages'
+export * from './Widgets'

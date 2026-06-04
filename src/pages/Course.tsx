@@ -7,7 +7,7 @@ import { Grid } from '@/components/LayoutPrimitives';
 import ModuleHeader from '@/components/ModuleHeader';
 import { Stack } from '@/components/LayoutPrimitives';
 import Tabs from '@/components/Tabs';
-import { courseData, participantsData, courseTabItems } from '@/lib/courseData';
+import { courseData, participantsData, courseTabItems } from '@/data/courseData';
 import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';

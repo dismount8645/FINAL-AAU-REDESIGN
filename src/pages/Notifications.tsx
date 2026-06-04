@@ -13,7 +13,7 @@ import PageLayout from '@/components/PageLayout';
 import { Text } from '@/components/Typography';
 import { createMockNotifications, getNotificationIcon } from '@/lib/notifications';
 import useStore from '@/store';
-import { useNotificationsState } from '@/lib/useNotificationsState';
+import { useNotificationsState } from '@/hooks';
 
 function Notifications() {
   const t = useStore(state => state.t)
