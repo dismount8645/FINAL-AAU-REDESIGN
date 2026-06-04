@@ -10,7 +10,7 @@ import Card from '@/components/Card';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';
-import { Textarea } from '@/components/FormControls';
+import Textarea from '@/components/ui/Textarea';
 import { Heading, Text } from '@/components/Typography';
 import { submitAssignment } from '@/lib/api';
 import { storage } from '@/lib/storage';

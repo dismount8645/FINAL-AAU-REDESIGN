@@ -8,11 +8,7 @@ import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { cn } from '@/lib/utils';
 
-import { Input, type InputProps, inputVariants } from '@/components/ui/Input';
-import { Textarea, type TextareaProps, textareaVariants } from '@/components/ui/Textarea';
-
-export { Input, type InputProps, inputVariants };
-export { Textarea, type TextareaProps, textareaVariants };
+import { Input, type InputProps } from '@/components/ui/Input';
 
 // ==========================================
 // SearchInput component definitions
