@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import { Grid } from '@/components/LayoutPrimitives'
 import { Stack } from '@/components/LayoutPrimitives'
-import { Input } from '@/components/FormControls'
+import Input from '@/components/ui/Input'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
