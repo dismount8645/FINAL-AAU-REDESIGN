@@ -6,7 +6,7 @@ import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import FavoriteItem from '@/components/FavoriteItem';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';

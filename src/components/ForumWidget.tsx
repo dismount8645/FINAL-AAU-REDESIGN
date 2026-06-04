@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Badge from '@/components/Badge';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';
 import { dashboardForumPosts } from '@/lib/dashboardWidgets';
 import useStore from '@/lib/store';

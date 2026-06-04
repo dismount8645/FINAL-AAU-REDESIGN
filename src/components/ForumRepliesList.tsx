@@ -1,5 +1,5 @@
 import Card from '@/components/Card'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import { Heading, Text } from '@/components/Typography'
 import { User, Clock } from 'lucide-react'
 import useStore from '@/lib/store'

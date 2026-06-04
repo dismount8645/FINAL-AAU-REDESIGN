@@ -8,7 +8,7 @@ import { WidgetCustomizer } from '@/components/WidgetCustomizer';
 import { WidgetGrid } from '@/components/WidgetGrid';
 import Button from '@/components/Button';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { DEFAULT_WIDGETS } from '@/lib/mockData';
 import useStore from '@/lib/store';
 import { useWidgetDrag } from '@/lib/useWidgetDrag';

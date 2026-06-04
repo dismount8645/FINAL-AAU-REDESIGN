@@ -10,7 +10,7 @@ import Button from '@/components/Button';
 import Card from '@/components/Card';
 import ListItem from '@/components/ListItem';
 import SectionHeader from '@/components/SectionHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
 import useStore from '@/lib/store';
 

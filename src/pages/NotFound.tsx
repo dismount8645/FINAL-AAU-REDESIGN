@@ -5,8 +5,8 @@ import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-r
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/Button';
 import PageHeader from '@/components/PageHeader';
-import SearchInput from '@/components/SearchInput';
-import Stack from '@/components/Stack';
+import { SearchInput } from '@/components/FormControls';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import useStore from '@/lib/store';
 

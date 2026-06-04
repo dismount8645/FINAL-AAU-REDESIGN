@@ -5,7 +5,7 @@ import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp
 import { NavLink, useLocation, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/Button';
 import SegmentedControl from '@/components/SegmentedControl';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import useStore from '@/lib/store';
 
 export default function Sidebar() {

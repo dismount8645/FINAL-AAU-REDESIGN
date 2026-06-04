@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import SearchInput from '@/components/SearchInput';
+import { SearchInput } from '@/components/FormControls';
 import { Heading } from '@/components/Typography';
 import useStore from '@/lib/store';
 

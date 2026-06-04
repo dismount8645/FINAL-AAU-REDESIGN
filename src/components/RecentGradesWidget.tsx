@@ -8,7 +8,7 @@ import Badge from '@/components/Badge';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import EmptyState from '@/components/EmptyState';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import StatusItem from '@/components/StatusItem';
 import { Text, Heading } from '@/components/Typography';
 import { dashboardGrades } from '@/lib/dashboardWidgets';

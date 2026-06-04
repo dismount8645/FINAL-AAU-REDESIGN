@@ -1,5 +1,5 @@
-import FormField from '@/components/FormField'
-import Grid from '@/components/Grid'
+import { FormField } from '@/components/FormControls'
+import { Grid } from '@/components/LayoutPrimitives'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 

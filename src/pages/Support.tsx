@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Phone, Globe } from 'lucide-react';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/LayoutPrimitives';
 import InfoCard from '@/components/InfoCard';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { useToast } from '@/components/Toast';
 import { submitSupportTicket } from '@/lib/api';
 import useStore from '@/lib/store';

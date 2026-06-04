@@ -4,9 +4,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { ChatSidebar } from '@/components/ChatSidebar';
 import { ChatWindow } from '@/components/ChatWindow';
 import Badge from '@/components/Badge';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import useStore, { type Lang } from '@/lib/store';
 import { useMessagesState } from '@/lib/useMessagesState';
 

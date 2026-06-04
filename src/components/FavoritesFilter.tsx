@@ -1,4 +1,4 @@
-import SearchInput from '@/components/SearchInput'
+import { SearchInput } from '@/components/FormControls'
 import SegmentedControl from '@/components/SegmentedControl'
 import type { FavoriteType } from '@/lib/types'
 

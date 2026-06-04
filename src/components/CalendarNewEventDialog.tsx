@@ -1,9 +1,9 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/Dialog'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/Button'
-import Input from '@/components/Input'
-import Textarea from '@/components/Textarea'
+import { Input } from '@/components/FormControls'
+import { Textarea } from '@/components/FormControls'
 import { Loader2 } from 'lucide-react'
 
 interface NewEventFormState {

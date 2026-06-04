@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'
 
