@@ -300,7 +300,14 @@ describe('useStore', () => {
     const options = useStore.persist.getOptions()
     const invalidMigrated = options.migrate!(123, -1) as any
     expect(consoleWarnSpy).toHaveBeenCalled()
-    expect(invalidMigrated).toBe(123)
+    expect(invalidMigrated).toEqual({
+      theme: 'system',
+      lang: 'da',
+      isCollapsed: false,
+      courseProgress: {},
+      calendarEvents: {},
+      favorites: [],
+    })
     consoleWarnSpy.mockRestore()
   })
 

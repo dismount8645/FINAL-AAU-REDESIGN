@@ -70,6 +70,8 @@ afterEach(() => {
   useStore.setState(initialStore, true);
   if (typeof window !== 'undefined') {
     window.matchMedia = createMatchMedia();
+    window.localStorage.clear();
+    window.sessionStorage.clear();
   }
   vi.useRealTimers();
 });

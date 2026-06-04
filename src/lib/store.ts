@@ -381,7 +381,14 @@ const useStore = create<AppState>()(
           return PersistedStateSchema.parse(state) as unknown as AppState
         } catch (e) {
           console.warn('Storage migration failed validation', e)
-          return state as unknown as AppState
+          return {
+            theme: 'system',
+            lang: 'da',
+            isCollapsed: false,
+            courseProgress: {},
+            calendarEvents: {},
+            favorites: [],
+          } as unknown as AppState
         }
       },
     },
