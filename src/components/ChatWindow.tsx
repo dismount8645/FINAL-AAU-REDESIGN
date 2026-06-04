@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import Avatar from '@/components/Avatar'
-import { Textarea } from '@/components/FormControls'
+import Textarea from '@/components/ui/Textarea'
 import type { Contact } from './messagesTypes'
 
 interface ChatWindowProps {
