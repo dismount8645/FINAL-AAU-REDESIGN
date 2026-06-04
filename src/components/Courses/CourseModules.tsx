@@ -4,10 +4,12 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout'
 import { ProgressBar } from '@/components/ui'
-import { LessonItem } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 import type { CourseItem } from '@/lib/types'
+
+import { FileText, Play, Link2, Upload, File, Check } from 'lucide-react'
+import { MasterItem } from '@/components/ui'
 
 const LessonItemRow = memo(function LessonItemRow({
   item,
@@ -29,21 +31,75 @@ const LessonItemRow = memo(function LessonItemRow({
     ? () => navigate(`/submission/${courseId}/${item.id}`)
     : undefined
 
-  const handleToggle = useCallback(() => onToggleItem(item.id), [item.id, onToggleItem])
+  const handleToggle = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    onToggleItem(item.id)
+  }, [item.id, onToggleItem])
 
   const metadata = item.size || item.duration || (item.deadline
     ? `${t('deadline')}: ${t(`course_deadline_${item.id === 105 ? 'fri_12' : 'mon_09'}`)}`
     : '') || t('external_resource')
 
+  const iconMap = {
+    pdf: FileText,
+    video: Play,
+    link: Link2,
+    assignment: Upload,
+    file: File,
+  }
+
+  const isAutomatic = item.type === 'assignment'
+  const Icon = iconMap[item.type as keyof typeof iconMap] || File
+
   return (
-    <LessonItem
-      type={item.type}
-      title={t(`course_${courseId}_${sectionId}_i${item.id}_title`)}
-      metadata={metadata}
-      completed={completed}
+    <MasterItem
+      className="mb-sm rounded-[var(--radius-md)] border border-border/40"
+      leading={
+        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${
+          item.type === 'pdf' ? 'text-danger bg-danger/10' :
+          item.type === 'video' ? 'text-success bg-success/10' :
+          item.type === 'assignment' ? 'text-accent bg-accent/10' :
+          item.type === 'link' ? 'text-info bg-info/10' :
+          'text-muted bg-bg-highlight/50'
+        }`}>
+          <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
+        </div>
+      }
+      title={
+        <p className="font-bold text-main m-0 text-sm leading-tight">
+          {t(`course_${courseId}_${sectionId}_i${item.id}_title`)}
+        </p>
+      }
+      subtitle={metadata}
       onClick={handleClick}
-      onToggle={handleToggle}
-      isAutomatic={item.type === 'assignment'}
+      trailing={
+        <button
+          className={`lesson-item__checkbox group/check flex items-center justify-center w-11 h-11 border rounded-[var(--radius-sm)] transition shrink-0 relative focus-visible:shadow-focus focus-visible:outline-none ${
+            completed 
+              ? "bg-primary border-primary text-white" 
+              : isAutomatic 
+              ? "border-dashed opacity-30 cursor-default" 
+              : "border-border bg-transparent hover:border-primary/50 dark:border-white/20"
+          }`}
+          onClick={handleToggle}
+          aria-label={completed ? t('mark_incomplete') : t('mark_complete')}
+          type="button"
+          disabled={isAutomatic}
+        >
+          {completed ? (
+            <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+          ) : (
+            !isAutomatic && (
+              <Check 
+                size={16} 
+                strokeWidth={2.5} 
+                aria-hidden="true" 
+                className="opacity-0 group-hover/check:opacity-30 transition-opacity" 
+              />
+            )
+          )}
+        </button>
+      }
     />
   )
 })

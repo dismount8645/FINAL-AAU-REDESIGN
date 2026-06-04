@@ -95,6 +95,38 @@ const OldAccordion = ({ title, defaultOpen = false, children, className }: Legac
   )
 }
 
+// Wrapper component matching FAQ/Local Desk layouts
+export const AccordionWrapper = memo(function AccordionWrapper({ children, className, ...props }: AccordionPrimitive.Root.Props) {
+  return (
+    <Accordion className={cn("space-y-sm", className)} {...props}>
+      {children}
+    </Accordion>
+  )
+})
+
+export interface AccordionItemRowProps extends Omit<AccordionPrimitive.Item.Props, 'title'> {
+  title: ReactNode
+}
+
+export const AccordionItemRow = memo(function AccordionItemRow({ title, children, className, ...props }: AccordionItemRowProps) {
+  return (
+    <AccordionItem
+      className={cn(
+        "border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] bg-bg-card overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-150 px-md",
+        className
+      )}
+      {...props}
+    >
+      <AccordionTrigger className="bg-bg-highlight/30">
+        <span className="text-left font-semibold text-main">{title}</span>
+      </AccordionTrigger>
+      <AccordionContent>
+        {children}
+      </AccordionContent>
+    </AccordionItem>
+  )
+})
+
 export {
   Accordion,
   AccordionItem,

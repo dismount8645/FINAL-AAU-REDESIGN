@@ -1,4 +1,4 @@
-import { useMemo, memo, useCallback, forwardRef } from 'react';
+import { useMemo, memo, useCallback } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout';
-import { StatusItem } from '@/components/ui';
 import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
@@ -58,64 +57,7 @@ const activities: Activity[] = [
   },
 ]
 
-/**
- * ActivityItem - Individual activity entry with refactored A11y and tokens.
- */
-const ActivityItem = memo(forwardRef<HTMLButtonElement, { 
-  activity: Activity, 
-  showSnippet: boolean,
-  onClick: (id: number) => void 
-}>(({ activity, showSnippet, onClick }, ref) => {
-  const t = useStore(state => state.t)
-  const localize = useStore(state => state.localize)
-  
-  return (
-    <motion.button
-      ref={ref}
-      layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.15 }}
-      type="button"
-      className={cn(
-        "w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150",
-        "hover:bg-bg-hover cursor-pointer group/item outline-none",
-        "focus-visible:outline-none focus-visible:shadow-focus"
-      )}
-      onClick={() => onClick(activity.id)}
-    >
-      <Stack gap="xs">
-        <StatusItem
-          icon={activity.icon}
-          iconColor={activity.color}
-          title={localize(activity, 'title')}
-          subtitle={activity.subtitle}
-          className="!px-0 !py-0 !mx-0 hover:bg-transparent"
-        />
-        
-        {showSnippet && (
-          <div className="pl-[var(--space-xl)] relative">
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-primary/20 transition-colors" />
-            <Text size="xs" className="forum-activity__snippet text-muted leading-relaxed relative">
-              <span className="text-primary/40 dark:text-primary/70 mr-[var(--space-xs)] font-serif text-lg leading-none absolute -left-[var(--space-md)] -top-[var(--space-xs)]">&ldquo;</span>
-              <span className="italic">{localize(activity, 'snippet')}</span>
-              <span className="text-primary/40 dark:text-primary/70 ml-[var(--space-2xs)] font-serif text-lg leading-none">&rdquo;</span>
-            </Text>
-          </div>
-        )}
-
-        <div className="pl-[var(--space-xl)] mt-[var(--space-xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/item:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover/item:translate-x-0">
-          <div className="h-px w-4 bg-primary/30" />
-          <Text size="xs" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
-          <ArrowRight size={10} strokeWidth={3} className="text-primary dark:text-white" />
-        </div>
-      </Stack>
-    </motion.button>
-  )
-}))
-
-ActivityItem.displayName = 'ActivityItem'
+import { MasterItem } from '@/components/ui'
 
 /**
  * ForumActivityWidget - Stream of recent course communication.
@@ -123,6 +65,7 @@ ActivityItem.displayName = 'ActivityItem'
 const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
+  const localize = useStore(state => state.localize)
 
   const itemsToShow = useMemo(() => 
     span <= 4 ? 2 : (span <= 8 ? 2 : 3),
@@ -168,12 +111,43 @@ const ForumActivityWidget = ({ span, isEditing }: WidgetProps) => {
         <div className="h-full flex flex-col gap-[var(--space-2xs)]">
           <AnimatePresence mode="popLayout">
             {activities.slice(0, itemsToShow).map((a) => (
-              <ActivityItem
+              <motion.div
                 key={a.id}
-                activity={a}
-                showSnippet={span > 8}
-                onClick={handleActivityClick}
-              />
+                layout
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+                className="w-full"
+              >
+                <MasterItem
+                  onClick={() => handleActivityClick(a.id)}
+                  className="w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] border-none"
+                  leading={a.icon}
+                  leadingClassName="text-[var(--color-primary)]"
+                  title={localize(a, 'title')}
+                  subtitle={a.subtitle}
+                  meta={
+                    span > 8 && (
+                      <div className="pl-[var(--space-xl)] relative mt-xs">
+                        <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-primary/20 transition-colors" />
+                        <Text size="xs" className="forum-activity__snippet text-muted leading-relaxed relative">
+                          <span className="text-primary/40 dark:text-primary/70 mr-[var(--space-xs)] font-serif text-lg leading-none absolute -left-[var(--space-md)] -top-[var(--space-xs)]">&ldquo;</span>
+                          <span className="italic">{localize(a, 'snippet')}</span>
+                          <span className="text-primary/40 dark:text-primary/70 ml-[var(--space-2xs)] font-serif text-lg leading-none">&rdquo;</span>
+                        </Text>
+                      </div>
+                    )
+                  }
+                  trailing={
+                    <div className="pl-[var(--space-xl)] mt-[var(--space-xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover:translate-x-0">
+                      <div className="h-px w-4 bg-primary/30" />
+                      <Text size="xs" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
+                      <ArrowRight size={10} strokeWidth={3} className="text-primary dark:text-white" />
+                    </div>
+                  }
+                />
+              </motion.div>
             ))}
           </AnimatePresence>
         </div>
