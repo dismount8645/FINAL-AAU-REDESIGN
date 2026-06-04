@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { Stack } from '@/components/LayoutPrimitives'
-import { Text } from '@/components/Typography'
+import { Stack } from '@/components/Layout'
+import { Text } from '@/components/ui'
 import useStore from '@/store'
 
 export default function SettingsSection({ titleKey, descKey, children, className }: {

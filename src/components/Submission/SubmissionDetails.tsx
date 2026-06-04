@@ -1,9 +1,9 @@
 import { Book } from 'lucide-react'
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import Icon from '@/components/Icon'
-import { Text } from '@/components/Typography'
+import { Icon } from '@/components/ui'
+import { Text } from '@/components/ui'
 
 interface SubmissionDetailsProps {
   t: (key: string) => string

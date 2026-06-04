@@ -2,12 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '@/components/Avatar';
+import { Avatar } from '@/components/ui';
 import Button from '@/components/ui/Button';
-import { Text } from '@/components/Typography';
+import { Text } from '@/components/ui';
 import { messagesData } from '@/data/mockData';
 import useStore from '@/store';
-import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { useDropdown } from '@/hooks';
 import { cn } from '@/lib/utils';
 

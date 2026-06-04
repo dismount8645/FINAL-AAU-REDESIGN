@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react';
-import { Stack, type StackProps } from '@/components/LayoutPrimitives';
-import PageHeader, { type PageHeaderProps } from '@/components/PageHeader';
+import { Stack, type StackProps } from '@/components/Layout';
+import { PageHeader, type PageHeaderProps } from '@/components/Layout';
 import { type BreadcrumbItem } from '@/store';
 import { describe, it, expect } from 'vitest';
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 
 export interface PageLayoutProps extends Omit<StackProps, 'children'> {
   title?: string;

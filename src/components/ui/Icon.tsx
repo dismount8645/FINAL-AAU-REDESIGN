@@ -2,7 +2,7 @@ import type { SVGProps } from 'react';
 import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { type LucideIcon, HelpCircle, CloudUpload, File, CheckSquare, Settings, Search, ChevronUp, ChevronDown, User, Plus } from 'lucide-react';
-import { Stack } from '@/components/LayoutPrimitives';
+import { Stack } from '@/components/Layout';
 import { cn } from '@/lib/utils';
 
 const iconNameMap: Record<string, LucideIcon> = {

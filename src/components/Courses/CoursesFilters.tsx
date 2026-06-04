@@ -1,11 +1,11 @@
 import { memo } from 'react'
 import { Filter, ArrowDownZA, ArrowUpAZ } from 'lucide-react'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import { SearchInput } from '@/components/FormControls'
+import { SearchInput } from '@/components/ui'
 import useStore from '@/store'
 import { cn } from '@/lib/utils'
-import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/Dropdown'
+import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/ui'
 
 interface CoursesFiltersProps {
   searchQuery: string

@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
-import { Heading, Text } from '@/components/Typography'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
+import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 
 function CourseInfo() {

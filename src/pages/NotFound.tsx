@@ -4,10 +4,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import PageHeader from '@/components/PageHeader';
-import { SearchInput } from '@/components/FormControls';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text } from '@/components/Typography';
+import { PageHeader } from '@/components/Layout';
+import { SearchInput } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Text } from '@/components/ui';
 import useStore from '@/store';
 
 function NotFound() {

@@ -1,38 +1,6 @@
-export * from "@/components/Accordion"
-export * from "@/components/Avatar"
-export * from "@/components/Badge"
-export * from '@/components/ui/Button'
-export * from '@/components/ui/Checkbox'
-export * from '@/components/ui/Radio'
-export * from '@/components/ui/Select'
-export * from "@/components/Card"
-export * from "@/components/Dialog"
-export * from "@/components/Dropdown"
-export * from "@/components/EmptyState"
-export * from "@/components/FormControls"
-export * from "@/components/LayoutPrimitives"
-export * from "@/components/Icon"
-export * from "@/components/InfoCard"
-export * from "@/components/KeyValue"
-export * from "@/components/LessonItem"
-export * from "@/components/ListItem"
-export * from "@/components/ModuleHeader"
-export * from "@/components/PageSkeleton"
-export * from "@/components/ProgressBar"
-export * from "@/components/SectionHeader"
-export * from "@/components/SegmentedControl"
-export * from "@/components/Skeleton"
-export * from "@/components/StatusItem"
-export * from "@/components/TabBar"
-export * from "@/components/Tabs"
-export * from "@/components/TeaserCard"
-export * from "@/components/Typography"
 export * from './Courses'
 export * from './Forum'
 export * from './Notifications'
-export { default as ResourcesSection } from './ResourcesSection'
-export type { ResourceTool } from '@/lib/types'
-export { default as HighlightText } from './HighlightText'
 export * from './Search'
 export * from './Settings'
 export * from './Submission'
@@ -42,3 +10,6 @@ export * from './Favorites'
 export * from './Grades'
 export * from './Messages'
 export * from './Widgets'
+export * from './Layout'
+export * from './Resources'
+export * from './ui'

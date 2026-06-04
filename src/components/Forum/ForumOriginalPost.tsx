@@ -1,6 +1,6 @@
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
-import { Text } from '@/components/Typography'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
+import { Text } from '@/components/ui'
 import { MessageSquare, User } from 'lucide-react'
 import useStore from '@/store'
 

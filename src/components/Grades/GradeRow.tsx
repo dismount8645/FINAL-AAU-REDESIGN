@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Calendar, BookOpen, Hourglass, CheckCircle2, AlertCircle } from 'lucide-react'
-import Badge from '@/components/Badge'
-import { Heading, Text } from '@/components/Typography'
+import { Badge } from '@/components/ui'
+import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 import type { GradeRecord } from '@/types'
 

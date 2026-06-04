@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo, type KeyboardEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, GraduationCap, X } from 'lucide-react';
-import { Text } from '@/components/Typography';
-import EmptyState from '@/components/EmptyState';
+import { Text } from '@/components/ui';
+import { EmptyState } from '@/components/ui';
 import useStore from '@/store';
-import { SearchInput } from '@/components/FormControls';
+import { SearchInput } from '@/components/ui';
 import Button from '@/components/ui/Button';
 
 interface TopbarSearchProps {

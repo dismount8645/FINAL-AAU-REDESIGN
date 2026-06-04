@@ -1,11 +1,11 @@
 import { memo } from 'react'
 import { FileSignature, Clock } from 'lucide-react'
-import Card from '@/components/Card'
-import { Grid } from '@/components/LayoutPrimitives'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Card } from '@/components/ui'
+import { Grid } from '@/components/Layout'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import ListItem from '@/components/ListItem'
-import { Heading, Text } from '@/components/Typography'
+import { ListItem } from '@/components/ui'
+import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 
 function CoursePbl() {

@@ -1,15 +1,15 @@
 import { useState, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '@/lib/test-utils';
+import { renderWithProviders } from '@/test/test-utils';
 import { Trash2, Wrench } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
 
 import Button from '@/components/ui/Button';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Text } from '@/components/Typography';
+import { PageHeader } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
+import { Text } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';

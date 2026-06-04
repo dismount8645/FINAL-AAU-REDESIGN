@@ -2,10 +2,10 @@ import { memo } from 'react';
 import { it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { FileSignature, Book, Clock } from 'lucide-react';
-import Card from '@/components/Card';
-import ListItem from '@/components/ListItem';
-import { Stack } from '@/components/LayoutPrimitives';
-import { Heading } from '@/components/Typography';
+import { Card } from '@/components/ui';
+import { ListItem } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { Heading } from '@/components/ui';
 import useStore from '@/store';
 
 function CourseResources() {

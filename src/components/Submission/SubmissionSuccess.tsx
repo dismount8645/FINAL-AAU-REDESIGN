@@ -1,9 +1,9 @@
 import { Check } from 'lucide-react'
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import { Heading, Text } from '@/components/Typography'
-import { IconCircle } from '@/components/Icon'
+import { Heading, Text } from '@/components/ui'
+import { IconCircle } from '@/components/ui/Icon'
 
 interface SubmissionSuccessProps {
   onBackToCourse: () => void

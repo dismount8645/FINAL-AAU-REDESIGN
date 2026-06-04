@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Star } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
 import Button from '@/components/ui/Button'
-import { Heading, Text } from '@/components/Typography'
+import { Heading, Text } from '@/components/ui'
 import { FavoriteItem, type FavoriteItemData } from '@/components/Favorites'
 import type { FavoriteType } from '@/lib/types'
 

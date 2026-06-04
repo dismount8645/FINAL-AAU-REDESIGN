@@ -1,5 +1,5 @@
-import { SearchInput } from '@/components/FormControls'
-import SegmentedControl from '@/components/SegmentedControl'
+import { SearchInput } from '@/components/ui'
+import { SegmentedControl } from '@/components/ui'
 import type { FavoriteType } from '@/lib/types'
 
 const TYPE_FILTERS: { label: Record<'da' | 'en', string>; value: FavoriteType | 'all' }[] = [

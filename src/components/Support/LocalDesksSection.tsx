@@ -1,10 +1,10 @@
 import { memo } from 'react'
 import { Clock } from 'lucide-react'
-import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
-import SectionHeader from '@/components/SectionHeader'
-import KeyValue from '@/components/KeyValue'
-import { Heading, Text } from '@/components/Typography'
+import { Card } from '@/components/ui'
+import { Stack } from '@/components/Layout'
+import { SectionHeader } from '@/components/ui'
+import { KeyValue } from '@/components/ui'
+import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 import mockData from '@/data/mockData.json'
 const { supportLocations, supportDeskHours, supportNotes } = mockData
@@ -58,7 +58,7 @@ function LocalDesksSection() {
 }
 
 // Internal small helpers to render the exact Accordion structure from parent
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/Accordion'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
 
 const AccordionWrapper = ({ children }: { children: React.ReactNode }) => {
   return (

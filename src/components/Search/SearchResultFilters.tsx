@@ -1,5 +1,5 @@
 import Button from '@/components/ui/Button'
-import { Stack } from '@/components/LayoutPrimitives'
+import { Stack } from '@/components/Layout'
 import useStore from '@/store'
 
 interface SearchResultFiltersProps {

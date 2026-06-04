@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import Tabs from '@/components/Tabs'
+import { Tabs } from '@/components/ui'
 import useStore from '@/store'
 
 const tabItems = [

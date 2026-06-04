@@ -7,9 +7,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { GradesOverview, GradesFilter, GradeRow } from '@/components/Grades';
 
 
-import Card from '@/components/Card';
-import EmptyState from '@/components/EmptyState';
-import PageLayout from '@/components/PageLayout';
+import { Card } from '@/components/ui';
+import { EmptyState } from '@/components/ui';
+import { PageLayout } from '@/components/Layout';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/data/mockGrades';
 import useStore from '@/store';
 import { translations } from '@/lib/translations';
