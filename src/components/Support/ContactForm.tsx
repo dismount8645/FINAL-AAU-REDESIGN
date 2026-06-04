@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { X } from 'lucide-react'
 import Card from '@/components/Card'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { Input } from '@/components/FormControls'
 import { Textarea } from '@/components/FormControls'
 import { FormField } from '@/components/FormControls'
