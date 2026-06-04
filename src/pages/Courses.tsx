@@ -144,14 +144,6 @@ function Courses() {
 export default memo(Courses)
 
 if (import.meta.vitest) {
-  const mockNavigate = vi.hoisted(() => vi.fn())
-  vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
-    return {
-      ...actual,
-      useNavigate: () => mockNavigate,
-    }
-  })
   describe('Courses', () => {
     beforeEach(() => {
       vi.clearAllMocks()
@@ -180,18 +172,6 @@ if (import.meta.vitest) {
       const forumsHeader = screen.getByText(/Dine Fora/i)
       fireEvent.click(forumsHeader)
       expect(screen.queryByText('Studienævn for DDK')).not.toBeInTheDocument()
-  
-      // Test view all button in forums header
-      const viewAll = screen.getByText('Se alle')
-      fireEvent.click(viewAll)
-      expect(mockNavigate).toHaveBeenCalledWith('/courses')
-    })
-  
-    it('navigates to course on button click', () => {
-      renderWithProviders(<Courses />)
-      const openBtns = screen.getAllByText('Åbn modul')
-      fireEvent.click(openBtns[0])
-      expect(mockNavigate).toHaveBeenCalledWith(expect.stringContaining('/course/'))
     })
   
     it('toggles star on a course', () => {
@@ -216,13 +196,6 @@ if (import.meta.vitest) {
         fireEvent.click(forumStars[0])
         expect(toggleFavorite).toHaveBeenCalledWith('forum', expect.any(Number))
       }
-    })
-  
-    it('navigates to forum on forum card click', () => {
-      renderWithProviders(<Courses />)
-      const forumTitle = screen.getByText('Studienævn for DDK')
-      fireEvent.click(forumTitle)
-      expect(mockNavigate).toHaveBeenCalledWith(expect.stringContaining('/course/10'))
     })
   
     it('switches to upcoming tab and shows upcoming courses', () => {

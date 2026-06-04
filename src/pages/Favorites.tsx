@@ -256,6 +256,8 @@ if (import.meta.vitest) {
     })
   
     it('renders empty state when no favorites', () => {
+      const mockStore = useStore as any
+      mockStore.mockReturnValue({ ...baseStoreMock, favorites: [] })
       renderWithProviders(<FavoritesPage />)
   
       expect(screen.getByText('favorites_empty')).toBeInTheDocument()
@@ -274,8 +276,20 @@ if (import.meta.vitest) {
     })
   
     it('handles drag and drop to reorder', () => {
+      const multiFavorites = [
+        { id: 'fav1', type: 'course', entityId: 1, order: 0 },
+        { id: 'fav2', type: 'course', entityId: 2, order: 1 },
+      ]
+      const mockStore = useStore as any
+      mockStore.mockReturnValue({ ...baseStoreMock, favorites: multiFavorites })
+      const mockResolve = favUtils.resolveFavorite as any
+      mockResolve.mockImplementation((fav: any) => ({
+        ...mockResolvedCourse,
+        id: fav?.id || 'fav1',
+        title: fav?.id === 'fav1' ? 'Course 1' : 'Course 2',
+      }))
       renderWithProviders(<FavoritesPage />)
-  
+
       const item1 = screen.getByText('Course 1').closest('div[draggable="true"]')
       const item2 = screen.getByText('Course 2').closest('div[draggable="true"]')
   
