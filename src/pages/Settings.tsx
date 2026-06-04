@@ -13,7 +13,11 @@ import Avatar from '@/components/Avatar'
 import ListItem from '@/components/ListItem'
 import useStore from '@/lib/store'
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils'
-import { useSettingsState } from '@/lib/useSettingsState'
+import { useState, useCallback, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useToast } from '@/components/Toast'
+import { useUserStore } from '@/store/userStore'
+import { SETTINGS_CATEGORIES } from '@/lib/settingsCategories'
 import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
 
 const catIcons: Record<string, typeof User> = {
@@ -47,43 +51,49 @@ const itemIcons: Record<string, typeof User> = {
 function Settings() {
   const t = useStore(state => state.t)
   const isMobile = useStore(state => state.isMobile)
-  const theme = useStore(state => state.theme)
-  const setTheme = useStore(state => state.setTheme)
-  const lang = useStore(state => state.lang)
-  const setLang = useStore(state => state.setLang)
+  const [searchParams] = useSearchParams()
+  const toast = useToast()
+  const userStore = useUserStore()
+
+  const [activeTab, setActiveTab] = useState<string>(searchParams.get('tab') || 'profil')
+  const [expandedCats, setExpandedCats] = useState<string[]>(['bruger', 'indstillinger'])
+  const [mobileView, setMobileView] = useState<'menu' | 'pane'>('menu')
 
   const {
-    activeTab,
-    expandedCats,
     firstName,
-    setFirstName,
     lastName,
-    setLastName,
-    notifPrefs,
-    setNotifPrefs,
-    mobileView,
-    setMobileView,
-    forumDigest,
-    setForumDigest,
-    forumTracking,
-    setForumTracking,
-    forumAutoSubscribe,
-    setForumAutoSubscribe,
-    calendarStartDay,
-    setCalendarStartDay,
-    calendarDefaultView,
-    setCalendarDefaultView,
-    messagePrivacy,
-    setMessagePrivacy,
-    messageEmailOffline,
-    setMessageEmailOffline,
-    activeTabLabel,
     isSaving,
-    handleSave,
-    handleTabClick,
-    toggleCat,
-    categories,
-  } = useSettingsState()
+    handleSave: handleStoreSave,
+  } = userStore
+
+  const handleSave = useCallback(async () => {
+    await handleStoreSave(toast, t)
+  }, [handleStoreSave, toast, t])
+
+  const handleTabClick = useCallback((id: string) => {
+    setActiveTab(id)
+    if (isMobile) {
+      setMobileView('pane')
+    }
+  }, [isMobile])
+
+  const toggleCat = useCallback((id: string): void => {
+    setExpandedCats(prev => prev.includes(id)
+      ? prev.filter(c => c !== id)
+      : [...prev, id]
+    )
+  }, [])
+
+  const activeTabLabel = useMemo(
+    () => {
+      const allItems = (SETTINGS_CATEGORIES as ReadonlyArray<{ id: string; nameKey: string; items: ReadonlyArray<{ id: string; nameKey: string }> }>)
+        .flatMap(c => c.items)
+      return allItems.find(i => i.id === activeTab)?.nameKey ?? 'settings'
+    },
+    [activeTab]
+  )
+
+  const categories = SETTINGS_CATEGORIES
 
   return (
     <Stack className="two-panel-page settings-page">
@@ -175,47 +185,17 @@ function Settings() {
                     transition={{ duration: 0.15 }}
                   >
                     {activeTab === 'profil' ? (
-                      <ProfileTab
-                        firstName={firstName}
-                        setFirstName={setFirstName}
-                        lastName={lastName}
-                        setLastName={setLastName}
-                        theme={theme}
-                        setTheme={setTheme}
-                      />
+                      <ProfileTab />
                     ) : activeTab === 'notifikationer' ? (
-                      <NotificationsTab
-                        notifPrefs={notifPrefs}
-                        setNotifPrefs={setNotifPrefs}
-                      />
+                      <NotificationsTab />
                     ) : activeTab === 'sprog' ? (
-                      <LanguageTab
-                        lang={lang}
-                        setLang={setLang}
-                      />
+                      <LanguageTab />
                     ) : activeTab === 'forum' ? (
-                      <ForumTab
-                        forumDigest={forumDigest}
-                        setForumDigest={setForumDigest}
-                        forumTracking={forumTracking}
-                        setForumTracking={setForumTracking}
-                        forumAutoSubscribe={forumAutoSubscribe}
-                        setForumAutoSubscribe={setForumAutoSubscribe}
-                      />
+                      <ForumTab />
                     ) : activeTab === 'kalender' ? (
-                      <CalendarTab
-                        calendarStartDay={calendarStartDay}
-                        setCalendarStartDay={setCalendarStartDay}
-                        calendarDefaultView={calendarDefaultView}
-                        setCalendarDefaultView={setCalendarDefaultView}
-                      />
+                      <CalendarTab />
                     ) : activeTab === 'beskeder' ? (
-                      <MessagesTab
-                        messagePrivacy={messagePrivacy}
-                        setMessagePrivacy={setMessagePrivacy}
-                        messageEmailOffline={messageEmailOffline}
-                        setMessageEmailOffline={setMessageEmailOffline}
-                      />
+                      <MessagesTab />
                     ) : (
                       <Stack align="center" justify="center" className="settings__empty-state py-[var(--space-3xl)] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
                          <Icon name="gear" size="3xl" className="text-muted opacity-30 mb-md" />
@@ -242,9 +222,9 @@ function Settings() {
 
 export default Settings
 
-let mockToast
+let mockToast: any
 if (import.meta.vitest) {
-  const mockToast = {
+  mockToast = {
     success: vi.fn(),
     error: vi.fn(),
     info: vi.fn(),
@@ -262,6 +242,21 @@ if (import.meta.vitest) {
     beforeEach(() => {
       vi.clearAllMocks()
       localStorage.clear()
+      useUserStore.setState({
+        firstName: 'Jacob Krarup',
+        lastName: 'Madsen',
+        lang: 'da',
+        theme: 'system',
+        notifPrefs: { email: true, push: true, sms: false },
+        forumDigest: 'complete',
+        forumTracking: true,
+        forumAutoSubscribe: true,
+        calendarStartDay: 'monday',
+        calendarDefaultView: 'month',
+        messagePrivacy: 'courses',
+        messageEmailOffline: true,
+        isSaving: false,
+      })
     })
 
     const renderSettings = (lang = 'da') => {

@@ -3,20 +3,22 @@ import { Grid } from '@/components/LayoutPrimitives'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 import Select from '@/components/ui/Select'
+import { useUserStore } from '@/store/userStore'
 
 interface CalendarTabProps {
-  calendarStartDay: 'monday' | 'sunday'
-  setCalendarStartDay: (val: 'monday' | 'sunday') => void
-  calendarDefaultView: 'month' | 'week' | 'day'
-  setCalendarDefaultView: (val: 'month' | 'week' | 'day') => void
+  calendarStartDay?: 'monday' | 'sunday'
+  setCalendarStartDay?: (val: 'monday' | 'sunday') => void
+  calendarDefaultView?: 'month' | 'week' | 'day'
+  setCalendarDefaultView?: (val: 'month' | 'week' | 'day') => void
 }
 
-export default function CalendarTab({
-  calendarStartDay,
-  setCalendarStartDay,
-  calendarDefaultView,
-  setCalendarDefaultView,
-}: CalendarTabProps) {
+export default function CalendarTab(props: CalendarTabProps) {
+  const store = useUserStore()
+  const calendarStartDay = props.calendarStartDay ?? store.calendarStartDay
+  const setCalendarStartDay = props.setCalendarStartDay ?? store.setCalendarStartDay
+  const calendarDefaultView = props.calendarDefaultView ?? store.calendarDefaultView
+  const setCalendarDefaultView = props.setCalendarDefaultView ?? store.setCalendarDefaultView
+
   const t = useStore(state => state.t)
 
   return (

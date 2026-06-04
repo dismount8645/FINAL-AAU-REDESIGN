@@ -113,7 +113,6 @@ function Favorites() {
 
 export default Favorites
 
-let mockNavigate
 if (import.meta.vitest) {
   vi.mock('@/lib/store', () => {
     let currentState: any = {}
