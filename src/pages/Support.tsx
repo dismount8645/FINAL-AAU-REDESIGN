@@ -9,10 +9,7 @@ import { useToast } from '@/components/Toast';
 import { submitSupportTicket } from '@/lib/api';
 import useStore from '@/lib/store';
 import { renderWithProviders, screen, fireEvent, act } from '@/lib/test-utils';
-import FaqSection from '@/components/FaqSection';
-import LocalDesksSection from '@/components/LocalDesksSection';
-import ContactForm from '@/components/ContactForm';
-import SupportSidebar from '@/components/SupportSidebar';
+import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar } from '@/components/Support';
 
 function Support() {
   const t = useStore(state => state.t)

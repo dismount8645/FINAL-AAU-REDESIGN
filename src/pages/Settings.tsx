@@ -14,12 +14,7 @@ import ListItem from '@/components/ListItem'
 import useStore from '@/lib/store'
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils'
 import { useSettingsState } from '@/lib/useSettingsState'
-import ProfileTab from '@/components/ProfileTab'
-import NotificationsTab from '@/components/NotificationsTab'
-import LanguageTab from '@/components/LanguageTab'
-import ForumTab from '@/components/ForumTab'
-import CalendarTab from '@/components/CalendarTab'
-import MessagesTab from '@/components/MessagesTab'
+import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
 
 const catIcons: Record<string, typeof User> = {
   bruger: User,
