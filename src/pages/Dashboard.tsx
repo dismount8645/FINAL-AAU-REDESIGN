@@ -7,9 +7,9 @@ import { Edit, Check } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { WidgetCustomizer } from '@/components/WidgetCustomizer';
 import { WidgetGrid } from '@/components/WidgetGrid';
-import Button from '@/components/ui/Button';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import { Button } from '@/components/ui';
+import PageLayout from '@/components/PageLayout';
+import { cn } from '@/lib/utils';
 import { DEFAULT_WIDGETS } from '@/lib/mockData';
 import useStore from '@/lib/store';
 import { useWidgetDrag } from '@/lib/useWidgetDrag';
@@ -50,31 +50,27 @@ function Dashboard() {
   const visibleWidgets = useMemo(() => widgets.filter((w) => w.visible), [widgets])
 
   return (
-    <Stack
-      className={`dashboard-page relative ${
-        isEditing
-          ? "dashboard--editing before:content-[''] before:fixed before:inset-0 before:bg-[rgba(var(--aau-blue-rgb),0.03)] before:pointer-events-none before:z-[1]"
-          : ''
-      }`}
+    <PageLayout
+      key={location.key}
+      className={cn(
+        'dashboard-page relative',
+        isEditing && "dashboard--editing before:content-[''] before:fixed before:inset-0 before:bg-[rgba(var(--aau-blue-rgb),0.03)] before:pointer-events-none before:z-[1]"
+      )}
+      pageKey="dashboard"
+      title={t('common.welcome')}
+      subtitle={t('common.assignments_count')}
+      actions={
+        <Button
+          variant="primary"
+          size="sm"
+          icon={isEditing ? Check : Edit}
+          onClick={() => setIsEditing(!isEditing)}
+          className="dashboard__edit-trigger transition-all duration-[var(--transition-fast)]"
+        >
+          {isEditing ? t('common.done') : t('dashboard.edit_dashboard')}
+        </Button>
+      }
     >
-      <PageHeader
-        key={location.key}
-        pageKey="dashboard"
-        title={t('common.welcome')}
-        subtitle={t('common.assignments_count')}
-        actionsAlign="center"
-        actions={
-          <Button
-            variant="primary"
-            size="sm"
-            icon={isEditing ? Check : Edit}
-            onClick={() => setIsEditing(!isEditing)}
-            className="dashboard__edit-trigger transition-all duration-[var(--transition-fast)]"
-          >
-            {isEditing ? t('common.done') : t('dashboard.edit_dashboard')}
-          </Button>
-        }
-      />
 
       <div className="w-full max-w-[var(--container-max-width)] mx-auto px-[var(--space-md)] pt-[var(--space-lg)] pb-[var(--space-2xl)]">
         <AnimatePresence>
@@ -111,7 +107,7 @@ function Dashboard() {
           moveWidget={moveWidget}
         />
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 

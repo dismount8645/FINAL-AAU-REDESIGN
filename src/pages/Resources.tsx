@@ -4,11 +4,10 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Headphones, ExternalLink } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import ResourcesSection from '@/components/ResourcesSection';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
 import Card from '@/components/Card';
 import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import PageLayout from '@/components/PageLayout';
 import { Text } from '@/components/Typography';
 import { env } from '@/lib/env';
 import useStore from '@/lib/store';
@@ -23,16 +22,17 @@ function Resources() {
   const pinnedTools = useMemo(() => allToolsList.filter(t => isFavorite('tool', t.id)), [favorites, isFavorite])
 
   return (
-    <Stack tag="main" className="resources-page">
-      <PageHeader
-        pageKey="toolbox"
-        title={t('toolbox')}
-        subtitle={t('toolbox_subtitle')}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: t('toolbox') },
-        ]}
-      />
+    <PageLayout
+      tag="main"
+      className="resources-page"
+      pageKey="toolbox"
+      title={t('toolbox')}
+      subtitle={t('toolbox_subtitle')}
+      breadcrumbs={[
+        { label: t('dashboard'), href: '/' },
+        { label: t('toolbox') },
+      ]}
+    >
 
       <div className="container pb-2xl">
 
@@ -105,7 +105,7 @@ function Resources() {
         </Grid.Item>
       </Grid>
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 

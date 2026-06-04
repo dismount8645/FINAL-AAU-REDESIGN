@@ -3,9 +3,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent, within } from '@testing-library/react';
 import { CoursesTabs, CoursesFilters, CoursesGrid } from '@/components/Courses';
 import Badge from '@/components/Badge';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui';
+import PageLayout from '@/components/PageLayout';
 import Card from '@/components/Card';
-import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
 import { ASSETS, useCoursesFilterAndSort } from '@/lib';
@@ -58,16 +58,16 @@ function Courses() {
   }, [toggleFavorite])
 
   return (
-    <Stack className="courses-page">
-      <PageHeader
-        pageKey="courses"
-        title={t('courses')}
-        subtitle={t('courses.subtitle')}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: t('courses') },
-        ]}
-      />
+    <PageLayout
+      className="courses-page"
+      pageKey="courses"
+      title={t('courses')}
+      subtitle={t('courses.subtitle')}
+      breadcrumbs={[
+        { label: t('dashboard'), href: '/' },
+        { label: t('courses') },
+      ]}
+    >
 
       <div className="container container--courses pb-[var(--space-2xl)] mx-auto">
         <div className="courses-toolbar-wrapper w-full mb-[var(--space-lg)]">
@@ -135,7 +135,7 @@ function Courses() {
           </Card.Body>
         </Card>
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 

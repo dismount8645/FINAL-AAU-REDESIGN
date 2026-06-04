@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Phone, Globe } from 'lucide-react';
 import { Grid } from '@/components/LayoutPrimitives';
 import InfoCard from '@/components/InfoCard';
-import PageHeader from '@/components/PageHeader';
+import PageLayout from '@/components/PageLayout';
 import { Stack } from '@/components/LayoutPrimitives';
 import { useToast } from '@/components/Toast';
 import { submitSupportTicket } from '@/lib/api';
@@ -53,17 +53,17 @@ function Support() {
   }
 
   return (
-    <Stack className="support-page relative animate-fade-in">
-      <PageHeader
-        flat
-        pageKey="support"
-        title={t('support_page_title')}
-        subtitle={t('support_page_subtitle')}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: t('support') },
-        ]}
-      />
+    <PageLayout
+      className="support-page relative animate-fade-in"
+      flat
+      pageKey="support"
+      title={t('support_page_title')}
+      subtitle={t('support_page_subtitle')}
+      breadcrumbs={[
+        { label: t('dashboard'), href: '/' },
+        { label: t('support') },
+      ]}
+    >
 
       <div className="container pb-[var(--space-2xl)]">
         <Grid>
@@ -120,7 +120,7 @@ function Support() {
           </Grid.Item>
         </Grid>
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 
