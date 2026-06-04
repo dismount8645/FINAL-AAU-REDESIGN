@@ -5,9 +5,9 @@ import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-route
 import CourseSidebar from '@/components/CourseSidebar';
 import CourseBreadcrumbs from '@/components/CourseBreadcrumbs';
 import CourseTabContent from '@/components/CourseTabContent';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/LayoutPrimitives';
 import ModuleHeader from '@/components/ModuleHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import Tabs from '@/components/Tabs';
 import { courseData, participantsData, courseTabItems } from '@/lib/courseData';
 import { storage } from '@/lib/storage';

@@ -5,7 +5,7 @@ import { ChevronRight, Clock, AlertCircle, CheckCircle2, Calendar } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import StatusItem from '@/components/StatusItem';
 import { Text, Heading } from '@/components/Typography';
 import { dashboardDeadlines } from '@/lib/dashboardWidgets';

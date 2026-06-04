@@ -11,11 +11,11 @@ import CalendarEventDetailsDialog from '@/components/CalendarEventDetailsDialog'
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import Grid from '@/components/Grid';
+import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
 import SegmentedControl from '@/components/SegmentedControl';
 import { Skeleton } from '@/components/Skeleton';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { useToast, ToastProvider } from '@/components/Toast';
 import { useCalendar } from '@/components/useCalendar';
 import useStore from '@/lib/store';

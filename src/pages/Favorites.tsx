@@ -7,7 +7,7 @@ import FavoritesFilter from '@/components/FavoritesFilter';
 import FavoritesList from '@/components/FavoritesList';
 import Button from '@/components/Button';
 import PageHeader from '@/components/PageHeader';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';

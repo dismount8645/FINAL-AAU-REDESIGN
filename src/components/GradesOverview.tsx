@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { GraduationCap, TrendingUp } from 'lucide-react'
-import Grid from '@/components/Grid'
+import { Grid } from '@/components/LayoutPrimitives'
 import Card from '@/components/Card'
 import { Heading, Text } from '@/components/Typography'
 import ProgressBar from '@/components/ProgressBar'

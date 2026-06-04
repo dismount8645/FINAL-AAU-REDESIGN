@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { type LucideIcon, Star, Info, User } from 'lucide-react';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
-import IconCircle from '@/components/IconCircle';
-import Stack from '@/components/Stack';
+import { IconCircle } from '@/components/Icon';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { cn } from '@/lib/utils';
 

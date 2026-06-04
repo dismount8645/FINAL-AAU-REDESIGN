@@ -1,12 +1,12 @@
 import { type RefObject } from 'react'
 import { Send, MessageCircle, ArrowLeft } from 'lucide-react'
 import Card from '@/components/Card'
-import Stack from '@/components/Stack'
+import { Stack } from '@/components/LayoutPrimitives'
 import Button from '@/components/Button'
 import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import Avatar from '@/components/Avatar'
-import Textarea from '@/components/Textarea'
+import { Textarea } from '@/components/FormControls'
 import type { Contact } from './messagesTypes'
 
 interface ChatWindowProps {

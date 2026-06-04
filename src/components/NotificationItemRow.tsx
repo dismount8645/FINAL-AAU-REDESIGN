@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Check, Archive, Undo2, LucideIcon } from 'lucide-react';
 import { type NotificationItem } from './notificationsTypes';
 import Button from '@/components/Button';
-import Stack from '@/components/Stack';
+import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { formatTime } from '@/lib/dates';
 import type { Lang } from '@/lib/store';

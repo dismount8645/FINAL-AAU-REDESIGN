@@ -1,5 +1,5 @@
-import FormField from '@/components/FormField'
-import Stack from '@/components/Stack'
+import { FormField } from '@/components/FormControls'
+import { Stack } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
