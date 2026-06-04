@@ -8,7 +8,7 @@ import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { StatusItem } from '@/components/ui';
 import { Text, Heading } from '@/components/ui';
-import { dashboardDeadlines } from '@/config/dashboardWidgets';
+import { dashboardDeadlines } from '@/data/registry';
 import * as dates from '@/lib/dates';
 import { getHoursUntil, hoursFromNow } from '@/lib/dates';
 import useStore from '@/store';
