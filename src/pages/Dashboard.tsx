@@ -1,9 +1,10 @@
 import { useState, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders } from '@/lib/test-utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Edit, Check } from 'lucide-react';
-import { useLocation, MemoryRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { WidgetCustomizer } from '@/components/WidgetCustomizer';
 import { WidgetGrid } from '@/components/WidgetGrid';
 import Button from '@/components/ui/Button';
@@ -124,11 +125,7 @@ if (import.meta.vitest) {
     })
   
     const renderDashboard = () => {
-      return render(
-        <MemoryRouter>
-          <Dashboard />
-        </MemoryRouter>
-      )
+      return renderWithProviders(<Dashboard />)
     }
   
     it('renders correctly', () => {
