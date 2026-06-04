@@ -2,7 +2,7 @@ import { type MouseEvent } from 'react';
 import { it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Check, Archive, Undo2, LucideIcon } from 'lucide-react';
-import { type NotificationItem } from './notificationsTypes';
+import { type NotificationItem } from '@/components/notificationsTypes';
 import Button from '@/components/Button';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';

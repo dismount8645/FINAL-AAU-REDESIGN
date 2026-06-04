@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
-import SupportSidebar from '@/components/SupportSidebar'
+import { SupportSidebar } from '@/components/Support'
 import useStore from '@/lib/store'
 
 if (import.meta.vitest) {

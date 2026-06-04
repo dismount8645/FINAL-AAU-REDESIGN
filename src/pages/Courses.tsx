@@ -1,9 +1,7 @@
 import { useState, useEffect, useCallback, memo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
-import CoursesTabs from '@/components/CoursesTabs';
-import CoursesFilters from '@/components/CoursesFilters';
-import CoursesGrid from '@/components/CoursesGrid';
+import { CoursesTabs, CoursesFilters, CoursesGrid } from '@/components/Courses';
 import Badge from '@/components/Badge';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
