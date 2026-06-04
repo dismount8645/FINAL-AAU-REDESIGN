@@ -1,5 +1,5 @@
 import { LucideIcon, PenSquare, FileText, BookOpen, Wifi, Mail, Users, Cloud, Book, ClipboardList, Video } from 'lucide-react'
-import mockData from '@/data/registry.json'
+import registryJson from '@/data/registry.json'
 import type { ResourceTool } from '@/lib/types'
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -15,14 +15,17 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Video,
 }
 
-export const allTools: ResourceTool[] = mockData.allTools.map(tool => ({
+const mapTool = (tool: typeof registryJson.tools[0]): ResourceTool => ({
   ...tool,
   icon: ICON_MAP[tool.iconName] || FileText,
-})) as ResourceTool[]
+}) as ResourceTool
 
-export const allEssentials: ResourceTool[] = mockData.allEssentials.map(essential => ({
-  ...essential,
-  icon: ICON_MAP[essential.iconName] || FileText,
-})) as ResourceTool[]
+export const allTools: ResourceTool[] = registryJson.tools
+  .filter(t => t.category === 'tools')
+  .map(mapTool)
 
-export const allToolsList: ResourceTool[] = [...allTools, ...allEssentials]
+export const allEssentials: ResourceTool[] = registryJson.tools
+  .filter(t => t.category === 'essentials')
+  .map(mapTool)
+
+export const allToolsList: ResourceTool[] = [...allTools, ...allEssentials]

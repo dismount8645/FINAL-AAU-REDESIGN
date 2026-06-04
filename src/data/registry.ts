@@ -81,3 +81,44 @@ export const DEFAULT_WIDGETS: Widget[] = registryJson.defaultWidgets as Widget[]
 
 export const participantsData = registryJson.participantsData as { name: string; role: 'student' | 'teacher' }[]
 export const courseTabItems = registryJson.courseTabItems as { key: string; label: string }[]
+
+// Dashboard widget data slices — field names mapped to match widget contracts
+export const dashboardDeadlines = registryJson.dashboard
+  .filter(d => d.category === 'deadlines')
+  .map(d => ({
+    id: d.id,
+    category: d.category,
+    titleDa: d.nameDa,
+    titleEn: d.nameEn,
+    iconName: d.iconName,
+    dateKey: (d as any).dateKey as string,
+    courseId: (d as any).courseId as number,
+    deadlineHoursFromNow: (d as any).deadlineHoursFromNow as number,
+  }))
+
+export const dashboardGrades = registryJson.dashboard
+  .filter(d => d.category === 'grades')
+  .map(d => ({
+    id: d.id,
+    category: d.category,
+    courseDa: d.nameDa,
+    courseEn: d.nameEn,
+    iconName: d.iconName,
+    score: (d as any).score as number | null,
+  }))
+
+export const dashboardForumPosts = registryJson.dashboard
+  .filter(d => d.category === 'forumPosts')
+  .map(d => ({
+    id: d.id,
+    category: d.category,
+    titleDa: d.nameDa,
+    titleEn: d.nameEn,
+    iconName: d.iconName,
+    author: (d as any).author as string,
+    timeDa: (d as any).timeDa as string,
+    timeEn: (d as any).timeEn as string,
+    replies: (d as any).replies as number,
+    important: (d as any).important as boolean | undefined,
+  }))
+
