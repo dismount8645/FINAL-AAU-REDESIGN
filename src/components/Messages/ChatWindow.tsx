@@ -1,4 +1,3 @@
-import { type RefObject } from 'react'
 import { Send, MessageCircle, ArrowLeft } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout'
@@ -7,17 +6,7 @@ import { Heading, Text } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
 import { Avatar } from '@/components/ui'
 import Textarea from '@/components/ui/Textarea'
-import type { Contact } from '@/types'
-
-interface ChatWindowProps {
-  activeContact: Contact | undefined
-  chatBodyRef: RefObject<HTMLDivElement>
-  messageText: string
-  setMessageText: (val: string) => void
-  handleSend: () => void
-  setShowChat: (val: boolean) => void
-  t: (key: string) => string
-}
+import type { ChatWindowProps } from '@/lib/types'
 
 export function ChatWindow({
   activeContact,

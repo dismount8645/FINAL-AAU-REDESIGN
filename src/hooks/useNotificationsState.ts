@@ -1,7 +1,7 @@
 import { useState, useMemo, type MouseEvent } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import type { NotificationItem } from '@/types';
+import type { NotificationItem } from '@/lib/types';
 import { formatRelativeDateGroup } from '@/lib/dates';
 import useStore from '@/store';
 

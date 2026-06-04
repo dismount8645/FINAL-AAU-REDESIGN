@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { PersistedStateSchema } from '@/types/schemas';
+import { PersistedStateSchema } from '@/lib/types/schemas';
 import { Theme, Lang, computeIsDarkMode } from '@/lib/theme';
 import type { FavoriteItem } from '@/lib/types';
 import { STORAGE_KEYS } from '@/lib/constants';
