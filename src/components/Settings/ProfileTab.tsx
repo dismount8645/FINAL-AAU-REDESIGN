@@ -102,10 +102,10 @@ export default function ProfileTab(props: ProfileTabProps) {
   )
 }
 
-let mockToast
+let mockToast: any
 if (import.meta.vitest) {
   // Mock useToast
-  const mockToast = {
+  mockToast = {
     success: vi.fn(),
     error: vi.fn(),
     info: vi.fn(),

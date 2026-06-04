@@ -199,10 +199,10 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
 
 export default memo(DeadlinesWidget)
 
-let mockNavigate
+let mockNavigate: any
 if (import.meta.vitest) {
   // Mock useNavigate
-  const mockNavigate = vi.fn()
+  mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
     return {
