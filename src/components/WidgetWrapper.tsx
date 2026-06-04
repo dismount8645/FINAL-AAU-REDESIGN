@@ -143,13 +143,15 @@ export const WidgetWrapper = memo(function WidgetWrapper({
 
 
 if (import.meta.vitest) {
-  const mockResize = vi.fn()
-  const mockMoveWidget = vi.fn()
-  const mockToggleVisibility = vi.fn()
-  const mockOnDragStart = vi.fn()
-  const mockOnDragEnd = vi.fn()
-  const mockOnDragOver = vi.fn()
-  const mockOnDrop = vi.fn()
+  const hoisted = vi.hoisted(() => ({
+    mockResize: vi.fn(),
+    mockMoveWidget: vi.fn(),
+    mockToggleVisibility: vi.fn(),
+    mockOnDragStart: vi.fn(),
+    mockOnDragEnd: vi.fn(),
+    mockOnDragOver: vi.fn(),
+    mockOnDrop: vi.fn(),
+  }))
   const mockT = vi.fn((key: string) => key)
   
   vi.mock('@/lib/mockData', async () => {
@@ -166,7 +168,7 @@ if (import.meta.vitest) {
     const actual = await vi.importActual('@/lib/useResizeHandle')
     return {
       ...actual,
-      useResizeHandle: () => ({ handleResize: mockResize }),
+      useResizeHandle: () => ({ handleResize: hoisted.mockResize }),
     }
   })
   
@@ -193,14 +195,14 @@ if (import.meta.vitest) {
         isEditing={isEditing}
         isDragged={isDragged}
         WidgetComponent={WidgetComponent}
-        onDragStart={mockOnDragStart}
-        onDragEnd={mockOnDragEnd}
-        onDragOver={mockOnDragOver}
-        onDrop={mockOnDrop}
-        toggleVisibility={mockToggleVisibility}
-        resizeWidget={mockResize}
+        onDragStart={hoisted.mockOnDragStart}
+        onDragEnd={hoisted.mockOnDragEnd}
+        onDragOver={hoisted.mockOnDragOver}
+        onDrop={hoisted.mockOnDrop}
+        toggleVisibility={hoisted.mockToggleVisibility}
+        resizeWidget={hoisted.mockResize}
         t={mockT}
-        moveWidget={mockMoveWidget}
+        moveWidget={hoisted.mockMoveWidget}
       />
     )
   }
@@ -235,70 +237,70 @@ if (import.meta.vitest) {
     renderWrapper(true)
     const gridItem = screen.getByTestId('widget-content').closest('[class*="dashboard__widget"]')!
     fireEvent.dragStart(gridItem)
-    expect(mockOnDragStart).toHaveBeenCalled()
+    expect(hoisted.mockOnDragStart).toHaveBeenCalled()
   })
   
   it('calls toggleVisibility when hide button is clicked', () => {
     renderWrapper(true)
     const hideBtn = screen.getByLabelText('hide_widget')
     fireEvent.click(hideBtn)
-    expect(mockToggleVisibility).toHaveBeenCalledWith('test_widget')
+    expect(hoisted.mockToggleVisibility).toHaveBeenCalledWith('test_widget')
   })
   
   it('calls moveWidget left on ArrowLeft key', () => {
     renderWrapper(true)
     const gripBtn = screen.getByTitle('drag_to_reorder')
     fireEvent.keyDown(gripBtn, { key: 'ArrowLeft' })
-    expect(mockMoveWidget).toHaveBeenCalledWith('test_widget', 'left')
+    expect(hoisted.mockMoveWidget).toHaveBeenCalledWith('test_widget', 'left')
   })
   
   it('calls moveWidget right on ArrowRight key', () => {
     renderWrapper(true)
     const gripBtn = screen.getByTitle('drag_to_reorder')
     fireEvent.keyDown(gripBtn, { key: 'ArrowRight' })
-    expect(mockMoveWidget).toHaveBeenCalledWith('test_widget', 'right')
+    expect(hoisted.mockMoveWidget).toHaveBeenCalledWith('test_widget', 'right')
   })
   
   it('calls resizeWidget width on width handle mousedown', () => {
     renderWrapper(true)
     const handles = document.querySelectorAll('[class*="cursor-ew-resize"]')
     fireEvent.mouseDown(handles[0])
-    expect(mockResize).toHaveBeenCalledWith(expect.any(Object), 'width')
+    expect(hoisted.mockResize).toHaveBeenCalledWith(expect.any(Object), 'width')
   })
   
   it('calls resizeWidget height on height handle mousedown', () => {
     renderWrapper(true)
     const handles = document.querySelectorAll('[class*="cursor-ns-resize"]')
     fireEvent.mouseDown(handles[0])
-    expect(mockResize).toHaveBeenCalledWith(expect.any(Object), 'height')
+    expect(hoisted.mockResize).toHaveBeenCalledWith(expect.any(Object), 'height')
   })
   
   it('calls resizeWidget on width handle touchstart', () => {
     renderWrapper(true)
     const handles = document.querySelectorAll('[class*="cursor-ew-resize"]')
     fireEvent.touchStart(handles[0])
-    expect(mockResize).toHaveBeenCalledWith(expect.any(Object), 'width')
+    expect(hoisted.mockResize).toHaveBeenCalledWith(expect.any(Object), 'width')
   })
   
   it('calls resizeWidget on height handle touchstart', () => {
     renderWrapper(true)
     const handles = document.querySelectorAll('[class*="cursor-ns-resize"]')
     fireEvent.touchStart(handles[0])
-    expect(mockResize).toHaveBeenCalledWith(expect.any(Object), 'height')
+    expect(hoisted.mockResize).toHaveBeenCalledWith(expect.any(Object), 'height')
   })
   
   it('calls onDrop with widget id on grid item drop', () => {
     renderWrapper()
     const gridItem = screen.getByTestId('widget-content').closest('[class*="dashboard__widget"]')!
     fireEvent.drop(gridItem)
-    expect(mockOnDrop).toHaveBeenCalledWith(expect.any(Object), 'test_widget')
+    expect(hoisted.mockOnDrop).toHaveBeenCalledWith(expect.any(Object), 'test_widget')
   })
   
   it('calls onDragOver on grid item dragover', () => {
     renderWrapper()
     const gridItem = screen.getByTestId('widget-content').closest('[class*="dashboard__widget"]')!
     fireEvent.dragOver(gridItem)
-    expect(mockOnDragOver).toHaveBeenCalled()
+    expect(hoisted.mockOnDragOver).toHaveBeenCalled()
   })
   
   it('does not render editing UI for non-editing mode', () => {

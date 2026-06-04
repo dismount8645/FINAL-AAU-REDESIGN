@@ -1,8 +1,9 @@
 import { useState, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders } from '@/lib/test-utils';
 import { Trash2, Wrench } from 'lucide-react';
-import { useNavigate, MemoryRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FavoritesFilter from '@/components/FavoritesFilter';
 import FavoritesList from '@/components/FavoritesList';
 import Button from '@/components/ui/Button';
@@ -114,6 +115,7 @@ function Favorites() {
 export default Favorites
 
 if (import.meta.vitest) {
+  const FavoritesPage = Favorites
   vi.mock('@/lib/store', () => {
     let currentState: any = {}
     const mockFn = vi.fn((selector) => {
@@ -136,10 +138,9 @@ if (import.meta.vitest) {
     }
   })
   
-  // Mock navigate
-  const mockNavigate = vi.fn()
-  vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom')
+  const mockNavigate = vi.hoisted(() => vi.fn())
+  vi.mock('react-router-dom', async (importOriginal) => {
+    const actual = await importOriginal<typeof import('react-router-dom')>()
     return {
       ...actual,
       useNavigate: () => mockNavigate,
@@ -194,22 +195,14 @@ if (import.meta.vitest) {
     })
   
     it('renders favorites correctly', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       expect(screen.getByText('English Course')).toBeInTheDocument()
       expect(screen.getByText(`1/${DASHBOARD_CONFIG.FAVORITES_LIMIT} favorites_limit`)).toBeInTheDocument()
     })
   
     it('filters favorites by search query', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       const searchInput = screen.getByPlaceholderText('search_favorites_placeholder')
       fireEvent.change(searchInput, { target: { value: 'Non-existent' } })
@@ -219,11 +212,7 @@ if (import.meta.vitest) {
     })
   
     it('clears search via SearchInput X button', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       const searchInput = screen.getByPlaceholderText('search_favorites_placeholder')
       fireEvent.change(searchInput, { target: { value: 'test' } })
@@ -233,11 +222,7 @@ if (import.meta.vitest) {
     })
   
     it('filters favorites by type', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       const toolsFilter = screen.getByText('Tools')
       fireEvent.click(toolsFilter)
@@ -246,11 +231,7 @@ if (import.meta.vitest) {
     })
   
     it('removes a favorite when clicking remove button', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       const removeButton = screen.getByLabelText('Remove from favorites')
       fireEvent.click(removeButton)
@@ -259,11 +240,7 @@ if (import.meta.vitest) {
     })
   
     it('removes all favorites when clicking remove all button', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       const removeAllButton = screen.getByText('remove_all')
       fireEvent.click(removeAllButton)
@@ -272,28 +249,14 @@ if (import.meta.vitest) {
     })
   
     it('navigates to favorite link when clicked', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       fireEvent.click(screen.getByText('English Course'))
       expect(mockNavigate).toHaveBeenCalledWith('/course/1')
     })
   
     it('renders empty state when no favorites', () => {
-      (useStore as any).mockReturnValue({
-        ...baseStoreMock,
-        favorites: [],
-      })
-      ;(favUtils.resolveFavorite as any).mockReturnValue(null)
-  
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       expect(screen.getByText('favorites_empty')).toBeInTheDocument()
   
@@ -301,12 +264,8 @@ if (import.meta.vitest) {
       expect(mockNavigate).toHaveBeenCalledWith('/')
       })
   
-      it('handles drag end', () => {
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+    it('handles drag end', () => {
+      renderWithProviders(<FavoritesPage />)
       const item = screen.getByText('English Course').closest('div[draggable="true"]')
       if (item && item.parentElement) {
         fireEvent.dragStart(item.parentElement)
@@ -315,23 +274,7 @@ if (import.meta.vitest) {
     })
   
     it('handles drag and drop to reorder', () => {
-      const favorites = [
-        { id: 'fav1', type: 'course', entityId: 1, order: 0 },
-        { id: 'fav2', type: 'course', entityId: 2, order: 1 },
-      ]
-      ;(useStore as any).mockReturnValue({
-        ...baseStoreMock,
-        favorites,
-      })
-      ;(favUtils.resolveFavorite as any)
-        .mockReturnValueOnce({ ...mockResolvedCourse, id: 'fav1', title: 'Course 1' })
-        .mockReturnValueOnce({ ...mockResolvedCourse, id: 'fav2', title: 'Course 2' })
-  
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
+      renderWithProviders(<FavoritesPage />)
   
       const item1 = screen.getByText('Course 1').closest('div[draggable="true"]')
       const item2 = screen.getByText('Course 2').closest('div[draggable="true"]')
@@ -353,7 +296,7 @@ if (import.meta.vitest) {
   
     it('opens external link in new tab', () => {
       const windowSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
-      
+
       const mockExternalFav = {
         id: 'fav-tool',
         type: 'tool' as const,
@@ -365,15 +308,11 @@ if (import.meta.vitest) {
         link: 'https://example.com',
         external: true,
       }
-      
+
       ;(favUtils.resolveFavorite as any).mockReturnValue(mockExternalFav)
-  
-      render(
-        <MemoryRouter>
-          <Favorites />
-        </MemoryRouter>
-      )
-  
+
+      renderWithProviders(<FavoritesPage />)
+
       fireEvent.click(screen.getByText('External Tool'))
       expect(windowSpy).toHaveBeenCalledWith('https://example.com', '_blank', 'noopener,noreferrer')
     })

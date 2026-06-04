@@ -270,7 +270,7 @@ if (import.meta.vitest) {
         </MemoryRouter>
       )
       const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('__AAU_LEFT_WHITE.webp')
+      expect(logo.getAttribute('src')).toContain('aau-left-white.webp')
     })
   
     it('renders collapsed logo (symbol)', () => {
@@ -281,7 +281,7 @@ if (import.meta.vitest) {
         </MemoryRouter>
       )
       const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('__AAU_CENTER_WHITE.webp')
+      expect(logo.getAttribute('src')).toContain('aau-center-white.webp')
     })
   
     it('renders collapsed EN logo', () => {
@@ -292,7 +292,7 @@ if (import.meta.vitest) {
         </MemoryRouter>
       )
       const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('__AAU_CENTER_WHITE_UK.webp')
+      expect(logo.getAttribute('src')).toContain('aau-center-white-uk.webp')
     })
   
     it('renders expanded EN logo', () => {
@@ -303,7 +303,7 @@ if (import.meta.vitest) {
         </MemoryRouter>
       )
       const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('__AAU_LEFT_WHITE_UK.webp')
+      expect(logo.getAttribute('src')).toContain('aau-left-white-uk.webp')
     })
   
     it('calls setLang when language option is clicked', () => {
