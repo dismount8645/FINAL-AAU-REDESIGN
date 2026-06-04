@@ -3,7 +3,6 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
-import { WavesBackground } from '@/components/DynamicWaveBackground';
 import useStore, { type BreadcrumbItem } from '@/lib/store';
 import { cn } from '@/lib/utils';
 
@@ -11,7 +10,6 @@ export interface PageHeaderProps {
   pageKey?: string;
   title?: string;
   subtitle?: string;
-  wave?: boolean;
   flat?: boolean;
   actions?: ReactNode;
   actionsAlign?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
@@ -31,7 +29,6 @@ export default function PageHeader({
   pageKey,
   title,
   subtitle,
-  wave = false,
   flat = false,
   actions,
   actionsAlign = 'start',
@@ -74,7 +71,6 @@ export default function PageHeader({
           backgroundSize: '24px 24px',
         }}
       />
-      {wave && <WavesBackground page={pageKey || title?.toLowerCase()} />}
       <div className="page-header-content w-full px-[var(--space-md)]">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-md md:gap-xl w-full">
           <Stack gap="xs" className="flex-1 min-w-0">
@@ -161,9 +157,9 @@ if (import.meta.vitest) {
       expect(screen.getByTestId('child-element')).toBeDefined()
     })
   
-    it('renders WavesBackground when wave prop is true', () => {
-      const { container } = render(<PageHeader title="Test Title" wave={true} />)
-      expect(container.querySelector('img')).toBeDefined()
+    it('renders without wave background', () => {
+      render(<PageHeader title="Test Title" />)
+      expect(screen.getByText('Test Title')).toBeDefined()
     })
   
     it('uses pageKey for translation if title is missing', () => {

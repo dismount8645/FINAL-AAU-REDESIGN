@@ -2,7 +2,6 @@ import { useRef, useEffect, Suspense } from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { Outlet, useLocation, MemoryRouter, Routes, Route } from 'react-router-dom';
-import DynamicWaveBackground from '@/components/DynamicWaveBackground';
 import Footer from '@/components/Footer';
 import PageSkeleton from '@/components/PageSkeleton';
 import Sidebar from '@/components/Sidebar';
@@ -61,7 +60,6 @@ function Layout() {
       <a href="#main-content" className="skip-link">
         {t('skip_to_content')}
       </a>
-      <DynamicWaveBackground />
       <Sidebar />
       <div className="flex flex-col flex-1 min-w-0 relative w-full">
         <Topbar />
@@ -97,9 +95,6 @@ if (import.meta.vitest) {
     default: () => <div data-testid="footer">Footer</div>,
   }))
   
-  vi.mock('./DynamicWaveBackground', () => ({
-    default: () => <div data-testid="wave-bg">Wave</div>,
-  }))
   
   function renderLayout(path = '/') {
     return render(
