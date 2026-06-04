@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import useStore from '@/store';
-import { PersistedStateSchema } from '@/types/schemas';
+import { PersistedStateSchema } from '@/lib/types/schemas';
 
 describe('useStore', () => {
   beforeEach(() => {

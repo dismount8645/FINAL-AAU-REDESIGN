@@ -7,7 +7,7 @@ import { Heading, Text, MasterItem } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
 import { Avatar } from '@/components/ui'
 import { TabBar } from '@/components/ui'
-import type { Contact } from '@/types'
+import type { Contact } from '@/lib/types'
 
 interface ChatSidebarProps {
   view: 'active' | 'archive'
