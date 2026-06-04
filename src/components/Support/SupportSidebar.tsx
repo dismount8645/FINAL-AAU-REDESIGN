@@ -6,7 +6,7 @@ import { linkifyText } from './FaqSection';
 import FaqSection from './FaqSection';
 import LocalDesksSection from './LocalDesksSection';
 import ContactForm from './ContactForm';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import ListItem from '@/components/ListItem';
 import SectionHeader from '@/components/SectionHeader';

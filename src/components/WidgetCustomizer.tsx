@@ -2,7 +2,7 @@ import { useState } from 'react'
 import type { Widget } from '@/lib/types'
 import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { Text } from '@/components/Typography'
 import Dropdown from '@/components/Dropdown'
 import {

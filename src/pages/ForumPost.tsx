@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useParams, Link, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ForumOriginalPost, ForumRepliesList, ForumReplyForm } from '@/components/Forum';
 import ForumAboutWidget from '@/components/ForumAboutWidget';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';

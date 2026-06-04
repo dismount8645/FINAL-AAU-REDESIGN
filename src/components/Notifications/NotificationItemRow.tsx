@@ -3,7 +3,7 @@ import { it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Check, Archive, Undo2, LucideIcon } from 'lucide-react';
 import { type NotificationItem } from '@/components/notificationsTypes';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { formatTime } from '@/lib/dates';

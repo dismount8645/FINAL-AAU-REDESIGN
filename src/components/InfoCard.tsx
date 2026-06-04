@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type LucideIcon, Star, Info, User } from 'lucide-react';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { IconCircle } from '@/components/Icon';
 import { Stack } from '@/components/LayoutPrimitives';

@@ -8,7 +8,7 @@ import { CalendarMonthView, CalendarWeekView, CalendarDayView } from '@/componen
 import CalendarUpcomingWidget from '@/components/CalendarUpcomingWidget';
 import CalendarNewEventDialog from '@/components/CalendarNewEventDialog';
 import CalendarEventDetailsDialog from '@/components/CalendarEventDetailsDialog';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { Grid } from '@/components/LayoutPrimitives';

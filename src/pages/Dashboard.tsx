@@ -6,7 +6,7 @@ import { Edit, Check } from 'lucide-react';
 import { useLocation, MemoryRouter } from 'react-router-dom';
 import { WidgetCustomizer } from '@/components/WidgetCustomizer';
 import { WidgetGrid } from '@/components/WidgetGrid';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';
 import { DEFAULT_WIDGETS } from '@/lib/mockData';

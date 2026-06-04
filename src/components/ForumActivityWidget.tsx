@@ -4,7 +4,7 @@ import { screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Reply, MessageSquare, Book, MessageCircle, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Stack } from '@/components/LayoutPrimitives';
 import StatusItem from '@/components/StatusItem';

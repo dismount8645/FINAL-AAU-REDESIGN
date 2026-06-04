@@ -1,6 +1,6 @@
 import { Trash2 } from 'lucide-react'
 import Icon from '@/components/Icon'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
 import { Stack } from '@/components/LayoutPrimitives'
 import { StagedFile } from '@/components/submissionTypes'

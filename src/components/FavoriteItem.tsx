@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { X, type LucideIcon, BookOpen } from 'lucide-react';
 import { Link, MemoryRouter } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { getFavoriteLabel } from '@/lib/favorites';
 import type { Lang } from '@/lib/store';
 import { translations } from '@/lib/translations';

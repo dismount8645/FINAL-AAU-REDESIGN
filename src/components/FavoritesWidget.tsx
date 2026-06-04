@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Star, ChevronRight, BookOpen } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import FavoriteItem from '@/components/FavoriteItem';
 import { Stack } from '@/components/LayoutPrimitives';
