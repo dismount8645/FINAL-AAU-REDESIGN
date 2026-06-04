@@ -9,9 +9,12 @@ interface GradeRowProps {
   record: GradeRecord
 }
 
+import { useFormat } from '@/hooks'
+
 function GradeRow({ record }: GradeRowProps) {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
+  const { formatLongDateTime } = useFormat()
 
   return (
     <div className="flex flex-col lg:flex-row items-stretch gap-[var(--space-lg)] p-[var(--space-lg)] hover:bg-bg-hover transition-colors duration-150">
@@ -64,7 +67,7 @@ function GradeRow({ record }: GradeRowProps) {
         <div className="flex items-center gap-[var(--space-3xs)]">
           <Calendar className="w-3.5 h-3.5 text-text-disabled shrink-0" strokeWidth={2} />
           <Text size="xs" className="font-medium text-text-muted">
-            <span className="font-semibold">{t('grading_date')}:</span> {record.examDate}
+            <span className="font-semibold">{t('grading_date')}:</span> {formatLongDateTime(record.examDate)}
           </Text>
         </div>
       </div>

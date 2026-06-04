@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { MessageSquare, Users, GraduationCap, Book, FileSignature, Clock } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout'
-import { ListItem } from '@/components/ui'
+import { MasterItem } from '@/components/ui'
 import Button from '@/components/ui/Button'
 import { Avatar } from '@/components/ui'
 import { Text } from '@/components/ui'
 import useStore from '@/store'
 import { ASSETS } from '@/lib'
+import { useFormat } from '@/hooks'
 
 interface CourseSidebarProps {
   courseId: string
@@ -25,6 +26,7 @@ function CourseSidebar({
 }: CourseSidebarProps) {
   const t = useStore((state) => state.t)
   const navigate = useNavigate()
+  const { formatDeadline } = useFormat()
 
   return (
     <aside className="course-sidebar flex flex-col gap-lg">
@@ -34,33 +36,33 @@ function CourseSidebar({
         </Card.Header>
         <Card.Body className="p-sm">
           <Stack gap="none">
-            <ListItem
-              icon={MessageSquare}
-              iconColor="var(--color-primary)"
+            <MasterItem
+              leading={MessageSquare}
+              leadingClassName="text-primary"
               title={t('course_forum')}
               onClick={() => { setActiveTab('forum'); window.scrollTo(0, 0) }}
-              className="rounded-[var(--radius-lg)] hover:bg-bg-hover"
+              className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
             />
-            <ListItem
-              icon={Users}
-              iconColor="var(--color-primary)"
+            <MasterItem
+              leading={Users}
+              leadingClassName="text-primary"
               title={t('participants')}
               onClick={() => { setActiveTab('participants'); window.scrollTo(0, 0) }}
-              className="rounded-[var(--radius-lg)] hover:bg-bg-hover"
+              className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
             />
-            <ListItem
-              icon={GraduationCap}
-              iconColor="var(--color-primary)"
+            <MasterItem
+              leading={GraduationCap}
+              leadingClassName="text-primary"
               title={t('my_grades')}
-              href="/grades"
-              className="rounded-[var(--radius-lg)] hover:bg-bg-hover"
+              onClick={() => { navigate('/grades') }}
+              className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
             />
-            <ListItem
-              icon={Book}
-              iconColor="var(--color-primary)"
+            <MasterItem
+              leading={Book}
+              leadingClassName="text-primary"
               title={t('syllabus')}
               onClick={() => { setActiveTab('resources'); window.scrollTo(0, 0) }}
-              className="rounded-[var(--radius-lg)] hover:bg-bg-hover"
+              className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
             />
           </Stack>
         </Card.Body>
@@ -78,7 +80,7 @@ function CourseSidebar({
           <Stack direction="row" align="center" gap="sm">
             <Clock size={16} strokeWidth={2} className="text-white opacity-70" />
             <Text size="xs" className="text-white/90">
-              {t(`course_deadline_in_${courseId === '1' ? '4' : (courseId === '2' ? '2' : '7')}_days`)}
+              {formatDeadline(new Date(Date.now() + (courseId === '1' ? 4 : (courseId === '2' ? 2 : 7)) * 24 * 60 * 60 * 1000))}
             </Text>
           </Stack>
         </Card.Body>

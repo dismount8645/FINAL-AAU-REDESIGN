@@ -4,12 +4,10 @@ import { screen, fireEvent } from '@testing-library/react';
 import { ArrowLeft } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { StagedFile } from '@/types';
-import { SubmissionSuccess, SubmissionDropzone, SubmissionFileList, SubmissionDetails } from '@/components/Submission';
+import { SubmissionSuccess, SubmissionDropzone, SubmissionFileList } from '@/components/Submission';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { Grid } from '@/components/Layout';
-import { PageHeader } from '@/components/Layout';
-import { Stack } from '@/components/Layout';
+import { PageHeader, SplitLayout, Stack, SubmissionDetails } from '@/components/Layout';
 import Textarea from '@/components/ui/Textarea';
 import { Heading, Text } from '@/components/ui';
 import { submitAssignment } from '@/lib/api';
@@ -111,54 +109,55 @@ function Submission() {
         </Stack>
       </PageHeader>
 
-      <Grid>
-        <Grid.Item span={8}>
-          <Card className="submission__card mb-[var(--space-xl)]">
-            <Card.Header>
-                <Text weight="bold" size="lg" className="card__title">{t('instructions')}</Text>
-            </Card.Header>
-            <Card.Body>
-              <Text size="sm" muted className="submission__description leading-[1.6]">{assignmentInfo.description}</Text>
-            </Card.Body>
-          </Card>
+      <SplitLayout
+        main={
+          <Stack gap="lg">
+            <Card className="submission__card">
+              <Card.Header>
+                  <Text weight="bold" size="lg" className="card__title">{t('instructions')}</Text>
+              </Card.Header>
+              <Card.Body>
+                <Text size="sm" muted className="submission__description leading-[1.6]">{assignmentInfo.description}</Text>
+              </Card.Body>
+            </Card>
 
-          <section className="submission-zone">
-            <SubmissionDropzone onFilesAdded={processFiles} t={t} />
-            <SubmissionFileList files={files} onRemoveFile={removeFile} t={t} />
-          </section>
+            <section className="submission-zone">
+              <SubmissionDropzone onFilesAdded={processFiles} t={t} />
+              <SubmissionFileList files={files} onRemoveFile={removeFile} t={t} />
+            </section>
 
-          <Stack gap="md" className="submission__comment-section mt-[var(--space-2xl)]">
-            <Heading level={4}>{t('comment_to_instructor')}</Heading>
-            <Textarea
-              placeholder={t('write_comment')}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              variant="outlined"
-              className="submission__comment-input min-h-[120px]"
-            />
+            <Stack gap="md" className="submission__comment-section">
+              <Heading level={4}>{t('comment_to_instructor')}</Heading>
+              <Textarea
+                placeholder={t('write_comment')}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                variant="outlined"
+                className="submission__comment-input min-h-[120px]"
+              />
+            </Stack>
+
+            <Stack direction="row" gap="lg" align="center" className="submission__actions">
+              <Button
+                variant={files.length > 0 ? 'primary' : 'secondary'}
+                onClick={handleSubmit}
+                disabled={files.length === 0 || status === 'uploading'}
+                className="submission__submit-btn min-w-[var(--space-3xl)] w-full justify-center"
+                loading={status === 'uploading'}
+                aria-label={t('submit_assignment')}
+              >
+                {status === 'uploading' ? '' : t('submit_assignment')}
+              </Button>
+              <Text size="xs" muted className="submission__disclaimer max-w-[300px]">
+                {t('submission_disclaimer')}
+              </Text>
+            </Stack>
           </Stack>
-
-          <Stack direction="row" gap="lg" align="center" className="submission__actions mt-[var(--space-2xl)]">
-            <Button
-              variant={files.length > 0 ? 'primary' : 'secondary'}
-              onClick={handleSubmit}
-              disabled={files.length === 0 || status === 'uploading'}
-              className="submission__submit-btn min-w-[var(--space-3xl)] w-full justify-center"
-              loading={status === 'uploading'}
-              aria-label={t('submit_assignment')}
-            >
-              {status === 'uploading' ? '' : t('submit_assignment')}
-            </Button>
-            <Text size="xs" muted className="submission__disclaimer max-w-[300px]">
-              {t('submission_disclaimer')}
-            </Text>
-          </Stack>
-        </Grid.Item>
-
-        <Grid.Item span={4}>
-          <SubmissionDetails t={t} />
-        </Grid.Item>
-      </Grid>
+        }
+        sidebar={<SubmissionDetails t={t} />}
+        mainSpan={8}
+        sidebarSpan={4}
+      />
     </Stack>
   )
 }

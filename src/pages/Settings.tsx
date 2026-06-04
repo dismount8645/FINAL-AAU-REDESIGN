@@ -9,7 +9,7 @@ import { Text } from '@/components/ui'
 import { Button } from '@/components/ui'
 import { Icon } from '@/components/ui'
 import { Avatar } from '@/components/ui'
-import { ListItem } from '@/components/ui'
+import { MasterItem } from '@/components/ui'
 import useStore from '@/store'
 import { STORAGE_KEYS } from '@/lib/constants'
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils'
@@ -142,13 +142,13 @@ function Settings() {
                       <Icon name={`chevron-${expandedCats.includes(cat.id) ? 'up' : 'down'}`} className="settings__chevron text-[0.65rem] opacity-40 text-muted" />
                     </Stack>
                     {expandedCats.includes(cat.id) && cat.items.map((item) => (
-                      <ListItem
+                      <MasterItem
                         key={item.id}
-                        icon={itemIcons[item.id]}
+                        leading={itemIcons[item.id]}
                         title={t(item.nameKey)}
-                        active={activeTab === item.id}
+                        selected={activeTab === item.id}
                         onClick={() => handleTabClick(item.id)}
-                        className="rounded-[var(--radius-md)] ml-sm"
+                        className="rounded-[var(--radius-md)] ml-sm border-none"
                       />
                     ))}
                   </Stack>
