@@ -1,0 +1,434 @@
+[
+  {
+    "old": "/assets/img/flags/da.svg",
+    "new": "/images/flags/da.svg"
+  },
+  {
+    "old": "/assets/img/flags/en.svg",
+    "new": "/images/flags/en.svg"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/Billede1-5655.webp",
+    "new": "/images/campus/billede1-5655.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/Billede2-_.webp",
+    "new": "/images/campus/billede2.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/Billede3-_.webp",
+    "new": "/images/campus/billede3.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/DJI_0134.webp",
+    "new": "/images/campus/dji-0134.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/DJI_0139.webp",
+    "new": "/images/campus/dji-0139.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB0933.webp",
+    "new": "/images/campus/2wb0933.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB1061.webp",
+    "new": "/images/campus/2wb1061.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.webp",
+    "new": "/images/campus/2wb3689.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3691.webp",
+    "new": "/images/campus/2wb3691.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3706.webp",
+    "new": "/images/campus/2wb3706.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3774.webp",
+    "new": "/images/campus/2wb3774.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3800.webp",
+    "new": "/images/campus/2wb3800.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3816.webp",
+    "new": "/images/campus/2wb3816.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3987.webp",
+    "new": "/images/campus/2wb3987.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3991.webp",
+    "new": "/images/campus/2wb3991.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB4208-Edit.webp",
+    "new": "/images/campus/2wb4208-edit.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB6060.webp",
+    "new": "/images/campus/2wb6060.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_2WB6063.webp",
+    "new": "/images/campus/2wb6063.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_DSC1285-Edit.webp",
+    "new": "/images/campus/dsc1285-edit.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_DSC1292-Edit.webp",
+    "new": "/images/campus/dsc1292-edit.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_DSC5540.webp",
+    "new": "/images/campus/dsc5540.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_DSC5791.webp",
+    "new": "/images/campus/dsc5791.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_DSC5810.webp",
+    "new": "/images/campus/dsc5810.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Bygninger og campus/_DSC5864.webp",
+    "new": "/images/campus/dsc5864.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-01.webp",
+    "new": "/images/waves/aau-boelger-white-01.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-02.webp",
+    "new": "/images/waves/aau-boelger-white-02.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-03.webp",
+    "new": "/images/waves/aau-boelger-white-03.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-04.webp",
+    "new": "/images/waves/aau-boelger-white-04.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-05.webp",
+    "new": "/images/waves/aau-boelger-white-05.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-06.webp",
+    "new": "/images/waves/aau-boelger-white-06.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-07.webp",
+    "new": "/images/waves/aau-boelger-white-07.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-08.webp",
+    "new": "/images/waves/aau-boelger-white-08.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-09.webp",
+    "new": "/images/waves/aau-boelger-white-09.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-10.webp",
+    "new": "/images/waves/aau-boelger-white-10.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-11.webp",
+    "new": "/images/waves/aau-boelger-white-11.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/HVID/_media_2941_WHITE/WHITE/AAU_BOELGER_WHITE-12.webp",
+    "new": "/images/waves/aau-boelger-white-12.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-01.webp",
+    "new": "/images/waves/aau-boelger-rgb-01.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-02.webp",
+    "new": "/images/waves/aau-boelger-rgb-02.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-03.webp",
+    "new": "/images/waves/aau-boelger-rgb-03.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-04.webp",
+    "new": "/images/waves/aau-boelger-rgb-04.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-05.webp",
+    "new": "/images/waves/aau-boelger-rgb-05.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-06.webp",
+    "new": "/images/waves/aau-boelger-rgb-06.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-07.webp",
+    "new": "/images/waves/aau-boelger-rgb-07.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-08.webp",
+    "new": "/images/waves/aau-boelger-rgb-08.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-09.webp",
+    "new": "/images/waves/aau-boelger-rgb-09.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-10.webp",
+    "new": "/images/waves/aau-boelger-rgb-10.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-11.webp",
+    "new": "/images/waves/aau-boelger-rgb-11.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/bølger/RGB/_media_2938_BLUE_RGB/BLUE_RGB/AAU_BOELGER_RGB-12.webp",
+    "new": "/images/waves/aau-boelger-rgb-12.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_2WB9761.webp",
+    "new": "/images/research/2wb9761.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC0400.webp",
+    "new": "/images/research/dsc0400.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC0418.webp",
+    "new": "/images/research/dsc0418.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC0988.webp",
+    "new": "/images/research/dsc0988.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC0997.webp",
+    "new": "/images/research/dsc0997.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC1011.webp",
+    "new": "/images/research/dsc1011.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC6932.webp",
+    "new": "/images/research/dsc6932.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC6938.webp",
+    "new": "/images/research/dsc6938.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC7275.webp",
+    "new": "/images/research/dsc7275.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC7332.webp",
+    "new": "/images/research/dsc7332.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC7350.webp",
+    "new": "/images/research/dsc7350.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Forskning/_DSC7453.webp",
+    "new": "/images/research/dsc7453.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0351.webp",
+    "new": "/images/student-life/2wb0351.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0369.webp",
+    "new": "/images/student-life/2wb0369.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0381.webp",
+    "new": "/images/student-life/2wb0381.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0435.webp",
+    "new": "/images/student-life/2wb0435.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0465.webp",
+    "new": "/images/student-life/2wb0465.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB0518.webp",
+    "new": "/images/student-life/2wb0518.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB2423.webp",
+    "new": "/images/student-life/2wb2423.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB2476.webp",
+    "new": "/images/student-life/2wb2476.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB2796.webp",
+    "new": "/images/student-life/2wb2796.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB2884.webp",
+    "new": "/images/student-life/2wb2884.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB2929.webp",
+    "new": "/images/student-life/2wb2929.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4339.webp",
+    "new": "/images/student-life/2wb4339.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4518.webp",
+    "new": "/images/student-life/2wb4518.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4551.webp",
+    "new": "/images/student-life/2wb4551.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4560.webp",
+    "new": "/images/student-life/2wb4560.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4635.webp",
+    "new": "/images/student-life/2wb4635.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4662.webp",
+    "new": "/images/student-life/2wb4662.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4728.webp",
+    "new": "/images/student-life/2wb4728.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB4981.webp",
+    "new": "/images/student-life/2wb4981.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5370.webp",
+    "new": "/images/student-life/2wb5370.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5449.webp",
+    "new": "/images/student-life/2wb5449.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5786.webp",
+    "new": "/images/student-life/2wb5786.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5835.webp",
+    "new": "/images/student-life/2wb5835.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Studerende og studieliv/_2WB5839.webp",
+    "new": "/images/student-life/2wb5839.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB0207.webp",
+    "new": "/images/teaching/2wb0207.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB0224.webp",
+    "new": "/images/teaching/2wb0224.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB0237.webp",
+    "new": "/images/teaching/2wb0237.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB0248.webp",
+    "new": "/images/teaching/2wb0248.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB0259.webp",
+    "new": "/images/teaching/2wb0259.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB4868.webp",
+    "new": "/images/teaching/2wb4868.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB4875.webp",
+    "new": "/images/teaching/2wb4875.webp"
+  },
+  {
+    "old": "/assets/img/grafik/billeder/Undervisning/_2WB4894.webp",
+    "new": "/images/teaching/2wb4894.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/Moodle-logo.svg",
+    "new": "/images/logos/moodle-logo.svg"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_CENTER_RGB.webp",
+    "new": "/images/logos/aau-center-rgb.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_CENTER_RGB_UK.webp",
+    "new": "/images/logos/aau-center-rgb-uk.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_CENTER_WHITE.webp",
+    "new": "/images/logos/aau-center-white.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_CENTER_WHITE_UK.webp",
+    "new": "/images/logos/aau-center-white-uk.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_LEFT_RGB.webp",
+    "new": "/images/logos/aau-left-rgb.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_LEFT_RGB_UK.webp",
+    "new": "/images/logos/aau-left-rgb-uk.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_LEFT_WHITE.webp",
+    "new": "/images/logos/aau-left-white.webp"
+  },
+  {
+    "old": "/assets/img/grafik/logoer/__AAU_LEFT_WHITE_UK.webp",
+    "new": "/images/logos/aau-left-white-uk.webp"
+  },
+  {
+    "old": "/assets/img/grafik/skitser/1. skitse (skrottet)-1.webp",
+    "new": "/images/sketches/1-skitse-skrottet-1.webp"
+  },
+  {
+    "old": "/assets/img/grafik/skitser/2. Skitse kursus-1.webp",
+    "new": "/images/sketches/2-skitse-kursus-1.webp"
+  },
+  {
+    "old": "/assets/img/grafik/skitser/3. Skitse dashboard-1.webp",
+    "new": "/images/sketches/3-skitse-dashboard-1.webp"
+  },
+  {
+    "old": "/assets/img/grafik/skitser/4. Skitse sidebar collapse-1.webp",
+    "new": "/images/sketches/4-skitse-sidebar-collapse-1.webp"
+  },
+  {
+    "old": "/assets/img/grafik/skitser/5. Skitse-1.webp",
+    "new": "/images/sketches/5-skitse-1.webp"
+  }
+]
