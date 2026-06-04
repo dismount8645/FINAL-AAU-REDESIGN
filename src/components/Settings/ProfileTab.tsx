@@ -8,7 +8,7 @@ import CalendarTab from './CalendarTab';
 import MessagesTab from './MessagesTab';
 import SettingsSection from './SettingsSection';
 import Avatar from '@/components/Avatar';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { FormField } from '@/components/FormControls';
 import { Grid } from '@/components/LayoutPrimitives';
 import { Input } from '@/components/FormControls';
