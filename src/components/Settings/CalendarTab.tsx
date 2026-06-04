@@ -2,6 +2,7 @@ import { FormField } from '@/components/FormControls'
 import { Grid } from '@/components/LayoutPrimitives'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
+import Select from '@/components/ui/Select'
 
 interface CalendarTabProps {
   calendarStartDay: 'monday' | 'sunday'
@@ -24,30 +25,30 @@ export default function CalendarTab({
       <Grid columns={2} gap="md" className="mt-sm">
         <Grid.Item span={1} mobileSpan={2}>
           <FormField id="pref-first-day" label={t('settings.first_day_of_week')}>
-            <select
+            <Select
               id="pref-first-day"
               value={calendarStartDay}
               onChange={(e) => setCalendarStartDay(e.target.value as 'monday' | 'sunday')}
-              className="w-[100%] max-w-[280px] p-sm border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:outline-none focus-visible:shadow-focus"
+              className="max-w-[280px]"
             >
               <option value="monday">{t('common.monday')}</option>
               <option value="sunday">{t('days.sun')}</option>
-            </select>
+            </Select>
           </FormField>
         </Grid.Item>
 
         <Grid.Item span={1} mobileSpan={2}>
           <FormField id="pref-default-view" label={t('settings.default_view')}>
-            <select
+            <Select
               id="pref-default-view"
               value={calendarDefaultView}
               onChange={(e) => setCalendarDefaultView(e.target.value as 'month' | 'week' | 'day')}
-              className="w-[100%] max-w-[280px] p-sm border border-border bg-card text-main rounded-[var(--radius-lg)] text-sm focus-visible:outline-none focus-visible:shadow-focus"
+              className="max-w-[280px]"
             >
               <option value="month">{t('common.month')}</option>
               <option value="week">{t('common.week')}</option>
               <option value="day">{t('common.day')}</option>
-            </select>
+            </Select>
           </FormField>
         </Grid.Item>
       </Grid>
