@@ -11,7 +11,7 @@ import TopbarSearch from './TopbarSearch';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
 import { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 export default function Topbar() {
   const location = useLocation();

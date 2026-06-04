@@ -5,8 +5,8 @@ import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import { formatLongDateTime } from '@/lib/dates'
-import { NotificationItem } from '@/components/notificationsTypes'
-import type { Lang } from '@/lib/store'
+import { NotificationItem } from '@/types'
+import type { Lang } from '@/store'
 
 interface NotificationDetailViewProps {
   selectedNotification: NotificationItem | null

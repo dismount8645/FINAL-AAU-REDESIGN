@@ -5,7 +5,7 @@ import { Stack } from '@/components/LayoutPrimitives'
 import SectionHeader from '@/components/SectionHeader'
 import KeyValue from '@/components/KeyValue'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import mockData from '@/lib/mockData.json'
 const { supportLocations, supportDeskHours, supportNotes } = mockData
 

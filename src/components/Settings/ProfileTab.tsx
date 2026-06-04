@@ -14,7 +14,7 @@ import { Grid } from '@/components/LayoutPrimitives';
 import Input from '@/components/ui/Input';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
-import useStore, { type Theme } from '@/lib/store';
+import useStore, { type Theme } from '@/store';
 import { useUserStore } from '@/store/userStore';
 
 interface ProfileTabProps {

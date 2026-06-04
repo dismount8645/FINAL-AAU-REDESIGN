@@ -6,7 +6,7 @@ import { Stack } from '@/components/LayoutPrimitives'
 import ProgressBar from '@/components/ProgressBar'
 import LessonItem from '@/components/LessonItem'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import type { CourseItem } from '@/lib/types'
 
 const LessonItemRow = memo(function LessonItemRow({

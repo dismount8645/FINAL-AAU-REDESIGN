@@ -10,7 +10,7 @@ import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
 import { ASSETS, useCoursesFilterAndSort } from '@/lib';
 import { env } from '@/lib/env';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders } from '@/lib/test-utils';
 
 const forums = [

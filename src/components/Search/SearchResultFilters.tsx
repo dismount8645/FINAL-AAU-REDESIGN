@@ -1,6 +1,6 @@
 import Button from '@/components/ui/Button'
 import { Stack } from '@/components/LayoutPrimitives'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 interface SearchResultFiltersProps {
   categories: string[]

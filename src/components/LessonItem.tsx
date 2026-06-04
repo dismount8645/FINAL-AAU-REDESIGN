@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { type LucideIcon, FileText, Play, Link2, Upload, File, Check } from 'lucide-react';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { cn } from '@/lib/utils';
 
 type LessonType = 'pdf' | 'video' | 'link' | 'assignment' | 'file'

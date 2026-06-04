@@ -1,4 +1,4 @@
-import type { GradeRecord } from '@/components/gradesTypes'
+import type { GradeRecord } from '@/types'
 import mockGradesJson from '@/data/mockGrades.json'
 
 export const BACHELOR_TOTAL_ECTS = 180

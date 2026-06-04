@@ -1,7 +1,7 @@
 import { FormField } from '@/components/FormControls'
 import { Stack } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import SettingsSection from './SettingsSection'
 import { useUserStore } from '@/store/userStore'
 

@@ -1,7 +1,7 @@
 import Card from '@/components/Card'
 import { Text } from '@/components/Typography'
 import { useToast } from '@/components/Toast'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import SettingsSection from './SettingsSection'
 
 import { useUserStore } from '@/store/userStore'

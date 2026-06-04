@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { Lang } from '@/lib/store';
+import type { Lang } from '@/store';
 import { translations } from '@/lib/translations';
 
 function localeForLang(lang: Lang): string {

@@ -7,7 +7,7 @@ import { Heading, Text } from '@/components/Typography'
 import EmptyState from '@/components/EmptyState'
 import Avatar from '@/components/Avatar'
 import TabBar from '@/components/TabBar'
-import type { Contact } from './messagesTypes'
+import type { Contact } from '@/types'
 
 interface ChatSidebarProps {
   view: 'active' | 'archive'

@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 import PageSkeleton from '@/components/PageSkeleton';
 import Sidebar from '@/components/Sidebar';
 import Topbar from '@/components/Topbar';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 function Layout() {
   const isMobile = useStore((state) => state.isMobile);

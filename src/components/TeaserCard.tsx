@@ -9,7 +9,7 @@ import Card from '@/components/Card';
 import ProgressBar from '@/components/ProgressBar';
 import { Skeleton } from '@/components/Skeleton';
 import { Heading, Text } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders } from '@/lib/test-utils';
 import { cn } from '@/lib/utils';
 

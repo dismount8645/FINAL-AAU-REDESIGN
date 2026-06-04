@@ -4,7 +4,7 @@ import { Grid } from '@/components/LayoutPrimitives'
 import Card from '@/components/Card'
 import { Heading, Text } from '@/components/Typography'
 import ProgressBar from '@/components/ProgressBar'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 interface GradesOverviewProps {
   gpa: number

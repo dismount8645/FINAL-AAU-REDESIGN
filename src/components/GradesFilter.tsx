@@ -3,7 +3,7 @@ import { it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SearchInput } from '@/components/FormControls';
 import { Heading } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import Select from '@/components/ui/Select';
 
 interface GradesFilterProps {

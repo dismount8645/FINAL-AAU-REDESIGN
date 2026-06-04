@@ -3,7 +3,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
-import useStore, { type BreadcrumbItem } from '@/lib/store';
+import useStore, { type BreadcrumbItem } from '@/store';
 import { cn } from '@/lib/utils';
 
 export interface PageHeaderProps {

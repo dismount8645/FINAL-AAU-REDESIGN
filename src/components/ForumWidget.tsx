@@ -10,7 +10,7 @@ import Card from '@/components/Card';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';
 import { dashboardForumPosts } from '@/lib/dashboardWidgets';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders } from '@/lib/test-utils';
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';

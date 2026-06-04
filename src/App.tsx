@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Layout from '@/components/Layout';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import NotFound from '@/pages/NotFound';
 
 const Dashboard = lazy(() => import('./pages/Dashboard'))

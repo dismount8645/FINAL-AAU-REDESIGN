@@ -2,7 +2,7 @@ import { memo } from 'react'
 import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
 import { Heading, Text } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 function CourseInfo() {
   const t = useStore((state) => state.t)

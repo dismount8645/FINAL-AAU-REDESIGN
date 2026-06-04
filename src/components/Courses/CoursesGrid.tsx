@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button'
 import Icon from '@/components/Icon'
 import { Heading, Text } from '@/components/Typography'
 import TeaserCard from '@/components/TeaserCard'
-import useStore, { type CourseWithStatus } from '@/lib/store'
+import useStore, { type CourseWithStatus } from '@/store'
 
 interface CoursesGridProps {
   isLoading?: boolean

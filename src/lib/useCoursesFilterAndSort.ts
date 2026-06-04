@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { describe, it, expect } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import type { CourseWithStatus, Lang } from '@/lib/store';
+import type { CourseWithStatus, Lang } from '@/store';
 
 export interface UseCoursesFilterAndSortProps {
   courses: CourseWithStatus[]

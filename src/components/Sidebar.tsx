@@ -6,7 +6,7 @@ import { NavLink, useLocation, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import SegmentedControl from '@/components/SegmentedControl';
 import { Stack } from '@/components/LayoutPrimitives';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 export default function Sidebar() {
   const t = useStore(state => state.t);

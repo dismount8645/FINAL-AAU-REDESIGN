@@ -7,7 +7,7 @@ import Icon from '@/components/Icon'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/Typography'
 import type { CalendarEvent } from '@/lib/types'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 interface CalendarEventDetailsDialogProps {
   isOpen: boolean
