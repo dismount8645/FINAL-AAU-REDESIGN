@@ -11,7 +11,7 @@ import Avatar from '@/components/Avatar';
 import Button from '@/components/ui/Button';
 import { FormField } from '@/components/FormControls';
 import { Grid } from '@/components/LayoutPrimitives';
-import { Input } from '@/components/FormControls';
+import Input from '@/components/ui/Input';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import useStore, { type Theme } from '@/lib/store';
