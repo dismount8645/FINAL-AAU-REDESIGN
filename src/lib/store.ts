@@ -2,7 +2,7 @@ import { create, StateCreator } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { courseList as initialCourses } from '@/lib/mockData';
-import { PersistedStateSchema } from '@/lib/schemas/store';
+import { PersistedStateSchema } from '@/types/schemas';
 import { Theme, Lang, computeIsDarkMode } from '@/lib/theme';
 import { translations } from '@/lib/translations';
 import type { CourseListItem, FavoriteItem, CalendarEvents, FavoriteType } from '@/lib/types';
