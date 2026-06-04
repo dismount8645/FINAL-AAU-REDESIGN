@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/Dialog'
 import { Stack } from '@/components/LayoutPrimitives'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import { Input } from '@/components/FormControls'
 import { Textarea } from '@/components/FormControls'
 import { Loader2 } from 'lucide-react'

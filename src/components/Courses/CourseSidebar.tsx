@@ -4,7 +4,7 @@ import { MessageSquare, Users, GraduationCap, Book, FileSignature, Clock } from 
 import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
 import ListItem from '@/components/ListItem'
-import Button from '@/components/Button'
+import Button from '@/components/ui/Button'
 import Avatar from '@/components/Avatar'
 import { Text } from '@/components/Typography'
 import useStore from '@/lib/store'

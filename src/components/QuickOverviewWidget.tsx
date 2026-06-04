@@ -4,7 +4,7 @@ import { screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text, Heading } from '@/components/Typography';

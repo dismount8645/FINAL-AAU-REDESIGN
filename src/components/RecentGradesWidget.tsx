@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Star, Hourglass, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Badge from '@/components/Badge';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import EmptyState from '@/components/EmptyState';
 import { Stack } from '@/components/LayoutPrimitives';

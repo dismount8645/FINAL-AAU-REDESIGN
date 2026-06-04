@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp, Settings, X, Globe } from 'lucide-react';
 import { NavLink, useLocation, MemoryRouter } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import SegmentedControl from '@/components/SegmentedControl';
 import { Stack } from '@/components/LayoutPrimitives';
 import useStore from '@/lib/store';

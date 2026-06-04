@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import PageHeader from '@/components/PageHeader';
 import { SearchInput } from '@/components/FormControls';
 import { Stack } from '@/components/LayoutPrimitives';

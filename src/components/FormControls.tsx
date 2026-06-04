@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { cn } from '@/lib/utils';

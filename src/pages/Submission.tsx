@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { StagedFile } from '@/components/submissionTypes';
 import { SubmissionSuccess, SubmissionDropzone, SubmissionFileList, SubmissionDetails } from '@/components/Submission';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
