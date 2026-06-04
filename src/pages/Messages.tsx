@@ -6,7 +6,7 @@ import { ChatWindow } from '@/components/ChatWindow';
 import Badge from '@/components/Badge';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageLayout from '@/components/PageLayout';
-import useStore, { type Lang } from '@/lib/store';
+import useStore, { type Lang } from '@/store';
 import { useMessagesState } from '@/lib/useMessagesState';
 
 function Messages() {

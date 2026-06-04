@@ -1,2 +1,4 @@
-export * from '@/lib/types'
-export * from './schemas'
+export * from './gradesTypes'
+export * from './messagesTypes'
+export * from './notificationsTypes'
+export * from './submissionTypes'

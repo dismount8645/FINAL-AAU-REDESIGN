@@ -4,7 +4,7 @@ import { Stack } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
 import SectionHeader from '@/components/SectionHeader'
 import InfoCard from '@/components/InfoCard'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import { env } from '@/lib/env'
 import type { ResourceTool } from '@/lib/types'
 

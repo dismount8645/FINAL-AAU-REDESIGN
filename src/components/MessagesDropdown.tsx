@@ -6,7 +6,7 @@ import Avatar from '@/components/Avatar';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/Typography';
 import { messagesData } from '@/lib/mockData';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
 import { useDropdown } from '@/lib/useDropdown';
 import { cn } from '@/lib/utils';

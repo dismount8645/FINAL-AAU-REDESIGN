@@ -7,7 +7,7 @@ import PageLayout from '@/components/PageLayout';
 import { Stack } from '@/components/LayoutPrimitives';
 import { useToast } from '@/components/Toast';
 import { submitSupportTicket } from '@/lib/api';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, act } from '@/lib/test-utils';
 import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar } from '@/components/Support';
 

@@ -12,7 +12,7 @@ import ListItem from '@/components/ListItem';
 import SectionHeader from '@/components/SectionHeader';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading, Text } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 interface SupportSidebarProps {
   children?: React.ReactNode

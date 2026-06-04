@@ -9,7 +9,8 @@ import { Stack } from '@/components/LayoutPrimitives';
 import Tabs from '@/components/Tabs';
 import { courseData, participantsData, courseTabItems } from '@/lib/courseData';
 import { storage } from '@/lib/storage';
-import useStore from '@/lib/store';
+import { STORAGE_KEYS } from '@/lib/constants';
+import useStore from '@/store';
 
 function Course() {
   const { id } = useParams<{ id: string }>()
@@ -19,10 +20,10 @@ function Course() {
   const [expandedSections, setExpandedSections] = useState<string[]>(() => {
     const course = courseData[Number(id)]
     if (!course) return []
-    return storage.get(`expandedSections_${id}`, course.sections.map((s) => s.id))
+    return storage.get(`${STORAGE_KEYS.EXPANDED_SECTIONS_PREFIX}${id}`, course.sections.map((s) => s.id))
   })
   const [completedItems, setCompletedItems] = useState<number[]>(() => {
-    return storage.get(`courseProgress_${id}`, [])
+    return storage.get(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}${id}`, [])
   })
 
   const courseIdNum = Number(id)
@@ -33,11 +34,11 @@ function Course() {
   }, [id, data, navigate])
 
   useEffect(() => {
-    storage.set(`expandedSections_${id}`, expandedSections)
+    storage.set(`${STORAGE_KEYS.EXPANDED_SECTIONS_PREFIX}${id}`, expandedSections)
   }, [expandedSections, id])
 
   useEffect(() => {
-    storage.set(`courseProgress_${id}`, completedItems)
+    storage.set(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}${id}`, completedItems)
   }, [completedItems, id])
 
   const toggleItem = useCallback((itemId: number): void => {
@@ -230,7 +231,7 @@ if (import.meta.vitest) {
   
     it('shows active status-dot when progress is above 50%', () => {
       // Seed 4/5 completed items via localStorage (click logic tested in 'toggles item completion')
-      localStorage.setItem('courseProgress_1', JSON.stringify([101, 102, 103, 104]))
+      localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, JSON.stringify([101, 102, 103, 104]))
       const { container } = renderCourse('1')
       expect(screen.getByText('80%')).toBeInTheDocument()
       const statusDots = container.querySelectorAll('.status-dot')
@@ -238,7 +239,7 @@ if (import.meta.vitest) {
     })
   
     it('loads saved course progress from localStorage', () => {
-      localStorage.setItem('courseProgress_1', JSON.stringify([101]))
+      localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, JSON.stringify([101]))
       const { container } = renderCourse('1')
       expect(container.textContent).toContain('20%')
     })
@@ -249,19 +250,19 @@ if (import.meta.vitest) {
     })
   
     it('handles malformed localStorage for course progress', () => {
-      localStorage.setItem('courseProgress_1', '{broken')
+      localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, '{broken')
       renderCourse('1')
       expect(screen.getByText('0%')).toBeInTheDocument()
     })
   
     it('handles malformed localStorage for expanded sections', () => {
-      localStorage.setItem('expandedSections_1', '{broken')
+      localStorage.setItem(`${STORAGE_KEYS.EXPANDED_SECTIONS_PREFIX}1`, '{broken')
       renderCourse('1')
       expect(screen.getAllByText('Aflevering: Designskitse').length).toBeGreaterThan(0)
     })
   
     it('handles malformed localStorage for course progress', () => {
-      localStorage.setItem('courseProgress_1', '{broken')
+      localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, '{broken')
       renderCourse('1')
       expect(screen.getByText('0%')).toBeInTheDocument()
     })
@@ -305,7 +306,7 @@ if (import.meta.vitest) {
     it('verifies the progress message when a course is 100% completed', () => {
       useStore.setState({ lang: 'en' })
       // Set 100% progress in localStorage for course 1 (5 items)
-      localStorage.setItem('courseProgress_1', JSON.stringify([101, 102, 103, 104, 105]))
+      localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, JSON.stringify([101, 102, 103, 104, 105]))
       
       renderCourse('1')
       

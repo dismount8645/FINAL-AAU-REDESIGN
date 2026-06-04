@@ -11,7 +11,7 @@ import Card from '@/components/Card';
 import EmptyState from '@/components/EmptyState';
 import PageLayout from '@/components/PageLayout';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/mockGrades';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { translations } from '@/lib/translations';
 import { useGradesFilterAndStats } from '@/lib/useGradesFilterAndStats';
 

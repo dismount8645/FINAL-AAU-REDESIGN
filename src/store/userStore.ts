@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { storage } from '@/lib/storage';
+import { STORAGE_KEYS } from '@/lib/constants';
 import { saveSettings } from '@/lib/api';
 import type { Theme, Lang } from '@/lib/theme';
 
@@ -40,8 +41,8 @@ export interface UserState {
 export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
-      firstName: storage.get('userFirstName', 'Jacob Krarup'),
-      lastName: storage.get('userLastName', 'Madsen'),
+      firstName: storage.get(STORAGE_KEYS.USER_FIRST_NAME, 'Jacob Krarup'),
+      lastName: storage.get(STORAGE_KEYS.USER_LAST_NAME, 'Madsen'),
       lang: 'en',
       theme: 'system',
       notifPrefs: { email: true, push: true, sms: false },
@@ -55,11 +56,11 @@ export const useUserStore = create<UserState>()(
       isSaving: false,
 
       setFirstName: (firstName) => {
-        storage.set('userFirstName', firstName);
+        storage.set(STORAGE_KEYS.USER_FIRST_NAME, firstName);
         set({ firstName });
       },
       setLastName: (lastName) => {
-        storage.set('userLastName', lastName);
+        storage.set(STORAGE_KEYS.USER_LAST_NAME, lastName);
         set({ lastName });
       },
       setLang: (lang) => set({ lang }),
@@ -78,8 +79,8 @@ export const useUserStore = create<UserState>()(
       handleSave: async (toast, t) => {
         set({ isSaving: true });
         const { firstName, lastName, lang, theme, notifPrefs, forumDigest, forumTracking, forumAutoSubscribe } = get();
-        storage.set('userFirstName', firstName);
-        storage.set('userLastName', lastName);
+        storage.set(STORAGE_KEYS.USER_FIRST_NAME, firstName);
+        storage.set(STORAGE_KEYS.USER_LAST_NAME, lastName);
         try {
           await saveSettings({
             language: lang,
@@ -100,7 +101,7 @@ export const useUserStore = create<UserState>()(
       }
     }),
     {
-      name: 'aau-user-store',
+      name: STORAGE_KEYS.USER_STORE,
     }
   )
 );
@@ -128,8 +129,8 @@ if (import.meta.vitest) {
 
       expect(result.current.firstName).toBe('Jane')
       expect(result.current.lastName).toBe('Doe')
-      expect(storage.get('userFirstName', '')).toBe('Jane')
-      expect(storage.get('userLastName', '')).toBe('Doe')
+      expect(storage.get(STORAGE_KEYS.USER_FIRST_NAME, '')).toBe('Jane')
+      expect(storage.get(STORAGE_KEYS.USER_LAST_NAME, '')).toBe('Doe')
     })
   })
 }

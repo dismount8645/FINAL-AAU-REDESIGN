@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react'
 import Tabs from '@/components/Tabs'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 const tabItems = [
   { key: 'current', labelDa: 'I gang', labelEn: 'Current' },

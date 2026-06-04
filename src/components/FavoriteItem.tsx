@@ -6,7 +6,7 @@ import { X, type LucideIcon, BookOpen } from 'lucide-react';
 import { Link, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { getFavoriteLabel } from '@/lib/favorites';
-import type { Lang } from '@/lib/store';
+import type { Lang } from '@/store';
 import { translations } from '@/lib/translations';
 import type { FavoriteType } from '@/lib/types';
 import { cn } from '@/lib/utils';

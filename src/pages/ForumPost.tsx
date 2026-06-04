@@ -9,7 +9,7 @@ import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Heading } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 const posts = [
   { id: 1, titleDa: 'Spørgsmål til litteraturen i uge 2', titleEn: 'Questions regarding literature week 2', author: 'Mads Mikkelsen', timeDa: 'For 2 timer siden', timeEn: '2 hours ago', replies: 4, contentDa: 'Hej alle sammen. Jeg sidder og læser pensum for uge 2 og har et par spørgsmål til teksten. Kan nogen hjælpe mig med at forstå afsnittet om brugercentreret design?', contentEn: 'Hi everyone. I am reading the curriculum for week 2 and have a few questions about the text. Can anyone help me understand the section on user-centered design?' },

@@ -3,7 +3,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { defaultEvents } from '@/lib/mockData';
 import { storage } from '@/lib/storage';
-import useStore from '@/lib/store';
+import useStore from '@/store';
+import { STORAGE_KEYS } from '@/lib/constants';
 import { CalendarEvents, CalendarEvent } from '@/lib/types';
 
 export function useCalendar() {
@@ -16,11 +17,11 @@ export function useCalendar() {
   const [selectedEvent, setSelectedEvent] = useState<(CalendarEvent & { dateKey: string }) | null>(null)
   
   const [events, setEvents] = useState<CalendarEvents>(() => {
-    return storage.get('aauCalendarEvents', { ...defaultEvents })
+    return storage.get(STORAGE_KEYS.CALENDAR_EVENTS, { ...defaultEvents })
   })
 
   useEffect(() => {
-    storage.set('aauCalendarEvents', events)
+    storage.set(STORAGE_KEYS.CALENDAR_EVENTS, events)
   }, [events])
 
   const monthNames = useMemo(() => Array.from({ length: 12 }, (_, i) => t(`month_${i}`)), [t])
@@ -295,7 +296,7 @@ if (import.meta.vitest) {
   
     it('restores events from localStorage on mount', () => {
       const savedEvents = { '2026-5-1': { title: 'Restored' } }
-      localStorage.setItem('aauCalendarEvents', JSON.stringify(savedEvents))
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify(savedEvents))
       const { result } = renderHook(() => useCalendar(), { wrapper })
       expect(result.current.getEventsForDate('2026-5-1').title).toBe('Restored')
     })

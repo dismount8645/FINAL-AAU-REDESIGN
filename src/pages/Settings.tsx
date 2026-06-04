@@ -10,7 +10,8 @@ import { Button } from '@/components/ui'
 import Icon from '@/components/Icon'
 import Avatar from '@/components/Avatar'
 import ListItem from '@/components/ListItem'
-import useStore from '@/lib/store'
+import useStore from '@/store'
+import { STORAGE_KEYS } from '@/lib/constants'
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils'
 import { useState, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -380,8 +381,8 @@ if (import.meta.vitest) {
       renderSettings('da')
       const saveBtn = screen.getByText('Gem ændringer')
       fireEvent.click(saveBtn)
-      expect(JSON.parse(localStorage.getItem('userFirstName')!)).toBe('Jacob Krarup')
-      expect(JSON.parse(localStorage.getItem('userLastName')!)).toBe('Madsen')
+      expect(JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_FIRST_NAME)!)).toBe('Jacob Krarup')
+      expect(JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_LAST_NAME)!)).toBe('Madsen')
     })
 
     it('handles mobile view tab clicks and back button', () => {

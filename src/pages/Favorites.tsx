@@ -14,7 +14,7 @@ import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
 import { sortFavorites, resolveFavorite } from '@/lib/favorites';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import type { FavoriteType } from '@/lib/types';
 
 function Favorites() {
@@ -116,7 +116,7 @@ export default Favorites
 
 if (import.meta.vitest) {
   const FavoritesPage = Favorites
-  vi.mock('@/lib/store', () => {
+  vi.mock('@/store', () => {
     let currentState: any = {}
     const mockFn = vi.fn((selector) => {
       return selector ? selector(currentState) : currentState

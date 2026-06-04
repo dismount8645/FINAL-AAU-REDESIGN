@@ -11,7 +11,7 @@ import { Text, Heading } from '@/components/Typography';
 import { dashboardDeadlines } from '@/lib/dashboardWidgets';
 import * as dates from '@/lib/dates';
 import { getHoursUntil, hoursFromNow } from '@/lib/dates';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders } from '@/lib/test-utils';
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';

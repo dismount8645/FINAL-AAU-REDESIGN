@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { describe, it, expect } from 'vitest';
 import { act, renderHook } from '@testing-library/react';
-import type { GradeRecord } from '@/components/gradesTypes';
+import type { GradeRecord } from '@/types';
 
 export interface UseGradesFilterAndStatsOptions {
   gradesData: GradeRecord[]

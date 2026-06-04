@@ -1,6 +1,6 @@
 import { FormField } from '@/components/FormControls'
 import { Grid } from '@/components/LayoutPrimitives'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import SettingsSection from './SettingsSection'
 import Select from '@/components/ui/Select'
 import { useUserStore } from '@/store/userStore'

@@ -6,7 +6,7 @@ import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
 import { FormField } from '@/components/FormControls'
 import { Heading } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 interface ContactFormProps {
   subject: string

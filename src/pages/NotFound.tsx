@@ -8,7 +8,7 @@ import PageHeader from '@/components/PageHeader';
 import { SearchInput } from '@/components/FormControls';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 function NotFound() {
   const navigate = useNavigate()

@@ -2,7 +2,7 @@ import Card from '@/components/Card'
 import { Stack } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
 import { MessageSquare, User } from 'lucide-react'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 export interface Post {
   id: number

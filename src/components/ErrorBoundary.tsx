@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 
 interface Props {
   children: ReactNode;

@@ -1,6 +1,6 @@
 import { FileUp, MessageSquare, Clock, Star, Bell } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import type { NotificationItem } from '@/components/notificationsTypes'
+import type { NotificationItem } from '@/types'
 
 const NOTIFICATION_ICON_MAP: Record<string, LucideIcon> = {
   AFLEVERING: FileUp,

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { Book, House, CalendarDays, GraduationCap, FolderOpen } from 'lucide-react'
 import { type LucideIcon } from 'lucide-react'
 import { courses } from '@/lib/mockData'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 
 export interface SearchResult {
   label: string

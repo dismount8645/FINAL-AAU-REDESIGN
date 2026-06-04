@@ -12,7 +12,7 @@ import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
 import { sortFavorites, resolveFavorite } from '@/lib/favorites';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import type { WidgetProps } from '@/lib/types';
 
 export default function FavoritesWidget({ span, isEditing }: WidgetProps) {

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { User, Settings, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Text } from '@/components/Typography';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/lib/test-utils';
 import { useDropdown } from '@/lib/useDropdown';
 import { cn } from '@/lib/utils';

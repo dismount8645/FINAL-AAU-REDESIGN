@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { ArrowLeft } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import type { StagedFile } from '@/components/submissionTypes';
+import type { StagedFile } from '@/types';
 import { SubmissionSuccess, SubmissionDropzone, SubmissionFileList, SubmissionDetails } from '@/components/Submission';
 import Button from '@/components/ui/Button';
 import Card from '@/components/Card';
@@ -14,7 +14,8 @@ import Textarea from '@/components/ui/Textarea';
 import { Heading, Text } from '@/components/Typography';
 import { submitAssignment } from '@/lib/api';
 import { storage } from '@/lib/storage';
-import useStore from '@/lib/store';
+import { STORAGE_KEYS } from '@/lib/constants';
+import useStore from '@/store';
 import { renderWithProviders } from '@/lib/test-utils';
 
 function Submission() {
@@ -60,10 +61,10 @@ function Submission() {
       })
       setStatus('submitted')
       if (courseId && assignmentId) {
-        const completed = storage.get<number[]>(`courseProgress_${courseId}`, [])
+        const completed = storage.get<number[]>(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}${courseId}`, [])
         const parsedId = parseInt(assignmentId, 10)
         if (!isNaN(parsedId) && !completed.includes(parsedId)) {
-          storage.set(`courseProgress_${courseId}`, [...completed, parsedId])
+          storage.set(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}${courseId}`, [...completed, parsedId])
         }
       }
     } catch {

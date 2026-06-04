@@ -6,7 +6,7 @@ import { SearchInput } from '@/components/FormControls'
 import ListItem from '@/components/ListItem'
 import Select from '@/components/ui/Select'
 import { Heading } from '@/components/Typography'
-import useStore from '@/lib/store'
+import useStore from '@/store'
 import { useParticipantFilter } from '@/lib/useParticipantFilter'
 
 interface CourseParticipantsProps {

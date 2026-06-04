@@ -8,7 +8,7 @@ import EmptyState from '@/components/EmptyState';
 import { Grid } from '@/components/LayoutPrimitives';
 import PageHeader from '@/components/PageHeader';
 import { Stack } from '@/components/LayoutPrimitives';
-import useStore from '@/lib/store';
+import useStore from '@/store';
 import { useSearch } from '@/lib/useSearch';
 
 function SearchResults() {
