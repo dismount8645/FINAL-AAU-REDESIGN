@@ -1,7 +1,6 @@
-import React, { forwardRef, useId, type InputHTMLAttributes, type TextareaHTMLAttributes, type ReactNode } from 'react';
+import React, { forwardRef, type ReactNode } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -9,170 +8,11 @@ import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import { cn } from '@/lib/utils';
 
-// ==========================================
-// Input component definitions
-// ==========================================
+import { Input, type InputProps, inputVariants } from '@/components/ui/Input';
+import { Textarea, type TextareaProps, textareaVariants } from '@/components/ui/Textarea';
 
-const inputVariants = cva(
-  "w-full rounded-[var(--radius-md)] font-[var(--font-family-base)] leading-[1.5] border-[1.5px] transition-[border-color,box-shadow,background-color] duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] text-main focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800 disabled:text-slate-400 dark:disabled:text-slate-500 placeholder:text-disabled min-h-[44px]",
-  {
-    variants: {
-      variant: {
-        outlined:
-          "border-border bg-bg-card focus:border-primary",
-        filled:
-          "border-transparent bg-bg-input focus:bg-bg-card focus:border-primary",
-        ghost:
-          "border-transparent bg-transparent focus:bg-bg-input",
-      },
-      size: {
-        sm: "px-[var(--space-sm)] py-[var(--space-xs)] text-sm",
-        md: "px-[var(--space-md)] py-[var(--space-sm)] text-base",
-        lg: "px-[var(--space-lg)] py-[var(--space-md)] text-lg rounded-[var(--radius-lg)]",
-      },
-      error: {
-        true: "border-danger focus:border-danger focus-visible:shadow-[0_0_0_4px_rgba(204,68,91,0.35)] focus-visible:outline-none",
-        false: "",
-      },
-    },
-    defaultVariants: {
-      variant: "outlined",
-      size: "md",
-      error: false,
-    },
-  }
-);
-
-export interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">,
-    VariantProps<typeof inputVariants> {
-  variant?: "outlined" | "filled" | "ghost";
-  size?: "sm" | "md" | "lg";
-  error?: boolean;
-  full?: boolean;
-  errorMessageId?: string;
-}
-
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      variant = "outlined",
-      size = "md",
-      type = "text",
-      error,
-      full,
-      className,
-      errorMessageId,
-      ...props
-    },
-    ref
-  ) => {
-    const generatedId = useId();
-    const ariaDescribedBy = error ? errorMessageId ?? generatedId : undefined;
-
-    return (
-      <input
-        ref={ref}
-        type={type}
-        id={props.id ?? generatedId}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={ariaDescribedBy}
-        className={cn(
-          inputVariants({ variant, size, error }),
-          full && "w-full",
-          className
-        )}
-        {...props}
-      />
-    );
-  }
-);
-
-Input.displayName = "Input";
-
-// ==========================================
-// Textarea component definitions
-// ==========================================
-
-const textareaVariants = cva(
-  "flex min-h-[44px] w-full rounded-[var(--radius-lg)] border-[1.5px] transition-[border-color,box-shadow,background] duration-150 text-main focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800/50 disabled:text-slate-400 dark:disabled:text-slate-500 placeholder:text-disabled",
-  {
-    variants: {
-      variant: {
-        outlined:
-          "border-border dark:border-slate-600 bg-bg-input focus:border-primary dark:placeholder:text-disabled",
-        filled:
-          "border-transparent bg-bg-main focus:bg-bg-card focus:border-primary",
-        ghost:
-          "border-transparent bg-transparent focus:bg-bg-input",
-      },
-      size: {
-        sm: "px-sm py-xs text-[0.8125rem]",
-        md: "px-md py-sm text-sm",
-        lg: "px-lg py-md text-base",
-      },
-    },
-    defaultVariants: {
-      variant: "outlined",
-      size: "md",
-    },
-  }
-)
-
-export interface TextareaProps
-  extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "size">,
-    VariantProps<typeof textareaVariants> {
-  variant?: "outlined" | "filled" | "ghost"
-  size?: "sm" | "md" | "lg"
-  resize?: "none" | "vertical" | "horizontal" | "both"
-  error?: boolean
-  full?: boolean
-  errorMessageId?: string
-}
-
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
-    props,
-    ref
-  ) => {
-    const {
-      variant = "outlined",
-      size = "md",
-      rows = 3,
-      resize = "vertical",
-      error,
-      full,
-      className,
-      errorMessageId,
-      ...restProps
-    } = props;
-    const generatedId = useId()
-    const ariaDescribedBy = error ? errorMessageId ?? generatedId : undefined
-
-    return (
-      <textarea
-        ref={ref}
-        rows={rows}
-        id={props.id ?? generatedId}
-        aria-invalid={error ? "true" : undefined}
-        aria-describedby={ariaDescribedBy}
-        className={cn(
-          textareaVariants({ variant, size }),
-          error && "border-danger focus:border-danger focus:shadow-[0_0_0_4px_rgba(204,68,91,0.35)]",
-          resize === "none" && "resize-none",
-          resize === "vertical" && "resize-y",
-          resize === "horizontal" && "resize-x",
-          resize === "both" && "resize",
-          full && "w-full",
-          className
-        )}
-        {...restProps}
-      />
-    )
-  }
-)
-
-Textarea.displayName = "Textarea"
+export { Input, type InputProps, inputVariants };
+export { Textarea, type TextareaProps, textareaVariants };
 
 // ==========================================
 // SearchInput component definitions
@@ -346,52 +186,7 @@ export function FormField({
 // ==========================================
 
 if (import.meta.vitest) {
-  describe('Input', () => {
-    it('renders input', () => {
-      render(<Input placeholder="Test Input" />)
-      expect(screen.getByPlaceholderText('Test Input')).toBeInTheDocument()
-    })
-  
-    it('applies border-danger class when error is true', () => {
-      render(<Input error />)
-      const input = screen.getByRole('textbox')
-      expect(input).toHaveClass('border-danger')
-    })
-  
-    it('does not apply border-danger class when error is false', () => {
-      render(<Input />)
-      const input = screen.getByRole('textbox')
-      expect(input).not.toHaveClass('border-danger')
-    })
-  })
 
-  describe('Textarea', () => {
-    it('renders textarea element', () => {
-      const { container } = render(<Textarea />)
-      expect(container.querySelector('textarea')).toBeInTheDocument()
-    })
-  
-    it('applies border-danger when error is true', () => {
-      const { container } = render(<Textarea error />)
-      expect(container.querySelector('textarea')).toHaveClass('border-danger')
-    })
-
-    it.each([
-      ['none', 'resize-none'],
-      ['vertical', 'resize-y'],
-      ['horizontal', 'resize-x'],
-      ['both', 'resize'],
-    ] as const)('applies resize class "%s"', (resize, expectedClass) => {
-      const { container } = render(<Textarea resize={resize} />)
-      expect(container.querySelector('textarea')).toHaveClass(expectedClass)
-    })
-  
-    it('does not apply resize class when resize is not set', () => {
-      const { container } = render(<Textarea />)
-      const textarea = container.querySelector('textarea')
-      expect(textarea).not.toHaveClass('resize-none', 'resize-y', 'resize-x', 'resize')
-    })
-  })
 
   describe('SearchInput', () => {
     it('renders search input with default placeholder', () => {
