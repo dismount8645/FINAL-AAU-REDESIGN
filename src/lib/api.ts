@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { API_RETRY_BACKOFF } from '@/lib';
 import type { SettingsData, SubmissionData, SupportFormData } from '@/lib/types';
 
-export function isRetryableError(error: unknown): boolean {
+function isRetryableError(error: unknown): boolean {
   if (error instanceof TypeError) return true
   if (error instanceof DOMException) return true
   if (error instanceof Error) {
@@ -15,7 +15,7 @@ export function isRetryableError(error: unknown): boolean {
 
 let cachedCsrfToken: string | null | undefined = undefined;
 
-export function getCsrfToken(selector = 'meta[name="csrf-token"]'): string | null {
+function getCsrfToken(selector = 'meta[name="csrf-token"]'): string | null {
   if (cachedCsrfToken !== undefined) return cachedCsrfToken;
   if (typeof document === 'undefined') return null;
   const meta = document.querySelector<HTMLMetaElement>(selector)
@@ -31,7 +31,7 @@ function buildHeaders(hasBody: boolean): HeadersInit {
   return headers
 }
 
-export function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error('Request timeout')), ms)
     promise.then(
@@ -41,7 +41,7 @@ export function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   })
 }
 
-export function withRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
+function withRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
   const backoff = (attempt: number) => API_RETRY_BACKOFF[attempt] || 5000
 
   const attempt = (n: number): Promise<T> =>
