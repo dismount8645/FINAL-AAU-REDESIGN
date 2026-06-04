@@ -4,15 +4,18 @@ import { useToast } from '@/components/Toast'
 import useStore from '@/lib/store'
 import SettingsSection from './SettingsSection'
 
+import { useUserStore } from '@/store/userStore'
+
 interface LanguageTabProps {
-  lang: 'da' | 'en'
-  setLang: (lang: 'da' | 'en') => void
+  lang?: 'da' | 'en'
+  setLang?: (lang: 'da' | 'en') => void
 }
 
-export default function LanguageTab({
-  lang,
-  setLang,
-}: LanguageTabProps) {
+export default function LanguageTab(props: LanguageTabProps) {
+  const store = useUserStore()
+  const lang = props.lang ?? store.lang
+  const setLang = props.setLang ?? store.setLang
+
   const t = useStore(state => state.t)
   const toast = useToast()
 

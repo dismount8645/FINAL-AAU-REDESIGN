@@ -15,24 +15,26 @@ import Input from '@/components/ui/Input';
 import { Stack } from '@/components/LayoutPrimitives';
 import { Text } from '@/components/Typography';
 import useStore, { type Theme } from '@/lib/store';
+import { useUserStore } from '@/store/userStore';
 
 interface ProfileTabProps {
-  firstName: string
-  setFirstName: (val: string) => void
-  lastName: string
-  setLastName: (val: string) => void
-  theme: Theme
-  setTheme: (theme: Theme) => void
+  firstName?: string;
+  setFirstName?: (val: string) => void;
+  lastName?: string;
+  setLastName?: (val: string) => void;
+  theme?: Theme;
+  setTheme?: (theme: Theme) => void;
 }
 
-export default function ProfileTab({
-  firstName,
-  setFirstName,
-  lastName,
-  setLastName,
-  theme,
-  setTheme,
-}: ProfileTabProps) {
+export default function ProfileTab(props: ProfileTabProps) {
+  const store = useUserStore();
+  const firstName = props.firstName ?? store.firstName;
+  const setFirstName = props.setFirstName ?? store.setFirstName;
+  const lastName = props.lastName ?? store.lastName;
+  const setLastName = props.setLastName ?? store.setLastName;
+  const theme = props.theme ?? store.theme;
+  const setTheme = props.setTheme ?? store.setTheme;
+
   const t = useStore(state => state.t)
 
   return (
