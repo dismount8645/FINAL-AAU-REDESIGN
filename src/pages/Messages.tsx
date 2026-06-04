@@ -5,8 +5,7 @@ import { ChatSidebar } from '@/components/ChatSidebar';
 import { ChatWindow } from '@/components/ChatWindow';
 import Badge from '@/components/Badge';
 import { Grid } from '@/components/LayoutPrimitives';
-import PageHeader from '@/components/PageHeader';
-import { Stack } from '@/components/LayoutPrimitives';
+import PageLayout from '@/components/PageLayout';
 import useStore, { type Lang } from '@/lib/store';
 import { useMessagesState } from '@/lib/useMessagesState';
 
@@ -30,15 +29,16 @@ function Messages() {
   } = useMessagesState()
 
   return (
-    <Stack className="container messages-page flex flex-col pb-[var(--space-2xl)]">
-      <PageHeader
-        pageKey="messages"
-        title={t('messages')}
-        subtitle={t('messages_page_subtitle')}
-        breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('messages') }]}
-      >
+    <PageLayout
+      className="container messages-page flex flex-col pb-[var(--space-2xl)]"
+      pageKey="messages"
+      title={t('messages')}
+      subtitle={t('messages_page_subtitle')}
+      breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('messages') }]}
+      headerChildren={
         <Badge variant="default" className="bg-bg-placeholder text-text-muted">{t('communication')}</Badge>
-      </PageHeader>
+      }
+    >
 
       <Grid>
         <Grid.Item span={4} tabletSpan={2} mobileSpan={4}
@@ -69,7 +69,7 @@ function Messages() {
           />
         </Grid.Item>
       </Grid>
-    </Stack>
+    </PageLayout>
   )
 }
 

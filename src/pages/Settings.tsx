@@ -1,13 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
-import PageHeader from '@/components/PageHeader'
+import PageLayout from '@/components/PageLayout'
 import { AnimatePresence, motion } from 'framer-motion'
 import Card from '@/components/Card'
-import { Stack } from '@/components/LayoutPrimitives'
-import { Grid } from '@/components/LayoutPrimitives'
+import { Stack, Grid } from '@/components/LayoutPrimitives'
 import { Text } from '@/components/Typography'
-import Button from '@/components/ui/Button'
+import { Button } from '@/components/ui'
 import Icon from '@/components/Icon'
 import Avatar from '@/components/Avatar'
 import ListItem from '@/components/ListItem'
@@ -96,8 +95,12 @@ function Settings() {
   const categories = SETTINGS_CATEGORIES
 
   return (
-    <Stack className="two-panel-page settings-page">
-      <PageHeader pageKey="settings" flat breadcrumbs={[{ label: t('nav.dashboard'), href: '/' }, { label: t('nav.settings') }]} />
+    <PageLayout
+      className="two-panel-page settings-page"
+      pageKey="settings"
+      flat
+      breadcrumbs={[{ label: t('nav.dashboard'), href: '/' }, { label: t('nav.settings') }]}
+    >
 
       <div className="container pb-2xl">
         <Grid>
@@ -216,7 +219,7 @@ function Settings() {
           )}
         </Grid>
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 

@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { type LucideIcon, Sun, Moon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export interface SegmentedControlOption {
   value: string | number;
@@ -30,7 +31,7 @@ export default function SegmentedControl({ options, value, onChange, className =
 
   return (
     <div
-      className={`segmented-control relative flex p-0.5 bg-bg-input border border-border rounded-[var(--radius-md)] h-[38px] w-full overflow-hidden my-xs ${className}`}
+      className={cn('segmented-control relative flex p-0.5 bg-bg-input border border-border rounded-[var(--radius-md)] h-[38px] w-full overflow-hidden my-xs', className)}
       onClick={handleContainerClick}
     >
       <div
