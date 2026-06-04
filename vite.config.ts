@@ -37,7 +37,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './src/lib/setup.ts',
     includeSource: ['src/**/*.{js,ts,jsx,tsx}'],
-    exclude: ['e2e/**'],
+    exclude: ['node_modules/**', 'e2e/**'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*'],
