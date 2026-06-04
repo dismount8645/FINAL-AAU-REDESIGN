@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, memo } from 'react';
+import { useState, useEffect, useCallback, memo, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent, within } from '@testing-library/react';
 import { CoursesTabs, CoursesFilters, CoursesGrid } from '@/components/Courses';
@@ -9,15 +9,20 @@ import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout';
 import { Heading, Text } from '@/components/ui';
 import { ASSETS } from '@/lib';
-import { useCoursesFilterAndSort } from '@/hooks';
+import { useFilteredCollection } from '@/hooks';
 import { env } from '@/lib/env';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
+import type { CourseWithStatus } from '@/store';
 
 const forums = [
   { id: 10, title: 'Studienævn for DDK', titleEn: 'Study Board for DDK', label: 'Information', labelEn: 'Information', img: '/images/student-life/2wb0369.webp', color: 'var(--color-success)' },
   { id: 11, title: 'Semesterforum (4. Semester)', titleEn: 'Semester Forum (4th Semester)', label: 'Fælles', labelEn: 'Shared', img: '/images/campus/2wb3689.webp', color: 'var(--color-primary)' },
 ]
+
+// Status weights used by the sort comparator
+const STATUS_WEIGHT: Record<string, number> = { active: 0, upcoming: 1, inactive: 2 }
+const TAB_MAP = { current: 'active', finished: 'inactive', upcoming: 'upcoming' } as const
 
 function Courses() {
   const t = useStore((state) => state.t)
@@ -31,6 +36,8 @@ function Courses() {
   const [isLoading, setIsLoading] = useState<boolean>(
     typeof window !== 'undefined' && import.meta.env.MODE !== 'test'
   )
+  const [activeTab, setActiveTab] = useState<'current' | 'finished' | 'upcoming'>('current')
+  const [sortBy, setSortBy] = useState<'alpha' | 'status'>('status')
 
   useEffect(() => {
     if (isLoading) {
@@ -39,20 +46,42 @@ function Courses() {
     }
   }, [isLoading])
 
+  // Pre-filter by active tab so the generic hook only sees tab-relevant courses
+  const tabCourses = useMemo(
+    () => courses.filter(c => c.status === TAB_MAP[activeTab]),
+    [courses, activeTab]
+  )
+
   const {
-    activeTab,
-    setActiveTab,
     searchQuery,
     setSearchQuery,
-    sortOrder,
-    setSortOrder,
-    sortBy,
-    setSortBy,
     activeFilter,
     setActiveFilter,
-    labelFilters,
-    sortedCourses,
-  } = useCoursesFilterAndSort({ courses, t, lang })
+    filterOptions: labelFilters,
+    sortDirection: sortOrder,
+    setSortDirection: setSortOrder,
+    items: sortedCourses,
+  } = useFilteredCollection<CourseWithStatus>(tabCourses, {
+    searchKeys: c => [
+      t(`course_${c.id}_title`),
+      c.code ?? '',
+      t(`course_${c.id}_label`),
+    ],
+    filterKey: c => t(`course_${c.id}_label`),
+    filterDefault: null,
+    filterOptions: items => Array.from(new Set(items.map(c => t(`course_${c.id}_label`)).filter(Boolean))).sort(),
+    sortComparator: (a, b, dir) => {
+      if (sortBy === 'status') {
+        const diff = (STATUS_WEIGHT[a.status] ?? 0) - (STATUS_WEIGHT[b.status] ?? 0)
+        if (diff !== 0) return diff * (dir === 'asc' ? 1 : -1)
+      }
+      const aTitle = t(`course_${a.id}_title`)
+      const bTitle = t(`course_${b.id}_title`)
+      return dir === 'asc'
+        ? aTitle.localeCompare(bTitle, lang)
+        : bTitle.localeCompare(aTitle, lang)
+    },
+  })
 
   const handleToggleFavorite = useCallback((type: 'course' | 'forum', id: number) => {
     toggleFavorite(type, id)
