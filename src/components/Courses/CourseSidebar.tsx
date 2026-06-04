@@ -9,7 +9,8 @@ import { Avatar } from '@/components/ui'
 import { Text } from '@/components/ui'
 import useStore from '@/store'
 import { ASSETS } from '@/lib'
-import { useFormat } from '@/hooks'
+
+import { courses } from '@/data/registry'
 
 interface CourseSidebarProps {
   courseId: string
@@ -25,8 +26,11 @@ function CourseSidebar({
   setActiveTab,
 }: CourseSidebarProps) {
   const t = useStore((state) => state.t)
+  const localize = useStore((state) => state.localize)
   const navigate = useNavigate()
-  const { formatDeadline } = useFormat()
+
+  const course = courses[Number(courseId)]
+  const nextAssignment = course?.nextAssignment
 
   return (
     <aside className="course-sidebar flex flex-col gap-lg">
@@ -68,33 +72,35 @@ function CourseSidebar({
         </Card.Body>
       </Card>
 
-      <Card variant="brand" className="relative overflow-hidden group">
-        <Card.Decoration icon={FileSignature} className="opacity-10 group-hover:scale-110 transition-transform duration-500" />
-        <Card.Header>
-          <Text weight="bold" size="lg" className="card__title text-white">{t('next_assignment')}</Text>
-        </Card.Header>
-        <Card.Body>
-          <Text size="sm" weight="bold" className="mb-md text-white/90 block leading-tight">
-            {t(`course_${courseId}_${courseId === '2' ? 'w2_i204' : 's2_i105'}_title`)}
-          </Text>
-          <Stack direction="row" align="center" gap="sm">
-            <Clock size={16} strokeWidth={2} className="text-white opacity-70" />
-            <Text size="xs" className="text-white/90">
-              {formatDeadline(new Date(Date.now() + (courseId === '1' ? 4 : (courseId === '2' ? 2 : 7)) * 24 * 60 * 60 * 1000))}
+      {nextAssignment && (
+        <Card variant="brand" className="relative overflow-hidden group">
+          <Card.Decoration icon={FileSignature} className="opacity-10 group-hover:scale-110 transition-transform duration-500" />
+          <Card.Header>
+            <Text weight="bold" size="lg" className="card__title text-white">{t('next_assignment')}</Text>
+          </Card.Header>
+          <Card.Body>
+            <Text size="sm" weight="bold" className="mb-md text-white/90 block leading-tight">
+              {localize(nextAssignment, 'title')}
             </Text>
-          </Stack>
-        </Card.Body>
-        <Card.Footer className="border-t border-white/10 pt-md">
-          <Button
-            variant="primary"
-            full
-            className="bg-white text-primary hover:bg-white/90"
-            onClick={() => navigate(`/submission/${courseId}/${courseId === '2' ? '204' : '105'}`)}
-          >
-            {t('go_to_assignment')}
-          </Button>
-        </Card.Footer>
-      </Card>
+            <Stack direction="row" align="center" gap="sm">
+              <Clock size={16} strokeWidth={2} className="text-white opacity-70" />
+              <Text size="xs" className="text-white/90">
+                {localize(nextAssignment, 'deadline')}
+              </Text>
+            </Stack>
+          </Card.Body>
+          <Card.Footer className="border-t border-white/10 pt-md">
+            <Button
+              variant="primary"
+              full
+              className="bg-white text-primary hover:bg-white/90"
+              onClick={() => navigate(`/submission/${courseId}/${nextAssignment.submissionId}`)}
+            >
+              {t('go_to_assignment')}
+            </Button>
+          </Card.Footer>
+        </Card>
+      )}
 
       <Card variant="elevated" className="h-fit">
         <Card.Header>

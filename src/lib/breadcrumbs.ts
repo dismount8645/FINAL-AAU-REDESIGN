@@ -1,10 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { type CourseListItem } from '@/lib/types';
+import { courseList } from '@/data/registry';
 
 export const getAutomaticBreadcrumbs = (
   pathname: string,
   lang: 'da' | 'en',
-  courses: CourseListItem[],
   t: (key: string) => string
 ): { label: string; href?: string }[] => {
   if (pathname === '/' || pathname === '/dashboard') {
@@ -19,7 +18,7 @@ export const getAutomaticBreadcrumbs = (
   const courseMatch = pathname.match(/^\/course\/(\d+)/);
   if (courseMatch) {
     const courseId = parseInt(courseMatch[1], 10);
-    const course = courses.find(c => c.id === courseId);
+    const course = courseList.find(c => c.id === courseId);
     crumbs.push({ label: t('courses'), href: '/courses' });
     /* istanbul ignore next */
     if (course) {
@@ -32,7 +31,7 @@ export const getAutomaticBreadcrumbs = (
   const submissionMatch = pathname.match(/^\/submission\/(\d+)\/(\d+)/);
   if (submissionMatch) {
     const courseId = parseInt(submissionMatch[1], 10);
-    const course = courses.find(c => c.id === courseId);
+    const course = courseList.find(c => c.id === courseId);
     crumbs.push({ label: t('courses'), href: '/courses' });
     /* istanbul ignore next */
     if (course) {
@@ -86,19 +85,17 @@ export const getAutomaticBreadcrumbs = (
   return crumbs;
 };
 
-import { courseList } from '@/data/registry';
-
 const mockT = (key: string) => key;
 
 if (import.meta.vitest) {
   describe('getAutomaticBreadcrumbs', () => {
     it('returns dashboard for root', () => {
-      const result = getAutomaticBreadcrumbs('/', 'da', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/', 'da', mockT);
       expect(result).toEqual([{ label: 'dashboard' }]);
     });
   
     it('returns course details crumbs', () => {
-      const result = getAutomaticBreadcrumbs('/course/1', 'da', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/course/1', 'da', mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
@@ -107,7 +104,7 @@ if (import.meta.vitest) {
     });
   
     it('returns course details crumbs in English', () => {
-      const result = getAutomaticBreadcrumbs('/course/1', 'en', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/course/1', 'en', mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
@@ -116,7 +113,7 @@ if (import.meta.vitest) {
     });
   
     it('returns submission crumbs', () => {
-      const result = getAutomaticBreadcrumbs('/submission/1/2', 'da', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/submission/1/2', 'da', mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
@@ -126,7 +123,7 @@ if (import.meta.vitest) {
     });
   
     it('returns forum crumbs', () => {
-      const result = getAutomaticBreadcrumbs('/forum/1', 'da', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/forum/1', 'da', mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'courses', href: '/courses' },
@@ -135,7 +132,7 @@ if (import.meta.vitest) {
     });
   
     it('returns exact match for settings', () => {
-      const result = getAutomaticBreadcrumbs('/settings', 'da', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/settings', 'da', mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'settings' }
@@ -143,7 +140,7 @@ if (import.meta.vitest) {
     });
   
     it('handles general segments fallback', () => {
-      const result = getAutomaticBreadcrumbs('/some/other/path', 'da', courseList, mockT);
+      const result = getAutomaticBreadcrumbs('/some/other/path', 'da', mockT);
       expect(result).toEqual([
         { label: 'dashboard', href: '/' },
         { label: 'some', href: '/some' },
