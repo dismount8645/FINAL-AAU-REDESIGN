@@ -10,9 +10,9 @@ import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingW
 
 import { Button } from '@/components/ui';
 import { Card } from '@/components/ui';
-import { ErrorBoundary } from '@/components/Layout';
-import { Grid, Stack } from '@/components/Layout';
-import { PageLayout } from '@/components/Layout';
+import ErrorBoundary from '@/components/Layout/ErrorBoundary';;
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';;
+import PageLayout from '@/components/Layout/PageLayout';;
 import { SegmentedControl } from '@/components/ui';
 import { Skeleton } from '@/components/ui';
 import { useToast, ToastProvider } from '@/components/ui';

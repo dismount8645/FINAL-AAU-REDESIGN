@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { ProgressBar } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'

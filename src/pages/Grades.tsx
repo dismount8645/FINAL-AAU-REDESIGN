@@ -4,12 +4,14 @@ import { render, screen } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
-import { GradesOverview, GradesFilter, GradeRow } from '@/components/Grades';
+import GradesOverview from '@/components/Grades/GradesOverview';
+import GradesFilter from '@/components/Grades/GradesFilter';
+import GradeRow from '@/components/Grades/GradeRow';;
 
 
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
-import { PageLayout } from '@/components/Layout';
+import PageLayout from '@/components/Layout/PageLayout';;
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/data/mockGrades';
 import useStore from '@/store';
 import { translations } from '@/lib/translations';

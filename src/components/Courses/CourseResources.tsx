@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react';
 import { FileSignature, Book, Clock } from 'lucide-react';
 import { Card } from '@/components/ui';
 import { MasterItem } from '@/components/ui';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Heading } from '@/components/ui';
 import useStore from '@/store';
 

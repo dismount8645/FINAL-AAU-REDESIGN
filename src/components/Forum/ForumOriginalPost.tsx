@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import { MessageSquare, User } from 'lucide-react'
 import useStore from '@/store'

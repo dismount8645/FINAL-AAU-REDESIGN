@@ -1,12 +1,14 @@
 import { useState, useEffect, useCallback, memo, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, fireEvent, within } from '@testing-library/react';
-import { CoursesTabs, CoursesFilters, CoursesGrid } from '@/components/Courses';
+import CoursesTabs from '@/components/Courses/CoursesTabs';
+import CoursesFilters from '@/components/Courses/CoursesFilters';
+import CoursesGrid from '@/components/Courses/CoursesGrid';;
 import { Badge } from '@/components/ui';
 import { Button } from '@/components/ui';
-import { PageLayout } from '@/components/Layout';
+import PageLayout from '@/components/Layout/PageLayout';;
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Heading, Text } from '@/components/ui';
 import { ASSETS } from '@/lib';
 import { useFilteredCollection } from '@/hooks';

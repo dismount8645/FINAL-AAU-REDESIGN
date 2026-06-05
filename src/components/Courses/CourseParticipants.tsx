@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Users } from 'lucide-react'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { SearchInput } from '@/components/ui'
 import { MasterItem } from '@/components/ui'
 import Select from '@/components/ui/Select'

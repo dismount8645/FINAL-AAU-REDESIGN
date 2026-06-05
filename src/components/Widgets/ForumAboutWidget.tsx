@@ -1,5 +1,5 @@
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
 import type { Post } from '@/components/Forum'

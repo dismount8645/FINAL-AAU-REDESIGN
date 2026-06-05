@@ -8,8 +8,8 @@ import { NotificationDetailView, NotificationFilters } from '@/components/Notifi
 import { Badge, MasterItem } from '@/components/ui';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
-import { Grid, Stack } from '@/components/Layout';
-import { PageLayout } from '@/components/Layout';
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';;
+import PageLayout from '@/components/Layout/PageLayout';;
 import { Text } from '@/components/ui';
 import { createMockNotifications, getNotificationIcon } from '@/lib/notifications';
 import useStore from '@/store';

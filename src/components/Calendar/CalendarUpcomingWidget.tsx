@@ -6,7 +6,7 @@ import { CalendarCheck, ChevronRight, MapPin, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
 import useStore from '@/store'
 import { cn } from '@/lib/utils'

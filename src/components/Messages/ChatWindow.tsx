@@ -1,6 +1,6 @@
 import { Send, MessageCircle, ArrowLeft } from 'lucide-react'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
