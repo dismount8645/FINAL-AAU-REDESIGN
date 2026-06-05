@@ -7,7 +7,7 @@ import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 import { CalendarClock, MapPin, User, Info, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { eventPalette } from './calendarConstants'
+import { UI_PALETTE as eventPalette } from '@/lib/theme'
 
 /* ───────── CalendarDayView ───────── */
 

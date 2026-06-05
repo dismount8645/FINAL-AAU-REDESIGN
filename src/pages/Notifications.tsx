@@ -40,8 +40,6 @@ function Notifications() {
     setSelectedId
   } = useNotificationsState({ initialNotifications })
 
-  const getIcon = getNotificationIcon
-
   return (
     <PageLayout
       className="container notifications-page flex flex-col pb-[var(--space-2xl)]"
@@ -89,7 +87,7 @@ function Notifications() {
                           <Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase">{date}</Text>
                         </div>
                         {items.map((notif) => {
-                          const Icon = getIcon(notif.type)
+                          const Icon = getNotificationIcon(notif.type)
                           return (
                             <MasterItem
                               key={notif.id}
@@ -186,7 +184,6 @@ function Notifications() {
               selectedNotification={selectedNotification}
               lang={lang}
               t={t}
-              getIcon={getIcon}
               onNavigate={navigate}
             />
           </Card>

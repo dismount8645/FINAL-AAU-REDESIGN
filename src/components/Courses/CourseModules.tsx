@@ -11,7 +11,7 @@ import type { CourseItem } from '@/lib/types'
 import { Check } from 'lucide-react'
 import { MasterItem } from '@/components/ui'
 import { useFormat } from '@/hooks'
-import { getFileTypeConfig } from '@/lib/utils'
+import { ITEM_TYPE_MAP } from '@/lib/theme'
 
 const LessonItemRow = memo(function LessonItemRow({
   item,
@@ -43,14 +43,14 @@ const LessonItemRow = memo(function LessonItemRow({
   const metadata = getCourseItemMetadata(item)
 
   const isAutomatic = item.type === 'assignment'
-  const fileConfig = getFileTypeConfig(item.type)
-  const Icon = fileConfig.icon
+  const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default
+  const Icon = themeConfig.icon
 
   return (
     <MasterItem
       className="mb-sm rounded-[var(--radius-md)] border border-border/40"
       leading={
-        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${fileConfig.colorClass}`}>
+        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors text-${themeConfig.color} ${themeConfig.bg}`}>
           <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
         </div>
       }
