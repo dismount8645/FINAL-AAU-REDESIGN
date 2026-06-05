@@ -3,27 +3,10 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
 import SettingsSection from './SettingsSection'
-import { useUserStore } from '@/store/userStore'
 
-interface ForumTabProps {
-  forumDigest?: 'none' | 'complete' | 'subjects'
-  setForumDigest?: (val: 'none' | 'complete' | 'subjects') => void
-  forumTracking?: boolean
-  setForumTracking?: (val: boolean) => void
-  forumAutoSubscribe?: boolean
-  setForumAutoSubscribe?: (val: boolean) => void
-}
-
-export default function ForumTab(props: ForumTabProps) {
-  const store = useUserStore()
-  const forumDigest = props.forumDigest ?? store.forumDigest
-  const setForumDigest = props.setForumDigest ?? store.setForumDigest
-  const forumTracking = props.forumTracking ?? store.forumTracking
-  const setForumTracking = props.setForumTracking ?? store.setForumTracking
-  const forumAutoSubscribe = props.forumAutoSubscribe ?? store.forumAutoSubscribe
-  const setForumAutoSubscribe = props.setForumAutoSubscribe ?? store.setForumAutoSubscribe
-
-  const t = useStore(state => state.t)
+export default function ForumTab() {
+  const store = useStore()
+  const { forumDigest, setForumDigest, forumTracking, setForumTracking, forumAutoSubscribe, setForumAutoSubscribe, t } = store
 
   return (
     <SettingsSection titleKey="settings.forum_prefs" descKey="settings.forum_desc" className="settings__forum max-w-[var(--container-max-width)]">
