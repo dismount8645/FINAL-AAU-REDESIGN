@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Icon } from '@/components/ui';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Heading, Text } from '@/components/ui';
 import type { SubmissionDropzoneProps } from '@/lib/types';
 

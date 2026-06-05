@@ -3,11 +3,11 @@ import { render, screen } from '@testing-library/react';
 import { ArrowLeft } from 'lucide-react';
 import { useParams, Link, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ForumOriginalPost, ForumRepliesList, ForumReplyForm } from '@/components/Forum';
-import { ForumAboutWidget } from '@/components/Widgets';
+import ForumAboutWidget from '@/components/Widgets/ForumAboutWidget';;
 import Button from '@/components/ui/Button';
-import { Grid } from '@/components/Layout';
-import { PageHeader } from '@/components/Layout';
-import { Stack } from '@/components/Layout';
+import { Grid } from '@/components/Layout/LayoutPrimitives';;
+import PageHeader from '@/components/Layout/PageHeader';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Heading } from '@/components/ui';
 import useStore from '@/store';
 

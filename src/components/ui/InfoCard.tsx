@@ -6,7 +6,7 @@ import { type LucideIcon, Star, Info, User } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { IconCircle } from './Icon';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text } from '@/components/ui';
 import { cn } from '@/lib/utils';
 

@@ -8,7 +8,7 @@ import { Badge, MasterItem } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading } from '@/components/ui';
 import { dashboardGrades } from '@/data/registry';
 import useStore from '@/store';

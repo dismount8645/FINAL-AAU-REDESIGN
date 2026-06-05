@@ -2,8 +2,8 @@ import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ChevronRight, MessageSquare } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Grid } from '@/components/Layout'
-import { Stack } from '@/components/Layout'
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Card } from '@/components/ui'
 import Button from '@/components/ui/Button'
 import { Icon } from '@/components/ui'

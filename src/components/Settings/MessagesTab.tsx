@@ -1,5 +1,5 @@
 import { FormField } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
 import SettingsSection from './SettingsSection'

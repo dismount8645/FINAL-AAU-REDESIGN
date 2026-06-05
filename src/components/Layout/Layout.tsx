@@ -2,10 +2,10 @@ import { useRef, useEffect, Suspense } from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { Outlet, useLocation, MemoryRouter, Routes, Route } from 'react-router-dom';
-import { Footer } from '@/components/Layout';
+import Footer from '@/components/Layout/Footer';;
 import { PageSkeleton } from '@/components/ui';
-import { Sidebar } from '@/components/Layout';
-import { Topbar } from '@/components/Layout';
+import Sidebar from '@/components/Layout/Sidebar';;
+import Topbar from '@/components/Layout/Topbar';;
 import useStore from '@/store';
 
 function Layout() {

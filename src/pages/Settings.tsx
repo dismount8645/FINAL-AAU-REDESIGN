@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
-import { PageLayout } from '@/components/Layout'
+import PageLayout from '@/components/Layout/PageLayout';
 import { AnimatePresence, motion } from 'framer-motion'
 import { Card } from '@/components/ui'
-import { Stack, Grid } from '@/components/Layout'
+import { Stack, Grid } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import { Button } from '@/components/ui'
 import { Icon } from '@/components/ui'

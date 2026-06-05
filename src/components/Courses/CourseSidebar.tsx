@@ -2,7 +2,7 @@ import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MessageSquare, Users, GraduationCap, Book, FileSignature, Clock } from 'lucide-react'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { MasterItem } from '@/components/ui'
 import Button from '@/components/ui/Button'
 import { Avatar } from '@/components/ui'

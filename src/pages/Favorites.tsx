@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
 
 import Button from '@/components/ui/Button';
-import { PageHeader } from '@/components/Layout';
-import { Stack } from '@/components/Layout';
+import PageHeader from '@/components/Layout/PageHeader';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
