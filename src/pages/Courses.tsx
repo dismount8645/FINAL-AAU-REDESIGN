@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, memo, useMemo } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { screen, fireEvent, within } from '@testing-library/react';
 import CoursesTabs from '@/components/Courses/CoursesTabs';
 import CoursesFilters from '@/components/Courses/CoursesFilters';
@@ -14,7 +14,7 @@ import { ASSETS } from '@/lib';
 import { useFilteredCollection } from '@/hooks';
 import { env } from '@/lib/env';
 import useStore from '@/store';
-import { renderWithProviders } from '@/test/test-utils';
+
 import type { CourseWithStatus } from '@/store';
 
 const forums = [

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '@/test/test-utils';
+
+
+
 import { Trash2, Wrench } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FavoritesFilter, FavoritesList } from '@/components/Favorites';

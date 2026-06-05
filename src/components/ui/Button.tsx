@@ -1,7 +1,5 @@
 import { forwardRef, memo } from 'react';
-import { describe, it, expect } from 'vitest';
 import { Button as BaseButton, type ButtonProps as BaseButtonProps } from '@base-ui/react/button';
-import { render, screen } from '@testing-library/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Loader2, type LucideIcon, Plus, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';

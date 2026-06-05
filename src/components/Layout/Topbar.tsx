@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';

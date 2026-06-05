@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { Sun, Monitor, Moon, Camera } from 'lucide-react';
 import NotificationsTab from './NotificationsTab';
 import LanguageTab from './LanguageTab';
@@ -183,12 +183,13 @@ if (import.meta.vitest) {
       it('renders language choices and handles selection', () => {
         const setLang = vi.fn()
   
-        render(
+        renderWithProviders(
           <LanguageTab
             lang="da"
             setLang={setLang}
           />
         )
+
   
         expect(screen.getByText('Dansk (Danish)')).toBeInTheDocument()
         expect(screen.getByText('English (English)')).toBeInTheDocument()

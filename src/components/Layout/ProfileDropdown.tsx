@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { User, Settings, LogOut } from 'lucide-react';
 import { Link } from 'react-router-dom';

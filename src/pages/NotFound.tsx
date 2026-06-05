@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';

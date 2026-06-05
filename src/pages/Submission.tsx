@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+
+
 import { ArrowLeft } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { StagedFile } from '@/lib/types';
@@ -19,7 +19,7 @@ import { submitAssignment } from '@/lib/api';
 import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
-import { renderWithProviders } from '@/test/test-utils';
+
 import { processFileMetadata } from '@/lib/utils';
 
 function Submission() {

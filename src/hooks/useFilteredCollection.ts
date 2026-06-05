@@ -1,7 +1,4 @@
 import { useState, useMemo } from 'react'
-import { describe, it, expect } from 'vitest'
-import { act, renderHook } from '@testing-library/react'
-
 /**
  * Configuration for useFilteredCollection.
  *

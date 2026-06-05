@@ -1,6 +1,4 @@
 import { type HTMLAttributes, forwardRef, type ElementType } from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import { cn } from '@/lib/utils';
 
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {

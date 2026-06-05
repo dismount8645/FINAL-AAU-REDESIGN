@@ -1,7 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { describe, it, expect } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
 import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { saveSettings } from '@/lib/api';
