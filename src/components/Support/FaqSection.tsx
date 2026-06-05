@@ -1,22 +1,11 @@
-/* eslint-disable react-refresh/only-export-components */
 import { memo } from 'react'
 import { Card } from '@/components/ui'
 import { SectionHeader } from '@/components/ui'
 import { AccordionWrapper, AccordionItemRow } from '@/components/ui'
 import { Text } from '@/components/ui'
 import useStore from '@/store'
+import { linkifyText } from '@/lib/utils'
 
-function linkifyText(text: string): React.ReactNode {
-  const urlPattern = /(https?:\/\/[^\s]+|[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g
-  const parts = text.split(urlPattern)
-  return parts.map((part, i) => {
-    if (urlPattern.test(part)) {
-      const href = part.startsWith('http') ? part : `https://${part}`
-      return <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{part}</a>
-    }
-    return part
-  })
-}
 
 function FaqSection() {
   const t = useStore(state => state.t)
@@ -50,4 +39,3 @@ function FaqSection() {
 }
 
 export default memo(FaqSection)
-export { linkifyText }
