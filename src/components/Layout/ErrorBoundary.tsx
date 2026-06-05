@@ -1,6 +1,6 @@
 import { Component, ErrorInfo, ReactNode, KeyboardEvent } from 'react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';

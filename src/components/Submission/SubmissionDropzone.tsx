@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+
 import userEvent from '@testing-library/user-event';
 import { Icon } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;

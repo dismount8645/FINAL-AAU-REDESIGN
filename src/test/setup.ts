@@ -1,4 +1,13 @@
 import { vi } from 'vitest';
+import { render, screen, fireEvent, act, renderHook } from '@testing-library/react';
+import { renderWithProviders } from './test-utils';
+
+(globalThis as any).render = render;
+(globalThis as any).screen = screen;
+(globalThis as any).fireEvent = fireEvent;
+(globalThis as any).act = act;
+(globalThis as any).renderHook = renderHook;
+(globalThis as any).renderWithProviders = renderWithProviders;
 
 Element.prototype.scrollIntoView = vi.fn()
 

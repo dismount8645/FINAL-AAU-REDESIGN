@@ -1,6 +1,6 @@
 import { memo, type DragEvent } from 'react';
-import { it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { EyeOff, GripVertical } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import ErrorBoundary from '@/components/Layout/ErrorBoundary';;

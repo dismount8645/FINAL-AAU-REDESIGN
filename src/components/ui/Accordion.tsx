@@ -1,7 +1,7 @@
 import { forwardRef, type ReactNode, memo } from 'react';
-import { describe, it, expect } from 'vitest';
+
 import { Accordion as AccordionPrimitive } from '@base-ui/react/accordion';
-import { render, screen } from '@testing-library/react';
+
 import userEvent from '@testing-library/user-event';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';

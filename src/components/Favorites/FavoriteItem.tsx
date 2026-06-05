@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { X, type LucideIcon, BookOpen } from 'lucide-react';
 import { Link, MemoryRouter } from 'react-router-dom';

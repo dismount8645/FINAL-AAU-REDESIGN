@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+
 import { courseList } from '@/lib/data';
 
 export const getAutomaticBreadcrumbs = (

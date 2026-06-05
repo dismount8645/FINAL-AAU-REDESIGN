@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { AnimatePresence, motion } from 'framer-motion';
 import { MemoryRouter } from 'react-router-dom';
 import CourseModules from './CourseModules';

@@ -1,6 +1,6 @@
 import { useMemo, useCallback, memo } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+
+
 import { Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
@@ -11,7 +11,7 @@ import { dashboardDeadlines } from '@/lib/data';
 import * as dates from '@/lib/dates';
 import { hoursFromNow, calculateUrgency } from '@/lib/dates';
 import useStore from '@/store';
-import { renderWithProviders } from '@/test/test-utils';
+
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { getWidgetDisplayLayout } from '@/config/widgetLayout';

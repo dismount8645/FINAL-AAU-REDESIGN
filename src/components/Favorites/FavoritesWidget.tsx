@@ -1,6 +1,6 @@
 import { useMemo, useCallback } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { Star, ChevronRight, BookOpen } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';

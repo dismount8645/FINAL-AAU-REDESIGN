@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, memo, useEffect } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { AnimatePresence } from 'framer-motion';
 import { Upload, Download, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';

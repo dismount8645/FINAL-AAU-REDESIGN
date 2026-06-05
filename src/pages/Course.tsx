@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, memo } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import CourseSidebar from '@/components/Courses/CourseSidebar';
 import CourseBreadcrumbs from '@/components/Courses/CourseBreadcrumbs';
