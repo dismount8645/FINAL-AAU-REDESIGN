@@ -7,9 +7,11 @@ import type {
   Notification,
   WidgetConfigMap,
   Widget,
-  CourseItem
+  CourseItem,
+  GradeRecord
 } from '@/lib/types'
 import registryJson from '@/data/registry.json'
+import mockGradesJson from '@/data/mockGrades.json'
 
 interface CourseSection {
   id: string
@@ -27,6 +29,10 @@ interface CourseRaw {
   img: string
   sections: CourseSection[]
 }
+
+// Relocated from mockGrades.ts
+export const BACHELOR_TOTAL_ECTS = 180
+export const mockGradesData: GradeRecord[] = mockGradesJson as GradeRecord[]
 
 // Reconstruct courses map
 export const courses: CoursesMap = registryJson.courses.reduce((acc, course) => {
@@ -82,6 +88,14 @@ export const DEFAULT_WIDGETS: Widget[] = registryJson.defaultWidgets as Widget[]
 export const participantsData = registryJson.participantsData as { name: string; role: 'student' | 'teacher' }[]
 export const courseTabItems = registryJson.courseTabItems as { key: string; label: string }[]
 
+// Support data relocated from registry.json
+export const supportLocations = registryJson.supportLocations
+export const supportDeskHours = registryJson.supportDeskHours
+export const supportNotes = registryJson.supportNotes
+
+// Tools data for lib/tools.ts
+export const registryTools = registryJson.tools
+
 // Dashboard widget data slices — field names mapped to match widget contracts
 export const dashboardDeadlines = registryJson.dashboard
   .filter(d => d.category === 'deadlines')
@@ -121,4 +135,3 @@ export const dashboardForumPosts = registryJson.dashboard
     replies: (d as any).replies as number,
     important: (d as any).important as boolean | undefined,
   }))
-

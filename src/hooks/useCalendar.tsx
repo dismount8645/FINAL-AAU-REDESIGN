@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { defaultEvents } from '@/data/mockData';
+import { defaultEvents } from '@/lib/data';
 import { storage } from '@/lib/storage';
 import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';

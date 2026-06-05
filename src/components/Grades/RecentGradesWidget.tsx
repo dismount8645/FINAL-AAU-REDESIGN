@@ -10,7 +10,7 @@ import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading } from '@/components/ui';
-import { dashboardGrades } from '@/data/registry';
+import { dashboardGrades } from '@/lib/data';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
