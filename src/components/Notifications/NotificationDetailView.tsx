@@ -1,4 +1,4 @@
-import { Bell, ArrowRight, LucideIcon } from 'lucide-react'
+import { Bell, ArrowRight } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
@@ -7,12 +7,12 @@ import { EmptyState } from '@/components/ui'
 import { formatLongDateTime } from '@/lib/dates'
 import { NotificationItem } from '@/lib/types'
 import type { Lang } from '@/store'
+import { getNotificationIcon } from '@/lib/notifications'
 
 interface NotificationDetailViewProps {
   selectedNotification: NotificationItem | null
   lang: Lang
   t: (key: string) => string
-  getIcon: (type: string) => LucideIcon
   onNavigate: (link: string) => void
 }
 
@@ -20,7 +20,6 @@ export default function NotificationDetailView({
   selectedNotification,
   lang,
   t,
-  getIcon,
   onNavigate,
 }: NotificationDetailViewProps) {
   if (!selectedNotification) {
@@ -35,7 +34,7 @@ export default function NotificationDetailView({
     )
   }
 
-  const Icon = getIcon(selectedNotification.type)
+  const Icon = getNotificationIcon(selectedNotification.type)
 
   return (
     <>

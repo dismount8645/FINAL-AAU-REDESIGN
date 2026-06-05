@@ -2,4 +2,3 @@ export { CalendarMonthView, CalendarWeekView, CalendarDayView } from './Calendar
 export { default as CalendarUpcomingWidget } from './CalendarUpcomingWidget'
 export { default as CalendarNewEventDialog } from './CalendarNewEventDialog'
 export { default as CalendarEventDetailsDialog } from './CalendarEventDetailsDialog'
-export * from './calendarConstants'
