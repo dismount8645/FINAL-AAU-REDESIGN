@@ -1,5 +1,6 @@
 import useStore from '@/store';
 import { PersistedStateSchema } from '@/lib/types/schemas';
+import { api } from '@/lib/api';
 
 describe('useStore', () => {
   beforeEach(() => {
@@ -335,5 +336,56 @@ describe('useStore', () => {
     expect(useStore.getState().t('non.existent.key')).toBe('non.existent.key')
     expect(useStore.getState().localize(null as any)).toBe('')
     expect(useStore.getState().localize({ someField: 'val' })).toBe('')
+  })
+
+  it('updates user state correctly via setters', () => {
+    const store = useStore.getState()
+    store.setFirstName('Jacob')
+    expect(useStore.getState().firstName).toBe('Jacob')
+    
+    store.setLastName('Madsen')
+    expect(useStore.getState().lastName).toBe('Madsen')
+
+    store.setNotifPrefs({ email: false, push: false, sms: true })
+    expect(useStore.getState().notifPrefs).toEqual({ email: false, push: false, sms: true })
+
+    store.setNotifPrefs(prev => ({ ...prev, email: true }))
+    expect(useStore.getState().notifPrefs.email).toBe(true)
+
+    store.setForumDigest('none')
+    expect(useStore.getState().forumDigest).toBe('none')
+
+    store.setForumTracking(false)
+    expect(useStore.getState().forumTracking).toBe(false)
+
+    store.setForumAutoSubscribe(false)
+    expect(useStore.getState().forumAutoSubscribe).toBe(false)
+
+    store.setCalendarStartDay('sunday')
+    expect(useStore.getState().calendarStartDay).toBe('sunday')
+
+    store.setCalendarDefaultView('week')
+    expect(useStore.getState().calendarDefaultView).toBe('week')
+
+    store.setMessagePrivacy('contacts')
+    expect(useStore.getState().messagePrivacy).toBe('contacts')
+
+    store.setMessageEmailOffline(false)
+    expect(useStore.getState().messageEmailOffline).toBe(false)
+  })
+
+  it('handles user profile save success and failure', async () => {
+    const toast = { success: vi.fn(), error: vi.fn() }
+    const t = vi.fn(k => k)
+
+    // Success case
+    await useStore.getState().handleSave(toast, t)
+    expect(toast.success).toHaveBeenCalledWith('settings.save_success')
+
+    // Error case
+    const mockApiPut = vi.spyOn(api, 'put').mockRejectedValueOnce(new Error('Save error'))
+    await useStore.getState().handleSave(toast, t)
+    expect(toast.error).toHaveBeenCalledWith('common.save_error')
+    mockApiPut.mockRestore()
   })
 })
