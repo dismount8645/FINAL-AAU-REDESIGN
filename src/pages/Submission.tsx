@@ -9,7 +9,7 @@ import SubmissionDropzone from '@/components/Submission/SubmissionDropzone';
 import SubmissionFileList from '@/components/Submission/SubmissionFileList';;
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import PageHeader from '@/components/Layout/PageHeader';
+import PageLayout from '@/components/Layout/PageLayout';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import SubmissionDetails from '@/components/Layout/SubmissionDetails';;
@@ -78,11 +78,11 @@ function Submission() {
   }
 
   return (
-    <Stack className="container">
-      <PageHeader
-        title={assignmentInfo.title}
-        subtitle={assignmentInfo.course}
-      >
+    <PageLayout
+      className="container"
+      title={assignmentInfo.title}
+      subtitle={assignmentInfo.course}
+      headerChildren={
         <Stack gap="sm">
           <Link to={`/course/${courseId}`}>
             <Button variant="ghost" size="sm" icon={ArrowLeft}>
@@ -100,8 +100,8 @@ function Submission() {
             </Stack>
           </Stack>
         </Stack>
-      </PageHeader>
-
+      }
+    >
       <SplitLayout
         main={
           <Stack gap="lg">
@@ -151,7 +151,7 @@ function Submission() {
         mainSpan={8}
         sidebarSpan={4}
       />
-    </Stack>
+    </PageLayout>
   )
 }
 
