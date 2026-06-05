@@ -195,25 +195,87 @@ if (import.meta.vitest) {
       const onDragStart = vi.fn()
       const onDragOver = vi.fn()
       const onDrop = vi.fn()
-  
+
       renderItem({
         draggable: true,
         onDragStart,
         onDragOver,
         onDrop,
       })
-  
+
       const container = screen.getByText('Test Course').closest('div[draggable="true"]')
       if (!container) throw new Error('Container not found')
-  
+
       fireEvent.dragStart(container)
       expect(onDragStart).toHaveBeenCalled()
-  
+
       fireEvent.dragOver(container)
       expect(onDragOver).toHaveBeenCalled()
-  
+
       fireEvent.drop(container)
       expect(onDrop).toHaveBeenCalled()
+    })
+
+    it('calls e.preventDefault on external link when onClick provided', () => {
+      render(
+        <MemoryRouter>
+          <FavoriteItem
+            item={{ ...mockItem, external: true }}
+            lang="en"
+            onRemove={mockOnRemove}
+            onClick={mockOnClick}
+          />
+        </MemoryRouter>
+      )
+      const link = screen.getByLabelText('Test Course')
+      fireEvent.click(link)
+      expect(mockOnClick).toHaveBeenCalled()
+    })
+
+    it('calls e.preventDefault on internal link when onClick provided', () => {
+      render(
+        <MemoryRouter>
+          <FavoriteItem
+            item={mockItem}
+            lang="en"
+            onRemove={mockOnRemove}
+            onClick={mockOnClick}
+          />
+        </MemoryRouter>
+      )
+      const link = screen.getByLabelText('Test Course')
+      fireEvent.click(link)
+      expect(mockOnClick).toHaveBeenCalled()
+    })
+
+    it('renders external link without onClick', () => {
+      render(
+        <MemoryRouter>
+          <FavoriteItem
+            item={{ ...mockItem, external: true }}
+            lang="en"
+            onRemove={mockOnRemove}
+          />
+        </MemoryRouter>
+      )
+      const link = screen.getByLabelText(/Test Course/)
+      fireEvent.click(link)
+      expect(screen.getByText('Test Course')).toBeInTheDocument()
+    })
+
+    it('renders internal link without onClick', () => {
+      render(
+        <MemoryRouter>
+          <FavoriteItem
+            item={mockItem}
+            lang="en"
+            onRemove={mockOnRemove}
+          />
+        </MemoryRouter>
+      )
+      const link = screen.getByLabelText(/Test Course/)
+      fireEvent.click(link)
+      expect(screen.getByText('Test Course')).toBeInTheDocument()
     })
   })
 }

@@ -148,5 +148,53 @@ if (import.meta.vitest) {
         { label: 'path' }
       ]);
     });
+
+    it('generates breadcrumbs for /calendar', () => {
+      const result = getAutomaticBreadcrumbs('/calendar', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('calendar');
+    });
+
+    it('generates breadcrumbs for /courses', () => {
+      const result = getAutomaticBreadcrumbs('/courses', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('courses');
+    });
+
+    it('generates breadcrumbs for /messages', () => {
+      const result = getAutomaticBreadcrumbs('/messages', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('messages');
+    });
+
+    it('generates breadcrumbs for /support', () => {
+      const result = getAutomaticBreadcrumbs('/support', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('support');
+    });
+
+    it('generates breadcrumbs for /grades', () => {
+      const result = getAutomaticBreadcrumbs('/grades', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('my_grades');
+    });
+
+    it('generates breadcrumbs for /notifications', () => {
+      const result = getAutomaticBreadcrumbs('/notifications', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('notifications');
+    });
+
+    it('generates breadcrumbs for /resources', () => {
+      const result = getAutomaticBreadcrumbs('/resources', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('resources');
+    });
+
+    it('generates breadcrumbs for /search', () => {
+      const result = getAutomaticBreadcrumbs('/search', 'da', mockT);
+      expect(result).toHaveLength(2);
+      expect(result[1].label).toBe('search_results');
+    });
   });
 }

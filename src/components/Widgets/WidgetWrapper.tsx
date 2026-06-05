@@ -3,10 +3,10 @@ import { memo, type DragEvent } from 'react';
 
 import { EyeOff, GripVertical } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import ErrorBoundary from '@/components/Layout/ErrorBoundary';;
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
+import ErrorBoundary from '@/components/Layout/ErrorBoundary';
+import { Grid } from '@/components/Layout/LayoutPrimitives';
 import { ResizeCorner } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { WIDGET_CONFIG } from '@/lib/data';
 import type { Widget, WidgetProps } from '@/lib/types';
 import { useResizeHandle } from '@/hooks';
@@ -184,7 +184,7 @@ if (import.meta.vitest) {
   
   const WidgetComponent = () => <div data-testid="widget-content">Widget Content</div>
   
-  function renderWrapper(isEditing = false, isDragged = false, overrides: Partial<Widget> = {}) {
+  const renderWrapper = (isEditing = false, isDragged = false, overrides: Partial<Widget> = {}) => {
     return render(
       <WidgetWrapper
         widget={{ ...baseWidget, ...overrides }}

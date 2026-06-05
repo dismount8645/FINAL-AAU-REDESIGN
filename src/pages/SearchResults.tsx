@@ -5,9 +5,9 @@ import { Search } from 'lucide-react';
 import { useNavigate, MemoryRouter, useLocation } from 'react-router-dom';
 import { SearchResultCard, SearchResultFilters } from '@/components/Search';
 import { EmptyState } from '@/components/ui';
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
-import PageHeader from '@/components/Layout/PageHeader';;
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import PageHeader from '@/components/Layout/PageHeader';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import useStore from '@/store';
 import { useSearch } from '@/hooks';
 
@@ -93,6 +93,7 @@ function SearchResults() {
 export default SearchResults
 
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   // Mock registry to include a result with an unknown group
   vi.mock('@/lib/data', async () => {

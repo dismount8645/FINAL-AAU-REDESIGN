@@ -2,7 +2,7 @@ import React, { forwardRef, type ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import { cn } from '@/lib/utils';
 

@@ -28,7 +28,7 @@ export interface UserSlice {
   setMessagePrivacy: (privacy: 'contacts' | 'courses' | 'anyone') => void;
   setMessageEmailOffline: (offline: boolean) => void;
 
-  handleSave: (toast: any, t: any) => Promise<void>;
+  handleSave: (toast: { success: (msg: string) => void; error: (msg: string) => void }, t: (key: string) => string) => Promise<void>;
 }
 
 export const createUserSlice: StateCreator<AppState, [], [], UserSlice> = (set, get) => ({

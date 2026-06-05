@@ -25,17 +25,21 @@ const lazyStorage = {
       return null
     }
   },
-  setItem: (name: string, newValue: any) => {
+  setItem: (name: string, newValue: unknown) => {
     if (typeof window === 'undefined') return
     try {
       window.localStorage.setItem(name, JSON.stringify(newValue))
-    } catch {}
+    } catch {
+      // localStorage write failed silently
+    }
   },
   removeItem: (name: string) => {
     if (typeof window === 'undefined') return
     try {
       window.localStorage.removeItem(name)
-    } catch {}
+    } catch {
+      // localStorage remove failed silently
+    }
   }
 }
 

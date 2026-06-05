@@ -71,6 +71,65 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 if (import.meta.vitest) {
+  describe('processFileMetadata', () => {
+    function createMockFile(name: string, size = 1024): File {
+      return { name, size, type: '', lastModified: Date.now(), slice: () => new Blob() } as File
+    }
+
+    it('transforms a FileList into StagedFile array', () => {
+      const file = createMockFile('document.pdf', 5 * 1024 * 1024)
+      const fileList = { 0: file, length: 1 } as unknown as FileList
+      const result = processFileMetadata(fileList)
+      expect(result).toHaveLength(1)
+      expect(result[0].name).toBe('document.pdf')
+      expect(result[0].size).toBe((5).toFixed(2) + ' MB')
+      expect(result[0].id).toBeDefined()
+    })
+
+    it('handles filenames without extension', () => {
+      const file = createMockFile('README')
+      const fileList = { 0: file, length: 1 } as unknown as FileList
+      const result = processFileMetadata(fileList)
+      expect(result[0].name).toBe('README')
+    })
+
+    it('handles multiple files', () => {
+      const f1 = createMockFile('a.txt')
+      const f2 = createMockFile('b.txt')
+      const fileList = { 0: f1, 1: f2, length: 2 } as unknown as FileList
+      const result = processFileMetadata(fileList)
+      expect(result).toHaveLength(2)
+      expect(result[0].name).toBe('a.txt')
+      expect(result[1].name).toBe('b.txt')
+    })
+  })
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  describe('linkifyText', () => {
+    it('replaces https URL with anchor element', () => {
+      const result = linkifyText('Visit https://example.com now') as any[]
+      expect(result).toHaveLength(3)
+      expect(result[0]).toBe('Visit ')
+      expect(result[1].type).toBe('a')
+      expect(result[1].props.href).toBe('https://example.com')
+      expect(result[2]).toBe(' now')
+    })
+
+    it('returns text unchanged when no URLs present', () => {
+      const result = linkifyText('Just plain text') as any[]
+      expect(result).toHaveLength(1)
+      expect(result[0]).toBe('Just plain text')
+    })
+
+    it('handles multiple URLs in text', () => {
+      const result = linkifyText('https://a.com and https://b.com') as any[]
+      expect(result[0]).toBe('')
+      expect(result[1].type).toBe('a')
+      expect(result[2]).toBe(' and ')
+      expect(result[3].type).toBe('a')
+    })
+  })
+
   describe('cn', () => {
     it('merges class names', () => {
       expect(cn('foo', 'bar')).toBe('foo bar')

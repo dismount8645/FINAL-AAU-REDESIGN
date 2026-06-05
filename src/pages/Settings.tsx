@@ -220,6 +220,7 @@ function Settings() {
 
 export default Settings
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 let mockToast: any
 if (import.meta.vitest) {
   mockToast = {
@@ -339,6 +340,44 @@ if (import.meta.vitest) {
       await waitFor(() => {
         expect(screen.queryByText('Filarkiver')).not.toBeInTheDocument()
       })
+    })
+
+    it('expands category on keyboard Enter', () => {
+      renderSettings('da')
+      const filerHeader = screen.getByText('Filer')
+      fireEvent.keyDown(filerHeader, { key: 'Enter' })
+      expect(screen.getByText('Filarkiver')).toBeInTheDocument()
+    })
+
+    it('expands category on keyboard Space', () => {
+      renderSettings('da')
+      const filerHeader = screen.getByText('Filer')
+      fireEvent.keyDown(filerHeader, { key: ' ' })
+      expect(screen.getByText('Filarkiver')).toBeInTheDocument()
+    })
+
+    it('renders language tab via direct routing', () => {
+      useStore.setState({ lang: 'en' })
+      renderWithProviders(<Settings />, { route: '/settings?tab=sprog' })
+      expect(screen.getByText('English (English)')).toBeInTheDocument()
+    })
+
+    it('renders forum tab via direct routing', () => {
+      useStore.setState({ lang: 'en' })
+      renderWithProviders(<Settings />, { route: '/settings?tab=forum' })
+      expect(screen.getByText(/Digest type/i)).toBeInTheDocument()
+    })
+
+    it('renders calendar tab via direct routing', () => {
+      useStore.setState({ lang: 'en' })
+      renderWithProviders(<Settings />, { route: '/settings?tab=kalender' })
+      expect(screen.getByText(/First day of week/i)).toBeInTheDocument()
+    })
+
+    it('renders messages tab via direct routing', () => {
+      useStore.setState({ lang: 'en' })
+      renderWithProviders(<Settings />, { route: '/settings?tab=beskeder' })
+      expect(screen.getByText(/Who can contact me/i)).toBeInTheDocument()
     })
 
     it('types into first and last name inputs', () => {

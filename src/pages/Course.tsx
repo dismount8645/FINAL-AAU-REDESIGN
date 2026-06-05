@@ -3,11 +3,11 @@ import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 
 import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import CourseSidebar from '@/components/Courses/CourseSidebar';
-import CourseTabContent from '@/components/Courses/CourseTabContent';;
+import CourseTabContent from '@/components/Courses/CourseTabContent';
 import PageLayout from '@/components/Layout/PageLayout';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import { ModuleHeader } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Tabs } from '@/components/ui';
 import { courseData, participantsData, courseTabItems } from '@/lib/data';
 import { storage } from '@/lib/storage';
@@ -327,6 +327,16 @@ if (import.meta.vitest) {
       expect(button).toBeInTheDocument()
       fireEvent.click(button!)
       fireEvent.click(button!)
+    })
+
+    it('expands a collapsed section', () => {
+      localStorage.setItem(`${STORAGE_KEYS.EXPANDED_SECTIONS_PREFIX}1`, JSON.stringify(['s2', 's3', 's4', 's5']))
+      renderCourse('1')
+      const button = document.querySelector('button[data-section-id="s1"]')
+      if (button) {
+        fireEvent.click(button!)
+        expect(screen.getByText('Uge 1: Introduktion til Digital Design')).toBeInTheDocument()
+      }
     })
   })
 }

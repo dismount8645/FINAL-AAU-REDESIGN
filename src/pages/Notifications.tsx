@@ -8,8 +8,8 @@ import { NotificationDetailView, NotificationFilters } from '@/components/Notifi
 import { Badge, MasterItem } from '@/components/ui';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
-import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';;
-import PageLayout from '@/components/Layout/PageLayout';;
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
+import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { createMockNotifications, getNotificationIcon } from '@/lib/notifications';
 import useStore from '@/store';
@@ -143,7 +143,8 @@ function Notifications() {
                                       icon={view === 'active' ? Archive : Undo2}
                                       onClick={(e) => {
                                         e.stopPropagation()
-                                        view === 'active' ? archiveNotification(notif.id, e) : restoreNotification(notif.id, e)
+                                        if (view === 'active') archiveNotification(notif.id, e)
+                                        else restoreNotification(notif.id, e)
                                       }}
                                       title={view === 'active' ? t('archive') : t('restore')}
                                       aria-label={view === 'active' ? t('archive') : t('restore')}

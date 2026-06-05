@@ -6,8 +6,6 @@ import userEvent from '@testing-library/user-event';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-"use client"
-
 /**
  * Accordion - Refactored for AAU UI/UX standards.
  * Enforces 8pt grid, 150ms motion physics, and strict token usage.

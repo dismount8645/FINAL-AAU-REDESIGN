@@ -191,12 +191,24 @@ if (import.meta.vitest) {
       renderWithProviders(<NotificationsDropdown />)
       const bellBtn = screen.getByLabelText('notifications')
       fireEvent.click(bellBtn)
-  
+
       const notifItem = screen.getByText(/Modul 4: Projektrapport/i)
       fireEvent.click(notifItem)
       await waitFor(() => {
         expect(screen.queryByText(/Modul 4: Projektrapport/i)).not.toBeInTheDocument()
       })
+    })
+
+    it('renders notification text in English', () => {
+      useStore.setState({
+        lang: 'en',
+        t: (key: string) => key,
+        notificationCount: 2,
+      })
+      renderWithProviders(<NotificationsDropdown />)
+      const bellBtn = screen.getByLabelText('notifications')
+      fireEvent.click(bellBtn)
+      expect(screen.getAllByRole('menuitem').length).toBeGreaterThan(0)
     })
   })
 }

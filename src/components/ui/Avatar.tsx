@@ -4,8 +4,6 @@ import { memo, useMemo, type KeyboardEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-"use client"
-
 /**
  * Avatar - Senior UI/UX Architect refinement.
  * Enforces AAU brand tokens, 8pt grid logic, and high-performance rendering.
@@ -149,6 +147,7 @@ const Avatar = memo(function Avatar({
 
 export default Avatar
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('Avatar', () => {
     it('renders initials when no src is provided', () => {

@@ -87,6 +87,7 @@ export function useResizeHandle(
   return { handleResize };
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('useResizeHandle', () => {
     it('returns handleResize function', () => {

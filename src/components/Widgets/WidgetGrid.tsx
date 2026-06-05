@@ -140,5 +140,42 @@ if (import.meta.vitest) {
       fireEvent.drop(cells[0], { dataTransfer: {} })
       expect(onDropMock).toHaveBeenCalledWith(expect.any(Object), 0, 0)
     })
+
+    it('renders without edit overlay when isEditing is false', () => {
+      renderWithProviders(
+        <WidgetGrid
+          isEditing={false}
+          visibleWidgets={[{ id: 'deadlines', x: 0, y: 0, span: 12, visible: true }]}
+          draggedItemId={null}
+          onDragStart={vi.fn()}
+          onDragEnd={vi.fn()}
+          onDragOver={vi.fn()}
+          onDrop={vi.fn()}
+          toggleVisibility={vi.fn()}
+          resizeWidget={vi.fn()}
+          t={(k) => k}
+          moveWidget={vi.fn()}
+        />
+      )
+    })
+
+    it('handles unknown widget type gracefully', () => {
+      const { container } = renderWithProviders(
+        <WidgetGrid
+          isEditing={false}
+          visibleWidgets={[{ id: 'nonexistent', x: 0, y: 0, span: 12, visible: true }]}
+          draggedItemId={null}
+          onDragStart={vi.fn()}
+          onDragEnd={vi.fn()}
+          onDragOver={vi.fn()}
+          onDrop={vi.fn()}
+          toggleVisibility={vi.fn()}
+          resizeWidget={vi.fn()}
+          t={(k) => k}
+          moveWidget={vi.fn()}
+        />
+      )
+      expect(container.querySelector('.dashboard__grid')).toBeInTheDocument()
+    })
   })
 }

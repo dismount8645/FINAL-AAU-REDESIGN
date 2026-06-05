@@ -330,5 +330,71 @@ if (import.meta.vitest) {
       act(() => result.current.navigateMonth('prev'))
       expect(result.current.currentDate.getMonth()).toBe(4) // May
     })
+
+    it('creates event successfully with title and date', () => {
+      const { result } = renderHook(() => useCalendar(), { wrapper })
+      let res
+      act(() => {
+        res = result.current.handleCreateEvent({
+          title: 'Test Event', date: '2024-02-15',
+          startTime: '', endTime: '', course: '', description: ''
+        })
+      })
+      expect(res).toEqual({ success: true })
+      expect(result.current.events['2024-02-15']).toBeDefined()
+      expect(result.current.events['2024-02-15'].title).toBe('Test Event')
+    })
+
+    it('returns false when title is missing', () => {
+      const { result } = renderHook(() => useCalendar(), { wrapper })
+      let res
+      act(() => {
+        res = result.current.handleCreateEvent({
+          title: '', date: '2024-02-15',
+          startTime: '', endTime: '', course: '', description: ''
+        })
+      })
+      expect(res).toEqual({ success: false, error: 'missing_fields' })
+    })
+
+    it('returns false when date is missing', () => {
+      const { result } = renderHook(() => useCalendar(), { wrapper })
+      let res
+      act(() => {
+        res = result.current.handleCreateEvent({
+          title: 'Test Event', date: '',
+          startTime: '', endTime: '', course: '', description: ''
+        })
+      })
+      expect(res).toEqual({ success: false, error: 'missing_fields' })
+    })
+
+    it('creates event with time when provided', () => {
+      const { result } = renderHook(() => useCalendar(), { wrapper })
+      let res
+      act(() => {
+        res = result.current.handleCreateEvent({
+          title: 'Test', date: '2024-02-16',
+          startTime: '10:00', endTime: '11:00', course: '', description: ''
+        })
+      })
+      expect(res).toEqual({ success: true })
+      expect(result.current.events['2024-02-16']).toBeDefined()
+      expect(result.current.events['2024-02-16'].time).toBe('10:00 - 11:00')
+    })
+
+    it('handles time with only start time', () => {
+      const { result } = renderHook(() => useCalendar(), { wrapper })
+      let res
+      act(() => {
+        res = result.current.handleCreateEvent({
+          title: 'Test', date: '2024-02-17',
+          startTime: '10:00', endTime: '', course: '', description: ''
+        })
+      })
+      expect(res).toEqual({ success: true })
+      expect(result.current.events['2024-02-17']).toBeDefined()
+      expect(result.current.events['2024-02-17'].time).toBe('10:00')
+    })
   })
 }
