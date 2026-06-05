@@ -4,8 +4,8 @@ import { MemoryRouter } from 'react-router-dom';
 import { ChatSidebar } from '@/components/Messages';
 import { ChatWindow } from '@/components/Messages';
 import { Badge } from '@/components/ui';
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
-import PageLayout from '@/components/Layout/PageLayout';;
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import PageLayout from '@/components/Layout/PageLayout';
 import useStore, { type Lang } from '@/store';
 import { useMessagesState } from '@/hooks';
 
@@ -75,6 +75,7 @@ function Messages() {
 
 export default Messages
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('Messages Page', () => {
     beforeEach(() => {

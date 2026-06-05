@@ -159,6 +159,7 @@ export const submitAssignment = (data: SubmissionData) =>
 export const submitSupportTicket = (data: SupportFormData) =>
   api.post('/support/tickets', data, () => ({ success: true, ticketId: 'MOCK-001' }))
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('isRetryableError', () => {
     it('returns true for TypeError (network errors)', () => {
@@ -186,7 +187,59 @@ if (import.meta.vitest) {
       expect(isRetryableError(new Error('Something else'))).toBe(false)
     })
   })
-  
+
+  describe('getCsrfToken', () => {
+    beforeEach(() => {
+      cachedCsrfToken = undefined
+      document.querySelector('meta[name="csrf-token"]')?.remove()
+    })
+
+    it('returns the csrf token value from meta tag', () => {
+      const meta = document.createElement('meta')
+      meta.name = 'csrf-token'
+      meta.content = 'test-csrf-token-123'
+      document.head.appendChild(meta)
+      expect(getCsrfToken()).toBe('test-csrf-token-123')
+      meta.remove()
+    })
+
+    it('returns null when no csrf meta tag exists', () => {
+      expect(getCsrfToken()).toBeNull()
+    })
+  })
+
+  describe('buildHeaders', () => {
+    beforeEach(() => {
+      cachedCsrfToken = undefined
+      document.querySelector('meta[name="csrf-token"]')?.remove()
+    })
+
+    it('includes Content-Type when hasBody is true', () => {
+      const headers = buildHeaders(true) as Record<string, string>
+      expect(headers['Content-Type']).toBe('application/json')
+    })
+
+    it('omits Content-Type when hasBody is false', () => {
+      const headers = buildHeaders(false) as Record<string, string>
+      expect(headers['Content-Type']).toBeUndefined()
+    })
+
+    it('includes X-CSRF-Token when csrf meta tag exists', () => {
+      const meta = document.createElement('meta')
+      meta.name = 'csrf-token'
+      meta.content = 'my-token'
+      document.head.appendChild(meta)
+      const headers = buildHeaders(true) as Record<string, string>
+      expect(headers['X-CSRF-Token']).toBe('my-token')
+      meta.remove()
+    })
+
+    it('omits X-CSRF-Token when no csrf meta tag', () => {
+      const headers = buildHeaders(true) as Record<string, string>
+      expect(headers['X-CSRF-Token']).toBeUndefined()
+    })
+  })
+
   describe('withTimeout', () => {
     it('resolves with the promise value when it completes in time', async () => {
       const result = await withTimeout(Promise.resolve('ok'), 1000)
@@ -198,7 +251,39 @@ if (import.meta.vitest) {
       await expect(withTimeout(slow, 50)).rejects.toThrow('Request timeout')
     })
   })
-  
+
+  describe('handleResponse', () => {
+    it('parses JSON response when content-type is application/json', async () => {
+      const res = new Response(JSON.stringify({ data: 'test' }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const result = await handleResponse<{ data: string }>(res)
+      expect(result).toEqual({ data: 'test' })
+    })
+
+    it('returns undefined for empty non-JSON responses', async () => {
+      const res = new Response('', { status: 200 })
+      const result = await handleResponse(res)
+      expect(result).toBeUndefined()
+    })
+
+    it('throws on non-ok responses with status code', async () => {
+      const res = new Response('Not Found', { status: 404, statusText: 'Not Found' })
+      await expect(handleResponse(res)).rejects.toThrow('API Error: 404')
+    })
+
+    it('throws on non-ok response with body in error message', async () => {
+      const res = new Response('Validation failed', { status: 422, statusText: 'Unprocessable' })
+      await expect(handleResponse(res)).rejects.toThrow('API Error: 422 Unprocessable — Validation failed')
+    })
+
+    it('throws when non-JSON response cannot be parsed as JSON', async () => {
+      const res = new Response('plain text', { status: 200 })
+      await expect(handleResponse(res)).rejects.toThrow('Expected JSON but got: plain text')
+    })
+  })
+
   describe('withRetry', () => {
     it('resolves on first successful attempt', async () => {
       const fn = vi.fn().mockResolvedValue('ok')
@@ -219,8 +304,14 @@ if (import.meta.vitest) {
       await expect(withRetry(fn)).rejects.toThrow('API Error: 404 Not Found')
       expect(fn).toHaveBeenCalledTimes(1)
     })
+
+    it('throws when all retries are exhausted', async () => {
+      const fn = vi.fn().mockRejectedValue(new TypeError('Network error'))
+      await expect(withRetry(fn, 1)).rejects.toThrow('Network error')
+      expect(fn).toHaveBeenCalledTimes(2)
+    }, 10000)
   })
-  
+
   describe('ApiClient', () => {
     let client: ApiClient
   
@@ -241,12 +332,40 @@ if (import.meta.vitest) {
         await expect(client.get('/test')).rejects.toThrow('API Error: 404')
         globalThis.fetch = originalFetch
       })
+
+      it('returns parsed JSON when fetch succeeds with JSON content-type', async () => {
+        client.setUseMocks(false)
+        const originalFetch = globalThis.fetch
+        const data = { id: 1, name: 'Test' }
+        const mockResponse = new Response(JSON.stringify(data), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        })
+        globalThis.fetch = vi.fn().mockResolvedValue(mockResponse)
+        await expect(client.get('/test')).resolves.toEqual(data)
+        globalThis.fetch = originalFetch
+      })
     })
   
     describe('post', () => {
       it('returns mock data when useMocks is true', async () => {
         const data = await client.post('/courses', { title: 'New' }, () => ({ id: 2 }))
         expect(data).toEqual({ id: 2 })
+      })
+
+      it('performs fetch when useMocks is false', async () => {
+        client.setUseMocks(false)
+        const originalFetch = globalThis.fetch
+        const mockResponse = new Response(JSON.stringify({ success: true }), { status: 200 })
+        const fetchMock = vi.fn().mockResolvedValue(mockResponse)
+        globalThis.fetch = fetchMock
+        const res = await client.post('/test', { data: 1 })
+        expect(res).toEqual({ success: true })
+        expect(fetchMock).toHaveBeenCalledWith(
+          expect.stringContaining('/test'),
+          expect.objectContaining({ method: 'POST' })
+        )
+        globalThis.fetch = originalFetch
       })
     })
   
@@ -299,7 +418,40 @@ if (import.meta.vitest) {
         expect(api).toBeInstanceOf(ApiClient)
       })
     })
-  
+
+    describe('saveSettings', () => {
+      it('calls api.put with settings data', async () => {
+        const spy = vi.spyOn(ApiClient.prototype, 'put').mockResolvedValue({ success: true })
+        const settings: SettingsData = { theme: 'dark', language: 'da' }
+        const result = await saveSettings(settings)
+        expect(spy).toHaveBeenCalledWith('/settings', settings, expect.any(Function))
+        expect(result).toEqual({ success: true })
+        spy.mockRestore()
+      })
+    })
+
+    describe('submitAssignment', () => {
+      it('calls api.post with submission data', async () => {
+        const spy = vi.spyOn(ApiClient.prototype, 'post').mockResolvedValue({ success: true, submissionId: 'MOCK-001' })
+        const data: SubmissionData = { courseId: '101', comment: 'My work' }
+        const result = await submitAssignment(data)
+        expect(spy).toHaveBeenCalledWith('/submissions', data, expect.any(Function))
+        expect(result).toEqual({ success: true, submissionId: 'MOCK-001' })
+        spy.mockRestore()
+      })
+    })
+
+    describe('submitSupportTicket', () => {
+      it('calls api.post with ticket data', async () => {
+        const spy = vi.spyOn(ApiClient.prototype, 'post').mockResolvedValue({ success: true, ticketId: 'MOCK-001' })
+        const data: SupportFormData = { subject: 'Bug', description: 'Something broke' }
+        const result = await submitSupportTicket(data)
+        expect(spy).toHaveBeenCalledWith('/support/tickets', data, expect.any(Function))
+        expect(result).toEqual({ success: true, ticketId: 'MOCK-001' })
+        spy.mockRestore()
+      })
+    })
+
     describe('timeout', () => {
       it('uses configurable timeout', () => {
         const custom = new ApiClient('/api', false, 5000)

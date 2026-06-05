@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Card } from '@/components/ui';
 import { MasterItem } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading } from '@/components/ui';
 import useStore from '@/store';
 import { getFileTypeConfig } from '@/lib/utils';
@@ -77,6 +77,17 @@ if (import.meta.vitest) {
   
   it('renders three list items with translated labels', () => {
     render(<CourseResources />)
+    expect(screen.getByText('Pensumliste')).toBeInTheDocument()
+    expect(screen.getByText('Litteraturliste')).toBeInTheDocument()
+    expect(screen.getByText('Eksamensplan')).toBeInTheDocument()
+  })
+
+  it('handles click on all MasterItems', () => {
+    render(<CourseResources />)
+    const items = [screen.getByText('Pensumliste'), screen.getByText('Litteraturliste'), screen.getByText('Eksamensplan')]
+    items.forEach(item => {
+      fireEvent.click(item)
+    })
     expect(screen.getByText('Pensumliste')).toBeInTheDocument()
     expect(screen.getByText('Litteraturliste')).toBeInTheDocument()
     expect(screen.getByText('Eksamensplan')).toBeInTheDocument()

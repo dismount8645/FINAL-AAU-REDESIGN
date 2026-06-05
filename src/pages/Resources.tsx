@@ -3,8 +3,8 @@ import { Headphones, ExternalLink } from 'lucide-react';
 import { ResourcesSection } from '@/components/Resources';
 import { Button } from '@/components/ui';
 import { Card } from '@/components/ui';
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
-import PageLayout from '@/components/Layout/PageLayout';;
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { env } from '@/lib/env';
 import useStore from '@/store';
@@ -223,6 +223,13 @@ if (import.meta.vitest) {
       renderWithLang('da')
       const star = screen.getAllByLabelText(/favorite|stjerne/i)[0]
       fireEvent.click(star)
+    })
+
+    it('opens support link when contact support is clicked', () => {
+      renderWithLang('da')
+      const btn = screen.getByRole('button', { name: 'Kontakt support' })
+      fireEvent.click(btn)
+      expect(mockOpen).toHaveBeenCalledWith('https://support.its.aau.dk/', '_blank', 'noopener,noreferrer')
     })
   
     it('renders essential tool in quick access when favorited', () => {

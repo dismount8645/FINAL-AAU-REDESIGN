@@ -1,13 +1,13 @@
 import { vi } from 'vitest';
-import { render, screen, fireEvent, act, renderHook } from '@testing-library/react';
-import { renderWithProviders } from './test-utils';
+import { render as rtlRender, screen as rtlScreen, fireEvent as rtlFireEvent, act as rtlAct, renderHook as rtlRenderHook } from '@testing-library/react';
+import { renderWithProviders as rtlRenderWithProviders } from './test-utils';
 
-(globalThis as any).render = render;
-(globalThis as any).screen = screen;
-(globalThis as any).fireEvent = fireEvent;
-(globalThis as any).act = act;
-(globalThis as any).renderHook = renderHook;
-(globalThis as any).renderWithProviders = renderWithProviders;
+globalThis.render = rtlRender;
+Object.defineProperty(globalThis, 'screen', { value: rtlScreen, writable: true, configurable: true });
+globalThis.fireEvent = rtlFireEvent;
+globalThis.act = rtlAct;
+globalThis.renderHook = rtlRenderHook;
+globalThis.renderWithProviders = rtlRenderWithProviders;
 
 Element.prototype.scrollIntoView = vi.fn()
 

@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
-import { Stack, type StackProps } from '@/components/Layout/LayoutPrimitives';;
+import { Stack, type StackProps } from '@/components/Layout/LayoutPrimitives';
 import PageHeader from '@/components/Layout/PageHeader';
-import { type PageHeaderProps } from '@/components/Layout/PageHeader';;
+import { type PageHeaderProps } from '@/components/Layout/PageHeader';
 import { type BreadcrumbItem } from '@/store';
 
 export interface PageLayoutProps extends Omit<StackProps, 'children'> {

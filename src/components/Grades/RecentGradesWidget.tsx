@@ -8,7 +8,7 @@ import { Badge, MasterItem } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import { dashboardGrades } from '@/lib/data';
 import useStore from '@/store';
@@ -207,6 +207,18 @@ if (import.meta.vitest) {
       expect(screen.getByText('Ikke bedømt')).toBeInTheDocument()
     })
   
+    it('navigates to grades when master item is clicked', () => {
+      renderWithProviders(<RecentGradesWidget span={12} isEditing={false} />)
+      fireEvent.click(screen.getByText('Digital Design'))
+      expect(mockNavigate).toHaveBeenCalledWith('/grades')
+    })
+
+    it('does not navigate when master item is clicked and isEditing is true', () => {
+      renderWithProviders(<RecentGradesWidget span={12} isEditing={true} />)
+      fireEvent.click(screen.getByText('Digital Design'))
+      expect(mockNavigate).not.toHaveBeenCalled()
+    })
+
     it('renders 2 items for medium span (8)', () => {
       renderWithProviders(<RecentGradesWidget span={8} isEditing={false} />)
       expect(screen.getByText('Digital Design')).toBeInTheDocument()

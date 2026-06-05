@@ -195,10 +195,28 @@ if (import.meta.vitest) {
       renderWithProviders(<ProfileDropdown />)
       const trigger = screen.getByLabelText('user_menu')
       fireEvent.click(trigger)
-  
+
       const logoutItem = screen.getByText('logout')
       fireEvent.click(logoutItem)
       await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    })
+
+    it('closes on Escape key press', async () => {
+      renderWithProviders(<ProfileDropdown />)
+      const trigger = screen.getByLabelText('user_menu')
+      fireEvent.click(trigger)
+      const menu = screen.getByRole('menu')
+      fireEvent.keyDown(menu, { key: 'Escape' })
+      await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    })
+
+    it('calls handleMenuKeyDown on non-Escape key', () => {
+      renderWithProviders(<ProfileDropdown />)
+      const trigger = screen.getByLabelText('user_menu')
+      fireEvent.click(trigger)
+      const menu = screen.getByRole('menu')
+      fireEvent.keyDown(menu, { key: 'ArrowDown' })
+      expect(screen.getByText('Jacob Krarup Madsen')).toBeInTheDocument()
     })
   })
 }

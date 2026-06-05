@@ -2,7 +2,7 @@
 
 import { MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import useStore from '@/store';
 
@@ -91,6 +91,11 @@ if (import.meta.vitest) {
     it('renders service status button', () => {
       renderFooter()
       expect(screen.getByText('Serviceinfo')).toBeInTheDocument()
+    })
+
+    it('clicks service status button', () => {
+      renderFooter()
+      fireEvent.click(screen.getByText('Serviceinfo'))
     })
   
     it('renders copyright and brand signature', () => {

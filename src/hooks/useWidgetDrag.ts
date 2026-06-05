@@ -121,6 +121,7 @@ const onDrop = (e: DragEvent<HTMLElement>, x: number | string, y?: number) => {
   return { widgets, resizeWidget, toggleVisibility, resetWidgets, onDragStart, onDragEnd, onDragOver, onDrop, draggedItemId, moveWidget };
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('useWidgetDrag', () => {
     const initialWidgets = [
@@ -257,6 +258,34 @@ if (import.meta.vitest) {
       
       const w1 = result.current.widgets.find(w => w.id === 'w1')
       expect(w1?.x).toBeUndefined()
+    })
+
+    it('resetWidgets resets to default widgets', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      act(() => result.current.resetWidgets())
+      expect(result.current.widgets).toEqual(DEFAULT_WIDGETS)
+    })
+
+    it('onDragOver returns early when targetId is undefined', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      const mockEvent = { preventDefault: vi.fn() }
+
+      act(() => result.current.onDragStart(mockEvent as any, 'w1', true))
+      act(() => result.current.onDragOver(mockEvent as any, undefined))
+
+      expect(result.current.widgets).toEqual(initialWidgets)
+    })
+
+    it('moveWidget does not move left from first position', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      act(() => result.current.moveWidget('w1', 'left'))
+      expect(result.current.widgets.map(w => w.id)).toEqual(['w1', 'w2'])
+    })
+
+    it('moveWidget does not move right from last position', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      act(() => result.current.moveWidget('w2', 'right'))
+      expect(result.current.widgets.map(w => w.id)).toEqual(['w1', 'w2'])
     })
   })
 }

@@ -2,10 +2,10 @@ import { useRef, useEffect, Suspense } from 'react';
 
 
 import { Outlet, useLocation, MemoryRouter, Routes, Route } from 'react-router-dom';
-import Footer from '@/components/Layout/Footer';;
+import Footer from '@/components/Layout/Footer';
 import { PageSkeleton } from '@/components/ui';
-import Sidebar from '@/components/Layout/Sidebar';;
-import Topbar from '@/components/Layout/Topbar';;
+import Sidebar from '@/components/Layout/Sidebar';
+import Topbar from '@/components/Layout/Topbar';
 import useStore from '@/store';
 
 function Layout() {
@@ -96,7 +96,7 @@ if (import.meta.vitest) {
   }))
   
   
-  function renderLayout(path = '/') {
+  const renderLayout = (path = '/') => {
     return render(
       <MemoryRouter initialEntries={[path]}>
         <Routes>

@@ -7,7 +7,7 @@ export interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
 }
 
 const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({ className, label, error, disabled, ...props }, ref) => {
+  ({ className: _className, label, error, disabled, ...props }, ref) => {
     const id = useId();
     return (
       <label className="inline-flex items-center gap-[var(--space-sm)] cursor-pointer select-none text-sm font-medium text-main disabled:opacity-60 disabled:cursor-not-allowed">

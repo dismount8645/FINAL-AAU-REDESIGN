@@ -110,6 +110,7 @@ export default function Topbar() {
 }
 
 let mockNavigate: ReturnType<typeof vi.fn>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   // Mock useNavigate
   mockNavigate = vi.fn()

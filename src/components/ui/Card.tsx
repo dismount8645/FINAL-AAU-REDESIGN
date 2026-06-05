@@ -6,11 +6,6 @@ import { motion, type HTMLMotionProps } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-"use client"
-
-
-
-
 
 
 /**

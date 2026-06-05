@@ -72,6 +72,7 @@ export function AppProvider({ children }: AppProviderProps) {
   );
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   const { render, screen, act } = await import('@testing-library/react');
   

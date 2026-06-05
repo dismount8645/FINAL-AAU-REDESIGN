@@ -7,8 +7,6 @@ import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 
-"use client"
-
 /**
  * Dialog - High-performance AAU UI component.
  * Enforces 8pt grid, 150ms motion physics, and strict brand token usage.

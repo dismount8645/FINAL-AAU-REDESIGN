@@ -6,7 +6,6 @@ import { motion, type HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 /* eslint-disable react-refresh/only-export-components */
-"use client"
 
 /**
  * Badge Variants - Senior UI/UX Architect refinement.

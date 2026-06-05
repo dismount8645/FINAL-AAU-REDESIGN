@@ -6,12 +6,12 @@ import { FileText } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import GradesOverview from '@/components/Grades/GradesOverview';
 import GradesFilter from '@/components/Grades/GradesFilter';
-import GradeRow from '@/components/Grades/GradeRow';;
+import GradeRow from '@/components/Grades/GradeRow';
 
 
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
-import PageLayout from '@/components/Layout/PageLayout';;
+import PageLayout from '@/components/Layout/PageLayout';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/data';
 import useStore from '@/store';
 import { translations } from '@/lib/translations';
@@ -119,6 +119,7 @@ function Grades() {
 export default Grades
 
 let mockNavigate: ReturnType<typeof vi.fn>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
@@ -129,7 +130,7 @@ if (import.meta.vitest) {
     }
   })
   
-  function renderGrades(lang: 'da' | 'en' = 'da') {
+  const renderGrades = (lang: 'da' | 'en' = 'da') => {
     useStore.setState({
       lang,
       t: (key: string) => {
@@ -158,6 +159,20 @@ if (import.meta.vitest) {
       renderGrades('en')
       expect(screen.getByText(/Grades/i)).toBeInTheDocument()
       expect(screen.getByText(/Weighted GPA/i)).toBeInTheDocument()
+    })
+
+    it('triggers searchKeys when typing in search', () => {
+      renderGrades('da')
+      const searchInput = screen.getByPlaceholderText(/søg/i)
+      fireEvent.change(searchInput, { target: { value: 'Digital' } })
+      expect(screen.getByText(/Digital Design og Kommunikation/)).toBeInTheDocument()
+    })
+
+    it('triggers filterKey when changing semester', () => {
+      renderGrades('da')
+      const select = screen.getByLabelText('Filter')
+      fireEvent.change(select, { target: { value: 'Forår 2024' } })
+      expect(screen.getByText(/Digital Design og Kommunikation/)).toBeInTheDocument()
     })
   })
 }

@@ -94,7 +94,8 @@ export function ChatSidebar({
                       aria-label={view === 'active' ? 'Archive contact' : 'Restore contact'}
                       onClick={(e: MouseEvent<HTMLButtonElement>) => {
                         e.stopPropagation()
-                        view === 'active' ? archiveContact(contact.id, e) : restoreContact(contact.id, e)
+                        if (view === 'active') archiveContact(contact.id, e)
+                        else restoreContact(contact.id, e)
                       }}
                       pill
                       className="bg-bg-card border border-border/50 hover:border-primary shadow-[var(--shadow-sm)]"

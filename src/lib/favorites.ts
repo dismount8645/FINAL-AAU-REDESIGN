@@ -131,6 +131,7 @@ export function sortFavorites(favorites: FavoriteItem[]): FavoriteItem[] {
   return [...favorites].sort((a, b) => a.order - b.order)
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('favorites utility', () => {
     describe('getFavoriteLabel', () => {

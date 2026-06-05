@@ -5,7 +5,7 @@ import { Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading, MasterItem } from '@/components/ui';
 import { dashboardDeadlines } from '@/lib/data';
 import * as dates from '@/lib/dates';
@@ -177,6 +177,7 @@ const DeadlinesWidget = ({ span, isEditing }: WidgetProps) => {
 
 export default memo(DeadlinesWidget)
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 let mockNavigate: any
 if (import.meta.vitest) {
   // Mock useNavigate

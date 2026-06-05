@@ -3,12 +3,12 @@ import { useState, useEffect, useCallback, memo, useMemo } from 'react';
 import { screen, fireEvent, within } from '@testing-library/react';
 import CoursesTabs from '@/components/Courses/CoursesTabs';
 import CoursesFilters from '@/components/Courses/CoursesFilters';
-import CoursesGrid from '@/components/Courses/CoursesGrid';;
+import CoursesGrid from '@/components/Courses/CoursesGrid';
 import { Badge } from '@/components/ui';
 import { Button } from '@/components/ui';
-import PageLayout from '@/components/Layout/PageLayout';;
+import PageLayout from '@/components/Layout/PageLayout';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import { ASSETS } from '@/lib';
 import { useFilteredCollection } from '@/hooks';
@@ -356,6 +356,15 @@ if (import.meta.vitest) {
       const forumsHeading = screen.getByText(/Dine Fora/i)
       const forumStar = forumsHeading.parentElement?.parentElement?.parentElement?.querySelector('button[aria-label*="favorit"]')
       if (forumStar) fireEvent.click(forumStar)
+    })
+
+    it('opens course catalog when button clicked', () => {
+      const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+      renderWithProviders(<Courses />)
+      const catalogBtn = screen.getByText('Gå til kursuskatalog')
+      fireEvent.click(catalogBtn)
+      expect(windowOpenSpy).toHaveBeenCalledWith('https://kursuskatalog.aau.dk', '_blank', 'noopener,noreferrer')
+      windowOpenSpy.mockRestore()
     })
   })
 }

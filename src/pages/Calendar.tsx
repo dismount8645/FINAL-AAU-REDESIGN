@@ -10,9 +10,9 @@ import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingW
 
 import { Button } from '@/components/ui';
 import { Card } from '@/components/ui';
-import ErrorBoundary from '@/components/Layout/ErrorBoundary';;
-import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';;
-import PageLayout from '@/components/Layout/PageLayout';;
+import ErrorBoundary from '@/components/Layout/ErrorBoundary';
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
+import PageLayout from '@/components/Layout/PageLayout';
 import { SegmentedControl } from '@/components/ui';
 import { Skeleton } from '@/components/ui';
 import { useToast, ToastProvider } from '@/components/ui';
@@ -21,8 +21,6 @@ import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';
 import type { CalendarEvent } from '@/lib/types';
 import { cn } from '@/lib/utils';
-
-"use client"
 
 /**
  * Calendar Feature - High-performance AAU schedule management.
@@ -579,6 +577,25 @@ if (import.meta.vitest) {
       renderCalendar('da')
       fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
       expect(screen.getByText('May Day Event')).toBeInTheDocument()
+    })
+
+    it('clicks an event in day view', () => {
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({
+        '2026-4-1': { id: 301, title: 'Day Event', color: 'var(--color-primary)', location: 'Room 101', time: '09:00 - 10:00', host: 'Test Host' },
+      }))
+      renderCalendar('da')
+      fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
+      fireEvent.click(screen.getByText('Day Event'))
+      expect(screen.getByText('Begivenhedsdetaljer')).toBeInTheDocument()
+    })
+
+    it('clicks empty placeholder in day view', () => {
+      localStorage.setItem(STORAGE_KEYS.CALENDAR_EVENTS, JSON.stringify({}))
+      renderCalendar('da')
+      fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
+      const placeholderBtn = screen.getByText('Klik for at tilføje en begivenhed')
+      fireEvent.click(placeholderBtn)
+      expect(screen.getByText('Lokation')).toBeInTheDocument()
     })
   
     it('closes event detail dialog', () => {

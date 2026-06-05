@@ -66,6 +66,7 @@ export const env = {
   }
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('env', () => {
     it('open returns null when window.open is undefined', () => {
@@ -148,6 +149,33 @@ if (import.meta.vitest) {
       expect(result.matches).toBe(false)
       Object.defineProperty(window, 'matchMedia', { value: originalMatchMedia, configurable: true, writable: true })
       errorSpy.mockRestore()
+    })
+
+    it('open calls window.open and returns the result', () => {
+      const mockReturn = { closed: false }
+      const openSpy = vi.spyOn(window, 'open').mockReturnValue(mockReturn as any)
+      const result = env.open('https://example.com')
+      expect(openSpy).toHaveBeenCalledWith('https://example.com', '_blank', 'noopener,noreferrer')
+      expect(result).toBe(mockReturn)
+      openSpy.mockRestore()
+    })
+
+    it('getInnerWidth returns window.innerWidth', () => {
+      const original = window.innerWidth
+      Object.defineProperty(window, 'innerWidth', { value: 1024, configurable: true, writable: true })
+      expect(env.getInnerWidth()).toBe(1024)
+      Object.defineProperty(window, 'innerWidth', { value: original, configurable: true, writable: true })
+    })
+
+    it('matchMedia calls window.matchMedia with the query', () => {
+      const matchMediaSpy = vi.spyOn(window, 'matchMedia')
+      env.matchMedia('(max-width: 768px)')
+      expect(matchMediaSpy).toHaveBeenCalledWith('(max-width: 768px)')
+      matchMediaSpy.mockRestore()
+    })
+
+    it('isIframe returns false when not in iframe', () => {
+      expect(env.isIframe()).toBe(false)
     })
   })
 }

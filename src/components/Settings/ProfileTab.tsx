@@ -10,9 +10,9 @@ import SettingsSection from './SettingsSection';
 import { Avatar } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { FormField } from '@/components/ui';
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
+import { Grid } from '@/components/Layout/LayoutPrimitives';
 import Input from '@/components/ui/Input';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore, { type Theme } from '@/store';
 
@@ -101,6 +101,7 @@ export default function ProfileTab(props: ProfileTabProps) {
   )
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 let mockToast: any
 if (import.meta.vitest) {
   // Mock useToast
@@ -203,22 +204,28 @@ if (import.meta.vitest) {
           setForumTracking,
           setForumAutoSubscribe,
         })
-  
+
         render(<ForumTab />)
-  
+
         expect(screen.getByText('E-mail opsamlingstype')).toBeInTheDocument()
         
         const noneBtn = screen.getByText('Ingen opsamling')
         fireEvent.click(noneBtn)
         expect(setForumDigest).toHaveBeenCalledWith('none')
-  
+
         const trackingToggle = screen.getByLabelText('Forumsporing')
         fireEvent.click(trackingToggle)
         expect(setForumTracking).toHaveBeenCalledWith(false)
-  
+
         const autoSubscribeToggle = screen.getByLabelText('Automatisk abonnement')
         fireEvent.click(autoSubscribeToggle)
         expect(setForumAutoSubscribe).toHaveBeenCalledWith(true)
+      })
+
+      it('renders forum tracking toggle in inactive state', () => {
+        useStore.setState({ forumTracking: false })
+        render(<ForumTab />)
+        expect(screen.getByLabelText('Forumsporing')).toBeInTheDocument()
       })
     })
   
@@ -258,18 +265,24 @@ if (import.meta.vitest) {
           setMessagePrivacy,
           setMessageEmailOffline,
         })
-  
+
         render(<MessagesTab />)
-  
+
         expect(screen.getByText('Hvem kan kontakte mig')).toBeInTheDocument()
         
         const radio = screen.getByLabelText(/Kun mine kontakter/i)
         fireEvent.click(radio)
         expect(setMessagePrivacy).toHaveBeenCalledWith('contacts')
-  
+
         const emailSwitch = screen.getByRole('switch')
         fireEvent.click(emailSwitch)
         expect(setMessageEmailOffline).toHaveBeenCalled()
+      })
+
+      it('renders message email copies toggle in inactive state', () => {
+        useStore.setState({ messageEmailOffline: false })
+        render(<MessagesTab />)
+        expect(screen.getByRole('switch')).toBeInTheDocument()
       })
     })
   })

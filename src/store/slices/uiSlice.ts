@@ -45,6 +45,153 @@ function applySidebarClasses(isCollapsed: boolean, isMobileOpen: boolean) {
   document.body.classList.toggle('mobile-nav-open', isMobileOpen);
 }
 
+if (import.meta.vitest) {
+  const { describe, it, expect } = await import('vitest');
+  const { computeIsDarkMode } = await import('@/lib/theme');
+
+  describe('createUISlice', () => {
+    const createMockAppState = () => {
+      const state: Partial<AppState> = {
+        theme: 'system' as Theme, lang: 'da' as Lang, isDarkMode: computeIsDarkMode('system'),
+        isCollapsed: false, isMobile: false, isMobileOpen: false,
+        notificationCount: 2, messageCount: 1, breadcrumbs: [],
+        t: (key: string) => key,
+      };
+      const ui = createUISlice(
+        (partial) => {
+          if (typeof partial === 'object') Object.assign(state, partial);
+          else if (typeof partial === 'function') partial(state as AppState);
+        },
+        () => state as AppState,
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        {} as any,
+      );
+      return { state, ui: ui as unknown as UISlice };
+    };
+
+    it('has default state', () => {
+      const { ui } = createMockAppState();
+      expect(ui.theme).toBe('system');
+      expect(ui.lang).toBe('da');
+      expect(ui.isCollapsed).toBe(false);
+      expect(ui.isMobile).toBe(false);
+      expect(ui.isMobileOpen).toBe(false);
+      expect(ui.notificationCount).toBe(2);
+      expect(ui.messageCount).toBe(1);
+      expect(ui.breadcrumbs).toEqual([]);
+    });
+
+    it('setTheme updates theme and isDarkMode', () => {
+      const { state, ui } = createMockAppState();
+      const isDark = computeIsDarkMode('light');
+      ui.setTheme('light');
+      expect(state.theme).toBe('light');
+      expect(state.isDarkMode).toBe(isDark);
+    });
+
+    it('setLang updates lang', () => {
+      const { state, ui } = createMockAppState();
+      ui.setLang('en');
+      expect(state.lang).toBe('en');
+    });
+
+    it('t returns translation for dot-notation key', () => {
+      const { ui } = createMockAppState();
+      expect(ui.t('common.close')).toBe('Luk');
+    });
+
+    it('t returns key when not found', () => {
+      const { ui } = createMockAppState();
+      expect(ui.t('nonexistent.key')).toBe('nonexistent.key');
+    });
+
+    it('t falls back to flat key search', () => {
+      const { ui } = createMockAppState();
+      const val = ui.t('all_results');
+      expect(typeof val).toBe('string');
+      expect(val.length).toBeGreaterThan(0);
+    });
+
+    it('localize returns da/en value', () => {
+      const { ui } = createMockAppState();
+      const obj = { title: { da: 'Dansk titel', en: 'English title' } };
+      expect(ui.localize(obj, 'title')).toBe('Dansk titel');
+    });
+
+    it('localize falls back to keyEn/keyDa pattern for English', () => {
+      const { ui } = createMockAppState();
+      ui.setLang('en');
+      const obj = { title: 'Titel', titleEn: 'Title' };
+      expect(ui.localize(obj, 'title')).toBe('Title');
+    });
+
+    it('localize falls back to keyDa/keyEn pattern for Danish', () => {
+      const { ui } = createMockAppState();
+      ui.setLang('da');
+      const obj = { title: 'Titel', titleEn: 'Title' };
+      expect(ui.localize(obj, 'title')).toBe('Titel');
+    });
+
+    it('toggleSidebar toggles isMobileOpen on mobile', () => {
+      const { state, ui } = createMockAppState();
+      ui.setIsMobile(true);
+      expect(state.isMobile).toBe(true);
+      expect(state.isMobileOpen).toBe(false);
+      ui.toggleSidebar();
+      expect(state.isMobileOpen).toBe(true);
+      ui.toggleSidebar();
+      expect(state.isMobileOpen).toBe(false);
+    });
+
+    it('toggleSidebar toggles isCollapsed on desktop', () => {
+      const { state, ui } = createMockAppState();
+      expect(state.isCollapsed).toBe(false);
+      ui.toggleSidebar();
+      expect(state.isCollapsed).toBe(true);
+      ui.toggleSidebar();
+      expect(state.isCollapsed).toBe(false);
+    });
+
+    it('closeSidebar closes mobile sidebar', () => {
+      const { state, ui } = createMockAppState();
+      ui.setIsMobile(true);
+      ui.setIsMobileOpen(true);
+      expect(state.isMobileOpen).toBe(true);
+      ui.closeSidebar();
+      expect(state.isMobileOpen).toBe(false);
+    });
+
+    it('decrementNotificationCount stops at 0', () => {
+      const { state, ui } = createMockAppState();
+      expect(state.notificationCount).toBe(2);
+      ui.decrementNotificationCount();
+      expect(state.notificationCount).toBe(1);
+      ui.decrementNotificationCount();
+      expect(state.notificationCount).toBe(0);
+      ui.decrementNotificationCount();
+      expect(state.notificationCount).toBe(0);
+    });
+
+    it('decrementMessageCount stops at 0', () => {
+      const { state, ui } = createMockAppState();
+      state.messageCount = 0;
+      ui.decrementMessageCount();
+      expect(state.messageCount).toBe(0);
+    });
+
+    it('setBreadcrumbs handles undefined', () => {
+      const { state, ui } = createMockAppState();
+      ui.setBreadcrumbs(undefined);
+      expect(state.breadcrumbs).toEqual([]);
+    });
+
+    it('setCollapsed applies sidebar classes', () => {
+      const { ui } = createMockAppState();
+      expect(() => ui.setCollapsed(true)).not.toThrow();
+    });
+  });
+}
+
 export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get) => ({
   theme: 'system',
   isDarkMode: computeIsDarkMode('system'),
