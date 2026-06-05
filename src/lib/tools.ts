@@ -1,5 +1,5 @@
 import { LucideIcon, PenSquare, FileText, BookOpen, Wifi, Mail, Users, Cloud, Book, ClipboardList, Video } from 'lucide-react'
-import registryJson from '@/data/registry.json'
+import { registryTools } from '@/lib/data'
 import type { ResourceTool } from '@/lib/types'
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -15,16 +15,16 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Video,
 }
 
-const mapTool = (tool: typeof registryJson.tools[0]): ResourceTool => ({
+const mapTool = (tool: any): ResourceTool => ({
   ...tool,
   icon: ICON_MAP[tool.iconName] || FileText,
 }) as ResourceTool
 
-export const allTools: ResourceTool[] = registryJson.tools
+export const allTools: ResourceTool[] = registryTools
   .filter(t => t.category === 'tools')
   .map(mapTool)
 
-export const allEssentials: ResourceTool[] = registryJson.tools
+export const allEssentials: ResourceTool[] = registryTools
   .filter(t => t.category === 'essentials')
   .map(mapTool)
 

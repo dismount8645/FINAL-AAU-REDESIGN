@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading, MasterItem } from '@/components/ui';
-import { dashboardDeadlines } from '@/data/registry';
+import { dashboardDeadlines } from '@/lib/data';
 import * as dates from '@/lib/dates';
 import { getHoursUntil, hoursFromNow } from '@/lib/dates';
 import useStore from '@/store';

@@ -7,7 +7,7 @@ import ErrorBoundary from '@/components/Layout/ErrorBoundary';;
 import { Grid } from '@/components/Layout/LayoutPrimitives';;
 import { ResizeCorner } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
-import { WIDGET_CONFIG } from '@/data/mockData';
+import { WIDGET_CONFIG } from '@/lib/data';
 import type { Widget, WidgetProps } from '@/lib/types';
 import { useResizeHandle } from '@/hooks';
 
@@ -154,8 +154,8 @@ if (import.meta.vitest) {
   }))
   const mockT = vi.fn((key: string) => key)
   
-  vi.mock('@/data/mockData', async () => {
-    const actual = await vi.importActual('@/data/mockData')
+  vi.mock('@/lib/data', async () => {
+    const actual = await vi.importActual('@/lib/data')
     return {
       ...actual,
       WIDGET_CONFIG: {

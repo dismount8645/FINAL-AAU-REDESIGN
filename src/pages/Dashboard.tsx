@@ -10,7 +10,7 @@ import { WidgetGrid } from '@/components/Widgets/WidgetGrid';;
 import { Button } from '@/components/ui';
 import PageLayout from '@/components/Layout/PageLayout';;
 import { cn } from '@/lib/utils';
-import { DEFAULT_WIDGETS } from '@/data/mockData';
+import { DEFAULT_WIDGETS } from '@/lib/data';
 import useStore from '@/store';
 import { useWidgetDrag } from '@/hooks';
 

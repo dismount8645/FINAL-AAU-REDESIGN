@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { AppState } from '../index';
-import { courseList as initialCourses } from '@/data/registry';
+import { courseList as initialCourses } from '@/lib/data';
 import type { CourseListItem, CalendarEvents } from '@/lib/types';
 
 export interface CourseWithStatus extends CourseListItem {

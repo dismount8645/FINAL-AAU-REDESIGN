@@ -6,8 +6,7 @@ import { SectionHeader } from '@/components/ui'
 import { KeyValue } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
-import mockData from '@/data/registry.json'
-const { supportLocations, supportDeskHours, supportNotes } = mockData
+import { supportLocations, supportDeskHours, supportNotes } from '@/lib/data'
 
 import { AccordionWrapper, AccordionItemRow } from '@/components/ui'
 

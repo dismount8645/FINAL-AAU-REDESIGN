@@ -9,7 +9,7 @@ import { Grid } from '@/components/Layout/LayoutPrimitives';;
 import { ModuleHeader } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Tabs } from '@/components/ui';
-import { courseData, participantsData, courseTabItems } from '@/data/registry';
+import { courseData, participantsData, courseTabItems } from '@/lib/data';
 import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
