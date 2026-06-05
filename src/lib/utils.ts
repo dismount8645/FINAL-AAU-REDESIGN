@@ -1,6 +1,39 @@
 import { describe, it, expect } from 'vitest';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import React, { type ReactNode } from 'react';
+import type { StagedFile } from '@/lib/types';
+
+export function processFileMetadata(fileList: FileList): StagedFile[] {
+  return Array.from(fileList).map((file) => ({
+    name: file.name,
+    size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
+    id: crypto.randomUUID(),
+  }))
+}
+
+export function linkifyText(text: string): ReactNode {
+  const urlPattern = /(https?:\/\/[^\s]+|[a-zA-Z0-9][a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g
+  const parts = text.split(urlPattern)
+  return parts.map((part, i) => {
+    if (urlPattern.test(part)) {
+      const href = part.startsWith('http') ? part : `https://${part}`
+      return React.createElement(
+        'a',
+        {
+          key: i,
+          href,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          className: 'text-primary hover:underline'
+        },
+        part
+      )
+    }
+    return part
+  })
+}
+
 
 /**
  * `cn` er en wrapper omkring `clsx` + `tailwind-merge`.

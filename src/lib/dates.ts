@@ -46,6 +46,17 @@ export function formatRelativeDateGroup(date: Date, lang: Lang, now = new Date()
   return formatShortDate(date, lang)
 }
 
+export type UrgencyLevel = 'overdue' | 'critical' | 'soon' | 'normal'
+
+export function calculateUrgency(deadlineDate: string): UrgencyLevel {
+  const hoursLeft = getHoursUntil(deadlineDate)
+  if (hoursLeft < 0) return 'overdue'
+  if (hoursLeft < 24) return 'critical'
+  if (hoursLeft < 72) return 'soon'
+  return 'normal'
+}
+
+
 if (import.meta.vitest) {
   describe('dates', () => {
     it('formats time in en and da', () => {

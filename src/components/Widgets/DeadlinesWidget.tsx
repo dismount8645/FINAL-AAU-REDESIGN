@@ -9,7 +9,7 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading, MasterItem } from '@/components/ui';
 import { dashboardDeadlines } from '@/lib/data';
 import * as dates from '@/lib/dates';
-import { getHoursUntil, hoursFromNow } from '@/lib/dates';
+import { hoursFromNow, calculateUrgency } from '@/lib/dates';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';
@@ -28,21 +28,21 @@ interface UrgencyConfig {
 }
 
 const getUrgencyConfig = (deadlineDate: string): UrgencyConfig => {
-  const hoursLeft = getHoursUntil(deadlineDate)
+  const level = calculateUrgency(deadlineDate)
   
-  if (hoursLeft < 0) return { 
+  if (level === 'overdue') return { 
     level: 'overdue', 
     color: 'var(--color-aau-dark-pink)', 
     icon: AlertCircle,
     labelClass: 'text-danger font-black uppercase tracking-tighter' 
   }
-  if (hoursLeft < 24) return { 
+  if (level === 'critical') return { 
     level: 'critical', 
     color: 'var(--color-aau-dark-pink)', 
     icon: Clock,
     labelClass: 'text-danger font-bold' 
   }
-  if (hoursLeft < 72) return { 
+  if (level === 'soon') return { 
     level: 'soon', 
     color: 'var(--color-aau-dark-orange)', 
     icon: Clock,
@@ -261,7 +261,7 @@ if (import.meta.vitest) {
     })
   
     it('handles overdue deadlines', () => {
-      const spy = vi.spyOn(dates, 'getHoursUntil').mockReturnValue(-5)
+      const spy = vi.spyOn(dates, 'calculateUrgency').mockReturnValue('overdue')
       
       renderWithProviders(<DeadlinesWidget span={12} isEditing={false} />)
       const button = screen.getByRole('button', { name: /To-Do App/i })

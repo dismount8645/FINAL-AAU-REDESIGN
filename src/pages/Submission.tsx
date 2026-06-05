@@ -20,6 +20,7 @@ import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
+import { processFileMetadata } from '@/lib/utils';
 
 function Submission() {
   const { courseId, assignmentId } = useParams<{ courseId: string; assignmentId: string }>()
@@ -38,15 +39,7 @@ function Submission() {
     description: t('event_detail_desc'),
   }
 
-  const processFiles = (fileList: FileList | null): void => {
-    if (!fileList) return
-    const newFiles = Array.from(fileList).map((file) => ({
-      name: file.name,
-      size: (file.size / 1024 / 1024).toFixed(2) + ' MB',
-      id: crypto.randomUUID(),
-    }))
-    setFiles((prev) => [...prev, ...newFiles])
-  }
+
 
   const removeFile = (id: string): void => {
     setFiles(files.filter((f) => f.id !== id))
@@ -127,7 +120,7 @@ function Submission() {
             </Card>
 
             <section className="submission-zone">
-              <SubmissionDropzone onFilesAdded={processFiles} t={t} />
+              <SubmissionDropzone onFilesAdded={(fileList) => setFiles((prev) => [...prev, ...processFileMetadata(fileList)])} t={t} />
               <SubmissionFileList files={files} onRemoveFile={removeFile} t={t} />
             </section>
 

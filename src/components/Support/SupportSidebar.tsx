@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal } from 'lucide-react';
-import { linkifyText } from './FaqSection';
+import { linkifyText } from '@/lib/utils';
 import FaqSection from './FaqSection';
 import LocalDesksSection from './LocalDesksSection';
 import ContactForm from './ContactForm';
