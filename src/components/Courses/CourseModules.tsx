@@ -8,9 +8,10 @@ import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 import type { CourseItem } from '@/lib/types'
 
-import { FileText, Play, Link2, Upload, File, Check } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { MasterItem } from '@/components/ui'
 import { useFormat } from '@/hooks'
+import { getFileTypeConfig } from '@/lib/utils'
 
 const LessonItemRow = memo(function LessonItemRow({
   item,
@@ -41,28 +42,15 @@ const LessonItemRow = memo(function LessonItemRow({
 
   const metadata = getCourseItemMetadata(item)
 
-  const iconMap = {
-    pdf: FileText,
-    video: Play,
-    link: Link2,
-    assignment: Upload,
-    file: File,
-  }
-
   const isAutomatic = item.type === 'assignment'
-  const Icon = iconMap[item.type as keyof typeof iconMap] || File
+  const fileConfig = getFileTypeConfig(item.type)
+  const Icon = fileConfig.icon
 
   return (
     <MasterItem
       className="mb-sm rounded-[var(--radius-md)] border border-border/40"
       leading={
-        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${
-          item.type === 'pdf' ? 'text-danger bg-danger/10' :
-          item.type === 'video' ? 'text-success bg-success/10' :
-          item.type === 'assignment' ? 'text-accent bg-accent/10' :
-          item.type === 'link' ? 'text-info bg-info/10' :
-          'text-muted bg-bg-highlight/50'
-        }`}>
+        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${fileConfig.colorClass}`}>
           <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
         </div>
       }

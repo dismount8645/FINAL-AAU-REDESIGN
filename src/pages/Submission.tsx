@@ -119,10 +119,10 @@ function Submission() {
               </Card.Body>
             </Card>
 
-            <section className="submission-zone">
+            <Stack gap="md" className="submission-zone">
               <SubmissionDropzone onFilesAdded={(fileList) => setFiles((prev) => [...prev, ...processFileMetadata(fileList)])} t={t} />
               <SubmissionFileList files={files} onRemoveFile={removeFile} t={t} />
-            </section>
+            </Stack>
 
             <Stack gap="md" className="submission__comment-section">
               <Heading level={4}>{t('comment_to_instructor')}</Heading>
