@@ -5,7 +5,8 @@ import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-route
 import CourseSidebar from '@/components/Courses/CourseSidebar';
 import CourseBreadcrumbs from '@/components/Courses/CourseBreadcrumbs';
 import CourseTabContent from '@/components/Courses/CourseTabContent';;
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
+import PageLayout from '@/components/Layout/PageLayout';
+import SplitLayout from '@/components/Layout/SplitLayout';
 import { ModuleHeader } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Tabs } from '@/components/ui';
@@ -73,10 +74,22 @@ function Course() {
     [t]
   )
 
+  const breadcrumbs = useMemo(() => [
+    { label: t('dashboard'), href: '/' },
+    { label: t('courses'), href: '/courses' },
+    { label: t(`course_${id}_title`) }
+  ], [id, t])
+
   if (!data) return null
 
   return (
-    <Stack gap="none" className="container animate-fade-in">
+    <PageLayout
+      className="container animate-fade-in"
+      pageKey={`course_${id}`}
+      breadcrumbs={breadcrumbs}
+      headerClassName="hidden"
+      flat
+    >
       <CourseBreadcrumbs id={id!} t={t} />
       <ModuleHeader
         image={data.img}
@@ -88,41 +101,41 @@ function Course() {
       />
 
       <div className="mt-xl">
-        <Grid gap="xl" columns={12}>
-          <Grid.Item span={8} tabletSpan={12} mobileSpan={12}>
-            <div className="mb-lg">
+        <SplitLayout
+          main={
+            <Stack gap="lg">
               <Tabs
                 items={tabItems}
                 activeTab={activeTab}
                 onChange={(val) => setActiveTab(val || 'modules')}
               />
-            </div>
-
-            <CourseTabContent
-              activeTab={activeTab}
-              courseId={id!}
-              progress={progress}
-              completedItems={completedItems}
-              expandedSections={expandedSections}
-              sections={data.sections}
-              toggleItem={toggleItem}
-              toggleSection={toggleSection}
-              participantsData={participantsData}
-              professor={data.professor}
-            />
-          </Grid.Item>
-
-          <Grid.Item span={4} tabletSpan={12} mobileSpan={12}>
+              <CourseTabContent
+                activeTab={activeTab}
+                courseId={id!}
+                progress={progress}
+                completedItems={completedItems}
+                expandedSections={expandedSections}
+                sections={data.sections}
+                toggleItem={toggleItem}
+                toggleSection={toggleSection}
+                participantsData={participantsData}
+                professor={data.professor}
+              />
+            </Stack>
+          }
+          sidebar={
             <CourseSidebar
               courseId={id!}
               professor={data.professor}
               email={data.email}
               setActiveTab={setActiveTab}
             />
-          </Grid.Item>
-        </Grid>
+          }
+          mainSpan={8}
+          sidebarSpan={4}
+        />
       </div>
-    </Stack>
+    </PageLayout>
   )
 }
 
