@@ -52,21 +52,12 @@ function Grades() {
     filterOptions: items => ['all', ...Array.from(new Set(items.map(r => localize(r, 'semester'))))],
   })
 
-  const dashboardLabel = useMemo(
-    () => t('dashboard') === 'dashboard' ? 'Dashboard' : t('dashboard'),
-    [t]
-  )
-
   return (
     <PageLayout
       className="grades-page animate-fade-in"
       gap="none"
       title={t('grades_page_title')}
       subtitle={t('grades_page_subtitle')}
-      breadcrumbs={[
-        { label: dashboardLabel, href: '/' },
-        { label: t('grades_page_title') },
-      ]}
     >
       <div className="container pb-[var(--space-2xl)] mt-[var(--space-lg)] flex flex-col gap-[var(--space-lg)]">
         <GradesOverview
@@ -167,15 +158,6 @@ if (import.meta.vitest) {
       renderGrades('en')
       expect(screen.getByText(/Grades/i)).toBeInTheDocument()
       expect(screen.getByText(/Weighted GPA/i)).toBeInTheDocument()
-    })
-  
-    it('renders breadcrumb with dashboard link', () => {
-      renderGrades('da')
-      const breadcrumbs = useStore.getState().breadcrumbs
-      expect(breadcrumbs).toEqual([
-        { label: 'Dashboard', href: '/' },
-        { label: 'Karakterer' },
-      ])
     })
   })
 }
