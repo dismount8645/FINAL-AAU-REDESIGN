@@ -95,10 +95,6 @@ function Courses() {
       pageKey="courses"
       title={t('courses')}
       subtitle={t('courses.subtitle')}
-      breadcrumbs={[
-        { label: t('dashboard'), href: '/' },
-        { label: t('courses') },
-      ]}
     >
 
       <div className="container container--courses pb-[var(--space-2xl)] mx-auto">
