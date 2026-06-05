@@ -52,7 +52,7 @@ const CalendarDayViewComponent = ({
   }
 
   return (
-    <Stack gap="xl" className="calendar-day-detail p-[var(--space-lg)] sm:p-[var(--space-xl)] animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
+    <Stack gap="xl" className="p-[var(--space-lg)] sm:p-[var(--space-xl)] animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
       <Stack gap="md" className="relative">
         <div className="flex items-center gap-4">
           <Badge 

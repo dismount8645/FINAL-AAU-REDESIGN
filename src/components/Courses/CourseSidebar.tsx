@@ -33,7 +33,7 @@ function CourseSidebar({
   const nextAssignment = course?.nextAssignment
 
   return (
-    <aside className="course-sidebar flex flex-col gap-lg">
+    <aside className="flex flex-col gap-lg">
       <Card variant="elevated" className="h-fit">
         <Card.Header>
           <Text weight="bold" size="lg" className="card__title">{t('quick_access')}</Text>
