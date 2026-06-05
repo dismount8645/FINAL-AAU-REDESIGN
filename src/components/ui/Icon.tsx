@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 import { type LucideIcon, HelpCircle, CloudUpload, File, CheckSquare, Settings, Search, ChevronUp, ChevronDown, User, Plus } from 'lucide-react';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { cn } from '@/lib/utils';
 
 const iconNameMap: Record<string, LucideIcon> = {
@@ -111,6 +111,7 @@ export function IconCircle({ icon: IconComponent, bg, color, size = 'md', classN
   )
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('Icon', () => {
     it('renders default icon', () => {

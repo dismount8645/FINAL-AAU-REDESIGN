@@ -1,7 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 
 
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import useStore, { type BreadcrumbItem } from '@/store';
 import { cn } from '@/lib/utils';

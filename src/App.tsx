@@ -2,8 +2,8 @@ import { Suspense, lazy } from 'react';
 
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ErrorBoundary from '@/components/Layout/ErrorBoundary';;
-import Layout from '@/components/Layout/Layout';;
+import ErrorBoundary from '@/components/Layout/ErrorBoundary';
+import Layout from '@/components/Layout/Layout';
 import useStore from '@/store';
 import NotFound from '@/pages/NotFound';
 
@@ -46,8 +46,7 @@ function App() {
     <Router>
       <a href="#main-content" className="skip-link">{t('skip_to_content')}</a>
       <ErrorBoundary>
-        {/* @ts-expect-error className is not supported on Suspense but requested by task instructions */}
-        <Suspense className="p-8" fallback={<div className="text-center">Loading...</div>}>
+        <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
           <Routes>
             <Route path="/" element={<Layout />}>
               {routes.map((route) =>

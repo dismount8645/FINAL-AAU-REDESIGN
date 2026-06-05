@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
 
 import Button from '@/components/ui/Button';
-import PageHeader from '@/components/Layout/PageHeader';;
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import PageHeader from '@/components/Layout/PageHeader';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
@@ -114,6 +114,7 @@ function Favorites() {
 
 export default Favorites
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   const FavoritesPage = Favorites
   vi.mock('@/store', () => {
@@ -275,6 +276,37 @@ if (import.meta.vitest) {
       }
     })
   
+    it('handles dragLeave on favorite item', () => {
+      const multiFavorites = [
+        { id: 'fav1', type: 'course', entityId: 1, order: 0 },
+        { id: 'fav2', type: 'course', entityId: 2, order: 1 },
+      ]
+      const mockStore = useStore as any
+      mockStore.mockReturnValue({ ...baseStoreMock, favorites: multiFavorites })
+      const mockResolve = favUtils.resolveFavorite as any
+      mockResolve.mockImplementation((fav: any) => ({
+        ...mockResolvedCourse,
+        id: fav?.id || 'fav1',
+        title: fav?.id === 'fav1' ? 'Course 1' : 'Course 2',
+      }))
+      renderWithProviders(<FavoritesPage />)
+
+      const item1 = screen.getByText('Course 1').closest('div[draggable="true"]')
+      const item2 = screen.getByText('Course 2').closest('div[draggable="true"]')
+
+      if (!item1 || !item2) throw new Error('Items not found')
+
+      const outer1 = item1.parentElement
+      const outer2 = item2.parentElement
+
+      if (!outer1 || !outer2) throw new Error('Outer items not found')
+
+      fireEvent.dragStart(outer1)
+      fireEvent.dragOver(outer2)
+      fireEvent.dragLeave(outer2)
+      // No crash confirms onDragLeave handler executes
+    })
+
     it('handles drag and drop to reorder', () => {
       const multiFavorites = [
         { id: 'fav1', type: 'course', entityId: 1, order: 0 },

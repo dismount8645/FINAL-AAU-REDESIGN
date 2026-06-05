@@ -3,11 +3,11 @@
 import { ArrowLeft } from 'lucide-react';
 import { useParams, Link, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import { ForumOriginalPost, ForumRepliesList, ForumReplyForm } from '@/components/Forum';
-import ForumAboutWidget from '@/components/Widgets/ForumAboutWidget';;
+import ForumAboutWidget from '@/components/Widgets/ForumAboutWidget';
 import Button from '@/components/ui/Button';
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
-import PageHeader from '@/components/Layout/PageHeader';;
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import PageHeader from '@/components/Layout/PageHeader';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading } from '@/components/ui';
 import useStore from '@/store';
 
@@ -87,7 +87,7 @@ if (import.meta.vitest) {
     }
   })
   
-  function renderForumPost(id = '1') {
+  const renderForumPost = (id = '1') => {
     vi.mocked(useParams).mockReturnValue({ id })
     return render(
       <MemoryRouter initialEntries={[`/forum/${id}`]}>
@@ -132,6 +132,12 @@ if (import.meta.vitest) {
     it('renders back link', () => {
       renderForumPost('1')
       expect(screen.getByText('back_to_forum')).toBeInTheDocument()
+    })
+
+    it('clicks back button to navigate', () => {
+      renderForumPost('1')
+      fireEvent.click(screen.getByText('back_to_forum'))
+      expect(screen.getAllByText(/Spørgsmål til litteraturen i uge 2/i).length).toBeGreaterThan(0)
     })
   })
 }

@@ -5,8 +5,6 @@ import { motion } from 'framer-motion';
 import { AllProviders, render, screen, userEvent, waitFor } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
 
-"use client"
-
 
 
 

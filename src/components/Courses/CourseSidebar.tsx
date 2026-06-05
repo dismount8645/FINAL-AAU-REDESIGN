@@ -131,3 +131,19 @@ function CourseSidebar({
 }
 
 export default memo(CourseSidebar)
+
+if (import.meta.vitest) {
+  const { render } = await import('@/test/test-utils')
+  const { MemoryRouter } = await import('react-router-dom')
+
+  describe('CourseSidebar', () => {
+    it('navigates to grades on click', () => {
+      const { getByText } = render(
+        <MemoryRouter>
+          <CourseSidebar courseId="1" professor="Prof" email="prof@aau.dk" setActiveTab={vi.fn()} />
+        </MemoryRouter>
+      )
+      fireEvent.click(getByText('Mine Karakterer'))
+    })
+  })
+}

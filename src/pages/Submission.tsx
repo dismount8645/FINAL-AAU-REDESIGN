@@ -6,13 +6,13 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import type { StagedFile } from '@/lib/types';
 import SubmissionSuccess from '@/components/Submission/SubmissionSuccess';
 import SubmissionDropzone from '@/components/Submission/SubmissionDropzone';
-import SubmissionFileList from '@/components/Submission/SubmissionFileList';;
+import SubmissionFileList from '@/components/Submission/SubmissionFileList';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import PageLayout from '@/components/Layout/PageLayout';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import SubmissionDetails from '@/components/Layout/SubmissionDetails';;
+import SubmissionDetails from '@/components/Layout/SubmissionDetails';
 import Textarea from '@/components/ui/Textarea';
 import { Heading, Text } from '@/components/ui';
 import { submitAssignment } from '@/lib/api';
@@ -158,6 +158,7 @@ function Submission() {
 export default Submission
 
 let mockNavigate: ReturnType<typeof vi.fn>
+const mockSubmitAssignment = vi.hoisted(() => vi.fn().mockResolvedValue({ success: true }))
 if (import.meta.vitest) {
   mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
@@ -168,6 +169,7 @@ if (import.meta.vitest) {
       useParams: () => ({ courseId: '1', assignmentId: '105' })
     }
   })
+  vi.mock('@/lib/api', () => ({ submitAssignment: mockSubmitAssignment }))
   describe('Submission Page', () => {
     it('handles file upload', () => {
       renderWithProviders(<Submission />)
@@ -247,6 +249,25 @@ if (import.meta.vitest) {
       const hiddenInput = document.querySelector('#fileInput') as HTMLInputElement
       fireEvent.change(hiddenInput, { target: { files: [] } })
       expect(screen.queryByText('hello.png')).not.toBeInTheDocument()
+    })
+
+    it('handles submitAssignment failure and returns to draft', async () => {
+      mockSubmitAssignment.mockRejectedValueOnce(new Error('fail'))
+      renderWithProviders(<Submission />)
+      const file = new File(['hello'], 'hello.png', { type: 'image/png' })
+      const hiddenInput = document.querySelector('#fileInput') as HTMLInputElement
+      fireEvent.change(hiddenInput, { target: { files: [file] } })
+      fireEvent.click(screen.getByRole('button', { name: /Aflevér opgave/i }))
+      await vi.waitFor(() => {
+        expect(screen.getByRole('button', { name: /Aflevér opgave/i })).not.toBeDisabled()
+      })
+    })
+
+    it('types in the comment textarea', () => {
+      renderWithProviders(<Submission />)
+      const textarea = screen.getByPlaceholderText('Skriv en kommentar...')
+      fireEvent.change(textarea, { target: { value: 'Test comment' } })
+      expect(textarea).toHaveValue('Test comment')
     })
     })
 }

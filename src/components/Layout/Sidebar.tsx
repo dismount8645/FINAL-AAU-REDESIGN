@@ -5,7 +5,7 @@ import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp
 import { NavLink, useLocation, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { SegmentedControl } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import useStore from '@/store';
 
 export default function Sidebar() {
@@ -492,6 +492,18 @@ if (import.meta.vitest) {
       expect(document.activeElement).toBe(first)
     })
   
+    it('focuses close button when mobile sidebar opens after timeout', () => {
+      useStore.setState({ isMobile: true, isMobileOpen: true })
+      render(
+        <MemoryRouter>
+          <Sidebar />
+        </MemoryRouter>
+      )
+      vi.advanceTimersByTime(300)
+      const closeBtn = screen.getByLabelText('close')
+      expect(document.activeElement).toBe(closeBtn)
+    })
+
     it('does not close or trap on non-Tab non-Escape keys', () => {
       const closeSidebar = vi.fn()
       useStore.setState({ isMobile: true, isMobileOpen: true, closeSidebar })

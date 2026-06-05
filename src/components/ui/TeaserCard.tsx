@@ -83,7 +83,7 @@ const TeaserCard = memo(function TeaserCard({
         isHorizontal ? 'flex-col lg:flex-row min-h-[180px]' : 'flex-col',
         className
       )}
-      onClick={(e) => onClick?.(e as any)}
+      onClick={(e) => onClick?.(e)}
     >
       <Button
         variant="ghost"

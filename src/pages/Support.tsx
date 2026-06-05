@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import { Phone, Globe } from 'lucide-react';
-import { Grid } from '@/components/Layout/LayoutPrimitives';;
+import { Grid } from '@/components/Layout/LayoutPrimitives';
 import { InfoCard } from '@/components/ui';
-import PageLayout from '@/components/Layout/PageLayout';;
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import PageLayout from '@/components/Layout/PageLayout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { useToast } from '@/components/ui/Toast';
 import { submitSupportTicket } from '@/lib/api';
 import useStore from '@/store';
@@ -28,16 +28,16 @@ function Support() {
     setFieldErrors(errors)
 
     if (errors.subject || errors.description) {
-      toast.error(t('support_fill_all'))
+        toast.error(t('support.fill_all'))
       return
     }
 
     setIsSubmitting(true)
     setTimeout(() => {
       void submitSupportTicket({ subject, description }).catch(() => {
-        toast.error(t('support_error'))
+        toast.error(t('support.error'))
       })
-      toast.success(t('support_message_sent'))
+        toast.success(t('support.message_sent'))
       setSubject('')
       setDescription('')
       setIsFormOpen(false)
@@ -133,6 +133,8 @@ if (import.meta.vitest) {
     error: vi.fn(),
     success: vi.fn(),
   }))
+  const mockSubmitTicket = vi.hoisted(() => vi.fn().mockResolvedValue({ success: true }))
+  vi.mock('@/lib/api', () => ({ submitSupportTicket: mockSubmitTicket }))
   vi.mock('@/components/ui/Toast', async (importOriginal) => {
     const actual = await importOriginal<typeof import('@/components/ui/Toast')>()
     return {
@@ -229,6 +231,20 @@ if (import.meta.vitest) {
       vi.useRealTimers()
     })
   
+    it('shows error toast when submitSupportTicket fails', async () => {
+      mockSubmitTicket.mockRejectedValueOnce(new Error('fail'))
+      vi.useFakeTimers()
+      renderSupport('da')
+      openForm()
+      fillFields('Test emne', 'Test beskrivelse')
+      submitForm()
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(1500)
+      })
+      expect(mockToast.error).toHaveBeenCalledWith('Der opstod en fejl. Prøv igen senere.')
+      vi.useRealTimers()
+    })
+
     it('closes form after successful submission', async () => {
       vi.useFakeTimers()
       renderSupport('da')

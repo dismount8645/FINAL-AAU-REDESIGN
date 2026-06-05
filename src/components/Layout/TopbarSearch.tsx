@@ -253,3 +253,167 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
     </>
   );
 }
+
+if (import.meta.vitest) {
+  const { describe, it, expect, vi, beforeEach } = await import('vitest')
+  const { renderWithProviders } = await import('@/test/test-utils')
+
+  describe('TopbarSearch', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ shouldAdvanceTime: true })
+    })
+
+    it('renders desktop search input', () => {
+      const { container } = renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const wrapper = container.querySelector('.topbar__search-wrapper')
+      expect(wrapper).toBeInTheDocument()
+    })
+
+    it('renders children', () => {
+      renderWithProviders(<TopbarSearch><span data-testid="child">Child</span></TopbarSearch>)
+      expect(screen.getByTestId('child')).toBeInTheDocument()
+    })
+
+    it('shows dropdown on input change', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Algoritmer' } })
+      expect(screen.getByRole('listbox')).toBeInTheDocument()
+    })
+
+    it('shows results matching search query', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Digital' } })
+      const items = screen.getAllByRole('option')
+      expect(items.length).toBeGreaterThan(0)
+    })
+
+    it('shows empty state when no results match', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'zzzznotfoundxxxx' } })
+      expect(screen.getByText('Ingen resultater')).toBeInTheDocument()
+    })
+
+    it('shows result count in dropdown header', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Digital' } })
+      expect(screen.getByText(/1 resultat/i)).toBeInTheDocument()
+    })
+
+    it('closes dropdown on Escape', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Algoritmer' } })
+      expect(screen.getByRole('listbox')).toBeInTheDocument()
+      await fireEvent.keyDown(input, { key: 'Escape' })
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    })
+
+    it('navigates with ArrowDown and ArrowUp', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'a' } })
+      const options = () => screen.getAllByRole('option')
+      const count = options().length
+      expect(count).toBeGreaterThan(0)
+
+      await fireEvent.keyDown(input, { key: 'ArrowDown' })
+      expect(options()[0]).toHaveAttribute('aria-selected', 'true')
+
+      await fireEvent.keyDown(input, { key: 'ArrowUp' })
+      expect(options()[0]).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('closes dropdown on outside click', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Algoritmer' } })
+      expect(screen.getByRole('listbox')).toBeInTheDocument()
+      await fireEvent.mouseDown(document.body)
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    })
+
+    it('renders mobile search trigger', () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      expect(trigger).toBeInTheDocument()
+    })
+
+    it('opens mobile search overlay on trigger click', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      await fireEvent.click(trigger)
+      const overlay = screen.getByRole('dialog')
+      expect(overlay).toBeInTheDocument()
+    })
+
+    it('closes mobile search overlay via close button', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      await fireEvent.click(trigger)
+      const closeBtn = screen.getByLabelText('Luk')
+      await fireEvent.click(closeBtn)
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+
+    it('renders all results button in dropdown', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Digital' } })
+      expect(screen.getByText(/Alle resultater/i)).toBeInTheDocument()
+    })
+
+    it('navigates on Enter with active index', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Digital' } })
+      await fireEvent.keyDown(input, { key: 'ArrowDown' })
+      await fireEvent.keyDown(input, { key: 'Enter' })
+      expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
+    })
+
+    it('highlights result on hover', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'Digital' } })
+      const option = screen.getByRole('option', { name: /Digital Design og Kommunikation/i })
+      fireEvent.mouseEnter(option)
+      expect(option).toHaveAttribute('aria-selected', 'true')
+    })
+
+    it('handles Tab key in mobile search overlay', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      await fireEvent.click(trigger)
+      await fireEvent.keyDown(document, { key: 'Tab' })
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+    })
+
+    it('wraps Tab from last to first in mobile overlay', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      await fireEvent.click(trigger)
+      const dialog = screen.getByRole('dialog')
+      const focusable = dialog.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      const last = focusable[focusable.length - 1]
+      last.focus()
+      await fireEvent.keyDown(document, { key: 'Tab', shiftKey: false })
+      expect(document.activeElement).toBe(focusable[0])
+    })
+
+    it('wraps Shift+Tab from first to last in mobile overlay', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      await fireEvent.click(trigger)
+      const dialog = screen.getByRole('dialog')
+      const focusable = dialog.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      const first = focusable[0]
+      first.focus()
+      await fireEvent.keyDown(document, { key: 'Tab', shiftKey: true })
+      expect(document.activeElement).toBe(focusable[focusable.length - 1])
+    })
+  })
+}

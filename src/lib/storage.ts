@@ -45,6 +45,7 @@ export const storage = {
   }
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('storage', () => {
     it('handles all resilience scenarios', () => {
@@ -76,6 +77,34 @@ if (import.meta.vitest) {
       } finally {
         (globalThis as any).window = originalWindow
       }
+    })
+
+    it('get returns parsed JSON when key exists', () => {
+      localStorage.setItem('happyKey', JSON.stringify({ foo: 'bar' }))
+      expect(storage.get('happyKey', {})).toEqual({ foo: 'bar' })
+    })
+
+    it('set stores JSON string via localStorage.setItem', () => {
+      const setSpy = vi.spyOn(window.localStorage, 'setItem')
+      storage.set('happyKey', { foo: 'bar' })
+      expect(setSpy).toHaveBeenCalledWith('happyKey', JSON.stringify({ foo: 'bar' }))
+      setSpy.mockRestore()
+    })
+
+    it('remove calls localStorage.removeItem', () => {
+      const removeSpy = vi.spyOn(window.localStorage, 'removeItem')
+      storage.remove('removeKey')
+      expect(removeSpy).toHaveBeenCalledWith('removeKey')
+      removeSpy.mockRestore()
+    })
+
+    it('get returns plain string when value is not valid JSON', () => {
+      localStorage.setItem('plainKey', 'plain-string')
+      expect(storage.get('plainKey', 'default')).toBe('plain-string')
+    })
+
+    it('get returns default when key does not exist', () => {
+      expect(storage.get('noSuchKey', null)).toBeNull()
     })
   })
 }

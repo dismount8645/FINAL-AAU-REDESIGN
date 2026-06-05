@@ -78,6 +78,7 @@ export function useDropdown() {
   }
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   describe('useDropdown', () => {
     it('initializes correctly', () => {

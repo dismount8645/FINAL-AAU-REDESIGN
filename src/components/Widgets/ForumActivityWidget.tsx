@@ -6,7 +6,7 @@ import { ChevronRight, Reply, MessageSquare, Book, MessageCircle, ArrowRight } f
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
 

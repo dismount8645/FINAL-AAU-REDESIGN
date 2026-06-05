@@ -4,9 +4,9 @@ import { useState } from 'react';
 import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import PageHeader from '@/components/Layout/PageHeader';;
+import PageHeader from '@/components/Layout/PageHeader';
 import { SearchInput } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
 
@@ -88,7 +88,7 @@ if (import.meta.vitest) {
     }
   })
   
-  function renderNotFound(lang: 'da' | 'en' = 'da') {
+  const renderNotFound = (lang: 'da' | 'en' = 'da') => {
     useStore.setState({ lang, t: (key: string) => key })
     return render(
       <MemoryRouter>

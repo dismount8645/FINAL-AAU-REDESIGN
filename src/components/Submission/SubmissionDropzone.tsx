@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 
 import userEvent from '@testing-library/user-event';
 import { Icon } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import type { SubmissionDropzoneProps } from '@/lib/types';
 
@@ -71,7 +71,7 @@ if (import.meta.vitest) {
     return map[key] || key
   })
   
-  function renderDropzone() {
+  const renderDropzone = () => {
     return render(<SubmissionDropzone onFilesAdded={mockOnFilesAdded} t={mockT} />)
   }
   

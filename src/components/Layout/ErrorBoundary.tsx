@@ -4,7 +4,7 @@ import { Component, ErrorInfo, ReactNode, KeyboardEvent } from 'react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
 
@@ -121,9 +121,8 @@ function ErrorDisplay({
 
 export default ErrorBoundary;
 
-function Explode() {
+function Explode(): React.ReactNode {
   throw new Error('KABOOM')
-  return null
 }
 
 if (import.meta.vitest) {

@@ -36,7 +36,7 @@ export const mockGradesData: GradeRecord[] = mockGradesJson as GradeRecord[]
 
 // Reconstruct courses map
 export const courses: CoursesMap = registryJson.courses.reduce((acc, course) => {
-  acc[course.id.toString()] = {
+  acc[course.id] = {
     title: course.title,
     titleEn: course.titleEn,
     code: course.code,
@@ -46,10 +46,10 @@ export const courses: CoursesMap = registryJson.courses.reduce((acc, course) => 
     semester: course.semester,
     campus: course.campus,
     nextAssignment: course.nextAssignment || undefined,
-    sections: course.sections,
+    sections: course.sections as CourseSection[],
   };
   return acc;
-}, {} as any)
+}, {} as CoursesMap)
 
 // Reconstruct courseList
 export const courseList: CourseListItem[] = registryJson.courses.map(course => ({
@@ -73,10 +73,10 @@ export const courseData: Record<number, CourseRaw> = registryJson.courses.reduce
     professor: course.professor,
     email: course.email,
     img: course.img,
-    sections: course.sections
+    sections: course.sections as CourseSection[],
   };
   return acc;
-}, {} as any)
+}, {} as Record<number, CourseRaw>)
 
 export const forums: Forum[] = registryJson.forums as Forum[]
 export const defaultEvents: CalendarEvents = registryJson.defaultEvents as CalendarEvents
@@ -96,42 +96,95 @@ export const supportNotes = registryJson.supportNotes
 // Tools data for lib/tools.ts
 export const registryTools = registryJson.tools
 
+interface DashboardEntry {
+  id: number;
+  category: string;
+  nameDa?: string;
+  nameEn?: string;
+  iconName?: string;
+  dateKey?: string;
+  courseId?: number;
+  deadlineHoursFromNow?: number;
+  score?: number | null;
+  author?: string;
+  timeDa?: string;
+  timeEn?: string;
+  replies?: number;
+  important?: boolean;
+}
+
+const dashboardEntries = registryJson.dashboard as DashboardEntry[]
+
 // Dashboard widget data slices — field names mapped to match widget contracts
-export const dashboardDeadlines = registryJson.dashboard
+export const dashboardDeadlines = dashboardEntries
   .filter(d => d.category === 'deadlines')
   .map(d => ({
     id: d.id,
     category: d.category,
-    titleDa: d.nameDa,
-    titleEn: d.nameEn,
-    iconName: d.iconName,
-    dateKey: (d as any).dateKey as string,
-    courseId: (d as any).courseId as number,
-    deadlineHoursFromNow: (d as any).deadlineHoursFromNow as number,
+    titleDa: d.nameDa ?? '',
+    titleEn: d.nameEn ?? '',
+    iconName: d.iconName ?? '',
+    dateKey: d.dateKey as string,
+    courseId: d.courseId as number,
+    deadlineHoursFromNow: d.deadlineHoursFromNow as number,
   }))
 
-export const dashboardGrades = registryJson.dashboard
+export const dashboardGrades = dashboardEntries
   .filter(d => d.category === 'grades')
   .map(d => ({
     id: d.id,
     category: d.category,
-    courseDa: d.nameDa,
-    courseEn: d.nameEn,
-    iconName: d.iconName,
-    score: (d as any).score as number | null,
+    courseDa: d.nameDa ?? '',
+    courseEn: d.nameEn ?? '',
+    iconName: d.iconName ?? '',
+    score: d.score as number | null,
   }))
 
-export const dashboardForumPosts = registryJson.dashboard
+export const dashboardForumPosts = dashboardEntries
   .filter(d => d.category === 'forumPosts')
   .map(d => ({
     id: d.id,
     category: d.category,
-    titleDa: d.nameDa,
-    titleEn: d.nameEn,
-    iconName: d.iconName,
-    author: (d as any).author as string,
-    timeDa: (d as any).timeDa as string,
-    timeEn: (d as any).timeEn as string,
-    replies: (d as any).replies as number,
-    important: (d as any).important as boolean | undefined,
+    titleDa: d.nameDa ?? '',
+    titleEn: d.nameEn ?? '',
+    iconName: d.iconName ?? '',
+    author: d.author as string,
+    timeDa: d.timeDa as string,
+    timeEn: d.timeEn as string,
+    replies: d.replies as number,
+    important: d.important as boolean | undefined,
   }))
+
+if (import.meta.vitest) {
+  const { describe, it, expect } = await import('vitest')
+  describe('data', () => {
+    it('courses is an object with at least 1 key', () => {
+      expect(Object.keys(courses).length).toBeGreaterThan(0)
+    })
+    it('courseList is an array with length > 0', () => {
+      expect(courseList.length).toBeGreaterThan(0)
+    })
+    it('forums is defined and has items', () => {
+      expect(forums).toBeDefined()
+      expect(forums.length).toBeGreaterThan(0)
+    })
+    it('BACHELOR_TOTAL_ECTS equals 180', () => {
+      expect(BACHELOR_TOTAL_ECTS).toBe(180)
+    })
+    it('dashboardDeadlines only has entries with category deadlines', () => {
+      dashboardDeadlines.forEach(d => expect(d.category).toBe('deadlines'))
+    })
+    it('dashboardGrades only has entries with category grades', () => {
+      dashboardGrades.forEach(d => expect(d.category).toBe('grades'))
+    })
+    it('dashboardForumPosts is an array', () => {
+      expect(Array.isArray(dashboardForumPosts)).toBe(true)
+    })
+    it('DEFAULT_WIDGETS is an array', () => {
+      expect(Array.isArray(DEFAULT_WIDGETS)).toBe(true)
+    })
+    it('notificationsData is an array', () => {
+      expect(Array.isArray(notificationsData)).toBe(true)
+    })
+  })
+}

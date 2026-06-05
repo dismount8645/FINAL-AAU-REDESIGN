@@ -67,7 +67,7 @@ if (import.meta.vitest) {
   const mockSetSelectedSemester = vi.fn()
   const semesterOptions = ['all', '2024 Fall', '2025 Spring']
   
-  function renderFilter(searchQuery = '', selectedSemester = 'all') {
+  const renderFilter = (searchQuery = '', selectedSemester = 'all') => {
     return render(
       <GradesFilter
         searchQuery={searchQuery}
@@ -111,5 +111,25 @@ if (import.meta.vitest) {
     renderFilter()
     const allOption = screen.getByText('Alle semestre')
     expect(allOption).toBeInTheDocument()
+  })
+
+  it('calls setSearchQuery on clear button click', () => {
+    renderFilter('test')
+    const clearBtn = screen.getByLabelText('Clear search')
+    fireEvent.click(clearBtn)
+    expect(mockSetSearchQuery).toHaveBeenCalledWith('')
+  })
+
+  it('renders non-all semester options without translation', () => {
+    renderFilter()
+    expect(screen.getByText('2024 Fall')).toBeInTheDocument()
+    expect(screen.getByText('2025 Spring')).toBeInTheDocument()
+  })
+
+  it('calls setSelectedSemester when select changes', () => {
+    renderFilter()
+    const select = screen.getByLabelText('Filter')
+    fireEvent.change(select, { target: { value: '2025 Spring' } })
+    expect(mockSetSelectedSemester).toHaveBeenCalledWith('2025 Spring')
   })
 }

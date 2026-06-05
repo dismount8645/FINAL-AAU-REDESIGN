@@ -6,7 +6,7 @@ import { useNavigate, MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { FavoriteItem } from '@/components/Favorites';
-import { Stack } from '@/components/Layout/LayoutPrimitives';;
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
@@ -111,6 +111,7 @@ export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
   )
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 let mockNavigate: any
 if (import.meta.vitest) {
   vi.mock('@/lib/favorites', async () => {
@@ -312,9 +313,24 @@ if (import.meta.vitest) {
           <FavoritesWidget span={6} isEditing={false} />
         </MemoryRouter>
       )
-  
+
       const removeBtns = document.querySelectorAll('.lucide-x')
       expect(removeBtns.length).toBe(1)
+    })
+
+    it('calls toggleFavorite when remove button is clicked', () => {
+      const toggleSpy = vi.spyOn(useStore.getState(), 'toggleFavorite')
+
+      render(
+        <MemoryRouter>
+          <FavoritesWidget span={6} isEditing={false} />
+        </MemoryRouter>
+      )
+
+      const xButton = document.querySelector('.lucide-x')?.closest('button')
+      expect(xButton).toBeInTheDocument()
+      fireEvent.click(xButton!)
+      expect(toggleSpy).toHaveBeenCalled()
     })
   })
 }
