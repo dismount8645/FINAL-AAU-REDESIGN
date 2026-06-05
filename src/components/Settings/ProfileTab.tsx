@@ -15,7 +15,6 @@ import Input from '@/components/ui/Input';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text } from '@/components/ui';
 import useStore, { type Theme } from '@/store';
-import { useUserStore } from '@/store/userStore';
 
 interface ProfileTabProps {
   firstName?: string;
@@ -27,7 +26,7 @@ interface ProfileTabProps {
 }
 
 export default function ProfileTab(props: ProfileTabProps) {
-  const store = useUserStore();
+  const store = useStore();
   const firstName = props.firstName ?? store.firstName;
   const setFirstName = props.setFirstName ?? store.setFirstName;
   const lastName = props.lastName ?? store.lastName;
@@ -35,7 +34,7 @@ export default function ProfileTab(props: ProfileTabProps) {
   const theme = props.theme ?? store.theme;
   const setTheme = props.setTheme ?? store.setTheme;
 
-  const t = useStore(state => state.t)
+  const t = store.t;
 
   return (
     <SettingsSection titleKey="settings.profile" descKey="settings.profile_desc" className="settings__profile-form max-w-[var(--container-max-width)]">
@@ -154,18 +153,15 @@ if (import.meta.vitest) {
         expect(setTheme).toHaveBeenCalledWith('dark')
       })
     })
-  
-    describe('NotificationsTab', () => {
+      describe('NotificationsTab', () => {
       it('renders notification options and handles switch clicks', () => {
         const setNotifPrefs = vi.fn()
-        const notifPrefs = { email: true, push: false, sms: false }
+        useStore.setState({
+          notifPrefs: { email: true, push: false, sms: false },
+          setNotifPrefs,
+        })
   
-        render(
-          <NotificationsTab
-            notifPrefs={notifPrefs}
-            setNotifPrefs={setNotifPrefs}
-          />
-        )
+        render(<NotificationsTab />)
   
         expect(screen.getByText('Email')).toBeInTheDocument()
         expect(screen.getByText('Push')).toBeInTheDocument()
@@ -173,23 +169,18 @@ if (import.meta.vitest) {
         const emailSwitch = screen.getAllByRole('switch')[0]
         fireEvent.click(emailSwitch)
         expect(setNotifPrefs).toHaveBeenCalled()
-  
-        fireEvent.keyDown(emailSwitch, { key: 'Enter' })
-        expect(setNotifPrefs).toHaveBeenCalled()
       })
     })
   
     describe('LanguageTab', () => {
       it('renders language choices and handles selection', () => {
         const setLang = vi.fn()
+        useStore.setState({
+          lang: 'da',
+          setLang,
+        })
   
-        renderWithProviders(
-          <LanguageTab
-            lang="da"
-            setLang={setLang}
-          />
-        )
-
+        renderWithProviders(<LanguageTab />)
   
         expect(screen.getByText('Dansk (Danish)')).toBeInTheDocument()
         expect(screen.getByText('English (English)')).toBeInTheDocument()
@@ -204,17 +195,16 @@ if (import.meta.vitest) {
         const setForumDigest = vi.fn()
         const setForumTracking = vi.fn()
         const setForumAutoSubscribe = vi.fn()
+        useStore.setState({
+          forumDigest: 'complete',
+          forumTracking: true,
+          forumAutoSubscribe: false,
+          setForumDigest,
+          setForumTracking,
+          setForumAutoSubscribe,
+        })
   
-        render(
-          <ForumTab
-            forumDigest="complete"
-            forumTracking={true}
-            forumAutoSubscribe={false}
-            setForumDigest={setForumDigest}
-            setForumTracking={setForumTracking}
-            setForumAutoSubscribe={setForumAutoSubscribe}
-          />
-        )
+        render(<ForumTab />)
   
         expect(screen.getByText('E-mail opsamlingstype')).toBeInTheDocument()
         
@@ -236,15 +226,14 @@ if (import.meta.vitest) {
       it('renders calendar dropdown settings and calls handlers', () => {
         const setCalendarStartDay = vi.fn()
         const setCalendarDefaultView = vi.fn()
+        useStore.setState({
+          calendarStartDay: 'monday',
+          calendarDefaultView: 'month',
+          setCalendarStartDay,
+          setCalendarDefaultView,
+        })
   
-        render(
-          <CalendarTab
-            calendarStartDay="monday"
-            calendarDefaultView="month"
-            setCalendarStartDay={setCalendarStartDay}
-            setCalendarDefaultView={setCalendarDefaultView}
-          />
-        )
+        render(<CalendarTab />)
   
         expect(screen.getByText('Ugens første dag')).toBeInTheDocument()
         expect(screen.getByText('Standard visning')).toBeInTheDocument()
@@ -263,15 +252,14 @@ if (import.meta.vitest) {
       it('renders message privacy controls and calls handlers', () => {
         const setMessagePrivacy = vi.fn()
         const setMessageEmailOffline = vi.fn()
+        useStore.setState({
+          messagePrivacy: 'courses',
+          messageEmailOffline: true,
+          setMessagePrivacy,
+          setMessageEmailOffline,
+        })
   
-        render(
-          <MessagesTab
-            messagePrivacy="courses"
-            messageEmailOffline={true}
-            setMessagePrivacy={setMessagePrivacy}
-            setMessageEmailOffline={setMessageEmailOffline}
-          />
-        )
+        render(<MessagesTab />)
   
         expect(screen.getByText('Hvem kan kontakte mig')).toBeInTheDocument()
         

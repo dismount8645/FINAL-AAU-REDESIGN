@@ -8,11 +8,12 @@ import { STORAGE_KEYS } from '@/lib/constants';
 import { BreadcrumbItem, UISlice, createUISlice } from './slices/uiSlice';
 import { CourseWithStatus, CourseSlice, createCourseSlice } from './slices/courseSlice';
 import { FavoriteSlice, createFavoriteSlice } from './slices/favoriteSlice';
+import { UserSlice, createUserSlice } from './slices/userSlice';
 
-export type { Theme, Lang, BreadcrumbItem, CourseWithStatus, UISlice, CourseSlice, FavoriteSlice };
+export type { Theme, Lang, BreadcrumbItem, CourseWithStatus, UISlice, CourseSlice, FavoriteSlice, UserSlice };
 export { computeIsDarkMode };
 
-export interface AppState extends UISlice, CourseSlice, FavoriteSlice {}
+export interface AppState extends UISlice, CourseSlice, FavoriteSlice, UserSlice {}
 
 const lazyStorage = {
   getItem: (name: string) => {
@@ -44,6 +45,7 @@ const useStore = create<AppState>()(
       ...createUISlice(set, get, store),
       ...createCourseSlice(set, get, store),
       ...createFavoriteSlice(set, get, store),
+      ...createUserSlice(set, get, store),
     }),
     {
       name: STORAGE_KEYS.APP_STORE,
@@ -69,6 +71,16 @@ const useStore = create<AppState>()(
         courseProgress: state.courseProgress,
         calendarEvents: state.calendarEvents,
         favorites: state.favorites,
+        firstName: state.firstName,
+        lastName: state.lastName,
+        notifPrefs: state.notifPrefs,
+        forumDigest: state.forumDigest,
+        forumTracking: state.forumTracking,
+        forumAutoSubscribe: state.forumAutoSubscribe,
+        calendarStartDay: state.calendarStartDay,
+        calendarDefaultView: state.calendarDefaultView,
+        messagePrivacy: state.messagePrivacy,
+        messageEmailOffline: state.messageEmailOffline,
       }),
       migrate: (persisted: unknown, version) => {
         if (version === 2) {

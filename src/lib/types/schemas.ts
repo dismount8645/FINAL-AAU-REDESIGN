@@ -15,6 +15,20 @@ export const PersistedStateSchema = z.object({
   courseProgress: z.record(z.string(), z.array(z.number())).catch({}),
   calendarEvents: z.record(z.string(), z.unknown()).catch({}),
   favorites: z.array(FavoriteItemSchema).catch([]),
+  firstName: z.string().catch('Jacob Krarup'),
+  lastName: z.string().catch('Madsen'),
+  notifPrefs: z.object({
+    email: z.boolean(),
+    push: z.boolean(),
+    sms: z.boolean(),
+  }).catch({ email: true, push: true, sms: false }),
+  forumDigest: z.enum(['none', 'complete', 'subjects']).catch('complete'),
+  forumTracking: z.boolean().catch(true),
+  forumAutoSubscribe: z.boolean().catch(true),
+  calendarStartDay: z.enum(['monday', 'sunday']).catch('monday'),
+  calendarDefaultView: z.enum(['month', 'week', 'day']).catch('month'),
+  messagePrivacy: z.enum(['contacts', 'courses', 'anyone']).catch('courses'),
+  messageEmailOffline: z.boolean().catch(true),
 })
 
 export type PersistedStateType = z.infer<typeof PersistedStateSchema>
