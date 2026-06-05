@@ -1,9 +1,6 @@
 import { memo, type ReactNode, type MouseEvent, type KeyboardEvent } from 'react'
 import { type LucideIcon } from 'lucide-react'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
-
 export interface MasterItemProps {
   /** Leading element: LucideIcon component or any rendered ReactNode (like <Avatar />) */
   leading?: LucideIcon | ReactNode

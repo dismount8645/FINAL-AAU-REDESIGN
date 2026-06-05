@@ -1,6 +1,6 @@
 import { useState, useRef, type DragEvent } from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { act, renderHook } from '@testing-library/react';
+
+
 import { DEFAULT_WIDGETS } from '@/lib/data';
 import type { Widget } from '@/lib/types';
 

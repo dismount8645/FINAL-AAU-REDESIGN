@@ -1,6 +1,4 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 

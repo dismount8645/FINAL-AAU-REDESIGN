@@ -1,6 +1,6 @@
 import { useMemo, useCallback, memo, forwardRef } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, MessageCircle, ArrowRight, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading } from '@/components/ui';
 import { dashboardForumPosts } from '@/lib/data';
 import useStore from '@/store';
-import { renderWithProviders } from '@/test/test-utils';
+
 import type { WidgetProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { getWidgetDisplayLayout } from '@/config/widgetLayout';

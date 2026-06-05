@@ -1,6 +1,4 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

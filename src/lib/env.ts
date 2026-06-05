@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+
 
 /**
  * Safe wrappers for window and DOM interactions to prevent crashes in iframe/sandbox environments.

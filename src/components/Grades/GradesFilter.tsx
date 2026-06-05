@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { SearchInput } from '@/components/ui';
 import { Heading } from '@/components/ui';
 import useStore from '@/store';

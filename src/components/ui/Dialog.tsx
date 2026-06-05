@@ -1,7 +1,7 @@
 import { type ComponentProps, memo, forwardRef } from 'react';
-import { describe, it, expect, vi } from 'vitest';
+
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
-import { render, screen } from '@testing-library/react';
+
 import { motion } from 'framer-motion';
 import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/Button';

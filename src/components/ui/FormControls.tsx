@@ -1,6 +1,4 @@
 import React, { forwardRef, type ReactNode } from 'react';
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';

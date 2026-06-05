@@ -1,6 +1,6 @@
 import { memo } from 'react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
+
 import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal } from 'lucide-react';
 import { linkifyText } from '@/lib/utils';
 import FaqSection from './FaqSection';
