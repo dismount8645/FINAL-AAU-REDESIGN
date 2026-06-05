@@ -95,8 +95,8 @@ export default SearchResults
 
 if (import.meta.vitest) {
   // Mock registry to include a result with an unknown group
-  vi.mock('@/data/registry', async () => {
-    const actual = await vi.importActual('@/data/registry') as any
+  vi.mock('@/lib/data', async () => {
+    const actual = await vi.importActual('@/lib/data') as any
     return {
       ...actual,
       courses: {

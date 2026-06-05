@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading } from '@/components/ui';
-import { dashboardForumPosts } from '@/data/registry';
+import { dashboardForumPosts } from '@/lib/data';
 import useStore from '@/store';
 import { renderWithProviders } from '@/test/test-utils';
 import type { WidgetProps } from '@/lib/types';

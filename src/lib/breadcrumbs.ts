@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { courseList } from '@/data/registry';
+import { courseList } from '@/lib/data';
 
 export const getAutomaticBreadcrumbs = (
   pathname: string,

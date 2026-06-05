@@ -10,7 +10,7 @@ import { Text } from '@/components/ui'
 import useStore from '@/store'
 import { ASSETS } from '@/lib'
 
-import { courses } from '@/data/registry'
+import { courses } from '@/lib/data'
 
 interface CourseSidebarProps {
   courseId: string

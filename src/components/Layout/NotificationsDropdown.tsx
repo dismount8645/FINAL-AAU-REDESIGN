@@ -4,7 +4,7 @@ import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/ui';
-import { notificationsData } from '@/data/mockData';
+import { notificationsData } from '@/lib/data';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { useDropdown } from '@/hooks';

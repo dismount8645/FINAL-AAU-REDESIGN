@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Avatar } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/ui';
-import { messagesData } from '@/data/mockData';
+import { messagesData } from '@/lib/data';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { useDropdown } from '@/hooks';

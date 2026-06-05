@@ -12,7 +12,7 @@ import GradeRow from '@/components/Grades/GradeRow';;
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import PageLayout from '@/components/Layout/PageLayout';;
-import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/data/mockGrades';
+import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/data';
 import useStore from '@/store';
 import { translations } from '@/lib/translations';
 import { useFilteredCollection } from '@/hooks';

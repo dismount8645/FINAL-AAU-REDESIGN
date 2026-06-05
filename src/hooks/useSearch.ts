@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Book, House, CalendarDays, GraduationCap, FolderOpen } from 'lucide-react'
 import { type LucideIcon } from 'lucide-react'
-import { courses } from '@/data/registry'
+import { courses } from '@/lib/data'
 import useStore from '@/store'
 
 export interface SearchResult {
