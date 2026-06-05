@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text } from '@/components/ui';
 import useStore from '@/store';
 

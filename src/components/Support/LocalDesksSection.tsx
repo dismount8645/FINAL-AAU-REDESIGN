@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Clock } from 'lucide-react'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { SectionHeader } from '@/components/ui'
 import { KeyValue } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'

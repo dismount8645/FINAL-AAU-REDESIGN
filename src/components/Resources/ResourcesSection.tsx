@@ -1,6 +1,6 @@
 import { Lock } from 'lucide-react'
-import { Grid } from '@/components/Layout'
-import { Stack } from '@/components/Layout'
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import { SectionHeader } from '@/components/ui'
 import { InfoCard } from '@/components/ui'

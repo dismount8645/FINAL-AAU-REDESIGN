@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react'
-import { Grid } from '@/components/Layout'
+import { Grid } from '@/components/Layout/LayoutPrimitives';
 
 interface SplitLayoutProps {
   main: ReactNode

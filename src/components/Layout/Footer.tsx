@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Heading, Text } from '@/components/ui';
 import useStore from '@/store';
 

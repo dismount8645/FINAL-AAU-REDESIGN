@@ -5,7 +5,7 @@ import { Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2 } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout';
+import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Text, Heading, MasterItem } from '@/components/ui';
 import { dashboardDeadlines } from '@/data/registry';
 import * as dates from '@/lib/dates';

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { Widget } from '@/lib/types'
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
 import { Text } from '@/components/ui'
 import Dropdown from '@/components/ui/Dropdown'

@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui'
-import { Grid } from '@/components/Layout'
-import { Stack } from '@/components/Layout'
+import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Input from '@/components/ui/Input'
 import { Text } from '@/components/ui'
 import useStore from '@/store'

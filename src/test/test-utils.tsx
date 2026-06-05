@@ -3,7 +3,7 @@ import { render, type RenderOptions } from '@testing-library/react'
 import { type ReactElement, type ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { ToastProvider } from '@/components/ui'
-import { ErrorBoundary } from '@/components/Layout'
+import ErrorBoundary from '@/components/Layout/ErrorBoundary';
 
 interface AllProvidersProps {
   children: ReactNode;
