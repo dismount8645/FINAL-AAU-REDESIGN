@@ -307,4 +307,20 @@ if (import.meta.vitest) {
     renderWrapper()
     expect(screen.queryByText('resize_width')).not.toBeInTheDocument()
   })
+
+  it('uses fallback titles when t returns empty string', () => {
+    mockT.mockReturnValue('')
+    renderWrapper(true)
+    expect(screen.getByTitle('Drag to resize width')).toBeInTheDocument()
+    expect(screen.getByTitle('Drag to resize height')).toBeInTheDocument()
+    expect(screen.getByTitle('Drag to reorder')).toBeInTheDocument()
+    mockT.mockImplementation((key: string) => key)
+  })
+
+  it('does not call moveWidget on keydown other than ArrowLeft/ArrowRight', () => {
+    renderWrapper(true)
+    const gripBtn = screen.getByTitle('drag_to_reorder')
+    fireEvent.keyDown(gripBtn, { key: 'Escape' })
+    expect(hoisted.mockMoveWidget).not.toHaveBeenCalled()
+  })
 }

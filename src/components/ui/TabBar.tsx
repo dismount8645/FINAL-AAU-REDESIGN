@@ -177,5 +177,13 @@ if (import.meta.vitest) {
       expect(screen.getByTestId('tab-tab2')).toHaveAttribute('aria-selected', 'false')
       expect(screen.getByTestId('tab-tab2')).toHaveAttribute('tabindex', '-1')
     })
+
+    it('returns early if active tab index is -1', () => {
+      const onChange = vi.fn()
+      render(<TabBar tabs={mockTabs} activeTab="non-existent" onChange={onChange} />)
+      const tablist = screen.getByRole('tablist')
+      fireEvent.keyDown(tablist, { key: 'ArrowLeft' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
   })
 }

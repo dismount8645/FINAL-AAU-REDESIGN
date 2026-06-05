@@ -112,5 +112,10 @@ if (import.meta.vitest) {
       const textarea = container.querySelector('textarea')
       expect(textarea).not.toHaveClass('resize-none', 'resize-y', 'resize-x', 'resize')
     })
+
+    it('applies full class when full is true', () => {
+      const { container } = render(<Textarea full />)
+      expect(container.querySelector('textarea')).toHaveClass('w-full')
+    })
   })
 }

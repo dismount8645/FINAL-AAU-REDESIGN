@@ -266,5 +266,10 @@ if (import.meta.vitest) {
       render(<FormField><span data-testid="child">Content</span></FormField>)
       expect(screen.getByTestId('child')).toBeInTheDocument()
     })
+
+    it('renders non-element children like strings directly', () => {
+      render(<FormField label="Text">Simple Text Child</FormField>)
+      expect(screen.getByText('Simple Text Child')).toBeInTheDocument()
+    })
   })
 }

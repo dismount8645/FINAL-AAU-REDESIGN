@@ -124,5 +124,21 @@ if (import.meta.vitest) {
       expect(container.querySelector('.is-selected')).toBeInTheDocument()
       expect(container.querySelector('.panel-active-indicator')).toBeInTheDocument()
     })
+
+    it('does not trigger click when non-clickable keydown or non-target keydown occurs', () => {
+      const clickSpy = vi.fn()
+      
+      // Non-clickable keydown
+      const { container } = render(<MasterItem title="Non Clickable" />)
+      const nonClickableItem = container.firstChild as HTMLElement
+      fireEvent.keyDown(nonClickableItem, { key: 'Enter' })
+      expect(clickSpy).not.toHaveBeenCalled()
+
+      // Clickable but other key
+      const { container: container2 } = render(<MasterItem title="Clickable" onClick={clickSpy} />)
+      const clickableItem = container2.firstChild as HTMLElement
+      fireEvent.keyDown(clickableItem, { key: 'Escape' })
+      expect(clickSpy).not.toHaveBeenCalled()
+    })
   })
 }

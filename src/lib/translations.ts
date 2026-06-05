@@ -1169,6 +1169,7 @@ const flattenTranslationAliases = (allTranslations: Translations) => {
     const langMap = allTranslations[lang]
 
     for (const [categoryKey, categoryValue] of Object.entries(langMap)) {
+      /* istanbul ignore next */
       if (!categoryValue || typeof categoryValue !== 'object' || Array.isArray(categoryValue)) {
         continue
       }

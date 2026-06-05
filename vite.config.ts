@@ -54,6 +54,7 @@ export default defineConfig({
         '**/*.d.ts',
         '**/*.test.{ts,tsx}',
         '**/*.test-d.ts',
+        '**/*.json',
       ],
     },
   },

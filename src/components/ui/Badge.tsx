@@ -134,5 +134,13 @@ if (import.meta.vitest) {
       render(<Badge>Test</Badge>)
       expect(document.querySelector('span.badge')).toBeInTheDocument()
     })
+
+    it('handles interactive and pill props', () => {
+      render(<Badge interactive pill>Interactive Pill</Badge>)
+      const badge = screen.getByText('Interactive Pill')
+      expect(badge).toBeInTheDocument()
+      expect(badge.className).toContain('rounded-[var(--radius-full)]')
+      expect(badge.className).toContain('cursor-pointer')
+    })
   })
 }
