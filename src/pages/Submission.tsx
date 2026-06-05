@@ -82,11 +82,6 @@ function Submission() {
       <PageHeader
         title={assignmentInfo.title}
         subtitle={assignmentInfo.course}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: assignmentInfo.course, href: `/course/${courseId}` },
-          { label: assignmentInfo.title },
-        ]}
       >
         <Stack gap="sm">
           <Link to={`/course/${courseId}`}>

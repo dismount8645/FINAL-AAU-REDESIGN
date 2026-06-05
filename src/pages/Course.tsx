@@ -3,7 +3,6 @@ import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 
 import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import CourseSidebar from '@/components/Courses/CourseSidebar';
-import CourseBreadcrumbs from '@/components/Courses/CourseBreadcrumbs';
 import CourseTabContent from '@/components/Courses/CourseTabContent';;
 import PageLayout from '@/components/Layout/PageLayout';
 import SplitLayout from '@/components/Layout/SplitLayout';
@@ -74,23 +73,15 @@ function Course() {
     [t]
   )
 
-  const breadcrumbs = useMemo(() => [
-    { label: t('dashboard'), href: '/' },
-    { label: t('courses'), href: '/courses' },
-    { label: t(`course_${id}_title`) }
-  ], [id, t])
-
   if (!data) return null
 
   return (
     <PageLayout
       className="container animate-fade-in"
       pageKey={`course_${id}`}
-      breadcrumbs={breadcrumbs}
       headerClassName="hidden"
       flat
     >
-      <CourseBreadcrumbs id={id!} t={t} />
       <ModuleHeader
         image={data.img}
         code={data.code}
