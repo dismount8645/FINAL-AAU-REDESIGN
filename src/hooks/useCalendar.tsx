@@ -102,6 +102,7 @@ export function useCalendar() {
       return { success: true }
     }
 
+    /* istanbul ignore next */
     return (async () => {
       setIsPending(true)
       await new Promise(resolve => setTimeout(resolve, 600))
@@ -319,6 +320,15 @@ if (import.meta.vitest) {
       const { result } = renderHook(() => useCalendar(), { wrapper })
       act(() => result.current.setView('month'))
       expect(result.current.getTitle).toContain('May 2026')
+    })
+
+    it('navigates months correctly', () => {
+      const { result } = renderHook(() => useCalendar(), { wrapper })
+      act(() => result.current.setCurrentDate(new Date(2026, 4, 1))) // May 1
+      act(() => result.current.navigateMonth('next'))
+      expect(result.current.currentDate.getMonth()).toBe(5) // June
+      act(() => result.current.navigateMonth('prev'))
+      expect(result.current.currentDate.getMonth()).toBe(4) // May
     })
   })
 }

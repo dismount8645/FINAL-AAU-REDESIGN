@@ -226,5 +226,24 @@ if (import.meta.vitest) {
       expect(indicator).toBeInTheDocument()
       expect(tabs[1].querySelector('.h-\\[3px\\]')).not.toBeInTheDocument()
     })
+
+    it('returns early when active index is -1', () => {
+      const onChange = vi.fn()
+      render(<Tabs items={mockItems} activeTab="non-existent" onChange={onChange} />)
+      fireEvent.keyDown(screen.getByRole('tablist'), { key: 'ArrowRight' })
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('handles items with only key and no id, and label fallbacks', () => {
+      const onChange = vi.fn()
+      const items = [
+        { key: 'key1', label: 'Label 1' },
+        { key: 'key2', label: '' },
+      ]
+      render(<Tabs items={items} activeTab="key1" onChange={onChange} />)
+      expect(screen.getByRole('tab', { name: 'Label 1' })).toBeInTheDocument()
+      fireEvent.click(screen.getAllByRole('tab')[1])
+      expect(onChange).toHaveBeenCalledWith('key2')
+    })
   })
 }

@@ -358,5 +358,19 @@ if (import.meta.vitest) {
       renderWithProviders(<TeaserCard badge="Sale" badgeColor="warning" title="Test" />)
       expect(screen.getByText('Sale')).toBeInTheDocument()
     })
+
+    it('handles progress of 0% correctly', () => {
+      renderWithProviders(<TeaserCard title="Test Zero" progress={0} />)
+      expect(screen.getByText('Test Zero')).toBeInTheDocument()
+      // Percent completion label is null when 0%
+      expect(screen.queryByText(/completed/i)).toBeNull()
+    })
+
+    it('renders horizontal skeleton with action and progress', () => {
+      const { container } = renderWithProviders(
+        <TeaserCard isLoading={true} variant="horizontal" progress={50} action={<button>Action</button>} />
+      )
+      expect(container.querySelector('.flex-col.lg\\:flex-row')).toBeInTheDocument()
+    })
   })
 }

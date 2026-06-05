@@ -64,5 +64,41 @@ if (import.meta.vitest) {
       expect(formatTime(d, 'en')).toBeDefined()
       expect(formatTime(d, 'da')).toBeDefined()
     })
+
+    it('formats long date time', () => {
+      const d = new Date('2026-05-28T12:00:00')
+      expect(formatLongDateTime(d, 'en')).toBeDefined()
+      expect(formatLongDateTime(d, 'da')).toBeDefined()
+    })
+
+    it('calculates urgency correctly', () => {
+      const now = new Date()
+      const overdue = new Date(now.getTime() - 3600000).toISOString()
+      const critical = new Date(now.getTime() + 3600000).toISOString()
+      const soon = new Date(now.getTime() + 100000000).toISOString()
+      const normal = new Date(now.getTime() + 500000000).toISOString()
+
+      expect(calculateUrgency(overdue)).toBe('overdue')
+      expect(calculateUrgency(critical)).toBe('critical')
+      expect(calculateUrgency(soon)).toBe('soon')
+      expect(calculateUrgency(normal)).toBe('normal')
+    })
+
+    it('formats relative date group', () => {
+      const now = new Date('2026-05-28T12:00:00')
+      const today = new Date('2026-05-28T10:00:00')
+      const yesterday = new Date('2026-05-27T10:00:00')
+      const other = new Date('2026-05-20T10:00:00')
+
+      expect(formatRelativeDateGroup(today, 'en', now)).toBe('Today')
+      expect(formatRelativeDateGroup(yesterday, 'en', now)).toBe('Yesterday')
+      expect(formatRelativeDateGroup(other, 'en', now)).toContain('May')
+    })
+
+    it('gets hours until and hours from now', () => {
+      const now = new Date()
+      const target = hoursFromNow(5, now)
+      expect(getHoursUntil(target, now)).toBeCloseTo(5, 5)
+    })
   })
 }

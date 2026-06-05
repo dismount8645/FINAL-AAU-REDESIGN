@@ -221,5 +221,27 @@ if (import.meta.vitest) {
       const dot = container.querySelector('[style*="background-color"]') as HTMLElement
       expect(dot.style.backgroundColor).toBe('var(--color-warning)')
     })
+
+    it('handles click and keyboard actions', () => {
+      const onClick = vi.fn()
+      const { container } = render(<Avatar name="Test" onClick={onClick} />)
+      const avatar = container.firstChild as HTMLElement
+      
+      // Click
+      fireEvent.click(avatar)
+      expect(onClick).toHaveBeenCalledTimes(1)
+
+      // KeyDown Enter
+      fireEvent.keyDown(avatar, { key: 'Enter' })
+      expect(onClick).toHaveBeenCalledTimes(2)
+
+      // KeyDown Space
+      fireEvent.keyDown(avatar, { key: ' ' })
+      expect(onClick).toHaveBeenCalledTimes(3)
+
+      // KeyDown Other (Escape) - should not trigger
+      fireEvent.keyDown(avatar, { key: 'Escape' })
+      expect(onClick).toHaveBeenCalledTimes(3)
+    })
   })
 }

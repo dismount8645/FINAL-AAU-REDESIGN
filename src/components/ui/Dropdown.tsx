@@ -278,5 +278,24 @@ if (import.meta.vitest) {
       await userEvent.keyboard('{Escape}')
       await waitFor(() => expect(onClose).toHaveBeenCalled())
     })
+
+    it('renders with a string trigger', () => {
+      render(<_testDropdown trigger="String Trigger">Content</_testDropdown>, { wrapper: AllProviders })
+      expect(screen.getByText('String Trigger')).toBeInTheDocument()
+    })
+
+    it('calls onToggle when closed in controlled mode without onClose', async () => {
+      const onToggle = vi.fn()
+      render(
+        <AllProviders>
+          <div>
+            <_testDropdown trigger={trigger} isOpen onToggle={onToggle}>Content</_testDropdown>
+            <button data-testid="outside">Outside</button>
+          </div>
+        </AllProviders>
+      )
+      await userEvent.click(screen.getByTestId('outside'))
+      await waitFor(() => expect(onToggle).toHaveBeenCalled())
+    })
   })
 }

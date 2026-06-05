@@ -100,5 +100,11 @@ if (import.meta.vitest) {
       const input = screen.getByRole('textbox')
       expect(input).not.toHaveClass('border-danger')
     })
+
+    it('applies full class when full is true', () => {
+      render(<Input full />)
+      const input = screen.getByRole('textbox')
+      expect(input).toHaveClass('w-full')
+    })
   })
 }

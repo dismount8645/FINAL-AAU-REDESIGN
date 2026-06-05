@@ -255,12 +255,42 @@ if (import.meta.vitest) {
         const data = await client.put('/courses/1', { title: 'Updated' }, () => ({ id: 1 }))
         expect(data).toEqual({ id: 1 })
       })
+
+      it('performs fetch when useMocks is false', async () => {
+        client.setUseMocks(false)
+        const originalFetch = globalThis.fetch
+        const mockResponse = new Response(JSON.stringify({ success: true }), { status: 200 })
+        const fetchMock = vi.fn().mockResolvedValue(mockResponse)
+        globalThis.fetch = fetchMock
+        const res = await client.put('/test', { data: 1 })
+        expect(res).toEqual({ success: true })
+        expect(fetchMock).toHaveBeenCalledWith(
+          expect.stringContaining('/test'),
+          expect.objectContaining({ method: 'PUT' })
+        )
+        globalThis.fetch = originalFetch
+      })
     })
   
     describe('delete', () => {
       it('returns mock data when useMocks is true', async () => {
         const data = await client.delete('/courses/1', () => ({ success: true }))
         expect(data).toEqual({ success: true })
+      })
+
+      it('performs fetch when useMocks is false', async () => {
+        client.setUseMocks(false)
+        const originalFetch = globalThis.fetch
+        const mockResponse = new Response(JSON.stringify({ success: true }), { status: 200 })
+        const fetchMock = vi.fn().mockResolvedValue(mockResponse)
+        globalThis.fetch = fetchMock
+        const res = await client.delete('/test')
+        expect(res).toEqual({ success: true })
+        expect(fetchMock).toHaveBeenCalledWith(
+          expect.stringContaining('/test'),
+          expect.objectContaining({ method: 'DELETE' })
+        )
+        globalThis.fetch = originalFetch
       })
     })
   
