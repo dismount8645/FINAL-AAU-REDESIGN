@@ -5,6 +5,7 @@ export type Theme = 'system' | 'light' | 'dark'
 export type Lang = 'da' | 'en'
 
 export function computeIsDarkMode(theme: Theme): boolean {
+  /* istanbul ignore next */
   if (typeof window === 'undefined') return false
   if (theme === 'dark') return true
   if (theme === 'light') return false
@@ -35,3 +36,17 @@ export const UI_PALETTE: Record<string, { bg: string; text: string }> = {
   accent: { bg: 'var(--color-event-blue-bg)', text: 'var(--color-event-blue-text)' },
   primary: { bg: 'var(--color-event-primary-bg)', text: 'var(--color-event-primary-text)' },
 };
+
+if (import.meta.vitest) {
+  describe('theme utilities', () => {
+    it('computes is dark mode correctly', () => {
+      expect(computeIsDarkMode('dark')).toBe(true);
+      expect(computeIsDarkMode('light')).toBe(false);
+    });
+
+    it('has ITEM_TYPE_MAP and UI_PALETTE configs', () => {
+      expect(ITEM_TYPE_MAP.pdf.color).toBe('danger');
+      expect(UI_PALETTE['var(--color-primary)'].bg).toBe('var(--color-event-primary-bg)');
+    });
+  });
+}
