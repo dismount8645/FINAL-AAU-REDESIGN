@@ -259,5 +259,23 @@ if (import.meta.vitest) {
       expect(container.querySelector('.card__decoration')).toBeInTheDocument()
       expect(container.querySelector('svg')).not.toBeInTheDocument()
     })
+
+    it('handles click and keyboard actions on interactive card', () => {
+      const onClick = vi.fn()
+      const { container } = render(<Card onClick={onClick}>Interactive</Card>)
+      const card = container.firstChild as HTMLElement
+
+      fireEvent.click(card)
+      expect(onClick).toHaveBeenCalledTimes(1)
+
+      fireEvent.keyDown(card, { key: 'Enter' })
+      expect(onClick).toHaveBeenCalledTimes(2)
+
+      fireEvent.keyDown(card, { key: ' ' })
+      expect(onClick).toHaveBeenCalledTimes(3)
+
+      fireEvent.keyDown(card, { key: 'Escape' })
+      expect(onClick).toHaveBeenCalledTimes(3)
+    })
   })
 }

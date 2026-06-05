@@ -188,6 +188,19 @@ if (import.meta.vitest) {
       useNavigate: () => mockNavigate,
     }
   })
+
+  vi.mock('@/lib/data', async (importOriginal) => {
+    const actual = await importOriginal() as any
+    const list: any[] = [...actual.dashboardDeadlines];
+    (globalThis as any).__mockDeadlinesList = list
+    return {
+      ...actual,
+      get dashboardDeadlines() {
+        return (globalThis as any).__mockDeadlinesList
+      }
+    }
+  })
+
   describe('DeadlinesWidget', () => {
     beforeEach(() => {
       vi.clearAllMocks()
@@ -276,6 +289,16 @@ if (import.meta.vitest) {
       expect(button).toBeInTheDocument()
       button.focus()
       expect(button).toHaveFocus()
+    })
+
+    it('renders empty state when there are no deadlines', () => {
+      useStore.setState({ lang: 'en' })
+      const mockList = (globalThis as any).__mockDeadlinesList
+      const original = [...mockList]
+      mockList.length = 0
+      renderWithProviders(<DeadlinesWidget span={12} isEditing={false} />)
+      expect(screen.getByText(/caught up/i)).toBeInTheDocument()
+      mockList.push(...original)
     })
   })
 }

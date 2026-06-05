@@ -220,5 +220,43 @@ if (import.meta.vitest) {
       act(() => result.current.moveWidget('w3', 'left'))
       expect(result.current.widgets.map(w => w.id)).toEqual(['w3', 'w1', 'w2'])
     })
+
+    it('onDrop does nothing if draggedItemId is null', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      const dropEvent = { preventDefault: vi.fn() }
+      act(() => result.current.onDrop(dropEvent as any, 0, 0))
+      expect(result.current.widgets).toEqual(initialWidgets)
+    })
+
+    it('onDrop updates coordinates when x and y are numbers', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      const dragStartEvent = {
+        dataTransfer: { effectAllowed: null, setData: vi.fn() },
+        preventDefault: vi.fn(),
+      }
+      act(() => result.current.onDragStart(dragStartEvent as any, 'w1', true))
+      
+      const dropEvent = { preventDefault: vi.fn() }
+      act(() => result.current.onDrop(dropEvent as any, 5, 10))
+      
+      const w1 = result.current.widgets.find(w => w.id === 'w1')
+      expect(w1?.x).toBe(5)
+      expect(w1?.y).toBe(10)
+    })
+
+    it('onDrop does not update coordinates when x is not a number', () => {
+      const { result } = renderHook(() => useWidgetDrag(initialWidgets))
+      const dragStartEvent = {
+        dataTransfer: { effectAllowed: null, setData: vi.fn() },
+        preventDefault: vi.fn(),
+      }
+      act(() => result.current.onDragStart(dragStartEvent as any, 'w1', true))
+      
+      const dropEvent = { preventDefault: vi.fn() }
+      act(() => result.current.onDrop(dropEvent as any, 'w2'))
+      
+      const w1 = result.current.widgets.find(w => w.id === 'w1')
+      expect(w1?.x).toBeUndefined()
+    })
   })
 }

@@ -103,3 +103,42 @@ export function WidgetGrid({
     </Grid>
   )
 }
+
+if (import.meta.vitest) {
+  describe('WidgetGrid', () => {
+    it('renders and supports drag over and drop on grid cells when editing', () => {
+      const onDropMock = vi.fn()
+      const onDragStartMock = vi.fn()
+      const onDragEndMock = vi.fn()
+      const onDragOverMock = vi.fn()
+      const toggleVisibilityMock = vi.fn()
+      const resizeWidgetMock = vi.fn()
+      const moveWidgetMock = vi.fn()
+
+      const widgets = [{ id: 'deadlines', x: 0, y: 0, span: 12, visible: true }]
+
+      const { container } = renderWithProviders(
+        <WidgetGrid
+          isEditing={true}
+          visibleWidgets={widgets}
+          draggedItemId={null}
+          onDragStart={onDragStartMock}
+          onDragEnd={onDragEndMock}
+          onDragOver={onDragOverMock}
+          onDrop={onDropMock}
+          toggleVisibility={toggleVisibilityMock}
+          resizeWidget={resizeWidgetMock}
+          t={(k) => k}
+          moveWidget={moveWidgetMock}
+        />
+      )
+
+      const cells = container.querySelectorAll('.w-full.aspect-square')
+      expect(cells.length).toBe(24 * 12)
+
+      fireEvent.dragOver(cells[0])
+      fireEvent.drop(cells[0], { dataTransfer: {} })
+      expect(onDropMock).toHaveBeenCalledWith(expect.any(Object), 0, 0)
+    })
+  })
+}

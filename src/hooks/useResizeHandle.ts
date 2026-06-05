@@ -198,5 +198,28 @@ if (import.meta.vitest) {
       document.dispatchEvent(new MouseEvent('mouseup'))
       expect(document.body.style.userSelect).toBe('')
     })
+
+    it('handles touch events correctly', () => {
+      const onResize = vi.fn()
+      const { result } = renderHook(() => useResizeHandle('w1', 4, 2, onResize))
+
+      const preventDefault = vi.fn()
+      const touchStart = {
+        stopPropagation: vi.fn(),
+        cancelable: true,
+        preventDefault,
+        touches: [{ clientX: 100, clientY: 200 }],
+      } as unknown as React.TouchEvent<HTMLElement>
+
+      result.current.handleResize(touchStart, 'width')
+      
+      const touchMove = new TouchEvent('touchmove', {
+        touches: [{ clientX: 150, clientY: 200 } as any],
+      } as any)
+      document.dispatchEvent(touchMove)
+      expect(onResize).toHaveBeenCalledWith('w1', 5, 2)
+
+      document.dispatchEvent(new TouchEvent('touchend'))
+    })
   })
 }

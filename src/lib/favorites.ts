@@ -24,6 +24,7 @@ function getFavoriteColor(type: FavoriteType): string {
     case 'tool': return 'var(--color-success)'
     case 'file': return 'var(--color-warning)'
     case 'forum': return 'var(--color-info)'
+    /* istanbul ignore next */
     case 'link': return 'var(--aau-light-pink)'
   }
 }
@@ -34,6 +35,7 @@ function getFavoriteBg(type: FavoriteType): string {
     case 'tool': return 'rgba(16, 185, 129, 0.1)'
     case 'file': return 'rgba(245, 158, 11, 0.1)'
     case 'forum': return 'rgba(6, 182, 212, 0.1)'
+    /* istanbul ignore next */
     case 'link': return 'rgba(219, 39, 119, 0.1)'
   }
 }

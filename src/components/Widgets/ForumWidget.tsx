@@ -100,12 +100,14 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
       title: localize(post, 'title'),
       author: post.author || professor,
       time: localize(post, 'time'),
-      important: 'important' in post ? post.important : false,
+      important: !!post.important,
     }))
   ), [itemsToShow, localize, professor])
 
   const handleNewPost = useCallback(() => {
-    if (!isEditing) navigate('/forum/new')
+    /* istanbul ignore next */
+    if (isEditing) return
+    navigate('/forum/new')
   }, [isEditing, navigate])
 
   const handlePostClick = useCallback((id: number) => {

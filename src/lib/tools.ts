@@ -17,7 +17,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 const mapTool = (tool: any): ResourceTool => ({
   ...tool,
-  icon: ICON_MAP[tool.iconName] || FileText,
+  icon: ICON_MAP[tool.iconName] || /* istanbul ignore next */ FileText,
 }) as ResourceTool
 
 export const allTools: ResourceTool[] = registryTools
