@@ -1,13 +1,22 @@
 import { memo } from 'react';
-import { FileSignature, Book, Clock } from 'lucide-react';
 import { Card } from '@/components/ui';
 import { MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';;
 import { Heading } from '@/components/ui';
 import useStore from '@/store';
+import { getFileTypeConfig } from '@/lib/utils';
 
 function CourseResources() {
   const t = useStore((state) => state.t)
+
+  const pdfConfig = getFileTypeConfig('pdf')
+  const PdfIcon = pdfConfig.icon
+
+  const fileConfig = getFileTypeConfig('file')
+  const FileIcon = fileConfig.icon
+
+  const linkConfig = getFileTypeConfig('link')
+  const LinkIcon = linkConfig.icon
 
   return (
     <div className="animate-fade-in">
@@ -17,9 +26,36 @@ function CourseResources() {
         </Card.Header>
         <Card.Body>
           <Stack gap="md">
-            <MasterItem leading={FileSignature} title={t('syllabus')} subtitle="PDF, 2.4 MB" onClick={(e) => e.preventDefault()} />
-            <MasterItem leading={Book} title={t('reading_list')} subtitle="Excel, 150 KB" onClick={(e) => e.preventDefault()} />
-            <MasterItem leading={Clock} title={t('exam_schedule')} subtitle="Link" onClick={(e) => e.preventDefault()} />
+            <MasterItem
+              leading={
+                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${pdfConfig.colorClass}`}>
+                  <PdfIcon size={18} strokeWidth={2.5} aria-hidden="true" />
+                </div>
+              }
+              title={t('syllabus')}
+              subtitle="PDF, 2.4 MB"
+              onClick={(e) => e.preventDefault()}
+            />
+            <MasterItem
+              leading={
+                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${fileConfig.colorClass}`}>
+                  <FileIcon size={18} strokeWidth={2.5} aria-hidden="true" />
+                </div>
+              }
+              title={t('reading_list')}
+              subtitle="Excel, 150 KB"
+              onClick={(e) => e.preventDefault()}
+            />
+            <MasterItem
+              leading={
+                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${linkConfig.colorClass}`}>
+                  <LinkIcon size={18} strokeWidth={2.5} aria-hidden="true" />
+                </div>
+              }
+              title={t('exam_schedule')}
+              subtitle="Link"
+              onClick={(e) => e.preventDefault()}
+            />
           </Stack>
         </Card.Body>
       </Card>
