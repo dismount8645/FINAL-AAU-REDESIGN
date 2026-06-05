@@ -7,11 +7,11 @@ import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { useDropdown } from '@/hooks';
 import { cn } from '@/lib/utils';
-import { useUserStore } from '@/store/userStore';
 
 export default function ProfileDropdown() {
   const t = useStore((state) => state.t);
-  const { firstName, lastName } = useUserStore();
+  const firstName = useStore((state) => state.firstName);
+  const lastName = useStore((state) => state.lastName);
   const { isOpen, setIsOpen, dropdownRef, menuRef, buttonRef, toggle, handleMenuKeyDown, handleTriggerKeyDown } = useDropdown();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -132,6 +132,8 @@ if (import.meta.vitest) {
     beforeEach(() => {
       vi.clearAllMocks()
       useStore.setState({
+        firstName: 'Jacob Krarup',
+        lastName: 'Madsen',
         t: (key: string) => {
           if (key === 'common.user_name') return 'Jacob Krarup Madsen';
           if (key === 'common.user_role') return 'Studerende';

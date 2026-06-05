@@ -15,7 +15,6 @@ import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-uti
 import { useState, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useToast } from '@/components/ui'
-import { useUserStore } from '@/store/userStore'
 import { SETTINGS_CATEGORIES } from '@/config/settingsCategories'
 import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
 
@@ -52,18 +51,14 @@ function Settings() {
   const isMobile = useStore(state => state.isMobile)
   const [searchParams] = useSearchParams()
   const toast = useToast()
-  const userStore = useUserStore()
-
   const [activeTab, setActiveTab] = useState<string>(searchParams.get('tab') || 'profil')
   const [expandedCats, setExpandedCats] = useState<string[]>(['bruger', 'indstillinger'])
   const [mobileView, setMobileView] = useState<'menu' | 'pane'>('menu')
 
-  const {
-    firstName,
-    lastName,
-    isSaving,
-    handleSave: handleStoreSave,
-  } = userStore
+  const firstName = useStore(state => state.firstName)
+  const lastName = useStore(state => state.lastName)
+  const isSaving = useStore(state => state.isSaving)
+  const handleStoreSave = useStore(state => state.handleSave)
 
   const handleSave = useCallback(async () => {
     await handleStoreSave(toast, t)
@@ -245,7 +240,7 @@ if (import.meta.vitest) {
     beforeEach(() => {
       vi.clearAllMocks()
       localStorage.clear()
-      useUserStore.setState({
+      useStore.setState({
         firstName: 'Jacob Krarup',
         lastName: 'Madsen',
         lang: 'da',

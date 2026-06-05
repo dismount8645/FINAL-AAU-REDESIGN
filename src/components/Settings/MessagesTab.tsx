@@ -4,23 +4,10 @@ import { Text } from '@/components/ui'
 import useStore from '@/store'
 import SettingsSection from './SettingsSection'
 import Radio from '@/components/ui/Radio'
-import { useUserStore } from '@/store/userStore'
 
-interface MessagesTabProps {
-  messagePrivacy?: 'contacts' | 'courses' | 'anyone'
-  setMessagePrivacy?: (val: 'contacts' | 'courses' | 'anyone') => void
-  messageEmailOffline?: boolean
-  setMessageEmailOffline?: (val: boolean) => void
-}
-
-export default function MessagesTab(props: MessagesTabProps) {
-  const store = useUserStore()
-  const messagePrivacy = props.messagePrivacy ?? store.messagePrivacy
-  const setMessagePrivacy = props.setMessagePrivacy ?? store.setMessagePrivacy
-  const messageEmailOffline = props.messageEmailOffline ?? store.messageEmailOffline
-  const setMessageEmailOffline = props.setMessageEmailOffline ?? store.setMessageEmailOffline
-
-  const t = useStore(state => state.t)
+export default function MessagesTab() {
+  const store = useStore()
+  const { messagePrivacy, setMessagePrivacy, messageEmailOffline, setMessageEmailOffline, t } = store
 
   return (
     <SettingsSection titleKey="settings.message_prefs" descKey="settings.message_desc" className="settings__messages max-w-[var(--container-max-width)]">
