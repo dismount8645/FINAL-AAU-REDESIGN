@@ -14,7 +14,7 @@ export interface InfoCardProps {
   icon: LucideIcon
   iconBg?: string
   iconColor?: string
-  iconSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number
+  iconSize?: number
   title: string
   description?: string
   action?: ReactNode
@@ -32,7 +32,7 @@ const InfoCard = memo(function InfoCard({
   icon,
   iconBg,
   iconColor,
-  iconSize = 'md',
+  iconSize = 48,
   title,
   description,
   action,

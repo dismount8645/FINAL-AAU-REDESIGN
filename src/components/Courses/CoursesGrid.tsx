@@ -74,7 +74,7 @@ function CoursesGrid({
             >
               <Grid columns={12} gap="lg">
                 {[1, 2, 3].map((id) => (
-                  <Grid.Item span={4} tabletSpan={6} mobileSpan={12} key={`skeleton-course-${id}`}>
+                  <Grid.Item span={4} key={`skeleton-course-${id}`}>
                     <TeaserCard variant="vertical" isLoading={true} hasAction={true} />
                   </Grid.Item>
                 ))}
@@ -92,7 +92,7 @@ function CoursesGrid({
                 {sortedCourses.map((course) => {
                   const courseBadge = t(`course_${course.id}_label`) || t('active')
                   return (
-                    <Grid.Item span={4} tabletSpan={6} mobileSpan={12} key={course.id}>
+                    <Grid.Item span={4} key={course.id}>
                       <TeaserCard
                         variant="vertical"
                         image={course.img}
@@ -182,7 +182,7 @@ function CoursesGrid({
             >
               <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
                 {[1, 2].map((id) => (
-                  <Grid.Item span={6} tabletSpan={6} mobileSpan={12} key={`skeleton-forum-${id}`}>
+                  <Grid.Item span={6} key={`skeleton-forum-${id}`}>
                     <TeaserCard variant="horizontal" isLoading={true} hasAction={true} />
                   </Grid.Item>
                 ))}
@@ -198,7 +198,7 @@ function CoursesGrid({
             >
               <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
                 {forums.map((forum) => (
-                  <Grid.Item span={6} tabletSpan={6} mobileSpan={12} key={forum.id}>
+                  <Grid.Item span={6} key={forum.id}>
                     <TeaserCard
                       variant="horizontal"
                       image={forum.img}

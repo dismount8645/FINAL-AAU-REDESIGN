@@ -18,7 +18,7 @@ export default function NotificationsTab() {
           { id: 'push', label: t('settings.notif_channel_push'), desc: t('settings.notif_channel_push_desc') },
           { id: 'sms', label: t('settings.notif_channel_sms'), desc: t('settings.notif_channel_sms_desc') },
         ].map((ch) => (
-          <Grid.Item key={ch.id} span={1} mobileSpan={2}>
+          <Grid.Item key={ch.id} span={1}>
             <Card
               variant="outlined"
               className="hover:border-primary/30 transition-colors"

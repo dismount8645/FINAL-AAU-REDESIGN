@@ -1,18 +1,19 @@
 import { useState, useEffect, useCallback, memo, useMemo } from 'react';
 
 import { screen, fireEvent, within } from '@testing-library/react';
-import CoursesTabs from '@/components/Courses/CoursesTabs';
-import CoursesFilters from '@/components/Courses/CoursesFilters';
+import { Filter, ArrowDownZA, ArrowUpAZ } from 'lucide-react';
 import CoursesGrid from '@/components/Courses/CoursesGrid';
-import { Badge } from '@/components/ui';
-import { Button } from '@/components/ui';
+import { Badge, Button, Tabs } from '@/components/ui';
+import { SearchInput } from '@/components/ui';
 import PageLayout from '@/components/Layout/PageLayout';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
+import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/ui';
 import { ASSETS } from '@/lib';
 import { useFilteredCollection } from '@/hooks';
 import { env } from '@/lib/env';
+import { cn } from '@/lib/utils';
 import useStore from '@/store';
 
 import type { CourseWithStatus } from '@/store';
@@ -22,9 +23,14 @@ const forums = [
   { id: 11, title: 'Semesterforum (4. Semester)', titleEn: 'Semester Forum (4th Semester)', label: 'Fælles', labelEn: 'Shared', img: '/images/campus/2wb3689.webp', color: 'var(--color-primary)' },
 ]
 
-// Status weights used by the sort comparator
 const STATUS_WEIGHT: Record<string, number> = { active: 0, upcoming: 1, inactive: 2 }
 const TAB_MAP = { current: 'active', finished: 'inactive', upcoming: 'upcoming' } as const
+
+const tabItems = [
+  { key: 'current', labelDa: 'I gang', labelEn: 'Current' },
+  { key: 'finished', labelDa: 'Afsluttede', labelEn: 'Completed' },
+  { key: 'upcoming', labelDa: 'Kommende', labelEn: 'Upcoming' },
+]
 
 function Courses() {
   const t = useStore((state) => state.t)
@@ -48,7 +54,6 @@ function Courses() {
     }
   }, [isLoading])
 
-  // Pre-filter by active tab so the generic hook only sees tab-relevant courses
   const tabCourses = useMemo(
     () => courses.filter(c => c.status === TAB_MAP[activeTab]),
     [courses, activeTab]
@@ -89,6 +94,24 @@ function Courses() {
     toggleFavorite(type, id)
   }, [toggleFavorite])
 
+  const handleSortToggle = () => {
+    if (sortBy === 'status') {
+      if (sortOrder === 'asc') {
+        setSortOrder('desc')
+      } else {
+        setSortBy('alpha')
+        setSortOrder('asc')
+      }
+    } else {
+      if (sortOrder === 'asc') {
+        setSortOrder('desc')
+      } else {
+        setSortBy('status')
+        setSortOrder('asc')
+      }
+    }
+  }
+
   return (
     <PageLayout
       className="courses-page"
@@ -100,21 +123,72 @@ function Courses() {
       <div className="container container--courses pb-[var(--space-2xl)] mx-auto">
         <div className="courses-toolbar-wrapper w-full mb-[var(--space-lg)]">
           <Stack className="courses-toolbar bg-bg-highlight/30 dark:bg-white/5 p-[var(--space-sm)] rounded-[var(--radius-lg)] border border-border/40 flex-col md:flex-row md:justify-between md:items-center gap-sm">
-            <CoursesTabs
+            <Tabs
+              items={tabItems.map((ti) => ({
+                ...ti,
+                label: t(ti.key === 'current' ? 'tab_current' : ti.key === 'finished' ? 'tab_finished' : 'tab_upcoming')
+              }))}
               activeTab={activeTab}
-              setActiveTab={setActiveTab}
+              onChange={(v) => setActiveTab(v as 'current' | 'finished' | 'upcoming')}
             />
-            <CoursesFilters
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              sortOrder={sortOrder}
-              setSortOrder={setSortOrder}
-              sortBy={sortBy}
-              setSortBy={setSortBy}
-              activeFilter={activeFilter}
-              setActiveFilter={setActiveFilter}
-              labelFilters={labelFilters}
-            />
+            <Stack className="flex-col md:flex-row md:items-center gap-md">
+              <SearchInput
+                placeholder={t('search_courses')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onClear={() => setSearchQuery('')}
+                className="w-full max-w-[320px]"
+              />
+              <Stack direction="row" gap="xs" className="flex items-center gap-xs">
+                <div className="relative flex-1">
+                  <Dropdown>
+                    <DropdownTrigger render={
+                      <Button
+                        variant={activeFilter ? 'primary' : 'ghost'}
+                        size="sm"
+                        icon={Filter}
+                      >
+                        {t('filter')}
+                      </Button>
+                    } />
+                    <DropdownContent align="end" className="min-w-[200px]">
+                      <DropdownItem
+                        onClick={() => setActiveFilter(null)}
+                        className={cn(
+                          "cursor-pointer",
+                          !activeFilter ? 'bg-primary/10 text-primary font-semibold' : ''
+                        )}
+                      >
+                        {t('all')}
+                      </DropdownItem>
+                      {labelFilters.map(label => (
+                        <DropdownItem
+                          key={label}
+                          onClick={() => setActiveFilter(label)}
+                          className={cn(
+                            "cursor-pointer",
+                            activeFilter === label ? 'bg-primary/10 text-primary font-semibold' : ''
+                          )}
+                        >
+                          {label}
+                        </DropdownItem>
+                      ))}
+                    </DropdownContent>
+                  </Dropdown>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  icon={sortOrder === 'asc' ? ArrowDownZA : ArrowUpAZ}
+                  className="flex-1"
+                  onClick={handleSortToggle}
+                >
+                  {sortBy === 'status'
+                    ? (sortOrder === 'asc' ? t('active_first') : t('inactive_first'))
+                    : (sortOrder === 'asc' ? 'A-Å' : 'Å-A')}
+                </Button>
+              </Stack>
+            </Stack>
           </Stack>
         </div>
 
@@ -152,7 +226,7 @@ function Courses() {
                 {t('upcoming_modules_stads_desc')}
               </Text>
               <div className="courses__promo-action mt-[var(--space-xl)]">
-                <Button 
+                <Button
                   onClick={() => env.open('https://kursuskatalog.aau.dk')}
                   className="bg-white text-primary hover:bg-white/90 hover:-translate-y-1 border-none font-bold px-md h-10 text-xs rounded-[var(--radius-md)] shadow-sm"
                 >
@@ -180,26 +254,25 @@ if (import.meta.vitest) {
       expect(screen.getAllByText('Moduler').length).toBeGreaterThan(0)
       expect(screen.getByText('I gang')).toBeInTheDocument()
     })
-  
+
     it('switches tabs correctly', () => {
       renderWithProviders(<Courses />)
       const completedTab = screen.getByText('Afsluttede')
       fireEvent.click(completedTab)
-      // Should show no courses in mock data for inactive status usually, or check count
       expect(completedTab.closest('.tabs__item--active')).toBeDefined()
     })
-  
+
     it('toggles sections including forums', () => {
       renderWithProviders(<Courses />)
       const coursesHeader = screen.getByText(/Dine moduler/i)
       fireEvent.click(coursesHeader)
       expect(screen.queryByText('Åbn modul')).not.toBeInTheDocument()
-      
+
       const forumsHeader = screen.getByText(/Dine Fora/i)
       fireEvent.click(forumsHeader)
       expect(screen.queryByText('Studienævn for DDK')).not.toBeInTheDocument()
     })
-  
+
     it('toggles star on a course', () => {
       const toggleFavorite = vi.fn()
       useStore.setState({ toggleFavorite })
@@ -210,12 +283,11 @@ if (import.meta.vitest) {
         expect(toggleFavorite).toHaveBeenCalledWith('course', expect.any(Number))
       }
     })
-  
+
     it('toggles the star on a forum card', () => {
       const toggleFavorite = vi.fn()
       useStore.setState({ toggleFavorite })
       renderWithProviders(<Courses />)
-      // Forum cards are horizontal teaser cards
       const forumsGrid = document.querySelector('.courses__forums-grid')
       const forumStars = forumsGrid?.querySelectorAll('.teaser-card__star')
       if (forumStars && forumStars.length > 0) {
@@ -223,19 +295,19 @@ if (import.meta.vitest) {
         expect(toggleFavorite).toHaveBeenCalledWith('forum', expect.any(Number))
       }
     })
-  
+
     it('switches to upcoming tab and shows upcoming courses', () => {
       renderWithProviders(<Courses />)
       fireEvent.click(screen.getByText('Kommende'))
       expect(screen.getByText('Bachelorprojekt')).toBeInTheDocument()
     })
-  
+
     it('switches to completed tab and shows completed courses', () => {
       renderWithProviders(<Courses />)
       fireEvent.click(screen.getByText('Afsluttede'))
       expect(screen.getByText('Problembaseret Læring (PBL)')).toBeInTheDocument()
     })
-  
+
     it('renders in English with English course titles', () => {
       useStore.setState({ lang: 'en' })
       renderWithProviders(<Courses />)
@@ -243,28 +315,27 @@ if (import.meta.vitest) {
       expect(screen.getByText('Web Development and CMS')).toBeInTheDocument()
       expect(screen.getByText('Module 4')).toBeInTheDocument()
     })
-  
+
     it('renders forums with English titles', () => {
       useStore.setState({ lang: 'en' })
       renderWithProviders(<Courses />)
       expect(screen.getByText('Study Board for DDK')).toBeInTheDocument()
       expect(screen.getByText('Semester Forum (4th Semester)')).toBeInTheDocument()
     })
-  
+
     it('renders Module 1 label for course 3 in English', () => {
       useStore.setState({ lang: 'en' })
       renderWithProviders(<Courses />)
-      // Course 3 (Videnskabsteori) now has labelEn: "Module 1"
       expect(screen.getByText('Module 1')).toBeInTheDocument()
     })
-  
+
     it('types in search input to filter courses', () => {
       renderWithProviders(<Courses />)
       const searchInput = screen.getByPlaceholderText(/søg/i) as HTMLInputElement
       fireEvent.change(searchInput, { target: { value: 'Digital' } })
       expect(screen.getAllByText(/Digital Design og Kommunikation/).length).toBeGreaterThan(0)
     })
-  
+
     it('opens filter dropdown and selects a label filter', () => {
       renderWithProviders(<Courses />)
       const filterBtn = screen.getByText('Filter')
@@ -274,7 +345,7 @@ if (import.meta.vitest) {
       const labelBtn = within(dropdownContent as HTMLElement).getByText('Modul 4')
       fireEvent.click(labelBtn)
     })
-  
+
     it('opens filter dropdown and clears filter with All', () => {
       renderWithProviders(<Courses />)
       const filterBtn = screen.getByText('Filter')
@@ -283,7 +354,7 @@ if (import.meta.vitest) {
       fireEvent.click(allBtn)
       expect(screen.queryByText('Alle')).not.toBeInTheDocument()
     })
-  
+
     it('closes filter dropdown on click outside', () => {
       renderWithProviders(<Courses />)
       const filterBtn = screen.getByText('Filter')
@@ -292,14 +363,14 @@ if (import.meta.vitest) {
       fireEvent.mouseDown(document.body)
       expect(screen.queryByText('Alle')).not.toBeInTheDocument()
     })
-  
+
     it('toggles sort order', () => {
       renderWithProviders(<Courses />)
       const sortBtn = screen.getByText('Aktive først')
       fireEvent.click(sortBtn)
       fireEvent.click(sortBtn)
     })
-  
+
     it('shows clear search button when no results found', () => {
       renderWithProviders(<Courses />)
       const searchInput = screen.getByPlaceholderText(/søg/i) as HTMLInputElement
@@ -308,7 +379,7 @@ if (import.meta.vitest) {
       fireEvent.click(clearBtn)
       expect(screen.queryByText('Ryd søgning')).not.toBeInTheDocument()
     })
-  
+
     it('renders clear search button in English', () => {
       useStore.setState({ lang: 'en' })
       renderWithProviders(<Courses />)
@@ -316,7 +387,7 @@ if (import.meta.vitest) {
       fireEvent.change(searchInput, { target: { value: 'zzz' } })
       expect(screen.getByText('Clear search')).toBeInTheDocument()
     })
-  
+
     it('clears search via SearchInput X button', () => {
       renderWithProviders(<Courses />)
       const searchInput = screen.getByPlaceholderText(/søg/i) as HTMLInputElement
@@ -325,34 +396,28 @@ if (import.meta.vitest) {
       fireEvent.click(clearBtn)
       expect(searchInput).toHaveValue('')
     })
-  
+
     it('cycles through all sort combinations', () => {
       renderWithProviders(<Courses />)
       const sortBtn = screen.getByText('Aktive først')
-      // status asc (default) -> status desc
       fireEvent.click(sortBtn)
       expect(screen.getByText('Inaktive først')).toBeInTheDocument()
-      // status desc -> alpha asc
       fireEvent.click(sortBtn)
       expect(screen.getByText('A-Å')).toBeInTheDocument()
-      // alpha asc -> alpha desc
       fireEvent.click(sortBtn)
       expect(screen.getByText('Å-A')).toBeInTheDocument()
-      // alpha desc -> status asc
       fireEvent.click(sortBtn)
       expect(screen.getByText('Aktive først')).toBeInTheDocument()
     })
-  
+
     it('toggles course favorite star', () => {
       renderWithProviders(<Courses />)
       const stars = screen.getAllByLabelText(/favorit/i)
       fireEvent.click(stars[0])
-      // Verify it toggles (this depends on your store mock, but if it calls toggleFavorite it should be covered)
     })
-  
+
     it('toggles forum favorite star', () => {
       renderWithProviders(<Courses />)
-      // Find a star in the forums section
       const forumsHeading = screen.getByText(/Dine Fora/i)
       const forumStar = forumsHeading.parentElement?.parentElement?.parentElement?.querySelector('button[aria-label*="favorit"]')
       if (forumStar) fireEvent.click(forumStar)

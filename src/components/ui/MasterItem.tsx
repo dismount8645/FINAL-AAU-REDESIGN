@@ -2,25 +2,15 @@ import { memo, type ReactNode, type MouseEvent, type KeyboardEvent } from 'react
 import { type LucideIcon } from 'lucide-react'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 export interface MasterItemProps {
-  /** Leading element: LucideIcon component or any rendered ReactNode (like <Avatar />) */
   leading?: LucideIcon | ReactNode
-  /** Custom wrapper/props for the leading container */
   leadingClassName?: string
-  /** Primary text content */
   title: ReactNode
-  /** Secondary text content */
   subtitle?: ReactNode
-  /** Extra detail below subtitle */
   meta?: ReactNode
-  /** Trailing slot for buttons, badges, unread dots, etc. */
   trailing?: ReactNode
-  /** Unread state: adds visual weight and highlight */
   unread?: boolean
-  /** Selected/active state: adds panel active indicator and background */
   selected?: boolean
-  /** Click handler */
   onClick?: (e: MouseEvent<HTMLDivElement>) => void
-  /** Class name override */
   className?: string
 }
 
@@ -46,7 +36,6 @@ export const MasterItem = memo(function MasterItem({
     }
   }
 
-  // Determine leading element type
   const renderLeading = () => {
     if (!Leading) return null
     const isLucideIcon = typeof Leading === 'function' || (typeof Leading === 'object' && Leading !== null && 'render' in Leading)
@@ -54,7 +43,7 @@ export const MasterItem = memo(function MasterItem({
       const IconComp = Leading as LucideIcon
       return (
         <div className={`shrink-0 flex items-center justify-center transition-all ${leadingClassName}`}>
-          <IconComp size={20} strokeWidth={2} />
+          <IconComp size={16} strokeWidth={2} />
         </div>
       )
     }
@@ -65,12 +54,12 @@ export const MasterItem = memo(function MasterItem({
     <Stack
       direction="row"
       align="center"
-      gap="md"
+      gap="sm"
       tabIndex={isClickable ? 0 : undefined}
       role={isClickable ? 'button' : undefined}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={`group p-md border-b border-border/40 transition-all duration-150 relative bg-bg-card focus-visible:outline-none focus-visible:shadow-focus ${
+      className={`group p-sm border-b border-border/40 transition-all duration-150 relative bg-bg-card focus-visible:outline-none focus-visible:shadow-focus ${
         isClickable ? 'cursor-pointer hover:bg-bg-hover' : ''
       } ${unread ? 'is-unread font-semibold' : ''} ${
         selected ? 'is-selected bg-primary/5 dark:bg-primary/10 active bg-bg-highlight dark:bg-white/5' : ''
@@ -104,10 +93,10 @@ if (import.meta.vitest) {
     it('handles click and keyboard interaction', () => {
       const clickSpy = vi.fn()
       render(<MasterItem title="Click Me" onClick={clickSpy} />)
-      
+
       const item = screen.getByText('Click Me').closest('[role="button"]')!
       expect(item).toHaveAttribute('tabIndex', '0')
-      
+
       fireEvent.click(item)
       expect(clickSpy).toHaveBeenCalledTimes(1)
 
@@ -127,14 +116,12 @@ if (import.meta.vitest) {
 
     it('does not trigger click when non-clickable keydown or non-target keydown occurs', () => {
       const clickSpy = vi.fn()
-      
-      // Non-clickable keydown
+
       const { container } = render(<MasterItem title="Non Clickable" />)
       const nonClickableItem = container.firstChild as HTMLElement
       fireEvent.keyDown(nonClickableItem, { key: 'Enter' })
       expect(clickSpy).not.toHaveBeenCalled()
 
-      // Clickable but other key
       const { container: container2 } = render(<MasterItem title="Clickable" onClick={clickSpy} />)
       const clickableItem = container2.firstChild as HTMLElement
       fireEvent.keyDown(clickableItem, { key: 'Escape' })

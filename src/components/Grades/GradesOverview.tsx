@@ -26,7 +26,7 @@ function GradesOverview({
   return (
     <Grid columns={12} gap="md" className="w-[100%]">
       {/* Total GPA Card */}
-      <Grid.Item span={4} tabletSpan={6} mobileSpan={12}>
+      <Grid.Item span={4}>
         <Card variant="brand" className="h-[100%] overflow-visible p-[var(--space-sm)] relative">
           <Card.Body className="p-[var(--space-sm)] flex flex-col justify-between">
             <div>
@@ -47,7 +47,7 @@ function GradesOverview({
       </Grid.Item>
 
       {/* ECTS Progress Card */}
-      <Grid.Item span={4} tabletSpan={6} mobileSpan={12}>
+      <Grid.Item span={4}>
         <Card className="h-[100%] p-[var(--space-sm)]">
           <Card.Body className="p-[var(--space-sm)] flex flex-col justify-between">
             <div>
@@ -70,7 +70,7 @@ function GradesOverview({
       </Grid.Item>
 
       {/* Completed Modules Ratio */}
-      <Grid.Item span={4} tabletSpan={12} mobileSpan={12}>
+      <Grid.Item span={4}>
         <Card className="h-[100%] p-[var(--space-sm)]">
           <Card.Body className="p-[var(--space-sm)] flex flex-col justify-between">
             <div>

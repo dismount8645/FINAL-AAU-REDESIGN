@@ -42,12 +42,12 @@ export default function ResourcesSection({
             : localize(tool, 'title')
 
           return (
-            <Grid.Item span={4} tabletSpan={6} mobileSpan={1} key={tool.id}>
+            <Grid.Item span={4} key={tool.id}>
               <InfoCard
                 icon={tool.icon}
                 iconBg={tool.bg}
                 iconColor={tool.color}
-                iconSize={isStarredOnly ? 'sm' : 'md'}
+                iconSize={isStarredOnly ? 32 : 48}
                 title={titleText}
                 description={localize(tool, 'desc')}
                 elevated

@@ -17,13 +17,12 @@ export interface IconProps extends SVGProps<SVGSVGElement> {
   icon?: LucideIcon
   name?: string
   variant?: 'primary' | 'accent' | 'success' | 'danger' | 'warning' | 'info' | 'muted'
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
   label?: string
   strokeWidth?: number
 }
 
 const sizeMap: Record<string, number> = {
-  xs: 12,
   sm: 14,
   md: 16,
   lg: 20,
@@ -72,27 +71,17 @@ export default function Icon({
   )
 }
 
-const circleSizeMap = {
-  xs: 24,
-  sm: 32,
-  md: 48,
-  lg: 60,
-  xl: 80,
-}
-
-type IconCircleSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-
 export interface IconCircleProps {
   icon: LucideIcon;
   bg?: string;
   color?: string;
-  size?: IconCircleSize | number;
+  size?: number;
   className?: string;
 }
 
-export function IconCircle({ icon: IconComponent, bg, color, size = 'md', className }: IconCircleProps) {
-  const px = typeof size === 'number' ? size : (circleSizeMap[size] || circleSizeMap.md)
-  const iconSize = px * 0.5
+export function IconCircle({ icon: IconComponent, bg, color, size = 48, className }: IconCircleProps) {
+  const px = size
+  const iconSize = size * 0.5
 
   return (
     <Stack
@@ -165,21 +154,10 @@ if (import.meta.vitest) {
       expect(wrapper.style.color).toBe('rgb(255, 255, 255)')
     })
   
-    it('falls back to md for unknown size string', () => {
-      const { container } = render(<IconCircle icon={Plus} size={"unknown" as any} />)
+    it('renders with default size 48', () => {
+      const { container } = render(<IconCircle icon={Plus} />)
       const wrapper = container.firstChild as HTMLElement
       expect(wrapper.style.width).toBe('48px')
-    })
-  
-    it('handles all size presets', () => {
-      const sizes: ('xs' | 'sm' | 'md' | 'lg' | 'xl')[] = ['xs', 'sm', 'md', 'lg', 'xl']
-      const expected = [24, 32, 48, 60, 80]
-      
-      sizes.forEach((size, i) => {
-        const { container } = render(<IconCircle icon={Plus} size={size} />)
-        const wrapper = container.firstChild as HTMLElement
-        expect(wrapper.style.width).toBe(`${expected[i]}px`)
-      })
     })
   })
 }

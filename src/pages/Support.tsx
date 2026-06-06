@@ -67,7 +67,7 @@ function Support() {
 
       <div className="container pb-[var(--space-2xl)]">
         <Grid>
-          <Grid.Item span={7} mobileSpan={12} tabletSpan={6}>
+          <Grid.Item span={7}>
             <Stack gap="lg">
               <FaqSection />
 
@@ -78,7 +78,7 @@ function Support() {
                       icon={Phone}
                       iconBg="transparent"
                       iconColor="var(--color-primary)"
-                      iconSize="lg"
+                      iconSize={60}
                       title="+45 9940 2020"
                       description={t('phone_support')}
                     />
@@ -90,7 +90,7 @@ function Support() {
                       icon={Globe}
                       iconBg="transparent"
                       iconColor="var(--color-success)"
-                      iconSize="lg"
+                      iconSize={60}
                       title="Serviceportal.aau.dk"
                       description={t('requires_aau_login')}
                     />
@@ -102,7 +102,7 @@ function Support() {
             </Stack>
           </Grid.Item>
 
-          <Grid.Item span={5} mobileSpan={12} tabletSpan={6}>
+          <Grid.Item span={5}>
             <SupportSidebar>
               <ContactForm
                 subject={subject}

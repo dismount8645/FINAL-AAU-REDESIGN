@@ -2,7 +2,7 @@ import { type ComponentProps, memo, forwardRef } from 'react';
 
 import { Dialog as DialogPrimitive } from '@base-ui/react/dialog';
 
-import { motion } from 'framer-motion';
+
 import { XIcon } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
@@ -31,14 +31,7 @@ const DialogOverlay = memo(forwardRef<HTMLDivElement, DialogPrimitive.Backdrop.P
     <DialogPrimitive.Backdrop
       ref={ref}
       data-slot="dialog-overlay"
-      render={
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-        />
-      }
+      render={<div />}
       className={cn(
         "fixed inset-0 isolate z-[var(--z-dialog)] bg-primary/50 backdrop-blur-sm",
         className
@@ -57,14 +50,7 @@ const DialogContent = memo(forwardRef<HTMLDivElement, DialogPrimitive.Popup.Prop
     <DialogPrimitive.Popup
       ref={ref}
       data-slot="dialog-content"
-      render={
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, x: "-50%", y: "-50%" }}
-          animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
-          exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-50%" }}
-          transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-        />
-      }
+      render={<div />}
       className={cn(
         "fixed top-1/2 left-1/2 z-[var(--z-dialog)] flex flex-col w-[calc(100dvw-2rem)] sm:w-full max-w-[480px] min-w-[280px]",
         "rounded-[var(--radius-xl)] bg-bg-card p-[var(--space-md)] lg:p-[var(--space-lg)]",

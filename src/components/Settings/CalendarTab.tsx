@@ -12,7 +12,7 @@ export default function CalendarTab() {
     <SettingsSection titleKey="settings.calendar_prefs" descKey="settings.calendar_desc" className="settings__calendar max-w-[var(--container-max-width)]">
 
       <Grid columns={2} gap="md" className="mt-sm">
-        <Grid.Item span={1} mobileSpan={2}>
+        <Grid.Item span={1}>
           <FormField id="pref-first-day" label={t('settings.first_day_of_week')}>
             <Select
               id="pref-first-day"
@@ -26,7 +26,7 @@ export default function CalendarTab() {
           </FormField>
         </Grid.Item>
 
-        <Grid.Item span={1} mobileSpan={2}>
+        <Grid.Item span={1}>
           <FormField id="pref-default-view" label={t('settings.default_view')}>
             <Select
               id="pref-default-view"

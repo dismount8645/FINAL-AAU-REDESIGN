@@ -1,4 +1,4 @@
-import { useRef, useEffect, Suspense } from 'react';
+import { useEffect, Suspense } from 'react';
 
 
 import { Outlet, useLocation, MemoryRouter, Routes, Route } from 'react-router-dom';
@@ -9,47 +9,9 @@ import Topbar from '@/components/Layout/Topbar';
 import useStore from '@/store';
 
 function Layout() {
-  const isMobile = useStore((state) => state.isMobile);
-  const isMobileOpen = useStore((state) => state.isMobileOpen);
   const t = useStore((state) => state.t);
-  const _lang = useStore((state) => state.lang);
-  void _lang;
   const location = useLocation();
   const isMessages = location.pathname.startsWith('/messages');
-  const scrollPositionRef = useRef<number>(0);
-  const prevMobileOpenRef = useRef<boolean>(false);
-
-  useEffect(() => {
-    if (!isMobile) {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      return;
-    }
-    
-    if (isMobileOpen) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-      /* istanbul ignore next */
-      if (!prevMobileOpenRef.current) {
-        scrollPositionRef.current = window.scrollY;
-      }
-    } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      if (prevMobileOpenRef.current) {
-        /* istanbul ignore next */
-        requestAnimationFrame(() => {
-          window.scrollTo(0, scrollPositionRef.current);
-        });
-      }
-    }
-    prevMobileOpenRef.current = isMobileOpen;
-
-    return () => {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    };
-  }, [isMobileOpen, isMobile]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -112,8 +74,6 @@ if (import.meta.vitest) {
     beforeEach(() => {
       useStore.setState({
         isCollapsed: false,
-        isMobile: false,
-        isMobileOpen: false,
         lang: 'da',
       })
     })
@@ -131,45 +91,11 @@ if (import.meta.vitest) {
       expect(screen.getByText('Page content')).toBeInTheDocument()
     })
   
-    it('does not modify body overflow on desktop', () => {
-      useStore.setState({ isMobile: false, isMobileOpen: true })
-      renderLayout('/')
-      expect(document.body.style.overflow).toBe('')
-      expect(document.documentElement.style.overflow).toBe('')
-    })
-  
-    it('sets body overflow hidden on mobile when sidebar opens', () => {
-      useStore.setState({ isMobile: true, isMobileOpen: false })
-      renderLayout('/')
-      act(() => {
-        useStore.setState({ isMobileOpen: true })
-      })
-      expect(document.body.style.overflow).toBe('hidden')
-      expect(document.documentElement.style.overflow).toBe('hidden')
-    })
-  
-    it('restores body overflow on mobile when sidebar closes', () => {
-      useStore.setState({ isMobile: true, isMobileOpen: true })
-      renderLayout('/')
-      act(() => {
-        useStore.setState({ isMobileOpen: false })
-      })
-      expect(document.body.style.overflow).toBe('')
-      expect(document.documentElement.style.overflow).toBe('')
-    })
-  
     it('hides footer on messages page', () => {
       renderLayout('/messages')
       expect(screen.getByText('Messages page')).toBeInTheDocument()
       expect(screen.queryByTestId('footer')).not.toBeInTheDocument()
     })
   
-    it('cleanup restores body overflow on unmount', () => {
-      useStore.setState({ isMobile: true, isMobileOpen: true })
-      const { unmount } = renderLayout('/')
-      expect(document.body.style.overflow).toBe('hidden')
-      unmount()
-      expect(document.body.style.overflow).toBe('')
-    })
   })
 }

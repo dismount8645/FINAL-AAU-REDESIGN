@@ -30,4 +30,3 @@ export { default as PageSkeleton } from './PageSkeleton';
 export { default as TabBar } from './TabBar';
 export { default as SectionHeader } from './SectionHeader';
 export { default as MasterItem } from './MasterItem';
-export { default as ResizeCorner } from './ResizeCorner';

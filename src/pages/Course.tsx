@@ -2,17 +2,206 @@ import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 
 
 import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
-import CourseSidebar from '@/components/Courses/CourseSidebar';
-import CourseTabContent from '@/components/Courses/CourseTabContent';
+import {
+  MessageSquare, Users, GraduationCap, Book, FileSignature, Clock,
+  ChevronDown, ChevronUp, Check
+} from 'lucide-react';
 import PageLayout from '@/components/Layout/PageLayout';
 import SplitLayout from '@/components/Layout/SplitLayout';
-import { ModuleHeader } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Tabs } from '@/components/ui';
-import { courseData, participantsData, courseTabItems } from '@/lib/data';
+import {
+  ModuleHeader, Tabs, Card, Heading, Text, ProgressBar, MasterItem,
+  Avatar, Button
+} from '@/components/ui';
+import { courseData, participantsData, courseTabItems, courses } from '@/lib/data';
 import { storage } from '@/lib/storage';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
+import { ASSETS } from '@/lib';
+import { useFormat } from '@/hooks';
+import { ITEM_TYPE_MAP } from '@/lib/theme';
+import type { CourseItem } from '@/lib/types';
+import CourseResources from '@/components/Courses/CourseResources';
+import CourseInfo from '@/components/Courses/CourseInfo';
+import CourseParticipants from '@/components/Courses/CourseParticipants';
+import CoursePbl from '@/components/Courses/CoursePbl';
+import ForumWidget from '@/components/Widgets/ForumWidget';
+
+const LessonItemRow = memo(function LessonItemRow({
+  item,
+  courseId,
+  sectionId,
+  completed,
+  onToggleItem,
+}: {
+  item: CourseItem
+  courseId: string
+  sectionId: string
+  completed: boolean
+  onToggleItem: (id: number) => void
+}) {
+  const t = useStore((state) => state.t)
+  const navigate = useNavigate()
+
+  const handleClick = item.type === 'assignment'
+    ? () => navigate(`/submission/${courseId}/${item.id}`)
+    : undefined
+
+  const handleToggle = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    onToggleItem(item.id)
+  }, [item.id, onToggleItem])
+
+  const { getCourseItemMetadata } = useFormat()
+  const metadata = getCourseItemMetadata(item)
+
+  const isAutomatic = item.type === 'assignment'
+  const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default
+  const Icon = themeConfig.icon
+
+  return (
+    <MasterItem
+      className="mb-sm rounded-[var(--radius-md)] border border-border/40"
+      leading={
+        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors text-${themeConfig.color} ${themeConfig.bg}`}>
+          <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
+        </div>
+      }
+      title={
+        <p className="font-bold text-main m-0 text-sm leading-tight">
+          {t(`course_${courseId}_${sectionId}_i${item.id}_title`)}
+        </p>
+      }
+      subtitle={metadata}
+      onClick={handleClick}
+      trailing={
+        <button
+          className={`lesson-item__checkbox group/check flex items-center justify-center w-11 h-11 border rounded-[var(--radius-sm)] transition shrink-0 relative focus-visible:shadow-focus focus-visible:outline-none ${
+            completed
+              ? "bg-primary border-primary text-white"
+              : isAutomatic
+              ? "border-dashed opacity-30 cursor-default"
+              : "border-border bg-transparent hover:border-primary/50 dark:border-white/20"
+          }`}
+          onClick={handleToggle}
+          aria-label={completed ? t('mark_incomplete') : t('mark_complete')}
+          type="button"
+          disabled={isAutomatic}
+        >
+          {completed ? (
+            <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+          ) : (
+            !isAutomatic && (
+              <Check
+                size={16}
+                strokeWidth={2.5}
+                aria-hidden="true"
+                className="opacity-0 group-hover/check:opacity-30 transition-opacity"
+              />
+            )
+          )}
+        </button>
+      }
+    />
+  )
+})
+
+function CourseModules({
+  courseId,
+  progress,
+  completedItems,
+  expandedSections,
+  sections,
+  toggleItem,
+  toggleSection,
+}: {
+  courseId: string
+  progress: number
+  completedItems: number[]
+  expandedSections: string[]
+  sections: { id: string; title: string; titleEn: string; items: CourseItem[] }[]
+  toggleItem: (itemId: number) => void
+  toggleSection: (sectionId: string) => void
+}) {
+  const t = useStore((state) => state.t)
+
+  const getProgressMessage = (pct: number) => {
+    if (pct === 0) return t('progress_0')
+    if (pct < 50) return t('progress_25')
+    if (pct < 75) return t('progress_50')
+    if (pct < 100) return t('progress_75')
+    return t('progress_100')
+  }
+
+  return (
+    <Stack gap="md">
+      <Card variant="elevated" accent="left" className="mb-xl">
+        <Card.Header>
+          <Stack gap="2xs">
+            <Text weight="bold" size="lg" className="card__title">{t('your_progress')}</Text>
+            <Text size="sm" muted>{getProgressMessage(progress)}</Text>
+          </Stack>
+          <div className="progress-stat text-right">
+            <Text size="md" weight="bold" className="progress-value text-[var(--color-primary)] block leading-[1]">
+              {progress}%
+            </Text>
+            <Text size="xs" muted className="text-uppercase tracking-[0.05em]">
+              {t('completed_short')}
+            </Text>
+          </div>
+        </Card.Header>
+        <Card.Body>
+          <ProgressBar value={progress} />
+        </Card.Body>
+      </Card>
+
+      <Stack gap="lg">
+        {sections.map((section) => {
+          const isExpanded = expandedSections.includes(section.id)
+          return (
+            <Card key={section.id} variant="elevated" className="course-section mb-md overflow-hidden shadow-[var(--shadow-md)]">
+              <Card.Header className="section-header p-0 bg-bg-card overflow-hidden">
+                <button
+                  type="button"
+                  data-section-id={section.id}
+                  className="w-full text-left p-md px-lg flex items-start justify-between transition-colors duration-150 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
+                  onClick={() => toggleSection(section.id)}
+                  aria-expanded={isExpanded}
+                >
+                  <Stack direction="row" align="start" gap="sm" className="flex-1 min-w-0 text-left">
+                    <div className={`status-dot w-2 h-2 rounded-[var(--radius-pill)] shrink-0 mt-2 md:mt-2.5 ${progress > 50 ? 'active bg-success shadow-[0_0_6px_rgba(var(--color-success-rgb),0.3)]' : 'pending bg-[var(--color-border)] dark:bg-white/20'}`} />
+                    <Heading level={4} as="h2" className="m-0 text-left">{t(`course_${courseId}_${section.id}_title`)}</Heading>
+                  </Stack>
+                  {isExpanded ? (
+                    <ChevronUp size={18} strokeWidth={2} className="text-muted transition-transform duration-150 mt-1 md:mt-1.5 shrink-0" />
+                  ) : (
+                    <ChevronDown size={18} strokeWidth={2} className="text-muted transition-transform duration-150 mt-1 md:mt-1.5 shrink-0" />
+                  )}
+                </button>
+              </Card.Header>
+              {isExpanded && (
+                <Card.Body className="section-content p-md">
+                  <Stack gap="xs">
+                    {section.items.map((item) => (
+                      <LessonItemRow
+                        key={item.id}
+                        item={item}
+                        courseId={courseId}
+                        sectionId={section.id}
+                        completed={completedItems.includes(item.id)}
+                        onToggleItem={toggleItem}
+                      />
+                    ))}
+                  </Stack>
+                </Card.Body>
+              )}
+            </Card>
+          )
+        })}
+      </Stack>
+    </Stack>
+  )
+}
 
 function Course() {
   const { id } = useParams<{ id: string }>()
@@ -100,27 +289,144 @@ function Course() {
                 activeTab={activeTab}
                 onChange={(val) => setActiveTab(val || 'modules')}
               />
-              <CourseTabContent
-                activeTab={activeTab}
-                courseId={id!}
-                progress={progress}
-                completedItems={completedItems}
-                expandedSections={expandedSections}
-                sections={data.sections}
-                toggleItem={toggleItem}
-                toggleSection={toggleSection}
-                participantsData={participantsData}
-                professor={data.professor}
-              />
+              <div className="min-h-[300px]">
+                <div>
+                  {activeTab === 'modules' && (
+                    <CourseModules
+                      courseId={id!}
+                      progress={progress}
+                      completedItems={completedItems}
+                      expandedSections={expandedSections}
+                      sections={data.sections}
+                      toggleItem={toggleItem}
+                      toggleSection={toggleSection}
+                    />
+                  )}
+
+                  {activeTab === 'forum' && (
+                    <ForumWidget professor={data.professor} />
+                  )}
+
+                  {activeTab === 'resources' && (
+                    <CourseResources />
+                  )}
+
+                  {activeTab === 'info' && (
+                    <CourseInfo />
+                  )}
+
+                  {activeTab === 'participants' && (
+                    <CourseParticipants participantsData={participantsData} />
+                  )}
+
+                  {activeTab === 'pbl' && (
+                    <CoursePbl />
+                  )}
+                </div>
+              </div>
             </Stack>
           }
           sidebar={
-            <CourseSidebar
-              courseId={id!}
-              professor={data.professor}
-              email={data.email}
-              setActiveTab={setActiveTab}
-            />
+            <aside className="flex flex-col gap-lg">
+              <Card variant="elevated" className="h-fit">
+                <Card.Header>
+                  <Text weight="bold" size="lg" className="card__title">{t('quick_access')}</Text>
+                </Card.Header>
+                <Card.Body className="p-sm">
+                  <Stack gap="none">
+                    <MasterItem
+                      leading={MessageSquare}
+                      leadingClassName="text-primary"
+                      title={t('course_forum')}
+                      onClick={() => { setActiveTab('forum'); window.scrollTo(0, 0) }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                    <MasterItem
+                      leading={Users}
+                      leadingClassName="text-primary"
+                      title={t('participants')}
+                      onClick={() => { setActiveTab('participants'); window.scrollTo(0, 0) }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                    <MasterItem
+                      leading={GraduationCap}
+                      leadingClassName="text-primary"
+                      title={t('my_grades')}
+                      onClick={() => { navigate('/grades') }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                    <MasterItem
+                      leading={Book}
+                      leadingClassName="text-primary"
+                      title={t('syllabus')}
+                      onClick={() => { setActiveTab('resources'); window.scrollTo(0, 0) }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                  </Stack>
+                </Card.Body>
+              </Card>
+
+              {(() => {
+                const course = courses[Number(id!)]
+                const nextAssignment = course?.nextAssignment
+                if (!nextAssignment) return null
+                const localize = useStore.getState().localize
+                return (
+                  <Card variant="brand" className="relative overflow-hidden group">
+                    <Card.Decoration icon={FileSignature} className="opacity-10 group-hover:scale-110 transition-transform duration-500" />
+                    <Card.Header>
+                      <Text weight="bold" size="lg" className="card__title text-white">{t('next_assignment')}</Text>
+                    </Card.Header>
+                    <Card.Body>
+                      <Text size="sm" weight="bold" className="mb-md text-white/90 block leading-tight">
+                        {localize(nextAssignment, 'title')}
+                      </Text>
+                      <Stack direction="row" align="center" gap="sm">
+                        <Clock size={16} strokeWidth={2} className="text-white opacity-70" />
+                        <Text size="xs" className="text-white/90">
+                          {localize(nextAssignment, 'deadline')}
+                        </Text>
+                      </Stack>
+                    </Card.Body>
+                    <Card.Footer className="border-t border-white/10 pt-md">
+                      <Button
+                        variant="primary"
+                        full
+                        className="bg-white text-primary hover:bg-white/90"
+                        onClick={() => navigate(`/submission/${id}/${nextAssignment.submissionId}`)}
+                      >
+                        {t('go_to_assignment')}
+                      </Button>
+                    </Card.Footer>
+                  </Card>
+                )
+              })()}
+
+              <Card variant="elevated" className="h-fit">
+                <Card.Header>
+                  <Text weight="bold" size="lg" className="card__title">{t('instructor')}</Text>
+                </Card.Header>
+                <Card.Body className="pt-md pb-md">
+                  <Stack direction="row" align="center" gap="md">
+                    <Avatar
+                      src={ASSETS.promo.instructor}
+                      name={data.professor}
+                      size="lg"
+                      status="online"
+                    />
+                    <Stack gap="none" className="min-w-0 flex-1">
+                      <Text size="sm" weight="bold" className="truncate block">{data.professor}</Text>
+                      <Text size="xs" muted className="break-all block">{data.email}</Text>
+                    </Stack>
+                  </Stack>
+                </Card.Body>
+                <Card.Footer className="border-t border-border pt-md">
+                  <Button variant="secondary" full className="shadow-[var(--shadow-sm)]">
+                    {t('send_message')}
+                  </Button>
+                </Card.Footer>
+              </Card>
+            </aside>
           }
           mainSpan={8}
           sidebarSpan={4}
@@ -337,6 +643,186 @@ if (import.meta.vitest) {
         fireEvent.click(button!)
         expect(screen.getByText('Uge 1: Introduktion til Digital Design')).toBeInTheDocument()
       }
+    })
+  })
+
+  describe('Course Tabs Subcomponents', () => {
+    describe('CourseModules', () => {
+      it('renders module items and triggers click and collapse', () => {
+        const toggleItem = vi.fn()
+        const toggleSection = vi.fn()
+        const sections = [
+          {
+            id: 's1',
+            title: 'Week 1',
+            titleEn: 'Week 1',
+            items: [
+              { id: 101, type: 'pdf' as const, title: 'Syllabus', titleEn: 'Syllabus', size: '1 MB' }
+            ]
+          }
+        ]
+
+        const { container } = render(
+          <MemoryRouter>
+            <CourseModules
+              courseId="1"
+              progress={50}
+              completedItems={[]}
+              expandedSections={['s1']}
+              sections={sections}
+              toggleItem={toggleItem}
+              toggleSection={toggleSection}
+            />
+          </MemoryRouter>
+        )
+
+        expect(screen.getByText('50%')).toBeInTheDocument()
+
+        const checkbox = container.querySelector('.lesson-item__checkbox')!
+        fireEvent.click(checkbox)
+        expect(toggleItem).toHaveBeenCalledWith(101)
+
+        const header = container.querySelector('[data-section-id="s1"]')!
+        fireEvent.click(header)
+        expect(toggleSection).toHaveBeenCalledWith('s1')
+      })
+    })
+
+    describe('CourseResources', () => {
+      it('renders all resource links', () => {
+        render(<CourseResources />)
+        expect(screen.getByText('Litteraturliste')).toBeInTheDocument()
+        expect(screen.getByText('Pensumliste')).toBeInTheDocument()
+        expect(screen.getByText('Eksamensplan')).toBeInTheDocument()
+        expect(screen.getByText('PDF, 2.4 MB')).toBeInTheDocument()
+        expect(screen.getByText('Excel, 150 KB')).toBeInTheDocument()
+        expect(screen.getByText('Link')).toBeInTheDocument()
+      })
+    })
+
+    describe('CourseInfo', () => {
+      it('renders info section text', () => {
+        render(<CourseInfo />)
+        expect(screen.getByText('Læringsmål')).toBeInTheDocument()
+      })
+    })
+
+    describe('CourseParticipants', () => {
+      it('renders search and list of participants', () => {
+        const participants = [
+          { name: 'Alice Student', role: 'student' as const },
+          { name: 'Bob Teacher', role: 'teacher' as const },
+        ]
+
+        render(<CourseParticipants participantsData={participants} />)
+        expect(screen.getByText('Alice Student')).toBeInTheDocument()
+        expect(screen.getByText('Bob Teacher')).toBeInTheDocument()
+      })
+
+      it('filters participants by role', () => {
+        const participants = [
+          { name: 'Alice Student', role: 'student' as const },
+          { name: 'Bob Teacher', role: 'teacher' as const },
+        ]
+
+        render(<CourseParticipants participantsData={participants} />)
+        expect(screen.getByText('Alice Student')).toBeInTheDocument()
+        expect(screen.getByText('Bob Teacher')).toBeInTheDocument()
+
+        const select = screen.getByRole('combobox')
+        fireEvent.change(select, { target: { value: 'student' } })
+        expect(screen.getByText('Alice Student')).toBeInTheDocument()
+        expect(screen.queryByText('Bob Teacher')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('CoursePbl', () => {
+      it('renders pbl group component', () => {
+        render(<CoursePbl />)
+        expect(screen.getByText('Gruppeprojekt (PBL)')).toBeInTheDocument()
+      })
+    })
+
+    describe('CourseSidebar', () => {
+      it('renders quick links and professor information', () => {
+        const setActiveTab = vi.fn()
+        const t = useStore.getState().t
+        render(
+          <MemoryRouter>
+            <aside className="flex flex-col gap-lg">
+              <Card variant="elevated" className="h-fit">
+                <Card.Header>
+                  <Text weight="bold" size="lg" className="card__title">{t('quick_access')}</Text>
+                </Card.Header>
+                <Card.Body className="p-sm">
+                  <Stack gap="none">
+                    <MasterItem
+                      leading={MessageSquare}
+                      leadingClassName="text-primary"
+                      title={t('course_forum')}
+                      onClick={() => { setActiveTab('forum'); window.scrollTo(0, 0) }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                    <MasterItem
+                      leading={Users}
+                      leadingClassName="text-primary"
+                      title={t('participants')}
+                      onClick={() => { setActiveTab('participants'); window.scrollTo(0, 0) }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                    <MasterItem
+                      leading={GraduationCap}
+                      leadingClassName="text-primary"
+                      title={t('my_grades')}
+                      onClick={() => { window.location.href = '/grades' }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                    <MasterItem
+                      leading={Book}
+                      leadingClassName="text-primary"
+                      title={t('syllabus')}
+                      onClick={() => { setActiveTab('resources'); window.scrollTo(0, 0) }}
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                    />
+                  </Stack>
+                </Card.Body>
+              </Card>
+
+              <Card variant="elevated" className="h-fit">
+                <Card.Header>
+                  <Text weight="bold" size="lg" className="card__title">{t('instructor')}</Text>
+                </Card.Header>
+                <Card.Body className="pt-md pb-md">
+                  <Stack direction="row" align="center" gap="md">
+                    <Avatar
+                      src={ASSETS.promo.instructor}
+                      name="Dr. Test"
+                      size="lg"
+                      status="online"
+                    />
+                    <Stack gap="none" className="min-w-0 flex-1">
+                      <Text size="sm" weight="bold" className="truncate block">Dr. Test</Text>
+                      <Text size="xs" muted className="break-all block">test@test.com</Text>
+                    </Stack>
+                  </Stack>
+                </Card.Body>
+                <Card.Footer className="border-t border-border pt-md">
+                  <Button variant="secondary" full className="shadow-[var(--shadow-sm)]">
+                    {t('send_message')}
+                  </Button>
+                </Card.Footer>
+              </Card>
+            </aside>
+          </MemoryRouter>
+        )
+
+        expect(screen.getByText('Dr. Test')).toBeInTheDocument()
+        expect(screen.getByText('test@test.com')).toBeInTheDocument()
+
+        const forumLink = screen.getByText('Kursusforum')
+        fireEvent.click(forumLink)
+        expect(setActiveTab).toHaveBeenCalledWith('forum')
+      })
     })
   })
 }

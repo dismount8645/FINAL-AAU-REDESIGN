@@ -7,7 +7,7 @@ import { MasterItem } from '@/components/ui'
 import Select from '@/components/ui/Select'
 import { Heading } from '@/components/ui'
 import useStore from '@/store'
-import { useParticipantFilter } from '@/hooks'
+import { useFilteredCollection } from '@/hooks'
 
 interface CourseParticipantsProps {
   participantsData: { name: string; role: string }[]
@@ -15,7 +15,11 @@ interface CourseParticipantsProps {
 
 function CourseParticipants({ participantsData }: CourseParticipantsProps) {
   const t = useStore((state) => state.t)
-  const { searchQuery, setSearchQuery, roleFilter, setRoleFilter, filteredParticipants } = useParticipantFilter(participantsData)
+  const { searchQuery, setSearchQuery, activeFilter: roleFilter, setActiveFilter: setRoleFilter, items: filteredParticipants } = useFilteredCollection(participantsData, {
+    searchKeys: p => [p.name],
+    filterKey: p => p.role,
+    filterDefault: 'all',
+  })
 
   return (
     <div className="animate-fade-in">
@@ -32,7 +36,7 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
             <label htmlFor="participant-role-filter" className="sr-only">{t('filter')}</label>
             <Select
               id="participant-role-filter"
-              value={roleFilter}
+              value={roleFilter ?? 'all'}
               onChange={(e) => setRoleFilter(e.target.value)}
               className="sm:w-[150px]"
             >

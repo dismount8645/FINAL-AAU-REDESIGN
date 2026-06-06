@@ -58,7 +58,7 @@ function Resources() {
       />
 
       <Grid columns={12} gap="lg" className="mt-2xl">
-        <Grid.Item span={6} tabletSpan={6} mobileSpan={1}>
+        <Grid.Item span={6}>
           <Card variant="elevated">
             <Card.Header>
               <Text weight="bold" size="lg">{t('about_aau_essentials')}</Text>
@@ -76,7 +76,7 @@ function Resources() {
           </Card>
         </Grid.Item>
 
-        <Grid.Item span={6} tabletSpan={6} mobileSpan={1}>
+        <Grid.Item span={6}>
           <Card variant="brand" className="card--decorative">
             <Card.Decoration icon={Headphones} />
 

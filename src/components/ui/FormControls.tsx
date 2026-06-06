@@ -33,7 +33,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref
   ) => {
     const finalPlaceholder = placeholder ?? "Search..."
-    const finalIconSize = iconSize ?? 16
+    const finalIconSize = iconSize ?? 14
     const input = (
       <div className={cn("relative flex-1", className)}>
         <Search size={finalIconSize} strokeWidth={2} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
@@ -43,7 +43,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           value={value}
           onChange={onChange}
           placeholder={finalPlaceholder}
-          className="pl-10"
+          className="pl-10 h-9 min-h-0"
           {...props}
         />
         {onClear && value && (
@@ -55,7 +55,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             size="icon-xs"
             className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-main hover:bg-transparent"
           >
-            <X size={16} strokeWidth={2} />
+            <X size={14} strokeWidth={2} />
           </Button>
         )}
         {onSubmit && !onClear && (
