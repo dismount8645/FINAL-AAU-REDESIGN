@@ -7,7 +7,18 @@ import {
 import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem, Badge, EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { dashboardDeadlines, dashboardGrades } from '@/lib/data';
+const dashboardDeadlines = [
+  { id: 204, category: 'deadlines', titleDa: 'To-Do App', titleEn: 'To-Do App', iconName: 'FileText', dateKey: 'deadline_monday', courseId: 2, deadlineHoursFromNow: 48 },
+  { id: 105, category: 'deadlines', titleDa: 'Designskitse', titleEn: 'Design Sketch', iconName: 'PenTool', dateKey: 'deadline_friday', courseId: 1, deadlineHoursFromNow: 96 },
+  { id: 303, category: 'deadlines', titleDa: 'Analyseopgave', titleEn: 'Analysis Assignment', iconName: 'FileText', dateKey: 'course_deadline_in_7_days', courseId: 3, deadlineHoursFromNow: 168 }
+]
+
+const dashboardGrades = [
+  { id: 1, category: 'grades', courseDa: 'Digital Design', courseEn: 'Digital Design', iconName: 'Trophy', score: 12 },
+  { id: 2, category: 'grades', courseDa: 'Webudvikling', courseEn: 'Web Development', iconName: 'Trophy', score: 10 },
+  { id: 5, category: 'grades', courseDa: 'Bachelorprojekt', courseEn: 'Bachelor Project', iconName: 'Trophy', score: null },
+  { id: 3, category: 'grades', courseDa: 'Videnskabsteori', courseEn: 'Philosophy of Science', iconName: 'Trophy', score: 7 }
+]
 import { hoursFromNow, calculateUrgency } from '@/lib/dates';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { FavoriteItem } from '@/components/Favorites';
@@ -360,20 +371,22 @@ if (import.meta.vitest) {
       expect(screen.getByText('Monday 09:00')).toBeInTheDocument()
     })
     it('handles past deadline urgency color', () => {
-      const now = new Date('2026-06-01').getTime()
-      vi.spyOn(Date, 'now').mockReturnValue(now)
+      const orig = [...dashboardDeadlines]
+      dashboardDeadlines[0] = { ...dashboardDeadlines[0], deadlineHoursFromNow: -24 }
       renderWithProviders(<DeadlinesWidget />)
       expect(screen.getByText('Mandag 09:00')).toHaveClass('text-danger')
-      vi.restoreAllMocks()
+      dashboardDeadlines.splice(0, dashboardDeadlines.length, ...orig)
     })
     it('handles overdue deadlines', () => {
-      const spy = vi.spyOn({ calculateUrgency }, 'calculateUrgency').mockReturnValue('overdue' as any)
+      const orig = [...dashboardDeadlines]
+      dashboardDeadlines[0] = { ...dashboardDeadlines[0], deadlineHoursFromNow: -24 }
       renderWithProviders(<DeadlinesWidget />)
       const button = screen.getByRole('button', { name: /To-Do App/i })
       expect(button.className).toContain('bg-danger/5')
-      spy.mockRestore()
+      dashboardDeadlines.splice(0, dashboardDeadlines.length, ...orig)
     })
     it('renders empty state when there are no deadlines', () => {
+      useStore.setState({ lang: 'en' })
       const orig = [...dashboardDeadlines]
       dashboardDeadlines.splice(0, dashboardDeadlines.length)
       renderWithProviders(<DeadlinesWidget />)
@@ -383,6 +396,7 @@ if (import.meta.vitest) {
   })
 
   describe('FavoritesWidget', () => {
+
     const mockCourses = [
       { id: 1, title: 'Course 1', titleEn: 'Course 1', sections: [], status: 'active', label: 'Course 1', labelEn: 'Course 1', img: '' },
     ] as any
@@ -440,7 +454,7 @@ if (import.meta.vitest) {
       renderWithProviders(<RecentGradesWidget />)
       expect(screen.getByText(/Seneste karakterer/i)).toBeInTheDocument()
       expect(screen.getByText('Digital Design')).toBeInTheDocument()
-      expect(screen.getByText('7')).toBeInTheDocument()
+      expect(screen.getByText('12')).toBeInTheDocument()
       expect(screen.getByText('10')).toBeInTheDocument()
     })
     it('navigates to grades when footer button is clicked', () => {

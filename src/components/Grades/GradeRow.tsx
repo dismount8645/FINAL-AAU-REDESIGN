@@ -17,7 +17,7 @@ function GradeRow({ record }: GradeRowProps) {
   const { formatLongDateTime } = useFormat()
 
   return (
-    <div className="flex flex-col lg:flex-row items-stretch gap-[var(--space-lg)] p-[var(--space-lg)] hover:bg-bg-hover transition-colors duration-150">
+    <div className="flex flex-row items-stretch gap-[var(--space-lg)] p-[var(--space-lg)] hover:bg-bg-hover transition-colors duration-150">
       {/* Left Column: Grade summary circle badge & General Details */}
       <div className="flex-1 flex gap-[var(--space-md)] items-start">
         <div 

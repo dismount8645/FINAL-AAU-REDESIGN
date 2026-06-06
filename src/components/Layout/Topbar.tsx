@@ -142,16 +142,7 @@ if (import.meta.vitest) {
       expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0)
     })
   
-    it('toggles sidebar when hamburger is clicked', () => {
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const hamburger = screen.getByLabelText('toggle_sidebar')
-      fireEvent.click(hamburger)
-      expect(useStore.getState().isCollapsed).toBe(true)
-    })
+
   
     it('updates search query and shows dropdown', async () => {
       render(

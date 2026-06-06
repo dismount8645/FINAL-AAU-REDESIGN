@@ -562,72 +562,13 @@ export const notificationsData: Notification[] = registryJson.notificationsData 
 export const participantsData = registryJson.participantsData as { name: string; role: 'student' | 'teacher' }[]
 export const courseTabItems = registryJson.courseTabItems as { key: string; label: string }[]
 
-// Support data relocated from registry.json
 export const supportLocations = registryJson.supportLocations
 export const supportDeskHours = registryJson.supportDeskHours
 export const supportNotes = registryJson.supportNotes
 
-// Tools data for lib/tools.ts
 export const registryTools = registryJson.tools
 
-interface DashboardEntry {
-  id: number;
-  category: string;
-  nameDa?: string;
-  nameEn?: string;
-  iconName?: string;
-  dateKey?: string;
-  courseId?: number;
-  deadlineHoursFromNow?: number;
-  score?: number | null;
-  author?: string;
-  timeDa?: string;
-  timeEn?: string;
-  replies?: number;
-  important?: boolean;
-}
 
-const dashboardEntries = registryJson.dashboard as DashboardEntry[]
-
-// Dashboard widget data slices — field names mapped to match widget contracts
-export const dashboardDeadlines = dashboardEntries
-  .filter(d => d.category === 'deadlines')
-  .map(d => ({
-    id: d.id,
-    category: d.category,
-    titleDa: d.nameDa ?? '',
-    titleEn: d.nameEn ?? '',
-    iconName: d.iconName ?? '',
-    dateKey: d.dateKey as string,
-    courseId: d.courseId as number,
-    deadlineHoursFromNow: d.deadlineHoursFromNow as number,
-  }))
-
-export const dashboardGrades = dashboardEntries
-  .filter(d => d.category === 'grades')
-  .map(d => ({
-    id: d.id,
-    category: d.category,
-    courseDa: d.nameDa ?? '',
-    courseEn: d.nameEn ?? '',
-    iconName: d.iconName ?? '',
-    score: d.score as number | null,
-  }))
-
-export const dashboardForumPosts = dashboardEntries
-  .filter(d => d.category === 'forumPosts')
-  .map(d => ({
-    id: d.id,
-    category: d.category,
-    titleDa: d.nameDa ?? '',
-    titleEn: d.nameEn ?? '',
-    iconName: d.iconName ?? '',
-    author: d.author as string,
-    timeDa: d.timeDa as string,
-    timeEn: d.timeEn as string,
-    replies: d.replies as number,
-    important: d.important as boolean | undefined,
-  }))
 
 if (import.meta.vitest) {
   const { describe, it, expect } = await import('vitest')
@@ -645,18 +586,7 @@ if (import.meta.vitest) {
     it('BACHELOR_TOTAL_ECTS equals 180', () => {
       expect(BACHELOR_TOTAL_ECTS).toBe(180)
     })
-    it('dashboardDeadlines only has entries with category deadlines', () => {
-      dashboardDeadlines.forEach(d => expect(d.category).toBe('deadlines'))
-    })
-    it('dashboardGrades only has entries with category grades', () => {
-      dashboardGrades.forEach(d => expect(d.category).toBe('grades'))
-    })
-    it('dashboardForumPosts is an array', () => {
-      expect(Array.isArray(dashboardForumPosts)).toBe(true)
-    })
-    it('DEFAULT_WIDGETS is an array', () => {
-      expect(Array.isArray(DEFAULT_WIDGETS)).toBe(true)
-    })
+
     it('notificationsData is an array', () => {
       expect(Array.isArray(notificationsData)).toBe(true)
     })

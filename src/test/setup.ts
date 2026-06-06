@@ -11,21 +11,7 @@ globalThis.renderWithProviders = rtlRenderWithProviders;
 
 Element.prototype.scrollIntoView = vi.fn()
 
-const createMatchMedia = () => vi.fn().mockImplementation(query => ({
-  matches: false,
-  media: query,
-  onchange: null,
-  addListener: vi.fn(),
-  removeListener: vi.fn(),
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn(),
-  dispatchEvent: vi.fn(),
-}))
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: createMatchMedia(),
-});
 
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
@@ -69,21 +55,16 @@ console.warn = (...args) => {
 
 const initialStore = useStore.getInitialState();
 
-beforeEach(() => {
-  if (typeof window !== 'undefined') {
-    window.matchMedia = createMatchMedia();
-  }
-});
-
 afterEach(() => {
   useStore.setState(initialStore, true);
   if (typeof window !== 'undefined') {
-    window.matchMedia = createMatchMedia();
     window.localStorage.clear();
     window.sessionStorage.clear();
   }
   vi.useRealTimers();
 });
+
+
 
 // Mock framer-motion to disable animations and exit transitions in jsdom/Vitest environment
 vi.mock('framer-motion', async (importOriginal) => {

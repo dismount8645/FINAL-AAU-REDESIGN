@@ -79,7 +79,7 @@ const TeaserCard = memo(function TeaserCard({
       layoutId={layoutId}
       className={cn(
         'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1',
-        isHorizontal ? 'flex-col lg:flex-row min-h-[180px]' : 'flex-col',
+        isHorizontal ? 'flex-row min-h-[180px]' : 'flex-col',
         className
       )}
       onClick={(e) => onClick?.(e)}
@@ -219,7 +219,7 @@ function TeaserCardSkeleton({
   const isHorizontal = variant === 'horizontal'
   return (
     <Card className={cn(
-      isHorizontal ? 'flex-col lg:flex-row min-h-[180px]' : 'flex-col',
+      isHorizontal ? 'flex-row min-h-[180px]' : 'flex-col',
       'pointer-events-none',
       className
     )}>
@@ -258,7 +258,12 @@ function TeaserCardSkeleton({
 
 export default TeaserCard
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
+  const { describe, it, expect, vi } = await import('vitest')
+  const { renderWithProviders } = await import('@/test/test-utils')
+  const { screen, fireEvent } = await import('@testing-library/react')
+
   describe('TeaserCard', () => {
     it('renders correctly with title and description', () => {
       renderWithProviders(<TeaserCard title="Card Title" description="Card Description" />)
@@ -270,7 +275,7 @@ if (import.meta.vitest) {
       const { container } = renderWithProviders(<TeaserCard variant="horizontal" title="Test" />)
       const wrapper = container.firstChild as HTMLElement
       // Checking for the horizontal variant class defined in CVA
-      expect(wrapper.className).toContain('lg:flex-row')
+      expect(wrapper.className).toContain('flex-row')
     })
   
     it('renders badge correctly', () => {
@@ -359,7 +364,7 @@ if (import.meta.vitest) {
       const { container } = renderWithProviders(
         <TeaserCard isLoading={true} variant="horizontal" progress={50} action={<button>Action</button>} />
       )
-      expect(container.querySelector('.flex-col.lg\\:flex-row')).toBeInTheDocument()
+      expect(container.querySelector('.flex-row')).toBeInTheDocument()
     })
   })
 }

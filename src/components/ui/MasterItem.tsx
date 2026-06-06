@@ -42,12 +42,12 @@ export const MasterItem = memo(function MasterItem({
     if (isLucideIcon) {
       const IconComp = Leading as LucideIcon
       return (
-        <div className={`shrink-0 flex items-center justify-center transition-all ${leadingClassName}`}>
+        <div className={`shrink-0 flex items-center justify-center transition-all size-9 rounded-[var(--radius-md)] bg-bg-highlight/50 ${leadingClassName}`}>
           <IconComp size={16} strokeWidth={2} />
         </div>
       )
     }
-    return <div className="shrink-0">{Leading}</div>
+    return <div className="shrink-0 size-9 flex items-center justify-center">{Leading}</div>
   }
 
   return (

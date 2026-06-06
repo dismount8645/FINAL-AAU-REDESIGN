@@ -72,7 +72,6 @@ export interface ChatWindowProps {
   messageText: string
   setMessageText: (val: string) => void
   handleSend: () => void
-  setShowChat: (val: boolean) => void
   t: (key: string) => string
 }
 
@@ -185,7 +184,6 @@ export interface Notification {
 
 export interface WidgetConfig {
   allowedSpans: number[];
-  tabletSpan?: number;
   rowSpan?: number;
 }
 

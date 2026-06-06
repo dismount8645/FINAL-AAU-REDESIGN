@@ -1,5 +1,4 @@
 
-
 import { MemoryRouter } from 'react-router-dom';
 import { ChatSidebar } from '@/components/Messages';
 import { ChatWindow } from '@/components/Messages';
@@ -18,7 +17,6 @@ function Messages() {
     setActiveContactId,
     messageText,
     setMessageText,
-    setShowChat,
     chatBodyRef,
     filteredContacts,
     activeContact,
@@ -47,7 +45,6 @@ function Messages() {
             filteredContacts={filteredContacts}
             activeContactId={activeContactId}
             setActiveContactId={setActiveContactId}
-            setShowChat={setShowChat}
             archiveContact={archiveContact}
             restoreContact={restoreContact}
             t={t}
@@ -61,7 +58,6 @@ function Messages() {
             messageText={messageText}
             setMessageText={setMessageText}
             handleSend={handleSend}
-            setShowChat={setShowChat}
             t={t}
           />
         </Grid.Item>
@@ -74,6 +70,9 @@ export default Messages
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
+  const { describe, it, expect, vi, beforeEach } = await import('vitest')
+  const { render, screen, fireEvent, act } = await import('@testing-library/react')
+
   describe('Messages Page', () => {
     beforeEach(() => {
       vi.clearAllMocks()
@@ -250,23 +249,18 @@ if (import.meta.vitest) {
     })
   
     it('marks contact as read after delay', async () => {
-      vi.useFakeTimers()
       renderMessages('da')
-      
+
       // Mette Jensen (id=1) is active and unread
       const getUnreadIndicator = () => document.querySelector('.bg-primary.rounded-\\[var\\(--radius-pill\\)\\].w-2\\.5')
       expect(getUnreadIndicator()).toBeInTheDocument()
-      
-      // Fast-forward time
+
+      // Real time wait
       await act(async () => {
-        vi.advanceTimersByTime(1500)
-        // We need to allow React to process the state update
-        await vi.runOnlyPendingTimersAsync()
+        await new Promise(r => setTimeout(r, 1500))
       })
-      
+
       expect(getUnreadIndicator()).not.toBeInTheDocument()
-      
-      vi.useRealTimers()
     })
   
     it('handles scroll logic and scroll fallback', () => {
