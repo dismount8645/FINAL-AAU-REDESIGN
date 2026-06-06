@@ -415,5 +415,44 @@ if (import.meta.vitest) {
       await fireEvent.keyDown(document, { key: 'Tab', shiftKey: true })
       expect(document.activeElement).toBe(focusable[focusable.length - 1])
     })
+
+    it('closes mobile search via Escape key on document', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const trigger = screen.getByLabelText('Søg på Moodle...')
+      await fireEvent.click(trigger)
+      expect(screen.getByRole('dialog')).toBeInTheDocument()
+      await fireEvent.keyDown(document, { key: 'Escape' })
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    })
+
+    it('does not move ArrowDown past last result', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'a' } })
+      const options = () => screen.getAllByRole('option')
+      const count = options().length
+
+      for (let i = 0; i < count + 5; i++) {
+        await fireEvent.keyDown(input, { key: 'ArrowDown' })
+      }
+      expect(options()[count - 1]).toHaveAttribute('aria-selected', 'true')
+    })
+
+    it('does not move ArrowUp past -1', async () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      await fireEvent.change(input, { target: { value: 'a' } })
+      await fireEvent.keyDown(input, { key: 'ArrowUp' })
+      await fireEvent.keyDown(input, { key: 'ArrowDown' })
+      await fireEvent.keyDown(input, { key: 'ArrowUp' })
+      const options = screen.getAllByRole('option')
+      expect(options[0]).toHaveAttribute('aria-selected', 'false')
+    })
+
+    it('sets aria-activedescendant to undefined when no active index', () => {
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
+      const input = screen.getByRole('combobox')
+      expect(input).not.toHaveAttribute('aria-activedescendant')
+    })
   })
 }

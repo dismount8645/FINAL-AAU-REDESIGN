@@ -218,5 +218,17 @@ if (import.meta.vitest) {
       fireEvent.keyDown(menu, { key: 'ArrowDown' })
       expect(screen.getByText('Jacob Krarup Madsen')).toBeInTheDocument()
     })
+
+    it('falls back to Studerende when user_role is empty', () => {
+      useStore.setState({
+        firstName: 'Test',
+        lastName: 'User',
+        t: (key: string) => key === 'common.user_role' ? '' : key,
+      })
+      renderWithProviders(<ProfileDropdown />)
+      const trigger = screen.getByLabelText('user_menu')
+      fireEvent.click(trigger)
+      expect(screen.getByText('Studerende')).toBeInTheDocument()
+    })
   })
 }

@@ -418,6 +418,35 @@ if (import.meta.vitest) {
       expect(JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_LAST_NAME)!)).toBe('Madsen')
     })
 
+    it('navigates to language tab via click', () => {
+      useStore.setState({ lang: 'en' })
+      renderSettings('en')
+      fireEvent.click(screen.getByText('Select Language'))
+      expect(screen.getByText('Select preferred language')).toBeInTheDocument()
+    })
+
+    it('navigates to forum tab via click', () => {
+      useStore.setState({ lang: 'en' })
+      renderSettings('en')
+      fireEvent.click(screen.getByText('Forum Settings'))
+      expect(screen.getByText(/Digest type/i)).toBeInTheDocument()
+    })
+
+    it('navigates to calendar tab via click', () => {
+      useStore.setState({ lang: 'en' })
+      renderSettings('en')
+      fireEvent.click(screen.getByText('Calendar Settings'))
+      expect(screen.getByText(/First day of week/i)).toBeInTheDocument()
+    })
+
+    it('navigates to messages tab via click', () => {
+      useStore.setState({ lang: 'en' })
+      renderSettings('en')
+      fireEvent.click(screen.getByText('Security'))
+      fireEvent.click(screen.getByText('Message Settings'))
+      expect(screen.getByText(/Who can contact me/i)).toBeInTheDocument()
+    })
+
     it('handles mobile view tab clicks and back button', () => {
       useStore.setState({ isMobile: true, lang: 'en' })
       renderWithProviders(<Settings />)
