@@ -29,8 +29,6 @@
     --ratio-square: 1;
     --ratio-wide: 2;
     
-    /* Responsive defaults */
-    container-type: inline-size;
   }
 }
 
@@ -151,14 +149,12 @@
 :root {
   --z-dialog: 5000;
   --z-toast: 6000;
-  --z-mobile-search: 4001;
   --z-topbar-search: 1002;
   --z-skiplink: 2000;
   --z-dropdown: 950;
   --z-sticky: 900;
   --z-fixed: 1000;
   --z-overlay: 800;
-  --z-mobile-sidebar: 1003;
 
   --color-event-blue-bg: #e0f2fe;
   --color-event-blue-text: #075985;
@@ -261,7 +257,7 @@
   --sidebar-width: 260px;
   --sidebar-collapsed-width: 4rem;
   --topbar-height: 4rem;
-  --container-max-width: 1600px;
+  --container-max-width: 1280px;
   --transition-fast: 150ms;
   --transition-normal: 200ms;
   --transition-slow: 300ms;
@@ -391,7 +387,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  touch-action: pan-y;
+
   overscroll-behavior-x: none;
   transition: background-color var(--transition-normal) var(--transition-ease),
               color var(--transition-normal) var(--transition-ease);
@@ -427,20 +423,6 @@ body {
   transition: margin-left var(--transition-slow) var(--transition-ease);
   width: calc(100vw - var(--sidebar-width));
   box-sizing: border-box;
-  container-type: inline-size;
-  container-name: layout-main;
-}
-
-body.sidebar-collapsed .layout-main {
-  margin-left: var(--sidebar-collapsed-width);
-  width: calc(100vw - var(--sidebar-collapsed-width));
-}
-
-@media (max-width: 768px) {
-  .layout-main {
-    margin-left: 0;
-    width: 100%;
-  }
 }
 
 /* Container & Alignment */
@@ -454,20 +436,7 @@ body.sidebar-collapsed .layout-main {
   box-sizing: border-box;
 }
 
-@media (max-width: 1024px) {
-  .container {
-    padding-left: var(--space-md);
-    padding-right: var(--space-md);
-  }
 
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding-left: var(--space-sm);
-    padding-right: var(--space-sm);
-  }
-}
 
 /* PageHeader refinements */
 .page-header {
@@ -491,14 +460,6 @@ body.sidebar-collapsed .layout-main {
   padding: var(--space-xl) var(--space-lg);
 }
 
-@media (max-width: 768px) {
-  .page-header--card {
-    width: calc(100% - (var(--space-md) * 2));
-    padding: var(--space-lg);
-    border-radius: var(--radius-lg);
-  }
-}
-
 .page-header--flat {
   background: transparent;
   margin-bottom: var(--space-md);
@@ -511,12 +472,6 @@ body.sidebar-collapsed .layout-main {
   animation: fadeIn 0.8s ease-out forwards;
 }
 
-@media (max-width: 768px) {
-  .page-header-content {
-    padding: 0 var(--space-md);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .page-header-content {
     animation: none;
@@ -527,14 +482,6 @@ body.sidebar-collapsed .layout-main {
 /* Fix for the "squeezed" modal regression */
 [role="dialog"] {
   min-width: 320px;
-}
-
-@media (max-width: 400px) {
-
-  [role="dialog"] {
-    min-width: calc(100vw - 2rem);
-    width: calc(100vw - 2rem);
-  }
 }
 
 .grid-item {
@@ -555,32 +502,6 @@ body.sidebar-collapsed .layout-main {
 
 .grid-container.dashboard__grid {
   grid-auto-rows: var(--dashboard-row-height);
-}
-
-@container layout-main (max-width: 800px) {
-  .grid-container {
-    grid-template-columns: repeat(var(--tablet-grid-cols, 6), minmax(0, 1fr));
-    gap: var(--grid-gap-tablet, var(--space-md));
-  }
-
-  .grid-item {
-    grid-column: span var(--tablet-span, var(--span, 6)) / span var(--tablet-span, var(--span, 6));
-  }
-}
-
-@container layout-main (max-width: 640px) {
-  /* Form/Text container query */
-}
-
-@container layout-main (max-width: 400px) {
-  .grid-container {
-    grid-template-columns: repeat(var(--mobile-grid-cols, 1), minmax(0, 1fr));
-    gap: var(--grid-gap-mobile, var(--space-sm));
-  }
-
-  .grid-item {
-    grid-column: span var(--mobile-span, 1) / span var(--mobile-span, 1);
-  }
 }
 
 h1,
@@ -682,13 +603,6 @@ h3 {
 .footer-main .container {
   padding-left: var(--space-lg);
   padding-right: var(--space-lg);
-}
-
-@media (max-width: 768px) {
-  .footer-main .container {
-    padding-left: var(--space-md);
-    padding-right: var(--space-md);
-  }
 }
 
 /* Chat message bubbles */
@@ -839,7 +753,7 @@ select:focus-visible,
   box-shadow: 0 0 0 4px rgba(89, 79, 191, 0.35);
 }
 
-/* Split Pane Layout Panels (Desktop fixed height, Mobile natural flow) */
+/* Split Pane Layout Panels */
 .panel-card {
   height: calc(100vh - 12rem);
   min-height: 480px;
@@ -849,13 +763,6 @@ select:focus-visible,
   flex: 1 1 0%;
   overflow-y: auto;
   min-height: 0px;
-}
-
-@media (max-width: 768px) {
-  .panel-card {
-    height: auto;
-    min-height: auto;
-  }
 }
 
 /* Accessibility contrast overrides for SegmentedControl in the dark sidebar */

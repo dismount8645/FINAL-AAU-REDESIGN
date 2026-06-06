@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';
+import { Menu, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';
 import { Link, useLocation, MemoryRouter } from 'react-router-dom';
 import { MessagesDropdown } from '../Messages';
 import NotificationsDropdown from './NotificationsDropdown';
@@ -16,8 +16,6 @@ import useStore from '@/store';
 export default function Topbar() {
   const location = useLocation();
   const isCollapsed = useStore(state => state.isCollapsed);
-  const isMobile = useStore(state => state.isMobile);
-  const isMobileOpen = useStore(state => state.isMobileOpen);
   const toggleSidebar = useStore(state => state.toggleSidebar);
   const t = useStore(state => state.t);
   const lang = useStore(state => state.lang);
@@ -29,15 +27,12 @@ export default function Topbar() {
     ? breadcrumbs
     : getAutomaticBreadcrumbs(location.pathname, lang, t);
 
-  /* istanbul ignore next */
-  const sidebarIcon = (isCollapsed || (isMobile && !isMobileOpen)) ? <Menu size={20} strokeWidth={2} /> : isMobileOpen ? <X size={20} strokeWidth={2} /> : <AlignJustify size={20} strokeWidth={2} />;
+  const sidebarIcon = isCollapsed ? <Menu size={20} strokeWidth={2} /> : <AlignJustify size={20} strokeWidth={2} />;
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-[var(--z-sticky)] border-b border-border transition-all duration-300 ease-in-out w-full pr-[var(--space-md)] ${
-        isMobile
-          ? 'pl-[var(--space-md)]'
-          : isCollapsed
+        isCollapsed
           ? 'pl-[calc(var(--sidebar-collapsed-width)+var(--space-md))]'
           : 'pl-[calc(var(--sidebar-width)+var(--space-md))]'
       }`}
@@ -55,13 +50,13 @@ export default function Topbar() {
         </Button>
 
         <AnimatePresence mode="popLayout">
-          {activeBreadcrumbs && activeBreadcrumbs.length > 0 && !isMobile && (
+          {activeBreadcrumbs && activeBreadcrumbs.length > 0 && (
             <motion.nav
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="hidden md:flex flex-row items-center flex-wrap gap-2xs ml-sm"
+              className="flex flex-row items-center flex-wrap gap-2xs ml-sm"
             >
               {activeBreadcrumbs.map((crumb, idx) => (
                 <Fragment key={idx}>
@@ -130,8 +125,6 @@ if (import.meta.vitest) {
         lang: 'da',
         t: (key: string) => key,
         isCollapsed: false,
-        isMobile: false,
-        isMobileOpen: false,
         courses: [
           { id: 1, title: 'Digital Design og Kommunikation', code: 'DDK1' }
         ] as any,
@@ -199,24 +192,6 @@ if (import.meta.vitest) {
       fireEvent.keyDown(input!, { key: 'Enter' })
       
       expect(mockNavigate).toHaveBeenCalledWith('/search?q=Test')
-    })
-  
-    it('toggles mobile search overlay', () => {
-      useStore.setState({ isMobile: true })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const trigger = document.querySelector('.topbar__mobile-search-trigger')
-      fireEvent.click(trigger!)
-      
-      const overlay = document.querySelector('.topbar__mobile-search-overlay')
-      expect(overlay).toBeInTheDocument()
-      
-      const closeBtn = overlay!.querySelector('button[aria-label="close"]')
-      fireEvent.click(closeBtn!)
-      expect(document.querySelector('.topbar__mobile-search-overlay')).not.toBeInTheDocument()
     })
   
     it('opens notifications dropdown when bell is clicked', () => {
@@ -349,21 +324,6 @@ if (import.meta.vitest) {
       expect(screen.getByText('no_search_results')).toBeInTheDocument()
     })
   
-    it('handles mobile search overlay input change', () => {
-      useStore.setState({ isMobile: true })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const trigger = document.querySelector('.topbar__mobile-search-trigger')
-      fireEvent.click(trigger!)
-      
-      const overlayInput = document.querySelector('.topbar__mobile-search-overlay input') as HTMLInputElement
-      fireEvent.change(overlayInput, { target: { value: 'Mobile' } })
-      expect(overlayInput.value).toBe('Mobile')
-    })
-  
     it('closes dropdown when clicking outside', async () => {
       render(
         <MemoryRouter>
@@ -380,34 +340,8 @@ if (import.meta.vitest) {
       })
     })
   
-    it('closes mobile search overlay when clicking outside', () => {
-      useStore.setState({ isMobile: true })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const trigger = document.querySelector('.topbar__mobile-search-trigger')
-      fireEvent.click(trigger!)
-      const overlay = document.querySelector('.topbar__mobile-search-overlay')
-      expect(overlay).toBeInTheDocument()
-      fireEvent.mouseDown(document.body)
-      expect(document.querySelector('.topbar__mobile-search-overlay')).not.toBeInTheDocument()
-    })
-  
-    it('renders with mobile layout styles when isMobile is true', () => {
-      useStore.setState({ isMobile: true, isMobileOpen: false })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const nav = screen.getAllByRole('navigation')[0]
-      expect(nav.className).toContain('pl-[var(--space-md)]')
-    })
-  
     it('renders with collapsed sidebar padding', () => {
-      useStore.setState({ isCollapsed: true, isMobile: false })
+      useStore.setState({ isCollapsed: true })
       render(
         <MemoryRouter>
           <Topbar />
@@ -437,19 +371,6 @@ if (import.meta.vitest) {
       expect(useStore.getState().theme).toBe('light')
     })
   
-    it('toggles sidebar in mobile mode via hamburger', () => {
-      const toggleSidebar = vi.fn()
-      useStore.setState({ isMobile: true, isMobileOpen: false, toggleSidebar })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const hamburger = screen.getByLabelText('toggle_sidebar')
-      fireEvent.click(hamburger)
-      expect(toggleSidebar).toHaveBeenCalled()
-    })
-  
     it('does not close dropdown when clicking inside search', () => {
       render(
         <MemoryRouter>
@@ -462,22 +383,6 @@ if (import.meta.vitest) {
   
       fireEvent.mouseDown(input!)
       expect(screen.getByText(/1 search_results_singular/i)).toBeInTheDocument()
-    })
-  
-    it('closes mobile search overlay on ESC', () => {
-      useStore.setState({ isMobile: true })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const trigger = document.querySelector('.topbar__mobile-search-trigger')
-      fireEvent.click(trigger!)
-      const overlay = document.querySelector('.topbar__mobile-search-overlay')
-      expect(overlay).toBeInTheDocument()
-  
-      fireEvent.keyDown(document, { key: 'Escape' })
-      expect(document.querySelector('.topbar__mobile-search-overlay')).not.toBeInTheDocument()
     })
   
     describe('Automatic Breadcrumbs Fallback', () => {
@@ -605,16 +510,6 @@ if (import.meta.vitest) {
         )
         expect(screen.getByText('Explicit Custom Crumb')).toBeInTheDocument()
         expect(screen.queryByText('calendar')).not.toBeInTheDocument()
-      })
-  
-      it('hides breadcrumbs on mobile when too many', () => {
-        useStore.setState({ isMobile: true, breadcrumbs: [] })
-        render(
-          <MemoryRouter initialEntries={['/random/very/long/path/with/many/segments']}>
-            <Topbar />
-          </MemoryRouter>
-        )
-        expect(screen.queryByText('dashboard')).not.toBeInTheDocument()
       })
   
       it('renders breadcrumbs when the pathname is exactly /courses', () => {

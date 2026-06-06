@@ -1,16 +1,14 @@
 import { useMemo } from 'react';
 
-
-import { motion, AnimatePresence } from 'framer-motion';
 import { FileText } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import GradesOverview from '@/components/Grades/GradesOverview';
-import GradesFilter from '@/components/Grades/GradesFilter';
 import GradeRow from '@/components/Grades/GradeRow';
-
 
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
+import { Heading, SearchInput } from '@/components/ui';
+import Select from '@/components/ui/Select';
 import PageLayout from '@/components/Layout/PageLayout';
 import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/data';
 import useStore from '@/store';
@@ -21,13 +19,11 @@ function Grades() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
 
-  // ── stats (computed from full dataset, not filtered) ─────────────────────
   const gradedRecords = useMemo(
     () => mockGradesData.filter(g => g.grade !== null),
     []
   )
   const gpa = useMemo(() => {
-    /* istanbul ignore if */
     if (gradedRecords.length === 0) return 0
     const totalWeighted = gradedRecords.reduce((sum, r) => sum + (r.grade || 0) * r.ects, 0)
     const totalEcts     = gradedRecords.reduce((sum, r) => sum + r.ects, 0)
@@ -38,7 +34,6 @@ function Grades() {
     [gradedRecords]
   )
 
-  // ── search + filter via generic hook ─────────────────────────────────────
   const {
     searchQuery,
     setSearchQuery,
@@ -70,46 +65,55 @@ function Grades() {
         />
 
         <Card className="p-0">
-          <GradesFilter
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            selectedSemester={/* istanbul ignore next */ selectedSemester ?? 'all'}
-            setSelectedSemester={setSelectedSemester}
-            semesterOptions={semesterOptions}
-          />
+          <div className="border-b border-border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-[var(--space-md)] py-[var(--space-md)] px-[var(--space-lg)]">
+            <Heading level={3} className="mb-0 text-lg font-bold text-main">
+              {t('grade_transcripts')}
+            </Heading>
+
+            <div className="flex flex-col sm:flex-row items-stretch gap-[var(--space-sm)] shrink-0">
+              <div className="min-w-[200px]">
+                <SearchInput
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={t('search_grades_placeholder')}
+                  onClear={() => setSearchQuery('')}
+                />
+              </div>
+
+              <label htmlFor="semester-filter" className="sr-only">{t('filter')}</label>
+              <Select
+                id="semester-filter"
+                value={selectedSemester ?? 'all'}
+                onChange={(e) => setSelectedSemester(e.target.value)}
+                className="sm:w-[180px]"
+              >
+                {semesterOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt === 'all'
+                      ? t('all_semesters')
+                      : opt}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </div>
 
           <Card.Body className="p-0">
-            <AnimatePresence mode="wait">
-              {filteredRecords.length > 0 ? (
-                <motion.div
-                  key="grades-list"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="divide-y divide-border"
-                >
-                  {filteredRecords.map((record) => (
-                    <GradeRow key={record.id} record={record} />
-                  ))}
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="grades-empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="py-[var(--space-2xl)] text-center"
-                >
-                  <EmptyState 
-                    icon={FileText} 
-                    title={t('no_search_results')} 
-                    description={t('no_favorites_match')}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {filteredRecords.length > 0 ? (
+              <div className="divide-y divide-border">
+                {filteredRecords.map((record) => (
+                  <GradeRow key={record.id} record={record} />
+                ))}
+              </div>
+            ) : (
+              <div className="py-[var(--space-2xl)] text-center">
+                <EmptyState
+                  icon={FileText}
+                  title={t('no_search_results')}
+                  description={t('no_favorites_match')}
+                />
+              </div>
+            )}
           </Card.Body>
         </Card>
       </div>
@@ -120,7 +124,6 @@ function Grades() {
 export default Grades
 
 let mockNavigate: ReturnType<typeof vi.fn>
-/* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
   mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
@@ -130,7 +133,7 @@ if (import.meta.vitest) {
       useNavigate: () => mockNavigate,
     }
   })
-  
+
   const renderGrades = (lang: 'da' | 'en' = 'da') => {
     useStore.setState({
       lang,
@@ -149,13 +152,13 @@ if (import.meta.vitest) {
     beforeEach(() => {
       vi.clearAllMocks()
     })
-  
+
     it('renders in Danish', () => {
       renderGrades('da')
       expect(screen.getByText(/Karakterer/i)).toBeInTheDocument()
       expect(screen.getByText(/Vægtet GSN/i)).toBeInTheDocument()
     })
-  
+
     it('renders in English', () => {
       renderGrades('en')
       expect(screen.getByText(/Grades/i)).toBeInTheDocument()

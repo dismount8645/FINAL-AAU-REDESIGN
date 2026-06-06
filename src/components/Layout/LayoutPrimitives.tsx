@@ -4,8 +4,6 @@ import { cn } from '@/lib/utils';
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   gap?: string
   columns?: number
-  tabletColumns?: number
-  mobileColumns?: number
 }
 
 export interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
@@ -13,41 +11,19 @@ export interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
   rowSpan?: number
   x?: number
   y?: number
-  tabletSpan?: number
-  mobileSpan?: number
 }
 
-export function Grid({ gap, columns = 12, tabletColumns, mobileColumns, children, className = '', style, ...props }: GridProps) {
+export function Grid({ gap, columns = 12, children, className = '', style, ...props }: GridProps) {
   const desktopGap = gap && ['xs', 'sm', 'md', 'lg', 'xl', '2xl'].includes(gap)
     ? `var(--space-${gap})`
     : gap || 'var(--space-lg)';
-
-  const tabletGap = gap === '2xl' ? 'var(--space-xl)'
-    : gap === 'xl' ? 'var(--space-lg)'
-    : gap === 'lg' ? 'var(--space-md)'
-    : gap === 'md' ? 'var(--space-sm)'
-    : gap === 'sm' ? 'var(--space-xs)'
-    : gap === 'xs' ? 'var(--space-xs)'
-    : 'var(--space-md)'; // default tablet gap
-
-  const mobileGap = gap === '2xl' ? 'var(--space-lg)'
-    : gap === 'xl' ? 'var(--space-md)'
-    : gap === 'lg' ? 'var(--space-sm)'
-    : gap === 'md' ? 'var(--space-xs)'
-    : gap === 'sm' ? 'var(--space-xs)'
-    : gap === 'xs' ? 'var(--space-xs)'
-    : 'var(--space-sm)'; // default mobile gap
 
   return (
     <div
       className={cn('grid-container', className)}
       style={{
         '--grid-gap': desktopGap,
-        '--grid-gap-tablet': tabletGap,
-        '--grid-gap-mobile': mobileGap,
         '--grid-cols': columns,
-        '--tablet-grid-cols': tabletColumns || (columns > 6 ? 6 : columns),
-        '--mobile-grid-cols': mobileColumns || 1,
         ...style,
       } as React.CSSProperties}
       {...props}
@@ -62,8 +38,6 @@ Grid.Item = function GridItem({
   rowSpan = 1,
   x,
   y,
-  tabletSpan,
-  mobileSpan,
   children,
   className = '',
   style,
@@ -81,8 +55,6 @@ Grid.Item = function GridItem({
         '--row-span': rowSpan,
         gridColumnStart: x !== undefined ? x + 1 : undefined,
         gridRowStart: y !== undefined ? y + 1 : undefined,
-        '--tablet-span': tabletSpan || span,
-        '--mobile-span': mobileSpan || 1,
         minWidth: 0,
         ...style,
       } as React.CSSProperties}
@@ -189,17 +161,15 @@ if (import.meta.vitest) {
   
     it('applies custom columns and spans', () => {
       const { container } = render(
-        <Grid columns={6} mobileColumns={2}>
-          <Grid.Item span={3} mobileSpan={1}>Item</Grid.Item>
+        <Grid columns={6}>
+          <Grid.Item span={3}>Item</Grid.Item>
         </Grid>
       )
       const grid = container.querySelector('.grid-container') as HTMLElement
       const item = container.querySelector('.grid-item') as HTMLElement
       
       expect(grid.style.getPropertyValue('--grid-cols')).toBe('6')
-      expect(grid.style.getPropertyValue('--mobile-grid-cols')).toBe('2')
       expect(item.style.getPropertyValue('--span')).toBe('3')
-      expect(item.style.getPropertyValue('--mobile-span')).toBe('1')
     })
   
     it('computes responsive gap CSS variables correctly', () => {
@@ -221,24 +191,9 @@ if (import.meta.vitest) {
       const { container } = render(<Grid />)
       const grid = container.querySelector('.grid-container') as HTMLElement
       expect(grid.style.getPropertyValue('--grid-gap')).toBe('var(--space-lg)')
-      expect(grid.style.getPropertyValue('--grid-gap-tablet')).toBe('var(--space-md)')
-      expect(grid.style.getPropertyValue('--grid-gap-mobile')).toBe('var(--space-sm)')
     })
   
-    it('sets tabletColumns default based on columns', () => {
-      const { container: c1 } = render(<Grid columns={12} />)
-      expect((c1.firstChild as HTMLElement).style.getPropertyValue('--tablet-grid-cols')).toBe('6')
-      
-      const { container: c2 } = render(<Grid columns={4} />)
-      expect((c2.firstChild as HTMLElement).style.getPropertyValue('--tablet-grid-cols')).toBe('4')
-    })
-  
-    it('Grid.Item handles tabletSpan and mobileSpan fallbacks', () => {
-      const { container } = render(<Grid.Item span={4} />)
-      const item = container.firstChild as HTMLElement
-      expect(item.style.getPropertyValue('--tablet-span')).toBe('4')
-      expect(item.style.getPropertyValue('--mobile-span')).toBe('1')
-    })
+
   })
 
   describe('Stack DOM Props', () => {

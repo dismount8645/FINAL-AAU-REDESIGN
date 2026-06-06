@@ -47,12 +47,12 @@ export default function ProfileTab(props: ProfileTabProps) {
       </Stack>
       
       <Grid columns={2} gap="md">
-        <Grid.Item span={1} mobileSpan={2}>
+        <Grid.Item span={1}>
           <FormField id="settings-first-name" label={t('settings.first_name')}>
             <Input id="settings-first-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
           </FormField>
         </Grid.Item>
-        <Grid.Item span={1} mobileSpan={2}>
+        <Grid.Item span={1}>
           <FormField id="settings-last-name" label={t('settings.last_name')}>
             <Input id="settings-last-name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
           </FormField>

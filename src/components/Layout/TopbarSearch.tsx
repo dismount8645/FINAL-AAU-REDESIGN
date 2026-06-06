@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo, type KeyboardEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Search, GraduationCap, X } from 'lucide-react';
+import { Search, GraduationCap } from 'lucide-react';
 import { Text } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import useStore from '@/store';
 import { SearchInput } from '@/components/ui';
-import Button from '@/components/ui/Button';
 
 interface TopbarSearchProps {
   children: React.ReactNode;
@@ -18,63 +17,19 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
   const courses = useStore(state => state.courses)
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [activeSearchIndex, setActiveSearchIndex] = useState(-1);
 
   const searchRef = useRef<HTMLDivElement>(null);
-  const mobileSearchRef = useRef<HTMLDivElement>(null);
-  const mobileInputRef = useRef<HTMLInputElement>(null);
-  const mobileTriggerRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (!isSearchExpanded) return;
-    mobileInputRef.current?.focus();
-    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      /* istanbul ignore next */
-      if (e.key === 'Escape') {
-        setIsSearchExpanded(false);
-        mobileTriggerRef.current?.focus();
-        return;
-      }
-      if (e.key === 'Tab') {
-        if (!mobileSearchRef.current) return;
-        const focusable = mobileSearchRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (!first || !last) return;
-        
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            last.focus();
-            e.preventDefault();
-          }
-        } else {
-          if (document.activeElement === last) {
-            first.focus();
-            e.preventDefault();
-          }
-        }
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isSearchExpanded]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
       if (searchRef.current && !searchRef.current.contains(target)) setIsDropdownVisible(false);
-      if (mobileSearchRef.current && !mobileSearchRef.current.contains(target) && isSearchExpanded) {
-        setIsSearchExpanded(false);
-        mobileTriggerRef.current?.focus();
-      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isSearchExpanded]);
+  }, []);
 
   useEffect(() => {
     if (!location.pathname.startsWith('/search')) {
@@ -86,11 +41,8 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
   const filteredResults = useMemo(() => searchQuery.trim()
     ? courses.filter(c => {
       const q = searchQuery.toLowerCase();
-      /* istanbul ignore next */
       return c.title.toLowerCase().includes(q) ||
-        /* istanbul ignore next */
         (c.titleEn && c.titleEn.toLowerCase().includes(q)) ||
-        /* istanbul ignore next */
         (c.code && c.code.toLowerCase().includes(q));
     })
     : [],
@@ -119,7 +71,6 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
         handleResultClick(filteredResults[activeSearchIndex]);
       } else if (searchQuery.trim()) {
         navigate('/search?q=' + encodeURIComponent(searchQuery));
-        setIsSearchExpanded(false);
         setIsDropdownVisible(false);
       }
     }
@@ -129,12 +80,11 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
     navigate(`/course/${result.id}`);
     setSearchQuery('');
     setIsDropdownVisible(false);
-    setIsSearchExpanded(false);
   };
 
   return (
     <>
-      <div className="topbar__search-wrapper hidden lg:flex flex-1 justify-center px-xl z-[var(--z-topbar-search,1002)] min-w-0">
+      <div className="topbar__search-wrapper flex flex-1 justify-center px-xl z-[var(--z-topbar-search,1002)] min-w-0">
         <div className="search-container-relative relative w-full max-w-[400px]" ref={searchRef}>
           <SearchInput
             value={searchQuery}
@@ -200,56 +150,8 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
       </div>
 
       <div className="topbar__right-section flex items-center justify-end gap-sm sm:gap-md shrink-0 ml-auto">
-        <Button
-          ref={mobileTriggerRef}
-          variant="ghost"
-          size="icon"
-          className="topbar__mobile-search-trigger lg:hidden w-11 h-11 text-text-main bg-transparent hover:bg-bg-hover dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
-          onClick={() => setIsSearchExpanded(true)}
-          aria-label={t('search_placeholder')}
-          type="button"
-        >
-          <Search size={20} strokeWidth={2} />
-        </Button>
-
         {children}
       </div>
-
-      {isSearchExpanded && (
-        <div className="topbar__mobile-search-overlay fixed inset-0 bg-bg-card/95 backdrop-blur-[20px] z-[var(--z-mobile-search,4001)] flex flex-col" ref={mobileSearchRef} role="dialog" aria-modal="true">
-            <div className="search-overlay-content flex flex-col p-md gap-md bg-card w-full max-w-[calc(100dvw-2rem)] mx-auto box-border border border-border rounded-2xl shadow-xl mt-[var(--space-md)]">
-              <div className="flex items-center p-sm gap-sm w-full">
-                <div className="flex-1 w-full">
-                  <SearchInput
-                    ref={mobileInputRef}
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={handleSearchEnter}
-                    placeholder={t('search_placeholder')}
-                    className="w-full"
-                    role="combobox"
-                    aria-expanded={false}
-                    aria-haspopup="listbox"
-                    aria-autocomplete="list"
-                  />
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  type="button"
-                  onClick={() => {
-                    setIsSearchExpanded(false);
-                    mobileTriggerRef.current?.focus();
-                  }}
-                  className="shrink-0 w-11 h-11 text-muted hover:text-main bg-bg-hover rounded-full border-none focus-visible:outline-none focus-visible:shadow-focus transition-colors"
-                  aria-label={t('close')}
-                >
-                  <X size={20} strokeWidth={2} />
-                </Button>
-              </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
@@ -336,29 +238,6 @@ if (import.meta.vitest) {
       expect(screen.queryByRole('listbox')).not.toBeInTheDocument()
     })
 
-    it('renders mobile search trigger', () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      expect(trigger).toBeInTheDocument()
-    })
-
-    it('opens mobile search overlay on trigger click', async () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      await fireEvent.click(trigger)
-      const overlay = screen.getByRole('dialog')
-      expect(overlay).toBeInTheDocument()
-    })
-
-    it('closes mobile search overlay via close button', async () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      await fireEvent.click(trigger)
-      const closeBtn = screen.getByLabelText('Luk')
-      await fireEvent.click(closeBtn)
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    })
-
     it('renders all results button in dropdown', async () => {
       renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
       const input = screen.getByRole('combobox')
@@ -382,47 +261,6 @@ if (import.meta.vitest) {
       const option = screen.getByRole('option', { name: /Digital Design og Kommunikation/i })
       fireEvent.mouseEnter(option)
       expect(option).toHaveAttribute('aria-selected', 'true')
-    })
-
-    it('handles Tab key in mobile search overlay', async () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      await fireEvent.click(trigger)
-      await fireEvent.keyDown(document, { key: 'Tab' })
-      expect(screen.getByRole('dialog')).toBeInTheDocument()
-    })
-
-    it('wraps Tab from last to first in mobile overlay', async () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      await fireEvent.click(trigger)
-      const dialog = screen.getByRole('dialog')
-      const focusable = dialog.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-      const last = focusable[focusable.length - 1]
-      last.focus()
-      await fireEvent.keyDown(document, { key: 'Tab', shiftKey: false })
-      expect(document.activeElement).toBe(focusable[0])
-    })
-
-    it('wraps Shift+Tab from first to last in mobile overlay', async () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      await fireEvent.click(trigger)
-      const dialog = screen.getByRole('dialog')
-      const focusable = dialog.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-      const first = focusable[0]
-      first.focus()
-      await fireEvent.keyDown(document, { key: 'Tab', shiftKey: true })
-      expect(document.activeElement).toBe(focusable[focusable.length - 1])
-    })
-
-    it('closes mobile search via Escape key on document', async () => {
-      renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
-      const trigger = screen.getByLabelText('Søg på Moodle...')
-      await fireEvent.click(trigger)
-      expect(screen.getByRole('dialog')).toBeInTheDocument()
-      await fireEvent.keyDown(document, { key: 'Escape' })
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     })
 
     it('does not move ArrowDown past last result', async () => {

@@ -19,10 +19,10 @@ export function SplitLayout({
   return (
     <div className={`animate-fade-in ${className}`}>
       <Grid columns={12} gap="lg">
-        <Grid.Item span={mainSpan} mobileSpan={12} className="min-w-0">
+        <Grid.Item span={mainSpan} className="min-w-0">
           {main}
         </Grid.Item>
-        <Grid.Item span={sidebarSpan} mobileSpan={12} className="min-w-0">
+        <Grid.Item span={sidebarSpan} className="min-w-0">
           {sidebar}
         </Grid.Item>
       </Grid>

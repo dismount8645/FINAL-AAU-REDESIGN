@@ -19,13 +19,9 @@ export interface UISlice {
   localize: <T extends object>(obj: T, key?: string) => string;
 
   isCollapsed: boolean;
-  isMobile: boolean;
-  isMobileOpen: boolean;
   setCollapsed: (collapsed: boolean) => void;
   toggleSidebar: () => void;
   closeSidebar: () => void;
-  setIsMobile: (mobile: boolean) => void;
-  setIsMobileOpen: (open: boolean) => void;
 
   breadcrumbs: BreadcrumbItem[];
   setBreadcrumbs: (crumbs: BreadcrumbItem[] | undefined) => void;
@@ -39,10 +35,9 @@ export interface UISlice {
   decrementMessageCount: () => void;
 }
 
-function applySidebarClasses(isCollapsed: boolean, isMobileOpen: boolean) {
+function applySidebarClasses(isCollapsed: boolean) {
   if (typeof window === 'undefined') return;
   document.body.classList.toggle('sidebar-collapsed', isCollapsed);
-  document.body.classList.toggle('mobile-nav-open', isMobileOpen);
 }
 
 if (import.meta.vitest) {
@@ -53,7 +48,7 @@ if (import.meta.vitest) {
     const createMockAppState = () => {
       const state: Partial<AppState> = {
         theme: 'system' as Theme, lang: 'da' as Lang, isDarkMode: computeIsDarkMode('system'),
-        isCollapsed: false, isMobile: false, isMobileOpen: false,
+        isCollapsed: false,
         notificationCount: 2, messageCount: 1, breadcrumbs: [],
         t: (key: string) => key,
       };
@@ -74,8 +69,6 @@ if (import.meta.vitest) {
       expect(ui.theme).toBe('system');
       expect(ui.lang).toBe('da');
       expect(ui.isCollapsed).toBe(false);
-      expect(ui.isMobile).toBe(false);
-      expect(ui.isMobileOpen).toBe(false);
       expect(ui.notificationCount).toBe(2);
       expect(ui.messageCount).toBe(1);
       expect(ui.breadcrumbs).toEqual([]);
@@ -132,18 +125,7 @@ if (import.meta.vitest) {
       expect(ui.localize(obj, 'title')).toBe('Titel');
     });
 
-    it('toggleSidebar toggles isMobileOpen on mobile', () => {
-      const { state, ui } = createMockAppState();
-      ui.setIsMobile(true);
-      expect(state.isMobile).toBe(true);
-      expect(state.isMobileOpen).toBe(false);
-      ui.toggleSidebar();
-      expect(state.isMobileOpen).toBe(true);
-      ui.toggleSidebar();
-      expect(state.isMobileOpen).toBe(false);
-    });
-
-    it('toggleSidebar toggles isCollapsed on desktop', () => {
+    it('toggleSidebar toggles isCollapsed', () => {
       const { state, ui } = createMockAppState();
       expect(state.isCollapsed).toBe(false);
       ui.toggleSidebar();
@@ -152,13 +134,11 @@ if (import.meta.vitest) {
       expect(state.isCollapsed).toBe(false);
     });
 
-    it('closeSidebar closes mobile sidebar', () => {
+    it('closeSidebar collapses sidebar', () => {
       const { state, ui } = createMockAppState();
-      ui.setIsMobile(true);
-      ui.setIsMobileOpen(true);
-      expect(state.isMobileOpen).toBe(true);
+      state.isCollapsed = false;
       ui.closeSidebar();
-      expect(state.isMobileOpen).toBe(false);
+      expect(state.isCollapsed).toBe(true);
     });
 
     it('decrementNotificationCount stops at 0', () => {
@@ -263,36 +243,19 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
   },
 
   isCollapsed: false,
-  isMobile: false,
-  isMobileOpen: false,
   setCollapsed: (collapsed) => {
     set({ isCollapsed: collapsed });
-    applySidebarClasses(collapsed, get().isMobileOpen);
+    applySidebarClasses(collapsed);
   },
   toggleSidebar: () => {
-    const { isCollapsed, isMobile, isMobileOpen } = get();
-    if (isMobile) {
-      const next = !isMobileOpen;
-      set({ isMobileOpen: next });
-      applySidebarClasses(isCollapsed, next);
-    } else {
-      const next = !isCollapsed;
-      set({ isCollapsed: next });
-      applySidebarClasses(next, isMobileOpen);
-    }
+    const { isCollapsed } = get();
+    const next = !isCollapsed;
+    set({ isCollapsed: next });
+    applySidebarClasses(next);
   },
   closeSidebar: () => {
-    set({ isMobileOpen: false });
-    const { isCollapsed } = get();
-    applySidebarClasses(isCollapsed, false);
-  },
-  setIsMobile: (mobile) => {
-    set({ isMobile: mobile });
-  },
-  setIsMobileOpen: (open) => {
-    const { isCollapsed } = get();
-    set({ isMobileOpen: open });
-    applySidebarClasses(isCollapsed, open);
+    set({ isCollapsed: true });
+    applySidebarClasses(true);
   },
 
   breadcrumbs: [],

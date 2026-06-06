@@ -66,11 +66,6 @@ export interface NotificationItem {
 }
 
 
-export interface SubmissionDropzoneProps {
-  onFilesAdded: (files: FileList) => void
-  t: (key: string) => string
-}
-
 export interface ChatWindowProps {
   activeContact: Contact | undefined
   chatBodyRef: RefObject<HTMLDivElement>

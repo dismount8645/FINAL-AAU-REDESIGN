@@ -18,7 +18,6 @@ function Messages() {
     setActiveContactId,
     messageText,
     setMessageText,
-    showChat,
     setShowChat,
     chatBodyRef,
     filteredContacts,
@@ -41,8 +40,7 @@ function Messages() {
     >
 
       <Grid>
-        <Grid.Item span={4} tabletSpan={2} mobileSpan={4}
-          className={showChat ? 'hidden md:block' : ''}>
+        <Grid.Item span={4}>
           <ChatSidebar
             view={view}
             setView={setView}
@@ -56,8 +54,7 @@ function Messages() {
           />
         </Grid.Item>
 
-        <Grid.Item span={8} tabletSpan={4} mobileSpan={4}
-          className={!showChat ? 'hidden md:block' : ''}>
+        <Grid.Item span={8}>
           <ChatWindow
             activeContact={activeContact}
             chatBodyRef={chatBodyRef}
@@ -244,22 +241,6 @@ if (import.meta.vitest) {
       expect(screen.getByText('Enter test')).toBeInTheDocument()
     })
   
-    it('shows back button on mobile when chat is open', () => {
-      renderMessages('da')
-      fireEvent.click(screen.getByText('Studievejledningen'))
-      const backBtn = screen.getByLabelText('Tilbage til beskeder')
-      expect(backBtn).toBeInTheDocument()
-    })
-  
-    it('back button hides chat panel', () => {
-      renderMessages('da')
-      fireEvent.click(screen.getByText('Studievejledningen'))
-      const backBtn = screen.getByLabelText('Tilbage til beskeder')
-      fireEvent.click(backBtn)
-      const listPanel = document.querySelector('.messages-list-panel')
-      expect(listPanel).toBeInTheDocument()
-    })
-  
     it('does not send message with empty text via Enter key', () => {
       renderMessages('da')
       const textarea = document.querySelector('textarea') as HTMLTextAreaElement
@@ -284,32 +265,6 @@ if (import.meta.vitest) {
       })
       
       expect(getUnreadIndicator()).not.toBeInTheDocument()
-      
-      vi.useRealTimers()
-    })
-  
-    it('does not mark contact as read after delay on mobile when chat is not shown', async () => {
-      vi.useFakeTimers()
-      useStore.setState({ lang: 'da', isMobile: true })
-      
-      render(
-        <MemoryRouter>
-          <Messages />
-        </MemoryRouter>
-      )
-      
-      // Mette Jensen (id=1) is active and unread
-      const getUnreadIndicator = () => document.querySelector('.bg-primary.rounded-\\[var\\(--radius-pill\\)\\].w-2\\.5')
-      expect(getUnreadIndicator()).toBeInTheDocument()
-      
-      // Fast-forward time
-      await act(async () => {
-        vi.advanceTimersByTime(1500)
-        await vi.runOnlyPendingTimersAsync()
-      })
-      
-      // Should still be unread because showChat is false on mobile!
-      expect(getUnreadIndicator()).toBeInTheDocument()
       
       vi.useRealTimers()
     })

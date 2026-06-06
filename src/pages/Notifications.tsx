@@ -59,7 +59,7 @@ function Notifications() {
     >
 
       <Grid>
-        <Grid.Item span={4} tabletSpan={2} mobileSpan={4}>
+        <Grid.Item span={4}>
           <Card className="panel-card flex flex-col p-[var(--space-0)]">
             <div className="notifications-tabs-container px-md pt-md border-b border-border bg-bg-card">
               <NotificationFilters
@@ -179,7 +179,7 @@ function Notifications() {
           </Card>
         </Grid.Item>
 
-        <Grid.Item span={8} tabletSpan={4} mobileSpan={4}>
+        <Grid.Item span={8}>
           <Card className="panel-card flex flex-col p-[var(--space-0)]">
             <NotificationDetailView
               selectedNotification={selectedNotification}
