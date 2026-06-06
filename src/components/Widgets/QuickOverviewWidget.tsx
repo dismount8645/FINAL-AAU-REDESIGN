@@ -1,7 +1,5 @@
 import { useCallback, memo, forwardRef } from 'react';
 
-
-import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
@@ -9,9 +7,6 @@ import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
-
-import type { WidgetProps } from '@/lib/types';
-import { cn } from '@/lib/utils';
 
 interface OverviewEvent {
   time: string
@@ -23,32 +18,18 @@ const todayEvents: OverviewEvent[] = [
   { time: '23:59', titleKey: 'project_report' },
 ]
 
-/**
- * OverviewItem - Individual schedule entry with refactored A11y and tokens.
- */
-const OverviewItem = memo(forwardRef<HTMLButtonElement, { 
+const OverviewItem = memo(forwardRef<HTMLButtonElement, {
   event: OverviewEvent,
-  isLast: boolean,
-  onClick: () => void 
-}>(({ event, isLast, onClick }, ref) => {
+  onClick: () => void
+}>(({ event, onClick }, ref) => {
   const t = useStore(state => state.t)
   const [hours, minutes] = event.time.split(':')
-  
+
   return (
-    <motion.button
+    <button
       ref={ref}
-      layout
-      initial={{ opacity: 0, y: 5 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.15 }}
       type="button"
-      className={cn(
-        "w-full text-left flex items-center justify-start gap-[var(--space-md)] py-[var(--space-sm)] px-[var(--space-sm)] rounded-[var(--radius-lg)] transition-all duration-150",
-        "hover:bg-bg-highlight/50 border border-transparent hover:border-[var(--border-color)]/40 group/item outline-none",
-        "focus-visible:outline-none focus-visible:shadow-focus",
-        !isLast && 'border-b-[var(--border-color)]/20'
-      )}
+      className="w-full text-left flex items-center justify-start gap-[var(--space-md)] py-[var(--space-sm)] px-[var(--space-sm)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-bg-highlight/50 border border-transparent hover:border-[var(--border-color)]/40 group/item outline-none focus-visible:outline-none focus-visible:shadow-focus"
       onClick={onClick}
     >
       <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
@@ -59,28 +40,22 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
         {t(event.titleKey)}
       </Text>
-    </motion.button>
+    </button>
   )
 }))
 
 OverviewItem.displayName = 'OverviewItem'
 
-/**
- * QuickOverviewWidget - Real-time schedule and upcoming agenda.
- */
-const QuickOverviewWidget = ({ span, isEditing }: WidgetProps) => {
+const QuickOverviewWidget = () => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
 
   const handleGoToCalendar = useCallback(() => {
-    if (!isEditing) navigate('/calendar')
-  }, [isEditing, navigate])
+    navigate('/calendar')
+  }, [navigate])
 
   return (
-    <Card className={cn(
-      "quick-overview-widget h-full w-full flex flex-col group/widget overflow-hidden",
-      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
-    )}>
+    <Card className="quick-overview-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
@@ -90,16 +65,16 @@ const QuickOverviewWidget = ({ span, isEditing }: WidgetProps) => {
             {t('common.quick_overview')}
           </Heading>
         </Stack>
-        
+
         <Button
           variant="ghost"
-          size={span && span > 4 ? "xs" : "icon-xs"}
+          size="xs"
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleGoToCalendar}
           iconRight={ChevronRight}
           aria-label={t('calendar')}
         >
-          {span && span > 4 ? t('calendar') : ''}
+          {t('calendar')}
         </Button>
       </Card.Header>
 
@@ -108,24 +83,21 @@ const QuickOverviewWidget = ({ span, isEditing }: WidgetProps) => {
           <Text size="xs" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
             {t('todays_schedule')}
           </Text>
-          <AnimatePresence mode="popLayout">
-            {todayEvents.map((event, index) => (
+          {todayEvents.map((event) => (
               <OverviewItem
-                key={event.titleKey}
-                event={event}
-                isLast={index === todayEvents.length - 1}
-                onClick={handleGoToCalendar}
-              />
-            ))}
-          </AnimatePresence>
+              key={event.titleKey}
+              event={event}
+              onClick={handleGoToCalendar}
+            />
+          ))}
         </div>
       </Card.Body>
 
       <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-end items-center">
         <div className="flex items-center gap-[var(--space-xs)] opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-[var(--space-sm)] group-hover/widget:translate-x-0">
-          <Button 
-            variant="ghost" 
-            size="xs" 
+          <Button
+            variant="ghost"
+            size="xs"
             className="text-primary uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
             onClick={handleGoToCalendar}
             iconRight={Clock}
@@ -142,7 +114,6 @@ export default memo(QuickOverviewWidget)
 
 let mockNavigate: ReturnType<typeof vi.fn>
 if (import.meta.vitest) {
-  // Mock useNavigate
   mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
@@ -156,7 +127,7 @@ if (import.meta.vitest) {
       vi.clearAllMocks()
     })
     it('renders today events', () => {
-      renderWithProviders(<QuickOverviewWidget span={12} isEditing={false} />)
+      renderWithProviders(<QuickOverviewWidget />)
       expect(screen.getByText('Hurtig oversigt')).toBeInTheDocument()
       expect(screen.getByText('08')).toBeInTheDocument()
       expect(screen.getByText('15')).toBeInTheDocument()
@@ -165,38 +136,18 @@ if (import.meta.vitest) {
       expect(screen.getByText('59')).toBeInTheDocument()
       expect(screen.getByText('Projektrapport')).toBeInTheDocument()
     })
-  
+
     it('navigates to calendar when link is clicked', () => {
-      renderWithProviders(<QuickOverviewWidget span={12} isEditing={false} />)
+      renderWithProviders(<QuickOverviewWidget />)
       const link = screen.getByText('Kalender')
       fireEvent.click(link)
       expect(mockNavigate).toHaveBeenCalledWith('/calendar')
     })
-  
-    it('does not navigate when isEditing is true', () => {
-      renderWithProviders(<QuickOverviewWidget span={12} isEditing={true} />)
-      const link = screen.getByText('Kalender')
-      fireEvent.click(link)
-      expect(mockNavigate).not.toHaveBeenCalled()
-    })
-  
-    it('renders events for small span', () => {
-      renderWithProviders(<QuickOverviewWidget span={4} isEditing={false} />)
-      expect(screen.getByText('08')).toBeInTheDocument()
-      expect(screen.getByText('Forelæsning')).toBeInTheDocument()
-    })
-  
-    it('renders events for medium span', () => {
-      renderWithProviders(<QuickOverviewWidget span={8} isEditing={false} />)
-      expect(screen.getByText('23')).toBeInTheDocument()
-      expect(screen.getByText('Projektrapport')).toBeInTheDocument()
-    })
-  
+
     it('renders divider between events', () => {
-      const { container } = renderWithProviders(<QuickOverviewWidget span={12} isEditing={false} />)
-      // Check for border-b class on the first item
-      const items = container.querySelectorAll('.border-b-\\[var\\(--border-color\\)\\]\\/20')
-      expect(items.length).toBe(1)
+      const { container } = renderWithProviders(<QuickOverviewWidget />)
+      const items = container.querySelectorAll('.border-transparent')
+      expect(items.length).toBe(2)
     })
   })
 }

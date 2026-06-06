@@ -34,7 +34,6 @@ const DayView = memo(CalendarDayView)
 
 const Calendar = () => {
   const t = useStore(state => state.t)
-  const isMobile = useStore(state => state.isMobile)
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 
@@ -162,11 +161,11 @@ const Calendar = () => {
       <div className="container pb-[var(--space-3xl)]">
         <ErrorBoundary name="CalendarContent">
           <Grid columns={12} gap="lg">
-            <Grid.Item span={9} mobileSpan={12} className="min-w-0">
+            <Grid.Item span={9} className="min-w-0">
               <Card variant="elevated" className="main-calendar-card h-full">
-                <Card.Header padding="default" className="bg-bg-highlight/30 backdrop-blur-md min-h-[72px] sm:min-h-[76px] flex items-center">
+                <Card.Header padding="default" className="bg-bg-highlight/30 backdrop-blur-md min-h-[76px] flex items-center">
                   <Stack direction="row" gap="md" align="center" justify="between" className="flex-wrap w-full">
-                    <div className="w-full sm:w-auto min-w-[240px]">
+                    <div className="w-auto min-w-[240px]">
                       <SegmentedControl
                         options={viewOptions}
                         value={view}
@@ -222,8 +221,8 @@ const Calendar = () => {
                           key="content"
                           className={cn(
                             "calendar-grid-container bg-[var(--border-color)]/20 min-w-0 grid transition-all duration-300",
-                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,64px)_repeat(7,minmax(0,1fr))] min-w-[700px] md:min-w-[950px] lg:min-w-0",
-                            view === 'week' && (isMobile ? "grid-cols-[var(--calendar-sidebar-width-mobile,40px)_repeat(7,minmax(0,1fr))] min-w-[1000px]" : "grid-cols-[var(--calendar-sidebar-width,96px)_repeat(7,minmax(0,1fr))] min-w-[1200px]"),
+                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,64px)_repeat(7,minmax(0,1fr))] min-w-[950px]",
+                            view === 'week' && "grid-cols-[var(--calendar-sidebar-width,96px)_repeat(7,minmax(0,1fr))] min-w-[1200px]",
                             view === 'day' && "grid-cols-1"
                           )}
                           style={{ gap: '1px' }}
@@ -237,7 +236,7 @@ const Calendar = () => {
               </Card>
             </Grid.Item>
 
-            <Grid.Item span={3} mobileSpan={12}>
+            <Grid.Item span={3}>
               <CalendarUpcomingWidget
                 events={events}
                 currentDate={currentDate}
@@ -699,19 +698,6 @@ if (import.meta.vitest) {
       fireEvent.click(screen.getByRole('button', { name: 'Ny begivenhed' }))
       fireEvent.click(screen.getByRole('button', { name: 'Opret begivenhed' }))
       expect(screen.getByText('Opret begivenhed')).toBeInTheDocument()
-    })
-  
-    it('renders week view in mobile mode', () => {
-      useStore.setState({ lang: 'da', isMobile: true })
-      render(
-        <MemoryRouter>
-          <ToastProvider>
-            <Calendar />
-          </ToastProvider>
-        </MemoryRouter>
-      )
-      fireEvent.click(screen.getByRole('button', { name: 'Uge' }))
-      expect(screen.getByText(/08:00/)).toBeInTheDocument()
     })
   
     it('renders week numbers correctly for month starting on Monday', () => {

@@ -11,8 +11,6 @@ export function AppProvider({ children }: AppProviderProps) {
   const theme = useStore((s) => s.theme)
   const isDarkMode = useStore((s) => s.isDarkMode)
   const setTheme = useStore((s) => s.setTheme)
-  const setIsMobile = useStore((s) => s.setIsMobile)
-
   // Sync isDarkMode state when theme changes
   useEffect(() => {
     const isDark = computeIsDarkMode(theme)
@@ -31,22 +29,6 @@ export function AppProvider({ children }: AppProviderProps) {
   }, [isDarkMode])
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = env.getInnerWidth()
-      const isPhone = width < 768
-      setIsMobile(isPhone)
-
-      if (width >= 1024) {
-        useStore.getState().setCollapsed(false)
-        useStore.getState().setIsMobileOpen(false)
-      } else if (width >= 768) {
-        useStore.getState().setCollapsed(true)
-        useStore.getState().setIsMobileOpen(false)
-      } else {
-        useStore.getState().setCollapsed(true)
-      }
-    }
-
     const mediaQuery = env.matchMedia('(prefers-color-scheme: dark)')
 
     const handleSystemThemeChange = () => {
@@ -55,15 +37,12 @@ export function AppProvider({ children }: AppProviderProps) {
       }
     }
 
-    handleResize()
-    window.addEventListener('resize', handleResize)
     mediaQuery.addEventListener('change', handleSystemThemeChange)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
       mediaQuery.removeEventListener('change', handleSystemThemeChange)
     }
-  }, [setIsMobile, setTheme])
+  }, [setTheme])
 
   return (
     <ToastProvider>
@@ -81,9 +60,7 @@ if (import.meta.vitest) {
       useStore.setState({
         theme: 'system',
         isDarkMode: false,
-        isMobile: false,
         isCollapsed: false,
-        isMobileOpen: false,
       });
       if (typeof document !== 'undefined') {
         document.documentElement.className = '';
@@ -119,42 +96,6 @@ if (import.meta.vitest) {
       });
       expect(useStore.getState().isDarkMode).toBe(false);
       expect(document.documentElement.classList.contains('dark')).toBe(false);
-    });
-
-    it('listens to resize and updates mobile/collapsed state', () => {
-      const getInnerWidthMock = vi.spyOn(env, 'getInnerWidth');
-      
-      render(
-        <AppProvider>
-          <div>Content</div>
-        </AppProvider>
-      );
-
-      // Width >= 1024
-      getInnerWidthMock.mockReturnValue(1024);
-      act(() => {
-        window.dispatchEvent(new Event('resize'));
-      });
-      expect(useStore.getState().isMobile).toBe(false);
-      expect(useStore.getState().isCollapsed).toBe(false);
-
-      // Width >= 768 and < 1024
-      getInnerWidthMock.mockReturnValue(800);
-      act(() => {
-        window.dispatchEvent(new Event('resize'));
-      });
-      expect(useStore.getState().isMobile).toBe(false);
-      expect(useStore.getState().isCollapsed).toBe(true);
-
-      // Width < 768
-      getInnerWidthMock.mockReturnValue(500);
-      act(() => {
-        window.dispatchEvent(new Event('resize'));
-      });
-      expect(useStore.getState().isMobile).toBe(true);
-      expect(useStore.getState().isCollapsed).toBe(true);
-
-      getInnerWidthMock.mockRestore();
     });
 
     it('handles prefers-color-scheme change', () => {

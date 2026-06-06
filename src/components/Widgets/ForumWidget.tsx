@@ -1,7 +1,5 @@
 import { useMemo, useCallback, memo, forwardRef } from 'react';
 
-
-import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, MessageCircle, ArrowRight, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui';
@@ -12,10 +10,6 @@ import { Text, Heading } from '@/components/ui';
 import { dashboardForumPosts } from '@/lib/data';
 import useStore from '@/store';
 
-import type { WidgetProps } from '@/lib/types';
-import { cn } from '@/lib/utils';
-import { getWidgetDisplayLayout } from '@/config/widgetLayout';
-
 interface ForumPost {
   id: number
   title: string
@@ -25,33 +19,21 @@ interface ForumPost {
   important: boolean
 }
 
-interface ForumWidgetProps extends WidgetProps {
+interface ForumWidgetProps {
   professor: string
 }
 
-/**
- * PostItem - Individual forum entry with refactored A11y and Motion.
- */
-const PostItem = memo(forwardRef<HTMLButtonElement, { 
-  post: ForumPost, 
-  onClick: (id: number) => void 
+const PostItem = memo(forwardRef<HTMLButtonElement, {
+  post: ForumPost,
+  onClick: (id: number) => void
 }>(({ post, onClick }, ref) => {
   const t = useStore(state => state.t)
-  
+
   return (
-    <motion.button
+    <button
       ref={ref}
-      layout
-      initial={{ opacity: 0, x: -10 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 10 }}
-      transition={{ duration: 0.15 }}
       type="button"
-      className={cn(
-        "forum-list-item w-full text-left flex items-center gap-[var(--space-md)] p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150",
-        "hover:bg-bg-hover cursor-pointer group/item outline-none",
-        "focus-visible:outline-none focus-visible:shadow-focus border border-transparent hover:border-[var(--border-color)]/40"
-      )}
+      className="forum-list-item w-full text-left flex items-center gap-[var(--space-md)] p-[var(--space-sm)] rounded-[var(--radius-xl)] transition-all duration-150 hover:bg-bg-hover cursor-pointer group/item outline-none focus-visible:outline-none focus-visible:shadow-focus border border-transparent hover:border-[var(--border-color)]/40"
       onClick={() => onClick(post.id)}
     >
       <Stack gap="xs" className="forum-list-item__content flex-1 min-w-0">
@@ -69,7 +51,7 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
           {t('by')} <span className="font-bold text-main">{post.author}</span> &bull; {post.time}
         </Text>
       </Stack>
-      
+
       <div className="flex flex-col items-end gap-[var(--space-4xs)] shrink-0">
         <div className="forum-list-item__reply-count flex items-center gap-1.5 px-[var(--space-xs)] py-[var(--space-4xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
           <Text weight="black" size="xs" className="text-primary dark:text-indigo-200 leading-none">{post.replies}</Text>
@@ -79,21 +61,18 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
           <ArrowRight size={10} strokeWidth={3} className="text-primary" />
         </div>
       </div>
-    </motion.button>
+    </button>
   )
 }))
 
 PostItem.displayName = 'PostItem'
 
-/**
- * ForumWidget - Collaborative course communication hub.
- */
-const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
+const ForumWidget = ({ professor }: ForumWidgetProps) => {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
   const navigate = useNavigate()
 
-  const { itemsToShow } = useMemo(() => getWidgetDisplayLayout(span), [span])
+  const itemsToShow = 3
   const visiblePosts = useMemo(() => (
     dashboardForumPosts.slice(0, itemsToShow).map((post) => ({
       ...post,
@@ -105,24 +84,19 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
   ), [itemsToShow, localize, professor])
 
   const handleNewPost = useCallback(() => {
-    /* istanbul ignore next */
-    if (isEditing) return
     navigate('/forum/new')
-  }, [isEditing, navigate])
+  }, [navigate])
 
   const handlePostClick = useCallback((id: number) => {
-    if (!isEditing) navigate(`/forum/${id}`)
-  }, [isEditing, navigate])
+    navigate(`/forum/${id}`)
+  }, [navigate])
 
   const handleViewAll = useCallback(() => {
-    if (!isEditing) navigate('/forum')
-  }, [isEditing, navigate])
+    navigate('/forum')
+  }, [navigate])
 
   return (
-    <Card className={cn(
-      "forum-widget h-full w-full flex flex-col group/widget overflow-hidden",
-      "shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60"
-    )}>
+    <Card className="forum-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
           <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
@@ -132,14 +106,13 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
             {t('forum')}
           </Heading>
         </Stack>
-        
+
         <Button
           variant="ghost"
           size="xs"
           className="normal-case tracking-normal font-bold text-primary hover:bg-bg-card/50"
           onClick={handleNewPost}
           icon={Plus}
-          disabled={isEditing}
         >
           {t('new_post')}
         </Button>
@@ -147,15 +120,13 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
 
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)] forum-list">
-          <AnimatePresence mode="popLayout">
-            {visiblePosts.map((post) => (
-              <PostItem
-                key={post.id}
-                post={post as ForumPost}
-                onClick={handlePostClick}
-              />
-            ))}
-          </AnimatePresence>
+          {visiblePosts.map((post) => (
+            <PostItem
+              key={post.id}
+              post={post as ForumPost}
+              onClick={handlePostClick}
+            />
+          ))}
         </div>
       </Card.Body>
 
@@ -164,9 +135,9 @@ const ForumWidget = ({ professor, span, isEditing }: ForumWidgetProps) => {
           {visiblePosts.length} {t('active_discussions')}
         </Text>
         <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-          <Button 
-            variant="ghost" 
-            size="xs" 
+          <Button
+            variant="ghost"
+            size="xs"
             className="text-primary uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
             onClick={handleViewAll}
             iconRight={ChevronRight}
@@ -196,75 +167,51 @@ if (import.meta.vitest) {
       vi.clearAllMocks()
       useStore.setState({ lang: 'da' })
     })
-  
+
     it('renders correctly', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       expect(screen.getByText('Kursusforum')).toBeInTheDocument()
       expect(screen.getByText('Spørgsmål til litteraturen i uge 2')).toBeInTheDocument()
       expect(screen.getByText('Prof. Hansen')).toBeInTheDocument()
     })
-  
+
     it('renders correctly in English', () => {
       useStore.setState({ lang: 'en' })
-      
-      renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       expect(screen.getByText('Questions regarding literature week 2')).toBeInTheDocument()
       expect(screen.getByText('Prof. Hansen')).toBeInTheDocument()
     })
-  
-    it('renders medium number of items for span 8', () => {
-      renderWithProviders(<ForumWidget span={8} isEditing={false} professor="Prof. Hansen" />)
+
+    it('renders 3 forum posts', () => {
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       const replyCounts = document.querySelectorAll('.forum-list-item__reply-count')
-      expect(replyCounts.length).toBe(2)
+      expect(replyCounts.length).toBe(3)
     })
-  
-    it('renders only 1 item for small span (4)', () => {
-      renderWithProviders(<ForumWidget span={4} isEditing={false} professor="Prof. Hansen" />)
-      const replyCounts = document.querySelectorAll('.forum-list-item__reply-count')
-      expect(replyCounts.length).toBe(1)
-    })
-  
+
     it('shows important badge for important posts', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       expect(screen.getByText('Vigtigt')).toBeInTheDocument()
     })
-  
-    it('button is disabled when isEditing is true', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={true} professor="Prof. Hansen" />)
-      const btn = screen.getByRole('button', { name: /nyt indlæg/i })
-      expect(btn).toBeDisabled()
-    })
-  
+
     it('navigates to forum post when post is clicked', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       const item = screen.getByText('Spørgsmål til litteraturen i uge 2')
       fireEvent.click(item)
       expect(mockNavigate).toHaveBeenCalledWith('/forum/501')
     })
-  
+
     it('navigates to new post when button is clicked', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       const btn = screen.getByRole('button', { name: /nyt indlæg/i })
       fireEvent.click(btn)
       expect(mockNavigate).toHaveBeenCalledWith('/forum/new')
     })
-  
+
     it('navigates to forum page when "se_all" is clicked', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={false} professor="Prof. Hansen" />)
+      renderWithProviders(<ForumWidget professor="Prof. Hansen" />)
       const btn = screen.getByRole('button', { name: /se alle/i })
       fireEvent.click(btn)
       expect(mockNavigate).toHaveBeenCalledWith('/forum')
-    })
-  
-    it('does not navigate on se_all or post click when isEditing is true', () => {
-      renderWithProviders(<ForumWidget span={12} isEditing={true} professor="Prof. Hansen" />)
-      const item = screen.getByText('Spørgsmål til litteraturen i uge 2')
-      fireEvent.click(item)
-      expect(mockNavigate).not.toHaveBeenCalled()
-  
-      const btn = screen.getByRole('button', { name: /se alle/i })
-      fireEvent.click(btn)
-      expect(mockNavigate).not.toHaveBeenCalled()
     })
   })
 }

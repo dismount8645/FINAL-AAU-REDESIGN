@@ -54,7 +54,7 @@ function SearchResults() {
                     const isCourse = res.path.startsWith('/course/')
                     const courseId = isCourse ? Number(res.path.split('/').pop()) : null
                     return (
-                      <Grid.Item span={12} tabletSpan={6} mobileSpan={1} key={res.path}>
+                      <Grid.Item span={12} key={res.path}>
                         <SearchResultCard
                           item={res}
                           query={query}
@@ -156,9 +156,8 @@ if (import.meta.vitest) {
       expect(titles[0]).toBeInTheDocument()
       
       // Test navigation — click the stretched-link overlay button inside the card
-      const teaserCard = titles[0].closest('[class*="@container/teaser"]')!
-      const overlayBtn = teaserCard.querySelector('[aria-label="View details"]')
-      fireEvent.click(overlayBtn!)
+      const overlayBtn = screen.getByRole('button', { name: 'View details' })
+      fireEvent.click(overlayBtn)
       expect(mockNavigate).toHaveBeenCalledWith('/course/1')
     })
   

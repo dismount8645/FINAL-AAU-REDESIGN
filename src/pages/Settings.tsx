@@ -1,4 +1,4 @@
-import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ChevronLeft } from 'lucide-react'
+import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
 import PageLayout from '@/components/Layout/PageLayout';
 import { AnimatePresence, motion } from 'framer-motion'
@@ -48,12 +48,10 @@ const itemIcons: Record<string, typeof User> = {
 
 function Settings() {
   const t = useStore(state => state.t)
-  const isMobile = useStore(state => state.isMobile)
   const [searchParams] = useSearchParams()
   const toast = useToast()
   const [activeTab, setActiveTab] = useState<string>(searchParams.get('tab') || 'profil')
   const [expandedCats, setExpandedCats] = useState<string[]>(['bruger', 'indstillinger'])
-  const [mobileView, setMobileView] = useState<'menu' | 'pane'>('menu')
 
   const firstName = useStore(state => state.firstName)
   const lastName = useStore(state => state.lastName)
@@ -66,10 +64,7 @@ function Settings() {
 
   const handleTabClick = useCallback((id: string) => {
     setActiveTab(id)
-    if (isMobile) {
-      setMobileView('pane')
-    }
-  }, [isMobile])
+  }, [])
 
   const toggleCat = useCallback((id: string): void => {
     setExpandedCats(prev => prev.includes(id)
@@ -99,9 +94,8 @@ function Settings() {
 
       <div className="container pb-2xl">
         <Grid>
-          {(!isMobile || mobileView === 'menu') && (
-            <Grid.Item span={4} tabletSpan={2} mobileSpan={12}>
-              <Card className="panel-card flex flex-col p-[var(--space-0)] sticky top-32 self-start">
+          <Grid.Item span={4}>
+            <Card className="panel-card flex flex-col p-[var(--space-0)] sticky top-32 self-start">
               <Card.Header className="border-b border-border">
                 <Stack direction="row" gap="md" align="center">
                   <Avatar name={`${firstName} ${lastName}`} size="md" />
@@ -150,24 +144,11 @@ function Settings() {
               </Card.Body>
             </Card>
           </Grid.Item>
-          )}
 
-          {(!isMobile || mobileView === 'pane') && (
-            <Grid.Item span={8} tabletSpan={4} mobileSpan={12}>
-              <Card className="panel-card flex flex-col p-[var(--space-0)]">
+          <Grid.Item span={8}>
+            <Card className="panel-card flex flex-col p-[var(--space-0)]">
               <Card.Header className="border-b border-border">
                 <Stack gap="2xs">
-                  {isMobile && (
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      icon={ChevronLeft} 
-                      onClick={() => setMobileView('menu')}
-                      className="mb-[var(--space-sm)] -ml-[var(--space-sm)] self-start h-[var(--space-3xl)] px-2xs text-primary"
-                    >
-                      {t('common.back')}
-                    </Button>
-                  )}
                   <Text weight="bold" size="lg" className="card__title text-main">{t(activeTabLabel)}</Text>
                   <Text muted size="sm">{t('settings.subtitle')}</Text>
                 </Stack>
@@ -211,7 +192,6 @@ function Settings() {
               )}
             </Card>
           </Grid.Item>
-          )}
         </Grid>
       </div>
     </PageLayout>
@@ -447,16 +427,5 @@ if (import.meta.vitest) {
       expect(screen.getByText(/Who can contact me/i)).toBeInTheDocument()
     })
 
-    it('handles mobile view tab clicks and back button', () => {
-      useStore.setState({ isMobile: true, lang: 'en' })
-      renderWithProviders(<Settings />)
-      const tab = screen.getByText('Edit Profile')
-      fireEvent.click(tab)
-      const backBtn = screen.getByText('Back')
-      expect(backBtn).toBeInTheDocument()
-
-      fireEvent.click(backBtn)
-      expect(screen.queryByText('Edit Profile')).toBeInTheDocument()
-    })
   })
 }

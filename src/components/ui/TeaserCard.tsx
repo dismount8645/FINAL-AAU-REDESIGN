@@ -1,7 +1,6 @@
 import { memo, useMemo, type ReactNode, type MouseEvent } from 'react';
 
 
-import { AnimatePresence, motion } from 'framer-motion';
 import { Star, ChevronRight } from 'lucide-react';
 import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
@@ -79,7 +78,7 @@ const TeaserCard = memo(function TeaserCard({
     <Card
       layoutId={layoutId}
       className={cn(
-        'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1 @container/teaser',
+        'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1',
         isHorizontal ? 'flex-col lg:flex-row min-h-[180px]' : 'flex-col',
         className
       )}
@@ -100,7 +99,7 @@ const TeaserCard = memo(function TeaserCard({
           className={cn(
             'relative shrink-0 overflow-hidden transition-transform duration-500 ease-[var(--transition-ease)] group-hover:scale-105',
             isHorizontal 
-              ? 'w-full lg:w-[260px] aspect-video lg:aspect-auto lg:h-full' 
+              ? 'w-[260px] h-full' 
               : 'w-full aspect-video'
           )}
         >
@@ -135,7 +134,7 @@ const TeaserCard = memo(function TeaserCard({
             )}
             <Heading 
               level={3} 
-              className="m-0 text-[1.125rem] font-bold leading-tight text-main transition-colors group-hover:text-primary line-clamp-2 md:text-[1.125rem]"
+              className="m-0 text-[1.125rem] font-bold leading-tight text-main transition-colors group-hover:text-primary line-clamp-2"
             >
               {title}
             </Heading>
@@ -158,21 +157,11 @@ const TeaserCard = memo(function TeaserCard({
             aria-label={isStarred ? t('remove_favorite') : t('add_favorite')}
             aria-pressed={isStarred}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={isStarred ? 'starred' : 'unstarred'}
-                initial={{ scale: 0.5, opacity: 0, rotate: -45 }}
-                animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                exit={{ scale: 0.5, opacity: 0, rotate: 45 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-              >
-                <Star 
-                  size={18} 
-                  strokeWidth={2} 
-                  fill={isStarred ? 'currentColor' : 'none'} 
-                />
-              </motion.div>
-            </AnimatePresence>
+            <Star 
+              size={18} 
+              strokeWidth={2} 
+              fill={isStarred ? 'currentColor' : 'none'} 
+            />
           </Button>
         </div>
 
@@ -236,7 +225,7 @@ function TeaserCardSkeleton({
     )}>
       <div className={cn(
         'relative shrink-0 overflow-hidden bg-bg-card',
-        isHorizontal ? 'w-full lg:w-[260px] aspect-video lg:h-full' : 'w-full aspect-video'
+        isHorizontal ? 'w-[260px] h-full' : 'w-full aspect-video'
       )}>
         <Skeleton variant="rectangular" className="w-full h-full" />
       </div>

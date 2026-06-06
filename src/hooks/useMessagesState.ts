@@ -24,7 +24,6 @@ export interface UseMessagesStateReturn {
 export function useMessagesState(): UseMessagesStateReturn {
   const t = useStore(state => state.t)
   const decrementMessageCount = useStore(state => state.decrementMessageCount)
-  const isMobile = useStore(state => state.isMobile)
   const location = useLocation()
 
   const [view, setView] = useState<'active' | 'archive'>('active')
@@ -99,7 +98,7 @@ export function useMessagesState(): UseMessagesStateReturn {
 
   // Auto mark-as-read after 1s
   useEffect(() => {
-    if (isMobile && !showChat) return
+    if (!showChat) return
     const contact = contacts.find(c => c.id === activeContactId)
     if (contact?.unread) {
       const timer = setTimeout(() => {
@@ -113,7 +112,7 @@ export function useMessagesState(): UseMessagesStateReturn {
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [activeContactId, contacts, decrementMessageCount, isMobile, showChat])
+  }, [activeContactId, contacts, decrementMessageCount, showChat])
 
   // Sync URL param → activeContactId
   useEffect(() => {

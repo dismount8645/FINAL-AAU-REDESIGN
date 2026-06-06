@@ -9,8 +9,6 @@ describe('useStore', () => {
       isDarkMode: false,
       lang: 'da',
       isCollapsed: false,
-      isMobile: false,
-      isMobileOpen: false,
       courseProgress: {},
       calendarEvents: {},
       favorites: [],
@@ -190,28 +188,6 @@ describe('useStore', () => {
     expect(useStore.getState().favorites.map(f => f.entityId)).toEqual([1, 2, 3])
     reorderFavorites(2, 0)
     expect(useStore.getState().favorites.map(f => f.entityId)).toEqual([3, 1, 2])
-  })
-
-  it('toggles sidebar in mobile mode', () => {
-    useStore.setState({ isMobile: true, isMobileOpen: false })
-    useStore.getState().toggleSidebar()
-    expect(useStore.getState().isMobileOpen).toBe(true)
-  })
-
-  it('closes sidebar', () => {
-    useStore.setState({ isCollapsed: false, isMobileOpen: true })
-    useStore.getState().closeSidebar()
-    expect(useStore.getState().isCollapsed).toBe(false)
-    expect(useStore.getState().isMobileOpen).toBe(false)
-  })
-
-  it('sets mobile open state and applies sidebar classes', () => {
-    useStore.setState({ isCollapsed: true, isMobileOpen: false })
-    useStore.getState().setIsMobileOpen(true)
-    expect(useStore.getState().isMobileOpen).toBe(true)
-    expect(document.body.classList.contains('mobile-nav-open')).toBe(true)
-    useStore.getState().setIsMobileOpen(false)
-    expect(useStore.getState().isMobileOpen).toBe(false)
   })
 
   it('manages counts correctly', () => {
