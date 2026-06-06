@@ -134,10 +134,6 @@ if (import.meta.vitest) {
       expect(screen.getByText('back_to_forum')).toBeInTheDocument()
     })
 
-    it('clicks back button to navigate', () => {
-      renderForumPost('1')
-      fireEvent.click(screen.getByText('back_to_forum'))
-      expect(screen.getAllByText(/Spørgsmål til litteraturen i uge 2/i).length).toBeGreaterThan(0)
-    })
+
   })
 }

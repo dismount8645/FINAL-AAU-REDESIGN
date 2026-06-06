@@ -11,8 +11,6 @@ export interface UseMessagesStateReturn {
   contacts: Contact[]
   messageText: string
   setMessageText: (t: string) => void
-  showChat: boolean
-  setShowChat: (show: boolean) => void
   chatBodyRef: React.RefObject<HTMLDivElement>
   filteredContacts: Contact[]
   activeContact: Contact | undefined
@@ -58,7 +56,6 @@ export function useMessagesState(): UseMessagesStateReturn {
   ])
 
   const [messageText, setMessageText] = useState('')
-  const [showChat, setShowChat] = useState(location.search.includes('id='))
   const chatBodyRef = useRef<HTMLDivElement>(null)
   const isInitialMount = useRef(true)
   const lastActiveContactId = useRef<number | null>(null)
@@ -98,7 +95,6 @@ export function useMessagesState(): UseMessagesStateReturn {
 
   // Auto mark-as-read after 1s
   useEffect(() => {
-    if (!showChat) return
     const contact = contacts.find(c => c.id === activeContactId)
     if (contact?.unread) {
       const timer = setTimeout(() => {
@@ -112,7 +108,7 @@ export function useMessagesState(): UseMessagesStateReturn {
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [activeContactId, contacts, decrementMessageCount, showChat])
+  }, [activeContactId, contacts, decrementMessageCount])
 
   // Sync URL param → activeContactId
   useEffect(() => {
@@ -153,8 +149,6 @@ export function useMessagesState(): UseMessagesStateReturn {
     contacts,
     messageText,
     setMessageText,
-    showChat,
-    setShowChat,
     chatBodyRef,
     filteredContacts,
     activeContact,

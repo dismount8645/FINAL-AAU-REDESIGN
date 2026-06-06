@@ -14,7 +14,6 @@ export function ChatWindow({
   messageText,
   setMessageText,
   handleSend,
-  setShowChat,
   t,
 }: ChatWindowProps) {
   return (
@@ -23,15 +22,6 @@ export function ChatWindow({
         <>
           <div className="messages-chat-header p-md border-b border-border bg-bg-card">
             <Stack direction="row" gap="md" align="center">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="md:hidden shrink-0"
-                onClick={() => setShowChat(false)}
-                aria-label={t('back_to_messages')}
-              >
-                <ArrowLeft size={20} strokeWidth={2} />
-              </Button>
               <Avatar name={activeContact.name} size="md" />
               <Stack gap="none">
                 <Heading level={4}>{activeContact.name}</Heading>

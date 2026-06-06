@@ -66,24 +66,23 @@ describe('useStore', () => {
     expect(useStore.getState().calendarEvents).toEqual(events)
   })
 
-  it('sets theme with system preference', () => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: vi.fn().mockImplementation(query => ({
-        matches: true,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })),
-    })
+  it('sets theme with system preference', async () => {
+    const { env } = await import('@/lib/env')
+    const spy = vi.spyOn(env, 'matchMedia').mockReturnValue({
+      matches: true,
+      media: '(prefers-color-scheme: dark)',
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    } as any)
 
     const store = useStore.getState()
     store.setTheme('system')
     expect(useStore.getState().isDarkMode).toBe(true)
+    spy.mockRestore()
   })
 
   it('migrates version 0 to 1', () => {

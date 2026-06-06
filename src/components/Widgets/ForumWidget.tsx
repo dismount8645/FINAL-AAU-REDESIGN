@@ -7,7 +7,11 @@ import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
-import { dashboardForumPosts } from '@/lib/data';
+const dashboardForumPosts = [
+  { id: 501, category: 'forumPosts', titleDa: 'Spørgsmål til litteraturen i uge 2', titleEn: 'Questions regarding literature week 2', iconName: 'MessageCircle', author: 'Jacob Andersen', timeDa: 'For 2 timer siden', timeEn: '2 hours ago', replies: 3, important: false },
+  { id: 102, category: 'forumPosts', titleDa: 'Aflyst forelæsning i morgen', titleEn: 'Cancelled lecture tomorrow', iconName: 'AlertCircle', author: 'Morten Jensen', timeDa: 'I går', timeEn: 'Yesterday', replies: 12, important: true },
+  { id: 103, category: 'forumPosts', titleDa: 'Læsegruppe søges', titleEn: 'Study group wanted', iconName: 'Users', timeDa: 'For 3 dage siden', timeEn: '3 days ago', replies: 5, important: false }
+]
 import useStore from '@/store';
 
 interface ForumPost {
