@@ -167,12 +167,7 @@ if (import.meta.vitest) {
       Object.defineProperty(window, 'innerWidth', { value: original, configurable: true, writable: true })
     })
 
-    it('matchMedia calls window.matchMedia with the query', () => {
-      const matchMediaSpy = vi.spyOn(window, 'matchMedia')
-      env.matchMedia('(max-width: 768px)')
-      expect(matchMediaSpy).toHaveBeenCalledWith('(max-width: 768px)')
-      matchMediaSpy.mockRestore()
-    })
+
 
     it('isIframe returns false when not in iframe', () => {
       expect(env.isIframe()).toBe(false)

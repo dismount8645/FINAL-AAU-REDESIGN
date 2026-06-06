@@ -35,12 +35,12 @@ const buttonVariants = cva(
           "bg-[var(--aau-dark-green)] text-white shadow-sm hover:bg-[var(--aau-dark-green)]/90 hover:-translate-y-1",
       },
       size: {
-        xs: "h-8 px-[var(--space-sm)] text-[0.625rem] rounded-[var(--radius-sm)] before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
-        sm: "h-10 px-[var(--space-md)] text-xs rounded-[var(--radius-md)] before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
+        xs: "h-8 px-[var(--space-sm)] text-[0.625rem] rounded-[var(--radius-sm)]",
+        sm: "h-10 px-[var(--space-md)] text-xs rounded-[var(--radius-md)]",
         md: "h-12 px-[var(--space-lg)] text-sm rounded-[var(--radius-lg)]",
         icon: "size-12 p-0 rounded-[var(--radius-lg)]",
-        "icon-sm": "size-10 p-0 rounded-[var(--radius-md)] before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
-        "icon-xs": "size-8 p-0 rounded-[var(--radius-sm)] before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
+        "icon-sm": "size-10 p-0 rounded-[var(--radius-md)]",
+        "icon-xs": "size-8 p-0 rounded-[var(--radius-sm)]",
       },
       full: {
         true: "w-full",

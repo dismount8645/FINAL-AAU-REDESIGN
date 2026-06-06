@@ -15,7 +15,6 @@ interface ChatSidebarProps {
   filteredContacts: Contact[]
   activeContactId: number
   setActiveContactId: (id: number) => void
-  setShowChat: (showChat: boolean) => void
   archiveContact: (id: number, e: MouseEvent) => void
   restoreContact: (id: number, e: MouseEvent) => void
   t: (key: string) => string
@@ -27,7 +26,6 @@ export function ChatSidebar({
   filteredContacts,
   activeContactId,
   setActiveContactId,
-  setShowChat,
   archiveContact,
   restoreContact,
   t,
@@ -53,7 +51,6 @@ export function ChatSidebar({
               unread={contact.unread}
               onClick={() => {
                 setActiveContactId(contact.id)
-                setShowChat(true)
               }}
               className="contact-item"
               leading={<Avatar name={contact.name} size="sm" />}
