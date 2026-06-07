@@ -4,7 +4,7 @@ import { useState, useMemo, type MouseEvent } from 'react';
 import type { NotificationItem } from '@/lib/types';
 import { formatRelativeDateGroup } from '@/lib/utils';
 import useStore from '@/store';
-import { useArchivableCollection } from './useArchivableCollection'
+import { useArchivableCollection } from '@/hooks/useArchivableCollection'
 
 interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]
