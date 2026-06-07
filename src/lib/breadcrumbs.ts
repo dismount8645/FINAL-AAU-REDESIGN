@@ -1,5 +1,6 @@
 
 import { courseList } from '@/lib/data';
+import routes from '@/routes';
 
 export const getAutomaticBreadcrumbs = (
   pathname: string,
@@ -49,25 +50,11 @@ export const getAutomaticBreadcrumbs = (
     return crumbs;
   }
 
-  // Exact mappings
-  if (pathname.startsWith('/calendar')) {
-    crumbs.push({ label: t('calendar') });
-  } else if (pathname.startsWith('/courses')) {
-    crumbs.push({ label: t('courses') });
-  } else if (pathname.startsWith('/settings')) {
-    crumbs.push({ label: t('settings') });
-  } else if (pathname.startsWith('/messages')) {
-    crumbs.push({ label: t('messages') });
-  } else if (pathname.startsWith('/support')) {
-    crumbs.push({ label: t('support') });
-  } else if (pathname.startsWith('/grades')) {
-    crumbs.push({ label: t('my_grades') });
-  } else if (pathname.startsWith('/notifications')) {
-    crumbs.push({ label: t('notifications') });
-  } else if (pathname.startsWith('/resources')) {
-    crumbs.push({ label: t('resources') });
-  } else if (pathname.startsWith('/search')) {
-    crumbs.push({ label: t('search_results') });
+  // Dynamic mapping from routes config
+  const staticRoutes = routes.filter(r => r.path !== '/' && !r.path.includes(':'))
+  const matchedRoute = staticRoutes.find(r => pathname.startsWith(r.path))
+  if (matchedRoute) {
+    crumbs.push({ label: t(matchedRoute.breadcrumbKey ?? matchedRoute.label) })
   } else {
     // Dynamic fallback for any other segments
     const segments = pathname.split('/').filter(Boolean);
