@@ -4,6 +4,7 @@ import { useState, useMemo, type MouseEvent } from 'react';
 import type { NotificationItem } from '@/lib/types';
 import { formatRelativeDateGroup } from '@/lib/utils';
 import useStore from '@/store';
+import { useArchivableCollection } from './useArchivableCollection'
 
 interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]
@@ -16,18 +17,7 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const setNotificationCount = useStore(state => state.setNotificationCount)
 
   const [selectedId, setSelectedId] = useState<number | null>(null)
-  const [view, setView] = useState<'active' | 'archive'>('active')
-  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications)
-
-  const archiveNotification = (id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setNotifications(prev => prev.map((n) => (n.id === id ? { ...n, archived: true } : n)))
-  }
-
-  const restoreNotification = (id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setNotifications(prev => prev.map((n) => (n.id === id ? { ...n, archived: false } : n)))
-  }
+  const { items: notifications, setItems: setNotifications, view, setView, filtered, archiveItem: archiveNotification, restoreItem: restoreNotification } = useArchivableCollection(initialNotifications)
 
   const markAsRead = (id: number, e: MouseEvent): void => {
     e.stopPropagation()
@@ -44,10 +34,6 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
     setNotifications(prev => prev.map((n) => ({ ...n, isRead: true })))
     setNotificationCount(0)
   }
-
-  const filtered = useMemo(() => {
-    return notifications.filter((n) => (view === 'active' ? !n.archived : n.archived))
-  }, [notifications, view])
 
   const grouped = useMemo(() => {
     const groups: Record<string, NotificationItem[]> = {}
