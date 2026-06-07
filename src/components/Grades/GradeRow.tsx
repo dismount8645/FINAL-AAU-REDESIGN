@@ -50,7 +50,7 @@ function GradeRow({ record }: GradeRowProps) {
           </Heading>
 
           <Text size="xs" muted className="font-medium">
-            {t('examiner')}: <span className="text-main font-semibold">{record.instructor}</span>
+            {t('examiner')}: <Text tag="span" weight="semibold" className="text-main">{record.instructor}</Text>
           </Text>
         </div>
       </div>
@@ -60,14 +60,14 @@ function GradeRow({ record }: GradeRowProps) {
         <div className="flex items-center gap-[var(--space-3xs)]">
           <BookOpen className="w-3.5 h-3.5 text-text-disabled shrink-0" strokeWidth={2} />
           <Text size="xs" className="font-medium text-text-muted">
-            <span className="text-text-muted font-semibold">{t('exam_type')}:</span> {localize(record, 'examType')}
+            <Text tag="span" weight="semibold" className="text-text-muted">{t('exam_type')}:</Text> {localize(record, 'examType')}
           </Text>
         </div>
 
         <div className="flex items-center gap-[var(--space-3xs)]">
           <Calendar className="w-3.5 h-3.5 text-text-disabled shrink-0" strokeWidth={2} />
           <Text size="xs" className="font-medium text-text-muted">
-            <span className="font-semibold">{t('grading_date')}:</span> {formatLongDateTime(record.examDate)}
+            <Text tag="span" weight="semibold">{t('grading_date')}:</Text> {formatLongDateTime(record.examDate)}
           </Text>
         </div>
       </div>

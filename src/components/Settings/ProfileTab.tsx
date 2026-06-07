@@ -7,7 +7,7 @@ import ForumTab from './ForumTab';
 import CalendarTab from './CalendarTab';
 import MessagesTab from './MessagesTab';
 import SettingsSection from './SettingsSection';
-import { Avatar } from '@/components/ui';
+import { Avatar, Card } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { FormField } from '@/components/ui';
 import { Grid } from '@/components/Layout/LayoutPrimitives';
@@ -71,9 +71,12 @@ export default function ProfileTab(props: ProfileTabProps) {
             { id: 'system', icon: Monitor, label: t('theme.system') },
             { id: 'dark', icon: Moon, label: t('theme.dark') }
           ].map((opt) => (
-            <button
+            <Card
+              as="button"
               key={opt.id}
-              className={`appearance-card group border-2 transition-all duration-150 p-2 rounded-[var(--radius-lg)] active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus hover:-translate-y-0.5 ${theme === opt.id ? 'active border-primary bg-primary/5 shadow-sm' : 'border-border bg-card hover:border-primary/20'}`}
+              variant="outlined"
+              interactive
+              className={`appearance-card group p-2 rounded-[var(--radius-lg)] active:scale-[0.98] hover:-translate-y-0.5 ${theme === opt.id ? 'active border-primary bg-primary/5 shadow-sm' : 'bg-card hover:border-primary/20'}`}
               onClick={() => setTheme(opt.id as Theme)}
               aria-pressed={theme === opt.id}
               aria-label={opt.label}
@@ -93,7 +96,7 @@ export default function ProfileTab(props: ProfileTabProps) {
                 <opt.icon size={14} className={theme === opt.id ? 'text-primary' : 'text-muted'} />
                 <span className={theme === opt.id ? 'text-primary' : 'text-muted'}>{opt.label}</span>
               </div>
-            </button>
+            </Card>
           ))}
         </div>
       </Stack>

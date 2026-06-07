@@ -75,14 +75,10 @@ const LessonItemRow = memo(function LessonItemRow({
       subtitle={metadata}
       onClick={handleClick}
       trailing={
-        <button
-          className={`lesson-item__checkbox group/check flex items-center justify-center w-11 h-11 border rounded-[var(--radius-sm)] transition shrink-0 relative focus-visible:shadow-focus focus-visible:outline-none ${
-            completed
-              ? "bg-primary border-primary text-white"
-              : isAutomatic
-              ? "border-dashed opacity-30 cursor-default"
-              : "border-border bg-transparent hover:border-primary/50 dark:border-white/20"
-          }`}
+        <Button
+          variant={completed ? 'primary' : 'ghost'}
+          size="icon"
+          className={`lesson-item__checkbox shrink-0 ${completed ? '' : isAutomatic ? 'border-dashed opacity-30 cursor-default border-border' : 'border-border hover:border-primary/50 dark:border-white/20'}`}
           onClick={handleToggle}
           aria-label={completed ? t('mark_incomplete') : t('mark_complete')}
           type="button"
@@ -100,7 +96,7 @@ const LessonItemRow = memo(function LessonItemRow({
               />
             )
           )}
-        </button>
+        </Button>
       }
     />
   )

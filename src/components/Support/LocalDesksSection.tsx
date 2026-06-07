@@ -57,13 +57,13 @@ function LocalDesksSection() {
           <Heading level={3} className="text-base mb-sm">{t('special_opening_hours')}</Heading>
           <Stack gap="sm">
             <Text size="sm" className="text-muted">
-              <span className="font-semibold text-main">{t('low_service_days')}</span> {localize(supportNotes, 'specialDays')}
+              <Text tag="span" weight="semibold" className="text-main">{t('low_service_days')}</Text> {localize(supportNotes, 'specialDays')}
             </Text>
             <Text size="sm" className="text-muted">
-              <span className="font-semibold text-main">{t('july_month')}</span> {localize(supportNotes, 'july')}
+              <Text tag="span" weight="semibold" className="text-main">{t('july_month')}</Text> {localize(supportNotes, 'july')}
             </Text>
             <Text size="sm" className="text-muted">
-              <span className="font-semibold text-main">{t('christmas_ny')}</span> {localize(supportNotes, 'christmas')}
+              <Text tag="span" weight="semibold" className="text-main">{t('christmas_ny')}</Text> {localize(supportNotes, 'christmas')}
             </Text>
           </Stack>
         </section>
