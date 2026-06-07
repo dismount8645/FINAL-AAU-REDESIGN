@@ -1,299 +1,345 @@
-import React, { type ReactNode, memo, forwardRef, useState } from 'react';
+import { createContext, useContext, isValidElement, cloneElement, type ReactNode, type ReactElement } from 'react';
 
-import { Menu as MenuPrimitive } from '@base-ui/react/menu';
-import { motion } from 'framer-motion';
-import { AllProviders, render, screen, userEvent, waitFor } from '@/test/test-utils';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useDropdown } from '@/hooks';
 import { cn } from '@/lib/utils';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 
-
-
-
-
-
-/**
- * Dropdown (Menu) - High-performance AAU UI component.
- * Enforces 8pt grid, 150ms motion physics, and strict brand token usage.
- */
-
-const DropdownRoot = MenuPrimitive.Root;
-
-const DropdownTrigger = forwardRef<HTMLButtonElement, MenuPrimitive.Trigger.Props>(
-  ({ className, ...props }, ref) => (
-    <MenuPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        "inline-flex items-center justify-center outline-none transition-all duration-150",
-        "focus-visible:shadow-focus focus-visible:outline-none rounded-[var(--radius-sm)]",
-        className
-      )}
-      {...props}
-    />
-  )
-);
-DropdownTrigger.displayName = "DropdownTrigger";
-
-const DropdownPortal = MenuPrimitive.Portal;
-
-const DropdownItem = forwardRef<HTMLDivElement, MenuPrimitive.Item.Props>(
-  ({ className, ...props }, ref) => (
-    <MenuPrimitive.Item
-      ref={ref}
-      className={cn(
-        "min-h-[44px] flex items-center px-[var(--space-sm)] py-[var(--space-2xs)] w-full text-left",
-        "rounded-[var(--radius-md)] transition-colors duration-150 outline-none cursor-pointer",
-        "text-sm font-bold text-main",
-        "hover:bg-bg-highlight hover:text-primary",
-        "focus-visible:bg-bg-highlight focus-visible:text-primary",
-        "data-[disabled]:opacity-40 data-[disabled]:pointer-events-none",
-        className
-      )}
-      {...props}
-    />
-  )
-);
-DropdownItem.displayName = "DropdownItem";
-
-const DropdownContent = memo(forwardRef<HTMLDivElement, MenuPrimitive.Popup.Props & {
-  align?: "start" | "center" | "end";
-  sideOffset?: number;
-}>(({ className, children, align = "end", sideOffset = 8, ...props }, ref) => (
-  <DropdownPortal>
-    <MenuPrimitive.Positioner align={align} sideOffset={sideOffset}>
-      <MenuPrimitive.Popup
-        ref={ref}
-        data-slot="dropdown-content"
-        render={
-          <motion.div
-            initial={{ opacity: 0, y: -8, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.95 }}
-            transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            className={cn(
-              "z-[var(--z-dropdown)] min-w-[200px] flex flex-col gap-[var(--space-4xs)]",
-              "bg-bg-card border border-[var(--border-color)]/60 rounded-[var(--radius-lg)] p-[var(--space-2xs)]",
-              "shadow-[var(--shadow-xl)] outline-none isolate",
-              className
-            )}
-          />
-        }
-        {...props}
-      >
-        {children}
-      </MenuPrimitive.Popup>
-    </MenuPrimitive.Positioner>
-  </DropdownPortal>
-)));
-DropdownContent.displayName = "DropdownContent";
-
-// Legacy compatibility wrapper
-export interface DropdownProps {
-  trigger: ReactNode;
-  children?: ReactNode;
-  isOpen?: boolean;
-  onToggle?: () => void;
-  onClose?: () => void;
-  align?: "left" | "right";
-  width?: string;
-  className?: string;
+interface DropdownContextValue {
+  isOpen: boolean
+  close: () => void
+  menuRef: React.RefObject<HTMLDivElement | null>
+  buttonRef: React.RefObject<HTMLButtonElement | null>
+  handleMenuKeyDown: (e: React.KeyboardEvent) => void
+  handleTriggerKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
+  toggle: () => void
 }
 
-/**
- * Dropdown - Legacy Compatibility Wrapper.
- * For new code, prefer the composable Dropdown.* components.
- */
-const DropdownWrapper = ({
-  trigger,
-  children,
-  isOpen,
-  onToggle,
-  onClose,
-  align = "right",
-  width,
-  className,
-}: DropdownProps) => {
-  const [internalOpen, setInternalOpen] = useState(false);
-  const open = isOpen !== undefined ? isOpen : internalOpen;
+const DropdownContext = createContext<DropdownContextValue | null>(null)
 
-  const handleOpenChange = (newOpen: boolean) => {
-    if (isOpen === undefined) setInternalOpen(newOpen);
-    if (newOpen && onToggle) onToggle();
-    if (!newOpen && onClose) onClose();
-    if (!newOpen && onToggle && !onClose) onToggle();
-  };
+function useDropdownContext() {
+  const ctx = useContext(DropdownContext)
+  if (!ctx) throw new Error('Dropdown compound components must be used within <Dropdown>')
+  return ctx
+}
 
-  const isTriggerElement = React.isValidElement(trigger);
+interface TriggerHandlers {
+  ref: React.RefObject<HTMLButtonElement | null>
+  onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
+  onClick: () => void
+}
+
+interface TriggerState {
+  isOpen: boolean
+}
+
+type TriggerChild = ((handlers: TriggerHandlers, state: TriggerState) => ReactNode) | ReactElement
+
+interface RootProps {
+  children: ReactNode
+  className?: string
+}
+
+function DropdownRoot({ children, className }: RootProps) {
+  const dropdown = useDropdown()
+  return (
+    <DropdownContext.Provider value={dropdown}>
+      <div ref={dropdown.dropdownRef} className={cn('relative inline-flex', className)}>
+        {children}
+      </div>
+    </DropdownContext.Provider>
+  )
+}
+
+interface TriggerProps {
+  children: TriggerChild
+  className?: string
+}
+
+function DropdownTrigger({ children, className }: TriggerProps) {
+  const ctx = useDropdownContext()
+
+  if (typeof children === 'function') {
+    return children(
+      {
+        ref: ctx.buttonRef,
+        onKeyDown: ctx.handleTriggerKeyDown,
+        onClick: ctx.toggle,
+      },
+      { isOpen: ctx.isOpen }
+    ) as ReactElement
+  }
+
+  if (isValidElement(children)) {
+    return cloneElement(children, {
+      ref: ctx.buttonRef,
+      onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        children.props.onKeyDown?.(e)
+        ctx.handleTriggerKeyDown(e)
+      },
+      onClick: (e: React.MouseEvent) => {
+        children.props.onClick?.(e)
+        ctx.toggle()
+      },
+      'aria-expanded': ctx.isOpen,
+      'aria-haspopup': 'menu' as const,
+    } as Partial<unknown>)
+  }
+
+  return children as ReactElement
+}
+
+interface MenuProps {
+  children: ReactNode | ((helpers: { close: () => void }) => ReactNode)
+  className?: string
+}
+
+function DropdownMenu({ children, className }: MenuProps) {
+  const ctx = useDropdownContext()
 
   return (
-    <DropdownRoot open={open} onOpenChange={handleOpenChange}>
-      <DropdownTrigger 
-        render={isTriggerElement ? (trigger as React.ReactElement) : undefined}
-      >
-        {!isTriggerElement ? trigger : undefined}
-      </DropdownTrigger>
-      <DropdownContent 
-        align={align === "right" ? "end" : "start"} 
-        className={cn("dropdown-menu", className)}
-        style={{ minWidth: width }}
-      >
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            const isButton = typeof child.type === "string" && child.type === "button";
-            return (
-              <DropdownItem render={child} nativeButton={isButton} />
-            );
-          }
-          return child;
-        })}
-      </DropdownContent>
-    </DropdownRoot>
-  );
-};
+    <AnimatePresence>
+      {ctx.isOpen && (
+        <motion.div
+          ref={ctx.menuRef}
+          onKeyDown={ctx.handleMenuKeyDown}
+          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+          transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
+          className={cn(
+            'absolute right-0 top-full z-50 mt-2',
+            'rounded-[var(--radius-lg)] border border-border bg-bg-card shadow-xl',
+            'outline-none',
+            className
+          )}
+          role="menu"
+        >
+          {typeof children === 'function' ? children({ close: ctx.close }) : children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
+}
 
-export {
-  DropdownRoot as Dropdown,
-  DropdownTrigger,
-  DropdownContent,
-  DropdownItem,
-  DropdownPortal,
-  DropdownWrapper as default
-};
+interface ItemProps {
+  children: ReactNode
+  onClick?: () => void
+  className?: string
+  disabled?: boolean
+}
 
-const _testDropdown = DropdownWrapper;
+function DropdownItem({ children, onClick, className, disabled }: ItemProps) {
+  const ctx = useDropdownContext()
+
+  return (
+    <div
+      role="menuitem"
+      tabIndex={disabled ? -1 : 0}
+      className={cn(
+        'flex w-full cursor-pointer items-center',
+        'px-[var(--space-sm)] py-[var(--space-2xs)]',
+        'rounded-[var(--radius-md)] transition-colors duration-150',
+        'text-sm font-bold text-main',
+        'hover:bg-bg-highlight hover:text-primary',
+        'focus-visible:bg-bg-highlight focus-visible:outline-none focus-visible:shadow-focus',
+        disabled && 'pointer-events-none opacity-40',
+        className
+      )}
+      onClick={() => {
+        onClick?.()
+        ctx.close()
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+export const Dropdown = Object.assign(DropdownRoot, {
+  Trigger: DropdownTrigger,
+  Menu: DropdownMenu,
+  Item: DropdownItem,
+})
+
+export default Dropdown
 
 if (import.meta.vitest) {
+
   describe('Dropdown', () => {
-    const trigger = <button data-testid="trigger">Open</button>
-  
-    it('renders trigger element', () => {
-      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
-      expect(screen.getByTestId('trigger')).toBeInTheDocument()
-    })
-  
-    it('is closed by default', () => {
-      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
+    it('renders trigger and opens menu on click', async () => {
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            <button data-testid="trigger">Open</button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={vi.fn()}>Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
       expect(screen.queryByRole('menu')).not.toBeInTheDocument()
-    })
-  
-    it('opens when clicking trigger', async () => {
-      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
-      
-      await userEvent.click(screen.getByTestId('trigger'))
-      
+      fireEvent.click(screen.getByTestId('trigger'))
       await waitFor(() => {
         expect(screen.getByRole('menu')).toBeInTheDocument()
+        expect(screen.getByText('Item')).toBeInTheDocument()
       })
-    })
-  
-    it('closes when clicking trigger again', async () => {
-      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
-      
-      await userEvent.click(screen.getByTestId('trigger'))
-      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
-      
-      await userEvent.click(screen.getByTestId('trigger'))
-      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
-    })
-  
-    it('closes when clicking outside', async () => {
-      render(
-        <AllProviders>
-          <div>
-            <_testDropdown trigger={trigger}>Content</_testDropdown>
-            <button data-testid="outside">Outside</button>
-          </div>
-        </AllProviders>
-      )
-      
-      await userEvent.click(screen.getByTestId('trigger'))
-      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
-      
-      await userEvent.click(screen.getByTestId('outside'))
-      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
-    })
-  
-    it('closes when pressing Escape', async () => {
-      render(<_testDropdown trigger={trigger}>Content</_testDropdown>, { wrapper: AllProviders })
-      
-      await userEvent.click(screen.getByTestId('trigger'))
-      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
-      
-      await userEvent.keyboard('{Escape}')
-      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
-    })
-  
-    it('supports controlled mode with isOpen', async () => {
-      const { rerender } = render(<_testDropdown trigger={trigger} isOpen={false}>Content</_testDropdown>, { wrapper: AllProviders })
-      
-      expect(screen.queryByRole('menu')).not.toBeInTheDocument()
-      
-      rerender(<_testDropdown trigger={trigger} isOpen>Content</_testDropdown>)
-      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
-    })
-  
-    it('calls onToggle in controlled mode when clicking trigger', async () => {
-      const onToggle = vi.fn()
-      render(<_testDropdown trigger={trigger} isOpen={false} onToggle={onToggle}>Content</_testDropdown>, { wrapper: AllProviders })
-      
-      await userEvent.click(screen.getByTestId('trigger'))
-      await waitFor(() => expect(onToggle).toHaveBeenCalled())
-    })
-  
-    it('calls onClose in controlled mode when clicking outside', async () => {
-      const onClose = vi.fn()
-      render(
-        <AllProviders>
-          <div>
-            <_testDropdown trigger={trigger} isOpen onClose={onClose}>Content</_testDropdown>
-            <button data-testid="outside">Outside</button>
-          </div>
-        </AllProviders>
-      )
-      
-      await userEvent.click(screen.getByTestId('outside'))
-      await waitFor(() => expect(onClose).toHaveBeenCalled())
-    })
-  
-    it('applies custom width when provided', async () => {
-      render(<_testDropdown trigger={trigger} isOpen width="300px">Content</_testDropdown>, { wrapper: AllProviders })
-      await waitFor(() => {
-        const menu = screen.getByRole('menu')
-        expect(menu.style.minWidth).toBe('300px')
-      })
-    })
-  
-    it('applies custom className', async () => {
-      render(<_testDropdown trigger={trigger} isOpen className="my-dropdown">Content</_testDropdown>, { wrapper: AllProviders })
-      await waitFor(() => {
-        const menu = screen.getByRole('menu')
-        expect(menu).toHaveClass('my-dropdown')
-      })
-    })
-  
-    it('calls onClose in controlled mode when pressing Escape', async () => {
-      const onClose = vi.fn()
-      render(<_testDropdown trigger={trigger} isOpen onClose={onClose}>Content</_testDropdown>, { wrapper: AllProviders })
-  
-      await userEvent.keyboard('{Escape}')
-      await waitFor(() => expect(onClose).toHaveBeenCalled())
     })
 
-    it('renders with a string trigger', () => {
-      render(<_testDropdown trigger="String Trigger">Content</_testDropdown>, { wrapper: AllProviders })
-      expect(screen.getByText('String Trigger')).toBeInTheDocument()
+    it('closes on second trigger click', async () => {
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            <button data-testid="trigger">Open</button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={vi.fn()}>Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
     })
 
-    it('calls onToggle when closed in controlled mode without onClose', async () => {
-      const onToggle = vi.fn()
+    it('closes on outside click', async () => {
       render(
-        <AllProviders>
-          <div>
-            <_testDropdown trigger={trigger} isOpen onToggle={onToggle}>Content</_testDropdown>
-            <button data-testid="outside">Outside</button>
-          </div>
-        </AllProviders>
+        <div>
+          <div data-testid="outside">Outside</div>
+          <Dropdown>
+            <Dropdown.Trigger>
+              <button data-testid="trigger">Open</button>
+            </Dropdown.Trigger>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={vi.fn()}>Item</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       )
-      await userEvent.click(screen.getByTestId('outside'))
-      await waitFor(() => expect(onToggle).toHaveBeenCalled())
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+
+      fireEvent.mouseDown(screen.getByTestId('outside'))
+      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
+    })
+
+    it('closes on Escape', async () => {
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            <button data-testid="trigger">Open</button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={vi.fn()}>Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+
+      fireEvent.keyDown(screen.getByRole('menu'), { key: 'Escape' })
+      await waitFor(() => expect(screen.queryByRole('menu')).not.toBeInTheDocument())
+    })
+
+    it('closes when item is clicked', async () => {
+      const onClick = vi.fn()
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            <button data-testid="trigger">Open</button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={onClick}>Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+
+      fireEvent.click(screen.getByText('Item'))
+      await waitFor(() => {
+        expect(onClick).toHaveBeenCalled()
+        expect(screen.queryByRole('menu')).not.toBeInTheDocument()
+      })
+    })
+
+    it('supports function-as-child trigger with isOpen state', async () => {
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            {({ ref, onKeyDown, onClick }, { isOpen }) => (
+              <button
+                ref={ref}
+                onKeyDown={onKeyDown}
+                onClick={onClick}
+                data-testid="trigger"
+                data-open={isOpen}
+              >
+                {isOpen ? 'Close' : 'Open'}
+              </button>
+            )}
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={vi.fn()}>Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
+      const trigger = screen.getByTestId('trigger')
+      expect(trigger).toHaveAttribute('data-open', 'false')
+      expect(trigger).toHaveTextContent('Open')
+
+      fireEvent.click(trigger)
+      await waitFor(() => {
+        expect(screen.getByTestId('trigger')).toHaveAttribute('data-open', 'true')
+        expect(screen.getByTestId('trigger')).toHaveTextContent('Close')
+      })
+    })
+
+    it('navigates items with ArrowDown', async () => {
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            <button data-testid="trigger">Open</button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={vi.fn()}>First</Dropdown.Item>
+            <Dropdown.Item onClick={vi.fn()}>Second</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => expect(screen.getByRole('menu')).toBeInTheDocument())
+
+      const menu = screen.getByRole('menu')
+      fireEvent.keyDown(menu, { key: 'ArrowDown' })
+      expect(screen.getByText('First').closest('[role="menuitem"]')).toHaveFocus()
+    })
+
+    it('applies custom className to menu', async () => {
+      render(
+        <Dropdown>
+          <Dropdown.Trigger>
+            <button data-testid="trigger">Open</button>
+          </Dropdown.Trigger>
+          <Dropdown.Menu className="custom-menu-class">
+            <Dropdown.Item onClick={vi.fn()}>Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )
+
+      fireEvent.click(screen.getByTestId('trigger'))
+      await waitFor(() => {
+        expect(screen.getByRole('menu')).toHaveClass('custom-menu-class')
+      })
     })
   })
 }

@@ -9,7 +9,7 @@ import PageLayout from '@/components/Layout/PageLayout';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
-import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@/components/ui';
+import { Dropdown } from '@/components/ui';
 import { ASSETS } from '@/lib';
 import { useFilteredCollection } from '@/hooks';
 import { env } from '@/lib/env';
@@ -142,7 +142,7 @@ function Courses() {
               <Stack direction="row" gap="xs" className="flex items-center gap-xs">
                 <div className="relative flex-1">
                   <Dropdown>
-                    <DropdownTrigger render={
+                    <Dropdown.Trigger>
                       <Button
                         variant={activeFilter ? 'primary' : 'ghost'}
                         size="sm"
@@ -150,30 +150,24 @@ function Courses() {
                       >
                         {t('filter')}
                       </Button>
-                    } />
-                    <DropdownContent align="end" className="min-w-[200px]">
-                      <DropdownItem
+                    </Dropdown.Trigger>
+                    <Dropdown.Menu className="min-w-[200px]">
+                      <Dropdown.Item
                         onClick={() => setActiveFilter(null)}
-                        className={cn(
-                          "cursor-pointer",
-                          !activeFilter ? 'bg-primary/10 text-primary font-semibold' : ''
-                        )}
+                        className={!activeFilter ? 'bg-primary/10 text-primary font-semibold' : ''}
                       >
                         {t('all')}
-                      </DropdownItem>
+                      </Dropdown.Item>
                       {labelFilters.map(label => (
-                        <DropdownItem
+                        <Dropdown.Item
                           key={label}
                           onClick={() => setActiveFilter(label)}
-                          className={cn(
-                            "cursor-pointer",
-                            activeFilter === label ? 'bg-primary/10 text-primary font-semibold' : ''
-                          )}
+                          className={activeFilter === label ? 'bg-primary/10 text-primary font-semibold' : ''}
                         >
                           {label}
-                        </DropdownItem>
+                        </Dropdown.Item>
                       ))}
-                    </DropdownContent>
+                    </Dropdown.Menu>
                   </Dropdown>
                 </div>
                 <Button
@@ -341,8 +335,8 @@ if (import.meta.vitest) {
       const filterBtn = screen.getByText('Filter')
       fireEvent.click(filterBtn)
       expect(screen.getByText('Alle')).toBeInTheDocument()
-      const dropdownContent = document.querySelector('[data-slot="dropdown-content"]')!
-      const labelBtn = within(dropdownContent as HTMLElement).getByText('Modul 4')
+      const dropdownContent = screen.getByRole('menu')
+      const labelBtn = within(dropdownContent).getByText('Modul 4')
       fireEvent.click(labelBtn)
     })
 
