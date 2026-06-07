@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui';
 import { Grid } from '@/components/Layout/LayoutPrimitives';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore, { type Lang } from '@/store';
-import { useMessagesState } from '@/hooks';
+import { useMessagesState } from './useMessagesState';
 
 function Messages() {
   const t = useStore(state => state.t)
