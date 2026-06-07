@@ -4,7 +4,7 @@ import {
   formatLongDateTime as rawFormatLongDateTime,
   formatRelativeDateGroup as rawFormatRelativeDateGroup,
   getHoursUntil
-} from '@/lib/dates'
+} from '@/lib/utils'
 import type { CourseItem } from '@/lib/types'
 
 export function useFormat() {

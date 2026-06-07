@@ -4,7 +4,7 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
-import { formatLongDateTime } from '@/lib/dates'
+import { formatLongDateTime } from '@/lib/utils'
 import { NotificationItem } from '@/lib/types'
 import type { Lang } from '@/store'
 import { getNotificationIcon } from '@/lib/notifications'

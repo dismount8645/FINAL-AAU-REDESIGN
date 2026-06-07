@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 
 
 import { defaultEvents } from '@/lib/data';
-import { storage } from '@/lib/storage';
+import { storage } from '@/lib/utils';
 import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { CalendarEvents, CalendarEvent } from '@/lib/types';

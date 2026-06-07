@@ -2,7 +2,7 @@
 import { BookOpen, Wrench, FileText, MessageSquare, type LucideIcon } from 'lucide-react';
 import { courses as coursesMap, forums } from '@/lib/data';
 import type { CourseWithStatus, Lang } from '@/store';
-import { allToolsList } from '@/lib/tools';
+import { allToolsList } from '@/lib/utils';
 import { translations } from '@/lib/translations';
 import type { FavoriteItem, FavoriteType } from '@/lib/types';
 

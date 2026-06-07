@@ -16,7 +16,7 @@ import useStore from '@/store';
 import { useNotificationsState } from '@/hooks';
 import Button from '@/components/ui/Button';
 import { Check, Archive, Undo2 } from 'lucide-react';
-import { formatTime } from '@/lib/dates';
+import { formatTime } from '@/lib/utils';
 
 function Notifications() {
   const t = useStore(state => state.t)

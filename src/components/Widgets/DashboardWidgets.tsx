@@ -19,7 +19,7 @@ const dashboardGrades = [
   { id: 5, category: 'grades', courseDa: 'Bachelorprojekt', courseEn: 'Bachelor Project', iconName: 'Trophy', score: null },
   { id: 3, category: 'grades', courseDa: 'Videnskabsteori', courseEn: 'Philosophy of Science', iconName: 'Trophy', score: 7 }
 ]
-import { hoursFromNow, calculateUrgency } from '@/lib/dates';
+import { hoursFromNow, calculateUrgency } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { FavoriteItem } from '@/components/Favorites';
 import { env } from '@/lib/env';
