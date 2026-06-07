@@ -7,18 +7,7 @@ import {
 import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem, Badge, EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-const dashboardDeadlines = [
-  { id: 204, category: 'deadlines', titleDa: 'To-Do App', titleEn: 'To-Do App', iconName: 'FileText', dateKey: 'deadline_monday', courseId: 2, deadlineHoursFromNow: 48 },
-  { id: 105, category: 'deadlines', titleDa: 'Designskitse', titleEn: 'Design Sketch', iconName: 'PenTool', dateKey: 'deadline_friday', courseId: 1, deadlineHoursFromNow: 96 },
-  { id: 303, category: 'deadlines', titleDa: 'Analyseopgave', titleEn: 'Analysis Assignment', iconName: 'FileText', dateKey: 'course_deadline_in_7_days', courseId: 3, deadlineHoursFromNow: 168 }
-]
-
-const dashboardGrades = [
-  { id: 1, category: 'grades', courseDa: 'Digital Design', courseEn: 'Digital Design', iconName: 'Trophy', score: 12 },
-  { id: 2, category: 'grades', courseDa: 'Webudvikling', courseEn: 'Web Development', iconName: 'Trophy', score: 10 },
-  { id: 5, category: 'grades', courseDa: 'Bachelorprojekt', courseEn: 'Bachelor Project', iconName: 'Trophy', score: null },
-  { id: 3, category: 'grades', courseDa: 'Videnskabsteori', courseEn: 'Philosophy of Science', iconName: 'Trophy', score: 7 }
-]
+import { mockDashboardDeadlines, mockDashboardGrades } from '@/lib/data';
 import { hoursFromNow, calculateUrgency } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { FavoriteItem } from '@/components/Favorites';
@@ -89,7 +78,7 @@ function DeadlinesWidget() {
   const localize = useStore(state => state.localize)
 
   const deadlines = useMemo(() => (
-    dashboardDeadlines.slice(0, DEADLINES_TO_SHOW).map((deadline) => {
+    mockDashboardDeadlines.slice(0, DEADLINES_TO_SHOW).map((deadline) => {
       const deadlineDate = hoursFromNow(deadline.deadlineHoursFromNow)
       return {
         ...deadline,
@@ -257,7 +246,7 @@ function RecentGradesWidget() {
   const localize = useStore(state => state.localize)
 
   const visibleGrades = useMemo(() => (
-    dashboardGrades.slice(0, GRADES_TO_SHOW).map((grade, index) => ({
+    mockDashboardGrades.slice(0, GRADES_TO_SHOW).map((grade, index) => ({
       id: index + 1,
       course: grade.courseEn,
       title: localize(grade, 'course'),
@@ -371,27 +360,27 @@ if (import.meta.vitest) {
       expect(screen.getByText('Monday 09:00')).toBeInTheDocument()
     })
     it('handles past deadline urgency color', () => {
-      const orig = [...dashboardDeadlines]
-      dashboardDeadlines[0] = { ...dashboardDeadlines[0], deadlineHoursFromNow: -24 }
+      const orig = [...mockDashboardDeadlines]
+      mockDashboardDeadlines[0] = { ...mockDashboardDeadlines[0], deadlineHoursFromNow: -24 }
       renderWithProviders(<DeadlinesWidget />)
       expect(screen.getByText('Mandag 09:00')).toHaveClass('text-danger')
-      dashboardDeadlines.splice(0, dashboardDeadlines.length, ...orig)
+      mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length, ...orig)
     })
     it('handles overdue deadlines', () => {
-      const orig = [...dashboardDeadlines]
-      dashboardDeadlines[0] = { ...dashboardDeadlines[0], deadlineHoursFromNow: -24 }
+      const orig = [...mockDashboardDeadlines]
+      mockDashboardDeadlines[0] = { ...mockDashboardDeadlines[0], deadlineHoursFromNow: -24 }
       renderWithProviders(<DeadlinesWidget />)
       const button = screen.getByRole('button', { name: /To-Do App/i })
       expect(button.className).toContain('bg-danger/5')
-      dashboardDeadlines.splice(0, dashboardDeadlines.length, ...orig)
+      mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length, ...orig)
     })
     it('renders empty state when there are no deadlines', () => {
       useStore.setState({ lang: 'en' })
-      const orig = [...dashboardDeadlines]
-      dashboardDeadlines.splice(0, dashboardDeadlines.length)
+      const orig = [...mockDashboardDeadlines]
+      mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length)
       renderWithProviders(<DeadlinesWidget />)
       expect(screen.getByText(/caught up/i)).toBeInTheDocument()
-      dashboardDeadlines.push(...orig)
+      mockDashboardDeadlines.push(...orig)
     })
   })
 
