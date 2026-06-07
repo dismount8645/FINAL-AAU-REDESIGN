@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo, type MouseEvent } fr
 import { useLocation } from 'react-router-dom'
 import useStore from '@/store'
 import type { Contact } from '@/lib/types'
+import { useArchivableCollection } from './useArchivableCollection'
 
 interface UseMessagesStateReturn {
   view: 'active' | 'archive'
@@ -24,9 +25,8 @@ export function useMessagesState(): UseMessagesStateReturn {
   const decrementMessageCount = useStore(state => state.decrementMessageCount)
   const location = useLocation()
 
-  const [view, setView] = useState<'active' | 'archive'>('active')
   const [activeContactId, setActiveContactId] = useState<number>(1)
-  const [contacts, setContacts] = useState<Contact[]>(() => [
+  const { items: contacts, setItems: setContacts, view, setView, filtered: filteredContacts, archiveItem, restoreItem } = useArchivableCollection<Contact>([
     {
       id: 1,
       name: 'Mette Jensen',
@@ -118,23 +118,14 @@ export function useMessagesState(): UseMessagesStateReturn {
   }, [location])
 
   const archiveContact = useCallback((id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setContacts(prev => prev.map(c => c.id === id ? { ...c, archived: true } : c))
+    archiveItem(id, e)
     if (activeContactId === id) {
       const next = contacts.find(c => c.id !== id && !c.archived)
       if (next) setActiveContactId(next.id)
     }
-  }, [activeContactId, contacts])
+  }, [archiveItem, activeContactId, contacts])
 
-  const restoreContact = useCallback((id: number, e: MouseEvent): void => {
-    e.stopPropagation()
-    setContacts(prev => prev.map(c => c.id === id ? { ...c, archived: false } : c))
-  }, [])
-
-  const filteredContacts = useMemo(
-    () => contacts.filter(c => view === 'active' ? !c.archived : c.archived),
-    [contacts, view]
-  )
+  const restoreContact = restoreItem
 
   const activeContact = useMemo(
     () => contacts.find(c => c.id === activeContactId) ?? filteredContacts[0],

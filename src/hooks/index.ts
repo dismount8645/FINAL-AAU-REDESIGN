@@ -1,3 +1,4 @@
+export * from './useArchivableCollection'
 export * from './useCalendar'
 export * from './useDropdown'
 export * from './useFilteredCollection'
