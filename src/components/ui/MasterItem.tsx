@@ -1,6 +1,8 @@
 import { memo, type ReactNode, type MouseEvent, type KeyboardEvent } from 'react'
 import { type LucideIcon } from 'lucide-react'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/Skeleton';
 export interface MasterItemProps {
   leading?: LucideIcon | ReactNode
   leadingClassName?: string
@@ -10,6 +12,7 @@ export interface MasterItemProps {
   trailing?: ReactNode
   unread?: boolean
   selected?: boolean
+  loading?: boolean
   onClick?: (e: MouseEvent<HTMLDivElement>) => void
   className?: string
 }
@@ -23,6 +26,7 @@ export const MasterItem = memo(function MasterItem({
   trailing,
   unread = false,
   selected = false,
+  loading = false,
   onClick,
   className = '',
 }: MasterItemProps) {
@@ -42,12 +46,33 @@ export const MasterItem = memo(function MasterItem({
     if (isLucideIcon) {
       const IconComp = Leading as LucideIcon
       return (
-        <div className={`shrink-0 flex items-center justify-center transition-all size-9 rounded-[var(--radius-md)] bg-bg-highlight/50 ${leadingClassName}`}>
-          <IconComp size={16} strokeWidth={2} />
+        <div className={`shrink-0 flex items-center justify-center transition-all w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] ${leadingClassName}`}>
+          <IconComp size={18} strokeWidth={2.5} />
         </div>
       )
     }
-    return <div className="shrink-0 size-9 flex items-center justify-center">{Leading}</div>
+    return <div className="shrink-0 w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center">{Leading}</div>
+  }
+
+  if (loading) {
+    return (
+      <Stack
+        direction="row"
+        align="center"
+        gap="sm"
+        role="status"
+        aria-busy="true"
+        className={cn('group p-sm border-b border-border/40', className)}
+      >
+        <Skeleton variant="rectangular" className="w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)]" />
+        <Stack gap="none" className="flex-1 min-w-0">
+          <Skeleton variant="text" width="60%" />
+          <div className="h-2" />
+          <Skeleton variant="text" width="40%" />
+        </Stack>
+        {trailing && <Skeleton variant="rectangular" className="w-6 h-6 rounded-[var(--radius-sm)]" />}
+      </Stack>
+    )
   }
 
   return (
@@ -59,19 +84,19 @@ export const MasterItem = memo(function MasterItem({
       role={isClickable ? 'button' : undefined}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className={`group p-sm border-b border-border/40 transition-all duration-150 relative bg-bg-card focus-visible:outline-none focus-visible:shadow-focus ${
+      className={cn(`group p-sm border-b border-border/40 transition-all duration-150 relative bg-bg-card focus-visible:outline-none focus-visible:shadow-focus ${
         isClickable ? 'cursor-pointer hover:bg-bg-hover' : ''
       } ${unread ? 'is-unread font-semibold' : ''} ${
         selected ? 'is-selected bg-primary/5 dark:bg-primary/10 active bg-bg-highlight dark:bg-white/5' : ''
-      } ${className}`}
+      }`, className)}
     >
       {selected && <div className="panel-active-indicator" />}
 
       {renderLeading()}
 
       <Stack gap="none" className="flex-1 min-w-0">
-        <span className="truncate">{title}</span>
-        {subtitle && <span className="truncate text-text-muted">{subtitle}</span>}
+        <div className="truncate">{title}</div>
+        {subtitle && <div className="truncate text-text-muted text-xs">{subtitle}</div>}
         {meta}
       </Stack>
 
@@ -126,6 +151,29 @@ if (import.meta.vitest) {
       const clickableItem = container2.firstChild as HTMLElement
       fireEvent.keyDown(clickableItem, { key: 'Escape' })
       expect(clickSpy).not.toHaveBeenCalled()
+    })
+
+    it('renders loading skeleton state', () => {
+      const { container } = render(<MasterItem title="Title" loading />)
+      const stack = container.firstChild as HTMLElement
+      expect(stack).toHaveAttribute('role', 'status')
+      expect(stack).toHaveAttribute('aria-busy', 'true')
+      expect(stack.querySelector('.animate-pulse')).toBeInTheDocument()
+    })
+
+    it('renders LucideIcon leading with standard sizing', () => {
+      function TestIcon() { return null }
+      const { container } = render(<MasterItem title="Title" leading={TestIcon} />)
+      const iconContainer = container.querySelector('.shrink-0')
+      expect(iconContainer).toHaveClass('w-9', 'h-9', 'sm:w-11', 'sm:h-11', 'rounded-[var(--radius-sm)]')
+      expect(iconContainer).not.toHaveClass('bg-bg-highlight/50')
+    })
+
+    it('applies leadingClassName to icon container', () => {
+      function TestIcon() { return null }
+      const { container } = render(<MasterItem title="Title" leading={TestIcon} leadingClassName="text-danger bg-danger/10" />)
+      const iconContainer = container.querySelector('.shrink-0')
+      expect(iconContainer).toHaveClass('text-danger', 'bg-danger/10')
     })
   })
 }

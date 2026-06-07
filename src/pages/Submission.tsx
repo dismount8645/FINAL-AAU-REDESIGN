@@ -86,11 +86,8 @@ function SubmissionFileList({ files, onRemoveFile, t }: { files: StagedFile[]; o
             <MasterItem
               key={file.id}
               className="border border-border/40 rounded-[var(--radius-md)]"
-              leading={
-                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${fileConfig.colorClass}`}>
-                  <FileIcon size={18} strokeWidth={2.5} aria-hidden="true" />
-                </div>
-              }
+              leading={FileIcon}
+              leadingClassName={fileConfig.colorClass}
               title={
                 <Text weight="semibold" className="text-sm">{file.name}</Text>
               }

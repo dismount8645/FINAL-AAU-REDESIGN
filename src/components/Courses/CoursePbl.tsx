@@ -47,19 +47,13 @@ function CoursePbl() {
                   <Stack>
                     <MasterItem
                       title="Draft_v2.pdf"
-                      leading={
-                        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${pdfConfig.colorClass}`}>
-                          <PdfIcon size={18} strokeWidth={2.5} aria-hidden="true" />
-                        </div>
-                      }
+                      leading={PdfIcon}
+                      leadingClassName={pdfConfig.colorClass}
                     />
                     <MasterItem
                       title="User_Testing_Data.xlsx"
-                      leading={
-                        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${xlsConfig.colorClass}`}>
-                          <XlsIcon size={18} strokeWidth={2.5} aria-hidden="true" />
-                        </div>
-                      }
+                      leading={XlsIcon}
+                      leadingClassName={xlsConfig.colorClass}
                     />
                   </Stack>
                 </Card.Body>
