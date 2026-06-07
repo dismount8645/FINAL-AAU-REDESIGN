@@ -1,4 +1,4 @@
-import { FormField } from '@/components/ui'
+import { Card, FormField } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
@@ -20,7 +20,11 @@ export default function MessagesTab() {
               { id: 'courses', title: t('settings.privacy_courses'), desc: t('settings.privacy_courses_desc') },
               { id: 'anyone', title: t('settings.privacy_anyone'), desc: t('settings.privacy_anyone_desc') }
             ].map(item => (
-              <div key={item.id} className="flex gap-md p-md rounded-xl border border-border hover:bg-bg-hover transition-colors">
+              <Card
+                key={item.id}
+                variant="outlined"
+                className="flex-row gap-md p-md hover:bg-bg-hover transition-colors"
+              >
                 <Radio 
                   id={`msgPrivacy-${item.id}`}
                   name="msgPrivacy" 
@@ -32,7 +36,7 @@ export default function MessagesTab() {
                   <Text size="sm" weight="bold" className="text-main">{item.title}</Text>
                   <Text size="xs" muted className="mt-3xs leading-normal">{item.desc}</Text>
                 </label>
-              </div>
+              </Card>
             ))}
           </div>
         </FormField>

@@ -1,4 +1,4 @@
-import { FormField } from '@/components/ui'
+import { Card, FormField } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
@@ -19,15 +19,17 @@ export default function ForumTab() {
               { id: 'complete', label: t('settings.digest_complete'), desc: t('settings.digest_complete_desc') },
               { id: 'subjects', label: t('settings.digest_subjects'), desc: t('settings.digest_subjects_desc') }
             ].map(opt => (
-              <button
+              <Card
+                as="button"
                 key={opt.id}
-                type="button"
+                variant="outlined"
+                interactive
+                className={`p-md text-left active:scale-[0.98] ${forumDigest === opt.id ? 'border-primary bg-primary/5' : 'bg-card hover:border-primary/20'}`}
                 onClick={() => setForumDigest(opt.id as 'none' | 'complete' | 'subjects')}
-                className={`p-md rounded-xl border text-left transition-all duration-150 cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus ${forumDigest === opt.id ? 'border-primary bg-primary/5' : 'border-border bg-card hover:border-primary/20'}`}
               >
                 <Text size="sm" weight="bold" className="text-main">{opt.label}</Text>
                 <Text size="xs" muted className="mt-3xs leading-snug">{opt.desc}</Text>
-              </button>
+              </Card>
             ))}
           </div>
         </FormField>

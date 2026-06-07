@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { motion, type HTMLMotionProps } from 'framer-motion';
 import { X, type LucideIcon, BookOpen } from 'lucide-react';
 import { Link, MemoryRouter } from 'react-router-dom';
+import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { getFavoriteLabel } from '@/lib/favorites';
 import type { Lang } from '@/store';
@@ -108,14 +109,14 @@ const FavoriteItem = memo(function FavoriteItem({
         <div className="text-sm font-medium truncate text-main">
           {item.title}
         </div>
-        <span
+        <Badge
           className={cn(
-            "inline-flex items-center text-[0.65rem] font-semibold px-1.5 py-0.5 rounded-[var(--radius-pill)] mt-0.5",
+            "mt-0.5 rounded-[var(--radius-pill)]",
             typeClasses[item.type]
           )}
         >
           {getFavoriteLabel(item.type, lang)}
-        </span>
+        </Badge>
       </div>
 
       <Button
