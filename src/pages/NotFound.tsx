@@ -48,7 +48,7 @@ function NotFound() {
             <SearchInput
               placeholder={t('search_placeholder')}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={setSearchQuery}
               onSubmit={handleSearch}
               iconSize={20}
             />

@@ -88,8 +88,8 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
         <div className="search-container-relative relative w-full max-w-[400px]" ref={searchRef}>
           <SearchInput
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
+            onChange={(val) => {
+              setSearchQuery(val);
               setIsDropdownVisible(true);
             }}
             onKeyDown={handleSearchEnter}

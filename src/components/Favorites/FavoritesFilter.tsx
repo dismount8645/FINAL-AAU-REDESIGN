@@ -39,7 +39,7 @@ export default function FavoritesFilter({
         <SearchInput
           placeholder={t('search_favorites_placeholder')}
           value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
+          onChange={onSearchChange}
           onClear={() => onSearchChange('')}
         />
       </div>

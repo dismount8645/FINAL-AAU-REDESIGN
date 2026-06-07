@@ -5,6 +5,7 @@ import type { NotificationItem } from '@/lib/types';
 import { formatRelativeDateGroup } from '@/lib/utils';
 import useStore from '@/store';
 import { useArchivableCollection } from '@/hooks/useArchivableCollection'
+import { useFilteredCollection } from '@/hooks/useFilteredCollection'
 
 interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]
@@ -17,7 +18,19 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const setNotificationCount = useStore(state => state.setNotificationCount)
 
   const [selectedId, setSelectedId] = useState<number | null>(null)
-  const { items: notifications, setItems: setNotifications, view, setView, filtered, archiveItem: archiveNotification, restoreItem: restoreNotification } = useArchivableCollection(initialNotifications)
+  const { items: notifications, setItems: setNotifications, archiveItem: archiveNotification, restoreItem: restoreNotification } = useArchivableCollection(initialNotifications)
+
+  const {
+    searchQuery,
+    setSearchQuery,
+    activeFilter: view,
+    setActiveFilter: setView,
+    items: filtered,
+  } = useFilteredCollection(notifications, {
+    searchKeys: (n) => [n.text, n.course, n.content],
+    filterKey: (n) => n.archived ? 'archive' : 'active',
+    filterDefault: 'active',
+  })
 
   const markAsRead = (id: number, e: MouseEvent): void => {
     e.stopPropagation()
@@ -60,8 +73,8 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
     setNotifications,
     selectedId,
     setSelectedId,
-    view,
-    setView,
+    view: view as 'active' | 'archive',
+    setView: (v: 'active' | 'archive') => setView(v),
     archiveNotification,
     restoreNotification,
     markAsRead,
@@ -71,6 +84,8 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
     selectedNotification,
     currentSelectedId,
     unreadCount,
+    searchQuery,
+    setSearchQuery,
     lang,
     t
   }

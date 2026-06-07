@@ -12,7 +12,8 @@ import { Input, type InputProps } from '@/components/ui/Input';
 // SearchInput component definitions
 // ==========================================
 
-export interface SearchInputProps extends Omit<InputProps, "type"> {
+export interface SearchInputProps extends Omit<InputProps, "type" | "onChange"> {
+  onChange?: (val: string) => void
   onClear?: () => void
   onSubmit?: (e: React.FormEvent) => void
   iconSize?: number
@@ -41,7 +42,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           ref={ref}
           type="text"
           value={value}
-          onChange={onChange}
+          onChange={onChange ? (e) => onChange(e.target.value) : undefined}
           placeholder={finalPlaceholder}
           className="pl-10 h-9 min-h-0"
           {...props}
