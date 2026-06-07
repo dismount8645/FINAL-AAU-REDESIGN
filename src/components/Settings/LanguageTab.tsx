@@ -1,8 +1,8 @@
-import { Card } from '@/components/ui'
+import { Card, SectionHeader } from '@/components/ui'
 import { Text } from '@/components/ui'
 import { useToast } from '@/components/ui'
+import { Stack } from '@/components/Layout/LayoutPrimitives';
 import useStore from '@/store'
-import SettingsSection from './SettingsSection'
 
 interface LanguageTabProps {
   lang?: 'da' | 'en'
@@ -18,8 +18,8 @@ export default function LanguageTab(props: LanguageTabProps) {
   const toast = useToast()
 
   return (
-    <SettingsSection titleKey="settings.select_language" descKey="settings.language_desc" className="settings__language max-w-[36rem]">
-
+    <Stack gap="xl" className="settings__language max-w-[36rem] animate-fade-in">
+      <SectionHeader title={t('settings.select_language')} description={t('settings.language_desc')} className="!mb-0" />
       <div className="mt-2xs grid grid-cols-1 sm:grid-cols-2 gap-md">
         {[
           { id: 'da', title: 'Dansk (Danish)', desc: 'Skift systemets sprog til dansk' },
@@ -48,6 +48,6 @@ export default function LanguageTab(props: LanguageTabProps) {
           </Card>
         ))}
       </div>
-    </SettingsSection>
+    </Stack>
   )
 }

@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
+import { cn } from '@/lib/utils';
 import useStore from '@/store';
 
 interface Activity {
@@ -54,6 +55,12 @@ const activities: Activity[] = [
 
 import { MasterItem } from '@/components/ui'
 
+const ACTIVITY_COLOR_MAP: Record<string, string> = {
+  'var(--color-reply-icon, var(--color-primary))': 'text-primary bg-primary/10',
+  'var(--color-accent)': 'text-accent bg-accent/10',
+  'var(--color-success)': 'text-success bg-success/10',
+}
+
 const ForumActivityWidget = () => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
@@ -99,7 +106,7 @@ const ForumActivityWidget = () => {
                 onClick={() => handleActivityClick(a.id)}
                 className="w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] border-none"
                 leading={a.icon}
-                leadingClassName="text-[var(--color-primary)]"
+                leadingClassName={cn(ACTIVITY_COLOR_MAP[a.color] ?? 'text-primary bg-primary/10')}
                 title={localize(a, 'title')}
                 subtitle={a.subtitle}
                 meta={

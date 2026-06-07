@@ -1,16 +1,15 @@
-import { Card, FormField } from '@/components/ui'
+import { Card, FormField, SectionHeader } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
-import SettingsSection from './SettingsSection'
 
 export default function ForumTab() {
   const store = useStore()
   const { forumDigest, setForumDigest, forumTracking, setForumTracking, forumAutoSubscribe, setForumAutoSubscribe, t } = store
 
   return (
-    <SettingsSection titleKey="settings.forum_prefs" descKey="settings.forum_desc" className="settings__forum max-w-[var(--container-max-width)]">
-
+    <Stack gap="xl" className="settings__forum max-w-[var(--container-max-width)] animate-fade-in">
+      <SectionHeader title={t('settings.forum_prefs')} description={t('settings.forum_desc')} className="!mb-0" />
       <Stack gap="lg" className="mt-sm">
         <FormField label={t('settings.email_digest_type')}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-sm">
@@ -76,6 +75,6 @@ export default function ForumTab() {
           </button>
         </div>
       </Stack>
-    </SettingsSection>
+    </Stack>
   )
 }

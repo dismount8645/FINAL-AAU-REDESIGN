@@ -712,11 +712,11 @@ h3 {
 }
 
 .animate-accordion-down {
-  animation: accordion-down 0.2s ease-out forwards;
+  animation: accordion-down var(--transition-normal) var(--transition-ease) forwards;
 }
 
 .animate-accordion-up {
-  animation: accordion-up 0.2s ease-out forwards;
+  animation: accordion-up var(--transition-normal) var(--transition-ease) forwards;
 }
 
 .skip-link {

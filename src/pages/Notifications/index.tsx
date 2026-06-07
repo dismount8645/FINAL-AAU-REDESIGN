@@ -16,12 +16,20 @@ import useStore from '@/store';
 import { useNotificationsState } from './useNotificationsState';
 import Button from '@/components/ui/Button';
 import { Check, Archive, Undo2 } from 'lucide-react';
-import { formatTime } from '@/lib/utils';
+import { cn, formatTime } from '@/lib/utils';
 
 function Notifications() {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
   const navigate = useNavigate()
+
+  const NOTIF_BG_MAP: Record<string, string> = {
+    AFLEVERING: 'bg-primary/10 text-primary',
+    FORUM: 'bg-accent/10 text-accent',
+    DEADLINE: 'bg-danger/10 text-danger',
+    FEEDBACK: 'bg-success/10 text-success',
+    SYSTEM: 'bg-bg-highlight/50 text-muted',
+  }
 
   const initialNotifications = useMemo(() => createMockNotifications(t), [t])
 
@@ -95,11 +103,11 @@ function Notifications() {
                               unread={!notif.isRead}
                               onClick={() => setSelectedId(notif.id)}
                               className="notification-item"
-                              leading={
-                                <div className={`notification-icon-wrapper notif-type--${notif.type.toLowerCase()} w-11 h-11 rounded-[var(--radius-xl)] flex items-center justify-center shrink-0 transition-all duration-300 shadow-[var(--shadow-sm)] border border-border/50 ${notif.isRead ? 'opacity-60 grayscale' : 'scale-105'}`}>
-                                  <Icon size={20} strokeWidth={2} className={notif.isRead ? 'text-muted' : 'text-primary'} />
-                                </div>
-                              }
+                              leading={Icon}
+                              leadingClassName={cn(
+                                NOTIF_BG_MAP[notif.type] ?? 'bg-bg-highlight/50 text-muted',
+                                notif.isRead && 'opacity-60 grayscale',
+                              )}
                               title={
                                 <Stack direction="row" align="center" gap="xs" className="mb-0.5">
                                   <Text size="2xs" weight="black" className="text-primary uppercase tracking-tighter opacity-80">{notif.type}</Text>
