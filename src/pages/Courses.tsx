@@ -135,7 +135,7 @@ function Courses() {
               <SearchInput
                 placeholder={t('search_courses')}
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={setSearchQuery}
                 onClear={() => setSearchQuery('')}
                 className="w-full max-w-[320px]"
               />

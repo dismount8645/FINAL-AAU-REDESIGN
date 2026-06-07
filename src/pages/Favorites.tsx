@@ -15,6 +15,7 @@ import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
 import { sortFavorites, resolveFavorite } from '@/lib/favorites';
 import useStore from '@/store';
+import { useFilteredCollection } from '@/hooks';
 import type { FavoriteType } from '@/lib/types';
 
 function Favorites() {
@@ -26,8 +27,6 @@ function Favorites() {
   const clearFavorites = useStore((state) => state.clearFavorites)
   const reorderFavorites = useStore((state) => state.reorderFavorites)
   const courses = useStore((state) => state.courses)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [typeFilter, setTypeFilter] = useState<FavoriteType | 'all'>('all')
 
   const sorted = useMemo(() => sortFavorites(favorites), [favorites])
 
@@ -37,17 +36,20 @@ function Favorites() {
       .filter(Boolean) as NonNullable<ReturnType<typeof resolveFavorite>>[]
   }, [sorted, lang, courses, t])
 
-  const filtered = useMemo(() => {
-    let items = resolved
-    if (typeFilter !== 'all') {
-      items = items.filter(item => item.type === typeFilter)
-    }
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase()
-      items = items.filter(item => item.title.toLowerCase().includes(q))
-    }
-    return items
-  }, [resolved, typeFilter, searchQuery])
+  const {
+    searchQuery,
+    setSearchQuery,
+    activeFilter,
+    setActiveFilter,
+    items: filtered,
+  } = useFilteredCollection(resolved, {
+    searchKeys: (item) => [item.title],
+    filterKey: (item) => item.type,
+    filterDefault: 'all',
+  })
+
+  const typeFilter = activeFilter as FavoriteType | 'all'
+  const setTypeFilter = (val: FavoriteType | 'all') => setActiveFilter(val)
 
   return (
     <Stack className="favorites-page">
