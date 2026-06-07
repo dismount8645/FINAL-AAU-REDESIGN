@@ -27,31 +27,22 @@ function CourseResources() {
         <Card.Body>
           <Stack gap="md">
             <MasterItem
-              leading={
-                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${pdfConfig.colorClass}`}>
-                  <PdfIcon size={18} strokeWidth={2.5} aria-hidden="true" />
-                </div>
-              }
+              leading={PdfIcon}
+              leadingClassName={pdfConfig.colorClass}
               title={t('syllabus')}
               subtitle="PDF, 2.4 MB"
               onClick={(e) => e.preventDefault()}
             />
             <MasterItem
-              leading={
-                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${fileConfig.colorClass}`}>
-                  <FileIcon size={18} strokeWidth={2.5} aria-hidden="true" />
-                </div>
-              }
+              leading={FileIcon}
+              leadingClassName={fileConfig.colorClass}
               title={t('reading_list')}
               subtitle="Excel, 150 KB"
               onClick={(e) => e.preventDefault()}
             />
             <MasterItem
-              leading={
-                <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors ${linkConfig.colorClass}`}>
-                  <LinkIcon size={18} strokeWidth={2.5} aria-hidden="true" />
-                </div>
-              }
+              leading={LinkIcon}
+              leadingClassName={linkConfig.colorClass}
               title={t('exam_schedule')}
               subtitle="Link"
               onClick={(e) => e.preventDefault()}

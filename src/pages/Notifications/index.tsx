@@ -108,7 +108,7 @@ function Notifications() {
                                 </Stack>
                               }
                               subtitle={
-                                <Text weight={notif.isRead ? 'medium' : 'black'} size="sm" className={`truncate ${notif.isRead ? 'text-muted' : 'text-main'}`}>{notif.text}</Text>
+                                <Text weight={notif.isRead ? 'medium' : 'black'} size="xs" className={`truncate ${notif.isRead ? 'text-muted' : 'text-main'}`}>{notif.text}</Text>
                               }
                               meta={
                                 <Text size="2xs" muted className="mt-[var(--space-2xs)] opacity-60">

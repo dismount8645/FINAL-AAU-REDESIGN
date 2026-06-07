@@ -62,15 +62,12 @@ const LessonItemRow = memo(function LessonItemRow({
   return (
     <MasterItem
       className="mb-sm rounded-[var(--radius-md)] border border-border/40"
-      leading={
-        <div className={`flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-[var(--radius-sm)] shrink-0 transition-colors text-${themeConfig.color} ${themeConfig.bg}`}>
-          <Icon size={18} strokeWidth={2.5} aria-hidden="true" />
-        </div>
-      }
+      leading={Icon}
+      leadingClassName={`text-${themeConfig.color} ${themeConfig.bg}`}
       title={
-        <p className="font-bold text-main m-0 text-sm leading-tight">
+        <span className="font-bold text-sm leading-tight">
           {t(`course_${courseId}_${sectionId}_i${item.id}_title`)}
-        </p>
+        </span>
       }
       subtitle={metadata}
       onClick={handleClick}
