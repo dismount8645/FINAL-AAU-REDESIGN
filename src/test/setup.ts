@@ -42,7 +42,7 @@ Object.defineProperty(window, 'sessionStorage', {
 });
 
 import "@testing-library/jest-dom"
-import { afterEach, beforeEach } from "vitest";
+import { afterEach } from "vitest";
 import useStore from '@/store';
 
 const originalWarn = console.warn;
