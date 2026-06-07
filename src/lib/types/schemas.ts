@@ -31,4 +31,4 @@ export const PersistedStateSchema = z.object({
   messageEmailOffline: z.boolean().catch(true),
 })
 
-export type PersistedStateType = z.infer<typeof PersistedStateSchema>
+type PersistedStateType = z.infer<typeof PersistedStateSchema>

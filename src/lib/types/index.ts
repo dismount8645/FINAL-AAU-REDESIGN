@@ -24,7 +24,7 @@ export interface GradeRecord {
   instructor: string
 }
 
-export interface ChatMessage {
+interface ChatMessage {
   id: number
   type: 'in' | 'out'
   text: string
@@ -76,14 +76,14 @@ export interface ChatWindowProps {
 }
 
 // Additional interfaces from legacy types.ts
-export interface CourseSection {
+interface CourseSection {
   id: string
   title: string
   titleEn: string
   items: CourseItem[]
 }
 
-export interface NextAssignment {
+interface NextAssignment {
   title: string
   titleEn: string
   deadline: string
@@ -91,7 +91,7 @@ export interface NextAssignment {
   submissionId: string
 }
 
-export interface CourseData {
+interface CourseData {
   title: string
   titleEn: string
   code: string;
@@ -142,7 +142,7 @@ export interface CalendarEvent {
 
 export type CalendarEvents = Record<string, CalendarEvent>;
 
-export interface Message {
+interface Message {
   id: number;
   type: 'in' | 'out';
   textDa: string;
@@ -182,14 +182,14 @@ export interface Notification {
   link: string;
 }
 
-export interface WidgetConfig {
+interface WidgetConfig {
   allowedSpans: number[];
   rowSpan?: number;
 }
 
-export type WidgetConfigMap = Record<string, WidgetConfig>;
+type WidgetConfigMap = Record<string, WidgetConfig>;
 
-export interface Widget {
+interface Widget {
   id: string;
   span: number;
   rowSpan?: number;

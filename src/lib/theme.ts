@@ -12,7 +12,7 @@ export function computeIsDarkMode(theme: Theme): boolean {
   return env.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
-export interface ThemeConfig {
+interface ThemeConfig {
   icon: LucideIcon;
   color: string;
   bg: string;

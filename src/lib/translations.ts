@@ -1,4 +1,4 @@
-export type Lang = 'da' | 'en'
+type Lang = 'da' | 'en'
 
 type TranslationValue = string | { [key: string]: TranslationValue }
 type TranslationMap = Record<string, TranslationValue>
