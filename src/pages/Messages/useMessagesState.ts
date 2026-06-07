@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo, type MouseEvent } fr
 import { useLocation } from 'react-router-dom'
 import useStore from '@/store'
 import type { Contact } from '@/lib/types'
-import { useArchivableCollection } from './useArchivableCollection'
+import { useArchivableCollection } from '@/hooks/useArchivableCollection'
 
 interface UseMessagesStateReturn {
   view: 'active' | 'archive'
