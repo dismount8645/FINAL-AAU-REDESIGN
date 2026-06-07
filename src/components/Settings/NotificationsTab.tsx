@@ -1,17 +1,16 @@
-import { Card } from '@/components/ui'
-import { Grid } from '@/components/Layout/LayoutPrimitives';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { Card, SectionHeader } from '@/components/ui'
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import Input from '@/components/ui/Input'
 import { Text } from '@/components/ui'
 import useStore from '@/store'
-import SettingsSection from './SettingsSection'
 
 export default function NotificationsTab() {
   const store = useStore()
   const { notifPrefs, setNotifPrefs, t } = store
 
   return (
-    <SettingsSection titleKey="settings.notif_preferences" descKey="settings.notif_preferences_desc" className="settings__notif-prefs max-w-[var(--container-max-width)]">
+    <Stack gap="xl" className="settings__notif-prefs max-w-[var(--container-max-width)] animate-fade-in">
+      <SectionHeader title={t('settings.notif_preferences')} description={t('settings.notif_preferences_desc')} className="!mb-0" />
       <Grid columns={2} gap="md">
         {[
           { id: 'email', label: t('settings.notif_channel_email'), desc: t('settings.notif_channel_email_desc') },
@@ -52,6 +51,6 @@ export default function NotificationsTab() {
           <Input id="quiet-hours-end" type="time" defaultValue="07:00" />
         </div>
       </Stack>
-    </SettingsSection>
+    </Stack>
   )
 }

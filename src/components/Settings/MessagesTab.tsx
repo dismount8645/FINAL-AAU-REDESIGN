@@ -1,8 +1,7 @@
-import { Card, FormField } from '@/components/ui'
+import { Card, FormField, SectionHeader } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui'
 import useStore from '@/store'
-import SettingsSection from './SettingsSection'
 import Radio from '@/components/ui/Radio'
 
 export default function MessagesTab() {
@@ -10,8 +9,8 @@ export default function MessagesTab() {
   const { messagePrivacy, setMessagePrivacy, messageEmailOffline, setMessageEmailOffline, t } = store
 
   return (
-    <SettingsSection titleKey="settings.message_prefs" descKey="settings.message_desc" className="settings__messages max-w-[var(--container-max-width)]">
-
+    <Stack gap="xl" className="settings__messages max-w-[var(--container-max-width)] animate-fade-in">
+      <SectionHeader title={t('settings.message_prefs')} description={t('settings.message_desc')} className="!mb-0" />
       <Stack gap="lg" className="mt-sm">
         <FormField label={t('settings.who_can_contact')}>
           <div className="flex flex-col gap-sm">
@@ -62,6 +61,6 @@ export default function MessagesTab() {
           </button>
         </div>
       </Stack>
-    </SettingsSection>
+    </Stack>
   )
 }

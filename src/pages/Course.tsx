@@ -14,7 +14,7 @@ import {
   Avatar, Button
 } from '@/components/ui';
 import { courseData, participantsData, courseTabItems, courses } from '@/lib/data';
-import { storage } from '@/lib/utils';
+import { storage, cn } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
 import { ASSETS } from '@/lib';
@@ -63,7 +63,7 @@ const LessonItemRow = memo(function LessonItemRow({
     <MasterItem
       className="mb-sm rounded-[var(--radius-md)] border border-border/40"
       leading={Icon}
-      leadingClassName={`text-${themeConfig.color} ${themeConfig.bg}`}
+      leadingClassName={cn(themeConfig.bg, `text-${themeConfig.color}`)}
       title={
         <span className="font-bold text-sm leading-tight">
           {t(`course_${courseId}_${sectionId}_i${item.id}_title`)}

@@ -6,13 +6,11 @@ import LanguageTab from './LanguageTab';
 import ForumTab from './ForumTab';
 import CalendarTab from './CalendarTab';
 import MessagesTab from './MessagesTab';
-import SettingsSection from './SettingsSection';
-import { Avatar, Card } from '@/components/ui';
+import { Avatar, Card, SectionHeader } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { FormField } from '@/components/ui';
-import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import Input from '@/components/ui/Input';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore, { type Theme } from '@/store';
 
@@ -37,7 +35,8 @@ export default function ProfileTab(props: ProfileTabProps) {
   const t = store.t;
 
   return (
-    <SettingsSection titleKey="settings.profile" descKey="settings.profile_desc" className="settings__profile-form max-w-[var(--container-max-width)]">
+    <Stack gap="xl" className="settings__profile-form max-w-[var(--container-max-width)] animate-fade-in">
+      <SectionHeader title={t('settings.profile')} description={t('settings.profile_desc')} className="!mb-0" />
       <Stack direction="row" gap="lg" align="start" className="profile-hero pb-xl border-b border-border/50 flex-col sm:flex-row">
         <Avatar name={`${firstName} ${lastName}`} size={96} className="ring-4 ring-primary/10 shrink-0" />
         <Stack gap="sm" className="items-start">
@@ -100,7 +99,7 @@ export default function ProfileTab(props: ProfileTabProps) {
           ))}
         </div>
       </Stack>
-    </SettingsSection>
+    </Stack>
   )
 }
 

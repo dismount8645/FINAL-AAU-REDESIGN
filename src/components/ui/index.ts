@@ -6,7 +6,7 @@ export { default as Radio } from './Radio';
 export { default as Select } from './Select';
 export { default as Textarea } from './Textarea';
 
-export * from './Accordion';
+export { AccordionWrapper, AccordionItemRow } from './Accordion';
 export { default as Avatar } from './Avatar';
 export { default as Badge } from './Badge';
 export * from './Card';

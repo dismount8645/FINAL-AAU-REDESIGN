@@ -1,7 +1,6 @@
-import { FormField } from '@/components/ui'
-import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { FormField, SectionHeader } from '@/components/ui'
+import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import useStore from '@/store'
-import SettingsSection from './SettingsSection'
 import Select from '@/components/ui/Select'
 
 export default function CalendarTab() {
@@ -9,8 +8,8 @@ export default function CalendarTab() {
   const { calendarStartDay, setCalendarStartDay, calendarDefaultView, setCalendarDefaultView, t } = store
 
   return (
-    <SettingsSection titleKey="settings.calendar_prefs" descKey="settings.calendar_desc" className="settings__calendar max-w-[var(--container-max-width)]">
-
+    <Stack gap="xl" className="settings__calendar max-w-[var(--container-max-width)] animate-fade-in">
+      <SectionHeader title={t('settings.calendar_prefs')} description={t('settings.calendar_desc')} className="!mb-0" />
       <Grid columns={2} gap="md" className="mt-sm">
         <Grid.Item span={1}>
           <FormField id="pref-first-day" label={t('settings.first_day_of_week')}>
@@ -41,6 +40,6 @@ export default function CalendarTab() {
           </FormField>
         </Grid.Item>
       </Grid>
-    </SettingsSection>
+    </Stack>
   )
 }
