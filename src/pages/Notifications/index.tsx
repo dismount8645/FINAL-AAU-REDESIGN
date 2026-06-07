@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { BellOff, Inbox } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import { NotificationDetailView, NotificationFilters } from '@/components/Notifications';
-import { Badge, MasterItem } from '@/components/ui';
+import { Badge, MasterItem, SearchInput } from '@/components/ui';
 import { Card } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
@@ -45,7 +45,9 @@ function Notifications() {
     selectedNotification,
     currentSelectedId,
     unreadCount,
-    setSelectedId
+    setSelectedId,
+    searchQuery,
+    setSearchQuery
   } = useNotificationsState({ initialNotifications })
 
   return (
@@ -77,6 +79,14 @@ function Notifications() {
                 onMarkAllRead={markAllRead}
                 t={t}
               />
+              <div className="pb-md mt-sm">
+                <SearchInput
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  onClear={() => setSearchQuery('')}
+                  placeholder={t('search_placeholder')}
+                />
+              </div>
             </div>
 
             <div className="panel-scroll">

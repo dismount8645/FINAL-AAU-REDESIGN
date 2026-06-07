@@ -30,7 +30,7 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
             <SearchInput
               placeholder={t('search_participants_placeholder')}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={setSearchQuery}
               onClear={() => setSearchQuery('')}
             />
             <label htmlFor="participant-role-filter" className="sr-only">{t('filter')}</label>
