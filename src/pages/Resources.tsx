@@ -8,7 +8,7 @@ import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { env } from '@/lib/env';
 import useStore from '@/store';
-import { allTools, allEssentials, allToolsList } from '@/lib/tools';
+import { allTools, allEssentials, allToolsList } from '@/lib/utils';
 
 function Resources() {
   const t = useStore(state => state.t)

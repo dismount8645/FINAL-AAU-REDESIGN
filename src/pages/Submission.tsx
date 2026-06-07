@@ -12,7 +12,7 @@ import SplitLayout from '@/components/Layout/SplitLayout';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Textarea from '@/components/ui/Textarea';
 import { submitAssignment } from '@/lib/api';
-import { storage } from '@/lib/storage';
+import { storage } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
 
