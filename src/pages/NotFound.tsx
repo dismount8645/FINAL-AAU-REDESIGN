@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button';
 import PageHeader from '@/components/Layout/PageHeader';
 import { SearchInput } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui';
+import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
 
 function NotFound() {
@@ -39,7 +39,7 @@ function NotFound() {
               <FileQuestion size={24} strokeWidth={2} className="text-primary opacity-20 dark:opacity-40" />
             </div>
             <div className="absolute inset-0 flex items-center justify-center pt-[var(--space-md)]">
-               <span className="text-5xl font-bold text-primary/90 dark:text-primary drop-shadow-[var(--shadow-xl)]">404</span>
+               <Heading level={1} className="text-primary/90 dark:text-primary drop-shadow-[var(--shadow-xl)]">404</Heading>
             </div>
           </div>
 

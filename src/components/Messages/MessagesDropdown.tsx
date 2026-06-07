@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar } from '@/components/ui';
+import { Avatar, Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/ui';
 import { messagesData } from '@/lib/data';
@@ -38,9 +38,9 @@ export default function MessagesDropdown() {
         <Mail size={20} strokeWidth={2} />
       </Button>
       {messageCount > 0 && (
-        <span className="absolute right-[4px] top-[4px] z-10 flex h-[16px] min-w-[16px] pointer-events-none animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
+        <Badge variant="primary" className="absolute right-[4px] top-[4px] z-10 pointer-events-none animate-pulse border-2 border-bg-main h-4 min-w-[16px] rounded-full px-1 leading-none shadow-sm">
           {messageCount}
-        </span>
+        </Badge>
       )}
 
       <AnimatePresence>

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { CalendarCheck, ChevronRight, MapPin, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { CalendarEvents, CalendarEvent } from '@/lib/types'
-import { Card } from '@/components/ui'
+import { Card, Text } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
 import useStore from '@/store'
@@ -63,9 +63,9 @@ const CalendarUpcomingWidget = ({
           <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-primary/10 text-primary">
             <CalendarCheck size={18} strokeWidth={2.5} />
           </div>
-          <span className="text-sm font-bold text-main">
+          <Text size="sm" weight="bold" tag="span">
             {t('upcoming')}
-          </span>
+          </Text>
         </Stack>
       </Card.Header>
 
@@ -95,27 +95,27 @@ const CalendarUpcomingWidget = ({
                     gap="none"
                     className="bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] min-w-[52px] h-[52px] border border-[var(--border-color)]/60 shadow-sm shrink-0"
                   >
-                    <span className="text-[0.625rem] font-black text-muted uppercase tracking-widest leading-none">
+                    <Text size="2xs" weight="black" muted tag="span" className="uppercase tracking-widest leading-none">
                       {monthNames[e.date.getMonth()].substring(0, 3)}
-                    </span>
-                    <span className="text-[1.25rem] font-black text-primary dark:text-indigo-200 leading-none mt-[2px]">
+                    </Text>
+                    <Text size="xl" weight="black" tag="span" className="text-primary dark:text-indigo-200 leading-none mt-[2px]">
                       {e.date.getDate()}
-                    </span>
+                    </Text>
                   </Stack>
 
                   {/* Event Info */}
                   <Stack gap="none" className="flex-1 min-w-0">
-                    <span className="text-sm font-bold text-main truncate leading-snug">
+                    <Text size="sm" weight="bold" tag="span" className="truncate leading-snug">
                       {getEventTitle(e)}
-                    </span>
+                    </Text>
                     <Stack direction="row" gap="xs" align="center" className="text-muted">
                       <Clock size={12} strokeWidth={2.5} />
-                      <span className="text-[0.6875rem] font-bold uppercase tracking-tight">{e.time}</span>
+                      <Text size="0.6875rem" weight="bold" tag="span" className="uppercase tracking-tight">{e.time}</Text>
                     </Stack>
                     {e.location && (
                       <Stack direction="row" gap="xs" align="center" className="text-primary/80 dark:text-white">
                         <MapPin size={12} strokeWidth={2.5} />
-                        <span className="text-[0.6875rem] font-bold italic truncate">{e.location}</span>
+                        <Text size="0.6875rem" weight="bold" tag="span" className="italic truncate">{e.location}</Text>
                       </Stack>
                     )}
                   </Stack>
@@ -130,7 +130,7 @@ const CalendarUpcomingWidget = ({
                 className="py-[var(--space-xl)] px-[var(--space-lg)] text-center bg-bg-highlight/5"
               >
                 <CalendarCheck size={40} className="text-muted/65 mx-auto mb-[var(--space-sm)]" />
-                <p className="text-sm font-bold text-muted">{t('no_events_short')}</p>
+                <Text size="sm" weight="bold" muted>{t('no_events_short')}</Text>
               </motion.div>
             )}
           </AnimatePresence>
