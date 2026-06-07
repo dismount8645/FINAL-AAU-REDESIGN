@@ -256,8 +256,8 @@ if (import.meta.vitest) {
       fireEvent.click(profile)
       
       const profileItem = screen.getByText('profile')
-      expect(profileItem.closest('a')).toHaveAttribute('href', '/settings?tab=profil')
       fireEvent.click(profileItem)
+      expect(mockNavigate).toHaveBeenCalledWith('/settings?tab=profil')
       await waitFor(() => expect(screen.queryByText('logout')).not.toBeInTheDocument())
     })
   
@@ -526,8 +526,8 @@ if (import.meta.vitest) {
       fireEvent.click(profile)
       
       const settingsItem = screen.getByText('settings')
-      expect(settingsItem.closest('a')).toHaveAttribute('href', '/settings')
       fireEvent.click(settingsItem)
+      expect(mockNavigate).toHaveBeenCalledWith('/settings')
       await waitFor(() => expect(screen.queryByText('logout')).not.toBeInTheDocument())
     })
   
