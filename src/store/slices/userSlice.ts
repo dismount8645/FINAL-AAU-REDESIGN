@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { AppState } from '../index';
-import { storage } from '@/lib/storage';
+import { storage } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { saveSettings } from '@/lib/api';
 

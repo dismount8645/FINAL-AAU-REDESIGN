@@ -182,23 +182,6 @@ export interface Notification {
   link: string;
 }
 
-interface WidgetConfig {
-  allowedSpans: number[];
-  rowSpan?: number;
-}
-
-type WidgetConfigMap = Record<string, WidgetConfig>;
-
-interface Widget {
-  id: string;
-  span: number;
-  rowSpan?: number;
-  x?: number;
-  y?: number;
-  visible: boolean;
-  [key: string]: unknown;
-}
-
 export type CoursesMap = Record<number, CourseData>;
 
 export type FavoriteType = 'course' | 'tool' | 'file' | 'forum' | 'link'

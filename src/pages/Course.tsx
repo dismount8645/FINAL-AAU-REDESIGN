@@ -14,7 +14,7 @@ import {
   Avatar, Button
 } from '@/components/ui';
 import { courseData, participantsData, courseTabItems, courses } from '@/lib/data';
-import { storage } from '@/lib/storage';
+import { storage } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
 import { ASSETS } from '@/lib';
