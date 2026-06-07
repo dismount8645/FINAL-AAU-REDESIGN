@@ -5,7 +5,7 @@ import { type LucideIcon } from 'lucide-react'
 import { courses } from '@/lib/data'
 import useStore from '@/store'
 
-export interface SearchResult {
+interface SearchResult {
   label: string
   path: string
   icon: LucideIcon
@@ -16,7 +16,7 @@ export interface SearchResult {
   professor?: string
 }
 
-export interface UseSearchReturn {
+interface UseSearchReturn {
   query: string
   results: SearchResult[]
   filteredResults: SearchResult[]

@@ -5,7 +5,7 @@ import React, { type ReactNode } from 'react';
 import type { StagedFile } from '@/lib/types';
 import { FileText, Play, Link2, Upload, File, type LucideIcon } from 'lucide-react';
 
-export const FILE_TYPE_MAP: Record<string, { icon: LucideIcon; colorClass: string }> = {
+const FILE_TYPE_MAP: Record<string, { icon: LucideIcon; colorClass: string }> = {
   pdf: { icon: FileText, colorClass: 'text-danger bg-danger/10' },
   video: { icon: Play, colorClass: 'text-success bg-success/10' },
   link: { icon: Link2, colorClass: 'text-info bg-info/10' },

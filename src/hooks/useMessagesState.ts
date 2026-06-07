@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import useStore from '@/store'
 import type { Contact } from '@/lib/types'
 
-export interface UseMessagesStateReturn {
+interface UseMessagesStateReturn {
   view: 'active' | 'archive'
   setView: (v: 'active' | 'archive') => void
   activeContactId: number

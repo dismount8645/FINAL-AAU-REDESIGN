@@ -5,7 +5,7 @@ import type { NotificationItem } from '@/lib/types';
 import { formatRelativeDateGroup } from '@/lib/dates';
 import useStore from '@/store';
 
-export interface UseNotificationsStateOptions {
+interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]
 }
 

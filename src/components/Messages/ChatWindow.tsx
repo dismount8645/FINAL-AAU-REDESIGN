@@ -1,4 +1,4 @@
-import { Send, MessageCircle, ArrowLeft } from 'lucide-react'
+import { Send, MessageCircle } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'

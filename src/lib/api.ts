@@ -71,7 +71,7 @@ async function handleResponse<T>(res: Response): Promise<T> {
   }
 }
 
-export class ApiClient {
+class ApiClient {
   private baseUrl: string
   private useMocks: boolean
   private timeoutMs: number
