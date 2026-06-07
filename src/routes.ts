@@ -16,10 +16,11 @@ const ForumPost = lazy(() => import('@/pages/ForumPost'))
 const Grades = lazy(() => import('@/pages/Grades'))
 const Favorites = lazy(() => import('@/pages/Favorites'))
 
-interface RouteConfig {
+export interface RouteConfig {
   path: string;
   component: LazyExoticComponent<ComponentType<unknown>>;
   label: string;
+  breadcrumbKey?: string;
 }
 
 const routes: RouteConfig[] = [
@@ -33,8 +34,8 @@ const routes: RouteConfig[] = [
   { path: '/resources', component: Resources, label: 'resources' },
   { path: '/notifications', component: Notifications, label: 'notifications' },
   { path: '/submission/:courseId/:assignmentId', component: Submission, label: 'submission' },
-  { path: '/search', component: SearchResults, label: 'search' },
-  { path: '/grades', component: Grades, label: 'grades' },
+  { path: '/search', component: SearchResults, label: 'search', breadcrumbKey: 'search_results' },
+  { path: '/grades', component: Grades, label: 'grades', breadcrumbKey: 'my_grades' },
   { path: '/favorites', component: Favorites, label: 'favorites' },
   { path: '/forum/:id', component: ForumPost, label: 'forum' },
 ]

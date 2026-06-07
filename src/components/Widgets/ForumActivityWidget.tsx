@@ -3,57 +3,12 @@ import { memo, useCallback } from 'react';
 import { ChevronRight, Reply, MessageSquare, Book, MessageCircle, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import { Card } from '@/components/ui';
+import { Card, MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import { cn } from '@/lib/utils';
+import { mockForumActivities } from '@/lib/data';
 import useStore from '@/store';
-
-interface Activity {
-  id: number
-  titleDa: string
-  titleEn: string
-  subtitle: string
-  snippetDa: string
-  snippetEn: string
-  icon: typeof Reply
-  color: string
-}
-
-const activities: Activity[] = [
-  {
-    id: 1,
-    titleDa: 'Spørgsmål til teksten',
-    titleEn: 'Questions regarding the text',
-    subtitle: 'Morten Jensen',
-    snippetDa: 'Jeg har lagt de nye slides op nu...',
-    snippetEn: 'I have uploaded the new slides now...',
-    icon: Reply,
-    color: 'var(--color-reply-icon, var(--color-primary))'
-  },
-  {
-    id: 2,
-    titleDa: 'Gruppesøgning',
-    titleEn: 'Group Search',
-    subtitle: 'Lærke Nielsen',
-    snippetDa: 'Er der nogen der mangler en gruppe?',
-    snippetEn: 'Is anyone missing a group?',
-    icon: MessageSquare,
-    color: 'var(--color-accent)'
-  },
-  {
-    id: 3,
-    titleDa: 'Pensumliste',
-    titleEn: 'Syllabus',
-    subtitle: 'Anders Nielsen',
-    snippetDa: 'Husk at tjekke den opdaterede liste.',
-    snippetEn: 'Remember to check the updated list.',
-    icon: Book,
-    color: 'var(--color-success)'
-  },
-]
-
-import { MasterItem } from '@/components/ui'
 
 const ACTIVITY_COLOR_MAP: Record<string, string> = {
   'var(--color-reply-icon, var(--color-primary))': 'text-primary bg-primary/10',
@@ -100,7 +55,7 @@ const ForumActivityWidget = () => {
 
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         <div className="h-full flex flex-col gap-[var(--space-2xs)]">
-          {activities.map((a) => (
+          {mockForumActivities.map((a) => (
             <div key={a.id} className="w-full">
               <MasterItem
                 onClick={() => handleActivityClick(a.id)}

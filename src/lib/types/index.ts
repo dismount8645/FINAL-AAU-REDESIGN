@@ -220,6 +220,41 @@ export interface SettingsData {
   forumPreferences?: Record<string, string>
 }
 
+export interface ForumActivity {
+  id: number
+  titleDa: string
+  titleEn: string
+  subtitle: string
+  snippetDa: string
+  snippetEn: string
+  icon: LucideIcon
+  color: string
+}
+
+export interface ForumPostData {
+  id: number
+  titleDa: string
+  titleEn: string
+  author: string
+  timeDa: string
+  timeEn: string
+  replies: number
+  contentDa: string
+  contentEn: string
+  important?: boolean
+}
+
+export interface ForumReplyData {
+  id: number
+  author: string
+  roleDa: string
+  roleEn: string
+  timeDa: string
+  timeEn: string
+  contentDa: string
+  contentEn: string
+}
+
 export interface ResourceTool {
   id: number
   icon: LucideIcon
