@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+
 
 
 
@@ -13,8 +13,9 @@ import { Text } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
-import { sortFavorites, resolveFavorite } from '@/lib/favorites';
 import useStore from '@/store';
+import { useShallow } from 'zustand/react/shallow';
+import { selectResolvedFavorites } from '@/store/selectors';
 import { useFilteredCollection } from '@/hooks';
 import type { FavoriteType } from '@/lib/types';
 
@@ -22,19 +23,10 @@ function Favorites() {
   const navigate = useNavigate()
   const t = useStore((state) => state.t)
   const lang = useStore((state) => state.lang)
-  const favorites = useStore((state) => state.favorites)
   const toggleFavorite = useStore((state) => state.toggleFavorite)
   const clearFavorites = useStore((state) => state.clearFavorites)
   const reorderFavorites = useStore((state) => state.reorderFavorites)
-  const courses = useStore((state) => state.courses)
-
-  const sorted = useMemo(() => sortFavorites(favorites), [favorites])
-
-  const resolved = useMemo(() => {
-    return sorted
-      .map(fav => resolveFavorite(fav, lang, courses, t))
-      .filter(Boolean) as NonNullable<ReturnType<typeof resolveFavorite>>[]
-  }, [sorted, lang, courses, t])
+  const resolved = useStore(useShallow(selectResolvedFavorites))
 
   const {
     searchQuery,

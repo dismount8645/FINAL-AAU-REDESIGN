@@ -1,3 +1,4 @@
+import './globals';
 import { vi } from 'vitest';
 import { render as rtlRender, screen as rtlScreen, fireEvent as rtlFireEvent, act as rtlAct, renderHook as rtlRenderHook } from '@testing-library/react';
 import { renderWithProviders as rtlRenderWithProviders } from './test-utils';
@@ -10,36 +11,6 @@ globalThis.renderHook = rtlRenderHook;
 globalThis.renderWithProviders = rtlRenderWithProviders;
 
 Element.prototype.scrollIntoView = vi.fn()
-
-
-
-const localStorageMock = (() => {
-  let store: Record<string, string> = {};
-  return {
-    getItem: vi.fn((key: string) => store[key] || null),
-    setItem: vi.fn((key: string, value: string) => {
-      store[key] = value.toString();
-    }),
-    removeItem: vi.fn((key: string) => {
-      delete store[key];
-    }),
-    clear: vi.fn(() => {
-      store = {};
-    }),
-    key: vi.fn((index: number) => Object.keys(store)[index] || null),
-    get length() {
-      return Object.keys(store).length;
-    },
-  };
-})();
-
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-});
-
-Object.defineProperty(window, 'sessionStorage', {
-  value: localStorageMock,
-});
 
 import "@testing-library/jest-dom"
 import { afterEach } from "vitest";

@@ -1,21 +1,20 @@
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useMemo } from 'react';
 
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { BellOff, Inbox } from 'lucide-react';
+import { BellOff, Inbox, ArrowLeft, Check, Archive, Undo2 } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import { NotificationDetailView, NotificationFilters } from '@/components/Notifications';
-import { Badge, MasterItem, SearchInput } from '@/components/ui';
-import { Card } from '@/components/ui';
-import { EmptyState } from '@/components/ui';
-import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
+import { Badge, MasterItem, SearchInput, EmptyState } from '@/components/ui';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
+import SplitLayout from '@/components/Layout/SplitLayout';
 import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { createMockNotifications, getNotificationIcon } from '@/components/Notifications/notifications';
 import useStore from '@/store';
 import { useNotificationsState } from './useNotificationsState';
 import Button from '@/components/ui/Button';
-import { Check, Archive, Undo2 } from 'lucide-react';
 import { cn, formatTime } from '@/lib/utils';
 
 function Notifications() {
@@ -68,146 +67,159 @@ function Notifications() {
       }
     >
 
-      <Grid>
-        <Grid.Item span={4}>
-          <Card className="panel-card flex flex-col p-[var(--space-0)]">
-            <div className="notifications-tabs-container px-md pt-md border-b border-border bg-bg-card">
-              <NotificationFilters
-                view={view}
-                onChangeView={setView}
-                unreadCount={unreadCount}
-                onMarkAllRead={markAllRead}
-                t={t}
+      <SplitLayout
+        sidebarPosition="left"
+        showDetailOnMobile={!!currentSelectedId}
+        listHeader={
+          <div className="notifications-tabs-container px-md pt-md">
+            <NotificationFilters
+              view={view}
+              onChangeView={setView}
+              unreadCount={unreadCount}
+              onMarkAllRead={markAllRead}
+              t={t}
+            />
+            <div className="pb-md mt-sm">
+              <SearchInput
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onClear={() => setSearchQuery('')}
+                placeholder={t('search_placeholder')}
               />
-              <div className="pb-md mt-sm">
-                <SearchInput
-                  value={searchQuery}
-                  onChange={setSearchQuery}
-                  onClear={() => setSearchQuery('')}
-                  placeholder={t('search_placeholder')}
-                />
-              </div>
             </div>
-
-            <div className="panel-scroll">
-              <AnimatePresence mode="wait">
-                {filtered.length > 0 ? (
-                  <motion.div
-                    key="notifications-list"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    {Object.entries(grouped).map(([date, items]) => (
-                      <Stack key={date} gap="none">
-                        <div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-bg-placeholder/50 dark:bg-white/5 border-y border-border/50 first:border-t-0">
-                          <Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase">{date}</Text>
-                        </div>
-                        {items.map((notif) => {
-                          const Icon = getNotificationIcon(notif.type)
-                          return (
-                            <MasterItem
-                              key={notif.id}
-                              selected={currentSelectedId === notif.id}
-                              unread={!notif.isRead}
-                              onClick={() => setSelectedId(notif.id)}
-                              className="notification-item"
-                              leading={Icon}
-                              leadingClassName={cn(
-                                NOTIF_BG_MAP[notif.type] ?? 'bg-bg-highlight/50 text-muted',
-                                notif.isRead && 'opacity-60 grayscale',
-                              )}
-                              title={
-                                <Stack direction="row" align="center" gap="xs" className="mb-0.5">
-                                  <Text size="2xs" weight="black" className="text-primary uppercase tracking-tighter opacity-80">{notif.type}</Text>
-                                  <Text size="2xs" muted className="opacity-40">&bull;</Text>
-                                  <Text size="2xs" weight="bold" muted className="truncate">{notif.course}</Text>
-                                </Stack>
-                              }
-                              subtitle={
-                                <Text weight={notif.isRead ? 'medium' : 'black'} size="xs" className={`truncate ${notif.isRead ? 'text-muted' : 'text-main'}`}>{notif.text}</Text>
-                              }
-                              meta={
-                                <Text size="2xs" muted className="mt-[var(--space-2xs)] opacity-60">
-                                  {formatTime(notif.date, lang)}
-                                </Text>
-                              }
-                              trailing={
-                                <div className="notification-meta flex items-center gap-sm shrink-0">
+          </div>
+        }
+        sidebar={
+          <div className="h-full w-full">
+            <AnimatePresence mode="wait">
+              {filtered.length > 0 ? (
+                <motion.div
+                  key="notifications-list"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {Object.entries(grouped).map(([date, items]) => (
+                    <Stack key={date} gap="none">
+                      <div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-bg-placeholder/50 dark:bg-white/5 border-y border-border/50 first:border-t-0">
+                        <Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase">{date}</Text>
+                      </div>
+                      {items.map((notif) => {
+                        const Icon = getNotificationIcon(notif.type)
+                        return (
+                          <MasterItem
+                            key={notif.id}
+                            selected={currentSelectedId === notif.id}
+                            unread={!notif.isRead}
+                            onClick={() => setSelectedId(notif.id)}
+                            className="notification-item"
+                            leading={Icon}
+                            leadingClassName={cn(
+                              NOTIF_BG_MAP[notif.type] ?? 'bg-bg-highlight/50 text-muted',
+                              notif.isRead && 'opacity-60 grayscale',
+                            )}
+                            title={
+                              <Stack direction="row" align="center" gap="xs" className="mb-0.5">
+                                <Text size="2xs" weight="black" className="text-primary uppercase tracking-tighter opacity-80">{notif.type}</Text>
+                                <Text size="2xs" muted className="opacity-40">&bull;</Text>
+                                <Text size="2xs" weight="bold" muted className="truncate">{notif.course}</Text>
+                              </Stack>
+                            }
+                            subtitle={
+                              <Text weight={notif.isRead ? 'medium' : 'black'} size="xs" className={`truncate ${notif.isRead ? 'text-muted' : 'text-main'}`}>{notif.text}</Text>
+                            }
+                            meta={
+                              <Text size="2xs" muted className="mt-[var(--space-2xs)] opacity-60">
+                                {formatTime(notif.date, lang)}
+                              </Text>
+                            }
+                            trailing={
+                              <div className="notification-meta flex items-center gap-sm shrink-0">
+                                {!notif.isRead && (
+                                  <div className="w-2.5 h-2.5 rounded-[var(--radius-pill)] bg-primary shadow-[0_0_6px_rgba(var(--color-primary-rgb),0.5)]" />
+                                )}
+                                <div className="notification-actions flex gap-3xs opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
                                   {!notif.isRead && (
-                                    <div className="w-2.5 h-2.5 rounded-[var(--radius-pill)] bg-primary shadow-[0_0_6px_rgba(var(--color-primary-rgb),0.5)]" />
-                                  )}
-                                  <div className="notification-actions flex gap-3xs opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
-                                    {!notif.isRead && (
-                                      <Button
-                                        variant="ghost"
-                                        size="icon-sm"
-                                        pill
-                                        icon={Check}
-                                        onClick={(e) => {
-                                          e.stopPropagation()
-                                          markAsRead(notif.id, e)
-                                        }}
-                                        title={t('mark_as_read')}
-                                        aria-label={t('mark_as_read')}
-                                        className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
-                                      />
-                                    )}
                                     <Button
                                       variant="ghost"
                                       size="icon-sm"
                                       pill
-                                      icon={view === 'active' ? Archive : Undo2}
+                                      icon={Check}
                                       onClick={(e) => {
                                         e.stopPropagation()
-                                        if (view === 'active') archiveNotification(notif.id, e)
-                                        else restoreNotification(notif.id, e)
+                                        markAsRead(notif.id, e)
                                       }}
-                                      title={view === 'active' ? t('archive') : t('restore')}
-                                      aria-label={view === 'active' ? t('archive') : t('restore')}
+                                      title={t('mark_as_read')}
+                                      aria-label={t('mark_as_read')}
                                       className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
                                     />
-                                  </div>
+                                  )}
+                                  <Button
+                                    variant="ghost"
+                                    size="icon-sm"
+                                    pill
+                                    icon={view === 'active' ? Archive : Undo2}
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      if (view === 'active') archiveNotification(notif.id, e)
+                                      else restoreNotification(notif.id, e)
+                                    }}
+                                    title={view === 'active' ? t('archive') : t('restore')}
+                                    aria-label={view === 'active' ? t('archive') : t('restore')}
+                                    className="bg-bg-card border border-border shadow-[var(--shadow-sm)] hover:border-primary"
+                                  />
                                 </div>
-                              }
-                            />
-                          )
-                        })}
-                      </Stack>
-                    ))}
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="notifications-empty"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <EmptyState
-                      icon={view === 'active' ? BellOff : Inbox}
-                      title={view === 'active' ? t('no_notifications') : t('archive_empty')}
-                      message={view === 'active' ? t('notif_all_caught_up') : ''}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </Card>
-        </Grid.Item>
-
-        <Grid.Item span={8}>
-          <Card className="panel-card flex flex-col p-[var(--space-0)]">
+                              </div>
+                            }
+                          />
+                        )
+                      })}
+                    </Stack>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="notifications-empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <EmptyState
+                    icon={view === 'active' ? BellOff : Inbox}
+                    title={view === 'active' ? t('no_notifications') : t('archive_empty')}
+                    message={view === 'active' ? t('notif_all_caught_up') : ''}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        }
+        detailHeader={
+          <div className="md:hidden flex items-center h-14 px-md border-b border-border bg-bg-card">
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={ArrowLeft}
+              onClick={() => setSelectedId(null)}
+              className="font-bold"
+            >
+              {t('common.back')}
+            </Button>
+          </div>
+        }
+        main={
+          <div className="h-full w-full">
             <NotificationDetailView
               selectedNotification={selectedNotification}
               lang={lang}
               t={t}
               onNavigate={navigate}
             />
-          </Card>
-        </Grid.Item>
-      </Grid>
+          </div>
+        }
+      />
     </PageLayout>
   )
 }
@@ -339,25 +351,30 @@ if (import.meta.vitest) {
       expect(screen.getByText('Archive is empty')).toBeInTheDocument()
     })
   
-    it('shows empty state in active view when all notifications are archived', () => {
+    it('shows empty state in active view when all notifications are archived', async () => {
       const { container } = renderNotifications('da')
       // Click archive on each notification until none remain.
-      // Re-query each iteration to avoid stale DOM refs after re-render.
-      let btn: Element | null
-      while ((btn = container.querySelector('.notification-actions button:last-child'))) {
+      // We use a limited loop to avoid infinite hangs in test environment
+      for (let i = 0; i < 20; i++) {
+        const btn = container.querySelector('.notification-actions button:last-child')
+        if (!btn) break
         fireEvent.click(btn)
       }
-      expect(screen.getByText('Ingen notifikationer fundet')).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(/Ingen notifikationer fundet/i)).toBeInTheDocument()
+      })
     })
   
-    it('shows empty state in active view with English text', () => {
-      useStore.setState({ lang: 'en' })
+    it('shows empty state in active view with English text', async () => {
       const { container } = renderNotifications('en')
-      let btn: Element | null
-      while ((btn = container.querySelector('.notification-actions button:last-child'))) {
+      for (let i = 0; i < 20; i++) {
+        const btn = container.querySelector('.notification-actions button:last-child')
+        if (!btn) break
         fireEvent.click(btn)
       }
-      expect(screen.getByText('No notifications found')).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(/No notifications found/i)).toBeInTheDocument()
+      })
     })
   })
 }

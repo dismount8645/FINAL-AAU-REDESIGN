@@ -18,18 +18,14 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const setNotificationCount = useStore(state => state.setNotificationCount)
 
   const [selectedId, setSelectedId] = useState<number | null>(null)
-  const { items: notifications, setItems: setNotifications, archiveItem: archiveNotification, restoreItem: restoreNotification } = useArchivableCollection(initialNotifications)
+  const { items: notifications, setItems: setNotifications, archiveItem: archiveNotification, restoreItem: restoreNotification, view, setView, filtered: archivableFiltered } = useArchivableCollection(initialNotifications)
 
   const {
     searchQuery,
     setSearchQuery,
-    activeFilter: view,
-    setActiveFilter: setView,
     items: filtered,
-  } = useFilteredCollection(notifications, {
+  } = useFilteredCollection(archivableFiltered, {
     searchKeys: (n) => [n.text, n.course, n.content],
-    filterKey: (n) => n.archived ? 'archive' : 'active',
-    filterDefault: 'active',
   })
 
   const markAsRead = (id: number, e: MouseEvent): void => {

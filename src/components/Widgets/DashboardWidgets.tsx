@@ -12,8 +12,10 @@ import { hoursFromNow, calculateUrgency } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { FavoriteItem } from '@/components/Favorites';
 import { env } from '@/lib/env';
-import { sortFavorites, resolveFavorite } from '@/lib/favorites';
+import { resolveFavorite } from '@/lib/favorites';
 import useStore from '@/store';
+import { useShallow } from 'zustand/react/shallow';
+import { selectResolvedFavorites } from '@/store/selectors';
 
 const DEADLINES_TO_SHOW = 3
 const GRADES_TO_SHOW = 3
@@ -160,21 +162,12 @@ function FavoritesWidgetInner() {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
-  const favorites = useStore(state => state.favorites)
   const toggleFavorite = useStore(state => state.toggleFavorite)
-  const courses = useStore(state => state.courses)
 
   const limit = DASHBOARD_CONFIG.FAVORITES_LIMIT
-
-  const { overflow, resolved } = useMemo(() => {
-    const sorted = sortFavorites(favorites)
-    const display = sorted.slice(0, limit)
-    const overflow = sorted.length - limit
-    const resolved = display
-      .map(fav => resolveFavorite(fav, lang, courses, t))
-      .filter(Boolean) as NonNullable<ReturnType<typeof resolveFavorite>>[]
-    return { overflow, resolved }
-  }, [favorites, limit, lang, courses, t])
+  const resolved = useStore(useShallow(selectResolvedFavorites))
+  const overflow = useStore(state => Math.max(0, state.favorites.length - limit))
+  const display = resolved.slice(0, limit)
 
   const handleSeeAll = useCallback(() => {
     navigate('/favorites')
@@ -196,9 +189,9 @@ function FavoritesWidgetInner() {
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="overflow-visible">
-        {resolved.length > 0 ? (
+        {display.length > 0 ? (
           <div className="grid gap-[var(--space-sm)] p-[var(--space-xs)]" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
-            {resolved.map((item) => (
+            {display.map((item) => (
               <FavoriteItem
                 key={item.id}
                 item={item}

@@ -115,7 +115,10 @@ export const allToolsList: ResourceTool[] = [...allTools, ...allEssentials]
 export const storage = {
   get: <T>(key: string, defaultValue: T): T => {
     try {
-      const item = typeof window !== 'undefined' ? window.localStorage.getItem(key) : null;
+      if (typeof window === 'undefined' || !window.localStorage) {
+        return defaultValue;
+      }
+      const item = window.localStorage.getItem(key);
       if (!item) return defaultValue;
       try {
         return JSON.parse(item);
