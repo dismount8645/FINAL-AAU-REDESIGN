@@ -6,7 +6,7 @@ import { allToolsList } from '@/lib/utils';
 import { translations } from '@/lib/translations';
 import type { FavoriteItem, FavoriteType } from '@/lib/types';
 
-interface ResolvedFavorite {
+export interface ResolvedFavorite {
   id: string
   type: FavoriteType
   entityId: number
