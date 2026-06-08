@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { Headphones, ExternalLink } from 'lucide-react';
 import { ResourcesSection } from '@/components/Resources';
 import { Button } from '@/components/ui';
@@ -8,15 +7,13 @@ import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { env } from '@/lib/env';
 import useStore from '@/store';
-import { allTools, allEssentials, allToolsList } from '@/lib/utils';
+import { useShallow } from 'zustand/react/shallow';
+import { selectPinnedTools } from '@/store/selectors';
+import { allTools, allEssentials } from '@/lib/utils';
 
 function Resources() {
   const t = useStore(state => state.t)
-  const isFavorite = useStore(state => state.isFavorite)
-  const favorites = useStore(state => state.favorites)
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pinnedTools = useMemo(() => allToolsList.filter(t => isFavorite('tool', t.id)), [favorites, isFavorite])
+  const pinnedTools = useStore(useShallow(selectPinnedTools))
 
   return (
     <PageLayout

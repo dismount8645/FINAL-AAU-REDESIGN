@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { FileText } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import GradesOverview from '@/components/Grades/GradesOverview';
@@ -10,29 +8,18 @@ import { EmptyState } from '@/components/ui';
 import { Heading, SearchInput } from '@/components/ui';
 import Select from '@/components/ui/Select';
 import PageLayout from '@/components/Layout/PageLayout';
-import { mockGradesData, BACHELOR_TOTAL_ECTS } from '@/lib/data';
+import { BACHELOR_TOTAL_ECTS } from '@/lib/data';
 import useStore from '@/store';
+import { useShallow } from 'zustand/react/shallow';
+import { selectGradesStats } from '@/store/selectors';
 import { translations } from '@/lib/translations';
 import { useFilteredCollection } from '@/hooks';
 
 function Grades() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
-
-  const gradedRecords = useMemo(
-    () => mockGradesData.filter(g => g.grade !== null),
-    []
-  )
-  const gpa = useMemo(() => {
-    if (gradedRecords.length === 0) return 0
-    const totalWeighted = gradedRecords.reduce((sum, r) => sum + (r.grade || 0) * r.ects, 0)
-    const totalEcts     = gradedRecords.reduce((sum, r) => sum + r.ects, 0)
-    return parseFloat((totalWeighted / totalEcts).toFixed(2))
-  }, [gradedRecords])
-  const completedEcts = useMemo(
-    () => gradedRecords.reduce((sum, r) => sum + r.ects, 0),
-    [gradedRecords]
-  )
+  const { gpa, completedEcts, gradedCount, totalCount } = useStore(useShallow(selectGradesStats))
+  const grades = useStore(state => state.grades)
 
   const {
     searchQuery,
@@ -41,7 +28,7 @@ function Grades() {
     setActiveFilter: setSelectedSemester,
     filterOptions: semesterOptions,
     items: filteredRecords,
-  } = useFilteredCollection(mockGradesData, {
+  } = useFilteredCollection(grades, {
     searchKeys: r => [localize(r, 'title'), r.code, r.instructor],
     filterKey:  r => localize(r, 'semester'),
     filterDefault: 'all',
@@ -60,8 +47,8 @@ function Grades() {
           gpa={gpa}
           completedEcts={completedEcts}
           totalPossibleEcts={BACHELOR_TOTAL_ECTS}
-          gradedCount={gradedRecords.length}
-          totalCount={mockGradesData.length}
+          gradedCount={gradedCount}
+          totalCount={totalCount}
         />
 
         <Card className="p-0">

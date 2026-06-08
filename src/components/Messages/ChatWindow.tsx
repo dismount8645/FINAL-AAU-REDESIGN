@@ -17,7 +17,7 @@ export function ChatWindow({
   t,
 }: ChatWindowProps) {
   return (
-    <Card className="panel-card flex flex-col p-[var(--space-0)]">
+    <Card className="h-full flex flex-col p-[var(--space-0)] border-none shadow-none rounded-none bg-transparent">
       {activeContact ? (
         <>
           <div className="messages-chat-header p-md border-b border-border bg-bg-card">
@@ -85,11 +85,13 @@ export function ChatWindow({
           </div>
         </>
       ) : (
-        <EmptyState
-          icon={MessageCircle}
-          title={t('select_conversation')}
-          message={t('select_conversation_desc')}
-        />
+        <div className="flex-1 flex items-center justify-center p-xl">
+          <EmptyState
+            icon={MessageCircle}
+            title={t('select_conversation')}
+            message={t('select_conversation_desc')}
+          />
+        </div>
       )}
     </Card>
   )

@@ -1,10 +1,12 @@
 
 import { MemoryRouter } from 'react-router-dom';
+import { Archive, ArrowLeft } from 'lucide-react';
 import { ChatSidebar } from '@/components/Messages';
 import { ChatWindow } from '@/components/Messages';
-import { Badge } from '@/components/ui';
-import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { Badge, TabBar } from '@/components/ui';
+import SplitLayout from '@/components/Layout/SplitLayout';
 import PageLayout from '@/components/Layout/PageLayout';
+import Button from '@/components/ui/Button';
 import useStore, { type Lang } from '@/store';
 import { useMessagesState } from './useMessagesState';
 
@@ -37,11 +39,24 @@ function Messages() {
       }
     >
 
-      <Grid>
-        <Grid.Item span={4}>
+      <SplitLayout
+        sidebarPosition="left"
+        showDetailOnMobile={!!activeContactId}
+        listHeader={
+          <div className="px-md pt-md border-b border-border bg-bg-card">
+            <TabBar
+              tabs={[
+                { id: 'active', label: t('active_tab') },
+                { id: 'archive', label: t('archive_tab'), icon: Archive },
+              ]}
+              activeTab={view}
+              onChange={(id) => setView(id as typeof view)}
+            />
+          </div>
+        }
+        sidebar={
           <ChatSidebar
             view={view}
-            setView={setView}
             filteredContacts={filteredContacts}
             activeContactId={activeContactId}
             setActiveContactId={setActiveContactId}
@@ -49,9 +64,21 @@ function Messages() {
             restoreContact={restoreContact}
             t={t}
           />
-        </Grid.Item>
-
-        <Grid.Item span={8}>
+        }
+        detailHeader={
+          <div className="md:hidden flex items-center h-14 px-md border-b border-border bg-bg-card">
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={ArrowLeft}
+              onClick={() => setActiveContactId(0)}
+              className="font-bold"
+            >
+              {t('common.back')}
+            </Button>
+          </div>
+        }
+        main={
           <ChatWindow
             activeContact={activeContact}
             chatBodyRef={chatBodyRef}
@@ -60,8 +87,8 @@ function Messages() {
             handleSend={handleSend}
             t={t}
           />
-        </Grid.Item>
-      </Grid>
+        }
+      />
     </PageLayout>
   )
 }

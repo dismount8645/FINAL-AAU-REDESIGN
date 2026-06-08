@@ -1,9 +1,10 @@
-import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder } from 'lucide-react'
+import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ArrowLeft } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
 import PageLayout from '@/components/Layout/PageLayout';
 import { AnimatePresence, motion } from 'framer-motion'
 import { Card } from '@/components/ui'
-import { Stack, Grid } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout/LayoutPrimitives';
+import SplitLayout from '@/components/Layout/SplitLayout';
 import { Text } from '@/components/ui'
 import { Button } from '@/components/ui'
 import { Icon } from '@/components/ui'
@@ -52,6 +53,7 @@ function Settings() {
   const toast = useToast()
   const [activeTab, setActiveTab] = useState<string>(searchParams.get('tab') || 'profil')
   const [expandedCats, setExpandedCats] = useState<string[]>(['bruger', 'indstillinger'])
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(false)
 
   const firstName = useStore(state => state.firstName)
   const lastName = useStore(state => state.lastName)
@@ -64,6 +66,7 @@ function Settings() {
 
   const handleTabClick = useCallback((id: string) => {
     setActiveTab(id)
+    setMobileDetailOpen(true)
   }, [])
 
   const toggleCat = useCallback((id: string): void => {
@@ -93,16 +96,31 @@ function Settings() {
     >
 
       <div className="container pb-2xl">
-        <Grid>
-          <Grid.Item span={4}>
-            <Card className="panel-card flex flex-col p-[var(--space-0)] sticky top-32 self-start">
+        <SplitLayout
+          sidebarPosition="left"
+          showDetailOnMobile={mobileDetailOpen}
+          detailHeader={
+            <div className="md:hidden flex items-center h-14 px-md border-b border-border bg-bg-card">
+              <Button
+                variant="ghost"
+                size="sm"
+                icon={ArrowLeft}
+                onClick={() => setMobileDetailOpen(false)}
+                className="font-bold"
+              >
+                {t('common.back')}
+              </Button>
+            </div>
+          }
+          sidebar={
+            <Card className="flex flex-col p-[var(--space-0)] h-full w-full border-none">
               <Card.Header className="border-b border-border">
                 <Stack direction="row" gap="md" align="center">
                   <Avatar name={`${firstName} ${lastName}`} size="md" />
                   <Text weight="bold" size="md" className="text-main">{`${firstName} ${lastName}`}</Text>
                 </Stack>
               </Card.Header>
-              <Card.Body className="panel-scroll p-sm">
+              <Card.Body className="p-sm">
                 {categories.map((cat) => (
                   <Stack key={cat.id} gap="2xs" className="mb-md">
                     <Stack
@@ -143,10 +161,9 @@ function Settings() {
                 ))}
               </Card.Body>
             </Card>
-          </Grid.Item>
-
-          <Grid.Item span={8}>
-            <Card className="panel-card flex flex-col p-[var(--space-0)]">
+          }
+          main={
+            <Card className="flex flex-col p-[var(--space-0)] h-full w-full border-none">
               <Card.Header className="border-b border-border">
                 <Stack gap="2xs">
                   <Text weight="bold" size="lg" className="card__title text-main">{t(activeTabLabel)}</Text>
@@ -154,7 +171,7 @@ function Settings() {
                 </Stack>
               </Card.Header>
               
-              <Card.Body className="panel-scroll p-lg">
+              <Card.Body className="p-lg">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -191,8 +208,8 @@ function Settings() {
                 </Card.Footer>
               )}
             </Card>
-          </Grid.Item>
-        </Grid>
+          }
+        />
       </div>
     </PageLayout>
   )
