@@ -108,18 +108,18 @@ function DeadlinesWidget() {
             {t('next_assignment')}
           </Heading>
         </Stack>
-        <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary dark:text-white hover:bg-bg-card/50" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all_deadlines')}>
+        <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary dark:text-white" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all_deadlines')}>
           {t('see_all_deadlines')}
         </Button>
       </Card.Header>
-      <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
+      <Card.Body padding="compact" className="p-[var(--space-sm)] flex-1">
         {deadlines.length > 0 ? (
-          <div className="grid widget-subgrid gap-x-[var(--space-lg)] gap-y-[var(--space-xs)]">
+          <div className="flex flex-col gap-sm">
             {deadlines.map((dl) => (
               <MasterItem
                 key={dl.id}
                 onClick={() => handleDeadlineClick(dl)}
-                className={`p-[var(--space-2xs)] border border-transparent rounded-[var(--radius-lg)] hover:border-[var(--border-color)]/40 ${dl.urgency.level === 'overdue' ? 'bg-danger/5 hover:bg-danger/10' : ''}`}
+                className={`p-[var(--space-2xs)] border border-transparent rounded-[var(--radius-lg)] hover:border-[var(--border-color)]/40 hover:bg-bg-hover ${dl.urgency.level === 'overdue' ? 'bg-danger/5 hover:bg-danger/10' : ''}`}
                 leading={
                   <div className="shrink-0 flex items-center justify-center" style={{ color: dl.urgency.color }}>
                     <dl.urgency.icon size={20} strokeWidth={2} />
@@ -142,11 +142,11 @@ function DeadlinesWidget() {
         )}
       </Card.Body>
       {deadlines.length > 0 && (
-        <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-          <Text size="sm" weight="medium" className="text-muted italic">{deadlines.length} {t('upcoming')}</Text>
+        <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
+          <Text size="sm" weight="medium" className="text-muted font-medium">{deadlines.length} {t('upcoming')}</Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="sm" weight="bold" className="text-primary dark:text-white uppercase">{t('click_to_view')}</Text>
-            <Clock size={10} strokeWidth={2.5} className="text-primary dark:text-white" />
+            <Text size="sm" weight="bold" className="text-primary dark:text-white uppercase">{t('see_all')}</Text>
+            <ChevronRight size={16} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
       )}
@@ -195,22 +195,29 @@ function FavoritesWidgetInner() {
       </Card.Header>
       <Card.Body padding="compact" className="overflow-visible">
         {display.length > 0 ? (
-          <div className="grid gap-[var(--space-sm)] p-[var(--space-xs)]" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
-            {display.map((item) => (
-              <FavoriteItem
-                key={item.id}
-                item={item}
-                lang={lang}
-                onRemove={(type, entityId) => toggleFavorite(type, entityId)}
-                onClick={() => {
-                  if (item.external) {
-                    env.open(item.link)
-                  } else {
-                    navigate(item.link)
-                  }
-                }}
-              />
-            ))}
+          <div className="flex flex-col h-full">
+            {display.length === 1 && (
+              <Text size="xs" className="text-muted px-[var(--space-md)] pt-[var(--space-sm)]">
+                {t('dashboard.favorites_empty_hint')}
+              </Text>
+            )}
+            <div className={`grid gap-[var(--space-sm)] p-[var(--space-xs)] ${display.length === 1 ? 'flex-1' : ''}`} style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}>
+              {display.map((item) => (
+                <FavoriteItem
+                  key={item.id}
+                  item={item}
+                  lang={lang}
+                  onRemove={(type, entityId) => toggleFavorite(type, entityId)}
+                  onClick={() => {
+                    if (item.external) {
+                      env.open(item.link)
+                    } else {
+                      navigate(item.link)
+                    }
+                  }}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="h-full w-full flex flex-col items-center justify-center py-lg gap-[var(--space-md)]">
@@ -272,7 +279,7 @@ function RecentGradesWidget() {
           {t('view_all')}
         </Button>
       </Card.Header>
-      <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
+      <Card.Body padding="compact" className="p-[var(--space-sm)] flex-1">
         {visibleGrades.length > 0 ? (
           <div className="flex flex-col gap-[var(--space-2xs)]">
             {visibleGrades.map((g) => (
