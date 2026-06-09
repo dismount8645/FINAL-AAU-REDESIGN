@@ -44,7 +44,7 @@ const ForumActivityWidget = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
+          className="font-black uppercase tracking-widest text-primary"
           onClick={handleViewAll}
           iconRight={ChevronRight}
           aria-label={t('view_all')}
@@ -65,14 +65,14 @@ const ForumActivityWidget = () => {
                 title={localize(a, 'title')}
                 subtitle={a.subtitle}
                 meta={
-                  <div className="pl-[var(--space-md)] relative mt-2xs">
+                  <div className="relative mt-2xs">
                     <Text size="sm" className="forum-activity__snippet text-muted leading-relaxed relative">
                       <span className="italic">&ldquo;{localize(a, 'snippet')}&rdquo;</span>
                     </Text>
                   </div>
                 }
                 trailing={
-                  <div className="pl-[var(--space-md)] mt-[var(--space-2xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover:translate-x-0">
+                  <div className="mt-[var(--space-2xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover:translate-x-0">
                     <div className="h-px w-4 bg-primary/30" />
                     <Text size="sm" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
                     <ArrowRight size={10} strokeWidth={3} className="text-primary dark:text-white" />

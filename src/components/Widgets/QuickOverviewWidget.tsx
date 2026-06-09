@@ -11,11 +11,13 @@ import useStore from '@/store';
 interface OverviewEvent {
   time: string
   titleKey: string
+  moduleKey?: string
+  location?: string
 }
 
 const todayEvents: OverviewEvent[] = [
-  { time: '08:15', titleKey: 'lecture' },
-  { time: '23:59', titleKey: 'project_report' },
+  { time: '08:15', titleKey: 'lecture', moduleKey: 'course_1_title', location: 'Fibigerstræde 15' },
+  { time: '23:59', titleKey: 'project_report', moduleKey: 'course_4_title' },
 ]
 
 const OverviewItem = memo(forwardRef<HTMLButtonElement, {
@@ -32,14 +34,19 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       className="w-full text-left flex items-center justify-start gap-[var(--space-md)] py-[var(--space-sm)] px-[var(--space-sm)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-bg-highlight/50 border border-transparent hover:border-[var(--border-color)]/40 group/item outline-none focus-visible:outline-none focus-visible:shadow-focus"
       onClick={onClick}
     >
-      <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
+      <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors shrink-0">
         <Text size="sm" weight="black" className="text-primary leading-none">{hours}</Text>
         <span className="text-primary text-xs font-black leading-none">:</span>
         <Text size="sm" weight="bold" className="text-muted leading-none opacity-60 font-mono">{minutes}</Text>
       </div>
-      <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
-        {t(event.titleKey)}
-      </Text>
+      <div className="flex flex-col flex-1 min-w-0">
+        <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
+          {t(event.titleKey)} {event.moduleKey && `· ${t(event.moduleKey)}`}
+        </Text>
+        {event.location && (
+          <Text size="xs" muted className="truncate mt-1">{event.location}</Text>
+        )}
+      </div>
     </button>
   )
 }))
@@ -78,7 +85,7 @@ const QuickOverviewWidget = () => {
         </Button>
       </Card.Header>
 
-      <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
+      <Card.Body padding="compact" className="p-[var(--space-sm)] flex-1">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)]">
           <Text size="sm" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
             {t('todays_schedule')}
@@ -131,10 +138,10 @@ if (import.meta.vitest) {
       expect(screen.getByText('Hurtig oversigt')).toBeInTheDocument()
       expect(screen.getByText('08')).toBeInTheDocument()
       expect(screen.getByText('15')).toBeInTheDocument()
-      expect(screen.getByText('Forelæsning')).toBeInTheDocument()
+      expect(screen.getByText(/Forelæsning/i)).toBeInTheDocument()
       expect(screen.getByText('23')).toBeInTheDocument()
       expect(screen.getByText('59')).toBeInTheDocument()
-      expect(screen.getByText('Projektrapport')).toBeInTheDocument()
+      expect(screen.getByText(/Projektrapport/i)).toBeInTheDocument()
     })
 
     it('navigates to calendar when link is clicked', () => {

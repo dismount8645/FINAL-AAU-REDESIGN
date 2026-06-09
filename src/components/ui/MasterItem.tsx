@@ -95,7 +95,7 @@ export const MasterItem = memo(function MasterItem({
       {renderLeading()}
 
       <Stack gap="none" className="flex-1 min-w-0">
-        <div className="truncate">{title}</div>
+        <div className="line-clamp-2" title={typeof title === 'string' ? title : undefined}>{title}</div>
         {subtitle && <div className="truncate text-text-muted text-xs">{subtitle}</div>}
         {meta}
       </Stack>
