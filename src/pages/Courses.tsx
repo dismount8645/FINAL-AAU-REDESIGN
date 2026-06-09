@@ -118,6 +118,7 @@ function Courses() {
       pageKey="courses"
       title={t('courses')}
       subtitle={t('courses.subtitle')}
+      flat
     >
 
       <div className="container container--courses pb-[var(--space-2xl)] mx-auto">
@@ -131,21 +132,20 @@ function Courses() {
               activeTab={activeTab}
               onChange={(v) => setActiveTab(v as 'current' | 'finished' | 'upcoming')}
             />
-            <Stack className="flex-col md:flex-row md:items-center gap-md">
+            <Stack className="flex-col md:flex-row md:items-center gap-sm">
               <SearchInput
                 placeholder={t('search_courses')}
                 value={searchQuery}
                 onChange={setSearchQuery}
                 onClear={() => setSearchQuery('')}
-                className="w-full max-w-[320px]"
               />
               <Stack direction="row" gap="xs" className="flex items-center gap-xs">
                 <div className="relative flex-1">
                   <Dropdown>
                     <Dropdown.Trigger>
                       <Button
-                        variant={activeFilter ? 'primary' : 'ghost'}
-                        size="sm"
+                        variant={activeFilter ? 'primary' : 'secondary'}
+                        size="md"
                         icon={Filter}
                       >
                         {t('filter')}
@@ -171,8 +171,8 @@ function Courses() {
                   </Dropdown>
                 </div>
                 <Button
-                  variant="ghost"
-                  size="sm"
+                  variant="secondary"
+                  size="md"
                   icon={sortOrder === 'asc' ? ArrowDownZA : ArrowUpAZ}
                   className="flex-1"
                   onClick={handleSortToggle}
@@ -205,7 +205,7 @@ function Courses() {
             {t('enrollment_open')}
           </Badge>
           <div className="courses__promo-bg absolute right-0 top-0 bottom-0 w-[40%] opacity-30 pointer-events-none bg-cover bg-center [mask-image:linear-gradient(to_left,black,transparent)] [-webkit-mask-image:linear-gradient(to_left,black,transparent)]" style={{ backgroundImage: `url('${ASSETS.promo.student}')` }} />
-          <Card.Body className="courses__promo-body p-[var(--space-3xl)_var(--space-xl)]">
+          <Card.Body className="courses__promo-body p-[var(--space-xl)]">
             <Stack className="courses__promo-content relative z-[1] max-w-[var(--container-max-width)]">
               <Stack direction="row" gap="sm" align="center" className="courses__promo-badge-tag mb-[var(--space-sm)]">
                 <Badge className="inline-flex items-center gap-1.5 bg-[var(--aau-dark-orange)] text-white border-none font-bold shadow-sm">

@@ -68,10 +68,8 @@ export default function FavoritesList({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
-          className="grid gap-[var(--space-xs)]"
-          style={{
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-          }}
+          className={filtered.length <= 3 ? 'flex flex-wrap justify-center gap-[var(--space-xs)]' : 'grid gap-[var(--space-xs)]'}
+          style={filtered.length <= 3 ? {} : { gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}
         >
           {filtered.map((item, index) => (
             <div
@@ -96,7 +94,7 @@ export default function FavoritesList({
                   ? 'opacity-40 border-2 border-dashed border-primary rounded-[var(--radius-lg)] bg-primary/5 transition-all'
                   : dropTargetIndex === index
                   ? 'border-2 border-primary/60 rounded-[var(--radius-lg)] bg-primary/[0.04] transition-all'
-                  : ''
+                  : filtered.length <= 3 ? 'w-full sm:w-[360px] max-w-full' : ''
               }
             >
               <FavoriteItem
@@ -105,7 +103,6 @@ export default function FavoritesList({
                 onRemove={onRemove}
                 onClick={() => onNavigate(item.link, item.external)}
                 draggable
-                compact
               />
             </div>
           ))}

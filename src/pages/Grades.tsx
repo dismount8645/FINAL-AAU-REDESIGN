@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { FileText } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import GradesOverview from '@/components/Grades/GradesOverview';
@@ -10,16 +11,25 @@ import Select from '@/components/ui/Select';
 import PageLayout from '@/components/Layout/PageLayout';
 import { BACHELOR_TOTAL_ECTS } from '@/lib/data';
 import useStore from '@/store';
-import { useShallow } from 'zustand/react/shallow';
-import { selectGradesStats } from '@/store/selectors';
 import { translations } from '@/lib/translations';
 import { useFilteredCollection } from '@/hooks';
 
 function Grades() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
-  const { gpa, completedEcts, gradedCount, totalCount } = useStore(useShallow(selectGradesStats))
   const grades = useStore(state => state.grades)
+  const { gpa, completedEcts, gradedCount, totalCount } = useMemo(() => {
+    const graded = grades.filter(g => g.grade !== null)
+    if (graded.length === 0) return { gpa: 0, completedEcts: 0, gradedCount: 0, totalCount: grades.length }
+    const totalWeighted = graded.reduce((sum, r) => sum + (r.grade || 0) * r.ects, 0)
+    const totalEcts = graded.reduce((sum, r) => sum + r.ects, 0)
+    return {
+      gpa: parseFloat((totalWeighted / totalEcts).toFixed(2)),
+      completedEcts: totalEcts,
+      gradedCount: graded.length,
+      totalCount: grades.length,
+    }
+  }, [grades])
 
   const {
     searchQuery,

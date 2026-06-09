@@ -2,7 +2,7 @@
 
 import { memo, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CalendarCheck, ChevronRight, MapPin, Clock } from 'lucide-react'
+import { CalendarCheck, ChevronRight, MapPin, Clock, Plus, Upload } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import { Card, Text } from '@/components/ui'
@@ -17,17 +17,18 @@ interface CalendarUpcomingWidgetProps {
   monthNames: string[]
   t: (key: string) => string
   handleEventClick: (event: CalendarEvent, dateKey: string) => void
+  onCreateEvent?: () => void
+  onImport?: () => void
 }
 
-/**
- * CalendarUpcomingWidget - Professional AAU schedule overview.
- */
 const CalendarUpcomingWidget = ({
   events,
   currentDate,
   monthNames,
   t,
   handleEventClick,
+  onCreateEvent,
+  onImport,
 }: CalendarUpcomingWidgetProps) => {
   const navigate = useNavigate()
   const lang = useStore(state => state.lang)
@@ -57,15 +58,22 @@ const CalendarUpcomingWidget = ({
   }
 
   return (
-    <Card variant="default" className="upcoming-events-widget h-full">
+    <Card variant="default" className="upcoming-events-widget !h-auto">
       <Card.Header padding="default" className="bg-bg-highlight/20 min-h-[72px] sm:min-h-[76px] flex items-center">
-        <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-primary/10 text-primary">
-            <CalendarCheck size={18} strokeWidth={2.5} />
-          </div>
-          <Text size="sm" weight="bold" tag="span">
-            {t('upcoming')}
-          </Text>
+        <Stack direction="row" align="center" justify="between" className="w-full">
+          <Stack direction="row" align="center" gap="sm">
+            <div className="p-[var(--space-2xs)] rounded-[var(--radius-sm)] bg-primary/10 text-primary">
+              <CalendarCheck size={18} strokeWidth={2.5} />
+            </div>
+            <Text size="sm" weight="bold" tag="span">
+              {t('upcoming')}
+            </Text>
+          </Stack>
+          {futureEvents.length > 0 && (
+            <Button variant="ghost" size="xs" onClick={() => navigate('/calendar')} className="normal-case tracking-normal font-black text-xs">
+              {t('view_all')}
+            </Button>
+          )}
         </Stack>
       </Card.Header>
 
@@ -88,7 +96,6 @@ const CalendarUpcomingWidget = ({
                   )}
                   onClick={() => handleEventClick(e, e.dateKey)}
                 >
-                  {/* Date Box */}
                   <Stack
                     align="center"
                     justify="center"
@@ -103,19 +110,18 @@ const CalendarUpcomingWidget = ({
                     </Text>
                   </Stack>
 
-                  {/* Event Info */}
                   <Stack gap="none" className="flex-1 min-w-0">
                     <Text size="sm" weight="bold" tag="span" className="truncate leading-snug">
                       {getEventTitle(e)}
                     </Text>
                     <Stack direction="row" gap="xs" align="center" className="text-muted">
                       <Clock size={12} strokeWidth={2.5} />
-                      <Text size="0.6875rem" weight="bold" tag="span" className="uppercase tracking-tight">{e.time}</Text>
+                      <Text size="sm" weight="bold" tag="span" className="uppercase">{e.time}</Text>
                     </Stack>
                     {e.location && (
                       <Stack direction="row" gap="xs" align="center" className="text-primary/80 dark:text-white">
                         <MapPin size={12} strokeWidth={2.5} />
-                        <Text size="0.6875rem" weight="bold" tag="span" className="italic truncate">{e.location}</Text>
+                        <Text size="sm" weight="bold" tag="span" className="italic truncate">{e.location}</Text>
                       </Stack>
                     )}
                   </Stack>
@@ -127,21 +133,18 @@ const CalendarUpcomingWidget = ({
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="py-[var(--space-xl)] px-[var(--space-lg)] text-center bg-bg-highlight/5"
+                className="py-[var(--space-md)] px-[var(--space-md)] text-center bg-bg-highlight/5"
               >
-                <CalendarCheck size={40} className="text-muted/65 mx-auto mb-[var(--space-sm)]" />
-                <Text size="sm" weight="bold" muted>{t('no_events_short')}</Text>
+                <CalendarCheck size={24} className="text-muted/65 mx-auto mb-[var(--space-2xs)]" />
+                <Text size="sm" weight="bold" muted className="mb-[var(--space-2xs)]">{t('no_events_short')}</Text>
+                <Text size="2xs" muted className="leading-relaxed max-w-[180px] mx-auto">
+                  {t('no_upcoming_events_hint')}
+                </Text>
               </motion.div>
             )}
           </AnimatePresence>
         </Stack>
       </Card.Body>
-
-      <Card.Footer padding="compact" className="bg-bg-highlight/10">
-        <Button variant="ghost" full size="sm" onClick={() => navigate('/calendar')} className="normal-case tracking-normal text-xs font-bold">
-          {t('view_all')}
-        </Button>
-      </Card.Footer>
     </Card>
   )
 }

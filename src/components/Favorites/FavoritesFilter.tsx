@@ -18,6 +18,8 @@ interface FavoritesFilterProps {
   onTypeFilterChange: (val: FavoriteType | 'all') => void
   lang: 'da' | 'en'
   t: (key: string) => string
+  totalCount?: number
+  compact?: boolean
 }
 
 export default function FavoritesFilter({
@@ -27,6 +29,8 @@ export default function FavoritesFilter({
   onTypeFilterChange,
   lang,
   t,
+  totalCount = 0,
+  compact = false,
 }: FavoritesFilterProps) {
   const options = TYPE_FILTERS.map((f) => ({
     value: f.value,
@@ -34,7 +38,7 @@ export default function FavoritesFilter({
   }))
 
   return (
-    <div className="flex flex-col md:flex-row gap-[var(--space-md)] items-stretch md:items-center">
+    <div className="flex flex-col md:flex-row gap-[var(--space-sm)] md:gap-[var(--space-md)] items-stretch md:items-center">
       <div className="flex-1">
         <SearchInput
           placeholder={t('search_favorites_placeholder')}
@@ -43,7 +47,12 @@ export default function FavoritesFilter({
           onClear={() => onSearchChange('')}
         />
       </div>
-      <div className="md:w-[480px] max-w-full">
+      {totalCount > 0 && (
+        <div className="text-xs text-text-muted font-semibold whitespace-nowrap shrink-0">
+          {t('search_found_count').replace('{count}', String(totalCount))}
+        </div>
+      )}
+      <div className={compact ? 'md:w-[320px] max-w-full' : 'md:w-[480px] max-w-full'}>
         <SegmentedControl
           options={options}
           value={typeFilter}

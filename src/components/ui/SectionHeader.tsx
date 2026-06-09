@@ -21,7 +21,7 @@ export default function SectionHeader({ title, subtitle, description, level = 2,
       <Stack direction="row" align="center" justify="between">
         <Stack gap="2xs">
           <Heading level={level} className="m-0">{title}</Heading>
-          {desc ? <Text size="xs" muted className="m-0 leading-normal">{desc}</Text> : null}
+          {desc ? <Text size="sm" muted className="m-0 leading-normal">{desc}</Text> : null}
         </Stack>
         {actions ? <div className="shrink-0">{actions}</div> : null}
       </Stack>

@@ -33,8 +33,8 @@ export default function Topbar() {
     <nav
       className={`fixed top-0 left-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-[var(--z-sticky)] border-b border-border transition-all duration-300 ease-in-out w-full pr-[var(--space-md)] ${
         isCollapsed
-          ? 'pl-[calc(var(--sidebar-collapsed-width)+var(--space-md))]'
-          : 'pl-[calc(var(--sidebar-width)+var(--space-md))]'
+          ? 'pl-[var(--sidebar-collapsed-width)]'
+          : 'pl-[var(--sidebar-width)]'
       }`}
     >
       <div className="flex items-center shrink-0 gap-sm">
@@ -339,7 +339,7 @@ if (import.meta.vitest) {
         </MemoryRouter>
       )
       const nav = screen.getAllByRole('navigation')[0]
-      expect(nav.className).toContain('pl-[calc(var(--sidebar-collapsed-width)+var(--space-md))]')
+      expect(nav.className).toContain('pl-[var(--sidebar-collapsed-width)]')
     })
   
     it('cycles theme when theme toggle is clicked', () => {

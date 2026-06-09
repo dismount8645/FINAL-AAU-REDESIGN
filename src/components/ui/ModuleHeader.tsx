@@ -21,7 +21,7 @@ export default function ModuleHeader({
   campus,
 }: ModuleHeaderProps) {
   return (
-    <header className="relative p-[var(--space-lg)] sm:p-[var(--space-lg)] lg:p-10 rounded-2xl overflow-hidden bg-cover bg-center text-white shadow-[var(--shadow-xl)] group min-h-[160px] flex flex-col justify-end" style={{ backgroundImage: `url(${image})` }}>
+    <header className="relative p-md sm:p-md lg:p-6 rounded-2xl overflow-hidden bg-cover bg-center text-white shadow-[var(--shadow-xl)] group min-h-[120px] flex flex-col justify-end" style={{ backgroundImage: `url(${image})` }}>
       <div className="absolute inset-0 bg-gradient-to-br from-aau-blue/95 via-aau-blue/80 to-transparent transition-opacity duration-500 group-hover:opacity-90" />
       <div className="relative flex flex-col gap-xs">
         {code ? (

@@ -43,7 +43,7 @@ const ForumActivityWidget = () => {
 
         <Button
           variant="ghost"
-          size="xs"
+          size="sm"
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleViewAll}
           iconRight={ChevronRight}
@@ -53,31 +53,28 @@ const ForumActivityWidget = () => {
         </Button>
       </Card.Header>
 
-      <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
-        <div className="h-full flex flex-col gap-[var(--space-2xs)]">
+      <Card.Body padding="compact" className="p-[var(--space-sm)] flex-1">
+        <div className="h-full flex flex-col gap-[var(--space-3xs)]">
           {mockForumActivities.map((a) => (
             <div key={a.id} className="w-full">
               <MasterItem
                 onClick={() => handleActivityClick(a.id)}
-                className="w-full text-left p-[var(--space-sm)] rounded-[var(--radius-xl)] border-none"
+                className="w-full text-left p-[var(--space-xs)] rounded-[var(--radius-lg)] border-none"
                 leading={a.icon}
                 leadingClassName={cn(ACTIVITY_COLOR_MAP[a.color] ?? 'text-primary bg-primary/10')}
                 title={localize(a, 'title')}
                 subtitle={a.subtitle}
                 meta={
-                  <div className="pl-[var(--space-xl)] relative mt-xs">
-                    <div className="absolute left-4 top-0 bottom-0 w-px bg-[var(--border-color)]/40 group-hover/item:bg-primary/20 transition-colors" />
-                    <Text size="xs" className="forum-activity__snippet text-muted leading-relaxed relative">
-                      <span className="text-primary/40 dark:text-primary/70 mr-[var(--space-xs)] font-serif text-lg leading-none absolute -left-[var(--space-md)] -top-[var(--space-xs)]">&ldquo;</span>
-                      <span className="italic">{localize(a, 'snippet')}</span>
-                      <span className="text-primary/40 dark:text-primary/70 ml-[var(--space-2xs)] font-serif text-lg leading-none">&rdquo;</span>
+                  <div className="pl-[var(--space-md)] relative mt-2xs">
+                    <Text size="sm" className="forum-activity__snippet text-muted leading-relaxed relative">
+                      <span className="italic">&ldquo;{localize(a, 'snippet')}&rdquo;</span>
                     </Text>
                   </div>
                 }
                 trailing={
-                  <div className="pl-[var(--space-xl)] mt-[var(--space-xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover:translate-x-0">
+                  <div className="pl-[var(--space-md)] mt-[var(--space-2xs)] flex items-center gap-[var(--space-2xs)] opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-[var(--space-sm)] group-hover:translate-x-0">
                     <div className="h-px w-4 bg-primary/30" />
-                    <Text size="xs" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
+                    <Text size="sm" weight="black" className="text-primary dark:text-white uppercase tracking-widest">{t('read_more')}</Text>
                     <ArrowRight size={10} strokeWidth={3} className="text-primary dark:text-white" />
                   </div>
                 }
@@ -88,11 +85,11 @@ const ForumActivityWidget = () => {
       </Card.Body>
 
       <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-muted italic">
+        <Text size="sm" weight="medium" className="text-muted italic">
           {t('communication')}
         </Text>
         <div className="flex items-center gap-[var(--space-2xs)] opacity-0 group-hover/widget:opacity-100 transition-opacity duration-300">
-          <Text size="xs" weight="bold" className="text-success uppercase tracking-tighter">{t('active_now')}</Text>
+          <Text size="sm" weight="bold" className="text-success uppercase">{t('active_now')}</Text>
           <div className="w-1.5 h-1.5 rounded-[var(--radius-full)] bg-success animate-pulse" />
         </div>
       </Card.Footer>

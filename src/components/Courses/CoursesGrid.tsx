@@ -95,7 +95,6 @@ function CoursesGrid({
                     <Grid.Item span={4} key={course.id}>
                       <TeaserCard
                         variant="vertical"
-                        image={course.img}
                         badge={courseBadge}
                         badgeColor={course.status === 'active' ? 'success' : (course.status === 'inactive' ? 'danger' : 'warning')}
                         title={t(`course_${course.id}_title`)}
@@ -107,7 +106,7 @@ function CoursesGrid({
                         onClick={() => navigate(`/course/${course.id}`)}
                         action={
                           <Button 
-                            variant="primary" 
+                            variant="secondary" 
                             size="md" 
                             iconRight={ArrowRight} 
                             pill
@@ -149,7 +148,7 @@ function CoursesGrid({
       <Stack
         direction="row"
         align="center"
-        justify="between"
+        gap="sm"
         className="mt-[var(--space-2xl)]"
       >
         <Stack
@@ -167,7 +166,7 @@ function CoursesGrid({
           </Heading>
           <Icon name={showForums ? 'chevron-down' : 'chevron-right'} className="section-chevron text-[0.9rem] opacity-60 transition-transform duration-[var(--transition-fast)]" />
         </Stack>
-        <Button variant="ghost" size="xs" icon={ChevronRight} onClick={() => navigate('/courses')}>{t('view_all')}</Button>
+        <Button variant="ghost" size="xs" iconRight={ChevronRight} onClick={() => navigate('/courses')}>{t('view_all')}</Button>
       </Stack>
 
       {showForums && (

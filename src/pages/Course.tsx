@@ -45,7 +45,7 @@ const LessonItemRow = memo(function LessonItemRow({
 
   const handleClick = item.type === 'assignment'
     ? () => navigate(`/submission/${courseId}/${item.id}`)
-    : undefined
+    : () => {}
 
   const handleToggle = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
@@ -61,7 +61,7 @@ const LessonItemRow = memo(function LessonItemRow({
 
   return (
     <MasterItem
-      className="mb-sm rounded-[var(--radius-md)] border border-border/40"
+      className="rounded-[var(--radius-md)] border border-border/40"
       leading={Icon}
       leadingClassName={cn(themeConfig.bg, `text-${themeConfig.color}`)}
       title={
@@ -129,13 +129,13 @@ function CourseModules({
   return (
     <Stack gap="md">
       <Card variant="elevated" accent="left" className="mb-xl">
-        <Card.Header>
-          <Stack gap="2xs">
-            <Text weight="bold" size="lg" className="card__title">{t('your_progress')}</Text>
-            <Text size="sm" muted>{getProgressMessage(progress)}</Text>
+        <Card.Header padding="compact">
+          <Stack gap="2xs" className="flex-1 min-w-0">
+            <Text weight="bold" size="md" className="card__title">{t('your_progress')}</Text>
+            <Text size="xs" muted>{getProgressMessage(progress)}</Text>
           </Stack>
-          <div className="progress-stat text-right">
-            <Text size="md" weight="bold" className="progress-value text-[var(--color-primary)] block leading-[1]">
+          <div className="progress-stat text-right shrink-0">
+            <Text size="lg" weight="bold" className="progress-value text-[var(--color-primary)] block leading-[1]">
               {progress}%
             </Text>
             <Text size="xs" muted className="text-uppercase tracking-[0.05em]">
@@ -143,9 +143,9 @@ function CourseModules({
             </Text>
           </div>
         </Card.Header>
-        <Card.Body>
+        <div className="px-md pb-sm">
           <ProgressBar value={progress} />
-        </Card.Body>
+        </div>
       </Card>
 
       <Stack gap="lg">
@@ -157,24 +157,24 @@ function CourseModules({
                 <button
                   type="button"
                   data-section-id={section.id}
-                  className="w-full text-left p-md px-lg flex items-start justify-between transition-colors duration-150 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
+                  className="w-full text-left p-sm px-md flex items-start justify-between transition-colors duration-150 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
                   onClick={() => toggleSection(section.id)}
                   aria-expanded={isExpanded}
                 >
                   <Stack direction="row" align="start" gap="sm" className="flex-1 min-w-0 text-left">
-                    <div className={`status-dot w-2 h-2 rounded-[var(--radius-pill)] shrink-0 mt-2 md:mt-2.5 ${progress > 50 ? 'active bg-success shadow-[0_0_6px_rgba(var(--color-success-rgb),0.3)]' : 'pending bg-[var(--color-border)] dark:bg-white/20'}`} />
+                    <div className={`status-dot w-2 h-2 rounded-[var(--radius-pill)] shrink-0 mt-1.5 md:mt-2 ${progress > 50 ? 'active bg-success shadow-[0_0_6px_rgba(var(--color-success-rgb),0.3)]' : 'pending bg-[var(--color-border)] dark:bg-white/20'}`} title={progress > 50 ? 'Gennemført' : 'Ikke gennemført'} />
                     <Heading level={4} as="h2" className="m-0 text-left">{t(`course_${courseId}_${section.id}_title`)}</Heading>
                   </Stack>
                   {isExpanded ? (
-                    <ChevronUp size={18} strokeWidth={2} className="text-muted transition-transform duration-150 mt-1 md:mt-1.5 shrink-0" />
+                    <ChevronUp size={20} strokeWidth={2.5} className="text-muted transition-transform duration-150 mt-1 shrink-0" />
                   ) : (
-                    <ChevronDown size={18} strokeWidth={2} className="text-muted transition-transform duration-150 mt-1 md:mt-1.5 shrink-0" />
+                    <ChevronDown size={20} strokeWidth={2.5} className="text-muted transition-transform duration-150 mt-1 shrink-0" />
                   )}
                 </button>
               </Card.Header>
               {isExpanded && (
-                <Card.Body className="section-content p-md">
-                  <Stack gap="xs">
+                <Card.Body padding="compact" className="section-content">
+                  <Stack gap="2xs">
                     {section.items.map((item) => (
                       <LessonItemRow
                         key={item.id}
@@ -275,6 +275,7 @@ function Course() {
 
       <div className="mt-xl">
         <SplitLayout
+          fullHeight={false}
           main={
             <Stack gap="lg">
               <Tabs
@@ -322,38 +323,38 @@ function Course() {
           sidebar={
             <aside className="flex flex-col gap-lg">
               <Card variant="elevated" className="h-fit">
-                <Card.Header>
-                  <Text weight="bold" size="lg" className="card__title">{t('quick_access')}</Text>
+                <Card.Header padding="compact">
+                  <Text weight="bold" size="md" className="card__title">{t('quick_access')}</Text>
                 </Card.Header>
-                <Card.Body className="p-sm">
+                <Card.Body padding="compact">
                   <Stack gap="none">
                     <MasterItem
                       leading={MessageSquare}
                       leadingClassName="text-primary"
                       title={t('course_forum')}
                       onClick={() => { setActiveTab('forum'); window.scrollTo(0, 0) }}
-                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
                     />
                     <MasterItem
                       leading={Users}
                       leadingClassName="text-primary"
                       title={t('participants')}
                       onClick={() => { setActiveTab('participants'); window.scrollTo(0, 0) }}
-                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
                     />
                     <MasterItem
                       leading={GraduationCap}
                       leadingClassName="text-primary"
                       title={t('my_grades')}
                       onClick={() => { navigate('/grades') }}
-                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
                     />
                     <MasterItem
                       leading={Book}
                       leadingClassName="text-primary"
                       title={t('syllabus')}
                       onClick={() => { setActiveTab('resources'); window.scrollTo(0, 0) }}
-                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
+                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
                     />
                   </Stack>
                 </Card.Body>

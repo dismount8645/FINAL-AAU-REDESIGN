@@ -4,11 +4,12 @@ import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
 
 const DEFAULT_WIDGETS = [
-  { id: 'favorites', span: 6 },
+  { id: 'favorites', span: 8 },
   { id: 'quickOverview', span: 8 },
-  { id: 'deadlines', span: 4 },
-  { id: 'recentGrades', span: 4 },
-  { id: 'forumActivity', span: 4 },
+  { id: 'deadlines', span: 8 },
+  { id: 'forumActivity', span: 24 },
+  { id: 'recentGrades', span: 12 },
+  { id: 'support', span: 12 },
 ]
 
 function Dashboard() {
@@ -22,8 +23,9 @@ function Dashboard() {
       pageKey="dashboard"
       title={t('common.welcome')}
       subtitle={t('common.assignments_count')}
+      gap="sm"
     >
-      <div className="w-full max-w-[var(--container-max-width)] mx-auto px-[var(--space-md)] pt-[var(--space-lg)] pb-[var(--space-2xl)]">
+      <div className="w-full px-[var(--space-sm)] md:px-[var(--space-md)] pt-[var(--space-sm)] pb-[var(--space-2xl)]">
         <WidgetGrid widgets={DEFAULT_WIDGETS} />
       </div>
     </PageLayout>
@@ -53,6 +55,7 @@ if (import.meta.vitest) {
       expect(screen.getByText('Næste aflevering')).toBeInTheDocument()
       expect(screen.getByText('Favoritter')).toBeInTheDocument()
       expect(screen.getByText(/Seneste karakterer/i)).toBeInTheDocument()
+      expect(screen.getByText('Kontakt ITS Support')).toBeInTheDocument()
     })
   })
 }

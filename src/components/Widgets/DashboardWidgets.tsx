@@ -2,7 +2,7 @@ import { useMemo, useCallback, memo } from 'react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import {
   Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2,
-  Star, BookOpen, Trophy, Hourglass
+  Star, BookOpen, Trophy, Hourglass, Headphones, ExternalLink
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem, Badge, EmptyState } from '@/components/ui';
@@ -12,14 +12,12 @@ import { hoursFromNow, calculateUrgency } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { FavoriteItem } from '@/components/Favorites';
 import { env } from '@/lib/env';
-import { resolveFavorite } from '@/lib/favorites';
+import { resolveFavorite, sortFavorites } from '@/lib/favorites';
+import type { ResolvedFavorite } from '@/lib/favorites';
 import useStore from '@/store';
-import { useShallow } from 'zustand/react/shallow';
-import { selectResolvedFavorites } from '@/store/selectors';
 
 const DEADLINES_TO_SHOW = 3
 const GRADES_TO_SHOW = 3
-const GRID_COLUMNS = 3
 
 // --- Helpers ---
 
@@ -110,13 +108,13 @@ function DeadlinesWidget() {
             {t('next_assignment')}
           </Heading>
         </Stack>
-        <Button variant="ghost" size="xs" className="font-black uppercase tracking-widest text-primary dark:text-white hover:bg-bg-card/50" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all_deadlines')}>
+        <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary dark:text-white hover:bg-bg-card/50" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all_deadlines')}>
           {t('see_all_deadlines')}
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         {deadlines.length > 0 ? (
-          <div className="grid gap-x-[var(--space-lg)] gap-y-[var(--space-xs)]" style={{ gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))` }}>
+          <div className="grid widget-subgrid gap-x-[var(--space-lg)] gap-y-[var(--space-xs)]">
             {deadlines.map((dl) => (
               <MasterItem
                 key={dl.id}
@@ -145,9 +143,9 @@ function DeadlinesWidget() {
       </Card.Body>
       {deadlines.length > 0 && (
         <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-          <Text size="xs" weight="medium" className="text-muted italic">{deadlines.length} {t('upcoming')}</Text>
+          <Text size="sm" weight="medium" className="text-muted italic">{deadlines.length} {t('upcoming')}</Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase tracking-tighter">{t('click_to_view')}</Text>
+            <Text size="sm" weight="bold" className="text-primary dark:text-white uppercase">{t('click_to_view')}</Text>
             <Clock size={10} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
@@ -165,8 +163,15 @@ function FavoritesWidgetInner() {
   const toggleFavorite = useStore(state => state.toggleFavorite)
 
   const limit = DASHBOARD_CONFIG.FAVORITES_LIMIT
-  const resolved = useStore(useShallow(selectResolvedFavorites))
-  const overflow = useStore(state => Math.max(0, state.favorites.length - limit))
+  const favorites = useStore(state => state.favorites)
+  const courses = useStore(state => state.courses)
+  const resolved = useMemo(() => {
+    const sorted = sortFavorites(favorites)
+    return sorted
+      .map(fav => resolveFavorite(fav, lang, courses, t))
+      .filter(Boolean) as ResolvedFavorite[]
+  }, [favorites, lang, courses, t])
+  const overflow = favorites.length - limit
   const display = resolved.slice(0, limit)
 
   const handleSeeAll = useCallback(() => {
@@ -184,7 +189,7 @@ function FavoritesWidgetInner() {
             {t('favorites')}
           </Heading>
         </Stack>
-        <Button variant="ghost" size="xs" className="text-[0.65rem] font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all')}>
+        <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all')}>
           {t('see_all')}
         </Button>
       </Card.Header>
@@ -219,7 +224,7 @@ function FavoritesWidgetInner() {
         )}
         {overflow > 0 && (
           <div className="mt-[var(--space-sm)] text-center pb-[var(--space-sm)]">
-            <Text size="xs" weight="bold" className="text-primary uppercase tracking-widest opacity-60">
+            <Text size="sm" weight="bold" className="text-primary uppercase tracking-widest opacity-60">
               {`+${overflow} ${t('more_favorites')}`}
             </Text>
           </div>
@@ -263,33 +268,31 @@ function RecentGradesWidget() {
             {t('grades.recent_grades')}
           </Heading>
         </Stack>
-        <Button variant="ghost" size="xs" className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50" onClick={handleViewAll} iconRight={ChevronRight} aria-label={t('view_all')}>
+        <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50" onClick={handleViewAll} iconRight={ChevronRight} aria-label={t('view_all')}>
           {t('view_all')}
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         {visibleGrades.length > 0 ? (
-          <div className="grid gap-[var(--space-xs)]" style={{ gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))` }}>
+          <div className="flex flex-col gap-[var(--space-2xs)]">
             {visibleGrades.map((g) => (
-              <MasterItem
-                key={g.id || g.title}
-                onClick={() => navigate('/grades')}
-                className="bg-transparent hover:bg-bg-hover px-[var(--space-2xs)] rounded-[var(--radius-lg)] transition-colors duration-150 border-none"
-                leading={g.score !== null ? Star : Hourglass}
-                leadingClassName={g.score !== null ? 'text-warning' : 'text-text-disabled'}
-                title={g.title}
-                trailing={
-                  g.score !== null ? (
-                    <div className="recent-grades__score flex items-center justify-center w-8 h-8 bg-primary text-white rounded-[var(--radius-full)] text-[0.75rem] font-black shadow-sm group-hover/item:scale-110 transition-transform">
-                      {g.score}
-                    </div>
-                  ) : (
-                    <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-[1.25rem] px-[var(--space-2xs)] flex items-center">
-                      {t('not_graded')}
-                    </Badge>
-                  )
-                }
-              />
+              <div key={g.id || g.title} className="flex items-center justify-between px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-lg)] hover:bg-bg-hover transition-colors duration-150 cursor-pointer" onClick={() => navigate('/grades')}>
+                <div className="flex items-center gap-[var(--space-sm)] min-w-0 flex-1">
+                  <div className={`shrink-0 ${g.score !== null ? 'text-warning' : 'text-text-disabled'}`}>
+                    {g.score !== null ? <Star size={18} strokeWidth={2} /> : <Hourglass size={18} strokeWidth={2} />}
+                  </div>
+                  <span className="text-sm font-semibold text-main truncate">{g.title}</span>
+                </div>
+                {g.score !== null ? (
+                  <div className="flex items-center justify-center w-9 h-9 bg-primary text-white rounded-[var(--radius-full)] text-[0.8rem] font-black shadow-sm shrink-0">
+                    {g.score}
+                  </div>
+                ) : (
+                  <Badge variant="default" pill className="text-[0.625rem] uppercase tracking-tighter h-[1.25rem] px-[var(--space-2xs)] flex items-center shrink-0">
+                    {t('not_graded')}
+                  </Badge>
+                )}
+              </div>
             ))}
           </div>
         ) : (
@@ -299,9 +302,9 @@ function RecentGradesWidget() {
         )}
       </Card.Body>
       <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center">
-        <Text size="xs" weight="medium" className="text-muted italic">{t('academic_results')}</Text>
+        <Text size="sm" weight="medium" className="text-muted italic">{t('academic_results')}</Text>
         <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-          <Button variant="ghost" size="xs" className="text-primary uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent" onClick={handleViewAll} iconRight={ChevronRight}>
+          <Button variant="ghost" size="sm" className="text-primary uppercase font-black p-0 h-auto hover:bg-transparent" onClick={handleViewAll} iconRight={ChevronRight}>
             {t('details')}
           </Button>
         </div>
@@ -310,7 +313,41 @@ function RecentGradesWidget() {
   )
 }
 
-export { DeadlinesWidget, FavoritesWidget, RecentGradesWidget }
+// --- SupportWidget ---
+
+function SupportWidget() {
+  const t = useStore(state => state.t)
+  return (
+    <Card className="support-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
+        <Stack direction="row" align="center" gap="sm">
+          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
+            <Headphones size={18} strokeWidth={2} />
+          </div>
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
+            {t('contact_its_support')}
+          </Heading>
+        </Stack>
+      </Card.Header>
+      <Card.Body padding="compact" className="p-[var(--space-md)] flex-1 flex flex-col justify-center">
+        <Text size="sm" className="text-text-muted mb-md leading-relaxed">
+          {t('aau_it_services')}
+        </Text>
+        <Button
+          variant="primary"
+          full
+          iconRight={ExternalLink}
+          onClick={() => env.open('https://support.its.aau.dk/')}
+          className="normal-case tracking-normal font-bold text-sm"
+        >
+          {t('contact_support')}
+        </Button>
+      </Card.Body>
+    </Card>
+  )
+}
+
+export { DeadlinesWidget, FavoritesWidget, RecentGradesWidget, SupportWidget }
 
 // --- Tests ---
 

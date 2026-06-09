@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Headphones, ExternalLink } from 'lucide-react';
 import { ResourcesSection } from '@/components/Resources';
 import { Button } from '@/components/ui';
@@ -7,13 +8,15 @@ import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { env } from '@/lib/env';
 import useStore from '@/store';
-import { useShallow } from 'zustand/react/shallow';
-import { selectPinnedTools } from '@/store/selectors';
-import { allTools, allEssentials } from '@/lib/utils';
+import { allTools, allEssentials, allToolsList } from '@/lib/utils';
 
 function Resources() {
   const t = useStore(state => state.t)
-  const pinnedTools = useStore(useShallow(selectPinnedTools))
+  const favorites = useStore(state => state.favorites)
+  const pinnedTools = useMemo(() => {
+    const toolFavIds = new Set(favorites.filter(f => f.type === 'tool').map(f => f.entityId))
+    return allToolsList.filter(tool => toolFavIds.has(tool.id))
+  }, [favorites])
 
   return (
     <PageLayout
@@ -26,9 +29,10 @@ function Resources() {
         { label: t('dashboard'), href: '/' },
         { label: t('toolbox') },
       ]}
+      flat
     >
 
-      <div className="container pb-2xl">
+      <div className="container pb-xl">
 
       {pinnedTools.length > 0 && (
         <ResourcesSection
@@ -37,7 +41,7 @@ function Resources() {
           tools={pinnedTools}
           isStarredOnly
           showSsoWarning={false}
-          className="mb-2xl"
+          className="mb-lg"
         />
       )}
 
@@ -45,7 +49,7 @@ function Resources() {
         title={t('administrative_systems')}
         subtitle={t('administrative_systems_desc')}
         tools={allTools}
-        className="mb-2xl"
+        className="mb-lg"
       />
 
       <ResourcesSection
@@ -54,7 +58,7 @@ function Resources() {
         tools={allEssentials}
       />
 
-      <Grid columns={12} gap="lg" className="mt-2xl">
+      <Grid columns={12} gap="lg" className="mt-lg">
         <Grid.Item span={6}>
           <Card variant="elevated">
             <Card.Header>
@@ -77,17 +81,16 @@ function Resources() {
           <Card variant="brand" className="card--decorative">
             <Card.Decoration icon={Headphones} />
 
-            <Card.Body className="h-full flex flex-col justify-center min-h-[200px]">
+            <Card.Body className="h-full flex flex-col justify-center min-h-[140px]">
               <div className="relative z-[1] w-full text-white">
-                <Text weight="bold" size="xl" className="text-white card__title mb-sm block">
+                <Text weight="bold" size="lg" className="text-white card__title mb-xs block">
                   {t('need_help')}
                 </Text>
-                <Text size="md" className="text-white/85 mb-lg block max-w-[85%] font-medium">
+                <Text size="sm" className="text-white/85 mb-md block max-w-[85%] font-medium">
                   {t('its_help_desc')}
                 </Text>
                 <Button 
                   variant="secondary" 
-                  full 
                   onClick={() => env.open('https://support.its.aau.dk/')}
                   className="bg-white text-primary border-none hover:bg-white/90 normal-case tracking-normal font-bold text-sm"
                 >
