@@ -1,8 +1,6 @@
 import { Lock } from 'lucide-react'
 import { Grid } from '@/components/Layout/LayoutPrimitives';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui'
-import { SectionHeader } from '@/components/ui'
+import { SectionHeader, Badge } from '@/components/ui'
 import { InfoCard } from '@/components/ui'
 import useStore from '@/store'
 import { env } from '@/lib/env'
@@ -47,7 +45,7 @@ export default function ResourcesSection({
                 icon={tool.icon}
                 iconBg={tool.bg}
                 iconColor={tool.color}
-                iconSize={isStarredOnly ? 32 : 48}
+                iconSize={isStarredOnly ? 32 : 40}
                 title={titleText}
                 description={localize(tool, 'desc')}
                 elevated
@@ -57,12 +55,10 @@ export default function ResourcesSection({
                 onClick={() => env.open(tool.url)}
               >
                 {showSsoWarning && !tool.sso && (
-                  <Stack direction="row" gap="xs" className="mt-xs">
-                    <Lock size={14} strokeWidth={2} className="text-[var(--aau-dark-orange)] dark:text-amber-400/80" />
-                    <Text size="2xs" className="text-[var(--aau-dark-orange)] dark:text-amber-400 font-bold">
-                      {t('requires_aau_login')}
-                    </Text>
-                  </Stack>
+                  <Badge variant="outlined" className="mt-xs gap-2xs border-amber-400/40 text-amber-700 dark:text-amber-300 text-[10px] font-bold">
+                    <Lock size={12} strokeWidth={2.5} />
+                    {t('requires_aau_login')}
+                  </Badge>
                 )}
               </InfoCard>
             </Grid.Item>

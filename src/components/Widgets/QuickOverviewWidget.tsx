@@ -33,9 +33,9 @@ const OverviewItem = memo(forwardRef<HTMLButtonElement, {
       onClick={onClick}
     >
       <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors">
-        <Text size="xs" weight="black" className="text-primary leading-none">{hours}</Text>
+        <Text size="sm" weight="black" className="text-primary leading-none">{hours}</Text>
         <span className="text-primary text-xs font-black leading-none">:</span>
-        <Text size="xs" weight="bold" className="text-muted leading-none opacity-60 font-mono">{minutes}</Text>
+        <Text size="sm" weight="bold" className="text-muted leading-none opacity-60 font-mono">{minutes}</Text>
       </div>
       <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
         {t(event.titleKey)}
@@ -68,7 +68,7 @@ const QuickOverviewWidget = () => {
 
         <Button
           variant="ghost"
-          size="xs"
+          size="sm"
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleGoToCalendar}
           iconRight={ChevronRight}
@@ -80,7 +80,7 @@ const QuickOverviewWidget = () => {
 
       <Card.Body padding="compact" className="p-[var(--space-md)] flex-1">
         <div className="h-full w-full flex flex-col gap-[var(--space-xs)]">
-          <Text size="xs" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
+          <Text size="sm" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
             {t('todays_schedule')}
           </Text>
           {todayEvents.map((event) => (
@@ -97,8 +97,8 @@ const QuickOverviewWidget = () => {
         <div className="flex items-center gap-[var(--space-xs)] opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-[var(--space-sm)] group-hover/widget:translate-x-0">
           <Button
             variant="ghost"
-            size="xs"
-            className="text-primary uppercase font-black tracking-tighter p-0 h-auto hover:bg-transparent"
+            size="sm"
+            className="text-primary uppercase font-black p-0 h-auto hover:bg-transparent"
             onClick={handleGoToCalendar}
             iconRight={Clock}
           >

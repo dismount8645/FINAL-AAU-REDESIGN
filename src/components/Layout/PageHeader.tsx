@@ -79,7 +79,7 @@ export default function PageHeader({
               level={1}
               {...titleProps}
               className={cn(
-                "page-header-title m-0 text-wrap break-words sm:text-balance text-2xl sm:text-3xl font-bold",
+                "page-header-title m-0 text-wrap break-words sm:text-balance text-2xl sm:text-3xl font-extrabold",
                 titleProps?.className
               )}
             >

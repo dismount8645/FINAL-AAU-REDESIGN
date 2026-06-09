@@ -1,5 +1,4 @@
-import { useCallback } from 'react';
-
+import { useCallback, useMemo } from 'react';
 
 import { Star, ChevronRight, BookOpen } from 'lucide-react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
@@ -11,9 +10,8 @@ import { Text, Heading } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
+import type { ResolvedFavorite } from '@/lib/favorites';
 import useStore from '@/store';
-import { useShallow } from 'zustand/react/shallow';
-import { selectResolvedFavorites } from '@/store/selectors';
 import type { WidgetProps } from '@/lib/types';
 
 export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
@@ -23,8 +21,15 @@ export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
   const toggleFavorite = useStore(state => state.toggleFavorite)
 
   const limit = DASHBOARD_CONFIG.FAVORITES_LIMIT
-  const resolved = useStore(useShallow(selectResolvedFavorites))
-  const overflow = useStore(state => Math.max(0, state.favorites.length - limit))
+  const favorites = useStore(state => state.favorites)
+  const courses = useStore(state => state.courses)
+  const resolved = useMemo(() => {
+    const sorted = favUtils.sortFavorites(favorites)
+    return sorted
+      .map(fav => favUtils.resolveFavorite(fav, lang, courses, t))
+      .filter(Boolean) as ResolvedFavorite[]
+  }, [favorites, lang, courses, t])
+  const overflow = favorites.length - limit
   const display = resolved.slice(0, limit)
 
   const handleSeeAll = useCallback(() => {

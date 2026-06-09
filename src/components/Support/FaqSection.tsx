@@ -25,7 +25,7 @@ function FaqSection() {
       <SectionHeader
         title={t('faq')}
         level={2}
-        className="mb-sm"
+        className="mb-xs"
       />
       <AccordionWrapper>
         {faqs.map((faq, i) => (

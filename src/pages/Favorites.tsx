@@ -2,6 +2,7 @@
 
 
 
+import { useMemo, useState } from 'react';
 import { Trash2, Wrench } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
@@ -13,9 +14,8 @@ import { Text } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
+import type { ResolvedFavorite } from '@/lib/favorites';
 import useStore from '@/store';
-import { useShallow } from 'zustand/react/shallow';
-import { selectResolvedFavorites } from '@/store/selectors';
 import { useFilteredCollection } from '@/hooks';
 import type { FavoriteType } from '@/lib/types';
 
@@ -26,7 +26,15 @@ function Favorites() {
   const toggleFavorite = useStore((state) => state.toggleFavorite)
   const clearFavorites = useStore((state) => state.clearFavorites)
   const reorderFavorites = useStore((state) => state.reorderFavorites)
-  const resolved = useStore(useShallow(selectResolvedFavorites))
+  const favorites = useStore(state => state.favorites)
+  const courses = useStore(state => state.courses)
+  const [confirmingRemoveAll, setConfirmingRemoveAll] = useState(false)
+  const resolved = useMemo(() => {
+    const sorted = favUtils.sortFavorites(favorites)
+    return sorted
+      .map(fav => favUtils.resolveFavorite(fav, lang, courses, t))
+      .filter(Boolean) as ResolvedFavorite[]
+  }, [favorites, lang, courses, t])
 
   const {
     searchQuery,
@@ -43,6 +51,15 @@ function Favorites() {
   const typeFilter = activeFilter as FavoriteType | 'all'
   const setTypeFilter = (val: FavoriteType | 'all') => setActiveFilter(val)
 
+  const handleRemoveAll = () => {
+    if (!confirmingRemoveAll) {
+      setConfirmingRemoveAll(true)
+    } else {
+      clearFavorites()
+      setConfirmingRemoveAll(false)
+    }
+  }
+
   return (
     <Stack className="favorites-page">
       <PageHeader
@@ -53,10 +70,11 @@ function Favorites() {
           { label: t('dashboard'), href: '/' },
           { label: t('favorites') },
         ]}
+        flat
       />
 
-      <div className="container pb-[var(--space-2xl)]">
-        <div className="flex flex-col gap-sm mb-[var(--space-xl)] bg-bg-highlight/30 dark:bg-white/5 p-md rounded-[var(--radius-lg)] border border-border/40">
+      <div className="container pb-[var(--space-lg)]">
+        <div className="flex flex-col gap-sm mb-[var(--space-md)] bg-bg-highlight/30 dark:bg-white/5 p-md rounded-[var(--radius-lg)] border border-border/40">
           <div className="flex items-center justify-between pb-sm border-b border-border/40">
             <Text size="sm" muted className="font-semibold text-text-muted">
               {resolved.length}/{DASHBOARD_CONFIG.FAVORITES_LIMIT} {t('favorites_limit')}
@@ -65,11 +83,12 @@ function Favorites() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={clearFavorites}
+                onClick={handleRemoveAll}
+                onBlur={() => setConfirmingRemoveAll(false)}
                 className="text-xs font-semibold px-[var(--space-xs)] h-[2rem] rounded-[var(--radius-md)] flex items-center gap-[var(--space-xs)] hover:bg-bg-hover text-text-muted hover:text-text-main"
               >
                 <Trash2 className="w-3.5 h-3.5" strokeWidth={2} />
-                {t('remove_all')}
+                {confirmingRemoveAll ? t('confirm_remove_all') : t('remove_all')}
               </Button>
             )}
           </div>
@@ -81,8 +100,16 @@ function Favorites() {
             onTypeFilterChange={setTypeFilter}
             lang={lang}
             t={t}
+            totalCount={filtered.length}
+            compact={resolved.length <= 3}
           />
         </div>
+
+        {resolved.length > 0 && resolved.length <= 3 && filtered.length > 0 && (
+          <Text size="xs" muted className="text-center mb-[var(--space-md)]">
+            {t('favorites_empty_hint')}
+          </Text>
+        )}
 
         <FavoritesList
           filtered={filtered}
@@ -234,12 +261,16 @@ if (import.meta.vitest) {
       expect(mockToggleFavorite).toHaveBeenCalledWith('course', 1)
     })
   
-    it('removes all favorites when clicking remove all button', () => {
+    it('removes all favorites when clicking remove all button twice', () => {
       renderWithProviders(<FavoritesPage />)
-  
+
       const removeAllButton = screen.getByText('remove_all')
       fireEvent.click(removeAllButton)
-  
+
+      expect(mockClearFavorites).not.toHaveBeenCalled()
+      expect(screen.getByText('confirm_remove_all')).toBeInTheDocument()
+
+      fireEvent.click(screen.getByText('confirm_remove_all'))
       expect(mockClearFavorites).toHaveBeenCalled()
     })
   

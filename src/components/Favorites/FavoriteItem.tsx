@@ -41,7 +41,6 @@ interface FavoriteItemProps {
   onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void
   onDrop?: (e: React.DragEvent<HTMLDivElement>) => void
   draggable?: boolean
-  compact?: boolean
 }
 
 const FavoriteItem = memo(function FavoriteItem({
@@ -111,7 +110,7 @@ const FavoriteItem = memo(function FavoriteItem({
         </div>
         <Badge
           className={cn(
-            "mt-0.5 rounded-[var(--radius-pill)]",
+            "rounded-[var(--radius-pill)] px-[var(--space-sm)] text-[0.7rem] font-bold leading-tight",
             typeClasses[item.type]
           )}
         >

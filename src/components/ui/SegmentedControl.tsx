@@ -35,7 +35,7 @@ export default function SegmentedControl({ options, value, onChange, className =
       onClick={handleContainerClick}
     >
       <div
-        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-bg-card rounded-[calc(var(--radius-md)-2px)] transition-transform duration-150 z-1 shadow-[var(--shadow-sm)]"
+        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-primary/10 rounded-[calc(var(--radius-md)-2px)] transition-transform duration-150 z-1 shadow-[var(--shadow-sm)]"
         style={{
           width: `calc(${sliderWidth}% - 4px)`,
           transform: `translateX(calc(${activeIndex * 100}%))`,

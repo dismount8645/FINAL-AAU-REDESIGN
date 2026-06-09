@@ -51,7 +51,7 @@ const PostItem = memo(forwardRef<HTMLButtonElement, {
             {post.title}
           </Text>
         </div>
-        <Text size="xs" className="text-text-muted truncate">
+        <Text size="sm" className="text-text-muted truncate">
           {t('by')} <span className="font-bold text-main">{post.author}</span> &bull; {post.time}
         </Text>
       </Stack>
