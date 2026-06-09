@@ -56,6 +56,7 @@ Grid.Item = function GridItem({
         gridColumnStart: x !== undefined ? x + 1 : undefined,
         gridRowStart: y !== undefined ? y + 1 : undefined,
         minWidth: 0,
+        overflow: 'hidden',
         ...style,
       } as React.CSSProperties}
       {...props}

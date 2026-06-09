@@ -65,15 +65,13 @@ function Support() {
       ]}
     >
 
-      <div className="container pb-[var(--space-2xl)]">
+      <div className="container pb-lg">
         <Grid>
           <Grid.Item span={7}>
-            <Stack gap="lg">
-              <FaqSection />
-
+            <Stack gap="md">
               <Grid>
                 <Grid.Item span={6}>
-                  <a href="tel:+4599402020" className="block rounded-[var(--radius-lg)] transition-all hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 cursor-pointer">
+                  <a href="tel:+4599402020" title={t('click_to_call')} className="block rounded-[var(--radius-lg)] transition-all hover:shadow-[var(--shadow-md)] hover:-translate-y-0.5 cursor-pointer">
                     <InfoCard
                       icon={Phone}
                       iconBg="transparent"
@@ -91,18 +89,20 @@ function Support() {
                       iconBg="transparent"
                       iconColor="var(--color-success)"
                       iconSize={60}
-                      title="Serviceportal.aau.dk"
+                      title="Serviceportal"
                       description={t('requires_aau_login')}
                     />
                   </a>
                 </Grid.Item>
               </Grid>
 
+              <FaqSection />
+
               <LocalDesksSection />
             </Stack>
           </Grid.Item>
 
-          <Grid.Item span={5}>
+          <Grid.Item span={5} className="min-w-0 overflow-visible">
             <SupportSidebar>
               <ContactForm
                 subject={subject}
@@ -304,7 +304,7 @@ if (import.meta.vitest) {
   
     it('renders web contact card', () => {
       renderSupport('da')
-      expect(screen.getByText('Serviceportal.aau.dk')).toBeInTheDocument()
+      expect(screen.getByText('Serviceportal')).toBeInTheDocument()
     })
   
     it('renders all location accordions', () => {

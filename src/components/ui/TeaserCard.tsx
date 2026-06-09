@@ -1,7 +1,7 @@
-import { memo, useMemo, type ReactNode, type MouseEvent } from 'react';
+import { memo, useMemo, useState, type ReactNode, type MouseEvent } from 'react';
 
 
-import { Star, ChevronRight } from 'lucide-react';
+import { Star, ChevronRight, BookOpen } from 'lucide-react';
 import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
@@ -53,6 +53,7 @@ const TeaserCard = memo(function TeaserCard({
 }: TeaserCardProps) {
   const t = useStore(state => state.t)
   const isHorizontal = variant === 'horizontal'
+  const [imgError, setImgError] = useState(false)
 
   const progressData = useMemo(() => {
     if (progress === undefined || isLoading) return null
@@ -94,12 +95,12 @@ const TeaserCard = memo(function TeaserCard({
         }}
       />
 
-      {image && (
+      {image && !imgError ? (
         <div 
           className={cn(
             'relative shrink-0 overflow-hidden transition-transform duration-500 ease-[var(--transition-ease)] group-hover:scale-105',
             isHorizontal 
-              ? 'w-[260px] h-full' 
+              ? 'w-[180px] h-full' 
               : 'w-full aspect-video'
           )}
         >
@@ -118,11 +119,25 @@ const TeaserCard = memo(function TeaserCard({
             alt=""
             aria-hidden="true"
             loading="lazy"
+            onError={() => setImgError(true)}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
-      )}
+      ) : image && imgError ? (
+        <div 
+          className={cn(
+            'relative shrink-0 overflow-hidden',
+            isHorizontal 
+              ? 'w-[180px] h-full' 
+              : 'w-full aspect-video'
+          )}
+        >
+          <div className="w-full h-full bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center">
+            <BookOpen size={32} className="text-primary/30" />
+          </div>
+        </div>
+      ) : null}
 
       <div className="relative z-[2] flex flex-col flex-1 p-md gap-xs min-w-0">
         <div className="flex items-start justify-between gap-md shrink-0">

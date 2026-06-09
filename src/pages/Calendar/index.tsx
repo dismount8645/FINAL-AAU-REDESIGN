@@ -134,7 +134,7 @@ const Calendar = () => {
 
   return (
     <PageLayout
-      className="calendar-page w-full min-h-screen bg-bg-body"
+      className="calendar-page w-full bg-bg-body"
       pageKey="calendar"
       title={getTitle}
       titleProps={{ 'data-testid': 'page-header-title', className: 'capitalize' }}
@@ -144,68 +144,69 @@ const Calendar = () => {
         { label: t('calendar') },
       ]}
       actions={
-        <Stack direction="row" gap="sm" className="flex-wrap">
-          <Button variant="ghost" size="sm" icon={Upload} onClick={() => setActiveModal('import')} className="normal-case tracking-normal hover:bg-bg-hover">
-            {t('import_ics')}
-          </Button>
-          <Button variant="ghost" size="sm" icon={Download} onClick={() => setActiveModal('export')} className="normal-case tracking-normal hover:bg-bg-hover">
-            {t('export_ics')}
-          </Button>
-          <Button variant="primary" size="sm" icon={Plus} onClick={() => setActiveModal('new')} className="normal-case tracking-normal shadow-sm hover:shadow-md transition-all active:scale-95">
-            {t('new_event')}
-          </Button>
+        <Stack gap="sm" className="w-full">
+          <Stack direction="row" gap="sm" className="flex-wrap" align="center" justify="between">
+            <Stack direction="row" gap="xs" align="center" className="nav-controls">
+              <Button
+                variant="secondary"
+                size="icon-sm"
+                pill
+                icon={ChevronLeft}
+                onClick={() => navigateCal('prev')}
+                aria-label={t('previous')}
+              />
+              <Button
+                variant="secondary"
+                size="sm"
+                pill
+                onClick={goToToday}
+                className="px-[var(--space-md)]"
+              >
+                {t('today')}
+              </Button>
+              <Button
+                variant="secondary"
+                size="icon-sm"
+                pill
+                icon={ChevronRight}
+                onClick={() => navigateCal('next')}
+                aria-label={t('next')}
+              />
+            </Stack>
+            <Stack direction="row" gap="sm" className="flex-wrap" align="center">
+              <Button variant="outline" size="md" icon={Upload} onClick={() => setActiveModal('import')} className="normal-case tracking-normal hover:bg-bg-hover">
+                {t('import_ics')}
+              </Button>
+              <Button variant="outline" size="md" icon={Download} onClick={() => setActiveModal('export')} className="normal-case tracking-normal hover:bg-bg-hover">
+                {t('export_ics')}
+              </Button>
+              <Button variant="primary" size="md" icon={Plus} onClick={() => setActiveModal('new')} className="normal-case tracking-normal shadow-sm hover:shadow-md transition-all active:scale-95">
+                {t('new_event')}
+              </Button>
+            </Stack>
+          </Stack>
         </Stack>
       }
     >
 
-      <div className="container pb-[var(--space-3xl)]">
+      <div className="w-full px-sm md:px-md pb-xl">
         <ErrorBoundary name="CalendarContent">
-          <Grid columns={12} gap="lg">
-            <Grid.Item span={9} className="min-w-0">
-              <Card variant="elevated" className="main-calendar-card h-full">
-                <Card.Header padding="default" className="bg-bg-highlight/30 backdrop-blur-md min-h-[76px] flex items-center">
-                  <Stack direction="row" gap="md" align="center" justify="between" className="flex-wrap w-full">
-                    <div className="w-auto min-w-[240px]">
-                      <SegmentedControl
-                        options={viewOptions}
-                        value={view}
-                        onChange={(v) => setView(v as string)}
-                        className="!my-0"
-                      />
-                    </div>
-
-                    <Stack direction="row" gap="xs" align="center" className="nav-controls ml-auto">
-                      <Button
-                        variant="secondary"
-                        size="icon-sm"
-                        pill
-                        icon={ChevronLeft}
-                        onClick={() => navigateCal('prev')}
-                        aria-label={t('previous')}
-                      />
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        pill
-                        onClick={goToToday}
-                        className="px-[var(--space-md)]"
-                      >
-                        {t('today')}
-                      </Button>
-                      <Button
-                        variant="secondary"
-                        size="icon-sm"
-                        pill
-                        icon={ChevronRight}
-                        onClick={() => navigateCal('next')}
-                        aria-label={t('next')}
-                      />
-                    </Stack>
-                  </Stack>
+          <Grid columns={12} gap="md">
+            <Grid.Item span={10} className="min-w-0">
+              <Card variant="elevated" className="main-calendar-card">
+                <Card.Header padding="compact" className="bg-bg-highlight/30 backdrop-blur-md">
+                  <div className="w-full flex items-center justify-center">
+                    <SegmentedControl
+                      options={viewOptions}
+                      value={view}
+                      onChange={(v) => setView(v as string)}
+                      className="!my-0"
+                    />
+                  </div>
                 </Card.Header>
 
                 <Card.Body padding="none" className="overflow-hidden relative">
-                  <div className="calendar__grid-scroll overflow-x-auto overflow-y-auto w-full max-w-full custom-scrollbar h-[calc(100vh-360px)] min-h-[500px]">
+                  <div className="calendar__grid-scroll overflow-x-auto w-full max-w-full custom-scrollbar">
                     {isLoading ? (
                       <div className="p-[var(--space-md)] space-y-[var(--space-md)]">
                         <Skeleton className="h-12 w-full rounded-[var(--radius-md)]" />
@@ -221,7 +222,7 @@ const Calendar = () => {
                           key="content"
                           className={cn(
                             "calendar-grid-container bg-[var(--border-color)]/20 min-w-0 grid transition-all duration-300",
-                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,64px)_repeat(7,minmax(0,1fr))] min-w-[950px]",
+                            view === 'month' && "grid-cols-[var(--calendar-sidebar-width,44px)_repeat(7,minmax(0,1fr))] min-w-[950px]",
                             view === 'week' && "grid-cols-[var(--calendar-sidebar-width,96px)_repeat(7,minmax(0,1fr))] min-w-[1200px]",
                             view === 'day' && "grid-cols-1"
                           )}
@@ -236,13 +237,15 @@ const Calendar = () => {
               </Card>
             </Grid.Item>
 
-            <Grid.Item span={3}>
+            <Grid.Item span={2} className="self-start h-fit">
               <CalendarUpcomingWidget
                 events={events}
                 currentDate={currentDate}
                 monthNames={monthNames}
                 t={t}
                 handleEventClick={handleEventClick}
+                onCreateEvent={() => setActiveModal('new')}
+                onImport={() => setActiveModal('import')}
               />
             </Grid.Item>
           </Grid>

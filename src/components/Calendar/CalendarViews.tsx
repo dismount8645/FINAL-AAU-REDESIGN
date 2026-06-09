@@ -228,7 +228,7 @@ const CalendarMonthViewComponent = ({
       <Stack
         key={`day-${dayIndex}`}
         className={cn(
-          "calendar-day min-w-0 min-h-[100px] sm:min-h-[120px] p-xs sm:p-[var(--space-sm)] flex flex-col gap-[var(--space-2xs)] relative transition-all duration-150 bg-card group",
+          "calendar-day min-w-0 min-h-[60px] sm:min-h-[75px] p-[var(--space-2xs)] sm:p-xs flex flex-col gap-[var(--space-3xs)] relative transition-all duration-150 bg-card group",
           "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:z-10",
           isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
         )}
@@ -289,7 +289,7 @@ const CalendarMonthViewComponent = ({
       cells.push(
         <div 
           key={`wn-${rowWeekNum}`} 
-          className="calendar-week-num flex items-center justify-center bg-muted/20 text-[0.65rem] sm:text-xs font-bold text-text-muted border-r border-b border-border/40 select-none min-w-0"
+          className="calendar-week-num flex items-center justify-center bg-muted/20 text-[0.65rem] sm:text-xs font-black text-text-muted border-r border-b border-border/40 select-none min-w-0"
         >
           {rowWeekNum}
         </div>
@@ -318,13 +318,13 @@ const CalendarMonthViewComponent = ({
 
   return (
     <>
-      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-sm)] text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60">
+      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-2xs)] sm:p-[var(--space-sm)] text-center text-[0.65rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60">
         {t('week')}
       </div>
       {dayNames.map((day) => (
         <div 
           key={day} 
-          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-sm)] text-center text-[0.6rem] sm:text-xs font-bold text-text-muted border-b border-border/60 min-w-0 truncate"
+          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-2xs)] sm:p-[var(--space-sm)] text-center text-[0.65rem] sm:text-xs font-bold text-text-muted border-b border-border/60 min-w-0 truncate"
         >
           {day}
         </div>

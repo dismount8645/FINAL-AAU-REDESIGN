@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import Textarea from '@/components/ui/Textarea'
 import { FormField } from '@/components/ui'
-import { Heading } from '@/components/ui'
+import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
 
 interface ContactFormProps {
@@ -38,11 +38,14 @@ function ContactForm({
   return (
     <Card className="h-auto overflow-visible min-h-[200px]">
       <Card.Body padding="compact" className="p-lg">
-        <Heading level={3} className="mb-md">{t('send_message_to_support')}</Heading>
+        <Heading level={3} className="mb-xs">{t('send_message_to_support')}</Heading>
         {!isFormOpen ? (
-          <Button variant="primary" full onClick={() => setIsFormOpen(true)}>
-            {t('write_a_message')}
-          </Button>
+          <div className="flex flex-col items-start">
+            <Text size="xs" className="text-muted mb-sm">{t('send_message_desc')}</Text>
+            <Button variant="primary" onClick={() => setIsFormOpen(true)}>
+              {t('write_a_message')}
+            </Button>
+          </div>
         ) : (
           <form onSubmit={onSubmit} className="flex flex-col gap-md">
             <FormField

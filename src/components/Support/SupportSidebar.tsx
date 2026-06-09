@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 
-import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal, ChevronRight } from 'lucide-react';
 import { linkifyText } from '@/lib/utils';
 import FaqSection from './FaqSection';
 import LocalDesksSection from './LocalDesksSection';
@@ -39,9 +39,10 @@ function SupportSidebar({ children }: SupportSidebarProps) {
               href={item.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block py-2xs px-xs text-sm text-primary hover:underline underline-offset-2 rounded-md hover:bg-bg-hover transition-colors"
+              className="flex items-center justify-between py-2xs px-xs text-sm text-primary hover:underline underline-offset-2 rounded-md hover:bg-bg-hover transition-colors group"
             >
               {item.label}
+              <ChevronRight size={14} className="shrink-0 text-muted opacity-0 group-hover:opacity-40 transition-opacity" />
             </a>
           ))}
         </Stack>
@@ -52,14 +53,14 @@ function SupportSidebar({ children }: SupportSidebarProps) {
           title={t('self_service')}
           level={3}
         />
-        <Stack gap="sm">
-          <Button variant="ghost" size="sm" full icon={ShieldHalf} className="justify-start text-primary hover:underline underline-offset-2">
+        <Stack gap="xs">
+          <Button variant="ghost" size="sm" icon={ShieldHalf} className="justify-start text-primary hover:underline underline-offset-2 w-full">
             {t('gdpr_faq')}
           </Button>
-          <Button variant="ghost" size="sm" full icon={Monitor} className="justify-start text-primary hover:underline underline-offset-2">
+          <Button variant="ghost" size="sm" icon={Monitor} className="justify-start text-primary hover:underline underline-offset-2 w-full">
             {t('it_support_portal')}
           </Button>
-          <Button variant="ghost" size="sm" full icon={Signal} className="justify-start text-primary hover:underline underline-offset-2">
+          <Button variant="ghost" size="sm" icon={Signal} className="justify-start text-primary hover:underline underline-offset-2 w-full">
             {t('system_status')}
           </Button>
         </Stack>
@@ -67,28 +68,43 @@ function SupportSidebar({ children }: SupportSidebarProps) {
 
       {children}
 
-      <Card className="bg-subtle">
-        <Heading level={3} className="mb-sm text-main">
-          <MapPin size={18} strokeWidth={2} className="inline mr-2xs align-text-bottom text-muted" />
-          {t('main_office')}
-        </Heading>
-        <Text size="sm" className="text-muted leading-relaxed">
-          Fredrik Bajers Vej 7K<br />
-          9220 Aalborg Ø<br />
-          <a href="tel:+4599402020" className="text-primary hover:underline flex items-center gap-sm mt-2xs">
-            <Phone size={14} strokeWidth={2} /> Tlf.: 9940 2020
-          </a>
-          <a href="mailto:aau@aau.dk" className="text-primary hover:underline flex items-center gap-sm mt-2xs">
-            <Mail size={14} strokeWidth={2} /> aau@aau.dk
-          </a>
-        </Text>
+      <Card>
+        <Card.Body padding="compact">
+          <Stack gap="sm">
+            <Stack direction="row" align="center" gap="xs">
+              <span className="w-2 h-2 rounded-full bg-danger shrink-0" />
+              <Text size="sm" weight="semibold" className="text-danger">{t('chat_is_closed')}</Text>
+            </Stack>
+            <Text size="xs" className="text-muted leading-relaxed">{t('chat_is_closed_desc')}</Text>
+            <Stack direction="row" gap="xs" className="mt-2xs">
+              <Button size="sm" variant="outline" onClick={() => window.open('https://serviceportal.aau.dk')}>
+                {t('it_support_portal')}
+              </Button>
+              <Button size="sm" variant="ghost" onClick={() => window.location.href = 'tel:+4599402020'}>
+                Ring
+              </Button>
+            </Stack>
+          </Stack>
+        </Card.Body>
       </Card>
 
-      <Card variant="brand" className="bg-accent text-white border-none">
-        <Heading level={3} className="text-white">{t('chat_is_closed')}</Heading>
-        <Text size="xs" muted className="leading-[1.5]">
-          {t('chat_is_closed_desc')}
-        </Text>
+      <Card className="bg-subtle">
+        <Card.Body padding="compact">
+          <Heading level={3} className="mb-xs text-sm text-main">
+            <MapPin size={16} strokeWidth={2} className="inline mr-2xs align-text-bottom text-muted" />
+            {t('main_office')}
+          </Heading>
+          <Text size="sm" className="text-muted leading-relaxed">
+            Fredrik Bajers Vej 7K<br />
+            9220 Aalborg Ø<br />
+            <a href="tel:+4599402020" className="text-primary hover:underline flex items-center gap-sm mt-2xs">
+              <Phone size={14} strokeWidth={2} /> Tlf.: 9940 2020
+            </a>
+            <a href="mailto:aau@aau.dk" className="text-primary hover:underline flex items-center gap-sm mt-2xs">
+              <Mail size={14} strokeWidth={2} /> aau@aau.dk
+            </a>
+          </Text>
+        </Card.Body>
       </Card>
     </aside>
   )

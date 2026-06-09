@@ -10,6 +10,7 @@ import useStore from '@/store';
 
 function Layout() {
   const t = useStore((state) => state.t);
+  const isCollapsed = useStore((state) => state.isCollapsed);
   const location = useLocation();
   const isMessages = location.pathname.startsWith('/messages');
 
@@ -23,19 +24,20 @@ function Layout() {
         {t('skip_to_content')}
       </a>
       <Sidebar />
-      <div className="flex flex-col flex-1 min-w-0 relative w-full">
+      <div className="flex flex-col flex-1 min-w-0 relative">
         <Topbar />
         <main
           id="main-content"
-          className="layout-main transition-all duration-300 ease-in-out flex-1 w-full min-w-0"
+          className="layout-main transition-all duration-300 ease-in-out flex-1 min-w-0"
+          style={{ marginLeft: isCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)' }}
         >
-          <div data-testid="page-content" className="page-content relative z-10 w-full max-w-full min-w-0">
+          <div data-testid="page-content" className="page-content relative z-10 w-full max-w-full min-w-0 flex-1">
             <Suspense fallback={<PageSkeleton />}>
               <Outlet />
             </Suspense>
           </div>
+        </main>
         {!isMessages && <Footer />}
-      </main>
       </div>
     </div>
   );

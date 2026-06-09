@@ -37,7 +37,7 @@ const AccordionTrigger = memo(forwardRef<
       className={cn(
         "flex flex-1 items-center justify-between py-[var(--space-sm)] px-[var(--space-xs)] min-h-[44px]",
         "text-main font-bold text-sm leading-tight transition-all duration-150",
-        "hover:bg-bg-hover hover:text-primary dark:hover:text-white group outline-none",
+        "hover:bg-bg-hover hover:text-primary dark:hover:text-white group outline-none cursor-pointer",
         "focus-visible:shadow-focus focus-visible:outline-none rounded-[var(--radius-sm)]",
         className
       )}
@@ -45,7 +45,7 @@ const AccordionTrigger = memo(forwardRef<
     >
       <span className="flex-1 text-left">{children}</span>
       <ChevronDown 
-        size={16} 
+        size={18} 
         strokeWidth={2.5}
         className="shrink-0 text-muted group-hover:text-primary transition-transform duration-200 ease-[var(--transition-ease)] group-data-[open]:rotate-180" 
       />

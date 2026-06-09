@@ -2,7 +2,7 @@ import { memo, useState, type ReactNode, type MouseEvent, useCallback } from 're
 
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { type LucideIcon, Star, Info, User } from 'lucide-react';
+import { type LucideIcon, Star, Info, ExternalLink, User } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { IconCircle } from './Icon';
@@ -70,7 +70,7 @@ const InfoCard = memo(function InfoCard({
       onClick={onClick}
     >
       <Card.Body className="p-md md:p-lg h-full w-full flex flex-col relative">
-        {onStarToggle && (
+            {onStarToggle && (
           <Button
             variant="ghost"
             size="icon-sm"
@@ -82,6 +82,7 @@ const InfoCard = memo(function InfoCard({
             )}
             onClick={handleStarClick}
             aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
+            title={isStarred ? 'Fjern fra genveje' : 'Føj til genveje'}
             pill
           >
             <Star 
@@ -150,6 +151,12 @@ const InfoCard = memo(function InfoCard({
             </div>
           )}
         </Stack>
+
+        {isClickable && !action && (
+          <div className="absolute bottom-sm right-sm opacity-0 group-hover:opacity-40 transition-opacity duration-150">
+            <ExternalLink size={14} strokeWidth={2} className="text-muted" />
+          </div>
+        )}
       </Card.Body>
     </Card>
   )
