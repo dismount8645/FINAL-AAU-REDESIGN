@@ -5,6 +5,7 @@ import { Text } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import useStore from '@/store';
 import { SearchInput } from '@/components/ui';
+import { PATHS } from '@/routes';
 
 interface TopbarSearchProps {
   children: React.ReactNode;
@@ -70,14 +71,14 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
       if (activeSearchIndex >= 0 && activeSearchIndex < filteredResults.length) {
         handleResultClick(filteredResults[activeSearchIndex]);
       } else if (searchQuery.trim()) {
-        navigate('/search?q=' + encodeURIComponent(searchQuery));
+        navigate(`${PATHS.SEARCH}?q=` + encodeURIComponent(searchQuery));
         setIsDropdownVisible(false);
       }
     }
   };
 
   const handleResultClick = (result: (typeof filteredResults)[0]) => {
-    navigate(`/course/${result.id}`);
+    navigate(PATHS.COURSE(result.id));
     setSearchQuery('');
     setIsDropdownVisible(false);
   };

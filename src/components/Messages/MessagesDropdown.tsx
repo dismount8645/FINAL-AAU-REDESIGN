@@ -5,8 +5,9 @@ import Button from '@/components/ui/Button';
 import { Dropdown } from '@/components/ui';
 import { messagesData } from '@/lib/data';
 import useStore from '@/store';
-import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
+import { PATHS } from '@/routes';
+import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 
 export default function MessagesDropdown() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function MessagesDropdown() {
             variant="ghost"
             size="icon"
             className={cn(
-              "relative flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-lg transition-all duration-150 hover:-translate-y-1 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
+              "relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150 active:scale-[0.95] border-none focus-visible:outline-none focus-visible:shadow-focus",
               isOpen
                 ? "bg-primary/10 text-primary dark:bg-white/15 dark:text-white shadow-sm"
                 : "text-text-main hover:bg-bg-highlight hover:text-primary dark:hover:bg-white/10"
@@ -55,7 +56,7 @@ export default function MessagesDropdown() {
             variant="ghost"
             size="xs"
             onClick={() => {
-              navigate('/messages');
+              navigate(PATHS.MESSAGES);
               close();
             }}
             className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-sm text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline hover:bg-transparent bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus"
@@ -67,7 +68,7 @@ export default function MessagesDropdown() {
           {messagesData.map((m) => (
             <li key={m.id}>
               <Dropdown.Item
-                onClick={() => navigate('/messages')}
+                onClick={() => navigate(PATHS.MESSAGES)}
                 className="border-b border-border/40 px-md py-md hover:bg-bg-hover"
               >
                 <div className="flex items-center gap-md w-full">

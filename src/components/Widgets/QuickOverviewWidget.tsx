@@ -1,12 +1,13 @@
-import { useCallback, memo, forwardRef } from 'react';
+import { useCallback, memo } from 'react';
 
 import { ChevronRight, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import { Card } from '@/components/ui';
+import { Card, MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
+import { PATHS } from '@/routes';
 
 interface OverviewEvent {
   time: string
@@ -20,45 +21,43 @@ const todayEvents: OverviewEvent[] = [
   { time: '23:59', titleKey: 'project_report', moduleKey: 'course_4_title' },
 ]
 
-const OverviewItem = memo(forwardRef<HTMLButtonElement, {
+const OverviewItem = memo(({
+  event,
+  onClick
+}: {
   event: OverviewEvent,
   onClick: () => void
-}>(({ event, onClick }, ref) => {
+}) => {
   const t = useStore(state => state.t)
   const [hours, minutes] = event.time.split(':')
 
   return (
-    <button
-      ref={ref}
-      type="button"
-      className="w-full text-left flex items-center justify-start gap-[var(--space-md)] py-[var(--space-sm)] px-[var(--space-sm)] rounded-[var(--radius-lg)] transition-all duration-150 hover:bg-bg-highlight/50 border border-transparent hover:border-[var(--border-color)]/40 group/item outline-none focus-visible:outline-none focus-visible:shadow-focus"
+    <MasterItem
       onClick={onClick}
-    >
-      <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 group-hover/item:border-primary/30 transition-colors shrink-0">
-        <Text size="sm" weight="black" className="text-primary leading-none">{hours}</Text>
-        <span className="text-primary text-xs font-black leading-none">:</span>
-        <Text size="sm" weight="bold" className="text-muted leading-none opacity-60 font-mono">{minutes}</Text>
-      </div>
-      <div className="flex flex-col flex-1 min-w-0">
-        <Text size="sm" weight="bold" className="text-main group-hover/item:text-primary transition-colors truncate">
+      className="rounded-[var(--radius-lg)] border-none"
+      leading={
+        <div className="flex flex-row items-center justify-center gap-[2px] min-w-[56px] py-[var(--space-2xs)] bg-bg-highlight rounded-[var(--radius-md)] border border-[var(--border-color)]/40 transition-colors">
+          <Text size="sm" weight="black" className="text-primary leading-none">{hours}</Text>
+          <span className="text-primary text-xs font-black leading-none">:</span>
+          <Text size="sm" weight="bold" className="text-muted leading-none opacity-60 font-mono">{minutes}</Text>
+        </div>
+      }
+      title={
+        <Text size="sm" weight="bold" className="text-main truncate">
           {t(event.titleKey)} {event.moduleKey && `· ${t(event.moduleKey)}`}
         </Text>
-        {event.location && (
-          <Text size="xs" muted className="truncate mt-1">{event.location}</Text>
-        )}
-      </div>
-    </button>
+      }
+      subtitle={event.location ? <Text size="xs" muted className="truncate">{event.location}</Text> : undefined}
+    />
   )
-}))
-
-OverviewItem.displayName = 'OverviewItem'
+})
 
 const QuickOverviewWidget = () => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
 
   const handleGoToCalendar = useCallback(() => {
-    navigate('/calendar')
+    navigate(PATHS.CALENDAR)
   }, [navigate])
 
   return (
@@ -153,7 +152,7 @@ if (import.meta.vitest) {
 
     it('renders divider between events', () => {
       const { container } = renderWithProviders(<QuickOverviewWidget />)
-      const items = container.querySelectorAll('.border-transparent')
+      const items = container.querySelectorAll('[role="button"]')
       expect(items.length).toBe(2)
     })
   })

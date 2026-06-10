@@ -1,21 +1,13 @@
-import { Bell, FileUp, MessageSquare, Clock, Star } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Text, Dropdown } from '@/components/ui';
 import { notificationsData } from '@/lib/data';
+import { getNotificationIcon } from '@/components/Notifications/notifications';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
-
-const getNotifIcon = (type: string) => {
-  switch (type) {
-    case 'AFLEVERING': return FileUp;
-    case 'FORUM': return MessageSquare;
-    case 'DEADLINE': return Clock;
-    case 'FEEDBACK': return Star;
-    default: return Bell;
-  }
-};
+import { PATHS } from '@/routes';
 
 export default function NotificationsDropdown() {
   const navigate = useNavigate();
@@ -64,7 +56,7 @@ export default function NotificationsDropdown() {
             variant="ghost"
             size="xs"
             onClick={() => {
-              navigate('/notifications');
+              navigate(PATHS.NOTIFICATIONS);
               close();
             }}
             className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus px-1 h-auto"
@@ -75,11 +67,11 @@ export default function NotificationsDropdown() {
         </div>
         <ul className="max-h-96 overflow-y-auto pr-1" role="none">
           {notificationsData.map((n) => {
-            const Icon = getNotifIcon(n.type);
+            const Icon = getNotificationIcon(n.type);
             return (
               <li key={n.id} role="none">
                 <Dropdown.Item
-                  onClick={() => navigate('/notifications')}
+                  onClick={() => navigate(PATHS.NOTIFICATIONS)}
                   className={cn(
                     "border-b border-border/40 px-md py-md flex items-start gap-md",
                     !n.isRead ? "bg-primary/[0.03] hover:bg-primary/[0.05]" : "hover:bg-bg-hover"

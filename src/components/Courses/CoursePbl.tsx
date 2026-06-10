@@ -26,7 +26,7 @@ function CoursePbl() {
         </Card.Header>
         <Card.Body>
           <Stack gap="md">
-            <Card variant="outlined" className="bg-primary/5 border-primary/20">
+            <Card variant="outlined" accent="left" className="bg-primary/5">
               <Card.Body className="p-md">
                 <Stack direction="row" justify="between" align="center">
                   <Stack gap="xs">

@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
 
 import Button from '@/components/ui/Button';
+import { PATHS } from '@/routes';
 import PageHeader from '@/components/Layout/PageHeader';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
@@ -126,7 +127,7 @@ function Favorites() {
               navigate(link)
             }
           }}
-          onGoToDashboard={() => navigate('/')}
+          onGoToDashboard={() => navigate(PATHS.DASHBOARD)}
         />
       </div>
     </Stack>

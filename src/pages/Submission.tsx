@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import { Card, Heading, Text, Icon, IconCircle } from '@/components/ui';
 import { MasterItem } from '@/components/ui';
 import PageLayout from '@/components/Layout/PageLayout';
+import { PATHS } from '@/routes';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Textarea from '@/components/ui/Textarea';
@@ -232,7 +233,7 @@ function Submission() {
   if (status === 'submitted') {
     return (
       <SubmissionSuccess
-        onBackToCourse={() => navigate(`/course/${courseId}`)}
+        onBackToCourse={() => navigate(PATHS.COURSE(courseId))}
         t={t}
       />
     )

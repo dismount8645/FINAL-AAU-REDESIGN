@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import PageLayout from '@/components/Layout/PageLayout';
 import SplitLayout from '@/components/Layout/SplitLayout';
+import { PATHS } from '@/routes';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import {
   ModuleHeader, Tabs, Card, Heading, Text, ProgressBar, MasterItem,
@@ -44,7 +45,7 @@ const LessonItemRow = memo(function LessonItemRow({
   const navigate = useNavigate()
 
   const handleClick = item.type === 'assignment'
-    ? () => navigate(`/submission/${courseId}/${item.id}`)
+    ? () => navigate(PATHS.SUBMISSION(courseId, item.id))
     : () => {}
 
   const handleToggle = useCallback((e: React.MouseEvent) => {
@@ -214,7 +215,7 @@ function Course() {
   const data = courseData[courseIdNum]
 
   useEffect(() => {
-    if (!data) navigate('/courses')
+    if (!data) navigate(PATHS.COURSES)
   }, [id, data, navigate])
 
   useEffect(() => {
@@ -346,7 +347,7 @@ function Course() {
                       leading={GraduationCap}
                       leadingClassName="text-primary"
                       title={t('my_grades')}
-                      onClick={() => { navigate('/grades') }}
+                      onClick={() => { navigate(PATHS.GRADES) }}
                       className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
                     />
                     <MasterItem
@@ -387,7 +388,7 @@ function Course() {
                         variant="primary"
                         full
                         className="bg-white text-primary hover:bg-white/90"
-                        onClick={() => navigate(`/submission/${id}/${nextAssignment.submissionId}`)}
+                        onClick={() => navigate(PATHS.SUBMISSION(id, nextAssignment.submissionId))}
                       >
                         {t('go_to_assignment')}
                       </Button>
