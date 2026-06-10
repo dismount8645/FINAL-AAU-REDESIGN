@@ -39,7 +39,8 @@ export default function NotificationsDropdown() {
             <Bell size={20} strokeWidth={2} />
             {notificationCount > 0 && (
               <span className="absolute right-[4px] top-[4px] z-10 flex min-h-[16px] min-w-[16px] pointer-events-none animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
-                {notificationCount}
+                <span>{notificationCount}</span>
+                <span className="sr-only"> {notificationCount === 1 ? t('new_singular') : t('new_plural')}</span>
               </span>
             )}
           </Button>

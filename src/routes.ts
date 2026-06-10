@@ -9,7 +9,6 @@ export const PATHS = {
   MESSAGES: '/messages',
   RESOURCES: '/resources',
   NOTIFICATIONS: '/notifications',
-  GRADES: '/grades',
   FAVORITES: '/favorites',
   SEARCH: '/search',
   FORUM_NEW: '/forum/new',
@@ -32,7 +31,6 @@ const Notifications = lazy(() => import('@/pages/Notifications'))
 const Submission = lazy(() => import('@/pages/Submission'))
 const SearchResults = lazy(() => import('@/pages/SearchResults'))
 const ForumPost = lazy(() => import('@/pages/ForumPost'))
-const Grades = lazy(() => import('@/pages/Grades'))
 const Favorites = lazy(() => import('@/pages/Favorites'))
 
 export interface RouteConfig {
@@ -54,7 +52,6 @@ const routes: RouteConfig[] = [
   { path: '/notifications', component: Notifications, label: 'notifications' },
   { path: '/submission/:courseId/:assignmentId', component: Submission, label: 'submission' },
   { path: '/search', component: SearchResults, label: 'search', breadcrumbKey: 'search_results' },
-  { path: '/grades', component: Grades, label: 'grades', breadcrumbKey: 'my_grades' },
   { path: '/favorites', component: Favorites, label: 'favorites' },
   { path: '/forum/:id', component: ForumPost, label: 'forum' },
 ]

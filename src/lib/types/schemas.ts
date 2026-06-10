@@ -8,6 +8,20 @@ const FavoriteItemSchema = z.object({
   order: z.number(),
 })
 
+const DashboardWidgetItemSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  visible: z.boolean().catch(true),
+  span: z.number().catch(12),
+  size: z.enum(['small', 'medium', 'large']).catch('medium'),
+  allowedSizes: z.array(z.enum(['small', 'medium', 'large'])).optional(),
+  defaultSize: z.enum(['small', 'medium', 'large']).catch('medium'),
+  x: z.number().optional(),
+  y: z.number().optional(),
+  w: z.number().optional(),
+  h: z.number().optional(),
+})
+
 export const PersistedStateSchema = z.object({
   theme: z.enum(['system', 'light', 'dark']).catch('system'),
   lang: z.enum(['da', 'en']).catch('da'),
@@ -29,5 +43,15 @@ export const PersistedStateSchema = z.object({
   calendarDefaultView: z.enum(['month', 'week', 'day']).catch('month'),
   messagePrivacy: z.enum(['contacts', 'courses', 'anyone']).catch('courses'),
   messageEmailOffline: z.boolean().catch(true),
+  dashboardLayout: z.array(DashboardWidgetItemSchema).catch([
+    { id: 'deadlines', title: 'Seneste afleveringer', visible: true, size: 'medium', span: 12, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'quickOverview', title: 'Hurtig oversigt', visible: true, size: 'small', span: 8, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+    { id: 'favorites', title: 'Favoritter', visible: true, size: 'small', span: 8, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'forumActivity', title: 'Forum aktivitet', visible: true, size: 'large', span: 24, defaultSize: 'large', allowedSizes: ['medium', 'large'] },
+    { id: 'support', title: 'ITS Support', visible: true, size: 'medium', span: 12, defaultSize: 'medium', allowedSizes: ['small', 'medium'] },
+    { id: 'messages', title: 'Beskeder', visible: false, size: 'small', span: 8, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'calendar', title: 'Kalender', visible: false, size: 'large', span: 24, defaultSize: 'large', allowedSizes: ['medium', 'large'] },
+    { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'medium', span: 12, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+  ]),
 })
 

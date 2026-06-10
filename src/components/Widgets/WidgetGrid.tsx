@@ -1,61 +1,163 @@
+import { useState } from 'react';
 import { Grid } from '@/components/Layout/LayoutPrimitives';
 import QuickOverviewWidget from './QuickOverviewWidget'
 import ForumActivityWidget from './ForumActivityWidget'
-import { DeadlinesWidget, FavoritesWidget, RecentGradesWidget, SupportWidget } from './DashboardWidgets'
+import { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget } from './DashboardWidgets'
+import { GripVertical } from 'lucide-react';
+
+import useStore from '@/store';
 
 interface WidgetItem {
   id: string
   span: number
+  size?: 'small' | 'medium' | 'large'
 }
 
 interface WidgetGridProps {
   widgets: WidgetItem[]
+  isEditing?: boolean
+  onLayoutChange?: (widgets: WidgetItem[]) => void
 }
 
-export function WidgetGrid({ widgets }: WidgetGridProps) {
-  return (
-    <Grid className="dashboard__grid relative" style={{ '--grid-cols': 'var(--dashboard-grid-cols, 24)', gridAutoRows: 'minmax(100px, auto)' } as React.CSSProperties}>
-      {widgets.map((widget) => {
-        switch (widget.id) {
-          case 'deadlines':
-            return (
-              <Grid.Item key={widget.id} span={widget.span} className={`widget-${widget.id}`}>
-                <DeadlinesWidget />
-              </Grid.Item>
-            )
-          case 'favorites':
-            return (
-              <Grid.Item key={widget.id} span={widget.span} className={`widget-${widget.id}`}>
-                <FavoritesWidget />
-              </Grid.Item>
-            )
-          case 'recentGrades':
-            return (
-              <Grid.Item key={widget.id} span={widget.span} className={`widget-${widget.id}`}>
-                <RecentGradesWidget />
-              </Grid.Item>
-            )
-          case 'quickOverview':
-            return (
-              <Grid.Item key={widget.id} span={widget.span} className={`widget-${widget.id}`}>
-                <QuickOverviewWidget />
-              </Grid.Item>
-            )
-          case 'forumActivity':
-            return (
-              <Grid.Item key={widget.id} span={widget.span} className={`widget-${widget.id}`}>
-                <ForumActivityWidget />
-              </Grid.Item>
-            )
-          case 'support':
-            return (
-              <Grid.Item key={widget.id} span={widget.span} className={`widget-${widget.id}`}>
-                <SupportWidget />
-              </Grid.Item>
-            )
-          default:
-            return null
+const SIZE_TO_SPAN: Record<'small' | 'medium' | 'large', number> = {
+  small: 10,
+  medium: 14,
+  large: 24,
+}
+
+export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: WidgetGridProps) {
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
+  const t = useStore((state) => state.t)
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    if (!isEditing) return
+    setDraggedIndex(index)
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('text/plain', String(index))
+    
+    const target = e.currentTarget as HTMLElement
+    target.classList.add('widget-dragging')
+  }
+
+  const handleDragEnd = (e: React.DragEvent) => {
+    setDraggedIndex(null)
+    setDragOverIndex(null)
+    const target = e.currentTarget as HTMLElement
+    target.classList.remove('widget-dragging')
+  }
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    if (!isEditing) return
+    e.preventDefault()
+    if (draggedIndex === null || draggedIndex === index) return
+    setDragOverIndex(index)
+  }
+
+  const handleDragLeave = () => {
+    setDragOverIndex(null)
+  }
+
+  const handleDrop = (e: React.DragEvent, index: number) => {
+    if (!isEditing || draggedIndex === null || !onLayoutChange) return
+    e.preventDefault()
+    
+    const updated = [...widgets]
+    const [draggedItem] = updated.splice(draggedIndex, 1)
+    updated.splice(index, 0, draggedItem)
+    
+    onLayoutChange(updated)
+    setDraggedIndex(null)
+    setDragOverIndex(null)
+  }
+
+  const handleSizeChange = (id: string, newSize: 'small' | 'medium' | 'large') => {
+    if (!onLayoutChange) return
+    const updated = widgets.map((w) => {
+      if (w.id === id) {
+        return {
+          ...w,
+          size: newSize,
+          span: SIZE_TO_SPAN[newSize],
         }
+      }
+      return w
+    })
+    onLayoutChange(updated)
+  }
+
+  const renderWidgetContent = (id: string, size: 'small' | 'medium' | 'large' = 'medium') => {
+    switch (id) {
+      case 'deadlines':
+        return <DeadlinesWidget size={size} hideFirst={!isEditing} />
+      case 'favorites':
+        return <FavoritesWidget size={size} />
+      case 'quickOverview':
+        return <QuickOverviewWidget size={size} />
+      case 'forumActivity':
+        return <ForumActivityWidget size={size} />
+      case 'support':
+        return <SupportWidget size={size} />
+      case 'messages':
+        return <MessagesWidget size={size} />
+      case 'calendar':
+        return <CalendarWidget size={size} />
+      case 'courseProgress':
+        return <CourseProgressWidget size={size} />
+      default:
+        return null
+    }
+  }
+
+  return (
+    <Grid className="dashboard__grid relative animate-fade-in" style={{ '--grid-cols': 'var(--dashboard-grid-cols, 24)', gridAutoRows: 'minmax(80px, auto)' } as React.CSSProperties}>
+      {widgets.map((widget, index) => {
+        const isCurrentlyDragged = draggedIndex === index
+        const isHoveredIndicator = dragOverIndex === index
+        const widgetSize = widget.size || 'medium'
+        const currentSpan = SIZE_TO_SPAN[widgetSize]
+        
+        return (
+          <Grid.Item
+            key={widget.id}
+            span={currentSpan}
+            draggable={isEditing}
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDragEnd={handleDragEnd}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDragLeave={handleDragLeave}
+            onDrop={(e) => handleDrop(e, index)}
+            className={`
+              widget-${widget.id}
+              relative transition-all duration-150 ease-out rounded-[var(--radius-md)] overflow-hidden
+              ${isEditing ? 'cursor-grab active:cursor-grabbing border border-dashed border-[var(--border-color)] p-1 hover:border-primary/50' : ''}
+              ${isCurrentlyDragged ? 'opacity-40 border border-solid border-primary' : ''}
+              ${isHoveredIndicator ? 'scale-[1.01] shadow-[var(--shadow-md)] border border-solid border-primary bg-primary/5' : ''}
+            `}
+          >
+            {isEditing && (
+              <div className="absolute top-1.5 right-1.5 z-50 flex items-center gap-1.5">
+                <select
+                  value={widgetSize}
+                  onChange={(e) => handleSizeChange(widget.id, e.target.value as 'small' | 'medium' | 'large')}
+                  className="bg-bg-card/95 border border-[var(--border-color)] text-[10px] font-bold text-main px-1.5 py-0.5 rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] outline-none focus:border-primary cursor-pointer"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <option value="small">{t('dashboard.size_small')}</option>
+                  <option value="medium">{t('dashboard.size_medium')}</option>
+                  <option value="large">{t('dashboard.size_large')}</option>
+                </select>
+                <div className="bg-bg-card/95 border border-[var(--border-color)] px-1.5 py-0.5 rounded-[var(--radius-xs)] flex items-center gap-0.5 text-[9px] font-bold text-primary select-none shadow-[var(--shadow-sm)]">
+                  <GripVertical className="size-2.5 text-primary" />
+                  <span>TRÆK</span>
+                </div>
+              </div>
+            )}
+            <div className={isEditing ? 'pointer-events-none opacity-80' : ''}>
+              {renderWidgetContent(widget.id, widgetSize)}
+            </div>
+          </Grid.Item>
+        )
       })}
     </Grid>
   )
@@ -67,7 +169,7 @@ if (import.meta.vitest) {
       const widgets = [
         { id: 'deadlines', span: 8 },
         { id: 'favorites', span: 8 },
-        { id: 'recentGrades', span: 8 },
+        { id: 'support', span: 8 },
       ]
       const { container } = renderWithProviders(<WidgetGrid widgets={widgets} />)
       expect(container.querySelector('.dashboard__grid')).toBeInTheDocument()
@@ -76,6 +178,36 @@ if (import.meta.vitest) {
       const widgets = [{ id: 'nonexistent', span: 12 }]
       const { container } = renderWithProviders(<WidgetGrid widgets={widgets} />)
       expect(container.querySelector('.dashboard__grid')).toBeInTheDocument()
+    })
+    it('triggers drop callback and reorders widgets', () => {
+      const widgets = [
+        { id: 'deadlines', span: 8 },
+        { id: 'favorites', span: 8 },
+      ]
+      const onLayoutChange = vi.fn()
+      const { container } = renderWithProviders(
+        <WidgetGrid widgets={widgets} isEditing={true} onLayoutChange={onLayoutChange} />
+      )
+      
+      const gridItems = container.querySelectorAll('.dashboard__grid > div')
+      expect(gridItems.length).toBe(2)
+
+      const firstItem = gridItems[0]
+      const secondItem = gridItems[1]
+
+      const dataTransfer = {
+        setData: vi.fn(),
+        effectAllowed: 'none',
+      }
+      
+      fireEvent.dragStart(firstItem, { dataTransfer })
+      fireEvent.dragOver(secondItem)
+      fireEvent.drop(secondItem)
+
+      expect(onLayoutChange).toHaveBeenCalledWith([
+        { id: 'favorites', span: 8 },
+        { id: 'deadlines', span: 8 },
+      ])
     })
   })
 }

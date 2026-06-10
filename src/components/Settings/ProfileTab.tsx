@@ -1,6 +1,6 @@
 
 
-import { Sun, Monitor, Moon, Camera } from 'lucide-react';
+import { Sun, Monitor, Moon, Camera, Lock } from 'lucide-react';
 import NotificationsTab from './NotificationsTab';
 import LanguageTab from './LanguageTab';
 import ForumTab from './ForumTab';
@@ -35,13 +35,13 @@ export default function ProfileTab(props: ProfileTabProps) {
   const t = store.t;
 
   return (
-    <Stack gap="xl" className="settings__profile-form max-w-[var(--container-max-width)] animate-fade-in">
+    <Stack gap="lg" className="settings__profile-form max-w-[var(--container-max-width)] animate-fade-in">
       <SectionHeader title={t('settings.profile')} description={t('settings.profile_desc')} className="!mb-0" />
-      <Stack direction="row" gap="lg" align="start" className="profile-hero pb-xl border-b border-border/50 flex-col sm:flex-row">
+      <Stack direction="row" gap="md" align="center" className="profile-hero pb-lg border-b border-border/50 flex-col sm:flex-row">
         <Avatar name={`${firstName} ${lastName}`} size={96} className="ring-4 ring-primary/10 shrink-0" />
-        <Stack gap="sm" className="items-start">
+        <Stack gap="xs" className="items-start">
           <Text weight="bold" size="xl" className="text-main">{`${firstName} ${lastName}`}</Text>
-          <Button variant="secondary" size="sm" pill icon={Camera}>{t('settings.change_photo')}</Button>
+          <Button variant="secondary" size="sm" pill icon={Camera} className="normal-case tracking-normal font-semibold px-md py-xs">{t('settings.change_photo')}</Button>
         </Stack>
       </Stack>
       
@@ -59,10 +59,15 @@ export default function ProfileTab(props: ProfileTabProps) {
       </Grid>
       
       <FormField id="settings-email" label={t("settings.email")} helpText={t('settings.email_stads_help')}>
-        <Input id="settings-email" type="email" defaultValue="jkm@student.aau.dk" disabled />
+        <div className="relative flex items-center w-full">
+          <Input id="settings-email" type="email" defaultValue="jkm@student.aau.dk" disabled className="pr-10" />
+          <div className="absolute right-3 text-slate-400 dark:text-slate-500 pointer-events-none opacity-80">
+            <Lock size={15} />
+          </div>
+        </div>
       </FormField>
       
-      <Stack gap="md" className="appearance-section mt-md">
+      <Stack gap="md" className="appearance-section">
         <Text size="md" weight="bold" className="text-main">{t('settings.appearance')}</Text>
         <div className="appearance-grid grid grid-cols-1 sm:grid-cols-3 gap-md">
           {[

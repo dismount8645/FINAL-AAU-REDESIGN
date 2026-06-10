@@ -5,7 +5,7 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Badge } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'
 import useStore from '@/store'
-import { CalendarClock, MapPin, User, Info, ArrowRight } from 'lucide-react'
+import { CalendarClock, MapPin, User, Info, ArrowRight, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { UI_PALETTE as eventPalette } from '@/lib/theme'
 
@@ -46,6 +46,7 @@ const CalendarDayViewComponent = ({
   }, [currentDate, dayNames, monthNames])
 
   const event = events[dateKey]
+  const isDeadline = event && (event.color === 'var(--color-danger-dark)' || event.color === 'var(--color-danger)' || event.typeEn?.toLowerCase() === 'deadline')
 
   const getEventTitle = (e: CalendarEvent) => {
     return e.title || (lang === 'da' ? e.titleDa : e.titleEn) || ''
@@ -80,7 +81,10 @@ const CalendarDayViewComponent = ({
       <div className="grid gap-8">
         {event ? (
           <Card
-            className="calendar__day-event-card group cursor-pointer border-none shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden relative rounded-2xl"
+            className={cn(
+              "calendar__day-event-card group cursor-pointer border-none shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden relative rounded-2xl",
+              isDeadline && "ring-2 ring-orange-500/25"
+            )}
             onClick={() => handleEventClick(event, dateKey)}
           >
             <div 
@@ -90,14 +94,41 @@ const CalendarDayViewComponent = ({
             
             <Card.Body className="p-[var(--space-xl)] sm:p-[var(--space-2xl)] pl-[var(--space-2xl)] sm:pl-[var(--space-2xl)] bg-card group-hover:bg-muted/5 transition-colors">
               <Stack gap="xl">
-                <Stack gap="sm">
-                  <div className="flex items-center gap-2 text-primary opacity-80 group-hover:opacity-100 transition-opacity">
-                    <Info size={14} />
-                    <Text size="xs" weight="black" className="tracking-wide">
-                      {t('event_details')}
-                    </Text>
+                <Stack gap="xs">
+                  <div className="flex flex-wrap items-center gap-xs">
+                    {(() => {
+                      const courseTitle = lang === 'da' ? event.courseTitleDa : event.courseTitleEn
+                      if (courseTitle) {
+                        return (
+                          <Badge variant="outline" className="text-[10px] font-bold border-primary/30 text-primary dark:text-[var(--aau-light-blue-sec)]">
+                            {courseTitle} {event.courseCode ? `(${event.courseCode})` : ''}
+                          </Badge>
+                        )
+                      }
+                      return null
+                    })()}
+                    {(() => {
+                      const eventType = lang === 'da' ? event.typeDa : event.typeEn
+                      if (eventType) {
+                        return (
+                          <Badge 
+                            variant="default" 
+                            className={cn(
+                              "text-[10px] font-black text-white flex items-center gap-1",
+                              isDeadline && "bg-orange-600 animate-pulse text-white"
+                            )}
+                            style={isDeadline ? undefined : { background: event.color }}
+                          >
+                            {isDeadline && <AlertTriangle size={10} className="text-white shrink-0" />}
+                            {eventType}
+                          </Badge>
+                        )
+                      }
+                      return null
+                    })()}
                   </div>
-                  <Heading level={3} className="text-3xl sm:text-4xl font-black leading-[1.1] tracking-tight group-hover:text-primary transition-colors">
+                  <Heading level={3} className={cn("text-3xl sm:text-4xl font-black leading-[1.1] tracking-tight group-hover:text-primary transition-colors mt-xs flex items-center gap-2", isDeadline && "text-orange-700 dark:text-orange-300")}>
+                    {isDeadline && <AlertTriangle className="w-8 h-8 text-orange-600 dark:text-orange-400 shrink-0" />}
                     {getEventTitle(event)}
                   </Heading>
                 </Stack>
@@ -195,15 +226,16 @@ const CalendarMonthViewComponent = ({
 }: CalendarMonthViewProps) => {
   const lang = useStore(state => state.lang)
 
-  const { days, firstDay, startingWeekNum, year, month } = useMemo(() => {
+  const { days, firstDay, startingWeekNum, year, month, rowCount } = useMemo(() => {
     const y = currentDate.getFullYear()
     const m = currentDate.getMonth()
     const totalDays = new Date(y, m + 1, 0).getDate()
     let first = new Date(y, m, 1).getDay() - 1
     if (first < 0) first = 6
     const weekStart = getWeekNumber(new Date(y, m, 1))
+    const rows = Math.ceil((first + totalDays) / 7)
     
-    return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m }
+    return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m, rowCount: rows }
   }, [currentDate, getWeekNumber])
 
   const renderDay = useCallback((dayIndex: number) => {
@@ -212,6 +244,7 @@ const CalendarMonthViewComponent = ({
     }
     const dateKey = `${year}-${month}-${dayIndex}`
     const event = events[dateKey]
+    const isDeadline = event && (event.color === 'var(--color-danger-dark)' || event.color === 'var(--color-danger)' || event.typeEn?.toLowerCase() === 'deadline')
     const now = new Date()
     const isToday = 
       dayIndex === now.getDate() &&
@@ -228,7 +261,7 @@ const CalendarMonthViewComponent = ({
       <Stack
         key={`day-${dayIndex}`}
         className={cn(
-          "calendar-day min-w-0 min-h-[60px] sm:min-h-[75px] p-[var(--space-2xs)] sm:p-xs flex flex-col gap-[var(--space-3xs)] relative transition-all duration-150 bg-card group",
+          "calendar-day min-w-0 min-h-[65px] sm:min-h-[85px] md:min-h-[105px] lg:min-h-[115px] p-[var(--space-2xs)] sm:p-xs flex flex-col gap-[var(--space-3xs)] relative transition-all duration-150 bg-card group",
           "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:z-10",
           isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
         )}
@@ -257,7 +290,10 @@ const CalendarMonthViewComponent = ({
         {event && (
           <button
             type="button"
-            className="calendar-event-mini w-full px-xs py-2xs sm:px-[var(--space-sm)] sm:py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden focus-visible:outline-none focus-visible:shadow-focus z-10 relative"
+            className={cn(
+              "calendar-event-mini w-full px-xs py-2xs sm:px-[var(--space-sm)] sm:py-[var(--space-2xs)] rounded-md text-left shadow-sm border border-border/30 hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all overflow-hidden focus-visible:outline-none focus-visible:shadow-focus z-10 relative",
+              isDeadline && "border-2 border-orange-500 font-extrabold shadow-md ring-1 ring-orange-500/20"
+            )}
             style={eventStyle}
             onClick={(e) => {
               e.stopPropagation()
@@ -266,8 +302,13 @@ const CalendarMonthViewComponent = ({
             aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
             title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
-            <Text size="xs" weight="bold" className="line-clamp-2 block select-none leading-tight">
-              {getEventTitle(event)}
+            <Text size="xs" weight="bold" className={cn("line-clamp-2 block select-none leading-tight", isDeadline && "font-black text-orange-700 dark:text-orange-300 flex items-center gap-1")}>
+              {isDeadline && <AlertTriangle className="w-3 h-3 shrink-0 text-orange-600 dark:text-orange-400 animate-pulse" />}
+              {(() => {
+                const courseCode = event.courseCode
+                const prefix = courseCode ? `${courseCode}: ` : ''
+                return `${prefix}${getEventTitle(event)}`
+              })()}
             </Text>
             {event.time && (
               <Text size="2xs" className="opacity-80 block line-clamp-2 mt-[var(--space-2xs)] font-medium">
@@ -284,14 +325,15 @@ const CalendarMonthViewComponent = ({
     const cells = []
     let currentDayIdx = 1
 
-    for (let row = 0; row < 6; row++) {
+    for (let row = 0; row < rowCount; row++) {
       const rowWeekNum = startingWeekNum + row
       cells.push(
         <div 
           key={`wn-${rowWeekNum}`} 
-          className="calendar-week-num flex items-center justify-center bg-muted/20 text-[0.65rem] sm:text-xs font-black text-text-muted border-r border-b border-border/40 select-none min-w-0"
+          className="calendar-week-num flex items-center justify-center bg-muted/5 text-[0.65rem] sm:text-xs font-mono font-bold text-text-muted/50 border-r-2 border-r-border/60 border-b border-border/40 select-none min-w-0"
+          title={`${t('week')} ${rowWeekNum}`}
         >
-          {rowWeekNum}
+          W{rowWeekNum}
         </div>
       )
 
@@ -314,11 +356,11 @@ const CalendarMonthViewComponent = ({
       }
     }
     return cells
-  }, [days, firstDay, startingWeekNum, renderDay])
+  }, [days, firstDay, startingWeekNum, renderDay, rowCount])
 
   return (
     <>
-      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-2xs)] sm:p-[var(--space-sm)] text-center text-[0.65rem] sm:text-xs font-bold text-text-muted border-b border-r border-border/60">
+      <div className="calendar-grid-header sticky top-0 z-20 bg-muted/95 backdrop-blur-sm p-[var(--space-2xs)] sm:p-[var(--space-sm)] text-center text-[0.65rem] sm:text-xs font-black uppercase tracking-wider text-text-muted/60 border-b border-r-2 border-r-border/60 border-border/60">
         {t('week')}
       </div>
       {dayNames.map((day) => (
@@ -447,6 +489,7 @@ const CalendarWeekViewComponent = ({
               if (isEventStart) {
                 const duration = parseEventDuration(event.time)
                 const palette = eventPalette[event.color] || {}
+                const isDeadline = event.color === 'var(--color-danger-dark)' || event.color === 'var(--color-danger)' || event.typeEn?.toLowerCase() === 'deadline'
                 
                 return (
                   <div
@@ -462,7 +505,8 @@ const CalendarWeekViewComponent = ({
                       className={cn(
                         "w-full h-full p-2.5 rounded-lg text-left transition-all duration-300",
                         "border border-border/30 shadow-sm group-hover:shadow-lg group-hover:scale-[1.01] group-hover:z-10",
-                        "active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus focus-visible:z-10"
+                        "active:scale-[0.98] focus-visible:outline-none focus-visible:shadow-focus focus-visible:z-10",
+                        isDeadline && "border-2 border-orange-500 ring-2 ring-orange-500/20 shadow-md"
                       )}
                       style={{
                         background: palette.bg || event.color,
@@ -470,7 +514,28 @@ const CalendarWeekViewComponent = ({
                       }}
                     >
                       <Stack gap="2xs">
-                        <Text size="xs" weight="extrabold" className="line-clamp-2 block leading-tight tracking-tight opacity-90">
+                        {(() => {
+                          const courseCode = event.courseCode
+                          const eventType = lang === 'da' ? event.typeDa : event.typeEn
+                          if (courseCode || eventType) {
+                            return (
+                              <div className="flex flex-wrap items-center gap-3xs opacity-80 mb-3xs">
+                                {courseCode && <span className="text-[9px] font-extrabold px-1 bg-white/20 rounded">{courseCode}</span>}
+                                {eventType && (
+                                  <span className={cn(
+                                    "text-[9px] font-black uppercase flex items-center gap-0.5",
+                                    isDeadline && "text-orange-700 dark:text-orange-200 bg-orange-500/10 px-1 rounded"
+                                  )}>
+                                    {isDeadline && <AlertTriangle className="w-2.5 h-2.5 shrink-0 text-orange-500 dark:text-orange-400" />}
+                                    {eventType}
+                                  </span>
+                                )}
+                              </div>
+                            )
+                          }
+                          return null
+                        })()}
+                        <Text size="xs" weight={isDeadline ? "black" : "extrabold"} className={cn("line-clamp-2 block leading-tight tracking-tight opacity-90", isDeadline && "text-orange-800 dark:text-orange-200")}>
                           {getEventTitle(event)}
                         </Text>
                         <Text size="2xs" className="opacity-80 font-bold flex items-center gap-1">

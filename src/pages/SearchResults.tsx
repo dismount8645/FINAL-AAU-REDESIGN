@@ -95,62 +95,48 @@ export default SearchResults
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 if (import.meta.vitest) {
-  // Mock registry to include a result with an unknown group
-  vi.mock('@/lib/data', async () => {
-    const actual = await vi.importActual('@/lib/data') as any
-    return {
-      ...actual,
-      courses: {
-        ...actual.courses,
-        999: {
-          title: 'Unknown Group Item',
-          titleEn: 'Unknown Group Item',
-          group: 'Unknown Group',
-          sections: []
-        }
-      }
-    }
-  })
+  const { courses } = await import('@/lib/data')
+  courses[999] = {
+    title: 'Unknown Group Item',
+    titleEn: 'Unknown Group Item',
+    group: 'Unknown Group',
+    sections: []
+  } as any
   
-  // Mock react-router-dom
+  // Mock useNavigate
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
+    const mockNav = vi.fn()
     return {
       ...actual,
-      useNavigate: vi.fn(),
-      useLocation: vi.fn()
+      useNavigate: () => mockNav
     }
   })
   
-  const mockLocation = (search: string = '') => ({
-    pathname: '/search',
-    search,
-    hash: '',
-    state: null,
-    key: 'default'
-  })
   describe('SearchResults Page', () => {
-    const mockNavigate = vi.fn()
-  
+    const mockNavigate = useNavigate()
+    
     beforeEach(() => {
       vi.clearAllMocks()
       localStorage.clear()
-      vi.mocked(useNavigate).mockReturnValue(mockNavigate)
-      // Default search for "Digital"
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=Digital'))
+      useStore.setState({
+        lang: 'da',
+        favorites: []
+      })
     })
   
-    const renderSearchResults = (lang: 'da' | 'en' = 'da') => {
+    const renderSearchResults = async (lang: 'da' | 'en' = 'da', initialEntries = ['/search?q=Digital']) => {
       useStore.setState({ lang })
+      const SearchResultsComponent = (await import('./SearchResults')).default
       return render(
-        <MemoryRouter>
-          <SearchResults />
+        <MemoryRouter initialEntries={initialEntries}>
+          <SearchResultsComponent />
         </MemoryRouter>
       )
     }
   
-    it('renders search results correctly', () => {
-      renderSearchResults('da')
+    it('renders search results correctly', async () => {
+      await renderSearchResults('da')
       // Match the exact text content and pick the first one
       const titles = screen.getAllByText((_content, element) => element?.textContent === 'Digital Design og Kommunikation')
       expect(titles[0]).toBeInTheDocument()
@@ -161,60 +147,54 @@ if (import.meta.vitest) {
       expect(mockNavigate).toHaveBeenCalledWith('/course/1')
     })
   
-    it('filters results by category', () => {
-      renderSearchResults('da')
-      const modulerFilter = screen.getByRole('button', { name: 'Moduler' })
+    it('filters results by category', async () => {
+      await renderSearchResults('da')
+      const modulerFilter = screen.getByRole('button', { name: 'Kurser' })
       fireEvent.click(modulerFilter)
       expect(screen.getAllByText((_content, element) => element?.textContent === 'Digital Design og Kommunikation')[0]).toBeInTheDocument()
     })
   
-    it('shows empty state when no results found', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=xyz123'))
-      renderSearchResults('da')
+    it('shows empty state when no results found', async () => {
+      await renderSearchResults('da', ['/search?q=xyz123'])
       expect(screen.getAllByText('Ingen resultater').length).toBeGreaterThan(0)
     })
   
-    it('renders in English', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=Digital'))
-      renderSearchResults('en')
+    it('renders in English', async () => {
+      await renderSearchResults('en', ['/search?q=Digital'])
       expect(screen.getByText(/Results for "Digital"/i)).toBeInTheDocument()
     })
   
-    it('shows empty state in English', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=xyz123'))
-      renderSearchResults('en')
+    it('shows empty state in English', async () => {
+      await renderSearchResults('en', ['/search?q=xyz123'])
       expect(screen.getAllByText('No results').length).toBeGreaterThan(0)
     })
   
-    it('shows empty state when query is empty', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation(''))
-      renderSearchResults('da')
+    it('shows empty state when query is empty', async () => {
+      await renderSearchResults('da', ['/search'])
       expect(screen.getByText(/Ingen resultater/i)).toBeInTheDocument()
     })
   
-    it('finds results by description match', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=Kursusmodul'))
-      renderSearchResults('da')
+    it('finds results by description match', async () => {
+      await renderSearchResults('da', ['/search?q=Kursusmodul'])
       expect(screen.getAllByText((_content, element) => element?.textContent === 'Digital Design og Kommunikation')[0]).toBeInTheDocument()
     })
   
-    it('navigates via go to content button', () => {
-      renderSearchResults('da')
+    it('navigates via go to content button', async () => {
+      await renderSearchResults('da')
       // Search for course action label specifically
       const goBtns = screen.getAllByText('Gå til kursus')
       fireEvent.click(goBtns[0])
       expect(mockNavigate).toHaveBeenCalledWith('/course/1')
     })
   
-    it('filters by "all" category shows all results', () => {
-      renderSearchResults('da')
+    it('filters by "all" category shows all results', async () => {
+      await renderSearchResults('da')
       fireEvent.click(screen.getByText('Alle'))
       expect(screen.getAllByText((_content, element) => element?.textContent === 'Digital Design og Kommunikation')[0]).toBeInTheDocument()
     })
   
-    it('filters between multiple categories excluding some results', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=oversigt'))
-      renderSearchResults('da')
+    it('filters between multiple categories excluding some results', async () => {
+      await renderSearchResults('da', ['/search?q=oversigt'])
       expect(screen.queryByText(/Ingen resultater/i)).not.toBeInTheDocument()
       // Should show only page results (group: Sider)
       const categoryBtns = screen.getAllByRole('button')
@@ -225,32 +205,29 @@ if (import.meta.vitest) {
       }
     })
   
-    it('renders fallback action label for unknown group', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=Unknown Group Item'))
-      renderSearchResults('da')
-      
+    it('renders fallback action label for unknown group', async () => {
+      await renderSearchResults('da', ['/search?q=Unknown Group Item'])
       expect(screen.getByText('Gå til indhold')).toBeInTheDocument()
     })
   
-    it('renders HighlightText with matching query', () => {
+    it('renders HighlightText with matching query', async () => {
       // HighlightText is used inside SearchResults
-      renderSearchResults('da')
+      await renderSearchResults('da')
       const strong = document.querySelector('strong')
       expect(strong).toBeInTheDocument()
       expect(strong?.textContent).toBe('Digital')
     })
   
-    it('highlights text when query parameter is present in URL', () => {
-      vi.mocked(useLocation).mockReturnValue(mockLocation('?q=Design'))
-      renderSearchResults('da')
+    it('highlights text when query parameter is present in URL', async () => {
+      await renderSearchResults('da', ['/search?q=Design'])
       const strong = document.querySelector('strong')
       expect(strong).toBeInTheDocument()
       expect(strong?.textContent).toBe('Design')
     })
   
-    it('toggles favorite on a course search result', () => {
+    it('toggles favorite on a course search result', async () => {
       const toggleSpy = vi.spyOn(useStore.getState(), 'toggleFavorite')
-      renderSearchResults('da')
+      await renderSearchResults('da')
       const starBtn = screen.getByLabelText(/til favoritter|to favorites/i)
       expect(starBtn).toBeInTheDocument()
       fireEvent.click(starBtn)

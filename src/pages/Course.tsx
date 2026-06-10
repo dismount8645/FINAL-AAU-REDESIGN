@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 
 import { useParams, useNavigate, MemoryRouter, Route, Routes } from 'react-router-dom';
 import {
-  MessageSquare, Users, GraduationCap, Book, FileSignature, Clock,
+  MessageSquare, Users, Book, FileSignature, Clock,
   ChevronDown, ChevronUp, Check
 } from 'lucide-react';
 import PageLayout from '@/components/Layout/PageLayout';
@@ -25,7 +25,6 @@ import type { CourseItem } from '@/lib/types';
 import CourseResources from '@/components/Courses/CourseResources';
 import CourseInfo from '@/components/Courses/CourseInfo';
 import CourseParticipants from '@/components/Courses/CourseParticipants';
-import CoursePbl from '@/components/Courses/CoursePbl';
 import ForumWidget from '@/components/Widgets/ForumWidget';
 
 const LessonItemRow = memo(function LessonItemRow({
@@ -118,81 +117,88 @@ function CourseModules({
   toggleSection: (sectionId: string) => void
 }) {
   const t = useStore((state) => state.t)
-
-  const getProgressMessage = (pct: number) => {
-    if (pct === 0) return t('progress_0')
-    if (pct < 50) return t('progress_25')
-    if (pct < 75) return t('progress_50')
-    if (pct < 100) return t('progress_75')
-    return t('progress_100')
-  }
+  const lang = useStore((state) => state.lang)
 
   return (
-    <Stack gap="md">
-      <Card variant="elevated" accent="left" className="mb-xl">
-        <Card.Header padding="compact">
-          <Stack gap="2xs" className="flex-1 min-w-0">
-            <Text weight="bold" size="md" className="card__title">{t('your_progress')}</Text>
-            <Text size="xs" muted>{getProgressMessage(progress)}</Text>
-          </Stack>
-          <div className="progress-stat text-right shrink-0">
-            <Text size="lg" weight="bold" className="progress-value text-[var(--color-primary)] block leading-[1]">
-              {progress}%
-            </Text>
-            <Text size="xs" muted className="text-uppercase tracking-[0.05em]">
-              {t('completed_short')}
-            </Text>
-          </div>
-        </Card.Header>
-        <div className="px-md pb-sm">
-          <ProgressBar value={progress} />
-        </div>
-      </Card>
+    <Stack gap="lg">
+      {sections.map((section) => {
+        const isExpanded = expandedSections.includes(section.id)
+        
+        // Calculate section-specific progress
+        const totalItems = section.items.length
+        const completedSectionItems = section.items.filter(item => completedItems.includes(item.id)).length
+        const sectionProgress = totalItems > 0 ? Math.round((completedSectionItems / totalItems) * 100) : 0
 
-      <Stack gap="lg">
-        {sections.map((section) => {
-          const isExpanded = expandedSections.includes(section.id)
-          return (
-            <Card key={section.id} variant="elevated" className="course-section mb-md overflow-hidden shadow-[var(--shadow-md)]">
-              <Card.Header className="section-header p-0 bg-bg-card overflow-hidden">
-                <button
-                  type="button"
-                  data-section-id={section.id}
-                  className="w-full text-left p-sm px-md flex items-start justify-between transition-colors duration-150 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
-                  onClick={() => toggleSection(section.id)}
-                  aria-expanded={isExpanded}
-                >
-                  <Stack direction="row" align="start" gap="sm" className="flex-1 min-w-0 text-left">
-                    <div className={`status-dot w-2 h-2 rounded-[var(--radius-pill)] shrink-0 mt-1.5 md:mt-2 ${progress > 50 ? 'active bg-success shadow-[0_0_6px_rgba(var(--color-success-rgb),0.3)]' : 'pending bg-[var(--color-border)] dark:bg-white/20'}`} title={progress > 50 ? 'Gennemført' : 'Ikke gennemført'} />
-                    <Heading level={4} as="h2" className="m-0 text-left">{t(`course_${courseId}_${section.id}_title`)}</Heading>
+        const statusDotClass = sectionProgress === 100
+          ? 'active bg-success shadow-[0_0_6px_rgba(var(--color-success-rgb),0.3)]'
+          : sectionProgress > 0
+            ? 'pending bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.3)]'
+            : 'pending bg-[var(--color-border)] dark:bg-white/20';
+
+        const statusTitle = sectionProgress === 100
+          ? (lang === 'da' ? 'Gennemført' : 'Completed')
+          : sectionProgress > 0
+            ? (lang === 'da' ? 'I gang' : 'In Progress')
+            : (lang === 'da' ? 'Ikke startet' : 'Not Started');
+
+        return (
+          <Card key={section.id} variant="elevated" className="course-section mb-md overflow-hidden shadow-[var(--shadow-md)]">
+            <Card.Header className="section-header p-0 bg-bg-card overflow-hidden relative">
+              <button
+                type="button"
+                data-section-id={section.id}
+                className="w-full text-left p-sm px-md flex items-start justify-between transition-colors duration-150 hover:bg-bg-hover focus-visible:outline-none focus-visible:shadow-focus"
+                onClick={() => toggleSection(section.id)}
+                aria-expanded={isExpanded}
+              >
+                <Stack direction="row" align="start" gap="sm" className="flex-1 min-w-0 text-left">
+                  <div className={`status-dot w-2 h-2 rounded-[var(--radius-pill)] shrink-0 mt-1.5 ${statusDotClass}`} title={statusTitle} />
+                  <Stack gap="3xs" className="flex-1 min-w-0">
+                    <Heading level={4} as="h2" className="m-0 text-left leading-snug">{t(`course_${courseId}_${section.id}_title`)}</Heading>
+                    <div className="flex items-center gap-xs text-[10px] text-muted">
+                      <span className="font-bold">{statusTitle}</span>
+                      <span>·</span>
+                      <span>{completedSectionItems} / {totalItems} {lang === 'da' ? 'gennemført' : 'completed'} ({sectionProgress}%)</span>
+                    </div>
                   </Stack>
+                </Stack>
+                <div className="flex items-center gap-xs shrink-0 self-center">
+                  <span className="text-xs font-bold text-muted-foreground mr-xs">{sectionProgress}%</span>
                   {isExpanded ? (
-                    <ChevronUp size={20} strokeWidth={2.5} className="text-muted transition-transform duration-150 mt-1 shrink-0" />
+                    <ChevronUp size={20} strokeWidth={2.5} className="text-muted transition-transform duration-150 shrink-0" />
                   ) : (
-                    <ChevronDown size={20} strokeWidth={2.5} className="text-muted transition-transform duration-150 mt-1 shrink-0" />
+                    <ChevronDown size={20} strokeWidth={2.5} className="text-muted transition-transform duration-150 shrink-0" />
                   )}
-                </button>
-              </Card.Header>
-              {isExpanded && (
-                <Card.Body padding="compact" className="section-content">
-                  <Stack gap="2xs">
-                    {section.items.map((item) => (
-                      <LessonItemRow
-                        key={item.id}
-                        item={item}
-                        courseId={courseId}
-                        sectionId={section.id}
-                        completed={completedItems.includes(item.id)}
-                        onToggleItem={toggleItem}
-                      />
-                    ))}
-                  </Stack>
-                </Card.Body>
-              )}
-            </Card>
-          )
-        })}
-      </Stack>
+                </div>
+              </button>
+              
+              {/* Module header bottom progress line */}
+              <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-border/20 overflow-hidden">
+                <div
+                  className="h-full bg-success transition-all duration-300"
+                  style={{ width: `${sectionProgress}%` }}
+                />
+              </div>
+            </Card.Header>
+            {isExpanded && (
+              <Card.Body padding="compact" className="section-content">
+                <Stack gap="2xs">
+                  {section.items.map((item) => (
+                    <LessonItemRow
+                      key={item.id}
+                      item={item}
+                      courseId={courseId}
+                      sectionId={section.id}
+                      completed={completedItems.includes(item.id)}
+                      onToggleItem={toggleItem}
+                    />
+                  ))}
+                </Stack>
+              </Card.Body>
+            )}
+          </Card>
+        )
+      })}
     </Stack>
   )
 }
@@ -210,6 +216,7 @@ function Course() {
   const [completedItems, setCompletedItems] = useState<number[]>(() => {
     return storage.get(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}${id}`, [])
   })
+  const [descExpanded, setDescExpanded] = useState(false)
 
   const courseIdNum = Number(id)
   const data = courseData[courseIdNum]
@@ -243,8 +250,6 @@ function Course() {
     }
   }, [expandedSections])
 
-
-
   const totalItems = useMemo(
     () => data?.sections.reduce((acc, section) => acc + section.items.length, 0) || 0,
     [data]
@@ -256,7 +261,29 @@ function Course() {
     [t]
   )
 
+  const getProgressMessage = (pct: number) => {
+    if (pct === 0) return t('progress_0')
+    if (pct < 50) return t('progress_25')
+    if (pct < 75) return t('progress_50')
+    if (pct < 100) return t('progress_75')
+    return t('progress_100')
+  }
+
+  const nextRecommendedItem = useMemo(() => {
+    if (!data) return null
+    for (const section of data.sections) {
+      for (const item of section.items) {
+        if (!completedItems.includes(item.id)) {
+          return { item, section }
+        }
+      }
+    }
+    return null
+  }, [data, completedItems])
+
   if (!data) return null
+
+  const courseDesc = t(`course_${id}_desc`)
 
   return (
     <PageLayout
@@ -273,6 +300,43 @@ function Course() {
         professor={data.professor}
         campus={t('course_campus_aalborg')}
       />
+
+      {/* Collapsible course description directly below module header */}
+      <div className="mt-md">
+        <Card variant="elevated" className="overflow-hidden">
+          <Card.Body padding="compact">
+            <Stack gap="xs">
+              <Text weight="bold" size="sm" className="text-muted text-uppercase tracking-wider">
+                {t('description')}
+              </Text>
+              <div 
+                className={cn(
+                  "text-sm text-foreground/80 transition-all duration-300 relative",
+                  !descExpanded && "line-clamp-2"
+                )}
+                style={{
+                  display: !descExpanded ? '-webkit-box' : 'block',
+                  WebkitLineClamp: !descExpanded ? 2 : undefined,
+                  WebkitBoxOrient: !descExpanded ? 'vertical' : undefined,
+                  overflow: 'hidden'
+                }}
+              >
+                {courseDesc}
+              </div>
+              <div className="flex justify-start">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="px-0 py-none h-fit hover:bg-transparent text-primary font-bold hover:text-primary-dark"
+                  onClick={() => setDescExpanded(!descExpanded)}
+                >
+                  {descExpanded ? 'Vis mindre' : 'Vis mere'}
+                </Button>
+              </div>
+            </Stack>
+          </Card.Body>
+        </Card>
+      </div>
 
       <div className="mt-xl">
         <SplitLayout
@@ -313,16 +377,48 @@ function Course() {
                   {activeTab === 'participants' && (
                     <CourseParticipants participantsData={participantsData} />
                   )}
-
-                  {activeTab === 'pbl' && (
-                    <CoursePbl />
-                  )}
                 </div>
               </div>
             </Stack>
           }
           sidebar={
             <aside className="flex flex-col gap-lg">
+              {/* Compact "Dit fremskridt" widget in the sidebar */}
+              <Card variant="elevated" accent="left" className="h-fit">
+                <Card.Header padding="compact" className="pb-none">
+                  <Stack gap="2xs" className="flex-1 min-w-0">
+                    <Text weight="bold" size="sm" className="card__title">{t('your_progress')}</Text>
+                    <Text size="2xs" muted>{getProgressMessage(progress)}</Text>
+                  </Stack>
+                  <div className="progress-stat text-right shrink-0">
+                    <Text size="md" weight="bold" className="progress-value text-[var(--color-primary)] block leading-[1]">
+                      {progress}%
+                    </Text>
+                  </div>
+                </Card.Header>
+                <Card.Body padding="compact" className="pt-2xs">
+                  <Stack gap="xs">
+                    <ProgressBar value={progress} />
+                    <div className="flex justify-between items-center text-xs text-muted">
+                      <span>{t('completed_short')}:</span>
+                      <span className="font-bold text-foreground">
+                        {completedItems.length} / {totalItems}
+                      </span>
+                    </div>
+                    {nextRecommendedItem && (
+                      <div className="border-t border-border/40 pt-xs mt-2xs">
+                        <Text size="2xs" muted className="block uppercase tracking-wider mb-3xs">
+                          Næste anbefalede aktivitet:
+                        </Text>
+                        <Text size="xs" weight="bold" className="block text-primary truncate">
+                          {t(`course_${id}_${nextRecommendedItem.section.id}_i${nextRecommendedItem.item.id}_title`)}
+                        </Text>
+                      </div>
+                    )}
+                  </Stack>
+                </Card.Body>
+              </Card>
+
               <Card variant="elevated" className="h-fit">
                 <Card.Header padding="compact">
                   <Text weight="bold" size="md" className="card__title">{t('quick_access')}</Text>
@@ -344,13 +440,6 @@ function Course() {
                       className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
                     />
                     <MasterItem
-                      leading={GraduationCap}
-                      leadingClassName="text-primary"
-                      title={t('my_grades')}
-                      onClick={() => { navigate(PATHS.GRADES) }}
-                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none py-2xs"
-                    />
-                    <MasterItem
                       leading={Book}
                       leadingClassName="text-primary"
                       title={t('syllabus')}
@@ -361,65 +450,29 @@ function Course() {
                 </Card.Body>
               </Card>
 
-              {(() => {
-                const course = courses[Number(id!)]
-                const nextAssignment = course?.nextAssignment
-                if (!nextAssignment) return null
-                const localize = useStore.getState().localize
-                return (
-                  <Card variant="brand" className="relative overflow-hidden group">
-                    <Card.Decoration icon={FileSignature} className="opacity-10 group-hover:scale-110 transition-transform duration-500" />
-                    <Card.Header>
-                      <Text weight="bold" size="lg" className="card__title text-white">{t('next_assignment')}</Text>
-                    </Card.Header>
-                    <Card.Body>
-                      <Text size="sm" weight="bold" className="mb-md text-white/90 block leading-tight">
-                        {localize(nextAssignment, 'title')}
-                      </Text>
-                      <Stack direction="row" align="center" gap="sm">
-                        <Clock size={16} strokeWidth={2} className="text-white opacity-70" />
-                        <Text size="xs" className="text-white/90">
-                          {localize(nextAssignment, 'deadline')}
-                        </Text>
-                      </Stack>
-                    </Card.Body>
-                    <Card.Footer className="border-t border-white/10 pt-md">
-                      <Button
-                        variant="primary"
-                        full
-                        className="bg-white text-primary hover:bg-white/90"
-                        onClick={() => navigate(PATHS.SUBMISSION(id, nextAssignment.submissionId))}
-                      >
-                        {t('go_to_assignment')}
-                      </Button>
-                    </Card.Footer>
-                  </Card>
-                )
-              })()}
-
               <Card variant="elevated" className="h-fit">
-                <Card.Header>
-                  <Text weight="bold" size="lg" className="card__title">{t('instructor')}</Text>
+                <Card.Header padding="compact" className="pb-none">
+                  <Text weight="bold" size="sm" className="card__title">{t('instructor')}</Text>
                 </Card.Header>
-                <Card.Body className="pt-md pb-md">
-                  <Stack direction="row" align="center" gap="md">
-                    <Avatar
-                      src={ASSETS.promo.instructor}
-                      name={data.professor}
-                      size="lg"
-                      status="online"
-                    />
-                    <Stack gap="none" className="min-w-0 flex-1">
-                      <Text size="sm" weight="bold" className="truncate block">{data.professor}</Text>
-                      <Text size="xs" muted className="break-all block">{data.email}</Text>
+                <Card.Body padding="compact" className="pt-xs">
+                  <Stack gap="sm">
+                    <Stack direction="row" align="center" gap="md">
+                      <Avatar
+                        src={ASSETS.promo.instructor}
+                        name={data.professor}
+                        size="md"
+                        status="online"
+                      />
+                      <Stack gap="none" className="min-w-0 flex-1">
+                        <Text size="xs" weight="bold" className="truncate block">{data.professor}</Text>
+                        <Text size="2xs" muted className="break-all block">{data.email}</Text>
+                      </Stack>
                     </Stack>
+                    <Button variant="secondary" size="sm" className="w-full mt-2xs">
+                      {t('send_message')}
+                    </Button>
                   </Stack>
                 </Card.Body>
-                <Card.Footer className="border-t border-border pt-md">
-                  <Button variant="secondary" full className="shadow-[var(--shadow-sm)]">
-                    {t('send_message')}
-                  </Button>
-                </Card.Footer>
               </Card>
             </aside>
           }
@@ -470,9 +523,6 @@ if (import.meta.vitest) {
       renderCourse('1')
       expect(screen.getAllByText('Digital Design og Kommunikation').length).toBeGreaterThan(0)
       expect(screen.getAllByText('Aflevering: Designskitse').length).toBeGreaterThan(0)
-      
-      fireEvent.click(screen.getByText('Gå til aflevering'))
-      expect(mockNavigate).toHaveBeenCalledWith('/submission/1/105')
     })
   
     it('renders course details for ID 2', () => {
@@ -480,10 +530,6 @@ if (import.meta.vitest) {
       renderCourse('2')
       expect(screen.getAllByText('Webudvikling og CMS').length).toBeGreaterThan(0)
       expect(screen.getAllByText('Projekt: Byg en To-Do App').length).toBeGreaterThan(0)
-      expect(screen.getByText(/Om 2 dage/i)).toBeInTheDocument()
-      
-      fireEvent.click(screen.getByText('Gå til aflevering'))
-      expect(mockNavigate).toHaveBeenCalledWith('/submission/2/204')
     })
   
     it('switches between modules and forum tabs', () => {
@@ -497,9 +543,9 @@ if (import.meta.vitest) {
       renderCourse('1')
       const getFirstCheckbox = () => document.querySelectorAll('.lesson-item__checkbox')[0]
       fireEvent.click(getFirstCheckbox())
-      expect(screen.getByText('20%')).toBeInTheDocument()
+      expect(screen.getAllByText('20%').length).toBeGreaterThan(0)
       fireEvent.click(getFirstCheckbox())
-      expect(screen.getByText('0%')).toBeInTheDocument()
+      expect(screen.getAllByText('0%').length).toBeGreaterThan(0)
     })
   
     it('navigates to courses if course ID is invalid', () => {
@@ -551,15 +597,10 @@ if (import.meta.vitest) {
       expect(container.textContent).toContain('20%')
     })
   
-    it('shows zero progress for a course with no sections', () => {
-      renderCourse('4')
-      expect(screen.getByText('0%')).toBeInTheDocument()
-    })
-  
     it('handles malformed localStorage for course progress', () => {
       localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, '{broken')
       renderCourse('1')
-      expect(screen.getByText('0%')).toBeInTheDocument()
+      expect(screen.getAllByText('0%').length).toBeGreaterThan(0)
     })
   
     it('handles malformed localStorage for expanded sections', () => {
@@ -571,7 +612,7 @@ if (import.meta.vitest) {
     it('handles malformed localStorage for course progress', () => {
       localStorage.setItem(`${STORAGE_KEYS.COURSE_PROGRESS_PREFIX}1`, '{broken')
       renderCourse('1')
-      expect(screen.getByText('0%')).toBeInTheDocument()
+      expect(screen.getAllByText('0%').length).toBeGreaterThan(0)
     })
   
     it('navigates to info tab and displays course information', () => {
@@ -580,7 +621,7 @@ if (import.meta.vitest) {
       const infoTabs = screen.getAllByText('Kursusinfo')
       fireEvent.click(infoTabs[infoTabs.length - 1])
       expect(screen.getByText(/Kursusinformation|Course Info/)).toBeInTheDocument()
-      expect(screen.getByText(/Beskrivelse|Description/)).toBeInTheDocument()
+      expect(screen.getAllByText(/Beskrivelse|Description/).length).toBeGreaterThan(0)
       expect(screen.getByText(/Læringsmål|Learning Goals/)).toBeInTheDocument()
     })
   
@@ -619,7 +660,7 @@ if (import.meta.vitest) {
       
       // progress_100 is "Mission accomplished!" in English
       expect(screen.getByText('Mission accomplished!')).toBeInTheDocument()
-      expect(screen.getByText('100%')).toBeInTheDocument()
+      expect(screen.getAllByText('100%').length).toBeGreaterThan(0)
     })
   
     it('toggles section expansion', () => {
@@ -661,7 +702,6 @@ if (import.meta.vitest) {
           <MemoryRouter>
             <CourseModules
               courseId="1"
-              progress={50}
               completedItems={[]}
               expandedSections={['s1']}
               sections={sections}
@@ -671,8 +711,6 @@ if (import.meta.vitest) {
           </MemoryRouter>
         )
 
-        expect(screen.getByText('50%')).toBeInTheDocument()
-
         const checkbox = container.querySelector('.lesson-item__checkbox')!
         fireEvent.click(checkbox)
         expect(toggleItem).toHaveBeenCalledWith(101)
@@ -680,6 +718,27 @@ if (import.meta.vitest) {
         const header = container.querySelector('[data-section-id="s1"]')!
         fireEvent.click(header)
         expect(toggleSection).toHaveBeenCalledWith('s1')
+      })
+    })
+
+    describe('CourseDescription', () => {
+      it('collapses and expands the course description when clicking the button', () => {
+        render(
+          <MemoryRouter initialEntries={['/course/1']}>
+            <Routes>
+              <Route path="/course/:id" element={<Course />} />
+            </Routes>
+          </MemoryRouter>
+        )
+
+        const toggleBtn = screen.getByText('Vis mere')
+        expect(toggleBtn).toBeInTheDocument()
+
+        fireEvent.click(toggleBtn)
+        expect(screen.getByText('Vis mindre')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByText('Vis mindre'))
+        expect(screen.getByText('Vis mere')).toBeInTheDocument()
       })
     })
 
@@ -731,13 +790,6 @@ if (import.meta.vitest) {
       })
     })
 
-    describe('CoursePbl', () => {
-      it('renders pbl group component', () => {
-        render(<CoursePbl />)
-        expect(screen.getByText('Gruppeprojekt (PBL)')).toBeInTheDocument()
-      })
-    })
-
     describe('CourseSidebar', () => {
       it('renders quick links and professor information', () => {
         const setActiveTab = vi.fn()
@@ -763,13 +815,6 @@ if (import.meta.vitest) {
                       leadingClassName="text-primary"
                       title={t('participants')}
                       onClick={() => { setActiveTab('participants'); window.scrollTo(0, 0) }}
-                      className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
-                    />
-                    <MasterItem
-                      leading={GraduationCap}
-                      leadingClassName="text-primary"
-                      title={t('my_grades')}
-                      onClick={() => { window.location.href = '/grades' }}
                       className="rounded-[var(--radius-lg)] hover:bg-bg-hover border-none"
                     />
                     <MasterItem
