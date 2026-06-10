@@ -1,3 +1,0 @@
-FROM ./DeepSeek-Coder-V2-Lite-Instruct-Q5_K_M.gguf
-PARAMETER num_ctx 4096
-PARAMETER num_batch 512

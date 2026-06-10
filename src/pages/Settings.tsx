@@ -22,10 +22,7 @@ import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, Messa
 const catIcons: Record<string, typeof User> = {
   bruger: User,
   indstillinger: SettingsIcon,
-  sikkerhed: Shield,
-  filer: Folder,
-  blogs: FileText,
-  badges: Award,
+  avanceret: Sliders,
 }
 
 const itemIcons: Record<string, typeof User> = {
@@ -95,7 +92,7 @@ function Settings() {
       breadcrumbs={[{ label: t('nav.dashboard'), href: '/' }, { label: t('nav.settings') }]}
     >
 
-      <div className="container pb-2xl">
+      <div className="container pb-2xl pt-sm">
         <SplitLayout
           sidebarPosition="left"
           showDetailOnMobile={mobileDetailOpen}
@@ -164,14 +161,14 @@ function Settings() {
           }
           main={
             <Card className="flex flex-col p-[var(--space-0)] h-full w-full border-none">
-              <Card.Header className="border-b border-border">
+              <Card.Header className="border-b border-border shrink-0">
                 <Stack gap="2xs">
                   <Text weight="bold" size="lg" className="card__title text-main">{t(activeTabLabel)}</Text>
                   <Text muted size="sm">{t('settings.subtitle')}</Text>
                 </Stack>
               </Card.Header>
               
-              <Card.Body className="p-lg">
+              <Card.Body className="p-lg overflow-y-auto flex-1 min-h-0">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -203,7 +200,7 @@ function Settings() {
               </Card.Body>
 
               {(activeTab === 'profil' || activeTab === 'forum' || activeTab === 'kalender' || activeTab === 'beskeder') && (
-                <Card.Footer className="border-t border-border p-lg">
+                <Card.Footer className="border-t border-border p-lg shrink-0 bg-bg-card z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.2)]">
                   <Button variant="primary" size="md" onClick={handleSave} loading={isSaving} className="self-start">{t('settings.save_changes')}</Button>
                 </Card.Footer>
               )}
@@ -269,19 +266,19 @@ if (import.meta.vitest) {
 
     it('switches categories and toggles collapse', async () => {
       renderSettings('da')
-      fireEvent.click(screen.getByText('Sikkerhed'))
-      expect(screen.getByText('Indstillinger for beskeder')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('Avanceret'))
+      expect(screen.getByText('Sikkerhedsnøgler')).toBeInTheDocument()
 
-      fireEvent.click(screen.getByText('Sikkerhed'))
+      fireEvent.click(screen.getByText('Avanceret'))
       await waitFor(() => {
-        expect(screen.queryByText('Indstillinger for beskeder')).not.toBeInTheDocument()
+        expect(screen.queryByText('Sikkerhedsnøgler')).not.toBeInTheDocument()
       })
     })
 
     it('changes language and theme', () => {
       renderSettings('en')
       expect(screen.getAllByText('User Account').length).toBeGreaterThan(0)
-      expect(screen.getAllByText('Security').length).toBeGreaterThan(0)
+      expect(screen.getAllByText('Advanced').length).toBeGreaterThan(0)
     })
 
     it('renders the profile content by default', () => {
@@ -300,8 +297,8 @@ if (import.meta.vitest) {
 
     it('shows empty state for non-profile tabs', () => {
       renderSettings('da')
-      const securityHeader = screen.getByText('Sikkerhed')
-      fireEvent.click(securityHeader)
+      const avanceretHeader = screen.getByText('Avanceret')
+      fireEvent.click(avanceretHeader)
       const sikkerhedsNoeglerItem = screen.getByText('Sikkerhedsnøgler')
       fireEvent.click(sikkerhedsNoeglerItem)
       expect(screen.getByText('Denne sektion er under udvikling.')).toBeInTheDocument()
@@ -309,8 +306,8 @@ if (import.meta.vitest) {
 
     it('shows empty state in English for non-profile tabs', () => {
       renderSettings('en')
-      const blogsHeader = screen.getByText('Blogs')
-      fireEvent.click(blogsHeader)
+      const advancedHeader = screen.getByText('Advanced')
+      fireEvent.click(advancedHeader)
       const blogSettings = screen.getByText('Blog Settings')
       fireEvent.click(blogSettings)
       expect(screen.getByText('This section is under development.')).toBeInTheDocument()
@@ -318,7 +315,7 @@ if (import.meta.vitest) {
 
     it('selects different tabs and shows correct content', () => {
       renderSettings('en')
-      fireEvent.click(screen.getByText('Security'))
+      fireEvent.click(screen.getByText('Advanced'))
       fireEvent.click(screen.getByText('Security Keys'))
       expect(screen.getByText('This section is under development.')).toBeInTheDocument()
     })
@@ -331,26 +328,26 @@ if (import.meta.vitest) {
 
     it('expands and collapses a closed category', async () => {
       renderSettings('da')
-      fireEvent.click(screen.getByText('Filer'))
-      expect(screen.getByText('Filarkiver')).toBeInTheDocument()
-      fireEvent.click(screen.getByText('Filer'))
+      fireEvent.click(screen.getByText('Avanceret'))
+      expect(screen.getByText('Sikkerhedsnøgler')).toBeInTheDocument()
+      fireEvent.click(screen.getByText('Avanceret'))
       await waitFor(() => {
-        expect(screen.queryByText('Filarkiver')).not.toBeInTheDocument()
+        expect(screen.queryByText('Sikkerhedsnøgler')).not.toBeInTheDocument()
       })
     })
 
     it('expands category on keyboard Enter', () => {
       renderSettings('da')
-      const filerHeader = screen.getByText('Filer')
-      fireEvent.keyDown(filerHeader, { key: 'Enter' })
-      expect(screen.getByText('Filarkiver')).toBeInTheDocument()
+      const avanceretHeader = screen.getByText('Avanceret')
+      fireEvent.keyDown(avanceretHeader, { key: 'Enter' })
+      expect(screen.getByText('Sikkerhedsnøgler')).toBeInTheDocument()
     })
 
     it('expands category on keyboard Space', () => {
       renderSettings('da')
-      const filerHeader = screen.getByText('Filer')
-      fireEvent.keyDown(filerHeader, { key: ' ' })
-      expect(screen.getByText('Filarkiver')).toBeInTheDocument()
+      const avanceretHeader = screen.getByText('Avanceret')
+      fireEvent.keyDown(avanceretHeader, { key: ' ' })
+      expect(screen.getByText('Sikkerhedsnøgler')).toBeInTheDocument()
     })
 
     it('renders language tab via direct routing', () => {
@@ -386,8 +383,6 @@ if (import.meta.vitest) {
 
     it('navigates to notification tab and toggles preferences', () => {
       renderSettings('da')
-      const securityHeader = screen.getByText('Sikkerhed')
-      fireEvent.click(securityHeader)
       fireEvent.click(screen.getByText('Indstillinger for underretninger'))
       const notifCards = document.querySelectorAll('[role="switch"]')
       if (notifCards.length > 0) {
@@ -439,7 +434,6 @@ if (import.meta.vitest) {
     it('navigates to messages tab via click', () => {
       useStore.setState({ lang: 'en' })
       renderSettings('en')
-      fireEvent.click(screen.getByText('Security'))
       fireEvent.click(screen.getByText('Message Settings'))
       expect(screen.getByText(/Who can contact me/i)).toBeInTheDocument()
     })

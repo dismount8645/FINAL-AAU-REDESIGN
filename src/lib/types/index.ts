@@ -7,23 +7,6 @@ export interface StagedFile {
   id: string
 }
 
-export interface GradeRecord {
-  id: number
-  code: string
-  titleDa: string
-  titleEn: string
-  grade: number | null
-  ects: number
-  semesterDa: string
-  semesterEn: string
-  examDate: string
-  examTypeDa: string
-  examTypeEn: string
-  feedbackDa: string
-  feedbackEn: string
-  instructor: string
-}
-
 interface ChatMessage {
   id: number
   type: 'in' | 'out'
@@ -138,6 +121,11 @@ export interface CalendarEvent {
   time: string;
   host: string;
   description?: string;
+  courseTitleDa?: string;
+  courseTitleEn?: string;
+  courseCode?: string;
+  typeDa?: string;
+  typeEn?: string;
 }
 
 export type CalendarEvents = Record<string, CalendarEvent>;

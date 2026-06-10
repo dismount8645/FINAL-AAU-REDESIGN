@@ -49,7 +49,7 @@ export default function PageHeader({
     }
   }, [breadcrumbsStr, setBreadcrumbs])
 
-  const headerLabel = title || t(pageKey || '')
+  const headerLabel = title !== undefined ? title : t(pageKey || '')
 
   return (
     <header

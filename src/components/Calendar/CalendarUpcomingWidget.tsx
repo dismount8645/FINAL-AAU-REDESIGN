@@ -40,7 +40,11 @@ const CalendarUpcomingWidget = ({
       currentDate.getFullYear() > now.getFullYear() ||
       (currentDate.getFullYear() === now.getFullYear() && currentDate.getMonth() > now.getMonth())
 
-    const filterStartDate = isFutureMonth
+    const isPastMonth =
+      currentDate.getFullYear() < now.getFullYear() ||
+      (currentDate.getFullYear() === now.getFullYear() && currentDate.getMonth() < now.getMonth())
+
+    const filterStartDate = isFutureMonth || isPastMonth
       ? new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
       : new Date(now.setHours(0, 0, 0, 0))
 
@@ -49,7 +53,12 @@ const CalendarUpcomingWidget = ({
         const [y, m, d_num] = dateStr.split('-').map(Number)
         return { date: new Date(y, m, d_num), dateKey: dateStr, ...event }
       })
-      .filter((e) => e.date >= filterStartDate)
+      .filter((e) => {
+        const isCurrentMonthContext = 
+          e.date.getFullYear() === currentDate.getFullYear() && 
+          e.date.getMonth() === currentDate.getMonth()
+        return isCurrentMonthContext && e.date >= filterStartDate
+      })
       .sort((a, b) => a.date.getTime() - b.date.getTime())
       .slice(0, 5)
   }, [events, currentDate])
@@ -72,7 +81,7 @@ const CalendarUpcomingWidget = ({
           </Stack>
           {futureEvents.length > 0 && (
             <Button variant="ghost" size="xs" onClick={() => navigate(PATHS.CALENDAR)} className="normal-case tracking-normal font-black text-xs">
-              {t('view_all')}
+              {t('common.see_all')}
             </Button>
           )}
         </Stack>
@@ -112,17 +121,17 @@ const CalendarUpcomingWidget = ({
                   </Stack>
 
                   <Stack gap="none" className="flex-1 min-w-0">
-                    <Text size="sm" weight="bold" tag="span" className="truncate leading-snug">
+                    <Text size="sm" weight="bold" tag="span" className="line-clamp-2 block leading-snug">
                       {getEventTitle(e)}
                     </Text>
-                    <Stack direction="row" gap="xs" align="center" className="text-muted">
+                    <Stack direction="row" gap="xs" align="center" className="text-muted shrink-0">
                       <Clock size={12} strokeWidth={2.5} />
-                      <Text size="sm" weight="bold" tag="span" className="uppercase">{e.time}</Text>
+                      <Text size="sm" weight="bold" tag="span" className="uppercase whitespace-nowrap">{e.time}</Text>
                     </Stack>
                     {e.location && (
                       <Stack direction="row" gap="xs" align="center" className="text-primary/80 dark:text-white">
                         <MapPin size={12} strokeWidth={2.5} />
-                        <Text size="sm" weight="bold" tag="span" className="italic truncate">{e.location}</Text>
+                        <Text size="sm" weight="bold" tag="span" className="italic line-clamp-1 block">{e.location}</Text>
                       </Stack>
                     )}
                   </Stack>
@@ -134,13 +143,28 @@ const CalendarUpcomingWidget = ({
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="py-[var(--space-md)] px-[var(--space-md)] text-center bg-bg-highlight/5"
+                className="py-[var(--space-md)] px-[var(--space-md)] text-center bg-bg-highlight/5 flex flex-col items-center gap-sm"
               >
-                <CalendarCheck size={24} className="text-muted/65 mx-auto mb-[var(--space-2xs)]" />
-                <Text size="sm" weight="bold" muted className="mb-[var(--space-2xs)]">{t('no_events_short')}</Text>
-                <Text size="2xs" muted className="leading-relaxed max-w-[180px] mx-auto">
-                  {t('no_upcoming_events_hint')}
-                </Text>
+                <div className="flex flex-col items-center text-center">
+                  <CalendarCheck size={24} className="text-muted/65 mx-auto mb-[var(--space-2xs)]" />
+                  <Text size="sm" weight="bold" muted className="mb-[var(--space-2xs)]">{t('no_events_short')}</Text>
+                  <Text size="2xs" muted className="leading-relaxed max-w-[180px] mx-auto">
+                    {t('no_upcoming_events_hint')}
+                  </Text>
+                </div>
+                
+                <Stack gap="xs" className="w-full mt-2xs">
+                  {onCreateEvent && (
+                    <Button variant="primary" size="sm" onClick={onCreateEvent} className="w-full justify-center normal-case tracking-normal text-xs py-1.5 h-auto">
+                      {t('new_event')}
+                    </Button>
+                  )}
+                  {onImport && (
+                    <Button variant="outline" size="sm" onClick={onImport} className="w-full justify-center normal-case tracking-normal text-xs py-1.5 h-auto">
+                      {t('import_ics')}
+                    </Button>
+                  )}
+                </Stack>
               </motion.div>
             )}
           </AnimatePresence>

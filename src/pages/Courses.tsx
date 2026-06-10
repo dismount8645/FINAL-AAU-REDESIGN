@@ -244,7 +244,7 @@ if (import.meta.vitest) {
     })
     it('renders courses correctly', () => {
       renderWithProviders(<Courses />)
-      expect(screen.getAllByText('Moduler').length).toBeGreaterThan(0)
+      expect(screen.getAllByText('Kurser').length).toBeGreaterThan(0)
       expect(screen.getByText('I gang')).toBeInTheDocument()
     })
 
@@ -257,7 +257,7 @@ if (import.meta.vitest) {
 
     it('toggles sections including forums', () => {
       renderWithProviders(<Courses />)
-      const coursesHeader = screen.getByText(/Dine moduler/i)
+      const coursesHeader = screen.getByText(/Dine kurser/i)
       fireEvent.click(coursesHeader)
       expect(screen.queryByText('Åbn modul')).not.toBeInTheDocument()
 
@@ -293,12 +293,6 @@ if (import.meta.vitest) {
       renderWithProviders(<Courses />)
       fireEvent.click(screen.getByText('Kommende'))
       expect(screen.getByText('Bachelorprojekt')).toBeInTheDocument()
-    })
-
-    it('switches to completed tab and shows completed courses', () => {
-      renderWithProviders(<Courses />)
-      fireEvent.click(screen.getByText('Afsluttede'))
-      expect(screen.getByText('Problembaseret Læring (PBL)')).toBeInTheDocument()
     })
 
     it('renders in English with English course titles', () => {

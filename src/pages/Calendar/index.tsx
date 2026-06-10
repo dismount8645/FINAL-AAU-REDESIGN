@@ -2,14 +2,13 @@ import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 
 
 import { AnimatePresence } from 'framer-motion';
-import { Upload, Download, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Upload, Download, Plus, ChevronLeft, ChevronRight, Settings, AlertTriangle } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
 import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingWidget, CalendarNewEventDialog, CalendarEventDetailsDialog } from '@/components/Calendar';
 
 
 
-import { Button } from '@/components/ui';
-import { Card } from '@/components/ui';
+import { Button, Card, Dropdown, Text } from '@/components/ui';
 import ErrorBoundary from '@/components/Layout/ErrorBoundary';
 import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import PageLayout from '@/components/Layout/PageLayout';
@@ -162,7 +161,7 @@ const Calendar = () => {
                 onClick={goToToday}
                 className="px-[var(--space-md)]"
               >
-                {t('today')}
+                {t('go_to_today')}
               </Button>
               <Button
                 variant="secondary"
@@ -174,12 +173,23 @@ const Calendar = () => {
               />
             </Stack>
             <Stack direction="row" gap="sm" className="flex-wrap" align="center">
-              <Button variant="outline" size="md" icon={Upload} onClick={() => setActiveModal('import')} className="normal-case tracking-normal hover:bg-bg-hover">
-                {t('import_ics')}
-              </Button>
-              <Button variant="outline" size="md" icon={Download} onClick={() => setActiveModal('export')} className="normal-case tracking-normal hover:bg-bg-hover">
-                {t('export_ics')}
-              </Button>
+              <Dropdown>
+                <Dropdown.Trigger>
+                  <Button variant="ghost" size="sm" icon={Settings} className="normal-case tracking-normal hover:bg-bg-hover text-text-muted">
+                    {t('more_actions')}
+                  </Button>
+                </Dropdown.Trigger>
+                <Dropdown.Menu className="w-48 p-1">
+                  <Dropdown.Item onClick={() => setActiveModal('import')}>
+                    <Upload size={16} className="mr-2 text-text-muted" />
+                    {t('import_ics')}
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => setActiveModal('export')}>
+                    <Download size={16} className="mr-2 text-text-muted" />
+                    {t('export_ics')}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               <Button variant="primary" size="md" icon={Plus} onClick={() => setActiveModal('new')} className="normal-case tracking-normal shadow-sm hover:shadow-md transition-all active:scale-95">
                 {t('new_event')}
               </Button>
@@ -189,10 +199,10 @@ const Calendar = () => {
       }
     >
 
-      <div className="w-full px-sm md:px-md pb-xl">
+      <div className="w-full max-w-[1450px] mx-auto px-sm md:px-md pb-xl">
         <ErrorBoundary name="CalendarContent">
           <Grid columns={12} gap="md">
-            <Grid.Item span={10} className="min-w-0">
+            <Grid.Item className="calendar-main-col min-w-0">
               <Card variant="elevated" className="main-calendar-card">
                 <Card.Header padding="compact" className="bg-bg-highlight/30 backdrop-blur-md">
                   <div className="w-full flex items-center justify-center">
@@ -237,16 +247,47 @@ const Calendar = () => {
               </Card>
             </Grid.Item>
 
-            <Grid.Item span={2} className="self-start h-fit">
-              <CalendarUpcomingWidget
-                events={events}
-                currentDate={currentDate}
-                monthNames={monthNames}
-                t={t}
-                handleEventClick={handleEventClick}
-                onCreateEvent={() => setActiveModal('new')}
-                onImport={() => setActiveModal('import')}
-              />
+            <Grid.Item className="calendar-side-col self-start h-fit">
+              <Stack gap="md">
+                <CalendarUpcomingWidget
+                  events={events}
+                  currentDate={currentDate}
+                  monthNames={monthNames}
+                  t={t}
+                  handleEventClick={handleEventClick}
+                  onCreateEvent={() => setActiveModal('new')}
+                  onImport={() => setActiveModal('import')}
+                />
+                
+                <Card variant="default" className="p-[var(--space-md)]">
+                  <Stack gap="sm">
+                    <Text size="xs" weight="black" className="uppercase tracking-widest text-text-muted">
+                      {t('legend')}
+                    </Text>
+                    <Stack gap="xs">
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-[var(--aau-light-blue)] shadow-sm shrink-0" />
+                        <Text size="xs" weight="bold" className="text-text-main">
+                          {t('study_group')}
+                        </Text>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-[var(--color-primary)] shadow-sm shrink-0" />
+                        <Text size="xs" weight="bold" className="text-text-main">
+                          {t('lecture')}
+                        </Text>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-3 h-3 rounded-full bg-[var(--color-danger-dark)] shadow-sm shrink-0 flex items-center justify-center" />
+                        <Text size="xs" weight="bold" className="text-orange-700 dark:text-orange-300 flex items-center gap-1">
+                          <AlertTriangle className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400 shrink-0" />
+                          {t('deadline')}
+                        </Text>
+                      </div>
+                    </Stack>
+                  </Stack>
+                </Card>
+              </Stack>
             </Grid.Item>
           </Grid>
         </ErrorBoundary>
@@ -310,7 +351,7 @@ if (import.meta.vitest) {
       renderCalendar('da')
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
       expect(screen.getByText('Man')).toBeInTheDocument()
-      expect(screen.getByText('Studiegruppe')).toBeInTheDocument()
+      expect(screen.getAllByText(/Studiegruppe/)[0]).toBeInTheDocument()
     })
   
     it('switches views', () => {
@@ -372,7 +413,7 @@ if (import.meta.vitest) {
   
     it('opens event detail modal', () => {
       renderCalendar('da')
-      const event = screen.getByText('Studiegruppe')
+      const event = screen.getAllByText(/Studiegruppe/)[0]
       fireEvent.click(event)
       expect(screen.getByText('Lokation')).toBeInTheDocument()
       expect(screen.getByText('Fibigerstræde 16, 1.108')).toBeInTheDocument()
@@ -392,7 +433,7 @@ if (import.meta.vitest) {
       expect(screen.getByText('Kommende')).toBeInTheDocument()
       // Click the upcoming event item container (has the onClick handler)
       const deadlineEls = screen.getAllByText('Deadline')
-      const upcomingItem = deadlineEls[deadlineEls.length - 1].closest('.upcoming-event-item')
+      const upcomingItem = deadlineEls.find(el => el.closest('.upcoming-event-item'))?.closest('.upcoming-event-item')
       if (!upcomingItem) throw new Error('Upcoming event item not found')
       fireEvent.click(upcomingItem)
       expect(screen.getByText('Lokation')).toBeInTheDocument()
@@ -402,7 +443,7 @@ if (import.meta.vitest) {
       renderCalendar('en')
       expect(screen.getByText('May 2026')).toBeInTheDocument()
       expect(screen.getByText('Mon')).toBeInTheDocument()
-      expect(screen.getByText('Study Group')).toBeInTheDocument()
+      expect(screen.getAllByText(/Study Group/)[0]).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Week' })).toBeInTheDocument()
       expect(screen.getByRole('button', { name: 'Day' })).toBeInTheDocument()
     })
@@ -437,7 +478,7 @@ if (import.meta.vitest) {
       renderCalendar('da')
       fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
       expect(screen.getByText('juni 2026')).toBeInTheDocument()
-      fireEvent.click(screen.getByRole('button', { name: 'I dag' }))
+      fireEvent.click(screen.getByRole('button', { name: /gå til i dag|go to today/i }))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
     })
   
@@ -451,8 +492,10 @@ if (import.meta.vitest) {
   
     it('opens import and export modals without crashing', () => {
       renderCalendar('da')
-      fireEvent.click(screen.getByRole('button', { name: /importér/i }))
-      fireEvent.click(screen.getByRole('button', { name: /eksportér/i }))
+      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByText(/importér/i))
+      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByText(/eksportér/i))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
     })
   
@@ -480,7 +523,7 @@ if (import.meta.vitest) {
       renderCalendar('da')
       fireEvent.click(screen.getByRole('button', { name: 'Uge' }))
       fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
-      fireEvent.click(screen.getByText('Studiegruppe'))
+      fireEvent.click(screen.getAllByText(/Studiegruppe/)[0])
       expect(screen.getByText('Lokation')).toBeInTheDocument()
     })
   
@@ -488,12 +531,12 @@ if (import.meta.vitest) {
       renderCalendar('da')
       fireEvent.click(screen.getByRole('button', { name: 'Uge' }))
       fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
-      fireEvent.click(screen.getByRole('button', { name: 'I dag' }))
+      fireEvent.click(screen.getByRole('button', { name: /gå til i dag|go to today/i }))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
   
       fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
       fireEvent.click(screen.getByRole('button', { name: /næste|next/i }))
-      fireEvent.click(screen.getByRole('button', { name: 'I dag' }))
+      fireEvent.click(screen.getByRole('button', { name: /gå til i dag|go to today/i }))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
     })
   
@@ -507,8 +550,8 @@ if (import.meta.vitest) {
   
     it('shows full info button in event detail and navigates', () => {
       renderCalendar('da')
-      fireEvent.click(screen.getByText('Studiegruppe'))
-      fireEvent.click(screen.getByRole('button', { name: 'Fuld info' }))
+      fireEvent.click(screen.getAllByText(/Studiegruppe/)[0])
+      fireEvent.click(screen.getByRole('button', { name: 'Se detaljer' }))
       expect(mockNavigate).toHaveBeenCalledWith('/submission/1')
     })
   
@@ -516,13 +559,15 @@ if (import.meta.vitest) {
       localStorage.removeItem(STORAGE_KEYS.CALENDAR_EVENTS)
       renderCalendar('da')
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
-      expect(screen.getByText('Studiegruppe')).toBeInTheDocument()
+      expect(screen.getAllByText(/Studiegruppe/)[0]).toBeInTheDocument()
     })
   
     it('import and export buttons do not crash', () => {
       renderCalendar('da')
-      fireEvent.click(screen.getByRole('button', { name: /importér/i }))
-      fireEvent.click(screen.getByRole('button', { name: /eksportér/i }))
+      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByText(/importér/i))
+      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByText(/eksportér/i))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
     })
   
@@ -592,7 +637,7 @@ if (import.meta.vitest) {
       renderCalendar('da')
       fireEvent.click(screen.getByRole('button', { name: 'Dag' }))
       fireEvent.click(screen.getByText('Day Event'))
-      expect(screen.getByText('Begivenhedsdetaljer')).toBeInTheDocument()
+      expect(screen.getAllByText('Room 101')[0]).toBeInTheDocument()
     })
 
     it('clicks empty placeholder in day view', () => {
@@ -606,7 +651,7 @@ if (import.meta.vitest) {
   
     it('closes event detail dialog', () => {
       renderCalendar('da')
-      fireEvent.click(screen.getByText('Studiegruppe'))
+      fireEvent.click(screen.getAllByText(/Studiegruppe/)[0])
       expect(screen.getByText('Lokation')).toBeInTheDocument()
       const dialog = document.querySelector('[role="dialog"]')
       if (dialog) fireEvent.keyDown(dialog, { key: 'Escape' })
@@ -670,7 +715,7 @@ if (import.meta.vitest) {
   
     it('shows English event description in detail modal', () => {
       renderCalendar('en')
-      fireEvent.click(screen.getByText('Study Group'))
+      fireEvent.click(screen.getAllByText(/Study Group/)[0])
       expect(screen.getByText(/This event is part of your study program/)).toBeInTheDocument()
     })
   

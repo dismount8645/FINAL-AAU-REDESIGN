@@ -2,8 +2,6 @@ import type { StateCreator } from 'zustand';
 import type { AppState } from '../index';
 import { courseList as initialCourses } from '@/lib/data';
 import type { CourseListItem, CalendarEvents } from '@/lib/types';
-import { mockGradesData } from '@/lib/data';
-import type { GradeRecord } from '@/lib/types';
 
 export interface CourseWithStatus extends CourseListItem {
   status: 'active' | 'inactive' | 'upcoming'
@@ -12,7 +10,6 @@ export interface CourseWithStatus extends CourseListItem {
 
 export interface CourseSlice {
   courses: CourseWithStatus[]
-  grades: GradeRecord[]
   toggleStar: (courseId: number) => void
 
   courseProgress: Record<string | number, number[]>
@@ -32,7 +29,6 @@ function buildCourses(): CourseWithStatus[] {
 
 export const createCourseSlice: StateCreator<AppState, [], [], CourseSlice> = (set, get) => ({
   courses: buildCourses(),
-  grades: mockGradesData,
   toggleStar: (courseId) => {
     const { toggleFavorite } = get()
     toggleFavorite('course', courseId)

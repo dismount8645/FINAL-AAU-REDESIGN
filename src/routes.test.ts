@@ -2,7 +2,7 @@ import routes from './routes'
 
 describe('routes', () => {
   it('has the correct number of routes', () => {
-    expect(routes).toHaveLength(14)
+    expect(routes).toHaveLength(13)
   })
 
   it('each route has required fields', () => {
@@ -57,10 +57,6 @@ describe('routes', () => {
 
   it('maps /notifications to notifications', () => {
     expect(routes.find(r => r.path === '/notifications')?.label).toBe('notifications')
-  })
-
-  it('maps /grades to grades', () => {
-    expect(routes.find(r => r.path === '/grades')?.label).toBe('grades')
   })
 
   it('maps /favorites to favorites', () => {

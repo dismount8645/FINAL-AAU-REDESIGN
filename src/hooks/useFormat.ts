@@ -24,7 +24,15 @@ export function useFormat() {
   }
 
   const formatDeadline = (dateStr: string | Date) => {
-    const hours = getHoursUntil(dateStr)
+    if (!dateStr) return '';
+    const parsedDate = new Date(dateStr)
+    if (isNaN(parsedDate.getTime())) {
+      return '';
+    }
+    const hours = getHoursUntil(parsedDate)
+    if (isNaN(hours)) {
+      return '';
+    }
     const days = Math.ceil(hours / 24)
 
     if (hours < 0) {
@@ -43,12 +51,28 @@ export function useFormat() {
   }
 
   const getCourseItemMetadata = (item: CourseItem) => {
-    if (item.size) return item.size
-    if (item.duration) return item.duration
-    if (item.deadline) {
-      return `${t('deadline')}: ${formatDeadline(item.deadline)}`
+    const typeLabel = (() => {
+      switch (item.type) {
+        case 'pdf': return 'PDF'
+        case 'video': return 'Video'
+        case 'link': return lang === 'da' ? 'Ekstern ressource' : 'External resource'
+        case 'assignment': return lang === 'da' ? 'Aflevering' : 'Assignment'
+        default: return ''
+      }
+    })()
+
+    if (item.type === 'pdf' && item.size) {
+      return `PDF · ${item.size}`
     }
-    return t('external_resource')
+    if (item.type === 'video' && item.duration) {
+      return `Video · ${item.duration}`
+    }
+    if (item.type === 'assignment' && item.deadline) {
+      const formattedDead = formatDeadline(item.deadline)
+      const prefix = lang === 'da' ? 'Aflevering' : 'Assignment'
+      return formattedDead ? `${prefix} · ${formattedDead}` : prefix
+    }
+    return typeLabel
   }
 
   return {
@@ -111,11 +135,11 @@ if (import.meta.vitest) {
       useStore.setState({ lang: 'en' })
       const { result } = renderHook(() => useFormat())
 
-      expect(result.current.getCourseItemMetadata({ id: 1, type: 'pdf', title: 'File', titleEn: 'File', size: '2 MB' })).toBe('2 MB')
-      expect(result.current.getCourseItemMetadata({ id: 1, type: 'video', title: 'Video', titleEn: 'Video', duration: '10 min' })).toBe('10 min')
+      expect(result.current.getCourseItemMetadata({ id: 1, type: 'pdf', title: 'File', titleEn: 'File', size: '2 MB' })).toBe('PDF · 2 MB')
+      expect(result.current.getCourseItemMetadata({ id: 1, type: 'video', title: 'Video', titleEn: 'Video', duration: '10 min' })).toBe('Video · 10 min')
       
       const futureDate = new Date(Date.now() + 4 * 24 * 3600000)
-      expect(result.current.getCourseItemMetadata({ id: 1, type: 'assignment', title: 'Task', titleEn: 'Task', deadline: futureDate.toISOString() })).toContain('Deadline: In 4 days')
+      expect(result.current.getCourseItemMetadata({ id: 1, type: 'assignment', title: 'Task', titleEn: 'Task', deadline: futureDate.toISOString() })).toContain('Assignment · In 4 days')
       
       expect(result.current.getCourseItemMetadata({ id: 1, type: 'link', title: 'Link', titleEn: 'Link' })).toBe('External resource')
     })

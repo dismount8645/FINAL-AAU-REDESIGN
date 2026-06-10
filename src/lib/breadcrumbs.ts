@@ -160,12 +160,6 @@ if (import.meta.vitest) {
       expect(result[1].label).toBe('support');
     });
 
-    it('generates breadcrumbs for /grades', () => {
-      const result = getAutomaticBreadcrumbs('/grades', 'da', mockT);
-      expect(result).toHaveLength(2);
-      expect(result[1].label).toBe('my_grades');
-    });
-
     it('generates breadcrumbs for /notifications', () => {
       const result = getAutomaticBreadcrumbs('/notifications', 'da', mockT);
       expect(result).toHaveLength(2);
