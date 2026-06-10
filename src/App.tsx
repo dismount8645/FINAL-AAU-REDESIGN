@@ -13,7 +13,6 @@ function App() {
 
   return (
     <Router>
-      <a href="#main-content" className="skip-link">{t('skip_to_content')}</a>
       <ErrorBoundary>
         <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
           <Routes>

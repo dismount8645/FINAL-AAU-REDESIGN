@@ -42,7 +42,11 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
   };
 
   return (
-    <div role="tablist" onKeyDown={handleKeyDown} className={cn('flex flex-nowrap overflow-x-auto no-scrollbar border-b border-border gap-0', className)}>
+    <div 
+      role="tablist" 
+      onKeyDown={handleKeyDown} 
+      className={cn('flex flex-nowrap overflow-x-auto no-scrollbar bg-bg-card border border-border/60 p-xs rounded-xl gap-xs w-fit max-w-full', className)}
+    >
       {items.map((tab, i) => {
         const isActive = activeTab === (tab.id || tab.key)
         const tabId = tab.id || tab.key
@@ -55,8 +59,10 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
             id={tabId ? `tab-${tabId}` : undefined}
             key={tabId || tab.label || i}
             className={cn(
-              "relative flex items-center px-md py-sm cursor-pointer transition-all duration-150 font-bold text-sm whitespace-nowrap outline-none focus-visible:outline-none focus-visible:shadow-focus focus-visible:bg-bg-hover before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']",
-              isActive ? 'text-primary' : 'text-muted hover:text-main dark:text-white/60 dark:hover:text-white'
+              "relative flex items-center px-md py-xs cursor-pointer transition-all duration-150 font-bold text-sm whitespace-nowrap outline-none focus-visible:outline-none focus-visible:shadow-focus rounded-lg",
+              isActive 
+                ? 'bg-primary text-white shadow-sm' 
+                : 'text-muted hover:text-main dark:text-white/60 dark:hover:text-white hover:bg-bg-hover'
             )}
             onClick={() => onChange(tabId)}
           >
@@ -65,15 +71,12 @@ export default function Tabs({ items, activeTab, onChange, className = '' }: Tab
               <span 
                 className={cn(
                   'ml-sm px-2xs py-0.5 rounded-[var(--radius-pill)] text-[10px] font-black tracking-tighter uppercase transition-colors',
-                  isActive ? 'bg-primary text-white' : 'bg-muted dark:bg-white/10 text-muted'
+                  isActive ? 'bg-white text-primary' : 'bg-muted dark:bg-white/10 text-muted'
                 )}
               >
                 {tab.count}
               </span>
             ) : null}
-            {isActive && (
-              <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-primary rounded-t-full shadow-[0_-2px_8px_rgba(var(--color-primary-rgb),0.3)] animate-fade-in" />
-            )}
           </button>
         )
       })}
@@ -102,7 +105,7 @@ if (import.meta.vitest) {
       render(<Tabs items={mockItems} activeTab="tab2" onChange={() => {}} />)
       
       const tabs = screen.getAllByRole('tab')
-      expect(tabs[1].className).toContain('text-primary')
+      expect(tabs[1].className).toContain('bg-primary')
       expect(tabs[0].className).toContain('text-muted')
     })
   
@@ -140,7 +143,7 @@ if (import.meta.vitest) {
       render(<Tabs items={itemsWithKey} activeTab="key1" onChange={onChange} />)
       
       const tabs = screen.getAllByRole('tab')
-      expect(tabs[0].className).toContain('text-primary')
+      expect(tabs[0].className).toContain('bg-primary')
     })
   
     it('sets aria-selected on active tab', () => {
@@ -219,13 +222,7 @@ if (import.meta.vitest) {
       expect(onChange).not.toHaveBeenCalled()
     })
   
-    it('shows active indicator bar on active tab', () => {
-      render(<Tabs items={mockItems} activeTab="tab1" onChange={() => {}} />)
-      const tabs = screen.getAllByRole('tab')
-      const indicator = tabs[0].querySelector('.h-\\[3px\\]')
-      expect(indicator).toBeInTheDocument()
-      expect(tabs[1].querySelector('.h-\\[3px\\]')).not.toBeInTheDocument()
-    })
+
 
     it('returns early when active index is -1', () => {
       const onChange = vi.fn()

@@ -18,6 +18,7 @@ interface OverviewEvent {
 
 const todayEvents: OverviewEvent[] = [
   { time: '08:15', titleKey: 'lecture', moduleKey: 'course_1_title', location: 'Fibigerstræde 15' },
+  { time: '13:00', titleKey: 'study_group', moduleKey: 'course_2_title', location: 'Kroghstræde 3' },
   { time: '23:59', titleKey: 'project_report', moduleKey: 'course_4_title' },
 ]
 
@@ -52,13 +53,19 @@ const OverviewItem = memo(({
   )
 })
 
-const QuickOverviewWidget = () => {
+interface WidgetProps {
+  size?: 'small' | 'medium' | 'large'
+}
+
+const QuickOverviewWidget = ({ size = 'medium' }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
 
   const handleGoToCalendar = useCallback(() => {
     navigate(PATHS.CALENDAR)
   }, [navigate])
+
+const limit = 3
 
   return (
     <Card className="quick-overview-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
@@ -78,19 +85,19 @@ const QuickOverviewWidget = () => {
           className="font-black uppercase tracking-widest text-primary hover:bg-bg-card/50"
           onClick={handleGoToCalendar}
           iconRight={ChevronRight}
-          aria-label={t('calendar')}
+          aria-label={t('nav.calendar')}
         >
-          {t('calendar')}
+          {t('nav.calendar')}
         </Button>
       </Card.Header>
 
-      <Card.Body padding="compact" className="p-[var(--space-sm)] flex-1">
-        <div className="h-full w-full flex flex-col gap-[var(--space-xs)]">
-          <Text size="sm" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
+      <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col justify-center">
+        <div className="w-full flex flex-col gap-[var(--space-2xs)]">
+          <Text size="xs" weight="bold" className="text-text-muted uppercase tracking-wider mb-[2px]">
             {t('todays_schedule')}
           </Text>
-          {todayEvents.map((event) => (
-              <OverviewItem
+          {todayEvents.slice(0, limit).map((event) => (
+            <OverviewItem
               key={event.titleKey}
               event={event}
               onClick={handleGoToCalendar}
@@ -99,17 +106,11 @@ const QuickOverviewWidget = () => {
         </div>
       </Card.Body>
 
-      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-end items-center">
-        <div className="flex items-center gap-[var(--space-xs)] opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-[var(--space-sm)] group-hover/widget:translate-x-0">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-primary uppercase font-black p-0 h-auto hover:bg-transparent"
-            onClick={handleGoToCalendar}
-            iconRight={Clock}
-          >
-            {t('open')}
-          </Button>
+      <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleGoToCalendar} role="button" tabIndex={0}>
+        <Text size="xs" weight="medium" className="text-muted font-medium">{t('nav.calendar')}</Text>
+        <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
+          <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{t('common.open')}</Text>
+          <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
         </div>
       </Card.Footer>
     </Card>
@@ -145,15 +146,16 @@ if (import.meta.vitest) {
 
     it('navigates to calendar when link is clicked', () => {
       renderWithProviders(<QuickOverviewWidget />)
-      const link = screen.getByText('Kalender')
+      const link = screen.getAllByText('Kalender')[0]
       fireEvent.click(link)
       expect(mockNavigate).toHaveBeenCalledWith('/calendar')
     })
 
-    it('renders divider between events', () => {
+    it('renders correct number of interactive items', () => {
       const { container } = renderWithProviders(<QuickOverviewWidget />)
       const items = container.querySelectorAll('[role="button"]')
-      expect(items.length).toBe(2)
+      // 3 event items + 1 card footer = 4 total role=button elements
+      expect(items.length).toBe(4)
     })
   })
 }

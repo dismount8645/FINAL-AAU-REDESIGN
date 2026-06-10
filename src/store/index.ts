@@ -85,6 +85,7 @@ const useStore = create<AppState>()(
         calendarDefaultView: state.calendarDefaultView,
         messagePrivacy: state.messagePrivacy,
         messageEmailOffline: state.messageEmailOffline,
+        dashboardLayout: state.dashboardLayout,
       }),
       migrate: (persisted: unknown, version) => {
         if (version === 2) {

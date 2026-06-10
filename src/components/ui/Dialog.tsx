@@ -47,37 +47,39 @@ const DialogContent = memo(forwardRef<HTMLDivElement, DialogPrimitive.Popup.Prop
 }>(({ className, children, showCloseButton = true, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
-    <DialogPrimitive.Popup
-      ref={ref}
-      data-slot="dialog-content"
-      render={<div />}
-      className={cn(
-        "fixed top-1/2 left-1/2 z-[var(--z-dialog)] flex flex-col w-[calc(100dvw-2rem)] sm:w-full max-w-[480px] min-w-[280px]",
-        "rounded-[var(--radius-xl)] bg-bg-card p-[var(--space-md)] lg:p-[var(--space-lg)]",
-        "border-2 border-[var(--border-color)]/60 shadow-[var(--shadow-xl)] outline-none max-h-[90dvh] overflow-y-auto",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      {showCloseButton && (
-        <DialogPrimitive.Close
-          data-slot="dialog-close"
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              pill
-              render={<span />}
-              className="absolute top-[var(--space-sm)] right-[var(--space-sm)]"
-            />
-          }
-        >
-          <XIcon size={20} strokeWidth={2.5} />
-          <span className="sr-only">Close</span>
-        </DialogPrimitive.Close>
-      )}
-    </DialogPrimitive.Popup>
+    <div className="fixed inset-0 z-[var(--z-dialog)] flex items-center justify-center p-4 pointer-events-none">
+      <DialogPrimitive.Popup
+        ref={ref}
+        data-slot="dialog-content"
+        render={<div />}
+        className={cn(
+          "pointer-events-auto relative flex flex-col w-[calc(100dvw-2rem)] sm:w-full max-w-[480px] min-w-[280px]",
+          "rounded-[var(--radius-xl)] bg-bg-card p-[var(--space-md)] lg:p-[var(--space-lg)]",
+          "border-2 border-[var(--border-color)]/60 shadow-[var(--shadow-xl)] outline-none max-h-[90dvh] overflow-y-auto",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        {showCloseButton && (
+          <DialogPrimitive.Close
+            data-slot="dialog-close"
+            render={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                pill
+                render={<span />}
+                className="absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10"
+              />
+            }
+          >
+            <XIcon size={20} strokeWidth={2.5} />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        )}
+      </DialogPrimitive.Popup>
+    </div>
   </DialogPortal>
 )))
 DialogContent.displayName = "DialogContent"

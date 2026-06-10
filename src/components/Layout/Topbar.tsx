@@ -31,11 +31,11 @@ export default function Topbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-[var(--z-sticky)] border-b border-border transition-all duration-300 ease-in-out w-full pr-[var(--space-md)] ${
-        isCollapsed
-          ? 'pl-[var(--sidebar-collapsed-width)]'
-          : 'pl-[var(--sidebar-width)]'
-      }`}
+      className="fixed top-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-40 border-b border-border transition-all duration-300 ease-in-out pr-[var(--space-md)]"
+      style={{
+        left: isCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
+        width: 'auto'
+      }}
     >
       <div className="flex items-center shrink-0 gap-sm">
         <Button
@@ -338,8 +338,8 @@ if (import.meta.vitest) {
           <Topbar />
         </MemoryRouter>
       )
-      const nav = screen.getAllByRole('navigation')[0]
-      expect(nav.className).toContain('pl-[var(--sidebar-collapsed-width)]')
+      const nav = screen.getAllByRole('navigation')[0] as HTMLElement
+      expect(nav.style.left).toBe('var(--sidebar-collapsed-width)')
     })
   
     it('cycles theme when theme toggle is clicked', () => {
@@ -459,7 +459,6 @@ if (import.meta.vitest) {
         { path: '/settings', label: 'settings' },
         { path: '/messages', label: 'messages' },
         { path: '/support', label: 'support' },
-        { path: '/grades', label: 'my_grades' },
         { path: '/notifications', label: 'notifications' },
         { path: '/resources', label: 'resources' },
         { path: '/search', label: 'search_results' },

@@ -35,12 +35,12 @@ const buttonVariants = cva(
           "bg-[var(--aau-dark-green)] text-white shadow-sm hover:bg-[var(--aau-dark-green)]/90 hover:-translate-y-1",
       },
       size: {
-        xs: "h-8 px-[var(--space-sm)] text-[0.625rem] rounded-[var(--radius-sm)]",
-        sm: "h-10 px-[var(--space-md)] text-xs rounded-[var(--radius-md)]",
-        md: "h-12 px-[var(--space-lg)] text-sm rounded-[var(--radius-lg)]",
-        icon: "size-12 p-0 rounded-[var(--radius-lg)]",
-        "icon-sm": "size-10 p-0 rounded-[var(--radius-md)]",
-        "icon-xs": "size-8 p-0 rounded-[var(--radius-sm)]",
+        xs: "h-[30px] px-[var(--space-xs)] text-[11px] rounded-[var(--radius-xs)]",
+        sm: "h-[34px] px-[var(--space-sm)] text-[13px] rounded-[var(--radius-sm)]",
+        md: "h-[38px] px-[var(--space-md)] text-[14px] rounded-[var(--radius-md)]",
+        icon: "size-[38px] p-0 rounded-[var(--radius-md)]",
+        "icon-sm": "size-[34px] p-0 rounded-[var(--radius-sm)]",
+        "icon-xs": "size-[30px] p-0 rounded-[var(--radius-xs)]",
       },
       full: {
         true: "w-full",
@@ -91,12 +91,12 @@ const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <Loader2 className="animate-spin" size={18} aria-hidden="true" />
+          <Loader2 className="animate-spin" size={16} aria-hidden="true" />
         ) : (
           <>
-            {Icon && <Icon className="transition-transform group-hover:scale-110" size={18} strokeWidth={2.5} aria-hidden="true" />}
+            {Icon && <Icon className="transition-transform group-hover:scale-110" size={16} strokeWidth={2.5} aria-hidden="true" />}
             {children && <span className="relative z-10">{children}</span>}
-            {IconRight && <IconRight className="transition-transform group-hover:translate-x-0.5" size={18} strokeWidth={2.5} aria-hidden="true" />}
+            {IconRight && <IconRight className="transition-transform group-hover:translate-x-0.5" size={16} strokeWidth={2.5} aria-hidden="true" />}
           </>
         )}
       </BaseButton>

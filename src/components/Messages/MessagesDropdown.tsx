@@ -39,7 +39,8 @@ export default function MessagesDropdown() {
             <Mail size={20} strokeWidth={2} />
             {messageCount > 0 && (
               <Badge variant="primary" className="absolute right-[4px] top-[4px] z-10 pointer-events-none animate-pulse border-2 border-bg-main h-4 min-w-[16px] rounded-full px-1 leading-none shadow-sm">
-                {messageCount}
+                <span>{messageCount}</span>
+                <span className="sr-only"> {messageCount === 1 ? t('new_singular') : t('new_plural')}</span>
               </Badge>
             )}
           </Button>

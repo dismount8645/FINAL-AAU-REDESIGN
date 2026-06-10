@@ -33,6 +33,24 @@ export interface UISlice {
   messageCount: number;
   setMessageCount: (count: number) => void;
   decrementMessageCount: () => void;
+
+  dashboardLayout: DashboardWidgetConfig[];
+  setDashboardLayout: (layout: DashboardWidgetConfig[]) => void;
+  resetDashboardLayout: () => void;
+}
+
+export interface DashboardWidgetConfig {
+  id: string;
+  span: number;
+  size?: 'small' | 'medium' | 'large';
+  visible?: boolean;
+  title?: string;
+  allowedSizes?: ('small' | 'medium' | 'large')[];
+  defaultSize?: 'small' | 'medium' | 'large';
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
 }
 
 function applySidebarClasses(isCollapsed: boolean) {
@@ -280,4 +298,28 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
     const { messageCount } = get();
     set({ messageCount: Math.max(0, messageCount - 1) });
   },
+
+  dashboardLayout: [
+    { id: 'deadlines', title: 'Seneste afleveringer', visible: true, size: 'medium', span: 14, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'quickOverview', title: 'Hurtig oversigt', visible: true, size: 'small', span: 10, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+    { id: 'favorites', title: 'Favoritter', visible: true, size: 'medium', span: 14, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'support', title: 'ITS Support', visible: true, size: 'small', span: 10, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+    { id: 'forumActivity', title: 'Forum aktivitet', visible: true, size: 'medium', span: 24, defaultSize: 'medium', allowedSizes: ['medium', 'large'] },
+    { id: 'messages', title: 'Beskeder', visible: false, size: 'small', span: 10, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'calendar', title: 'Kalender', visible: false, size: 'large', span: 24, defaultSize: 'large', allowedSizes: ['medium', 'large'] },
+    { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'medium', span: 14, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+  ],
+  setDashboardLayout: (layout) => set({ dashboardLayout: layout }),
+  resetDashboardLayout: () => set({
+    dashboardLayout: [
+      { id: 'deadlines', title: 'Seneste afleveringer', visible: true, size: 'medium', span: 14, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+      { id: 'quickOverview', title: 'Hurtig oversigt', visible: true, size: 'small', span: 10, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+      { id: 'favorites', title: 'Favoritter', visible: true, size: 'medium', span: 14, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+      { id: 'support', title: 'ITS Support', visible: true, size: 'small', span: 10, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+      { id: 'forumActivity', title: 'Forum aktivitet', visible: true, size: 'medium', span: 24, defaultSize: 'medium', allowedSizes: ['medium', 'large'] },
+      { id: 'messages', title: 'Beskeder', visible: false, size: 'small', span: 10, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+      { id: 'calendar', title: 'Kalender', visible: false, size: 'large', span: 24, defaultSize: 'large', allowedSizes: ['medium', 'large'] },
+      { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'medium', span: 14, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+    ]
+  }),
 });

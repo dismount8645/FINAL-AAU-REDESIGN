@@ -32,10 +32,8 @@ function Footer() {
             
             <div className="w-full h-px bg-border/20 md:w-48" />
             
-            <Text size="xs" className="text-text-muted font-medium text-left md:text-right leading-relaxed">
+            <Text size="xs" className="text-text-muted font-medium text-left md:text-right leading-relaxed w-full">
               &copy; {new Date().getFullYear()} Aalborg Universitet. {t('rights_reserved')}
-              <br />
-              <span className="text-xs uppercase tracking-widest font-black text-white/50 mt-1 block">Vibe Coder Optimized &bull; {new Date().getFullYear()}</span>
             </Text>
           </Stack>
         </div>
@@ -80,10 +78,9 @@ if (import.meta.vitest) {
       fireEvent.click(screen.getByText('Serviceinfo'))
     })
   
-    it('renders copyright and brand signature', () => {
+    it('renders copyright', () => {
       renderFooter()
       expect(screen.getByText((content) => content.includes('Aalborg Universitet. Alle rettigheder forbeholdes.'))).toBeInTheDocument()
-      expect(screen.getByText(/Vibe Coder Optimized/i)).toBeInTheDocument()
     })
   
     it('renders correct translations when language is English', () => {

@@ -7,7 +7,6 @@ import type {
   MessageThread,
   Notification,
   CourseItem,
-  GradeRecord,
   ForumActivity,
   ForumPostData,
   ForumReplyData
@@ -63,13 +62,6 @@ export const mockDashboardDeadlines = [
   { id: 204, category: 'deadlines', titleDa: 'To-Do App', titleEn: 'To-Do App', iconName: 'FileText', dateKey: 'deadline_monday', courseId: 2, deadlineHoursFromNow: 48 },
   { id: 105, category: 'deadlines', titleDa: 'Designskitse', titleEn: 'Design Sketch', iconName: 'PenTool', dateKey: 'deadline_friday', courseId: 1, deadlineHoursFromNow: 96 },
   { id: 303, category: 'deadlines', titleDa: 'Analyseopgave', titleEn: 'Analysis Assignment', iconName: 'FileText', dateKey: 'course_deadline_in_7_days', courseId: 3, deadlineHoursFromNow: 168 }
-]
-
-export const mockDashboardGrades = [
-  { id: 1, category: 'grades', courseDa: 'Digital Design', courseEn: 'Digital Design', iconName: 'Trophy', score: 12 },
-  { id: 2, category: 'grades', courseDa: 'Webudvikling', courseEn: 'Web Development', iconName: 'Trophy', score: 10 },
-  { id: 5, category: 'grades', courseDa: 'Bachelorprojekt', courseEn: 'Bachelor Project', iconName: 'Trophy', score: null },
-  { id: 3, category: 'grades', courseDa: 'Videnskabsteori', courseEn: 'Philosophy of Science', iconName: 'Trophy', score: 7 }
 ]
 
 const registryJson = {
@@ -195,23 +187,6 @@ const registryJson = {
       ]
     },
     {
-      "id": 4,
-      "title": "Problembaseret Læring (PBL)",
-      "titleEn": "Problem Based Learning (PBL)",
-      "code": "PBL404",
-      "label": "Afsluttet (Efterår)",
-      "labelEn": "Completed (Autumn)",
-      "professor": "Susanne Bødker",
-      "email": "sbdker@cs.aau.dk",
-      "img": "/assets/img/grafik/billeder/Forskning/_DSC0988.jpg",
-      "semester": "Efterår 2023",
-      "campus": "Campus Aalborg",
-      "color": "var(--aau-dark-grey)",
-      "tab": "finished",
-      "nextAssignment": null,
-      "sections": []
-    },
-    {
       "id": 5,
       "title": "Bachelorprojekt",
       "titleEn": "Bachelor Project",
@@ -234,9 +209,9 @@ const registryJson = {
     { "id": 11, "title": "Semesterforum (4. Semester)", "titleEn": "Semester Forum (4th Semester)", "label": "Fælles", "labelEn": "Shared", "img": "/assets/img/grafik/billeder/Bygninger og campus/_2WB3689.jpg", "color": "var(--color-primary)" }
   ],
   "defaultEvents": {
-    "2026-4-5": { "id": 101, "titleDa": "Studiegruppe", "titleEn": "Study Group", "color": "var(--aau-light-blue)", "location": "Fibigerstræde 16, 1.108", "time": "08:15 - 12:00", "host": "Jacob Andersen" },
-    "2026-4-12": { "id": 102, "titleDa": "Forelæsning", "titleEn": "Lecture", "color": "var(--color-primary)", "location": "Auditorium A", "time": "10:15 - 14:00", "host": "Morten Jensen" },
-    "2026-4-20": { "id": 103, "title": "Deadline", "color": "var(--color-danger-dark)", "location": "Online Submission", "time": "23:59", "host": "AAU Moodle" }
+    "2026-4-5": { "id": 101, "titleDa": "Studiegruppe", "titleEn": "Study Group", "color": "var(--aau-light-blue)", "location": "Fibigerstræde 16, 1.108", "time": "08:15 - 12:00", "host": "Jacob Andersen", "courseTitleDa": "Digital Design og Kommunikation", "courseTitleEn": "Digital Design and Communication", "courseCode": "DD101", "typeDa": "Studiegruppe", "typeEn": "Study Group" },
+    "2026-4-12": { "id": 102, "titleDa": "Forelæsning", "titleEn": "Lecture", "color": "var(--color-primary)", "location": "Auditorium A", "time": "10:15 - 14:00", "host": "Morten Jensen", "courseTitleDa": "Digital Design og Kommunikation", "courseTitleEn": "Digital Design and Communication", "courseCode": "DD101", "typeDa": "Forelæsning", "typeEn": "Lecture" },
+    "2026-4-20": { "id": 103, "title": "Deadline", "titleDa": "Aflevering", "titleEn": "Deadline", "color": "var(--color-danger-dark)", "location": "Online Submission", "time": "23:59", "host": "AAU Moodle", "courseTitleDa": "Webudvikling og CMS", "courseTitleEn": "Web Development and CMS", "courseCode": "WEB202", "typeDa": "Aflevering", "typeEn": "Deadline" }
   },
   "messagesData": [
     {
@@ -357,8 +332,7 @@ const registryJson = {
     { "key": "forum", "label": "tab_forums" },
     { "key": "resources", "label": "tab_resources" },
     { "key": "info", "label": "tab_info" },
-    { "key": "participants", "label": "tab_participants" },
-    { "key": "pbl", "label": "tab_pbl_group" }
+    { "key": "participants", "label": "tab_participants" }
   ],
   "tools": [
     {
@@ -557,16 +531,6 @@ interface CourseRaw {
   img: string
   sections: CourseSection[]
 }
-
-export const BACHELOR_TOTAL_ECTS = 180
-export const mockGradesData: GradeRecord[] = [
-  { id: 1, code: "DD101", titleDa: "Digital Design og Kommunikation", titleEn: "Digital Design and Communication", grade: 10, ects: 15, semesterDa: "Forår 2024", semesterEn: "Spring 2024", examDate: "2024-06-12", examTypeDa: "Mundtlig u. forberedelse (Portfoliopræsentation)", examTypeEn: "Oral without prep (Portfolio Presentation)", feedbackDa: "Særdeles velskrevet designrapport og overbevisende mundtligt forsvar med stærk teoretisk kobling.", feedbackEn: "Extremely well-written design report and persuasive oral defense with strong theoretical ties.", instructor: "Morten Jensen" },
-  { id: 2, code: "WEB202", titleDa: "Webudvikling og CMS", titleEn: "Web Development and CMS", grade: 10, ects: 10, semesterDa: "Forår 2024", semesterEn: "Spring 2024", examDate: "2024-06-18", examTypeDa: "Skriftlig projektrapport og praktisk demo", examTypeEn: "Written project report and hands-on demonstration", feedbackDa: "Teknisk imponerende React-arkitektur. Mindre mangler i API-fejlhåndtering forhindrer topkarakter.", feedbackEn: "Technically impressive React architecture. Minor shortcomings in API error handling prevented a top grade.", instructor: "Lise Sørensen" },
-  { id: 3, code: "VT303", titleDa: "Videnskabsteori", titleEn: "Philosophy of Science", grade: 7, ects: 5, semesterDa: "Forår 2024", semesterEn: "Spring 2024", examDate: "2024-06-22", examTypeDa: "Skriftlig hjemmeopgave (72 timer)", examTypeEn: "Written home assignment (72 hours)", feedbackDa: "God forståelse for de videnskabsteoretiske strømninger. Argumentationen savner momentvist dybde.", feedbackEn: "Good understanding of the paradigm schools of thought. Argumentation occasionally lacked depth.", instructor: "Anders Nielsen" },
-  { id: 4, code: "PBL404", titleDa: "Problembaseret Læring (PBL)", titleEn: "Problem Based Learning (PBL)", grade: 12, ects: 30, semesterDa: "Efterår 2023", semesterEn: "Autumn 2023", examDate: "2023-12-18", examTypeDa: "Gruppeeksamen med individuelt forsvar", examTypeEn: "Group examination with individual defense", feedbackDa: "Fremragende anvendelse af den Aalborgensiske PBL-model. Fremragende empirisk og teoretisk syntese.", feedbackEn: "Outstanding application of the Aalborg PBL model. Exemplary synthesis of empirical and theoretical methods.", instructor: "Helene Østergaard" },
-  { id: 5, code: "BP505", titleDa: "Bachelorprojekt", titleEn: "Bachelor Project", grade: null, ects: 30, semesterDa: "Kommende (Efterår 2024)", semesterEn: "Upcoming (Autumn 2024)", examDate: "TBA", examTypeDa: "Bachelorafhandling med individuel mundtlig eksamen", examTypeEn: "Bachelor Thesis with individual oral examination", feedbackDa: "Karakter endnu ikke tilgængelig. Modul starter i kommende semester.", feedbackEn: "Grade not available. Module starts in the upcoming semester.", instructor: "TBA" },
-]
-
 // Reconstruct courses map
 export const courses: CoursesMap = registryJson.courses.reduce((acc, course) => {
   acc[course.id] = {
@@ -638,9 +602,6 @@ if (import.meta.vitest) {
     it('forums is defined and has items', () => {
       expect(forums).toBeDefined()
       expect(forums.length).toBeGreaterThan(0)
-    })
-    it('BACHELOR_TOTAL_ECTS equals 180', () => {
-      expect(BACHELOR_TOTAL_ECTS).toBe(180)
     })
 
     it('notificationsData is an array', () => {
