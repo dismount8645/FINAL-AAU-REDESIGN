@@ -8,6 +8,7 @@ import { Card } from '@/components/ui'
 import Button from '@/components/ui/Button'
 import { Icon } from '@/components/ui'
 import { Heading, Text } from '@/components/ui'
+import { PATHS } from '@/routes';
 import { TeaserCard } from '@/components/ui'
 import useStore, { type CourseWithStatus } from '@/store'
 
@@ -103,7 +104,7 @@ function CoursesGrid({
                         onStarToggle={() => {
                           toggleFavorite('course', course.id)
                         }}
-                        onClick={() => navigate(`/course/${course.id}`)}
+                        onClick={() => navigate(PATHS.COURSE(course.id))}
                         action={
                           <Button 
                             variant="secondary" 
@@ -166,7 +167,7 @@ function CoursesGrid({
           </Heading>
           <Icon name={showForums ? 'chevron-down' : 'chevron-right'} className="section-chevron text-[0.9rem] opacity-60 transition-transform duration-[var(--transition-fast)]" />
         </Stack>
-        <Button variant="ghost" size="xs" iconRight={ChevronRight} onClick={() => navigate('/courses')}>{t('view_all')}</Button>
+        <Button variant="ghost" size="xs" iconRight={ChevronRight} onClick={() => navigate(PATHS.COURSES)}>{t('view_all')}</Button>
       </Stack>
 
       {showForums && (
@@ -209,7 +210,7 @@ function CoursesGrid({
                       onStarToggle={() => {
                         toggleFavorite('forum', forum.id)
                       }}
-                      onClick={() => navigate(`/course/${forum.id}`)}
+                      onClick={() => navigate(PATHS.COURSE(forum.id))}
                       action={
                         <Button variant="secondary" size="sm" iconRight={MessageSquare} className="normal-case tracking-normal">
                           {t('open_forum')}

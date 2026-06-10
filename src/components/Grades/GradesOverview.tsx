@@ -59,7 +59,7 @@ function GradesOverview({
               </Heading>
             </div>
             <div className="w-[100%] mt-[var(--space-md)]">
-              <ProgressBar value={Math.round((completedEcts / totalPossibleEcts) * 100)} height={8} color="var(--aau-light-blue)" />
+              <ProgressBar value={Math.round((completedEcts / totalPossibleEcts) * 100)} height={8} color="var(--color-accent)" />
               <div className="flex justify-between items-center mt-[var(--space-2xs)]">
                 <Text size="2xs" muted>{Math.round((completedEcts / totalPossibleEcts) * 100)}% {t('of_degree_completed')}</Text>
                 <Text size="2xs" muted className="font-semibold">33.3%</Text>

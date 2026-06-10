@@ -4,24 +4,22 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
-import { formatLongDateTime } from '@/lib/utils'
+import { useFormat } from '@/hooks'
 import { NotificationItem } from '@/lib/types'
-import type { Lang } from '@/store'
 import { getNotificationIcon } from './notifications'
 
 interface NotificationDetailViewProps {
   selectedNotification: NotificationItem | null
-  lang: Lang
   t: (key: string) => string
   onNavigate: (link: string) => void
 }
 
 export default function NotificationDetailView({
   selectedNotification,
-  lang,
   t,
   onNavigate,
 }: NotificationDetailViewProps) {
+  const { formatLongDateTime } = useFormat()
   if (!selectedNotification) {
     return (
       <div className="notification-detail-empty flex items-center justify-center h-full p-[var(--space-2xl)] text-center">
@@ -50,7 +48,7 @@ export default function NotificationDetailView({
               <Text size="xs" weight="bold" muted>{selectedNotification.course}</Text>
             </Stack>
             <Heading level={2} className="m-0 text-2xl font-black tracking-tight">{selectedNotification.text}</Heading>
-            <Text size="xs" muted>{formatLongDateTime(selectedNotification.date, lang)}</Text>
+            <Text size="xs" muted>{formatLongDateTime(selectedNotification.date)}</Text>
           </Stack>
         </Stack>
       </Card.Header>

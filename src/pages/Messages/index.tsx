@@ -20,7 +20,7 @@ function Messages() {
     messageText,
     setMessageText,
     chatBodyRef,
-    filteredContacts,
+    filteredItems,
     activeContact,
     handleSend,
     archiveContact,
@@ -57,7 +57,7 @@ function Messages() {
         sidebar={
           <ChatSidebar
             view={view}
-            filteredContacts={filteredContacts}
+            filteredContacts={filteredItems}
             activeContactId={activeContactId}
             setActiveContactId={setActiveContactId}
             archiveContact={archiveContact}

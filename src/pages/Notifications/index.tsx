@@ -15,12 +15,13 @@ import { createMockNotifications, getNotificationIcon } from '@/components/Notif
 import useStore from '@/store';
 import { useNotificationsState } from './useNotificationsState';
 import Button from '@/components/ui/Button';
-import { cn, formatTime } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import { useFormat } from '@/hooks';
 
 function Notifications() {
   const t = useStore(state => state.t)
-  const lang = useStore(state => state.lang)
   const navigate = useNavigate()
+  const { formatTime } = useFormat()
 
   const NOTIF_BG_MAP: Record<string, string> = {
     AFLEVERING: 'bg-primary/10 text-primary',
@@ -131,7 +132,7 @@ function Notifications() {
                             }
                             meta={
                               <Text size="2xs" muted className="mt-[var(--space-2xs)] opacity-60">
-                                {formatTime(notif.date, lang)}
+                                {formatTime(notif.date)}
                               </Text>
                             }
                             trailing={
@@ -213,7 +214,6 @@ function Notifications() {
           <div className="h-full w-full">
             <NotificationDetailView
               selectedNotification={selectedNotification}
-              lang={lang}
               t={t}
               onNavigate={navigate}
             />

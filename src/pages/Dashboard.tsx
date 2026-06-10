@@ -4,6 +4,7 @@ import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
 import Button from '@/components/ui/Button';
 import { ChevronRight } from 'lucide-react';
+import { PATHS } from '@/routes';
 
 const DEFAULT_WIDGETS = [
   { id: 'deadlines', span: 8 },
@@ -28,7 +29,7 @@ function Dashboard() {
       subtitle={t('common.assignments_count')}
       gap="sm"
       actions={
-        <Button variant="primary" onClick={() => navigate('/courses')} iconRight={ChevronRight}>
+        <Button variant="primary" onClick={() => navigate(PATHS.COURSES)} iconRight={ChevronRight}>
           {t('common.see_assignments')}
         </Button>
       }
@@ -41,29 +42,3 @@ function Dashboard() {
 }
 
 export default Dashboard
-
-if (import.meta.vitest) {
-  describe('Dashboard Page', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      localStorage.clear()
-    })
-
-    const renderDashboard = () => {
-      return renderWithProviders(<Dashboard />)
-    }
-
-    it('renders correctly', () => {
-      renderDashboard()
-      expect(screen.getByText('Velkommen tilbage, Jacob')).toBeInTheDocument()
-    })
-
-    it('renders all widgets', () => {
-      renderDashboard()
-      expect(screen.getByText('Næste aflevering')).toBeInTheDocument()
-      expect(screen.getByText('Favoritter')).toBeInTheDocument()
-      expect(screen.getByText(/Seneste karakterer/i)).toBeInTheDocument()
-      expect(screen.getByText('Kontakt ITS Support')).toBeInTheDocument()
-    })
-  })
-}

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo, type MouseEvent } fr
 import { useLocation } from 'react-router-dom'
 import useStore from '@/store'
 import type { Contact } from '@/lib/types'
-import { useArchivableCollection } from '@/hooks/useArchivableCollection'
+import { useManagedCollection } from '@/hooks/useManagedCollection'
 
 interface UseMessagesStateReturn {
   view: 'active' | 'archive'
@@ -13,7 +13,7 @@ interface UseMessagesStateReturn {
   messageText: string
   setMessageText: (t: string) => void
   chatBodyRef: React.RefObject<HTMLDivElement>
-  filteredContacts: Contact[]
+  filteredItems: Contact[]
   activeContact: Contact | undefined
   handleSend: () => void
   archiveContact: (id: number, e: MouseEvent) => void
@@ -26,7 +26,7 @@ export function useMessagesState(): UseMessagesStateReturn {
   const location = useLocation()
 
   const [activeContactId, setActiveContactId] = useState<number>(1)
-  const { items: contacts, setItems: setContacts, view, setView, filtered: filteredContacts, archiveItem, restoreItem } = useArchivableCollection<Contact>([
+  const { items: contacts, setItems: setContacts, view, setView, filteredItems, archiveItem, restoreItem } = useManagedCollection<Contact>([
     {
       id: 1,
       name: 'Mette Jensen',
@@ -53,7 +53,9 @@ export function useMessagesState(): UseMessagesStateReturn {
         { id: 2, type: 'in', text: t('msg_guidance_chat_2'), timestamp: '13:01' },
       ],
     },
-  ])
+  ], {
+    searchKeys: (c: Contact) => [c.name, c.role, c.msg],
+  })
 
   const [messageText, setMessageText] = useState('')
   const chatBodyRef = useRef<HTMLDivElement>(null)
@@ -128,8 +130,8 @@ export function useMessagesState(): UseMessagesStateReturn {
   const restoreContact = restoreItem
 
   const activeContact = useMemo(
-    () => contacts.find(c => c.id === activeContactId) ?? filteredContacts[0],
-    [contacts, activeContactId, filteredContacts]
+    () => contacts.find(c => c.id === activeContactId) ?? filteredItems[0],
+    [contacts, activeContactId, filteredItems]
   )
 
   return {
@@ -141,7 +143,7 @@ export function useMessagesState(): UseMessagesStateReturn {
     messageText,
     setMessageText,
     chatBodyRef,
-    filteredContacts,
+    filteredItems,
     activeContact,
     handleSend,
     archiveContact,
@@ -206,19 +208,19 @@ if (import.meta.vitest) {
       expect(contact?.archived).toBe(false)
     })
 
-    it('filteredContacts with active view shows only non-archived contacts', () => {
+    it('filteredItems with active view shows only non-archived contacts', () => {
       const { result } = renderHook(() => useMessagesState(), { wrapper: MemoryRouter })
       const mockEvent = { stopPropagation: vi.fn() }
 
-      expect(result.current.filteredContacts.length).toBe(2)
+      expect(result.current.filteredItems.length).toBe(2)
 
       act(() => result.current.archiveContact(1, mockEvent as any))
 
-      expect(result.current.filteredContacts.length).toBe(1)
-      expect(result.current.filteredContacts[0].id).toBe(2)
+      expect(result.current.filteredItems.length).toBe(1)
+      expect(result.current.filteredItems[0].id).toBe(2)
     })
 
-    it('filteredContacts with archive view shows only archived contacts', () => {
+    it('filteredItems with archive view shows only archived contacts', () => {
       const { result } = renderHook(() => useMessagesState(), { wrapper: MemoryRouter })
       const mockEvent = { stopPropagation: vi.fn() }
 
@@ -226,7 +228,7 @@ if (import.meta.vitest) {
       act(() => result.current.archiveContact(2, mockEvent as any))
       act(() => result.current.setView('archive'))
 
-      expect(result.current.filteredContacts.length).toBe(2)
+      expect(result.current.filteredItems.length).toBe(2)
     })
 
     it('setView changes the view', () => {

@@ -8,6 +8,7 @@ import { FavoriteItem } from '@/components/Favorites';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
+import { PATHS } from '@/routes';
 import { env } from '@/lib/env';
 import * as favUtils from '@/lib/favorites';
 import type { ResolvedFavorite } from '@/lib/favorites';
@@ -33,7 +34,7 @@ export default function FavoritesWidget({ span, isEditing }: WidgetProps) {
   const display = resolved.slice(0, limit)
 
   const handleSeeAll = useCallback(() => {
-    if (!isEditing) navigate('/favorites')
+    if (!isEditing) navigate(PATHS.FAVORITES)
   }, [isEditing, navigate])
 
   return (

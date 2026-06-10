@@ -1,4 +1,4 @@
-type Lang = 'da' | 'en'
+import type { Lang } from './theme'
 
 type TranslationValue = string | { [key: string]: TranslationValue }
 type TranslationMap = Record<string, TranslationValue>

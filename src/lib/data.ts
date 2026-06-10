@@ -1,6 +1,7 @@
 import type {
   CoursesMap,
   CourseListItem,
+  CourseSection,
   Forum,
   CalendarEvents,
   MessageThread,
@@ -545,13 +546,6 @@ const registryJson = {
       "category": "essentials"
     }
   ]
-}
-
-interface CourseSection {
-  id: string
-  title: string
-  titleEn: string
-  items: CourseItem[]
 }
 
 interface CourseRaw {

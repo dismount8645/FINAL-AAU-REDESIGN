@@ -76,7 +76,7 @@ export interface ChatWindowProps {
 }
 
 // Additional interfaces from legacy types.ts
-interface CourseSection {
+export interface CourseSection {
   id: string
   title: string
   titleEn: string
@@ -91,7 +91,7 @@ interface NextAssignment {
   submissionId: string
 }
 
-interface CourseData {
+export interface CourseData {
   title: string
   titleEn: string
   code: string;

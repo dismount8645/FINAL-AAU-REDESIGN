@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem, Badge, EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { mockDashboardDeadlines, mockDashboardGrades } from '@/lib/data';
+import { PATHS } from '@/routes';
 import { hoursFromNow, calculateUrgency } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { FavoriteItem } from '@/components/Favorites';
@@ -90,11 +91,11 @@ function DeadlinesWidget() {
   ), [localize])
 
   const handleSeeAll = useCallback(() => {
-    navigate('/calendar')
+    navigate(PATHS.CALENDAR)
   }, [navigate])
 
   const handleDeadlineClick = useCallback((dl: ProcessedDeadline) => {
-    navigate(`/submission/${dl.courseId}/${dl.id}`)
+    navigate(PATHS.SUBMISSION(dl.courseId, dl.id))
   }, [navigate])
 
   return (
@@ -175,7 +176,7 @@ function FavoritesWidgetInner() {
   const display = resolved.slice(0, limit)
 
   const handleSeeAll = useCallback(() => {
-    navigate('/favorites')
+    navigate(PATHS.FAVORITES)
   }, [navigate])
 
   return (
@@ -261,7 +262,7 @@ function RecentGradesWidget() {
   ), [localize])
 
   const handleViewAll = useCallback(() => {
-    navigate('/grades')
+    navigate(PATHS.GRADES)
   }, [navigate])
 
   return (
@@ -283,7 +284,7 @@ function RecentGradesWidget() {
         {visibleGrades.length > 0 ? (
           <div className="flex flex-col gap-[var(--space-2xs)]">
             {visibleGrades.map((g) => (
-              <div key={g.id || g.title} className="flex items-center justify-between px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-lg)] hover:bg-bg-hover transition-colors duration-150 cursor-pointer" onClick={() => navigate('/grades')}>
+              <div key={g.id || g.title} className="flex items-center justify-between px-[var(--space-sm)] py-[var(--space-xs)] rounded-[var(--radius-lg)] hover:bg-bg-hover transition-colors duration-150 cursor-pointer" onClick={() => navigate(PATHS.GRADES)}>
                 <div className="flex items-center gap-[var(--space-sm)] min-w-0 flex-1">
                   <div className={`shrink-0 ${g.score !== null ? 'text-warning' : 'text-text-disabled'}`}>
                     {g.score !== null ? <Star size={18} strokeWidth={2} /> : <Hourglass size={18} strokeWidth={2} />}

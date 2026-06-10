@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
-import useStore, { computeIsDarkMode } from '@/store';
+import useStore from '@/store';
 import { env } from '@/lib/env';
 import { ToastProvider } from '@/components/ui/Toast';
 
@@ -8,26 +8,19 @@ interface AppProviderProps {
 }
 
 export function AppProvider({ children }: AppProviderProps) {
-  const theme = useStore((s) => s.theme)
   const isDarkMode = useStore((s) => s.isDarkMode)
   const setTheme = useStore((s) => s.setTheme)
-  // Sync isDarkMode state when theme changes
-  useEffect(() => {
-    const isDark = computeIsDarkMode(theme)
-    if (isDark !== isDarkMode) {
-      useStore.setState({ isDarkMode: isDark })
-    }
-  }, [theme, isDarkMode])
 
-  // Sync theme classes on mount and when isDarkMode changes
+  // Sync dark class to <html> whenever isDarkMode changes
   useEffect(() => {
     /* istanbul ignore next */
     if (typeof window === 'undefined') return
-    
+
     document.documentElement.classList.toggle('dark-mode', isDarkMode)
     document.documentElement.classList.toggle('dark', isDarkMode)
   }, [isDarkMode])
 
+  // Listen for OS theme changes when "system" is selected
   useEffect(() => {
     const mediaQuery = env.matchMedia('(prefers-color-scheme: dark)')
 
@@ -77,6 +70,7 @@ if (import.meta.vitest) {
     });
 
     it('syncs dark mode class when theme changes', () => {
+      const { setTheme } = useStore.getState()
       render(
         <AppProvider>
           <div>Content</div>
@@ -85,14 +79,14 @@ if (import.meta.vitest) {
 
       // Change store theme to dark
       act(() => {
-        useStore.setState({ theme: 'dark' });
+        setTheme('dark')
       });
       expect(useStore.getState().isDarkMode).toBe(true);
       expect(document.documentElement.classList.contains('dark')).toBe(true);
 
       // Change store theme to light
       act(() => {
-        useStore.setState({ theme: 'light' });
+        setTheme('light')
       });
       expect(useStore.getState().isDarkMode).toBe(false);
       expect(document.documentElement.classList.contains('dark')).toBe(false);

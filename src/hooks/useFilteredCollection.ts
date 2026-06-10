@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
  *
  * @template T  The item type in the collection.
  */
-interface FilteredCollectionConfig<T> {
+export interface FilteredCollectionConfig<T> {
   /**
    * Return an array of strings to search against for each item.
    * All strings are lower-cased internally before comparison.

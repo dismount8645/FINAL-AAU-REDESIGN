@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
+import { PATHS } from '@/routes';
 const dashboardForumPosts = [
   { id: 501, category: 'forumPosts', titleDa: 'Spørgsmål til litteraturen i uge 2', titleEn: 'Questions regarding literature week 2', iconName: 'MessageCircle', author: 'Jacob Andersen', timeDa: 'For 2 timer siden', timeEn: '2 hours ago', replies: 3, important: false },
   { id: 102, category: 'forumPosts', titleDa: 'Aflyst forelæsning i morgen', titleEn: 'Cancelled lecture tomorrow', iconName: 'AlertCircle', author: 'Morten Jensen', timeDa: 'I går', timeEn: 'Yesterday', replies: 12, important: true },
@@ -88,15 +89,15 @@ const ForumWidget = ({ professor }: ForumWidgetProps) => {
   ), [itemsToShow, localize, professor])
 
   const handleNewPost = useCallback(() => {
-    navigate('/forum/new')
+    navigate(PATHS.FORUM_NEW)
   }, [navigate])
 
   const handlePostClick = useCallback((id: number) => {
-    navigate(`/forum/${id}`)
+    navigate(PATHS.FORUM(id))
   }, [navigate])
 
   const handleViewAll = useCallback(() => {
-    navigate('/forum')
+    navigate(PATHS.FORUM_LIST)
   }, [navigate])
 
   return (
