@@ -2,10 +2,9 @@ import { useState, useMemo, type MouseEvent } from 'react';
 
 
 import type { NotificationItem } from '@/lib/types';
-import { formatRelativeDateGroup } from '@/lib/utils';
+import { useFormat } from '@/hooks/useFormat'
 import useStore from '@/store';
-import { useArchivableCollection } from '@/hooks/useArchivableCollection'
-import { useFilteredCollection } from '@/hooks/useFilteredCollection'
+import { useManagedCollection } from '@/hooks/useManagedCollection'
 
 interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]
@@ -16,16 +15,21 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const t = useStore(state => state.t)
   const decrementNotificationCount = useStore(state => state.decrementNotificationCount)
   const setNotificationCount = useStore(state => state.setNotificationCount)
+  const { formatRelativeDateGroup } = useFormat()
 
   const [selectedId, setSelectedId] = useState<number | null>(null)
-  const { items: notifications, setItems: setNotifications, archiveItem: archiveNotification, restoreItem: restoreNotification, view, setView, filtered: archivableFiltered } = useArchivableCollection(initialNotifications)
-
   const {
+    items: notifications,
+    setItems: setNotifications,
+    archiveItem: archiveNotification,
+    restoreItem: restoreNotification,
+    view,
+    setView,
+    filteredItems,
     searchQuery,
     setSearchQuery,
-    items: filtered,
-  } = useFilteredCollection(archivableFiltered, {
-    searchKeys: (n) => [n.text, n.course, n.content],
+  } = useManagedCollection(initialNotifications, {
+    searchKeys: (n: NotificationItem) => [n.text, n.course, n.content],
   })
 
   const markAsRead = (id: number, e: MouseEvent): void => {
@@ -46,17 +50,17 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
 
   const grouped = useMemo(() => {
     const groups: Record<string, NotificationItem[]> = {}
-    filtered.forEach(n => {
+    filteredItems.forEach(n => {
       const dateKey = formatRelativeDateGroup(n.date, lang)
       if (!groups[dateKey]) groups[dateKey] = []
       groups[dateKey].push(n)
     })
     return groups
-  }, [filtered, lang])
+  }, [filteredItems, lang])
 
   const selectedNotification = useMemo(() => {
-    return notifications.find(n => n.id === selectedId) || (filtered.length > 0 ? filtered[0] : null)
-  }, [notifications, selectedId, filtered])
+    return notifications.find(n => n.id === selectedId) || (filteredItems.length > 0 ? filteredItems[0] : null)
+  }, [notifications, selectedId, filteredItems])
 
   const currentSelectedId = selectedNotification?.id || null
 
@@ -75,7 +79,7 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
     restoreNotification,
     markAsRead,
     markAllRead,
-    filtered,
+    filtered: filteredItems,
     grouped,
     selectedNotification,
     currentSelectedId,

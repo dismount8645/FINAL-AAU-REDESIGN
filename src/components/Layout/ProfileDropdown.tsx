@@ -4,6 +4,7 @@ import { Text, Dropdown, MasterItem } from '@/components/ui';
 import useStore from '@/store';
 import { renderWithProviders, screen, fireEvent, waitFor } from '@/test/test-utils';
 import { cn } from '@/lib/utils';
+import { PATHS } from '@/routes';
 
 export default function ProfileDropdown() {
   const navigate = useNavigate();
@@ -56,14 +57,14 @@ export default function ProfileDropdown() {
         </div>
 
         <div role="none" className="py-2">
-          <Dropdown.Item onClick={() => navigate('/settings?tab=profil')}>
+          <Dropdown.Item onClick={() => navigate(`${PATHS.SETTINGS}?tab=profil`)}>
             <MasterItem
               leading={User}
               leadingClassName="text-primary"
               title={t('profile')}
             />
           </Dropdown.Item>
-          <Dropdown.Item onClick={() => navigate('/settings')}>
+          <Dropdown.Item onClick={() => navigate(PATHS.SETTINGS)}>
             <MasterItem
               leading={Settings}
               leadingClassName="text-primary"

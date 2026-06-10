@@ -1,6 +1,6 @@
 import { memo, useCallback } from 'react';
 
-import { ChevronRight, Reply, MessageSquare, Book, MessageCircle, ArrowRight } from 'lucide-react';
+import { ChevronRight, MessageCircle, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card, MasterItem } from '@/components/ui';
@@ -9,6 +9,7 @@ import { Text, Heading } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { mockForumActivities } from '@/lib/data';
 import useStore from '@/store';
+import { PATHS } from '@/routes';
 
 const ACTIVITY_COLOR_MAP: Record<string, string> = {
   'var(--color-reply-icon, var(--color-primary))': 'text-primary bg-primary/10',
@@ -22,11 +23,11 @@ const ForumActivityWidget = () => {
   const localize = useStore(state => state.localize)
 
   const handleViewAll = useCallback(() => {
-    navigate('/courses')
+    navigate(PATHS.COURSES)
   }, [navigate])
 
   const handleActivityClick = useCallback((id: number) => {
-    navigate(`/forum/${id}`)
+    navigate(PATHS.FORUM(id))
   }, [navigate])
 
   return (

@@ -2,12 +2,13 @@
 
 import { memo, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CalendarCheck, ChevronRight, MapPin, Clock, Plus, Upload } from 'lucide-react'
+import { CalendarCheck, ChevronRight, MapPin, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { CalendarEvents, CalendarEvent } from '@/lib/types'
 import { Card, Text } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
+import { PATHS } from '@/routes'
 import useStore from '@/store'
 import { cn } from '@/lib/utils'
 
@@ -70,7 +71,7 @@ const CalendarUpcomingWidget = ({
             </Text>
           </Stack>
           {futureEvents.length > 0 && (
-            <Button variant="ghost" size="xs" onClick={() => navigate('/calendar')} className="normal-case tracking-normal font-black text-xs">
+            <Button variant="ghost" size="xs" onClick={() => navigate(PATHS.CALENDAR)} className="normal-case tracking-normal font-black text-xs">
               {t('view_all')}
             </Button>
           )}

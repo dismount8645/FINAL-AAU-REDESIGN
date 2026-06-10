@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui'
 import type { CalendarEvent } from '@/lib/types'
 import useStore from '@/store'
+import { PATHS } from '@/routes'
 
 interface CalendarEventDetailsDialogProps {
   isOpen: boolean
@@ -100,7 +101,7 @@ export default function CalendarEventDetailsDialog({
           {t('event_detail_desc')}
         </Text>
         <Stack direction="row" gap="sm" className="calendar__detail-actions mt-[var(--space-lg)]">
-          <Button variant="primary" full onClick={() => navigate('/course/1')}>
+          <Button variant="primary" full onClick={() => navigate(PATHS.COURSE(1))}>
             {t('go_to_module')}
           </Button>
           <Button variant="secondary" full onClick={() => navigate('/submission/1')}>

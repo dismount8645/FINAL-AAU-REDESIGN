@@ -13,7 +13,6 @@ import { Dropdown } from '@/components/ui';
 import { ASSETS } from '@/lib';
 import { useFilteredCollection } from '@/hooks';
 import { env } from '@/lib/env';
-import { cn } from '@/lib/utils';
 import useStore from '@/store';
 
 import type { CourseWithStatus } from '@/store';
