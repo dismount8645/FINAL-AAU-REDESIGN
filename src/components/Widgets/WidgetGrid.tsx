@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid } from '@/components/Layout/LayoutPrimitives';
 import QuickOverviewWidget from './QuickOverviewWidget'
 import ForumActivityWidget from './ForumActivityWidget'
 import { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget } from './DashboardWidgets'
-import { GripVertical } from 'lucide-react';
+import { GripVertical, AlertCircle } from 'lucide-react';
+import { Card } from '@/components/ui';
+import Button from '@/components/ui/Button';
 
 import useStore from '@/store';
 
@@ -23,6 +25,121 @@ const SIZE_TO_SPAN: Record<'small' | 'medium' | 'large', number> = {
   small: 4,
   medium: 8,
   large: 12,
+}
+
+function WidgetSkeleton({ size }: { size: 'small' | 'medium' | 'large' }) {
+  const height = size === 'small' ? 'h-36' : size === 'medium' ? 'h-64' : 'h-96';
+  return (
+    <Card className={`w-full ${height} flex flex-col overflow-hidden border-[var(--border-color)]/60 shadow-[var(--shadow-sm)] animate-pulse`}>
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/20">
+        <div className="flex items-center gap-xs w-full py-1">
+          <div className="w-5 h-5 rounded bg-slate-200 dark:bg-slate-700 shrink-0" />
+          <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
+        </div>
+      </Card.Header>
+      <Card.Body padding="compact" className="p-sm flex-1 flex flex-col gap-xs">
+        <div className="h-3 w-3/4 bg-slate-200 dark:bg-slate-700 rounded" />
+        <div className="h-3 w-1/2 bg-slate-200 dark:bg-slate-700 rounded" />
+        <div className="h-3 w-5/6 bg-slate-200 dark:bg-slate-700 rounded mt-xs" />
+        {size !== 'small' && (
+          <>
+            <div className="h-3 w-2/3 bg-slate-200 dark:bg-slate-700 rounded" />
+            <div className="h-3 w-3/4 bg-slate-200 dark:bg-slate-700 rounded" />
+          </>
+        )}
+      </Card.Body>
+    </Card>
+  );
+}
+
+function WidgetError({ title: _title, onRetry, lang }: { title: string; onRetry: () => void; lang: 'da' | 'en' }) {
+  return (
+    <Card className="w-full h-full min-h-[160px] flex flex-col justify-center items-center p-md text-center border-danger/30 bg-danger/5 shadow-[var(--shadow-sm)]">
+      <AlertCircle className="text-danger mb-xs shrink-0" size={24} />
+      <span className="text-xs font-bold text-main block mb-2xs">
+        {lang === 'da' ? 'Kunne ikke hente data' : 'Could not fetch data'}
+      </span>
+      <span className="text-[10px] text-muted max-w-[200px] mb-xs block">
+        {lang === 'da'
+          ? 'Forbindelsen afbrød eller timeout blev nået.'
+          : 'The connection timed out or failed.'}
+      </span>
+      <Button variant="outline" size="xs" onClick={onRetry} className="font-bold text-[10px]">
+        {lang === 'da' ? 'Prøv igen' : 'Retry'}
+      </Button>
+    </Card>
+  );
+}
+
+function WidgetPermissionDenied({ title: _title, lang }: { title: string; lang: 'da' | 'en' }) {
+  return (
+    <Card className="w-full h-full min-h-[160px] flex flex-col justify-center items-center p-md text-center border-warning/30 bg-warning/5 shadow-[var(--shadow-sm)]">
+      <div className="p-xs bg-warning/10 rounded-full text-warning mb-xs shrink-0">
+        <AlertCircle size={20} />
+      </div>
+      <span className="text-xs font-bold text-main block mb-2xs">
+        {lang === 'da' ? 'Ingen adgang' : 'Access Denied'}
+      </span>
+      <span className="text-[10px] text-muted max-w-[200px] block">
+        {lang === 'da'
+          ? 'Du har ikke tilladelse til at se dette modul.'
+          : 'You do not have permission to view this widget.'}
+      </span>
+    </Card>
+  );
+}
+
+interface WidgetStateWrapperProps {
+  id: string
+  size: 'small' | 'medium' | 'large'
+  children: React.ReactNode
+}
+
+function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperProps) {
+  const lang = useStore(state => state.lang);
+  const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'permission_denied'>(() => {
+    if (id === 'courseProgress') return 'permission_denied';
+    return 'loading';
+  });
+
+  const loadData = () => {
+    if (id === 'courseProgress') {
+      setStatus('permission_denied');
+      return;
+    }
+    setStatus('loading');
+
+    const loadTimer = setTimeout(() => {
+      setStatus('success');
+    }, 400);
+
+    const timeoutTimer = setTimeout(() => {
+      setStatus('error');
+    }, 10000);
+
+    return { loadTimer, timeoutTimer };
+  };
+
+  useEffect(() => {
+    const timers = loadData();
+    return () => {
+      if (timers) {
+        clearTimeout(timers.loadTimer);
+        clearTimeout(timers.timeoutTimer);
+      }
+    };
+  }, [id]);
+
+  if (status === 'loading') {
+    return <WidgetSkeleton size={size} />;
+  }
+  if (status === 'error') {
+    return <WidgetError title={id} onRetry={loadData} lang={lang} />;
+  }
+  if (status === 'permission_denied') {
+    return <WidgetPermissionDenied title={id} lang={lang} />;
+  }
+  return <>{children}</>;
 }
 
 export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: WidgetGridProps) {
@@ -155,7 +272,9 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: Widge
               </div>
             )}
             <div className={isEditing ? 'pointer-events-none opacity-80' : ''}>
-              {renderWidgetContent(widget.id, widgetSize)}
+              <WidgetStateWrapper id={widget.id} size={widgetSize}>
+                {renderWidgetContent(widget.id, widgetSize)}
+              </WidgetStateWrapper>
             </div>
           </Grid.Item>
         )
@@ -165,6 +284,9 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: Widge
 }
 
 if (import.meta.vitest) {
+  const { describe, it, expect } = await import('vitest')
+  const { renderWithProviders } = await import('@/test/test-utils')
+
   describe('WidgetGrid', () => {
     it('renders widgets', () => {
       const widgets = [

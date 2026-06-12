@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -20,17 +20,30 @@ export default function Topbar() {
   const lang = useStore(state => state.lang);
   const breadcrumbs = useStore(state => state.breadcrumbs);
 
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 1280 : true);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1280);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const activeBreadcrumbs = (breadcrumbs && breadcrumbs.length > 0)
     ? breadcrumbs
     : getAutomaticBreadcrumbs(location.pathname, lang, t);
 
   const sidebarIcon = isCollapsed ? <Menu size={20} strokeWidth={2} /> : <AlignJustify size={20} strokeWidth={2} />;
 
+  const left = isDesktop ? (isCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)') : '0px';
+
   return (
     <nav
       className="fixed top-0 right-0 h-[var(--topbar-height)] bg-bg-topbar backdrop-blur-[12px] saturate-[180%] flex items-center z-40 border-b border-border transition-all duration-300 ease-in-out pr-[var(--space-md)]"
       style={{
-        left: isCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
+        left,
         width: 'auto'
       }}
     >
@@ -97,6 +110,7 @@ if (import.meta.vitest) {
   })
   describe('Topbar', () => {
     beforeEach(() => {
+      vi.useFakeTimers({ shouldAdvanceTime: true })
       vi.clearAllMocks()
       useStore.setState({
         theme: 'system',
@@ -110,6 +124,10 @@ if (import.meta.vitest) {
         notificationCount: 2,
       })
     })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
   
     it('renders search input and trigger buttons', () => {
       render(
@@ -117,7 +135,7 @@ if (import.meta.vitest) {
           <Topbar />
         </MemoryRouter>
       )
-      expect(screen.getByPlaceholderText('search_placeholder')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('Søg efter fag, afleveringer, beskeder eller indhold...')).toBeInTheDocument()
       expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0)
     })
   
@@ -131,6 +149,9 @@ if (import.meta.vitest) {
       )
       const input = document.querySelector('.topbar__search-wrapper input')
       fireEvent.change(input!, { target: { value: 'Digital' } })
+      act(() => {
+        vi.runAllTimers()
+      })
       
       expect(screen.getByText('Digital Design og Kommunikation')).toBeInTheDocument()
       expect(screen.getByText(/1 search_results_singular/i)).toBeInTheDocument()
@@ -144,6 +165,9 @@ if (import.meta.vitest) {
       )
       const input = document.querySelector('.topbar__search-wrapper input')
       fireEvent.change(input!, { target: { value: 'Digital' } })
+      act(() => {
+        vi.runAllTimers()
+      })
       
       const result = screen.getByText('Digital Design og Kommunikation')
       fireEvent.click(result)
@@ -262,6 +286,9 @@ if (import.meta.vitest) {
       )
       const input = document.querySelector('.topbar__search-wrapper input')
       fireEvent.change(input!, { target: { value: 'NonExistent' } })
+      act(() => {
+        vi.runAllTimers()
+      })
       expect(screen.getByText('no_search_results')).toBeInTheDocument()
     })
   
@@ -273,15 +300,23 @@ if (import.meta.vitest) {
       )
       const input = document.querySelector('.topbar__search-wrapper input')
       fireEvent.change(input!, { target: { value: 'Digital' } })
+      act(() => {
+        vi.runAllTimers()
+      })
       expect(screen.getByText(/1 search_results_singular/i)).toBeInTheDocument()
       
       fireEvent.mouseDown(document.body)
+      act(() => {
+        vi.runAllTimers()
+      })
       await waitFor(() => {
         expect(screen.queryByText(/1 search_results_singular/i)).not.toBeInTheDocument()
       })
     })
   
     it('renders with collapsed sidebar padding', () => {
+      const originalWidth = window.innerWidth
+      Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 1280 })
       useStore.setState({ isCollapsed: true })
       render(
         <MemoryRouter>
@@ -290,6 +325,7 @@ if (import.meta.vitest) {
       )
       const nav = screen.getAllByRole('navigation')[0] as HTMLElement
       expect(nav.style.left).toBe('var(--sidebar-collapsed-width)')
+      Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: originalWidth })
     })
   
   
@@ -301,6 +337,9 @@ if (import.meta.vitest) {
       )
       const input = document.querySelector('.topbar__search-wrapper input')
       fireEvent.change(input!, { target: { value: 'Digital' } })
+      act(() => {
+        vi.runAllTimers()
+      })
       expect(screen.getByText(/1 search_results_singular/i)).toBeInTheDocument()
   
       fireEvent.mouseDown(input!)
