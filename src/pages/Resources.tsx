@@ -28,9 +28,9 @@ function Resources() {
     if (!searchQuery) return allToolsList
     const q = searchQuery.toLowerCase()
     return allToolsList.filter(tool => {
-      const name = (tool.titleKey ? t(tool.titleKey) : (lang === 'da' ? tool.titleDa : tool.titleEn)).toLowerCase()
+      const name = (tool.titleKey ? t(tool.titleKey) : (lang === 'da' ? tool.titleDa || '' : tool.titleEn || '')).toLowerCase()
       const desc = (lang === 'da' ? tool.descDa : tool.descEn || '').toLowerCase()
-      const cat = tool.category.toLowerCase()
+      const cat = (tool.category || '').toLowerCase()
       return name.includes(q) || desc.includes(q) || cat.includes(q)
     })
   }, [searchQuery, t, lang])

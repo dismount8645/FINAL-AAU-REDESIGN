@@ -233,7 +233,7 @@ function Submission() {
   if (status === 'submitted') {
     return (
       <SubmissionSuccess
-        onBackToCourse={() => navigate(PATHS.COURSE(courseId))}
+        onBackToCourse={() => navigate(PATHS.COURSE(courseId || ''))}
         t={t}
       />
     )
@@ -319,10 +319,9 @@ function Submission() {
 
 export default Submission
 
-let mockNavigate: ReturnType<typeof vi.fn>
-const mockSubmitAssignment = vi.hoisted(() => vi.fn().mockResolvedValue({ success: true }))
 if (import.meta.vitest) {
-  mockNavigate = vi.fn()
+  const mockSubmitAssignment = vi.hoisted(() => vi.fn().mockResolvedValue({ success: true }))
+  const mockNavigate = vi.hoisted(() => vi.fn())
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
     return {

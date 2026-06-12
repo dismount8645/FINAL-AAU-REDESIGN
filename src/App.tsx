@@ -4,12 +4,10 @@ import { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/Layout/ErrorBoundary';
 import Layout from '@/components/Layout/Layout';
-import useStore from '@/store';
 import NotFound from '@/pages/NotFound';
 import routes from './routes';
 
 function App() {
-  const t = useStore(state => state.t)
 
   return (
     <Router>

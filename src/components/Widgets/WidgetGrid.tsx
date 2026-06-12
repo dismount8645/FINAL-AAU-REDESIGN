@@ -20,9 +20,9 @@ interface WidgetGridProps {
 }
 
 const SIZE_TO_SPAN: Record<'small' | 'medium' | 'large', number> = {
-  small: 10,
-  medium: 14,
-  large: 24,
+  small: 4,
+  medium: 8,
+  large: 12,
 }
 
 export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: WidgetGridProps) {
@@ -110,7 +110,7 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: Widge
   }
 
   return (
-    <Grid className="dashboard__grid relative animate-fade-in" style={{ '--grid-cols': 'var(--dashboard-grid-cols, 24)', gridAutoRows: 'minmax(80px, auto)' } as React.CSSProperties}>
+    <Grid className="dashboard__grid relative animate-fade-in" style={{ '--grid-cols': 'var(--dashboard-grid-cols, 12)', gridAutoRows: 'minmax(80px, auto)' } as React.CSSProperties}>
       {widgets.map((widget, index) => {
         const isCurrentlyDragged = draggedIndex === index
         const isHoveredIndicator = dragOverIndex === index
@@ -129,6 +129,7 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: Widge
             onDrop={(e) => handleDrop(e, index)}
             className={`
               widget-${widget.id}
+              widget-size-${widgetSize}
               relative transition-all duration-150 ease-out rounded-[var(--radius-md)] overflow-hidden
               ${isEditing ? 'cursor-grab active:cursor-grabbing border border-dashed border-[var(--border-color)] p-1 hover:border-primary/50' : ''}
               ${isCurrentlyDragged ? 'opacity-40 border border-solid border-primary' : ''}

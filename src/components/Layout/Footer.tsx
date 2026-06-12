@@ -2,40 +2,36 @@
 
 import { MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
 
 function Footer() {
   const t = useStore(state => state.t)
   return (
-    <footer className="footer-main py-sm border-t border-border bg-bg-card relative z-10 w-full overflow-hidden">
+    <footer className="footer-main py-xs border-t border-border bg-bg-card relative z-10 w-full overflow-hidden">
       <div className="w-full px-[var(--space-sm)] md:px-[var(--space-md)]">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-sm">
-          {/* Navigation & Copyright */}
-          <Stack gap="lg" className="items-start md:items-end col-span-12 md:col-span-7 lg:col-span-8 w-full">
-            <nav className="flex flex-col md:flex-row gap-md md:gap-xl items-start md:items-center">
-              <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
-                <Text size="sm" weight="bold">ITS Support</Text>
-              </a>
-              <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
-                <Text size="sm" weight="bold">{t('accessibility_statement')}</Text>
-              </a>
-              <Button
-                variant="ghost"
-                onClick={(e) => e.preventDefault()}
-                className="text-text-muted hover:text-primary transition-all duration-150 underline-offset-8 hover:underline decoration-2 h-auto p-0 min-h-[44px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-sm focus-visible:outline-none focus-visible:shadow-focus"
-              >
-                {t('service_status')}
-              </Button>
-            </nav>
-            
-            <div className="w-full h-px bg-border/20 md:w-48" />
-            
-            <Text size="xs" className="text-text-muted font-medium text-left md:text-right leading-relaxed w-full">
-              &copy; {new Date().getFullYear()} Aalborg Universitet. {t('rights_reserved')}
-            </Text>
-          </Stack>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-xs w-full">
+          <nav className="flex flex-wrap gap-x-xs sm:gap-x-sm gap-y-3xs items-center">
+            <a href="https://www.its.aau.dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+              <Text size="xs" weight="bold">ITS Support</Text>
+            </a>
+            <span className="text-border/40 text-xs hidden sm:inline">&bull;</span>
+            <a href="https://www.was.digst.dk/aau-dk" target="_blank" rel="noreferrer" className="text-text-muted hover:text-primary transition-all duration-150 focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+              <Text size="xs" weight="bold">{t('accessibility_statement')}</Text>
+            </a>
+            <span className="text-border/40 text-xs hidden sm:inline">&bull;</span>
+            <Button
+              variant="ghost"
+              onClick={(e) => e.preventDefault()}
+              className="text-text-muted hover:text-primary transition-all duration-150 h-auto p-0 min-h-[32px] inline-flex items-center bg-transparent hover:bg-transparent font-bold normal-case tracking-normal text-xs focus-visible:outline-none focus-visible:shadow-focus"
+            >
+              {t('service_status')}
+            </Button>
+          </nav>
+          
+          <Text size="xs" className="text-text-muted font-medium text-left md:text-right leading-none shrink-0">
+            &copy; {new Date().getFullYear()} Aalborg Universitet. {t('rights_reserved')}
+          </Text>
         </div>
       </div>
     </footer>

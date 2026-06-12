@@ -42,7 +42,7 @@ export default function CalendarEventDetailsDialog({
             className="calendar__detail-header p-[var(--space-md)_var(--space-lg)] pr-[60px] border-b border-[var(--border-color)]/60 flex items-center justify-between gap-[var(--space-md)]"
             style={{ borderLeft: `6px solid ${selectedEvent.color}` }}
           >
-            <Stack gap="3xs" className="min-w-0 flex-1">
+            <Stack gap="2xs" className="min-w-0 flex-1">
               <Heading level={2} className="calendar__detail-title text-xl font-extrabold text-main leading-tight truncate">
                 {getEventTitle(selectedEvent)}
               </Heading>
@@ -69,7 +69,7 @@ export default function CalendarEventDetailsDialog({
                 <div className="p-xs bg-primary/10 text-primary dark:text-[var(--aau-light-blue-sec)] rounded-lg shrink-0 mt-0.5">
                   <Clock size={16} strokeWidth={2.5} />
                 </div>
-                <Stack gap="3xs">
+                <Stack gap="2xs">
                   <Text size="xs" weight="bold" muted className="tracking-wider uppercase opacity-70">
                     {t('date_and_time')}
                   </Text>
@@ -89,7 +89,7 @@ export default function CalendarEventDetailsDialog({
                 <div className="p-xs bg-primary/10 text-primary dark:text-[var(--aau-light-blue-sec)] rounded-lg shrink-0 mt-0.5">
                   <MapPin size={16} strokeWidth={2.5} />
                 </div>
-                <Stack gap="3xs">
+                <Stack gap="2xs">
                   <Text size="xs" weight="bold" muted className="tracking-wider uppercase opacity-70">
                     {t('location_label')}
                   </Text>
@@ -100,7 +100,7 @@ export default function CalendarEventDetailsDialog({
                 <div className="p-xs bg-primary/10 text-primary dark:text-[var(--aau-light-blue-sec)] rounded-lg shrink-0 mt-0.5">
                   <UserIcon size={16} strokeWidth={2.5} />
                 </div>
-                <Stack gap="3xs">
+                <Stack gap="2xs">
                   <Text size="xs" weight="bold" muted className="tracking-wider uppercase opacity-70">
                     {t('lecturer_host')}
                   </Text>
