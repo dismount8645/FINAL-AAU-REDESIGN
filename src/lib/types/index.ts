@@ -64,6 +64,10 @@ export interface CourseSection {
   title: string
   titleEn: string
   items: CourseItem[]
+  date?: string
+  dateEn?: string
+  description?: string
+  descriptionEn?: string
 }
 
 interface NextAssignment {
@@ -257,4 +261,6 @@ export interface ResourceTool {
   helpEn?: string
   url: string
   sso?: boolean
+  category?: string
 }
+

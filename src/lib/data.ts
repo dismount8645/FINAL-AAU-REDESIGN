@@ -6,7 +6,6 @@ import type {
   CalendarEvents,
   MessageThread,
   Notification,
-  CourseItem,
   ForumActivity,
   ForumPostData,
   ForumReplyData
@@ -88,20 +87,36 @@ const registryJson = {
       "sections": [
         {
           "id": "s1",
-          "title": "Uge 1: Introduktion til Digital Design",
-          "titleEn": "Week 1: Introduction to Digital Design",
+          "title": "Kursusgang 1: Introduktion til Digital Design",
+          "titleEn": "Session 1: Introduction to Digital Design",
+          "date": "12. Feb 2026",
+          "dateEn": "Feb 12, 2026",
+          "description": "Denne gang skal vi introducere modulet, gennemgå pensum og se hinanden an. Du skal se velkomstvideoen og hente kursusbeskrivelsen.",
+          "descriptionEn": "This session we will introduce the module, review the syllabus, and get started. You should watch the welcome video and download the course description.",
+          "themes": ["Introduktion til faget", "Gennemgang af pensum og rammer", "Introduktion til digital design og dets historie"],
+          "themesEn": ["Introduction to the course", "Syllabus and framework walkthrough", "Introduction to digital design and its history"],
+          "goals": ["Forstå kursets opbygning og eksamensform", "Kende forskellen på digitalt design og traditionelt design", "Etablere projektgrupper"],
+          "goalsEn": ["Understand course structure and exam format", "Know the difference between digital design and traditional design", "Establish project groups"],
           "items": [
-            { "id": 101, "type": "pdf", "title": "Kursusbeskrivelse og pensum", "titleEn": "Course Description and Syllabus", "size": "1.2 MB" },
+            { "id": 101, "type": "pdf", "title": "Kursusbeskrivelse og pensum", "titleEn": "Course Description and Syllabus", "size": "1.2 MB", "litType": "primary" },
             { "id": 102, "type": "video", "title": "Velkomstvideo fra underviser", "titleEn": "Welcome Video from Instructor", "duration": "5:30" },
-            { "id": 103, "type": "link", "title": "Link til ekstern læringsressource", "titleEn": "Link to external learning resource" }
+            { "id": 103, "type": "link", "title": "Link til ekstern læringsressource", "titleEn": "Link to external learning resource", "litType": "secondary" }
           ]
         },
         {
           "id": "s2",
-          "title": "Uge 2: Brugercentreret Design",
-          "titleEn": "Week 2: User-Centered Design",
+          "title": "Kursusgang 2: Brugercentreret Design",
+          "titleEn": "Session 2: User-Centered Design",
+          "date": "19. Feb 2026",
+          "dateEn": "Feb 19, 2026",
+          "description": "I denne uge fokuserer vi på brugercentrerede metoder. Vi gennemgår slides om designprocesser og du skal aflevere din første designskitse.",
+          "descriptionEn": "This week we focus on user-centered methods. We will review slides on design processes and you need to submit your first design sketch.",
+          "themes": ["Brugercentreret designproces (UCD)", "Double Diamond-modellen", "Prototyping og skitsering"],
+          "themesEn": ["User-Centered Design (UCD) process", "Double Diamond model", "Prototyping and sketching"],
+          "goals": ["Kunne anvende Double Diamond til designudfordringer", "Udføre simple brugertests af skitser", "Aflevere den første designskitse"],
+          "goalsEn": ["Be able to apply Double Diamond to design challenges", "Perform simple user tests of sketches", "Submit the first design sketch"],
           "items": [
-            { "id": 104, "type": "pdf", "title": "Slides: Designprocesser", "titleEn": "Slides: Design Processes", "size": "4.5 MB" },
+            { "id": 104, "type": "pdf", "title": "Slides: Designprocesser", "titleEn": "Slides: Design Processes", "size": "4.5 MB", "litType": "secondary" },
             { "id": 105, "type": "assignment", "title": "Aflevering: Designskitse", "titleEn": "Assignment: Design Sketch", "deadline": "Fredag kl. 12:00" }
           ]
         }
@@ -129,19 +144,35 @@ const registryJson = {
       "sections": [
         {
           "id": "w1",
-          "title": "Modul 1: HTML & CSS Fundamentals",
-          "titleEn": "Module 1: HTML & CSS Fundamentals",
+          "title": "Kursusgang 1: HTML & CSS Fundamentals",
+          "titleEn": "Session 1: HTML & CSS Fundamentals",
+          "date": "15. Mar 2026",
+          "dateEn": "Mar 15, 2026",
+          "description": "Denne forelæsning dækker grundlæggende semantisk HTML. Vi ser på hvorfor semantik er vigtigt for SEO og webtilgængelighed (a11y), samt ser en introduktion til Flexbox.",
+          "descriptionEn": "This lecture covers basic semantic HTML. We look at why semantics are important for SEO and web accessibility (a11y), and view an introduction to Flexbox.",
+          "themes": ["Semantisk HTML5", "CSS Flexbox og CSS Grid", "Responsive designprincipper"],
+          "themesEn": ["Semantic HTML5", "CSS Flexbox and CSS Grid", "Responsive design principles"],
+          "goals": ["Strukturere websider semantisk", "Opbygge komplekse layouts uden frameworks", "Sikre mobilvenlighed"],
+          "goalsEn": ["Structure web pages semantically", "Build complex layouts without frameworks", "Ensure mobile responsiveness"],
           "items": [
-            { "id": 201, "type": "pdf", "title": "Guide: Semantisk HTML", "titleEn": "Guide: Semantic HTML", "size": "0.8 MB" },
+            { "id": 201, "type": "pdf", "title": "Guide: Semantisk HTML", "titleEn": "Guide: Semantic HTML", "size": "0.8 MB", "litType": "primary" },
             { "id": 202, "type": "video", "title": "CSS Flexbox & Grid Masterclass", "titleEn": "CSS Flexbox & Grid Masterclass", "duration": "45:00" }
           ]
         },
         {
           "id": "w2",
-          "title": "Modul 2: React & State Management",
-          "titleEn": "Module 2: React & State Management",
+          "title": "Kursusgang 2: React & State Management",
+          "titleEn": "Session 2: React & State Management",
+          "date": "22. Mar 2026",
+          "dateEn": "Mar 22, 2026",
+          "description": "Vi tager fat på React, komponenter, props og lokal state. Du skal bygge en To-Do app som din ugentlige afleveringsopgave.",
+          "descriptionEn": "We tackle React, components, props, and local state. You will build a To-Do app as your weekly assignment.",
+          "themes": ["React komponenter og props", "State og hooks (useState, useEffect)", "Komponentdrevet udvikling"],
+          "themesEn": ["React components and props", "State and hooks (useState, useEffect)", "Component-driven development"],
+          "goals": ["Oprette funktionelle React-komponenter", "Styre applikationens tilstand", "Bygge en interaktiv To-Do App"],
+          "goalsEn": ["Create functional React components", "Manage application state", "Build an interactive To-Do App"],
           "items": [
-            { "id": 203, "type": "link", "title": "React Documentation (Official)", "titleEn": "React Documentation (Official)" },
+            { "id": 203, "type": "link", "title": "React Documentation (Official)", "titleEn": "React Documentation (Official)", "litType": "primary" },
             { "id": 204, "type": "assignment", "title": "Projekt: Byg en To-Do App", "titleEn": "Project: Build a To-Do App", "deadline": "Mandag kl. 09:00" }
           ]
         }
@@ -169,17 +200,33 @@ const registryJson = {
       "sections": [
         {
           "id": "v1",
-          "title": "Introduktion til Videnskabsteori",
-          "titleEn": "Introduction to Philosophy of Science",
+          "title": "Kursusgang 1: Introduktion til Videnskabsteori",
+          "titleEn": "Session 1: Introduction to Philosophy of Science",
+          "date": "05. Apr 2026",
+          "dateEn": "Apr 05, 2026",
+          "description": "Introduktion til de videnskabsteoretiske retninger. Vi diskuterer Thomas Kuhns paradigmeteorier og Karl Poppers falsifikationsbegreb.",
+          "descriptionEn": "Introduction to philosophical directions. We discuss Thomas Kuhn's paradigm theories and Karl Popper's concept of falsification.",
+          "themes": ["Kuhns paradigmeteori og videnskabelige revolutioner", "Poppers falsifikationskriterium og kritisk rationalisme"],
+          "themesEn": ["Kuhn's paradigm theory and scientific revolutions", "Popper's falsification criterion and critical rationalism"],
+          "goals": ["Skelne mellem Poppers og Kuhns videnskabsforståelse", "Reflektere over videnskabelig sandhed og fremskridt"],
+          "goalsEn": ["Distinguish between Popper's and Kuhn's understanding of science", "Reflect on scientific truth and progress"],
           "items": [
-            { "id": 301, "type": "pdf", "title": "Kuhn: Videnskabelige revolutioner", "titleEn": "Kuhn: Scientific Revolutions", "size": "3.2 MB" },
-            { "id": 302, "type": "pdf", "title": "Popper: Falsifikationisme", "titleEn": "Popper: Falsificationism", "size": "2.8 MB" }
+            { "id": 301, "type": "pdf", "title": "Kuhn: Videnskabelige revolutioner", "titleEn": "Kuhn: Scientific Revolutions", "size": "3.2 MB", "litType": "primary" },
+            { "id": 302, "type": "pdf", "title": "Popper: Falsifikationisme", "titleEn": "Popper: Falsificationism", "size": "2.8 MB", "litType": "secondary" }
           ]
         },
         {
           "id": "v2",
-          "title": "Videnskabelige Metoder",
-          "titleEn": "Scientific Methods",
+          "title": "Kursusgang 2: Videnskabelige Metoder",
+          "titleEn": "Session 2: Scientific Methods",
+          "date": "12. Apr 2026",
+          "dateEn": "Apr 12, 2026",
+          "description": "Kvalitativ vs kvantitativ metode. Gennemgang af dataindsamlingsmetoder og forelæsning om videnskabelig praksis.",
+          "descriptionEn": "Qualitative vs quantitative method. Review of data collection methods and lecture on scientific practice.",
+          "themes": ["Kvalitative vs. kvantitative metoder", "Dataindsamlingsteknikker (interviews, spørgeskemaer)", "Metodetriangulering"],
+          "themesEn": ["Qualitative vs. quantitative methods", "Data collection techniques (interviews, surveys)", "Method triangulation"],
+          "goals": ["Vælge den rette videnskabelige metode til et givet problem", "Kende fordele og ulemper ved kvalitative interviews"],
+          "goalsEn": ["Choose the right scientific method for a given problem", "Know the pros and cons of qualitative interviews"],
           "items": [
             { "id": 303, "type": "video", "title": "Forelæsning: Kvalitativ vs Kvantitativ", "titleEn": "Lecture: Qualitative vs Quantitative", "duration": "1:15:00" }
           ]
@@ -318,19 +365,18 @@ const registryJson = {
     }
   },
   "participantsData": [
-    { "name": "Mette Jensen", "role": "student" },
-    { "name": "Anders Nielsen", "role": "student" },
-    { "name": "Sofie Pedersen", "role": "student" },
-    { "name": "Emil Hansen", "role": "student" },
-    { "name": "Laura Madsen", "role": "student" },
-    { "name": "Oliver Christensen", "role": "student" },
-    { "name": "Emma Rasmussen", "role": "student" },
-    { "name": "Morten Jensen", "role": "teacher" }
+    { "name": "Mette Jensen", "role": "student", "email": "mjensen24@student.aau.dk" },
+    { "name": "Anders Nielsen", "role": "student", "email": "aniels24@student.aau.dk" },
+    { "name": "Sofie Pedersen", "role": "student", "email": "speders24@student.aau.dk" },
+    { "name": "Emil Hansen", "role": "student", "email": "ehansen24@student.aau.dk" },
+    { "name": "Laura Madsen", "role": "student", "email": "lmadsen24@student.aau.dk" },
+    { "name": "Oliver Christensen", "role": "student", "email": "ochrist24@student.aau.dk" },
+    { "name": "Emma Rasmussen", "role": "student", "email": "erasmus24@student.aau.dk" },
+    { "name": "Morten Jensen", "role": "teacher", "email": "mj@create.aau.dk" }
   ],
   "courseTabItems": [
     { "key": "modules", "label": "tab_modules" },
     { "key": "forum", "label": "tab_forums" },
-    { "key": "resources", "label": "tab_resources" },
     { "key": "info", "label": "tab_info" },
     { "key": "participants", "label": "tab_participants" }
   ],
@@ -579,7 +625,7 @@ export const forums: Forum[] = registryJson.forums as Forum[]
 export const defaultEvents: CalendarEvents = registryJson.defaultEvents as CalendarEvents
 export const messagesData: MessageThread[] = registryJson.messagesData as MessageThread[]
 export const notificationsData: Notification[] = registryJson.notificationsData as Notification[]
-export const participantsData = registryJson.participantsData as { name: string; role: 'student' | 'teacher' }[]
+export const participantsData = registryJson.participantsData as { name: string; role: 'student' | 'teacher'; email: string }[]
 export const courseTabItems = registryJson.courseTabItems as { key: string; label: string }[]
 
 export const supportLocations = registryJson.supportLocations

@@ -2,9 +2,8 @@ import { Fragment } from 'react';
 
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, AlignJustify, ChevronRight, Sun, Moon, Monitor } from 'lucide-react';
+import { Menu, AlignJustify, ChevronRight } from 'lucide-react';
 import { Link, useLocation, MemoryRouter } from 'react-router-dom';
-import { MessagesDropdown } from '../Messages';
 import NotificationsDropdown from './NotificationsDropdown';
 import ProfileDropdown from './ProfileDropdown';
 import TopbarSearch from './TopbarSearch';
@@ -20,8 +19,6 @@ export default function Topbar() {
   const t = useStore(state => state.t);
   const lang = useStore(state => state.lang);
   const breadcrumbs = useStore(state => state.breadcrumbs);
-  const theme = useStore(state => state.theme);
-  const setTheme = useStore(state => state.setTheme);
 
   const activeBreadcrumbs = (breadcrumbs && breadcrumbs.length > 0)
     ? breadcrumbs
@@ -76,26 +73,8 @@ export default function Topbar() {
       </div>
 
       <TopbarSearch>
-        {/* Theme Toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-          className="group w-11 h-11 text-text-main bg-transparent hover:bg-bg-highlight dark:hover:bg-white/10 hover:text-primary active:scale-[0.95] rounded-lg border-none focus-visible:outline-none focus-visible:shadow-focus"
-          title={`${t('appearance')}: ${t('theme.' + theme)}`}
-          aria-label={`${t('appearance')}: ${t('theme.' + theme)}`}
-          type="button"
-        >
-          <span className="transition-transform duration-300 group-hover:rotate-[15deg]">
-            {theme === 'dark' ? <Moon size={20} strokeWidth={2} /> : theme === 'light' ? <Sun size={20} strokeWidth={2} /> : <div title={t('theme.system')}><Monitor size={20} strokeWidth={2} /></div>}
-          </span>
-        </Button>
-
         {/* Notifications Dropdown */}
         <NotificationsDropdown />
-
-        {/* Messages Dropdown */}
-        <MessagesDropdown />
 
         {/* Profile Dropdown */}
         <ProfileDropdown />
@@ -215,35 +194,6 @@ if (import.meta.vitest) {
       expect(mockNavigate).toHaveBeenCalledWith('/notifications')
     })
   
-    it('opens messages dropdown when mail is clicked', () => {
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      
-      const mailBtn = screen.getByLabelText('messages')
-      fireEvent.click(mailBtn)
-      
-      expect(screen.getByText(/view_all/i)).toBeInTheDocument()
-      expect(screen.getByText('Mette Jensen')).toBeInTheDocument()
-    })
-  
-    it('navigates to messages when a message is clicked', () => {
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      
-      const mailBtn = screen.getByLabelText('messages')
-      fireEvent.click(mailBtn)
-      
-      const messageItem = screen.getByText('Mette Jensen')
-      fireEvent.click(messageItem)
-      
-      expect(mockNavigate).toHaveBeenCalledWith('/messages')
-    })
   
     it('navigates to profile when profile link is clicked', async () => {
       render(
@@ -342,25 +292,6 @@ if (import.meta.vitest) {
       expect(nav.style.left).toBe('var(--sidebar-collapsed-width)')
     })
   
-    it('cycles theme when theme toggle is clicked', () => {
-      useStore.setState({ theme: 'light' })
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      const themeBtn = screen.getByLabelText(/appearance:/i)
-      expect(themeBtn).toBeInTheDocument()
-  
-      fireEvent.click(themeBtn)
-      expect(useStore.getState().theme).toBe('system')
-  
-      fireEvent.click(themeBtn)
-      expect(useStore.getState().theme).toBe('dark')
-  
-      fireEvent.click(themeBtn)
-      expect(useStore.getState().theme).toBe('light')
-    })
   
     it('does not close dropdown when clicking inside search', () => {
       render(
@@ -545,19 +476,5 @@ if (import.meta.vitest) {
       expect(mockNavigate).toHaveBeenCalledWith('/notifications')
     })
   
-    it('navigates to messages when view_all is clicked in messages dropdown', () => {
-      render(
-        <MemoryRouter>
-          <Topbar />
-        </MemoryRouter>
-      )
-      
-      const mailBtn = screen.getByLabelText('messages')
-      fireEvent.click(mailBtn)
-      
-      const viewAllBtn = screen.getByText('view_all')
-      fireEvent.click(viewAllBtn)
-      expect(mockNavigate).toHaveBeenCalledWith('/messages')
-    })
   })
 }

@@ -163,7 +163,7 @@ if (import.meta.vitest) {
 
     it('renders LucideIcon leading with standard sizing', () => {
       function TestIcon() { return null }
-      const { container } = render(<MasterItem title="Title" leading={TestIcon} />)
+      const { container } = render(<MasterItem title="Title" leading={TestIcon as any} />)
       const iconContainer = container.querySelector('.shrink-0')
       expect(iconContainer).toHaveClass('w-9', 'h-9', 'sm:w-11', 'sm:h-11', 'rounded-[var(--radius-sm)]')
       expect(iconContainer).not.toHaveClass('bg-bg-highlight/50')
@@ -171,7 +171,7 @@ if (import.meta.vitest) {
 
     it('applies leadingClassName to icon container', () => {
       function TestIcon() { return null }
-      const { container } = render(<MasterItem title="Title" leading={TestIcon} leadingClassName="text-danger bg-danger/10" />)
+      const { container } = render(<MasterItem title="Title" leading={TestIcon as any} leadingClassName="text-danger bg-danger/10" />)
       const iconContainer = container.querySelector('.shrink-0')
       expect(iconContainer).toHaveClass('text-danger', 'bg-danger/10')
     })

@@ -24,6 +24,7 @@ interface WidgetProps {
 const ForumActivityWidget = ({ size = 'medium' }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const localize = useStore(state => state.localize)
 
   const handleViewAll = useCallback(() => {
@@ -55,9 +56,9 @@ const ForumActivityWidget = ({ size = 'medium' }: WidgetProps) => {
             className="font-black uppercase tracking-widest text-primary"
             onClick={handleViewAll}
             iconRight={ChevronRight}
-            aria-label={t('view_all')}
+            aria-label={lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}
           >
-            {t('view_all')}
+            {lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}
           </Button>
         )}
       </Card.Header>
@@ -103,7 +104,7 @@ const ForumActivityWidget = ({ size = 'medium' }: WidgetProps) => {
             {t('communication')}
           </Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{t('view_all')}</Text>
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}</Text>
             <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
@@ -144,7 +145,7 @@ if (import.meta.vitest) {
 
     it('navigates to courses when view all is clicked', () => {
       renderWithProviders(<ForumActivityWidget />)
-      const btn = screen.getAllByText('Se alle')[0]
+      const btn = screen.getAllByText(/Se alle forumindlæg/i)[0]
       fireEvent.click(btn)
       expect(mockNavigate).toHaveBeenCalledWith('/courses')
     })

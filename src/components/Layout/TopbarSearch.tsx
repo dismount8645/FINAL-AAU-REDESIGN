@@ -5,7 +5,9 @@ import { Text } from '@/components/ui';
 import { EmptyState } from '@/components/ui';
 import useStore from '@/store';
 import { SearchInput } from '@/components/ui';
+import Button from '@/components/ui/Button';
 import { PATHS } from '@/routes';
+import { cn } from '@/lib/utils';
 
 interface TopbarSearchProps {
   children: React.ReactNode;
@@ -15,28 +17,50 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const courses = useStore(state => state.courses)
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [activeSearchIndex, setActiveSearchIndex] = useState(-1);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileExpanded, setIsMobileExpanded] = useState(false);
 
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setIsMobileExpanded(false);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (searchRef.current && !searchRef.current.contains(target)) setIsDropdownVisible(false);
+      if (searchRef.current && !searchRef.current.contains(target)) {
+        setIsDropdownVisible(false);
+        if (isMobile) {
+          setIsMobileExpanded(false);
+        }
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (!location.pathname.startsWith('/search')) {
       setSearchQuery('');
     }
     setIsDropdownVisible(false);
+    setIsMobileExpanded(false);
   }, [location.pathname]);
 
   const filteredResults = useMemo(() => searchQuery.trim()
@@ -85,74 +109,104 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
 
   return (
     <>
-      <div className="topbar__search-wrapper flex flex-1 justify-center px-xl z-[var(--z-topbar-search,1002)] min-w-0">
-        <div className="search-container-relative relative w-full max-w-[400px]" ref={searchRef}>
-          <SearchInput
-            value={searchQuery}
-            onChange={(val) => {
-              setSearchQuery(val);
-              setIsDropdownVisible(true);
-            }}
-            onKeyDown={handleSearchEnter}
-            placeholder={t('search_placeholder')}
-            className="topbar__search-input-wrapper w-full max-w-[400px]"
-            role="combobox"
-            aria-expanded={isDropdownVisible && filteredResults.length > 0}
-            aria-haspopup="listbox"
-            aria-autocomplete="list"
-            aria-controls="search-results-listbox"
-            aria-activedescendant={activeSearchIndex >= 0 && activeSearchIndex < filteredResults.length ? `search-item-${filteredResults[activeSearchIndex].id}` : undefined}
-          />
-          {isDropdownVisible && (
-            <div 
-              id="search-results-listbox"
-              role="listbox"
-              aria-label={t('search_results_plural')}
-              className="topbar__search-dropdown topbar-panel topbar-panel--search"
-            >
-              <div className="search-dropdown-header p-sm px-md bg-bg-hover border-b border-border">
-                <Text size="xs" weight="bold" muted>
-                  {filteredResults.length === 1
-                    ? `1 ${t('search_results_singular')}`
-                    : `${filteredResults.length} ${t('search_results_plural')}`}
-                </Text>
-              </div>
-              {filteredResults.length > 0 ? filteredResults.map((course, index) => (
-                <div
-                  key={course.id}
-                  id={`search-item-${course.id}`}
-                  className={`search-dropdown-item flex items-center gap-md p-sm px-md cursor-pointer transition-colors duration-150 ${index === activeSearchIndex ? 'bg-bg-hover' : 'hover:bg-bg-hover'}`}
-                  onClick={() => handleResultClick(course)}
-                  onMouseEnter={() => setActiveSearchIndex(index)}
-                  role="option"
-                  aria-selected={index === activeSearchIndex}
-                >
-                  <GraduationCap size={14} strokeWidth={2} className="search-item-icon w-8 h-8 f flex items-center justify-center bg-primary/10 text-primary rounded-md" />
-                  <div className="search-item-info flex flex-col">
-                    <span className="search-item-title text-sm font-medium text-main">{course.title}</span>
-                    <span className="search-item-meta text-xs text-muted font-medium">{course.code}</span>
-                  </div>
-                </div>
-              )) : (
-                <div className="search-dropdown-empty py-sm">
-                  <EmptyState icon={Search} title={t('no_search_results')} />
-                </div>
-              )}
-              <button
-                type="button"
-                className="w-full border-none cursor-pointer focus-visible:outline-none focus-visible:shadow-focus search-dropdown-footer p-sm px-md text-center border-t border-border bg-card hover:bg-bg-hover font-medium block relative before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
-                onClick={() => handleSearchEnter({ key: 'Enter' })}
+      {(!isMobile || isMobileExpanded) && (
+        <div 
+          className={cn(
+            "topbar__search-wrapper flex flex-1 justify-center px-xl z-[var(--z-topbar-search,1002)] min-w-0 transition-all duration-150",
+            isMobile && "absolute left-0 right-0 top-0 bottom-0 bg-bg-topbar backdrop-blur-md px-md py-xs flex items-center justify-between z-[1003] border-b border-border"
+          )}
+        >
+          <div className="search-container-relative relative w-full max-w-[clamp(280px,32vw,420px)]" ref={searchRef}>
+            <SearchInput
+              value={searchQuery}
+              onChange={(val) => {
+                setSearchQuery(val);
+                setIsDropdownVisible(true);
+              }}
+              onKeyDown={handleSearchEnter}
+              placeholder={isMobile ? (lang === 'da' ? 'Søg...' : 'Search...') : t('search_placeholder')}
+              className="topbar__search-input-wrapper w-full"
+              role="combobox"
+              aria-expanded={isDropdownVisible && filteredResults.length > 0}
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
+              aria-controls="search-results-listbox"
+              aria-activedescendant={activeSearchIndex >= 0 && activeSearchIndex < filteredResults.length ? `search-item-${filteredResults[activeSearchIndex].id}` : undefined}
+            />
+            {isDropdownVisible && (
+              <div 
+                id="search-results-listbox"
+                role="listbox"
+                aria-label={t('search_results_plural')}
+                className="topbar__search-dropdown topbar-panel topbar-panel--search"
               >
-                <span className="text-sm font-medium topbar__all-results">{t('all_results')} &ldquo;{searchQuery}&rdquo;</span>
-              </button>
-            </div>
+                <div className="search-dropdown-header p-sm px-md bg-bg-hover border-b border-border">
+                  <Text size="xs" weight="bold" muted>
+                    {filteredResults.length === 1
+                      ? `1 ${t('search_results_singular')}`
+                      : `${filteredResults.length} ${t('search_results_plural')}`}
+                  </Text>
+                </div>
+                {filteredResults.length > 0 ? filteredResults.map((course, index) => (
+                  <div
+                    key={course.id}
+                    id={`search-item-${course.id}`}
+                    className={`search-dropdown-item flex items-center gap-md p-sm px-md cursor-pointer transition-colors duration-150 ${index === activeSearchIndex ? 'bg-bg-hover' : 'hover:bg-bg-hover'}`}
+                    onClick={() => handleResultClick(course)}
+                    onMouseEnter={() => setActiveSearchIndex(index)}
+                    role="option"
+                    aria-selected={index === activeSearchIndex}
+                  >
+                    <GraduationCap size={14} strokeWidth={2} className="search-item-icon w-8 h-8 flex items-center justify-center bg-primary/10 text-primary rounded-md" />
+                    <div className="search-item-info flex flex-col">
+                      <span className="search-item-title text-sm font-medium text-main">{course.title}</span>
+                      <span className="search-item-meta text-xs text-muted font-medium">{course.code}</span>
+                    </div>
+                  </div>
+                )) : (
+                  <div className="search-dropdown-empty py-sm">
+                    <EmptyState icon={Search} title={t('no_search_results')} />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  className="w-full border-none cursor-pointer focus-visible:outline-none focus-visible:shadow-focus search-dropdown-footer p-sm px-md text-center border-t border-border bg-card hover:bg-bg-hover font-medium block relative before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']"
+                  onClick={() => handleSearchEnter({ key: 'Enter' })}
+                >
+                  <span className="text-sm font-medium topbar__all-results">{t('all_results')} &ldquo;{searchQuery}&rdquo;</span>
+                </button>
+              </div>
+            )}
+          </div>
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileExpanded(false)}
+              className="ml-xs text-text-muted hover:text-main shrink-0"
+            >
+              {lang === 'da' ? 'Annuller' : 'Cancel'}
+            </Button>
           )}
         </div>
-      </div>
+      )}
 
-      <div className="topbar__right-section flex items-center justify-end gap-sm sm:gap-md shrink-0 ml-auto">
-        {children}
-      </div>
+      {(!isMobile || !isMobileExpanded) && (
+        <div className="topbar__right-section flex items-center justify-end gap-sm sm:gap-md shrink-0 ml-auto">
+          {isMobile && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsMobileExpanded(true)}
+              aria-label={t('search')}
+              className="h-11 w-11 text-text-main hover:bg-bg-highlight rounded-lg flex items-center justify-center border-none"
+            >
+              <Search size={20} strokeWidth={2} />
+            </Button>
+          )}
+          {children}
+        </div>
+      )}
     </>
   );
 }
@@ -292,6 +346,21 @@ if (import.meta.vitest) {
       renderWithProviders(<TopbarSearch>Child</TopbarSearch>)
       const input = screen.getByRole('combobox')
       expect(input).not.toHaveAttribute('aria-activedescendant')
+    })
+
+    it('collapses search into trigger button on mobile', () => {
+      const originalInnerWidth = window.innerWidth;
+      Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: 375 });
+      window.dispatchEvent(new Event('resize'));
+
+      renderWithProviders(<TopbarSearch>Child</TopbarSearch>);
+      expect(screen.getByLabelText('search')).toBeInTheDocument();
+      expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+
+      fireEvent.click(screen.getByLabelText('search'));
+      expect(screen.getByRole('combobox')).toBeInTheDocument();
+
+      Object.defineProperty(window, 'innerWidth', { writable: true, configurable: true, value: originalInnerWidth });
     })
   })
 }

@@ -2,12 +2,12 @@ import { useMemo, useCallback, memo } from 'react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import {
   Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2,
-  Star, BookOpen, Trophy, Hourglass, Headphones, ExternalLink
+  Star, BookOpen, Trophy, Headphones, ExternalLink
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import { Card, Text, Heading, MasterItem, Badge, EmptyState } from '@/components/ui';
+import { Card, Text, Heading, MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { mockDashboardDeadlines, mockDashboardGrades } from '@/lib/data';
+import { mockDashboardDeadlines } from '@/lib/data';
 import { PATHS } from '@/routes';
 import { hoursFromNow, calculateUrgency } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
@@ -16,9 +16,6 @@ import { env } from '@/lib/env';
 import { resolveFavorite, sortFavorites } from '@/lib/favorites';
 import type { ResolvedFavorite } from '@/lib/favorites';
 import useStore from '@/store';
-
-const DEADLINES_TO_SHOW = 3
-const GRADES_TO_SHOW = 3
 
 // --- Helpers ---
 
@@ -80,6 +77,7 @@ interface WidgetProps {
 function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const localize = useStore(state => state.localize)
   const courses = useStore(state => state.courses)
 
@@ -124,8 +122,8 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
           </Heading>
         </Stack>
         {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary dark:text-white" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('common.see_assignments')}>
-            {t('common.see_assignments')}
+          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary dark:text-white" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}>
+            {lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}
           </Button>
         )}
       </Card.Header>
@@ -142,9 +140,19 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                   </div>
                 }
                 title={
-                  <span className="text-xs font-bold text-main truncate block">
-                    {nextDl.title}
-                  </span>
+                  <div className="flex items-center gap-xs flex-wrap">
+                    <span className="text-xs font-bold text-main truncate block">
+                      {nextDl.title}
+                    </span>
+                    {nextDl.urgency.level === 'critical' && (
+                      <span 
+                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0" 
+                        style={{ backgroundColor: 'var(--color-badge-urgent)', color: '#ffffff' }}
+                      >
+                        {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
+                      </span>
+                    )}
+                  </div>
                 }
                 subtitle={
                   <span className={`${nextDl.urgency.labelClass} text-[9px] block`}>
@@ -171,7 +179,17 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                       <dl.urgency.icon size={14} strokeWidth={2.5} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
+                      <div className="flex items-center gap-xs flex-wrap">
+                        <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
+                        {dl.urgency.level === 'critical' && (
+                          <span 
+                            className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0" 
+                            style={{ backgroundColor: 'var(--color-badge-urgent)', color: '#ffffff' }}
+                          >
+                            {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
+                          </span>
+                        )}
+                      </div>
                       <span className="text-[10px] text-muted truncate block">{dl.courseTitle}</span>
                     </div>
                   </div>
@@ -197,11 +215,19 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                     </div>
                   }
                   title={
-                    <div className="flex items-center gap-xs">
+                    <div className="flex items-center gap-xs flex-wrap">
                       <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
                       {idx === 0 && (
                         <span className="px-1.5 py-0.5 bg-danger/10 text-danger text-[9px] font-extrabold uppercase rounded-[var(--radius-xs)] tracking-wider">
                           Næste
+                        </span>
+                      )}
+                      {dl.urgency.level === 'critical' && (
+                        <span 
+                          className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0" 
+                          style={{ backgroundColor: 'var(--color-badge-urgent)', color: '#ffffff' }}
+                        >
+                          {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
                         </span>
                       )}
                     </div>
@@ -241,7 +267,7 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
         <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
           <Text size="xs" weight="medium" className="text-muted font-medium">{deadlines.length} {t('dashboard.upcoming_count')}</Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{t('see_all_deadlines')}</Text>
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}</Text>
             <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
@@ -285,8 +311,8 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
           </Heading>
         </Stack>
         {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={t('see_all')}>
-            {t('see_all')}
+          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
+            {lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}
           </Button>
         )}
       </Card.Header>
@@ -316,17 +342,20 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
             <div className="p-[var(--space-xs)] bg-bg-highlight rounded-[var(--radius-pill)]">
               <Star size={18} strokeWidth={2} className="text-[var(--aau-light-orange)]" fill="currentColor" />
             </div>
+            <Heading level={3} as="h3" className="text-xs font-bold text-main mt-xs">
+              {lang === 'da' ? 'Ingen favoritter endnu' : 'No favorites yet'}
+            </Heading>
             <Text muted size="xs" className="text-center max-w-[200px] italic">
-              {t('no_favorites_hint')}
+              {lang === 'da' ? 'Vælg dine vigtigste kurser, så de vises direkte på dashboardet.' : 'Choose your most important courses to show them directly on the dashboard.'}
             </Text>
             {size !== 'small' && (
               <Button
                 variant="outline"
-                size="xs"
+                size="sm"
                 onClick={() => navigate(PATHS.COURSES)}
                 className="mt-xs font-bold text-xs"
               >
-                {t('courses')}
+                {lang === 'da' ? 'Find kurser' : 'Find courses'}
               </Button>
             )}
           </div>
@@ -343,7 +372,7 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
         <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
           <Text size="xs" weight="medium" className="text-muted font-medium">{favorites.length} {favorites.length === 1 ? (lang === 'da' ? 'favorit' : 'favorite') : (lang === 'da' ? 'favoritter' : 'favorites')}</Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Administrér favoritter' : 'Manage favorites'}</Text>
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}</Text>
             <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
@@ -423,6 +452,7 @@ const mockMessages: MockMessage[] = [
 function MessagesWidget({ size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const limit = size === 'small' ? 1 : size === 'medium' ? 2 : 3
 
   return (
@@ -437,8 +467,8 @@ function MessagesWidget({ size = 'medium' }: WidgetProps) {
           </Heading>
         </Stack>
         {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={() => navigate(PATHS.MESSAGES)}>
-            {t('view_all')}
+          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={() => navigate(PATHS.MESSAGES)} aria-label={lang === 'da' ? 'Se alle beskeder' : 'See all messages'}>
+            {lang === 'da' ? 'Se alle beskeder' : 'See all messages'}
           </Button>
         )}
       </Card.Header>
@@ -488,7 +518,37 @@ const mockCalendarEvents: MockCalendarEvent[] = [
 function CalendarWidget({ size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
-  const limit = size === 'small' ? 1 : size === 'medium' ? 2 : 3
+  const lang = useStore(state => state.lang)
+  const localize = useStore(state => state.localize)
+  const courses = useStore(state => state.courses)
+
+  // Filter events (mockCalendarEvents)
+  const todayEvents = useMemo(() => {
+    return mockCalendarEvents.filter(e => 
+      e.time.toLowerCase().includes('i dag') || e.time.toLowerCase().includes('today')
+    )
+  }, [])
+
+  // Filter deadlines from mockDashboardDeadlines
+  const deadlines = useMemo(() => {
+    return mockDashboardDeadlines.map((deadline) => {
+      const deadlineDate = hoursFromNow(deadline.deadlineHoursFromNow)
+      const course = courses.find(c => c.id === deadline.courseId)
+      const courseTitle = course ? localize(course, 'title') : ''
+      const isUrgent = deadline.deadlineHoursFromNow <= 24 && deadline.deadlineHoursFromNow >= 0
+      return {
+        ...deadline,
+        deadlineDate,
+        courseTitle,
+        title: localize(deadline, 'title'),
+        isUrgent
+      }
+    })
+  }, [courses, localize])
+
+  const handleSeeAll = useCallback(() => {
+    navigate(PATHS.CALENDAR)
+  }, [navigate])
 
   return (
     <Card className="calendar-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
@@ -502,28 +562,92 @@ function CalendarWidget({ size = 'medium' }: WidgetProps) {
           </Heading>
         </Stack>
         {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={() => navigate(PATHS.CALENDAR)}>
-            {t('view_all')}
+          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} aria-label={lang === 'da' ? 'Åbn kalender' : 'Open calendar'}>
+            {lang === 'da' ? 'Åbn kalender' : 'Open calendar'}
           </Button>
         )}
       </Card.Header>
-      <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col justify-center">
-        <div className="flex flex-col gap-2xs w-full">
-          {mockCalendarEvents.slice(0, limit).map((evt) => (
-            <div
-              key={evt.id}
-              onClick={() => navigate(PATHS.CALENDAR)}
-              className="flex flex-col p-xs rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]/30"
-            >
-              <span className="text-xs font-bold text-main truncate block">{evt.title}</span>
-              <div className="flex items-center justify-between text-[9px] text-muted mt-[2px]">
-                <span>{evt.time}</span>
-                {evt.location && <span>{evt.location}</span>}
+      <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col gap-sm overflow-y-auto">
+        {/* Section 1: Dagens program */}
+        <div className="flex flex-col gap-2xs">
+          <div className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-xs">
+            {lang === 'da' ? 'Dagens program' : "Today's Schedule"}
+          </div>
+          {todayEvents.length > 0 ? (
+            todayEvents.map((evt) => (
+              <div
+                key={evt.id}
+                onClick={handleSeeAll}
+                className="flex flex-col p-xs rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]/30"
+              >
+                <span className="text-xs font-bold text-main truncate block">{evt.title}</span>
+                <div className="flex items-center justify-between text-[10px] text-text-muted mt-[2px] opacity-75">
+                  <span>{evt.time}</span>
+                  {evt.location && <span>{evt.location}</span>}
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="text-xs text-text-muted/60 italic py-2xs pl-xs">
+              {lang === 'da' ? 'Ingen planlagte aktiviteter i dag.' : 'No scheduled activities today.'}
             </div>
-          ))}
+          )}
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-[var(--border-color)]/30 my-2xs" />
+
+        {/* Section 2: Kommende deadlines */}
+        <div className="flex flex-col gap-2xs">
+          <div className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-xs">
+            {lang === 'da' ? 'Kommende deadlines' : 'Upcoming Deadlines'}
+          </div>
+          {deadlines.length > 0 ? (
+            deadlines.slice(0, size === 'small' ? 1 : 2).map((dl) => (
+              <div
+                key={dl.id}
+                onClick={() => navigate(PATHS.SUBMISSION(dl.courseId, dl.id))}
+                className="flex items-center justify-between p-xs rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]/30 gap-sm"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-xs flex-wrap">
+                    <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
+                    {dl.isUrgent ? (
+                      <span
+                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] text-white shrink-0"
+                        style={{ backgroundColor: 'var(--color-badge-urgent)' }}
+                      >
+                        {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
+                      </span>
+                    ) : (
+                      <span
+                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] text-white bg-[var(--color-badge-deadline)] shrink-0"
+                      >
+                        Deadline
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-[10px] text-text-muted/80 truncate block">{dl.courseTitle}</span>
+                </div>
+                <span className="text-[10px] font-medium text-text-muted shrink-0">{t(dl.dateKey)}</span>
+              </div>
+            ))
+          ) : (
+            <div className="text-xs text-text-muted/60 italic py-2xs pl-xs">
+              {lang === 'da' ? 'Ingen kommende deadlines.' : 'No upcoming deadlines.'}
+            </div>
+          )}
         </div>
       </Card.Body>
+      {size !== 'small' && (
+        <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
+          <Text size="xs" weight="medium" className="text-muted font-medium">{lang === 'da' ? 'Åbn fuld kalender' : 'Open full calendar'}</Text>
+          <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Åbn kalender' : 'Open calendar'}</Text>
+            <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
+          </div>
+        </Card.Footer>
+      )}
     </Card>
   )
 }
@@ -543,7 +667,6 @@ const mockCourseProgress: MockCourseProgress[] = [
 ]
 
 function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
-  const navigate = useNavigate()
   const t = useStore(state => state.t)
   const limit = size === 'small' ? 1 : size === 'medium' ? 2 : 3
 
@@ -615,7 +738,7 @@ if (import.meta.vitest) {
     })
     it('navigates to calendar when footer button is clicked', () => {
       renderWithProviders(<DeadlinesWidget />)
-      fireEvent.click(screen.getByText(/Se alle deadlines/i))
+      fireEvent.click(screen.getAllByText(/Se alle afleveringer/i)[0])
       expect(mockNavigate).toHaveBeenCalledWith('/calendar')
     })
     it('renders correctly in English', () => {
@@ -673,7 +796,7 @@ if (import.meta.vitest) {
     })
     it('navigates to favorites page when see_all is clicked', () => {
       render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      fireEvent.click(screen.getByText('Se alle'))
+      fireEvent.click(screen.getAllByText(/Se alle favoritter/i)[0])
       expect(mockNavigate).toHaveBeenCalledWith('/favorites')
     })
     it('renders empty state when no favorites', () => {
@@ -681,7 +804,7 @@ if (import.meta.vitest) {
       const resolveFav = resolveFavorite as any
       vi.mocked(resolveFav).mockReturnValue(null)
       render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      expect(screen.getByText(/Klik p/i)).toBeInTheDocument()
+      expect(screen.getByText(/Ingen favoritter endnu/i)).toBeInTheDocument()
     })
     it('shows overflow message when more than 12 favorites', () => {
       const manyFavorites = Array.from({ length: 15 }, (_, i) => ({ id: `fav${i}`, type: 'course', entityId: i, order: i, addedAt: Date.now() })) as any

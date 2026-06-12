@@ -66,7 +66,7 @@ export default function ResourcesSection({
                 <div className="flex flex-wrap gap-xs items-center justify-between mt-sm">
                   <div>
                     {showSsoWarning && !tool.sso && (
-                      <Badge variant="outlined" className="gap-2xs border-amber-400/40 text-amber-700 dark:text-amber-300 text-[10px] font-bold py-0 h-fit">
+                      <Badge variant="outline" className="gap-2xs border-amber-400/40 text-amber-700 dark:text-amber-300 text-[10px] font-bold py-0 h-fit">
                         <Lock size={10} strokeWidth={2.5} />
                         {lang === 'da' ? 'Kræver login' : 'Requires login'}
                       </Badge>

@@ -10,7 +10,7 @@ interface DropdownContextValue {
   close: () => void
   menuRef: React.RefObject<HTMLDivElement | null>
   buttonRef: React.RefObject<HTMLButtonElement | null>
-  handleMenuKeyDown: (e: React.KeyboardEvent) => void
+  handleMenuKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void
   handleTriggerKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
   toggle: () => void
 }
@@ -56,7 +56,7 @@ interface TriggerProps {
   className?: string
 }
 
-function DropdownTrigger({ children, className }: TriggerProps) {
+function DropdownTrigger({ children }: TriggerProps) {
   const ctx = useDropdownContext()
 
   if (typeof children === 'function') {
@@ -74,11 +74,11 @@ function DropdownTrigger({ children, className }: TriggerProps) {
     return cloneElement(children, {
       ref: ctx.buttonRef,
       onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
-        children.props.onKeyDown?.(e)
+        (children as any).props.onKeyDown?.(e)
         ctx.handleTriggerKeyDown(e)
       },
       onClick: (e: React.MouseEvent) => {
-        children.props.onClick?.(e)
+        (children as any).props.onClick?.(e)
         ctx.toggle()
       },
       'aria-expanded': ctx.isOpen,
@@ -101,7 +101,7 @@ function DropdownMenu({ children, className }: MenuProps) {
     <AnimatePresence>
       {ctx.isOpen && (
         <motion.div
-          ref={ctx.menuRef}
+          ref={ctx.menuRef as any}
           onKeyDown={ctx.handleMenuKeyDown}
           initial={{ opacity: 0, y: -10, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -276,7 +276,7 @@ if (import.meta.vitest) {
           <Dropdown.Trigger>
             {({ ref, onKeyDown, onClick }, { isOpen }) => (
               <button
-                ref={ref}
+                ref={ref as any}
                 onKeyDown={onKeyDown}
                 onClick={onClick}
                 data-testid="trigger"
