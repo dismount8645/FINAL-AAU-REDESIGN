@@ -111,7 +111,7 @@ if (import.meta.vitest) {
       useStore.setState({ lang: 'en' })
       const { result: resEn } = renderHook(() => useFormat())
       const pastDate = new Date(now.getTime() - 3600000) // 1 hour ago
-      expect(resEn.current.formatDeadline(pastDate)).toBe('overdue')
+      expect(resEn.current.formatDeadline(pastDate)).toBe('Overdue')
 
       // Today
       expect(resEn.current.formatDeadline(now)).toBe('Today')

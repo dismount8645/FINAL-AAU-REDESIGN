@@ -1,4 +1,4 @@
-import { useMemo, useCallback, memo } from 'react';
+import React, { useMemo, useCallback, memo } from 'react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import {
   Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2,
@@ -7,11 +7,10 @@ import {
 import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { mockDashboardDeadlines } from '@/lib/data';
+import { mockDashboardDeadlines, courses as dataCourses } from '@/lib/data';
 import { PATHS } from '@/routes';
-import { hoursFromNow, calculateUrgency } from '@/lib/utils';
+import { hoursFromNow, getDeadlineInfo } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
-import { FavoriteItem } from '@/components/Favorites';
 import { env } from '@/lib/env';
 import { resolveFavorite, sortFavorites } from '@/lib/favorites';
 import type { ResolvedFavorite } from '@/lib/favorites';
@@ -19,44 +18,7 @@ import useStore from '@/store';
 
 // --- Helpers ---
 
-type UrgencyLevel = 'overdue' | 'critical' | 'soon' | 'normal'
-
-interface UrgencyConfig {
-  level: UrgencyLevel
-  color: string
-  icon: typeof AlertCircle
-  labelClass: string
-}
-
-const getUrgencyConfig = (deadlineDate: string): UrgencyConfig => {
-  const level = calculateUrgency(deadlineDate)
-  if (level === 'overdue') return {
-    level: 'overdue',
-    color: 'var(--color-aau-dark-pink)',
-    icon: AlertCircle,
-    labelClass: 'text-danger font-black uppercase tracking-tighter'
-  }
-  if (level === 'critical') return {
-    level: 'critical',
-    color: 'var(--color-aau-dark-pink)',
-    icon: Clock,
-    labelClass: 'text-danger font-bold'
-  }
-  if (level === 'soon') return {
-    level: 'soon',
-    color: 'var(--color-aau-dark-orange)',
-    icon: Clock,
-    labelClass: 'text-warning font-semibold'
-  }
-  return {
-    level: 'normal',
-    color: 'var(--color-text-main)',
-    icon: CheckCircle2,
-    labelClass: 'text-primary dark:text-main'
-  }
-}
-
-interface ProcessedDeadline {
+export interface ProcessedDeadline {
   id: number
   titleDa: string
   titleEn: string
@@ -66,12 +28,34 @@ interface ProcessedDeadline {
   deadlineDate: string
   title: string
   courseTitle: string
-  urgency: UrgencyConfig
+  info: {
+    label: string
+    urgency: 'overdue' | 'today' | 'tomorrow' | 'soon' | 'later'
+    color: string
+  }
 }
 
 interface WidgetProps {
   size?: 'small' | 'medium' | 'large'
   hideFirst?: boolean
+}
+
+const getUrgencyIcon = (urgency: string) => {
+  if (urgency === 'overdue') return AlertCircle
+  return Clock
+}
+
+const getLabelClass = (urgency: string) => {
+  if (urgency === 'overdue') return 'font-black uppercase tracking-tighter'
+  if (urgency === 'today') return 'font-bold'
+  if (urgency === 'tomorrow' || urgency === 'soon') return 'font-semibold'
+  return 'font-normal'
+}
+
+const getColorClass = (urgency: string) => {
+  if (urgency === 'overdue' || urgency === 'today') return 'text-danger'
+  if (urgency === 'tomorrow' || urgency === 'soon') return 'text-warning'
+  return 'text-muted'
 }
 
 function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
@@ -87,18 +71,24 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
     const start = hideFirst ? 1 : 0
     const end = limit + (hideFirst ? 1 : 0)
     return mockDashboardDeadlines.slice(start, end).map((deadline) => {
-      const deadlineDate = hoursFromNow(deadline.deadlineHoursFromNow)
+      const deadlineDate = new Date()
+      deadlineDate.setHours(deadlineDate.getHours() + deadline.deadlineHoursFromNow)
+      const info = getDeadlineInfo(deadlineDate, lang)
       const course = courses.find(c => c.id === deadline.courseId)
       const courseTitle = course ? localize(course, 'title') : ''
       return {
         ...deadline,
-        deadlineDate,
+        deadlineDate: deadlineDate.toISOString(),
         courseTitle,
         title: localize(deadline, 'title'),
-        urgency: getUrgencyConfig(deadlineDate),
+        info,
       }
     })
-  }, [localize, courses, limit, hideFirst])
+  }, [localize, courses, limit, hideFirst, lang])
+
+  const upcomingCount = useMemo(() => {
+    return deadlines.filter(dl => dl.info.urgency !== 'overdue').length
+  }, [deadlines])
 
   const handleSeeAll = useCallback(() => {
     navigate(PATHS.CALENDAR)
@@ -114,15 +104,29 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
     <Card className="deadlines-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="text-primary shrink-0">
             <Calendar size={18} strokeWidth={2} />
           </div>
-          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
-            {t('next_assignment')}
-          </Heading>
+          <div>
+            <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
+              {t('next_assignment')}
+            </Heading>
+            {size !== 'small' && (
+              <span className="text-[10px] text-muted font-semibold block">
+                {lang === 'da' ? `${upcomingCount} kommende` : `${upcomingCount} upcoming`}
+              </span>
+            )}
+          </div>
         </Stack>
         {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary dark:text-white" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs font-medium text-primary dark:text-white normal-case tracking-normal hover:underline"
+            onClick={handleSeeAll}
+            iconRight={ChevronRight}
+            aria-label={lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}
+          >
             {lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}
           </Button>
         )}
@@ -133,10 +137,10 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
             <div className="flex flex-col gap-2xs flex-1 justify-center">
               <MasterItem
                 onClick={() => handleDeadlineClick(nextDl)}
-                className="p-2xs border rounded-[var(--radius-md)] border-[var(--border-color)]/60 bg-bg-highlight/40 hover:bg-bg-hover"
+                className="p-2xs border rounded-[var(--radius-md)] border-[var(--border-color)]/60 bg-bg-highlight/40 hover:bg-bg-hover group/row"
                 leading={
-                  <div className="shrink-0 flex items-center justify-center" style={{ color: nextDl.urgency.color }}>
-                    <nextDl.urgency.icon size={14} strokeWidth={2.5} />
+                  <div className="shrink-0 flex items-center justify-center" style={{ color: nextDl.info.color }}>
+                    {React.createElement(getUrgencyIcon(nextDl.info.urgency), { size: 14, strokeWidth: 2.5 })}
                   </div>
                 }
                 title={
@@ -144,20 +148,23 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                     <span className="text-xs font-bold text-main truncate block">
                       {nextDl.title}
                     </span>
-                    {nextDl.urgency.level === 'critical' && (
+                    {nextDl.info.urgency === 'today' && (
                       <span 
-                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0" 
-                        style={{ backgroundColor: 'var(--color-badge-urgent)', color: '#ffffff' }}
+                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0 text-white" 
+                        style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                       >
-                        {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
+                        {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
                       </span>
                     )}
                   </div>
                 }
                 subtitle={
-                  <span className={`${nextDl.urgency.labelClass} text-[9px] block`}>
-                    {t(nextDl.dateKey)}
+                  <span style={{ color: nextDl.info.color }} className={`${getLabelClass(nextDl.info.urgency)} ${getColorClass(nextDl.info.urgency)} text-[9px] block`}>
+                    {nextDl.info.label}
                   </span>
+                }
+                trailing={
+                  <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
                 }
               />
             </div>
@@ -167,34 +174,35 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                 <div
                   key={dl.id}
                   onClick={() => handleDeadlineClick(dl)}
-                  className={`flex items-center justify-between p-xs border rounded-[var(--radius-md)] cursor-pointer transition-colors ${
-                    dl.urgency.level === 'overdue' ? 'bg-danger/5 border-danger/20' : 'bg-bg-highlight/20 border-[var(--border-color)]/60'
+                  className={`flex items-center justify-between p-xs border rounded-[var(--radius-md)] cursor-pointer transition-colors group/row ${
+                    dl.info.urgency === 'overdue' ? 'bg-danger/5 border-danger/20' : 'bg-bg-highlight/20 border-[var(--border-color)]/60'
                   } hover:bg-bg-hover`}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleDeadlineClick(dl); }}
                 >
                   <div className="flex items-center gap-xs min-w-0 flex-1">
-                    <div className="shrink-0" style={{ color: dl.urgency.color }}>
-                      <dl.urgency.icon size={14} strokeWidth={2.5} />
+                    <div className="shrink-0" style={{ color: dl.info.color }}>
+                      {React.createElement(getUrgencyIcon(dl.info.urgency), { size: 14, strokeWidth: 2.5 })}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-xs flex-wrap">
                         <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
-                        {dl.urgency.level === 'critical' && (
+                        {dl.info.urgency === 'today' && (
                           <span 
-                            className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0" 
-                            style={{ backgroundColor: 'var(--color-badge-urgent)', color: '#ffffff' }}
+                            className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0 text-white" 
+                            style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                           >
-                            {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
+                            {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
                           </span>
                         )}
                       </div>
                       <span className="text-[10px] text-muted truncate block">{dl.courseTitle}</span>
                     </div>
                   </div>
-                  <div className="text-right ml-sm shrink-0">
-                    <span className={`${dl.urgency.labelClass} text-xs font-bold block`}>{t(dl.dateKey)}</span>
+                  <div className="flex items-center gap-xs ml-sm shrink-0">
+                    <span style={{ color: dl.info.color }} className={`${getLabelClass(dl.info.urgency)} ${getColorClass(dl.info.urgency)} text-xs font-bold block`}>{dl.info.label}</span>
+                    <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
                   </div>
                 </div>
               ))}
@@ -206,12 +214,12 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                 <MasterItem
                   key={dl.id}
                   onClick={() => handleDeadlineClick(dl)}
-                  className={`p-xs border rounded-[var(--radius-md)] hover:bg-bg-hover hover:border-[var(--border-color)]/50 ${
+                  className={`p-xs border rounded-[var(--radius-md)] hover:bg-bg-hover hover:border-[var(--border-color)]/50 group/row ${
                     idx === 0 ? 'bg-bg-highlight/40 border-primary/30' : 'bg-transparent border-transparent'
                   }`}
                   leading={
-                    <div className="shrink-0 flex items-center justify-center" style={{ color: dl.urgency.color }}>
-                      <dl.urgency.icon size={16} strokeWidth={2.5} />
+                    <div className="shrink-0 flex items-center justify-center" style={{ color: dl.info.color }}>
+                      {React.createElement(getUrgencyIcon(dl.info.urgency), { size: 16, strokeWidth: 2.5 })}
                     </div>
                   }
                   title={
@@ -222,12 +230,12 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                           Næste
                         </span>
                       )}
-                      {dl.urgency.level === 'critical' && (
+                      {dl.info.urgency === 'today' && (
                         <span 
-                          className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0" 
-                          style={{ backgroundColor: 'var(--color-badge-urgent)', color: '#ffffff' }}
+                          className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0 text-white" 
+                          style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                         >
-                          {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
+                          {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
                         </span>
                       )}
                     </div>
@@ -236,21 +244,24 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                     <div className="flex items-center gap-2xs text-[10px] text-muted">
                       <span className="truncate max-w-[120px]">{dl.courseTitle}</span>
                       <span>·</span>
-                      <span className={dl.urgency.labelClass}>{t(dl.dateKey)}</span>
+                      <span style={{ color: dl.info.color }} className={`${getLabelClass(dl.info.urgency)} ${getColorClass(dl.info.urgency)}`}>{dl.info.label}</span>
                     </div>
                   }
                   trailing={
-                    <Button
-                      variant={idx === 0 ? "primary" : "ghost"}
-                      size="xs"
-                      className="font-bold text-[9px] uppercase tracking-wider h-6 px-2 shrink-0"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeadlineClick(dl);
-                      }}
-                    >
-                      {t('go_to_assignment')}
-                    </Button>
+                    <div className="flex items-center gap-xs">
+                      <Button
+                        variant={idx === 0 ? "primary" : "ghost"}
+                        size="xs"
+                        className="font-bold text-[9px] uppercase tracking-wider h-6 px-2 shrink-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeadlineClick(dl);
+                        }}
+                      >
+                        {t('go_to_assignment')}
+                      </Button>
+                      <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
+                    </div>
                   }
                 />
               ))}
@@ -276,12 +287,45 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
   )
 }
 
+const getFavoriteMetadata = (item: ResolvedFavorite, lang: 'da' | 'en') => {
+  if (item.type === 'course') {
+    const course = dataCourses[item.entityId]
+    if (course?.nextAssignment) {
+      return lang === 'da'
+        ? `Næste aflevering: ${course.nextAssignment.deadline}`
+        : `Next assignment: ${course.nextAssignment.deadlineEn}`
+    }
+    return lang === 'da' ? 'Opdateret i går' : 'Updated yesterday'
+  }
+  if (item.type === 'file') {
+    for (const course of Object.values(dataCourses)) {
+      for (const section of course.sections) {
+        const fileItem = section.items.find(i => i.id === item.entityId)
+        if (fileItem) {
+          const ext = (fileItem.type || 'PDF').toUpperCase()
+          return lang === 'da'
+            ? `${ext} · Opdateret 10. jun`
+            : `${ext} · Updated Jun 10`
+        }
+      }
+    }
+    return lang === 'da' ? 'PDF · Opdateret nyligt' : 'PDF · Recently updated'
+  }
+  if (item.type === 'tool') {
+    return lang === 'da'
+      ? 'Eksternt værktøj · Åbn i nyt vindue'
+      : 'External tool · Open in new window'
+  }
+  if (item.type === 'forum') {
+    return lang === 'da' ? 'Forum · Aktivt' : 'Forum · Active'
+  }
+  return ''
+}
+
 function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
-  const toggleFavorite = useStore(state => state.toggleFavorite)
-
   const favorites = useStore(state => state.favorites)
   const courses = useStore(state => state.courses)
   const resolved = useMemo(() => {
@@ -303,7 +347,7 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
     <Card className="widget-card h-full w-full favorites-widget shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-all duration-300">
       <Card.Header padding="compact" className="bg-bg-highlight/50 border-b border-[var(--border-color)]">
         <Stack direction="row" align="center" gap="sm">
-          <div className="p-2 bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
+          <div className="text-primary shrink-0">
             <Star size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
@@ -311,21 +355,19 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
           </Heading>
         </Stack>
         {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
+          <Button variant="ghost" size="sm" className="text-xs font-medium text-primary dark:text-white normal-case tracking-normal hover:underline" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
             {lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}
           </Button>
         )}
       </Card.Header>
-<Card.Body padding="compact" className="overflow-visible p-[var(--space-2xs)]">
+      <Card.Body padding="compact" className="overflow-visible p-[var(--space-xs)] flex-1 flex flex-col justify-center">
         {display.length > 0 ? (
-          <div className="flex flex-col">
-            <div className="grid gap-[var(--space-xs)]" style={{ gridTemplateColumns: size === 'small' ? '1fr' : 'repeat(auto-fill, minmax(130px, 1fr))' }}>
-              {display.map((item) => (
-                <FavoriteItem
+          <div className="flex flex-col gap-2xs w-full">
+            {display.map((item) => {
+              const metadata = getFavoriteMetadata(item, lang)
+              return (
+                <div
                   key={item.id}
-                  item={item}
-                  lang={lang}
-                  onRemove={(type, entityId) => toggleFavorite(type, entityId)}
                   onClick={() => {
                     if (item.external) {
                       env.open(item.link)
@@ -333,9 +375,34 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
                       navigate(item.link)
                     }
                   }}
-                />
-              ))}
-            </div>
+                  className="flex items-center justify-between p-xs border rounded-[var(--radius-md)] cursor-pointer transition-colors group/row border-[var(--border-color)]/60 bg-bg-highlight/20 hover:bg-bg-hover"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      if (item.external) {
+                        env.open(item.link)
+                      } else {
+                        navigate(item.link)
+                      }
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-xs min-w-0 flex-1">
+                    <div className="shrink-0" style={{ color: item.iconColor }}>
+                      <item.icon size={16} strokeWidth={2} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-xs font-bold text-main truncate block">{item.title}</span>
+                      <span className="text-[10px] text-muted truncate block">{metadata}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-xs ml-sm shrink-0">
+                    <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+              )
+            })}
           </div>
         ) : (
           <div className="h-full w-full flex flex-col items-center justify-center py-sm gap-[var(--space-2xs)]">
@@ -392,8 +459,8 @@ function SupportWidget({ size = 'medium' }: WidgetProps) {
     <Card className="support-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="xs">
-          <div className="p-[var(--space-2xs)] bg-bg-highlight text-primary rounded-[var(--radius-md)] border border-[var(--border-color)]/60">
-            <Headphones size={14} strokeWidth={2} />
+          <div className="text-primary shrink-0">
+            <Headphones size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('contact_its_support')}
@@ -459,8 +526,8 @@ function MessagesWidget({ size = 'medium' }: WidgetProps) {
     <Card className="messages-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="xs">
-          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
-            <BookOpen size={16} strokeWidth={2} />
+          <div className="text-primary shrink-0">
+            <BookOpen size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('nav.messages')}
@@ -554,8 +621,8 @@ function CalendarWidget({ size = 'medium' }: WidgetProps) {
     <Card className="calendar-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="xs">
-          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
-            <Calendar size={16} strokeWidth={2} />
+          <div className="text-primary shrink-0">
+            <Calendar size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('nav.calendar')}
@@ -674,8 +741,8 @@ function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
     <Card className="course-progress-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="xs">
-          <div className="p-[var(--space-2xs)] bg-primary text-white rounded-[var(--radius-md)] shadow-sm">
-            <Trophy size={16} strokeWidth={2} />
+          <div className="text-primary shrink-0">
+            <Trophy size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('common.your_progress')}
@@ -710,6 +777,15 @@ export { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, Calend
 
 let mockNavigate: ReturnType<typeof vi.fn>
 if (import.meta.vitest) {
+  vi.mock('@/lib/favorites', async () => {
+    const actual = await vi.importActual('@/lib/favorites')
+    return {
+      ...actual,
+      resolveFavorite: vi.fn(),
+      sortFavorites: vi.fn((f) => f),
+    }
+  })
+
   mockNavigate = vi.fn()
   vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom')
@@ -744,13 +820,13 @@ if (import.meta.vitest) {
     it('renders correctly in English', () => {
       useStore.setState({ lang: 'en' })
       renderWithProviders(<DeadlinesWidget />)
-      expect(screen.getByText('Monday 09:00')).toBeInTheDocument()
+      expect(screen.getByText(/Soon/i)).toBeInTheDocument()
     })
     it('handles past deadline urgency color', () => {
       const orig = [...mockDashboardDeadlines]
       mockDashboardDeadlines[0] = { ...mockDashboardDeadlines[0], deadlineHoursFromNow: -24 }
       renderWithProviders(<DeadlinesWidget />)
-      expect(screen.getByText('Mandag 09:00')).toHaveClass('text-danger')
+      expect(screen.getByText(/Overskredet/i)).toHaveClass('text-danger')
       mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length, ...orig)
     })
     it('handles overdue deadlines', () => {

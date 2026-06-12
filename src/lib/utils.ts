@@ -211,6 +211,76 @@ export function calculateUrgency(deadlineDate: string): UrgencyLevel {
   return 'normal'
 }
 
+export interface DeadlineInfo {
+  label: string
+  urgency: 'overdue' | 'today' | 'tomorrow' | 'soon' | 'later'
+  color: string
+}
+
+export function getDeadlineInfo(dateInput: string | Date, lang: Lang, now = new Date()): DeadlineInfo {
+  const target = new Date(dateInput)
+  const targetTime = target.getTime()
+  const nowTime = now.getTime()
+
+  // Calendar dates relative to student local timezone
+  const todayDateObj = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+  const targetDateObj = new Date(target.getFullYear(), target.getMonth(), target.getDate())
+
+  const diffTime = targetDateObj.getTime() - todayDateObj.getTime()
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24))
+
+  const hoursUntil = (targetTime - nowTime) / (1000 * 60 * 60)
+
+  let urgency: 'overdue' | 'today' | 'tomorrow' | 'soon' | 'later'
+  if (targetTime < nowTime) {
+    urgency = 'overdue'
+  } else if (diffDays === 0) {
+    urgency = 'today'
+  } else if (diffDays === 1) {
+    urgency = 'tomorrow'
+  } else if (hoursUntil <= 48) {
+    urgency = 'soon'
+  } else {
+    urgency = 'later'
+  }
+
+  // Format label
+  const dayNameRaw = target.toLocaleDateString(lang === 'da' ? 'da-DK' : 'en-US', { weekday: 'long' })
+  const dayName = dayNameRaw.charAt(0).toUpperCase() + dayNameRaw.slice(1)
+  const hh = String(target.getHours()).padStart(2, '0')
+  const mm = String(target.getMinutes()).padStart(2, '0')
+  const timeStr = `${hh}:${mm}`
+
+  const weekdayAndTime = lang === 'da' ? `${dayName} kl. ${timeStr}` : `${dayName} at ${timeStr}`
+
+  let label = ''
+  if (urgency === 'overdue') {
+    label = lang === 'da' ? `Overskredet · ${weekdayAndTime}` : `Overdue · ${weekdayAndTime}`
+  } else if (urgency === 'today') {
+    label = lang === 'da' ? `I dag · kl. ${timeStr}` : `Today · at ${timeStr}`
+  } else if (urgency === 'tomorrow') {
+    label = lang === 'da' ? `I morgen · kl. ${timeStr}` : `Tomorrow · at ${timeStr}`
+  } else if (urgency === 'soon') {
+    label = lang === 'da' ? `Snart · ${weekdayAndTime}` : `Soon · ${weekdayAndTime}`
+  } else {
+    label = weekdayAndTime
+  }
+
+  // Color mapping
+  let color = ''
+  if (urgency === 'overdue') {
+    color = 'var(--color-status-overdue)'
+  } else if (urgency === 'today') {
+    color = 'var(--color-status-urgent)'
+  } else if (urgency === 'tomorrow' || urgency === 'soon') {
+    color = 'var(--color-status-warning)'
+  } else {
+    color = 'var(--color-status-neutral)'
+  }
+
+  return { label, urgency, color }
+}
+
 if (import.meta.vitest) {
   describe('processFileMetadata', () => {
     function createMockFile(name: string, size = 1024): File {
@@ -453,6 +523,45 @@ if (import.meta.vitest) {
       const now = new Date()
       const target = hoursFromNow(5, now)
       expect(getHoursUntil(target, now)).toBeCloseTo(5, 5)
+    })
+
+    it('getDeadlineInfo returns correct info for various periods', () => {
+      const now = new Date('2026-06-11T12:00:00')
+
+      // Overdue
+      const overdue = new Date('2026-06-11T11:00:00') // 1 hour ago (same day)
+      const info1 = getDeadlineInfo(overdue, 'da', now)
+      expect(info1.urgency).toBe('overdue')
+      expect(info1.label).toContain('Overskredet · Torsdag kl. 11:00')
+      expect(info1.color).toBe('var(--color-status-overdue)')
+
+      // Today
+      const today = new Date('2026-06-11T15:00:00') // later today
+      const info2 = getDeadlineInfo(today, 'da', now)
+      expect(info2.urgency).toBe('today')
+      expect(info2.label).toBe('I dag · kl. 15:00')
+      expect(info2.color).toBe('var(--color-status-urgent)')
+
+      // Tomorrow
+      const tomorrow = new Date('2026-06-12T10:00:00') // tomorrow morning
+      const info3 = getDeadlineInfo(tomorrow, 'da', now)
+      expect(info3.urgency).toBe('tomorrow')
+      expect(info3.label).toBe('I morgen · kl. 10:00')
+      expect(info3.color).toBe('var(--color-status-warning)')
+
+      // Soon (within 48 hours, not today/tomorrow)
+      const soon = new Date('2026-06-13T09:00:00') // in 45 hours (Saturday)
+      const info4 = getDeadlineInfo(soon, 'da', now)
+      expect(info4.urgency).toBe('soon')
+      expect(info4.label).toContain('Snart · Lørdag kl. 09:00')
+      expect(info4.color).toBe('var(--color-status-warning)')
+
+      // Later
+      const later = new Date('2026-06-15T09:00:00') // Monday next week
+      const info5 = getDeadlineInfo(later, 'en', now)
+      expect(info5.urgency).toBe('later')
+      expect(info5.label).toBe('Monday at 09:00')
+      expect(info5.color).toBe('var(--color-status-neutral)')
     })
   })
 }

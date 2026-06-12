@@ -34,6 +34,7 @@ export interface CourseItem {
   duration?: string
   deadline?: string
   deadlineEn?: string
+  litType?: 'primary' | 'secondary' | string
 }
 
 export interface NotificationItem {
@@ -68,6 +69,10 @@ export interface CourseSection {
   dateEn?: string
   description?: string
   descriptionEn?: string
+  themes?: string[]
+  themesEn?: string[]
+  goals?: string[]
+  goalsEn?: string[]
 }
 
 interface NextAssignment {

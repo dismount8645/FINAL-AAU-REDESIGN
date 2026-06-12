@@ -1,33 +1,34 @@
 import { Suspense } from 'react';
 
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
 import ErrorBoundary from '@/components/Layout/ErrorBoundary';
 import Layout from '@/components/Layout/Layout';
 import NotFound from '@/pages/NotFound';
 import routes from './routes';
 
-function App() {
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<Layout />}>
+      {routes.map((route) =>
+        route.path === '/' ? (
+          <Route key="/" index element={<route.component />} />
+        ) : (
+          <Route key={route.path} path={route.path} element={<route.component />} />
+        ),
+      )}
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  )
+);
 
+function App() {
   return (
-    <Router>
-      <ErrorBoundary>
-        <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              {routes.map((route) =>
-                route.path === '/' ? (
-                  <Route key="/" index element={<route.component />} />
-                ) : (
-                  <Route key={route.path} path={route.path} element={<route.component />} />
-                ),
-              )}
-              <Route path="*" element={<NotFound />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </ErrorBoundary>
-    </Router>
+    <ErrorBoundary>
+      <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
