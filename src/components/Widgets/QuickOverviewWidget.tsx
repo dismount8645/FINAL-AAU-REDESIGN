@@ -1,6 +1,6 @@
 import { useCallback, memo } from 'react';
 
-import { ChevronRight, Calendar, Clock } from 'lucide-react';
+import { ChevronRight, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Card, MasterItem } from '@/components/ui';
@@ -57,7 +57,7 @@ interface WidgetProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-const QuickOverviewWidget = ({ size = 'medium' }: WidgetProps) => {
+const QuickOverviewWidget = ({ size: _size = 'medium' }: WidgetProps) => {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
 

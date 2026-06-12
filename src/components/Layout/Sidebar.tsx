@@ -1,17 +1,12 @@
 
 
 
-import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp, Settings, Globe } from 'lucide-react';
+import { type LucideIcon, House, CalendarDays, Library, Wrench, Star, CircleHelp, Settings } from 'lucide-react';
 import { NavLink, useLocation, MemoryRouter } from 'react-router-dom';
-import Button from '@/components/ui/Button';
-import { SegmentedControl } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
 import useStore from '@/store';
 
 export default function Sidebar() {
   const t = useStore(state => state.t);
-  const lang = useStore(state => state.lang);
-  const setLang = useStore(state => state.setLang);
   const isCollapsed = useStore(state => state.isCollapsed);
   const location = useLocation();
 
@@ -51,40 +46,8 @@ export default function Sidebar() {
           </div>
 
           <div className={`flex flex-col p-sm pt-0 gap-2xs border-t border-white/10 pb-xl ${isCollapsed ? 'items-center' : ''}`}>
-            <NavItem to="/support" icon={CircleHelp} label={t('support')} collapsed={isCollapsed} />
-            <NavItem to="/settings" icon={Settings} label={t('settings')} collapsed={isCollapsed} />
-            <div className="h-px bg-white/10 my-xs w-full" />
-
-            <div className={`flex flex-col gap-md pt-xs ${isCollapsed ? 'w-full px-2xs' : ''}`}>
-              {!isCollapsed ? (
-                <Stack gap="xs">
-                  <Stack direction="row" align="center" gap="xs" className="px-sm text-white/60">
-                    <Globe size={14} strokeWidth={2} />
-                    <span className="text-xs font-bold uppercase tracking-wider">{t('cat_select_language')}</span>
-                  </Stack>
-                  <SegmentedControl
-                    options={[
-                      { value: 'da', label: 'DA' },
-                      { value: 'en', label: 'EN' }
-                    ]}
-                    value={lang}
-                    onChange={(val) => setLang(val as 'da' | 'en')}
-                  />
-                </Stack>
-              ) : (
-                <Stack align="center" gap="md" className="py-sm">
-                  <Button
-                    onClick={() => setLang(lang === 'da' ? 'en' : 'da')}
-                    size="icon"
-                    className="bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/5 text-xs font-bold font-sans tracking-normal uppercase shadow-sm"
-                    title={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
-                    aria-label={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
-                  >
-                    {lang.toUpperCase()}
-                  </Button>
-                </Stack>
-              )}
-            </div>
+            <NavItem to="/support" icon={CircleHelp} label={t('support')} collapsed={isCollapsed} dimmed />
+            <NavItem to="/settings" icon={Settings} label={t('settings')} collapsed={isCollapsed} dimmed />
           </div>
         </nav>
       </aside>
@@ -99,9 +62,10 @@ export interface NavItemProps {
   onClick?: () => void;
   collapsed?: boolean;
   isActiveOverride?: boolean;
+  dimmed?: boolean;
 }
 
-function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }: NavItemProps) {
+function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride, dimmed }: NavItemProps) {
   return (
     <NavLink
       to={to}
@@ -109,7 +73,8 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
       onClick={onClick}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
-        return `group relative flex items-center gap-[6px] p-sm h-[var(--space-3xl)] min-h-[var(--space-3xl)] text-white/85 no-underline rounded-md transition-all duration-150 ease-[var(--transition-ease)] font-bold cursor-pointer text-left w-full focus-visible:outline-none focus-visible:shadow-focus ${active ? 'active bg-white/10 text-white' : 'hover:bg-white/10 hover:text-white'} ${collapsed ? 'justify-center !px-0' : ''}`;
+        const opacityClass = dimmed ? 'opacity-70' : '';
+        return `nav-item group relative flex items-center gap-[6px] p-sm h-[var(--space-3xl)] min-h-[var(--space-3xl)] no-underline rounded-md cursor-pointer text-left w-full focus-visible:outline-none ${active ? 'active' : ''} ${collapsed ? 'justify-center !px-0' : ''} ${opacityClass}`;
       }}
       title={collapsed ? label : undefined}
     >
@@ -117,11 +82,8 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride }
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
         return (
           <>
-            {active && (
-              <div className="absolute left-0 top-xs bottom-xs w-[3px] bg-white rounded-r-pill shadow-[0_0_15px_rgba(255,255,255,0.6)] z-10" />
-            )}
             <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-150 ease-[var(--transition-ease)] ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
-            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 tracking-tight text-sm font-bold">{label}</span>}
+            {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 tracking-tight text-sm">{label}</span>}
           </>
         );
       }}
@@ -224,32 +186,6 @@ if (import.meta.vitest) {
       expect(logo.getAttribute('src')).toContain('aau-left-white-uk.webp')
     })
   
-    it('calls setLang when language option is clicked', () => {
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      // Lang is the second segmented control or the single toggle in collapsed mode
-      const enBtn = screen.getByText('EN')
-      fireEvent.click(enBtn)
-      expect(useStore.getState().lang).toBe('en')
-    })
-  
-    it('toggles language when collapsed toggle is clicked', () => {
-      useStore.setState({ isCollapsed: true, lang: 'da' })
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      const toggle = screen.getByText('DA')
-      fireEvent.click(toggle)
-      expect(useStore.getState().lang).toBe('en')
-      
-      expect(screen.getByText('EN')).toBeInTheDocument()
-      fireEvent.click(screen.getByText('EN'))
-      expect(useStore.getState().lang).toBe('da')
-    })
+    // Language switcher relocated to Topbar
   })
 }

@@ -51,7 +51,7 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const grouped = useMemo(() => {
     const groups: Record<string, NotificationItem[]> = {}
     filteredItems.forEach(n => {
-      const dateKey = formatRelativeDateGroup(n.date, lang)
+      const dateKey = formatRelativeDateGroup(n.date)
       if (!groups[dateKey]) groups[dateKey] = []
       groups[dateKey].push(n)
     })

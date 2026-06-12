@@ -44,7 +44,7 @@ describe('Dashboard Page', () => {
     expect(banner).toBeInTheDocument()
     expect(banner).toHaveTextContent(/Jacob/)
     
-    const actionBtn = getByText(/Gå direkte til aflevering|Go to assignment/)
+    const actionBtn = getByText(/Gå til aflevering|Go to assignment/)
     expect(actionBtn).toBeInTheDocument()
     fireEvent.click(actionBtn)
   })

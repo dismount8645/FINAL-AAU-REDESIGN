@@ -235,11 +235,11 @@
   --border-color-light: #f1f5f9;
   --border-color-hover: #cbd5e1;
 
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 4px 8px 0 rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 8px 16px 0 rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.08);
+  --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
   --shadow-focus: 0 0 0 3px rgba(var(--aau-blue-rgb), 0.25);
 
   --radius-xs: 2px;
@@ -250,7 +250,7 @@
   --radius-pill: 9999px;
 
   --font-family-base: 'Barlow', 'Arial', sans-serif;
-  --sidebar-width: 220px;
+  --sidebar-width: 200px;
   --sidebar-collapsed-width: 60px;
   --topbar-height: 3.25rem;
   --container-max-width: 1440px;
@@ -258,6 +258,19 @@
   --transition-normal: 180ms;
   --transition-slow: 250ms;
   --transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --color-surface-card: var(--bg-card);
+  --color-border-subtle: var(--border-color);
+  --color-icon-secondary-bg: var(--bg-hover);
+  --color-text-muted: var(--text-muted);
+  --color-action-primary: var(--aau-blue);
+  --color-badge-deadline: var(--aau-dark-grey);
+  --color-badge-urgent: var(--aau-dark-pink);
+  --color-focus-ring: var(--aau-light-blue);
+  --color-nav-active-indicator: var(--text-white);
+  --color-nav-hover-bg: rgba(255, 255, 255, 0.08);
+  --color-nav-text: rgba(255, 255, 255, 0.75);
+  --color-nav-active-bg: rgba(255, 255, 255, 0.12);
 
   --widget-item-min-height: 56px;
 }
@@ -291,7 +304,7 @@
   --color-danger: #fca5a5;
   --color-warning: #fde047;
   --color-info: #60d0ff;
-  --bg-highlight: rgba(var(--aau-light-blue-rgb), 0.15);
+  --bg-highlight: rgba(255, 255, 255, 0.03);
   --shadow-sm: 0 4px 8px -2px rgba(0, 0, 0, 0.5), 0 0 1px rgba(139, 129, 255, 0.2);
   --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.6), 0 4px 8px -2px rgba(139, 129, 255, 0.3);
   --shadow-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.7), 0 8px 16px -4px rgba(139, 129, 255, 0.4);
@@ -303,6 +316,19 @@
   --color-event-primary-text: #a5b4fc;
   --color-event-danger-bg: rgba(249, 115, 22, 0.15);
   --color-event-danger-text: #fdba74;
+
+  --color-surface-card: var(--bg-card);
+  --color-border-subtle: var(--border-color);
+  --color-icon-secondary-bg: var(--bg-hover);
+  --color-text-muted: var(--text-muted);
+  --color-action-primary: var(--primary);
+  --color-badge-deadline: var(--text-disabled);
+  --color-badge-urgent: var(--color-danger);
+  --color-focus-ring: var(--primary);
+  --color-nav-active-indicator: var(--text-white);
+  --color-nav-hover-bg: rgba(255, 255, 255, 0.12);
+  --color-nav-text: rgba(255, 255, 255, 0.70);
+  --color-nav-active-bg: rgba(255, 255, 255, 0.18);
 }
 
 @layer base {
@@ -560,6 +586,50 @@ body {
   gap: var(--space-2xs);
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
+
+@media (min-width: 768px) {
+  /* Enforce uniform widget heights */
+  .widget-size-small {
+    height: 220px !important;
+  }
+  .widget-size-medium {
+    height: 380px !important;
+  }
+  .widget-size-large {
+    height: 540px !important;
+  }
+
+  /* Make Card bodies scrollable with custom scrollbars when overflowing */
+  .widget-size-small .card__body,
+  .widget-size-medium .card__body,
+  .widget-size-large .card__body {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-subtle) transparent;
+  }
+
+  .widget-size-small .card__body::-webkit-scrollbar,
+  .widget-size-medium .card__body::-webkit-scrollbar,
+  .widget-size-large .card__body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .widget-size-small .card__body::-webkit-scrollbar-track,
+  .widget-size-medium .card__body::-webkit-scrollbar-track,
+  .widget-size-large .card__body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .widget-size-small .card__body::-webkit-scrollbar-thumb,
+  .widget-size-medium .card__body::-webkit-scrollbar-thumb,
+  .widget-size-large .card__body::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-subtle);
+    border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+  }
+}
+
 
 h1,
 h2,
@@ -844,40 +914,67 @@ select:focus-visible,
   color: #ffffff !important;
 }
 
+/* --- Navigation Link Styles --- */
+.nav-item {
+  color: var(--color-nav-text) !important;
+  background-color: transparent;
+  border-left: 3px solid transparent;
+  transition: all var(--transition-fast) var(--transition-ease);
+}
+
+.nav-item:hover {
+  background-color: var(--color-nav-hover-bg) !important;
+  color: #ffffff !important;
+}
+
+.nav-item.active {
+  background-color: var(--color-nav-active-bg) !important;
+  border-left-color: var(--color-nav-active-indicator) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.nav-item:focus-visible {
+  outline: 2px solid var(--color-focus-ring) !important;
+  outline-offset: 2px;
+}
+
 /* --- Focus Banner Styles --- */
 .focus-banner {
   background: linear-gradient(135deg, var(--aau-blue) 0%, #352b7a 50%, var(--aau-light-blue) 100%);
   border-radius: var(--radius-lg);
   color: var(--text-white);
-  padding: var(--space-md) var(--space-lg);
-  margin-bottom: var(--space-md);
-  box-shadow: var(--shadow-md);
+  padding: 0.625rem 1rem;
+  margin-bottom: var(--space-xs);
+  box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .focus-banner:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .focus-banner-bg-pattern {
   position: absolute;
   inset: 0;
-  opacity: 0.08;
+  opacity: 0.06;
   pointer-events: none;
   background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
   background-size: 16px 16px;
 }
 
 .focus-banner-box {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(8px);
   border-radius: var(--radius-md);
-  padding: var(--space-sm) var(--space-md);
-  margin-top: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  margin-top: var(--space-3xs);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -887,7 +984,7 @@ select:focus-visible,
 }
 
 .focus-banner-box:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.09);
 }
 
 .focus-banner-btn {
@@ -895,19 +992,19 @@ select:focus-visible,
   color: var(--aau-blue);
   font-weight: 700;
   border-radius: var(--radius-pill);
-  padding: var(--space-2xs) var(--space-md);
-  font-size: var(--font-size-xs);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.725rem;
   border: none;
   cursor: pointer;
   transition: all var(--transition-normal);
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2xs);
+  gap: var(--space-3xs);
 }
 
 .focus-banner-btn:hover {
   background-color: rgba(255, 255, 255, 0.9);
-  transform: translateX(2px);
+  transform: translateX(1px);
 }
 
 /* Premium Modal Entrance Animation */
@@ -963,6 +1060,19 @@ select:focus-visible,
 .is-selected svg {
   color: var(--color-primary) !important;
   stroke-width: 2.75px !important;
+}
+
+/* Card border contrast reinforcement */
+.card {
+  border-color: var(--border-color) !important;
+}
+
+/* Tone down secondary elements purple theme */
+.bg-bg-highlight, .bg-primary\/5, .bg-bg-highlight\/50, .bg-bg-highlight\/40, .bg-bg-highlight\/30, .bg-bg-highlight\/20 {
+  background-color: var(--border-color-light) !important;
+}
+.dark .bg-bg-highlight, .dark .bg-primary\/5, .dark .dark\:hover\:bg-white\/10, .dark .bg-bg-highlight\/50, .dark .bg-bg-highlight\/40, .dark .bg-bg-highlight\/30, .dark .bg-bg-highlight\/20 {
+  background-color: rgba(255, 255, 255, 0.03) !important;
 }
 
 

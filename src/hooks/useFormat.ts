@@ -103,17 +103,21 @@ if (import.meta.vitest) {
     })
 
     it('formats deadlines correctly in Danish and English', () => {
+      vi.useFakeTimers()
+      const now = new Date('2026-06-11T12:00:00')
+      vi.setSystemTime(now)
+
       // Overdue
       useStore.setState({ lang: 'en' })
       const { result: resEn } = renderHook(() => useFormat())
-      const pastDate = new Date(Date.now() - 3600000) // 1 hour ago
+      const pastDate = new Date(now.getTime() - 3600000) // 1 hour ago
       expect(resEn.current.formatDeadline(pastDate)).toBe('overdue')
 
       // Today
-      expect(resEn.current.formatDeadline(new Date())).toBe('Today')
+      expect(resEn.current.formatDeadline(now)).toBe('Today')
 
       // Tomorrow
-      const tomorrowDate = new Date(Date.now() + 24 * 3600000)
+      const tomorrowDate = new Date(now.getTime() + 24 * 3600000)
       expect(resEn.current.formatDeadline(tomorrowDate)).toBe('Tomorrow')
       
       useStore.setState({ lang: 'da' })
@@ -123,12 +127,14 @@ if (import.meta.vitest) {
       // Future days
       useStore.setState({ lang: 'en' })
       const { result: resEn2 } = renderHook(() => useFormat())
-      const futureDate = new Date(Date.now() + 4 * 24 * 3600000)
+      const futureDate = new Date(now.getTime() + 4 * 24 * 3600000)
       expect(resEn2.current.formatDeadline(futureDate)).toBe('In 4 days')
 
       useStore.setState({ lang: 'da' })
       const { result: resDa2 } = renderHook(() => useFormat())
       expect(resDa2.current.formatDeadline(futureDate)).toBe('Om 4 dage')
+
+      vi.useRealTimers()
     })
 
     it('gets course item metadata strings correctly', () => {

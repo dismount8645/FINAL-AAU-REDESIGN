@@ -20,7 +20,7 @@ export default function NotificationsDropdown() {
       <Dropdown.Trigger>
         {({ ref, onKeyDown, onClick }, { isOpen }) => (
           <Button
-            ref={ref}
+            ref={ref as any}
             onKeyDown={onKeyDown}
             onClick={onClick}
             variant="ghost"

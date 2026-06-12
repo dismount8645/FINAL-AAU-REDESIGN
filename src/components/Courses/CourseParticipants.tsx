@@ -10,7 +10,7 @@ import useStore from '@/store'
 import { useFilteredCollection } from '@/hooks'
 
 interface CourseParticipantsProps {
-  participantsData: { name: string; role: string }[]
+  participantsData: { name: string; role: string; email?: string }[]
 }
 
 function CourseParticipants({ participantsData }: CourseParticipantsProps) {
@@ -53,7 +53,21 @@ function CourseParticipants({ participantsData }: CourseParticipantsProps) {
                 key={i}
                 leading={Users}
                 title={p.name}
-                subtitle={p.role === 'student' ? t('role_student') : t('role_teacher')}
+                subtitle={
+                  <span className="flex flex-col sm:flex-row sm:items-center sm:gap-xs text-xs text-muted">
+                    <span className="font-semibold text-foreground/70">
+                      {p.role === 'student' ? t('role_student') : t('role_teacher')}
+                    </span>
+                    {p.email && (
+                      <>
+                        <span className="hidden sm:inline">·</span>
+                        <a href={`mailto:${p.email}`} className="hover:underline text-primary break-all">
+                          {p.email}
+                        </a>
+                      </>
+                    )}
+                  </span>
+                }
                 className="border-b border-border/50 last:border-0"
               />
             ))}

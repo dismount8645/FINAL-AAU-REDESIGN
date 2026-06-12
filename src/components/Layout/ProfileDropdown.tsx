@@ -1,4 +1,4 @@
-import { User, Settings, LogOut } from 'lucide-react';
+import { User, Settings, LogOut, Globe, Sun, Moon, Monitor, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Text, Dropdown, MasterItem } from '@/components/ui';
 import useStore from '@/store';
@@ -11,13 +11,17 @@ export default function ProfileDropdown() {
   const t = useStore((state) => state.t);
   const firstName = useStore((state) => state.firstName);
   const lastName = useStore((state) => state.lastName);
+  const theme = useStore((state) => state.theme);
+  const setTheme = useStore((state) => state.setTheme);
+  const lang = useStore((state) => state.lang);
+  const setLang = useStore((state) => state.setLang);
 
   return (
     <Dropdown className="ml-2">
       <Dropdown.Trigger>
         {({ ref, onKeyDown, onClick }, { isOpen }) => (
           <button
-            ref={ref}
+            ref={ref as any}
             onKeyDown={onKeyDown}
             onClick={(e) => {
               e.stopPropagation();
@@ -69,6 +73,30 @@ export default function ProfileDropdown() {
               leading={Settings}
               leadingClassName="text-primary"
               title={t('settings')}
+            />
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => navigate(PATHS.MESSAGES)}>
+            <MasterItem
+              leading={Mail}
+              leadingClassName="text-primary"
+              title={t('nav.messages')}
+            />
+          </Dropdown.Item>
+        </div>
+
+        <div role="none" className="py-2 border-t border-border">
+          <Dropdown.Item onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}>
+            <MasterItem
+              leading={theme === 'dark' ? Moon : theme === 'light' ? Sun : Monitor}
+              leadingClassName="text-primary"
+              title={`${t('appearance')}: ${t('theme.' + theme)}`}
+            />
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => setLang(lang === 'da' ? 'en' : 'da')}>
+            <MasterItem
+              leading={Globe}
+              leadingClassName="text-primary"
+              title={`${t('cat_select_language')}: ${lang.toUpperCase()}`}
             />
           </Dropdown.Item>
         </div>
@@ -187,6 +215,38 @@ if (import.meta.vitest) {
       const trigger = screen.getByLabelText('user_menu')
       fireEvent.click(trigger)
       expect(screen.getByText('Studerende')).toBeInTheDocument()
+    })
+
+    it('toggles language when language option is clicked', () => {
+      useStore.setState({ lang: 'da' });
+      renderWithProviders(<ProfileDropdown />)
+      const trigger = screen.getByLabelText('user_menu')
+      fireEvent.click(trigger)
+      
+      const langItem = screen.getByText(/cat_select_language/i)
+      fireEvent.click(langItem)
+      expect(useStore.getState().lang).toBe('en')
+    })
+
+    it('toggles theme when theme option is clicked', () => {
+      useStore.setState({ theme: 'light' })
+      renderWithProviders(<ProfileDropdown />)
+      const trigger = screen.getByLabelText('user_menu')
+      fireEvent.click(trigger)
+      
+      const themeItem = screen.getByText(/appearance/i)
+      fireEvent.click(themeItem)
+      expect(useStore.getState().theme).toBe('system')
+    })
+
+    it('navigates to messages when messages link is clicked', async () => {
+      renderWithProviders(<ProfileDropdown />)
+      const trigger = screen.getByLabelText('user_menu')
+      fireEvent.click(trigger)
+      
+      const messagesItem = screen.getByText('nav.messages')
+      fireEvent.click(messagesItem)
+      await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
     })
   })
 }

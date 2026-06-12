@@ -1,4 +1,4 @@
-import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, Shield, Folder, ArrowLeft } from 'lucide-react'
+import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, ArrowLeft } from 'lucide-react'
 import { type KeyboardEvent } from 'react'
 import PageLayout from '@/components/Layout/PageLayout';
 import { AnimatePresence, motion } from 'framer-motion'
