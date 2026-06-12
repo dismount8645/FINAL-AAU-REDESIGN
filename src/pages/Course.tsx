@@ -537,17 +537,7 @@ function Course() {
     return t('progress_100')
   }
 
-  const nextRecommendedItem = useMemo(() => {
-    if (!data) return null
-    for (const section of data.sections) {
-      for (const item of section.items) {
-        if (!completedItems.includes(item.id)) {
-          return { item, section }
-        }
-      }
-    }
-    return null
-  }, [data, completedItems])
+
 
   if (!data) return null
 
@@ -675,7 +665,7 @@ function Course() {
               {nextSession && (
                 <Card variant="elevated" className="h-fit border border-primary/20 bg-bg-highlight/5">
                   <Card.Header padding="compact" className="pb-none">
-                    <Stack gap="3xs" className="flex-1 min-w-0">
+                    <Stack gap="2xs" className="flex-1 min-w-0">
                       <Text weight="bold" size="sm" className="card__title text-primary">
                         {lang === 'da' ? 'Til næste lektion' : 'For Next Session'}
                       </Text>

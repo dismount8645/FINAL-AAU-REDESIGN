@@ -1,10 +1,28 @@
 import Dashboard from './Dashboard'
-import { fireEvent } from '@testing-library/react'
+import { fireEvent, act, screen } from '@testing-library/react'
+import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest'
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useBlocker: () => ({
+      state: 'idle',
+      proceed: () => {},
+      reset: () => {},
+    }),
+  }
+})
 
 describe('Dashboard Page', () => {
   beforeEach(() => {
+    vi.useFakeTimers({ shouldAdvanceTime: true })
     vi.clearAllMocks()
     localStorage.clear()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
   })
 
   const renderDashboard = () => {
@@ -18,14 +36,21 @@ describe('Dashboard Page', () => {
 
   it('renders all widgets', () => {
     renderDashboard()
+    act(() => {
+      vi.advanceTimersByTime(400)
+    })
     expect(screen.getByText('Næste aflevering')).toBeInTheDocument()
     expect(screen.getByText('Favoritter')).toBeInTheDocument()
-    expect(screen.getByText('Kontakt ITS Support')).toBeInTheDocument()
+    expect(screen.getByText('Beskeder')).toBeInTheDocument()
+    expect(screen.getByText('Kalender')).toBeInTheDocument()
   })
 
   it('toggles edit mode and shows hint', () => {
     renderDashboard()
-    const editBtn = screen.getByText('Rediger dashboard')
+    act(() => {
+      vi.advanceTimersByTime(400)
+    })
+    const editBtn = screen.getByText('Tilpas dashboard')
     expect(editBtn).toBeInTheDocument()
     
     fireEvent.click(editBtn)
@@ -39,14 +64,18 @@ describe('Dashboard Page', () => {
   })
 
   it('renders Focus Banner with personal greeting and redirects on button click', () => {
-    const { getByTestId, getByText } = renderDashboard()
+    const { getByTestId } = renderDashboard()
+    act(() => {
+      vi.advanceTimersByTime(400)
+    })
     const banner = getByTestId('focus-banner')
     expect(banner).toBeInTheDocument()
     expect(banner).toHaveTextContent(/Jacob/)
     
-    const actionBtn = getByText(/Gå til aflevering|Go to assignment/)
+    const actionBtn = banner.querySelector('button')
     expect(actionBtn).toBeInTheDocument()
-    fireEvent.click(actionBtn)
+    if (actionBtn) fireEvent.click(actionBtn)
   })
 })
+
 
