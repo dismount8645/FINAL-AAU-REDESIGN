@@ -1,6 +1,7 @@
 import { Send, MessageCircle } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { cn } from '@/lib/utils'
 import Button from '@/components/ui/Button'
 import { Heading, Text } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
@@ -35,7 +36,7 @@ export function ChatWindow({
             ref={chatBodyRef}
             className="messages-chat-body flex-1 p-lg bg-bg-highlight dark:bg-bg-body overflow-y-auto"
           >
-            <Stack gap="md">
+            <div className="flex flex-col justify-end min-h-full gap-md">
               {activeContact.messages.map((msg) => (
                 <div key={msg.id} className="flex flex-col">
                   <div className={`chat-bubble chat-bubble--${msg.type} animate-fade-in`}>
@@ -46,15 +47,17 @@ export function ChatWindow({
                   {msg.timestamp && (
                     <Text
                       size="2xs"
-                      muted
-                      className={`mt-[var(--space-2xs)] ${msg.type === 'out' ? 'self-end' : 'self-start'}`}
+                      className={cn(
+                        "text-text-secondary mt-[var(--space-3xs)] px-xs font-semibold opacity-90",
+                        msg.type === 'out' ? 'self-end text-right mr-sm' : 'self-start text-left ml-sm'
+                      )}
                     >
                       {msg.timestamp}
                     </Text>
                   )}
                 </div>
               ))}
-            </Stack>
+            </div>
           </div>
           <div className="messages-input-area p-md bg-bg-card border-t border-border shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
             <Stack

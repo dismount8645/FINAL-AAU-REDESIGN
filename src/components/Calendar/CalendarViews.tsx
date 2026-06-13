@@ -261,7 +261,7 @@ const CalendarMonthViewComponent = ({
       <Stack
         key={`day-${dayIndex}`}
         className={cn(
-          "calendar-day min-w-0 min-h-[65px] sm:min-h-[85px] md:min-h-[105px] lg:min-h-[115px] p-[var(--space-2xs)] sm:p-xs flex flex-col gap-[var(--space-3xs)] relative transition-all duration-150 bg-card group",
+          "calendar-day min-w-0 min-h-[44px] sm:min-h-[55px] md:min-h-[65px] lg:min-h-[75px] p-[var(--space-2xs)] sm:p-xs flex flex-col gap-[var(--space-3xs)] relative transition-all duration-150 bg-card group",
           "border-b border-r border-border/40 hover:z-10 hover:shadow-lg focus-within:z-10",
           isToday && "bg-primary/5 after:absolute after:inset-0 after:ring-1 after:ring-inset after:ring-primary/20"
         )}
@@ -302,7 +302,7 @@ const CalendarMonthViewComponent = ({
             aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
             title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
-            <Text size="xs" weight="bold" className={cn("line-clamp-2 block select-none leading-tight", isDeadline && "font-black text-orange-700 dark:text-orange-300 flex items-center gap-1")}>
+            <Text weight="bold" className={cn("line-clamp-2 block select-none leading-snug text-xs sm:text-sm", isDeadline && "font-black text-orange-800 dark:text-orange-300 flex items-center gap-1")}>
               {isDeadline && <AlertTriangle className="w-3 h-3 shrink-0 text-orange-600 dark:text-orange-400 animate-pulse" />}
               {(() => {
                 const courseCode = event.courseCode
@@ -311,7 +311,7 @@ const CalendarMonthViewComponent = ({
               })()}
             </Text>
             {event.time && (
-              <Text size="2xs" className="opacity-80 block line-clamp-2 mt-[var(--space-2xs)] font-medium">
+              <Text className="opacity-90 block line-clamp-2 mt-[2px] font-semibold text-[10px] sm:text-xs">
                 {event.time}
               </Text>
             )}
@@ -330,7 +330,7 @@ const CalendarMonthViewComponent = ({
       cells.push(
         <div 
           key={`wn-${rowWeekNum}`} 
-          className="calendar-week-num flex items-center justify-center bg-muted/5 text-[0.65rem] sm:text-xs font-mono font-bold text-text-muted/50 border-r-2 border-r-border/60 border-b border-border/40 select-none min-w-0"
+          className="calendar-week-num flex items-center justify-center bg-bg-highlight/50 text-[0.7rem] sm:text-sm font-mono font-black text-text-main border-r-2 border-r-border/60 border-b border-border/40 select-none min-w-0"
           title={`${t('week')} ${rowWeekNum}`}
         >
           W{rowWeekNum}

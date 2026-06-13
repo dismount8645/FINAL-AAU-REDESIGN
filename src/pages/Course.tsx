@@ -41,6 +41,7 @@ const LessonItemRow = memo(function LessonItemRow({
   onToggleItem: (id: number) => void
 }) {
   const t = useStore((state) => state.t)
+  const lang = useStore((state) => state.lang)
   const navigate = useNavigate()
 
   const handleClick = item.type === 'assignment'
@@ -61,7 +62,7 @@ const LessonItemRow = memo(function LessonItemRow({
 
   return (
     <MasterItem
-      className="rounded-[var(--radius-md)] border border-border/40"
+      className="rounded-[var(--radius-md)] border-none bg-bg-highlight/20 hover:bg-bg-highlight/40"
       leading={Icon}
       leadingClassName={cn(themeConfig.bg, `text-${themeConfig.color}`)}
       title={
@@ -72,28 +73,38 @@ const LessonItemRow = memo(function LessonItemRow({
       subtitle={metadata}
       onClick={handleClick}
       trailing={
-        <Button
-          variant={completed ? 'primary' : 'ghost'}
-          size="icon"
-          className={`lesson-item__checkbox shrink-0 ${completed ? '' : isAutomatic ? 'border-dashed opacity-30 cursor-default border-border' : 'border-border hover:border-primary/50 dark:border-white/20'}`}
-          onClick={handleToggle}
-          aria-label={completed ? t('mark_incomplete') : t('mark_complete')}
-          type="button"
-          disabled={isAutomatic}
-        >
-          {completed ? (
-            <Check size={16} strokeWidth={2.5} aria-hidden="true" />
-          ) : (
-            !isAutomatic && (
-              <Check
-                size={16}
-                strokeWidth={2.5}
-                aria-hidden="true"
-                className="opacity-0 group-hover/check:opacity-30 transition-opacity"
-              />
-            )
-          )}
-        </Button>
+        <div className="flex items-center gap-xs shrink-0">
+          <span className={cn(
+            "text-[10px] font-bold uppercase tracking-wider hidden xs:inline-block",
+            completed ? "text-success" : "text-text-secondary opacity-60"
+          )}>
+            {completed 
+              ? (lang === 'da' ? 'Fuldført' : 'Completed') 
+              : (lang === 'da' ? 'Ikke fuldført' : 'Not completed')}
+          </span>
+          <Button
+            variant={completed ? 'primary' : 'ghost'}
+            size="icon"
+            className={`lesson-item__checkbox w-7 h-7 shrink-0 ${completed ? '' : isAutomatic ? 'border-dashed opacity-30 cursor-default border-border' : 'border-border hover:border-primary/50 dark:border-white/20'}`}
+            onClick={handleToggle}
+            aria-label={completed ? t('mark_incomplete') : t('mark_complete')}
+            type="button"
+            disabled={isAutomatic}
+          >
+            {completed ? (
+              <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+            ) : (
+              !isAutomatic && (
+                <Check
+                  size={16}
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                  className="opacity-0 group-hover/check:opacity-30 transition-opacity"
+                />
+              )
+            )}
+          </Button>
+        </div>
       }
     />
   )
@@ -144,7 +155,7 @@ const CourseSectionCard = memo(function CourseSectionCard({
   const otherActivities = section.items.filter(item => !item.litType)
 
   return (
-    <Card variant="elevated" className="course-section mb-md overflow-hidden shadow-[var(--shadow-md)]">
+    <Card id={`section-card-${section.id}`} variant="elevated" className="course-section mb-md overflow-hidden shadow-[var(--shadow-md)]">
       <Card.Header className="section-header p-0 bg-bg-card overflow-hidden relative">
         <button
           type="button"
@@ -207,11 +218,11 @@ const CourseSectionCard = memo(function CourseSectionCard({
             {((section.themes && section.themes.length > 0) || (section.goals && section.goals.length > 0)) && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-sm">
                 {section.themes && section.themes.length > 0 && (
-                  <div className="border border-border/60 rounded-xl overflow-hidden bg-bg-card">
+                  <div className="rounded-xl overflow-hidden bg-bg-highlight/30 dark:bg-white/5 border-none shadow-none">
                     <button
                       type="button"
                       onClick={() => setThemesOpen(!themesOpen)}
-                      className="w-full flex items-center justify-between p-sm text-left hover:bg-bg-hover transition-colors font-bold text-main text-xs border-none bg-transparent"
+                      className="w-full flex items-center justify-between p-sm text-left hover:bg-bg-hover transition-colors font-bold text-main text-sm border-none bg-transparent"
                     >
                       <div className="flex items-center gap-xs">
                         <BookOpen size={14} className="text-primary shrink-0" />
@@ -232,11 +243,11 @@ const CourseSectionCard = memo(function CourseSectionCard({
                 )}
 
                 {section.goals && section.goals.length > 0 && (
-                  <div className="border border-border/60 rounded-xl overflow-hidden bg-bg-card">
+                  <div className="rounded-xl overflow-hidden bg-bg-highlight/30 dark:bg-white/5 border-none shadow-none">
                     <button
                       type="button"
                       onClick={() => setGoalsOpen(!goalsOpen)}
-                      className="w-full flex items-center justify-between p-sm text-left hover:bg-bg-hover transition-colors font-bold text-main text-xs border-none bg-transparent"
+                      className="w-full flex items-center justify-between p-sm text-left hover:bg-bg-hover transition-colors font-bold text-main text-sm border-none bg-transparent"
                     >
                       <div className="flex items-center gap-xs">
                         <Target size={14} className="text-primary shrink-0" />
@@ -259,11 +270,11 @@ const CourseSectionCard = memo(function CourseSectionCard({
             )}
 
             {/* Materialer Collapsible (combining Literature & Activities) */}
-            <div className="border border-border/60 rounded-xl overflow-hidden bg-bg-card">
+            <div className="rounded-xl overflow-hidden bg-bg-highlight/30 dark:bg-white/5 border-none shadow-none">
               <button
                 type="button"
                 onClick={() => setMaterialsOpen(!materialsOpen)}
-                className="w-full flex items-center justify-between p-sm text-left hover:bg-bg-hover transition-colors font-bold text-main text-xs border-none bg-transparent"
+                className="w-full flex items-center justify-between p-sm text-left hover:bg-bg-hover transition-colors font-bold text-main text-sm border-none bg-transparent"
               >
                 <div className="flex items-center gap-xs">
                   <Book size={14} className="text-primary shrink-0" />
@@ -312,113 +323,177 @@ const CourseSectionCard = memo(function CourseSectionCard({
                                 </div>
                               </div>
                               
-                              <button
-                                type="button"
+                              <div className="flex items-center gap-xs shrink-0">
+                              <span className={cn(
+                                "text-[10px] font-bold uppercase tracking-wider hidden xs:inline-block",
+                                isCompleted ? "text-success" : "text-text-secondary opacity-60"
+                              )}>
+                                {isCompleted 
+                                  ? (lang === 'da' ? 'Fuldført' : 'Completed') 
+                                  : (lang === 'da' ? 'Ikke fuldført' : 'Not completed')}
+                              </span>
+                              <Button
+                                variant={isCompleted ? 'primary' : 'ghost'}
+                                size="icon"
+                                className={`lesson-item__checkbox w-7 h-7 shrink-0 border-border hover:border-primary/50 dark:border-white/20`}
                                 onClick={() => toggleItem(item.id)}
-                                className={cn(
-                                  "w-5 h-5 rounded-md border flex items-center justify-center transition-colors shrink-0 ml-xs lesson-item__checkbox",
-                                  isCompleted 
-                                    ? "bg-success border-success text-white font-black" 
-                                    : "border-border bg-transparent group-hover:border-primary/60"
-                                )}
                                 aria-label={isCompleted ? t('mark_incomplete') : t('mark_complete')}
-                              >
-                                {isCompleted && <Check size={12} strokeWidth={3} />}
-                              </button>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Secondary Literature */}
-                  {secondaryLitItems.length > 0 && (
-                    <div className="flex flex-col gap-2xs">
-                      <Text size="2xs" weight="bold" muted className="uppercase tracking-wider font-bold">
-                        {t('secondary_literature')}
-                      </Text>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-xs">
-                        {secondaryLitItems.map((item) => {
-                          const isCompleted = completedItems.includes(item.id)
-                          const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default
-                          const Icon = themeConfig.icon
-                          return (
-                            <div
-                              key={item.id}
-                              className={cn(
-                                "flex items-center justify-between p-sm rounded-xl border transition-all duration-150 relative group",
-                                isCompleted 
-                                  ? "bg-success/5 border-success/30 dark:border-success/20 hover:bg-success/10"
-                                  : "bg-bg-card border-border hover:bg-bg-hover hover:border-primary/45"
-                              )}
-                            >
-                              <div className="flex items-center gap-sm min-w-0 flex-1">
-                                <div className={cn(
-                                  "p-xs rounded-lg shrink-0",
-                                  isCompleted ? "bg-success/15 text-success" : "bg-primary/5 text-primary"
-                                )}>
-                                  <Icon size={16} />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <Text size="xs" weight="bold" className="block truncate leading-tight text-main">
-                                    {lang === 'da' ? item.title : item.titleEn}
-                                  </Text>
-                                  <Text size="3xs" muted className="block leading-none mt-3xs">
-                                    {item.size || (item.type === 'link' ? 'Link' : 'Resource')}
-                                  </Text>
-                                </div>
-                              </div>
-                              
-                              <button
                                 type="button"
-                                onClick={() => toggleItem(item.id)}
-                                className={cn(
-                                  "w-5 h-5 rounded-md border flex items-center justify-center transition-colors shrink-0 ml-xs lesson-item__checkbox",
-                                  isCompleted 
-                                    ? "bg-success border-success text-white font-black" 
-                                    : "border-border bg-transparent group-hover:border-primary/60"
-                                )}
-                                aria-label={isCompleted ? t('mark_incomplete') : t('mark_complete')}
                               >
-                                {isCompleted && <Check size={12} strokeWidth={3} />}
-                              </button>
+                                {isCompleted ? (
+                                  <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+                                ) : (
+                                  <Check
+                                    size={16}
+                                    strokeWidth={2.5}
+                                    aria-hidden="true"
+                                    className="opacity-0 group-hover:opacity-30 transition-opacity"
+                                  />
+                                )}
+                              </Button>
                             </div>
-                          )
-                        })}
-                      </div>
+                          </div>
+                        )
+                      })}
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  {/* Other activities (assignments, videos, etc.) */}
-                  {otherActivities.length > 0 && (
-                    <div className="flex flex-col gap-2xs">
-                      <Text size="2xs" weight="bold" muted className="uppercase tracking-wider font-bold">
-                        {t('other_activities')}
-                      </Text>
-                      <Stack gap="2xs">
-                        {otherActivities.map((item) => (
-                          <LessonItemRow
+                {/* Secondary Literature */}
+                {secondaryLitItems.length > 0 && (
+                  <div className="flex flex-col gap-2xs">
+                    <Text size="2xs" weight="bold" muted className="uppercase tracking-wider font-bold">
+                      {t('secondary_literature')}
+                    </Text>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-xs">
+                      {secondaryLitItems.map((item) => {
+                        const isCompleted = completedItems.includes(item.id)
+                        const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default
+                        const Icon = themeConfig.icon
+                        return (
+                          <div
                             key={item.id}
-                            item={item}
-                            courseId={courseId}
-                            sectionId={section.id}
-                            completed={completedItems.includes(item.id)}
-                            onToggleItem={toggleItem}
-                          />
-                        ))}
-                      </Stack>
+                            className={cn(
+                              "flex items-center justify-between p-sm rounded-xl border transition-all duration-150 relative group",
+                              isCompleted 
+                                ? "bg-success/5 border-success/30 dark:border-success/20 hover:bg-success/10"
+                                : "bg-bg-card border-border hover:bg-bg-hover hover:border-primary/45"
+                            )}
+                          >
+                            <div className="flex items-center gap-sm min-w-0 flex-1">
+                              <div className={cn(
+                                "p-xs rounded-lg shrink-0",
+                                isCompleted ? "bg-success/15 text-success" : "bg-primary/5 text-primary"
+                              )}>
+                                <Icon size={16} />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <Text size="xs" weight="bold" className="block truncate leading-tight text-main">
+                                  {lang === 'da' ? item.title : item.titleEn}
+                                </Text>
+                                <Text size="3xs" muted className="block leading-none mt-3xs">
+                                  {item.size || (item.type === 'link' ? 'Link' : 'Resource')}
+                                </Text>
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center gap-xs shrink-0">
+                              <span className={cn(
+                                "text-[10px] font-bold uppercase tracking-wider hidden xs:inline-block",
+                                isCompleted ? "text-success" : "text-text-secondary opacity-60"
+                              )}>
+                                {isCompleted 
+                                  ? (lang === 'da' ? 'Fuldført' : 'Completed') 
+                                  : (lang === 'da' ? 'Ikke fuldført' : 'Not completed')}
+                              </span>
+                              <Button
+                                variant={isCompleted ? 'primary' : 'ghost'}
+                                size="icon"
+                                className={`lesson-item__checkbox w-7 h-7 shrink-0 border-border hover:border-primary/50 dark:border-white/20`}
+                                onClick={() => toggleItem(item.id)}
+                                aria-label={isCompleted ? t('mark_incomplete') : t('mark_complete')}
+                                type="button"
+                              >
+                                {isCompleted ? (
+                                  <Check size={16} strokeWidth={2.5} aria-hidden="true" />
+                                ) : (
+                                  <Check
+                                    size={16}
+                                    strokeWidth={2.5}
+                                    aria-hidden="true"
+                                    className="opacity-0 group-hover:opacity-30 transition-opacity"
+                                  />
+                                )}
+                              </Button>
+                            </div>
+                          </div>
+                        )
+                      })}
                     </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </Stack>
-        </Card.Body>
-      )}
-    </Card>
+                  </div>
+                )}
+
+                {/* Other activities (assignments, videos, etc.) */}
+                {otherActivities.length > 0 && (
+                  <div className="flex flex-col gap-2xs">
+                    <Text size="2xs" weight="bold" muted className="uppercase tracking-wider font-bold">
+                      {t('other_activities')}
+                    </Text>
+                    <Stack gap="2xs">
+                      {otherActivities.map((item) => (
+                        <LessonItemRow
+                          key={item.id}
+                          item={item}
+                          courseId={courseId}
+                          sectionId={section.id}
+                          completed={completedItems.includes(item.id)}
+                          onToggleItem={toggleItem}
+                        />
+                      ))}
+                    </Stack>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </Stack>
+      </Card.Body>
+    )}
+  </Card>
   )
 })
+
+function CourseModulesAnchorNav({
+  courseId,
+  sections,
+}: {
+  courseId: string
+  sections: CourseSection[]
+}) {
+  const t = useStore((state) => state.t)
+  
+  const scrollToSection = (sectionId: string) => {
+    const el = document.getElementById(`section-card-${sectionId}`)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  return (
+    <div className="sticky top-[73px] bg-bg-card/95 backdrop-blur-md z-20 py-sm px-md -mx-md sm:mx-0 rounded-xl border border-border/60 shadow-sm flex items-center gap-xs overflow-x-auto no-scrollbar mb-md">
+      {sections.map((section) => (
+        <button
+          key={section.id}
+          type="button"
+          onClick={() => scrollToSection(section.id)}
+          className="px-sm py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-bg-highlight/40 hover:bg-bg-highlight/85 text-text-secondary border border-border/40 hover:border-primary/50 transition-all duration-150"
+        >
+          {t(`course_${courseId}_${section.id}_title`)}
+        </button>
+      ))}
+    </div>
+  )
+}
 
 function CourseModules({
   courseId,
@@ -442,6 +517,7 @@ function CourseModules({
 
   return (
     <Stack gap="lg">
+      <CourseModulesAnchorNav courseId={courseId} sections={sections} />
       {sections.map((section) => (
         <CourseSectionCard
           key={section.id}

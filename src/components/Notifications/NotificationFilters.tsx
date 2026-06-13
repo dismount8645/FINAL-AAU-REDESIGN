@@ -27,11 +27,11 @@ export default function NotificationFilters({
       onChange={(id) => onChangeView(id as 'active' | 'archive')}
       secondaryAction={view === 'active' && unreadCount > 0 ? (
         <Button
-          variant="ghost"
-          size="xs"
+          variant="outline"
+          size="sm"
           icon={CheckCheck}
           onClick={onMarkAllRead}
-          className="text-muted hover:text-primary transition-colors"
+          className="text-text-secondary hover:text-primary border border-border/80 hover:border-primary shadow-sm font-bold"
         >
           {t('mark_all_read')}
         </Button>

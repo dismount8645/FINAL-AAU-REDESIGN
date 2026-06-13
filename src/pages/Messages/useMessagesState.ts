@@ -18,6 +18,8 @@ interface UseMessagesStateReturn {
   handleSend: () => void
   archiveContact: (id: number, e: MouseEvent) => void
   restoreContact: (id: number, e: MouseEvent) => void
+  searchQuery: string
+  setSearchQuery: (query: string) => void
 }
 
 export function useMessagesState(): UseMessagesStateReturn {
@@ -26,7 +28,7 @@ export function useMessagesState(): UseMessagesStateReturn {
   const location = useLocation()
 
   const [activeContactId, setActiveContactId] = useState<number>(1)
-  const { items: contacts, setItems: setContacts, view, setView, filteredItems, archiveItem, restoreItem } = useManagedCollection<Contact>([
+  const { items: contacts, setItems: setContacts, view, setView, filteredItems, archiveItem, restoreItem, searchQuery, setSearchQuery } = useManagedCollection<Contact>([
     {
       id: 1,
       name: 'Mette Jensen',
@@ -148,6 +150,8 @@ export function useMessagesState(): UseMessagesStateReturn {
     handleSend,
     archiveContact,
     restoreContact,
+    searchQuery,
+    setSearchQuery,
   }
 }
 

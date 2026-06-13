@@ -48,7 +48,11 @@ function Layout() {
             </Suspense>
           </div>
         </main>
-        {!isMessages && <Footer />}
+        {!isMessages && (
+          <div className="transition-all duration-300 ease-in-out" style={{ marginLeft }}>
+            <Footer />
+          </div>
+        )}
       </div>
     </div>
   );

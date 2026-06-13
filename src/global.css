@@ -64,6 +64,7 @@
   --color-text-white: var(--text-white);
   --color-text-main: var(--text-main);
   --color-text-muted: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
   --color-text-disabled: var(--text-disabled);
   --color-border: var(--border-color);
   --color-border-light: var(--border-color-light);
@@ -157,7 +158,7 @@
   --color-event-primary-bg: #e0e7ff;
   --color-event-primary-text: #3730a3;
   --color-event-danger-bg: #fff7ed;
-  --color-event-danger-text: #c2410c;
+  --color-event-danger-text: #9a3412;
 
   --background: var(--bg-body);
   --foreground: var(--text-main);
@@ -214,6 +215,8 @@
   --color-danger: var(--aau-dark-pink);
   --color-warning: var(--aau-dark-orange);
   --color-info: var(--aau-dark-blue-sec);
+  --color-bg-danger-tint: #fef2f2;
+  --color-bg-warning-tint: #fffbeb;
 
   --bg-body: #f4f7f9;
   --bg-card: #ffffff;
@@ -230,8 +233,9 @@
   --text-white: #ffffff;
   --text-main: #1e293b;
   --text-muted: #334155;
-  --text-disabled: #64748b;
-  --border-color: #e2e8f0;
+  --text-secondary: #334155;
+  --text-disabled: #475569;
+  --border-color: #cbd5e1;
   --border-color-light: #f1f5f9;
   --border-color-hover: #cbd5e1;
 
@@ -240,7 +244,7 @@
   --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.08);
   --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
-  --shadow-focus: 0 0 0 3px rgba(var(--aau-blue-rgb), 0.25);
+  --shadow-focus: 0 0 0 3px rgba(var(--aau-light-blue-rgb), 0.4);
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -270,11 +274,11 @@
   --color-nav-active-indicator: var(--text-white);
   --color-nav-hover-bg: rgba(255, 255, 255, 0.08);
   --color-nav-text: rgba(255, 255, 255, 0.75);
-  --color-nav-active-bg: rgba(255, 255, 255, 0.12);
+  --color-nav-active-bg: rgba(255, 255, 255, 0.06);
 
   --color-border-strong: #94a3b8;
   --color-text-primary: var(--text-main);
-  --color-text-secondary: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
   --color-status-overdue: var(--color-danger);
   --color-status-urgent: var(--color-warning);
   --color-status-warning: var(--aau-light-orange);
@@ -300,8 +304,14 @@
   --bg-placeholder: #1e293b;
   --text-main: #f8fafc;
   --text-muted: #e2e8f0;
-  --text-disabled: #64748b;
+  --text-secondary: #cbd5e1;
+  --text-disabled: #94a3b8;
+  --aau-dark-orange: #fb923c;
+  --aau-dark-pink: #f87171;
+  --aau-dark-green: #34d399;
   --border-color: #5b6a8a;
+  --color-bg-danger-tint: #2d1e22;
+  --color-bg-warning-tint: #2d271e;
   --border: #5b6a8a;
   --input: #5b6a8a;
   --color-primary: #8b81ff;
@@ -317,6 +327,7 @@
   --shadow-md: 0 8px 16px -4px rgba(0, 0, 0, 0.6), 0 4px 8px -2px rgba(139, 129, 255, 0.3);
   --shadow-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.7), 0 8px 16px -4px rgba(139, 129, 255, 0.4);
   --shadow-xl: 0 32px 64px -16px rgba(0, 0, 0, 0.8), 0 12px 24px -6px rgba(139, 129, 255, 0.4);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), 0.4);
 
   --color-event-blue-bg: rgba(56, 189, 248, 0.15);
   --color-event-blue-text: #38bdf8;
@@ -336,11 +347,11 @@
   --color-nav-active-indicator: var(--text-white);
   --color-nav-hover-bg: rgba(255, 255, 255, 0.12);
   --color-nav-text: rgba(255, 255, 255, 0.70);
-  --color-nav-active-bg: rgba(255, 255, 255, 0.18);
+  --color-nav-active-bg: rgba(255, 255, 255, 0.06);
 
   --color-border-strong: #475569;
   --color-text-primary: var(--text-main);
-  --color-text-secondary: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
   --color-status-overdue: var(--color-danger);
   --color-status-urgent: var(--color-warning);
   --color-status-warning: #f59e0b;
@@ -455,6 +466,7 @@ body {
   position: relative;
   margin-top: var(--topbar-height);
   margin-left: var(--sidebar-width);
+  padding-bottom: var(--space-xl);
   transition: margin-left var(--transition-slow) var(--transition-ease);
   box-sizing: border-box;
 }
@@ -523,6 +535,17 @@ body {
   grid-row: span var(--row-span, 1) / span var(--row-span, 1);
   min-width: 0;
   min-height: 0;
+}
+
+@media (min-width: 1200px) {
+  .resources-grid-item {
+    --span: 4 !important;
+  }
+}
+@media (max-width: 768px) {
+  .resources-grid-item {
+    --span: 12 !important;
+  }
 }
 
 .grid-container {
@@ -604,15 +627,29 @@ body {
 }
 
 @media (min-width: 768px) {
-  /* Enforce uniform widget heights */
+  /* Enforce uniform widget heights only when editing */
+  .dashboard__grid.is-editing .widget-size-small {
+    height: 180px !important;
+  }
+  .dashboard__grid.is-editing .widget-size-medium {
+    height: 260px !important;
+  }
+  .dashboard__grid.is-editing .widget-size-large {
+    height: 400px !important;
+  }
+
+  /* In normal viewing mode, heights are h-auto or have standard min-height */
   .widget-size-small {
-    height: 220px !important;
+    min-height: 140px;
+    height: auto;
   }
   .widget-size-medium {
-    height: 380px !important;
+    min-height: 220px;
+    height: auto;
   }
   .widget-size-large {
-    height: 540px !important;
+    min-height: 340px;
+    height: auto;
   }
 
   /* Make Card bodies scrollable with custom scrollbars when overflowing */
@@ -766,6 +803,25 @@ h3 {
   flex-direction: column;
 }
 
+.chat-bubble--in {
+  align-self: flex-start;
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-bottom-left-radius: 0.25rem;
+}
+
+.chat-bubble--out {
+  align-self: flex-end;
+  background-color: var(--color-primary);
+  color: #ffffff !important;
+  border-bottom-right-radius: 0.25rem;
+}
+
+.chat-bubble--out * {
+  color: #ffffff !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -891,9 +947,9 @@ textarea:focus-visible,
 select:focus-visible,
 [role="button"]:focus-visible,
 [tabindex="0"]:focus-visible {
-  outline: 2px solid var(--ring);
+  outline: 3px solid var(--color-primary);
   outline-offset: 2px;
-  box-shadow: 0 0 0 4px rgba(89, 79, 191, 0.35);
+  box-shadow: var(--shadow-focus);
 }
 
 /* Split Pane Layout Panels */
@@ -959,11 +1015,13 @@ select:focus-visible,
 
 /* --- Focus Banner Styles --- */
 .focus-banner {
-  background: linear-gradient(135deg, var(--aau-blue) 0%, #352b7a 50%, var(--aau-light-blue) 100%);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid transparent;
   border-radius: var(--radius-lg);
-  color: var(--text-white);
-  padding: 0.625rem 1rem;
-  margin-bottom: var(--space-xs);
+  color: var(--text-main);
+  padding: 0.75rem 1.25rem;
+  margin-bottom: var(--space-md);
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
@@ -1049,10 +1107,10 @@ select:focus-visible,
 }
 @media (min-width: 1025px) {
   .calendar-main-col {
-    --span: 9 !important;
+    --span: 8 !important;
   }
   .calendar-side-col {
-    --span: 3 !important;
+    --span: 4 !important;
   }
 }
 
@@ -1080,7 +1138,7 @@ select:focus-visible,
 
 /* Card border contrast reinforcement */
 .card {
-  border-color: var(--border-color) !important;
+  border: 1px solid var(--border-color) !important;
 }
 
 /* Tone down secondary elements purple theme */

@@ -1,6 +1,4 @@
 import { memo, useState, type ReactNode, type MouseEvent, useCallback } from 'react';
-
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { type LucideIcon, Star, Info, ExternalLink, User } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -8,6 +6,7 @@ import { Card } from '@/components/ui';
 import { IconCircle } from './Icon';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
+import useStore from '@/store';
 import { cn } from '@/lib/utils';
 
 export interface InfoCardProps {
@@ -16,6 +15,7 @@ export interface InfoCardProps {
   iconColor?: string
   iconSize?: number
   title: string
+  subtitle?: string
   description?: string
   action?: ReactNode
   direction?: 'row' | 'col'
@@ -34,6 +34,7 @@ const InfoCard = memo(function InfoCard({
   iconColor,
   iconSize = 48,
   title,
+  subtitle,
   description,
   action,
   direction = 'row',
@@ -45,6 +46,8 @@ const InfoCard = memo(function InfoCard({
   onStarToggle,
   helpText,
 }: InfoCardProps) {
+  const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const [showHelp, setShowHelp] = useState(false)
 
   const handleStarClick = useCallback((e: MouseEvent) => {
@@ -57,6 +60,7 @@ const InfoCard = memo(function InfoCard({
     setShowHelp(v => !v)
   }, [])
 
+
   const isClickable = !!onClick
 
   return (
@@ -64,7 +68,7 @@ const InfoCard = memo(function InfoCard({
       variant={elevated ? 'elevated' : 'default'} 
       className={cn(
         'info-card transition-all duration-300',
-        isClickable && 'hover:shadow-md hover:-translate-y-1 cursor-pointer',
+        isClickable && 'hover:shadow-md hover:-translate-y-1 cursor-pointer focus-visible:outline-none focus-visible:shadow-focus focus-visible:border-primary',
         className
       )} 
       onClick={onClick}
@@ -81,8 +85,8 @@ const InfoCard = memo(function InfoCard({
                 : 'text-disabled hover:text-primary'
             )}
             onClick={handleStarClick}
-            aria-label={isStarred ? 'Remove from favorites' : 'Add to favorites'}
-            title={isStarred ? 'Fjern fra genveje' : 'Føj til genveje'}
+            aria-label={isStarred ? t('remove_favorite') : t('add_favorite')}
+            title={isStarred ? t('remove_favorite') : t('add_favorite')}
             pill
           >
             <Star 
@@ -96,6 +100,11 @@ const InfoCard = memo(function InfoCard({
           <IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} className="shrink-0" />
           
           <Stack gap="xs" className="flex-1 min-w-0 h-full flex flex-col pr-8">
+            {subtitle && (
+              <span className="text-[10px] font-black uppercase tracking-wider text-muted/80 leading-none mb-3xs">
+                {subtitle}
+              </span>
+            )}
             <Stack direction="row" gap="xs" align="center" className="w-full">
               <Text weight="bold" size="lg" className="truncate leading-tight">{title}</Text>
               
@@ -108,7 +117,7 @@ const InfoCard = memo(function InfoCard({
                     showHelp && 'text-primary bg-bg-hover'
                   )}
                   onClick={handleHelpClick}
-                  aria-label="Help"
+                  aria-label={lang === 'da' ? 'Hjælp' : 'Help'}
                   pill
                 >
                   <Info size={16} strokeWidth={2.5} />
@@ -153,8 +162,9 @@ const InfoCard = memo(function InfoCard({
         </Stack>
 
         {isClickable && !action && (
-          <div className="absolute bottom-sm right-sm opacity-0 group-hover:opacity-40 transition-opacity duration-150">
-            <ExternalLink size={14} strokeWidth={2} className="text-muted" />
+          <div className="absolute bottom-sm right-sm opacity-40 group-hover:opacity-100 transition-opacity duration-150">
+            <ExternalLink size={16} strokeWidth={2.5} className="text-muted group-hover:text-primary" />
+            <span className="sr-only"> ({lang === 'da' ? 'åbner i et nyt vindue' : 'opens in a new window'})</span>
           </div>
         )}
       </Card.Body>
@@ -194,7 +204,7 @@ if (import.meta.vitest) {
       
       expect(screen.queryByText('Help information')).not.toBeInTheDocument()
       
-      const helpButton = screen.getByLabelText('Help')
+      const helpButton = screen.getByLabelText(/(help|hjælp)/i)
       
       // Toggle ON
       fireEvent.click(helpButton)
@@ -208,7 +218,7 @@ if (import.meta.vitest) {
       const onStarToggle = vi.fn()
       render(<InfoCard icon={User} title="Title" onStarToggle={onStarToggle} isStarred={false} />)
       
-      const starButton = screen.getByLabelText('Add to favorites')
+      const starButton = screen.getByRole('button', { name: /(add_favorite|Add to favorites|Tilføj til favoritter)/i })
       fireEvent.click(starButton)
       
       expect(onStarToggle).toHaveBeenCalled()
@@ -216,7 +226,7 @@ if (import.meta.vitest) {
   
     it('renders correctly when starred', () => {
       render(<InfoCard icon={User} title="Title" onStarToggle={() => {}} isStarred={true} />)
-      expect(screen.getByLabelText('Remove from favorites')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /(remove_favorite|Remove from favorites|Fjern fra favoritter)/i })).toBeInTheDocument()
     })
   
     it('stops propagation on star click', () => {
@@ -224,7 +234,7 @@ if (import.meta.vitest) {
       const onStarToggle = vi.fn()
       render(<InfoCard icon={User} title="Title" onClick={onClick} onStarToggle={onStarToggle} />)
       
-      const starButton = screen.getByLabelText('Add to favorites')
+      const starButton = screen.getByRole('button', { name: /(add_favorite|Add to favorites|Tilføj til favoritter)/i })
       fireEvent.click(starButton)
       
       expect(onStarToggle).toHaveBeenCalled()
@@ -235,7 +245,7 @@ if (import.meta.vitest) {
       const onClick = vi.fn()
       render(<InfoCard icon={User} title="Title" onClick={onClick} helpText="Help" />)
       
-      const helpButton = screen.getByLabelText('Help')
+      const helpButton = screen.getByLabelText(/(help|hjælp)/i)
       fireEvent.click(helpButton)
       
       expect(onClick).not.toHaveBeenCalled()

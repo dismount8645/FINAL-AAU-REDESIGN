@@ -25,6 +25,8 @@ function Messages() {
     handleSend,
     archiveContact,
     restoreContact,
+    searchQuery,
+    setSearchQuery,
   } = useMessagesState()
 
   return (
@@ -63,6 +65,8 @@ function Messages() {
             archiveContact={archiveContact}
             restoreContact={restoreContact}
             t={t}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
           />
         }
         detailHeader={

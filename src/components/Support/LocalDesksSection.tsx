@@ -52,12 +52,9 @@ function LocalDesksSection() {
             </AccordionItemRow>
           ))}
         </AccordionWrapper>
-      </Card>
-
-      <Card>
-        <section>
-          <Heading level={3} className="text-base mb-sm">{t('special_opening_hours')}</Heading>
-          <Stack gap="sm">
+        <div className="border-t border-border/40 pt-md mt-md px-md pb-xs">
+          <Heading level={3} className="text-sm font-bold mb-xs">{t('special_opening_hours')}</Heading>
+          <Stack gap="sm" className="divide-y divide-border/40 [&>div:not(:first-child)]:pt-sm">
             <div className="flex items-start gap-sm">
               <span className="shrink-0 px-2xs py-3xs text-[10px] font-bold uppercase tracking-wider rounded bg-warning/10 text-warning border border-warning/20">{t('low_service_days')}</span>
               <Text size="sm" className="text-muted">{localize(supportNotes, 'specialDays')}</Text>
@@ -71,7 +68,7 @@ function LocalDesksSection() {
               <Text size="sm" className="text-muted">{localize(supportNotes, 'christmas')}</Text>
             </div>
           </Stack>
-        </section>
+        </div>
       </Card>
 
       <Card>
@@ -80,7 +77,7 @@ function LocalDesksSection() {
           <Text size="sm" className="text-muted leading-relaxed">
             {t('it_support_comes_to_you_desc')}
           </Text>
-          <Button variant="outline" size="sm" onClick={() => window.open('https://serviceportal.aau.dk', '_blank', 'noopener,noreferrer')} className="mt-xs">
+          <Button variant="primary" size="md" onClick={() => window.open('https://serviceportal.aau.dk', '_blank', 'noopener,noreferrer')} className="mt-xs normal-case tracking-normal hover:-translate-y-1 shadow-sm">
             {t('request_assistance')}
           </Button>
         </Stack>

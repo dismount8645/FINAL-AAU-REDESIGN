@@ -4,7 +4,7 @@ import { WidgetGrid } from '@/components/Widgets/WidgetGrid';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
 import Button from '@/components/ui/Button';
-import { Settings, Check, RotateCcw, Plus, AlertCircle, ArrowRight } from 'lucide-react';
+import { Settings, Check, RotateCcw, Plus, ArrowRight } from 'lucide-react';
 import {
   Dialog,
   DialogTrigger,
@@ -34,6 +34,7 @@ function Dashboard() {
   const courses = useStore((state) => state.courses)
   const localize = useStore((state) => state.localize)
   
+  const favorites = useStore((state) => state.favorites)
   const [isEditing, setIsEditing] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [backupLayout, setBackupLayout] = useState<DashboardWidgetConfig[] | null>(null)
@@ -44,6 +45,8 @@ function Dashboard() {
         return {
           ...widget,
           visible: isChecked,
+          userModified: true,
+          pinned: isChecked
         }
       }
       return widget
@@ -51,21 +54,28 @@ function Dashboard() {
     setDashboardLayout(updated)
   }
 
-  // Filter layouts to render only the visible ones
-  const visibleWidgets = dashboardLayout.filter(w => w.visible !== false)
+  // Check if favorites is auto-hidden
+  const isFavoritesAutoHidden = useMemo(() => {
+    const favWidget = dashboardLayout.find(w => w.id === 'favorites')
+    return !isEditing && !!favWidget && favorites.length === 0 && !favWidget.userModified && !favWidget.pinned
+  }, [dashboardLayout, favorites, isEditing])
 
-  const getGreeting = () => {
-    const hours = new Date().getHours()
-    if (lang === 'en') {
-      if (hours < 12) return 'Good morning'
-      if (hours < 18) return 'Good afternoon'
-      return 'Good evening'
-    } else {
-      if (hours < 12) return 'Godmorgen'
-      if (hours < 18) return 'Goddag'
-      return 'Godaften'
-    }
-  }
+  // Filter layouts to render only the visible ones, auto-hiding empty unpinned favorites
+  const visibleWidgets = useMemo(() => {
+    return dashboardLayout
+      .filter(w => {
+        if (w.visible === false) return false
+        if (w.id === 'favorites' && isFavoritesAutoHidden) return false
+        return true
+      })
+      .map(w => {
+        // Auto-expand Messages to medium when Favorites is hidden and Messages is alone in right col
+        if (w.id === 'messages' && isFavoritesAutoHidden && w.size === 'small') {
+          return { ...w, size: 'medium' as const, span: 8 }
+        }
+        return w
+      })
+  }, [dashboardLayout, isFavoritesAutoHidden])
 
   const urgentItems = useMemo(() => {
     // 1. Assignments
@@ -179,7 +189,7 @@ function Dashboard() {
       className="dashboard-page relative"
       pageKey="dashboard"
       title={t('dashboard.title')}
-      subtitle={`${getGreeting()}, ${firstName}! ${t('dashboard.subtitle')}`}
+      subtitle={t('dashboard.subtitle')}
       flat
       gap="sm"
       actionsAlign="center"
@@ -214,18 +224,29 @@ function Dashboard() {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col gap-sm my-xs">
-                    {dashboardLayout.map((widget) => (
-                      <div key={widget.id} className="flex items-center justify-between py-xs border-b border-[var(--border-color)]/30 last:border-b-0">
-                        <label htmlFor={`widget-checkbox-${widget.id}`} className="text-xs font-bold text-main cursor-pointer select-none">
-                          {t(`dashboard.widget_${widget.id}`)}
-                        </label>
-                        <Checkbox
-                          id={`widget-checkbox-${widget.id}`}
-                          checked={widget.visible !== false}
-                          onChange={(e) => handleToggleWidget(widget.id, e.target.checked)}
-                        />
-                      </div>
-                    ))}
+                    {dashboardLayout.map((widget) => {
+                      const isFavoritesEmpty = widget.id === 'favorites' && favorites.length === 0;
+                      const isAutoHidden = isFavoritesEmpty && !widget.userModified && !widget.pinned;
+                      return (
+                        <div key={widget.id} className="flex items-center justify-between py-xs border-b border-[var(--border-color)]/30 last:border-b-0">
+                          <div className="flex flex-col gap-3xs">
+                            <label htmlFor={`widget-checkbox-${widget.id}`} className="text-xs font-bold text-main cursor-pointer select-none">
+                              {t(`dashboard.widget_${widget.id}`)}
+                            </label>
+                            {isFavoritesEmpty && isAutoHidden && (
+                              <span className="text-[11px] text-text-muted italic">
+                                {lang === 'da' ? 'Skjult fordi der ikke er valgt favoritter' : 'Hidden because no favorites chosen'}
+                              </span>
+                            )}
+                          </div>
+                          <Checkbox
+                            id={`widget-checkbox-${widget.id}`}
+                            checked={widget.visible !== false}
+                            onChange={(e) => handleToggleWidget(widget.id, e.target.checked)}
+                          />
+                        </div>
+                      );
+                    })}
                   </div>
                   <DialogFooter>
                     <DialogClose render={
@@ -285,54 +306,52 @@ function Dashboard() {
       <div className="dashboard-content-wrapper w-full pb-[var(--space-xl)] pt-2xs">
         {!isEditing && urgentItem && (
           <div
-            className="focus-banner animate-fade-in border-l-4"
-            style={{ borderLeftColor: urgentItem.info.color }}
+            className="focus-banner animate-fade-in border-l-4 p-md sm:p-lg sm:px-xl flex flex-col md:flex-row md:items-center justify-between gap-md md:gap-lg"
+            style={{ 
+              borderLeftColor: urgentItem.info.color,
+              backgroundColor: urgentItem.info.urgency === 'overdue' ? 'var(--color-bg-danger-tint)' : 'var(--color-bg-warning-tint)'
+            }}
             data-testid="focus-banner"
           >
-            <div className="flex items-center gap-md min-w-0 flex-1">
-              <div className="p-2 rounded-full shrink-0" style={{ backgroundColor: `${urgentItem.info.color}15`, color: urgentItem.info.color }}>
-                <AlertCircle size={20} strokeWidth={2.5} />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-xs flex-wrap text-xs font-semibold text-text-muted">
-                  <span style={{ color: urgentItem.info.color }} className="font-extrabold uppercase tracking-wider text-[10px]">
-                    {urgentItem.type === 'assignment'
-                      ? (urgentItem.info.urgency === 'overdue'
-                          ? (lang === 'da' ? 'Overskredet aflevering' : 'Overdue assignment')
-                          : (lang === 'da' ? 'Vigtig aflevering' : 'Important assignment'))
-                      : (lang === 'da' ? 'Vigtig begivenhed' : 'Important event')}
-                  </span>
-                  <span>·</span>
-                  <span className="truncate max-w-[200px]">{urgentItem.courseTitle}</span>
-                  <span>·</span>
-                  <span className="font-bold">{urgentItem.info.label}</span>
-                </div>
-                <h3 className="text-sm font-extrabold text-main mt-3xs mb-0 truncate">
-                  {urgentItem.title}
-                </h3>
+            <div className="flex flex-col md:flex-row md:items-center gap-md md:gap-xl flex-1 min-w-0">
+              <div className="flex flex-col items-start min-w-0 md:max-w-xs lg:max-w-md w-full md:w-auto">
+                <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-sm" style={{ backgroundColor: urgentItem.info.color, color: (urgentItem.info.urgency === 'tomorrow' || urgentItem.info.urgency === 'soon') ? '#211a52' : '#ffffff' }}>
+                  {lang === 'da' ? 'Vigtig aflevering' : 'Important assignment'}
+                </span>
+                <span className="text-xs font-semibold text-text-secondary block mt-xs">{urgentItem.courseTitle}</span>
+                <h3 className="text-base sm:text-lg font-bold text-main mt-2xs mb-0 truncate leading-snug w-full">{urgentItem.title}</h3>
+                <span className="text-xs text-text-secondary block mt-xs font-medium">
+                  {urgentItem.info.dateLabel}
+                </span>
+                <span className="text-sm font-extrabold block mt-3xs" style={{ color: urgentItem.info.color }}>
+                  {lang === 'da' ? 'Frist:' : 'Due:'} {urgentItem.info.relativeLabel}
+                </span>
                 {/* Hidden text helper to satisfy test expectations checking for name Jacob inside focus-banner */}
                 <span className="sr-only">Hej {firstName}</span>
               </div>
             </div>
-            <div className="flex items-center gap-sm shrink-0 flex-wrap">
-              {extraUrgentCount > 0 && (
-                <button
-                  type="button"
-                  onClick={() => navigate(PATHS.CALENDAR)}
-                  className="text-xs font-bold text-primary hover:underline cursor-pointer"
+
+            <div className="flex justify-end w-full md:w-auto shrink-0">
+              <div className="flex items-center gap-sm shrink-0 flex-wrap min-h-[44px] justify-end w-full md:w-auto">
+                {extraUrgentCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => navigate(PATHS.CALENDAR)}
+                    className="text-xs font-bold text-primary hover:underline cursor-pointer min-h-[44px] flex items-center"
+                  >
+                    {t('dashboard.more_urgent_assignments').replace('{count}', String(extraUrgentCount))}
+                  </button>
+                )}
+                <Button
+                  variant="primary"
+                  size="sm"
+                  iconRight={ArrowRight}
+                  className="font-bold shrink-0 min-h-[44px] whitespace-nowrap px-md text-sm"
+                  onClick={() => navigate(PATHS.SUBMISSION(urgentItem.courseId, urgentItem.id))}
                 >
-                  {t('dashboard.more_urgent_assignments').replace('{count}', String(extraUrgentCount))}
-                </button>
-              )}
-              <Button
-                variant="primary"
-                size="sm"
-                className="font-bold flex items-center gap-2xs shrink-0"
-                onClick={() => navigate(PATHS.SUBMISSION(urgentItem.courseId, urgentItem.id))}
-              >
-                <span>{lang === 'da' ? `Åbn ${urgentItem.title}` : `Open ${urgentItem.title}`}</span>
-                <ArrowRight size={14} strokeWidth={2.5} />
-              </Button>
+                  {lang === 'da' ? `Åbn ${urgentItem.title}` : `Open ${urgentItem.title}`}
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -345,6 +364,7 @@ function Dashboard() {
           widgets={visibleWidgets}
           isEditing={isEditing}
           onLayoutChange={setDashboardLayout}
+          hideFirstDeadline={!isEditing && !!urgentItem}
         />
       </div>
 

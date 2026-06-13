@@ -215,6 +215,8 @@ export interface DeadlineInfo {
   label: string
   urgency: 'overdue' | 'today' | 'tomorrow' | 'soon' | 'later'
   color: string
+  relativeLabel?: string
+  dateLabel?: string
 }
 
 export function getDeadlineInfo(dateInput: string | Date, lang: Lang, now = new Date()): DeadlineInfo {
@@ -226,8 +228,7 @@ export function getDeadlineInfo(dateInput: string | Date, lang: Lang, now = new 
   const todayDateObj = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const targetDateObj = new Date(target.getFullYear(), target.getMonth(), target.getDate())
 
-  const diffTime = targetDateObj.getTime() - todayDateObj.getTime()
-  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24))
+  const diffDays = Math.round((targetDateObj.getTime() - todayDateObj.getTime()) / (1000 * 60 * 60 * 24))
 
   const hoursUntil = (targetTime - nowTime) / (1000 * 60 * 60)
 
@@ -252,19 +253,22 @@ export function getDeadlineInfo(dateInput: string | Date, lang: Lang, now = new 
   const timeStr = `${hh}:${mm}`
 
   const weekdayAndTime = lang === 'da' ? `${dayName} kl. ${timeStr}` : `${dayName} at ${timeStr}`
+  const monthDay = target.toLocaleDateString(lang === 'da' ? 'da-DK' : 'en-US', { day: 'numeric', month: 'short' })
+  const relativeLabel = urgency === 'overdue'
+    ? (lang === 'da' ? 'Overskredet' : 'Overdue')
+    : urgency === 'today'
+    ? (lang === 'da' ? 'I dag' : 'Today')
+    : urgency === 'tomorrow'
+    ? (lang === 'da' ? 'I morgen' : 'Tomorrow')
+    : (lang === 'da' ? `Om ${diffDays} dage` : `In ${diffDays} days`);
 
-  let label = ''
-  if (urgency === 'overdue') {
-    label = lang === 'da' ? `Overskredet · ${weekdayAndTime}` : `Overdue · ${weekdayAndTime}`
-  } else if (urgency === 'today') {
-    label = lang === 'da' ? `I dag · kl. ${timeStr}` : `Today · at ${timeStr}`
-  } else if (urgency === 'tomorrow') {
-    label = lang === 'da' ? `I morgen · kl. ${timeStr}` : `Tomorrow · at ${timeStr}`
-  } else if (urgency === 'soon') {
-    label = lang === 'da' ? `Snart · ${weekdayAndTime}` : `Soon · ${weekdayAndTime}`
-  } else {
-    label = weekdayAndTime
-  }
+  const dateLabel = (urgency === 'today' || urgency === 'tomorrow')
+    ? (lang === 'da' ? `kl. ${timeStr}` : `at ${timeStr}`)
+    : (lang === 'da' ? `${dayName} ${monthDay} kl. ${timeStr}` : `${dayName}, ${monthDay} at ${timeStr}`);
+
+  const label = urgency === 'overdue'
+    ? (lang === 'da' ? `Overskredet · ${weekdayAndTime}` : `Overdue · ${weekdayAndTime}`)
+    : `${relativeLabel} · ${dateLabel}`;
 
   // Color mapping
   let color = ''
@@ -278,7 +282,7 @@ export function getDeadlineInfo(dateInput: string | Date, lang: Lang, now = new 
     color = 'var(--color-status-neutral)'
   }
 
-  return { label, urgency, color }
+  return { label, urgency, color, relativeLabel, dateLabel }
 }
 
 if (import.meta.vitest) {
@@ -553,14 +557,14 @@ if (import.meta.vitest) {
       const soon = new Date('2026-06-13T09:00:00') // in 45 hours (Saturday)
       const info4 = getDeadlineInfo(soon, 'da', now)
       expect(info4.urgency).toBe('soon')
-      expect(info4.label).toContain('Snart · Lørdag kl. 09:00')
+      expect(info4.label).toContain('Om 2 dage · Lørdag 13. jun. kl. 09:00')
       expect(info4.color).toBe('var(--color-status-warning)')
 
       // Later
       const later = new Date('2026-06-15T09:00:00') // Monday next week
       const info5 = getDeadlineInfo(later, 'en', now)
       expect(info5.urgency).toBe('later')
-      expect(info5.label).toBe('Monday at 09:00')
+      expect(info5.label).toBe('In 4 days · Monday, Jun 15 at 09:00')
       expect(info5.color).toBe('var(--color-status-neutral)')
     })
   })

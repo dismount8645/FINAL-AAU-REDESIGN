@@ -20,12 +20,14 @@ const DashboardWidgetItemSchema = z.object({
   y: z.number().optional(),
   w: z.number().optional(),
   h: z.number().optional(),
+  userModified: z.boolean().optional(),
+  pinned: z.boolean().optional(),
 })
 
 export const PersistedStateSchema = z.object({
   theme: z.enum(['system', 'light', 'dark']).catch('system'),
   lang: z.enum(['da', 'en']).catch('da'),
-  isCollapsed: z.boolean().catch(false),
+  isCollapsed: z.boolean().catch(true),
   courseProgress: z.record(z.string(), z.array(z.number())).catch({}),
   calendarEvents: z.record(z.string(), z.unknown()).catch({}),
   favorites: z.array(FavoriteItemSchema).catch([]),
@@ -45,13 +47,13 @@ export const PersistedStateSchema = z.object({
   messageEmailOffline: z.boolean().catch(true),
   dashboardLayout: z.array(DashboardWidgetItemSchema).catch([
     { id: 'deadlines', title: 'Seneste afleveringer', visible: true, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
-    { id: 'quickOverview', title: 'Hurtig oversigt', visible: true, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'messages', title: 'Beskeder', visible: true, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'calendar', title: 'Kalender', visible: true, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
     { id: 'favorites', title: 'Favoritter', visible: true, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
-    { id: 'support', title: 'ITS Support', visible: true, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
-    { id: 'forumActivity', title: 'Forum aktivitet', visible: true, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
-    { id: 'messages', title: 'Beskeder', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
-    { id: 'calendar', title: 'Kalender', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
     { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'forumActivity', title: 'Forum aktivitet', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'support', title: 'ITS Support', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+    { id: 'quickOverview', title: 'Dagens program', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
   ]),
 })
 

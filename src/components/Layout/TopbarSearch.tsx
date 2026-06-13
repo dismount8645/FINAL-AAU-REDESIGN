@@ -39,6 +39,14 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
 
   const searchRef = useRef<HTMLDivElement>(null);
 
+  const isCollapsedPage = useMemo(() => {
+    return ['/courses', '/resources', '/messages', '/notifications'].some(path =>
+      location.pathname.startsWith(path)
+    );
+  }, [location.pathname]);
+
+  const shouldShowSearchInput = !isMobile || isMobileExpanded;
+
   // Responsive check
   useEffect(() => {
     const handleResize = () => {
@@ -322,7 +330,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
 
   return (
     <>
-      {(!isMobile || isMobileExpanded) && (
+      {shouldShowSearchInput && (
         <div 
           className={cn(
             "topbar__search-wrapper flex flex-1 justify-center px-xl z-[var(--z-topbar-search,1002)] min-w-0 transition-all duration-150",
@@ -330,7 +338,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
           )}
           onBlur={handleContainerBlur}
         >
-          <div className="search-container-relative relative w-full max-w-[clamp(280px,32vw,420px)]" ref={searchRef}>
+          <div className="search-container-relative relative w-full max-w-[clamp(300px,30vw,480px)]" ref={searchRef}>
             <SearchInput
               value={searchQuery}
               onChange={(val) => {
@@ -339,7 +347,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               }}
               onFocus={() => setIsDropdownVisible(true)}
               onKeyDown={handleSearchEnter}
-              placeholder={isMobile ? (lang === 'da' ? 'Søg...' : 'Search...') : (lang === 'da' ? 'Søg efter fag, afleveringer, beskeder eller indhold...' : 'Search for courses, assignments, messages or content...')}
+              placeholder={isMobile ? (lang === 'da' ? 'Søg...' : 'Search...') : (lang === 'da' ? 'Søg i fag, afleveringer og beskeder...' : 'Search courses, assignments and messages...')}
               className="topbar__search-input-wrapper w-full"
               role="combobox"
               aria-expanded={isDropdownVisible}
@@ -447,7 +455,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                         {/* Courses */}
                         {groupedResults.courses.length > 0 && (
                           <div className="category-group border-b border-border/30 pb-2xs">
-                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-[9px] font-bold text-text-muted uppercase tracking-wider">
+                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-xs font-bold text-text-muted uppercase tracking-wider">
                               {lang === 'da' ? 'Kurser' : 'Courses'}
                             </div>
                             {groupedResults.courses.map((course) => {
@@ -471,7 +479,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                                     </div>
                                     <div className="flex flex-col min-w-0">
                                       <span className="text-xs font-semibold text-main truncate">{lang === 'da' ? course.title : course.titleEn}</span>
-                                      <span className="text-[10px] text-muted font-medium">{course.code}</span>
+                                      <span className="text-xs text-text-muted font-medium">{course.code}</span>
                                     </div>
                                   </div>
                                   <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 shrink-0 ml-xs" />
@@ -484,7 +492,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                         {/* Assignments */}
                         {groupedResults.assignments.length > 0 && (
                           <div className="category-group border-b border-border/30 pb-2xs">
-                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-[9px] font-bold text-text-muted uppercase tracking-wider">
+                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-xs font-bold text-text-muted uppercase tracking-wider">
                               {lang === 'da' ? 'Afleveringer' : 'Assignments'}
                             </div>
                             {groupedResults.assignments.map((assignment) => {
@@ -508,7 +516,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                                     </div>
                                     <div className="flex flex-col min-w-0">
                                       <span className="text-xs font-semibold text-main truncate">{lang === 'da' ? assignment.titleDa : assignment.titleEn}</span>
-                                      <span className="text-[10px] text-muted font-medium">{lang === 'da' ? 'Afleveringsopgave' : 'Assignment'}</span>
+                                      <span className="text-xs text-text-muted font-medium">{lang === 'da' ? 'Afleveringsopgave' : 'Assignment'}</span>
                                     </div>
                                   </div>
                                   <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 shrink-0 ml-xs" />
@@ -521,7 +529,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                         {/* Messages */}
                         {groupedResults.messages.length > 0 && (
                           <div className="category-group border-b border-border/30 pb-2xs">
-                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-[9px] font-bold text-text-muted uppercase tracking-wider">
+                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-xs font-bold text-text-muted uppercase tracking-wider">
                               {lang === 'da' ? 'Beskeder' : 'Messages'}
                             </div>
                             {groupedResults.messages.map((thread) => {
@@ -545,7 +553,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                                     </div>
                                     <div className="flex flex-col min-w-0">
                                       <span className="text-xs font-semibold text-main truncate">{lang === 'da' ? (thread.nameDa || thread.name) : (thread.nameEn || thread.name)}</span>
-                                      <span className="text-[10px] text-muted font-medium truncate">{lang === 'da' ? thread.msgDa : thread.msgEn}</span>
+                                      <span className="text-xs text-text-muted font-medium truncate">{lang === 'da' ? thread.msgDa : thread.msgEn}</span>
                                     </div>
                                   </div>
                                   <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 shrink-0 ml-xs" />
@@ -558,7 +566,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                         {/* Calendar */}
                         {groupedResults.calendar.length > 0 && (
                           <div className="category-group border-b border-border/30 pb-2xs">
-                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-[9px] font-bold text-text-muted uppercase tracking-wider">
+                            <div className="category-header p-xs px-md bg-bg-highlight/40 text-xs font-bold text-text-muted uppercase tracking-wider">
                               {lang === 'da' ? 'Kalender' : 'Calendar'}
                             </div>
                             {groupedResults.calendar.map((evt) => {
@@ -582,7 +590,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
                                     </div>
                                     <div className="flex flex-col min-w-0">
                                       <span className="text-xs font-semibold text-main truncate">{lang === 'da' ? (evt.titleDa || evt.title) : (evt.titleEn || evt.title)}</span>
-                                      <span className="text-[10px] text-muted font-medium truncate">{evt.time} · {evt.location}</span>
+                                      <span className="text-xs text-text-muted font-medium truncate">{evt.time} · {evt.location}</span>
                                     </div>
                                   </div>
                                   <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 shrink-0 ml-xs" />
@@ -622,7 +630,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               </div>
             )}
           </div>
-          {isMobile && (
+          {(isMobile || isCollapsedPage) && (
             <Button
               variant="ghost"
               size="sm"

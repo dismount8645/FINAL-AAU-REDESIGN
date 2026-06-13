@@ -1,6 +1,7 @@
 import Dashboard from './Dashboard'
 import { fireEvent, act, screen } from '@testing-library/react'
 import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest'
+import useStore from '../store'
 
 vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
@@ -19,6 +20,9 @@ describe('Dashboard Page', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     vi.clearAllMocks()
     localStorage.clear()
+    useStore.setState({
+      favorites: [{ id: 'fav-1', type: 'course', entityId: 1, addedAt: Date.now(), order: 1 }]
+    })
   })
 
   afterEach(() => {
@@ -39,7 +43,7 @@ describe('Dashboard Page', () => {
     act(() => {
       vi.advanceTimersByTime(400)
     })
-    expect(screen.getByText('Næste aflevering')).toBeInTheDocument()
+    expect(screen.getByText(/Næste aflevering/i)).toBeInTheDocument()
     expect(screen.getByText('Favoritter')).toBeInTheDocument()
     expect(screen.getByText('Beskeder')).toBeInTheDocument()
     expect(screen.getByText('Kalender')).toBeInTheDocument()
@@ -54,7 +58,7 @@ describe('Dashboard Page', () => {
     expect(editBtn).toBeInTheDocument()
     
     fireEvent.click(editBtn)
-    expect(screen.getByText(/Træk widgets for at omarrangere/i)).toBeInTheDocument()
+    expect(screen.getByText(/Tilpas dashboardet/i)).toBeInTheDocument()
     
     const doneBtn = screen.getByText('Færdig')
     expect(doneBtn).toBeInTheDocument()

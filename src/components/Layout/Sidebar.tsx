@@ -10,12 +10,13 @@ export default function Sidebar() {
   const t = useStore(state => state.t);
   const isCollapsed = useStore(state => state.isCollapsed);
   const setCollapsed = useStore(state => state.setCollapsed);
+  const lang = useStore(state => state.lang);
   const location = useLocation();
 
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 1280 : true);
-
+  
   const sidebarRef = useRef<HTMLElement>(null);
   const wasOpen = useRef(false);
 
@@ -175,7 +176,7 @@ export default function Sidebar() {
         </div>
 
         <nav className="flex flex-col p-0 flex-1 overflow-hidden">
-          <div className="flex flex-col p-sm gap-2xs flex-1 overflow-hidden">
+          <div className="flex flex-col p-sm gap-2xs overflow-hidden">
             <NavItem to="/" icon={House} label={t('dashboard')} collapsed={!isExpanded} onClick={handleNavItemClick} />
             <NavItem to="/calendar" icon={CalendarDays} label={t('calendar')} collapsed={!isExpanded} onClick={handleNavItemClick} />
             <NavItem to="/favorites" icon={Star} label={t('favorites')} collapsed={!isExpanded} onClick={handleNavItemClick} />
@@ -183,7 +184,14 @@ export default function Sidebar() {
             <NavItem to="/resources" icon={Wrench} label={t('resources')} collapsed={!isExpanded} onClick={handleNavItemClick} />
           </div>
 
-          <div className={`flex flex-col p-sm pt-0 gap-2xs border-t border-white/10 pb-xl ${!isExpanded ? 'items-center' : ''}`}>
+          <div className={`flex flex-col p-sm pt-xs gap-2xs border-t border-white/10 pb-xl ${!isExpanded ? 'items-center' : ''}`}>
+            {!isExpanded ? (
+              <div className="w-8 h-px bg-white/10 my-xs shrink-0" aria-hidden="true" />
+            ) : (
+              <div className="text-[10px] font-extrabold text-white/40 uppercase tracking-wider px-sm mb-xs mt-2xs shrink-0 select-none">
+                {lang === 'da' ? 'Support & Indstillinger' : 'Support & Settings'}
+              </div>
+            )}
             <NavItem to="/support" icon={CircleHelp} label={t('support')} collapsed={!isExpanded} dimmed onClick={handleNavItemClick} />
             <NavItem to="/settings" icon={Settings} label={t('settings')} collapsed={!isExpanded} dimmed onClick={handleNavItemClick} />
           </div>
@@ -209,12 +217,12 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride, 
       to={to}
       end={to === '/'}
       onClick={onClick}
+      aria-label={label}
       className={({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
         const opacityClass = dimmed ? 'opacity-70' : '';
         return `nav-item group relative flex items-center gap-[6px] p-sm h-[var(--space-3xl)] min-h-[var(--space-3xl)] no-underline rounded-md cursor-pointer text-left w-full focus-visible:outline-none ${active ? 'active' : ''} ${collapsed ? 'justify-center !px-0' : ''} ${opacityClass}`;
       }}
-      title={collapsed ? label : undefined}
     >
       {({ isActive }) => {
         const active = isActiveOverride !== undefined ? isActiveOverride : isActive;
@@ -222,6 +230,14 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride, 
           <>
             <Icon size={20} strokeWidth={2.5} className={`shrink-0 transition-transform duration-150 ease-[var(--transition-ease)] ${active ? 'scale-110 translate-x-1' : 'group-hover:scale-110'}`} />
             {!collapsed && <span className="whitespace-nowrap transition-opacity duration-150 tracking-tight text-sm">{label}</span>}
+            {collapsed && (
+              <span 
+                className="sidebar-tooltip absolute left-[calc(100%+8px)] top-1/2 -translate-y-1/2 px-xs py-3xs bg-slate-900 dark:bg-slate-800 text-white text-xs font-semibold rounded-md shadow-md opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-150 pointer-events-none whitespace-nowrap z-50 border border-white/10"
+                role="tooltip"
+              >
+                {label}
+              </span>
+            )}
           </>
         );
       }}

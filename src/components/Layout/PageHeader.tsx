@@ -1,7 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 
 
-import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import useStore, { type BreadcrumbItem } from '@/store';
 import { cn } from '@/lib/utils';
@@ -72,40 +71,42 @@ export default function PageHeader({
         }}
       />
       <div className="page-header-content w-full px-[var(--space-md)]">
-        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-md md:gap-xl w-full">
-          <Stack gap="xs" className="flex-1 min-w-0">
-            {children}
-            <Heading
-              level={1}
-              {...titleProps}
-              className={cn(
-                "page-header-title m-0 text-wrap break-words sm:text-balance text-2xl sm:text-3xl font-extrabold",
-                titleProps?.className
-              )}
-            >
-              {headerLabel}
-            </Heading>
-            {subtitle && (
-              <Text size="base" muted className="page-header-subtitle m-0">
-                {subtitle}
-              </Text>
-            )}
-          </Stack>
-          {actions && (
-            <div
-              className={cn(
-                'page-header-actions flex flex-wrap gap-sm w-full md:w-auto md:justify-end',
-                {
-                  'md:items-start': actionsAlign === 'start',
-                  'md:items-center': actionsAlign === 'center',
-                  'md:items-end': actionsAlign === 'end',
-                  'md:items-stretch': actionsAlign === 'stretch',
-                  'md:items-baseline': actionsAlign === 'baseline',
-                }
-              )}
-            >
-              {actions}
+        <div className="flex flex-col gap-xs w-full">
+          <div className="flex flex-row justify-between items-center gap-md w-full">
+            <div className="flex-1 min-w-0">
+              {children}
+              <Heading
+                level={1}
+                {...titleProps}
+                className={cn(
+                  "page-header-title m-0 text-wrap break-words sm:text-balance text-2xl sm:text-3xl font-extrabold",
+                  titleProps?.className
+                )}
+              >
+                {headerLabel}
+              </Heading>
             </div>
+            {actions && (
+              <div
+                className={cn(
+                  'page-header-actions flex flex-wrap gap-sm justify-end shrink-0',
+                  {
+                    'items-start md:items-start': actionsAlign === 'start',
+                    'items-center md:items-center': actionsAlign === 'center',
+                    'items-end md:items-end': actionsAlign === 'end',
+                    'items-stretch md:items-stretch': actionsAlign === 'stretch',
+                    'items-baseline md:items-baseline': actionsAlign === 'baseline',
+                  }
+                )}
+              >
+                {actions}
+              </div>
+            )}
+          </div>
+          {subtitle && (
+            <Text size="base" muted className="page-header-subtitle m-0 w-full text-balance">
+              {subtitle}
+            </Text>
           )}
         </div>
       </div>

@@ -3,7 +3,7 @@ import { MessageSquare, Archive, Undo2 } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
-import { Heading, Text, MasterItem } from '@/components/ui'
+import { Heading, Text, MasterItem, SearchInput } from '@/components/ui'
 import { EmptyState } from '@/components/ui'
 import { Avatar } from '@/components/ui'
 import type { Contact } from '@/lib/types'
@@ -16,6 +16,8 @@ interface ChatSidebarProps {
   archiveContact: (id: number, e: MouseEvent) => void
   restoreContact: (id: number, e: MouseEvent) => void
   t: (key: string) => string
+  searchQuery: string
+  setSearchQuery: (query: string) => void
 }
 
 export function ChatSidebar({
@@ -26,9 +28,20 @@ export function ChatSidebar({
   archiveContact,
   restoreContact,
   t,
+  searchQuery,
+  setSearchQuery,
 }: ChatSidebarProps) {
   return (
-    <Card className="h-full w-full border-none shadow-none rounded-none bg-transparent">
+    <Card className="h-full w-full border-none shadow-none rounded-none bg-transparent flex flex-col">
+      <div className="p-sm pb-xs border-b border-border/40 bg-bg-card shrink-0">
+        <SearchInput
+          value={searchQuery}
+          onChange={setSearchQuery}
+          onClear={() => setSearchQuery('')}
+          placeholder={t('search_placeholder') || 'Søg...'}
+        />
+      </div>
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
       {filteredContacts.length > 0 ? (
         filteredContacts.map((contact) => (
           <MasterItem
@@ -91,6 +104,7 @@ export function ChatSidebar({
       ) : (
         <EmptyState icon={MessageSquare} title={t('no_messages_found')} />
       )}
+      </div>
     </Card>
   )
 }
