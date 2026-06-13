@@ -51,6 +51,8 @@ export interface DashboardWidgetConfig {
   y?: number;
   w?: number;
   h?: number;
+  userModified?: boolean;
+  pinned?: boolean;
 }
 
 function applySidebarClasses(isCollapsed: boolean) {
@@ -66,7 +68,7 @@ if (import.meta.vitest) {
     const createMockAppState = () => {
       const state: Partial<AppState> = {
         theme: 'system' as Theme, lang: 'da' as Lang, isDarkMode: computeIsDarkMode('system'),
-        isCollapsed: false,
+        isCollapsed: true,
         notificationCount: 2, messageCount: 1, breadcrumbs: [],
         t: (key: string) => key,
       };
@@ -86,7 +88,7 @@ if (import.meta.vitest) {
       const { ui } = createMockAppState();
       expect(ui.theme).toBe('system');
       expect(ui.lang).toBe('da');
-      expect(ui.isCollapsed).toBe(false);
+      expect(ui.isCollapsed).toBe(true);
       expect(ui.notificationCount).toBe(2);
       expect(ui.messageCount).toBe(1);
       expect(ui.breadcrumbs).toEqual([]);
@@ -145,11 +147,11 @@ if (import.meta.vitest) {
 
     it('toggleSidebar toggles isCollapsed', () => {
       const { state, ui } = createMockAppState();
-      expect(state.isCollapsed).toBe(false);
-      ui.toggleSidebar();
       expect(state.isCollapsed).toBe(true);
       ui.toggleSidebar();
       expect(state.isCollapsed).toBe(false);
+      ui.toggleSidebar();
+      expect(state.isCollapsed).toBe(true);
     });
 
     it('closeSidebar collapses sidebar', () => {
@@ -260,7 +262,7 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
     return '';
   },
 
-  isCollapsed: false,
+  isCollapsed: true,
   setCollapsed: (collapsed) => {
     set({ isCollapsed: collapsed });
     applySidebarClasses(collapsed);
@@ -307,7 +309,7 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
     { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
     { id: 'forumActivity', title: 'Forum aktivitet', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
     { id: 'support', title: 'ITS Support', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
-    { id: 'quickOverview', title: 'Hurtig oversigt', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+    { id: 'quickOverview', title: 'Dagens program', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
   ],
   setDashboardLayout: (layout) => set({ dashboardLayout: layout }),
   resetDashboardLayout: () => set({
@@ -319,7 +321,7 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
       { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
       { id: 'forumActivity', title: 'Forum aktivitet', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
       { id: 'support', title: 'ITS Support', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
-      { id: 'quickOverview', title: 'Hurtig oversigt', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+      { id: 'quickOverview', title: 'Dagens program', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
     ]
   }),
 });

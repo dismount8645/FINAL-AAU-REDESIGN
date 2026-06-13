@@ -53,7 +53,7 @@ const ForumActivityWidget = ({ size = 'medium' }: WidgetProps) => {
           <Button
             variant="ghost"
             size="sm"
-            className="font-black uppercase tracking-widest text-primary"
+            className="font-black uppercase tracking-widest text-primary h-[44px] min-h-[44px] flex items-center"
             onClick={handleViewAll}
             iconRight={ChevronRight}
             aria-label={lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}

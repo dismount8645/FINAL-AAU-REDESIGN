@@ -47,26 +47,26 @@ export function SplitLayout({
   }, []);
 
   const listPanel = (
-    <div className="flex flex-col h-full min-h-0 overflow-hidden">
+    <div className={cn("flex flex-col min-h-0", fullHeight ? "h-full overflow-hidden" : "h-auto overflow-visible")}>
       {listHeader && (
         <div className="sticky top-0 z-10 shrink-0 bg-bg-card border-b border-border">
           {listHeader}
         </div>
       )}
-      <div className="flex-1 overflow-y-auto custom-scrollbar min-h-0">
+      <div className={cn("min-h-0", fullHeight ? "flex-1 overflow-y-auto custom-scrollbar" : "h-auto overflow-visible")}>
         {sidebar}
       </div>
     </div>
   )
 
   const detailPanel = (
-    <div className="flex flex-col h-full min-h-0 overflow-hidden">
+    <div className={cn("flex flex-col min-h-0", fullHeight ? "h-full overflow-hidden" : "h-auto overflow-visible")}>
       {detailHeader && (
         <div className="sticky top-0 z-10 shrink-0 bg-bg-card border-b border-border">
           {detailHeader}
         </div>
       )}
-      <div className="flex-1 overflow-y-auto custom-scrollbar min-h-0">
+      <div className={cn("min-h-0", fullHeight ? "flex-1 overflow-y-auto custom-scrollbar" : "h-auto overflow-visible")}>
         {main}
       </div>
     </div>
@@ -74,7 +74,7 @@ export function SplitLayout({
 
   const containerClasses = cn(
     'animate-fade-in',
-    fullHeight && 'h-[calc(100vh-var(--topbar-height)-var(--space-2xl))] min-h-0 overflow-hidden',
+    fullHeight ? 'h-[calc(100vh-var(--topbar-height)-var(--space-2xl))] min-h-0 overflow-hidden' : 'h-auto overflow-visible',
     className
   );
 
@@ -82,17 +82,17 @@ export function SplitLayout({
     <div className={containerClasses}>
       {/* Desktop Layout - Rendered only when not on mobile to prevent DOM duplication in tests */}
       {!isMobile && (
-        <div className="hidden md:block h-full">
-          <Grid columns={12} gap="lg" className="h-full">
+        <div className={cn("hidden md:block", fullHeight ? "h-full" : "h-auto")}>
+          <Grid columns={12} gap="lg" className={fullHeight ? "h-full" : "h-auto"}>
             {sidebarPosition === 'left' ? (
               <>
-                <Grid.Item span={sidebarSpan} className="min-w-0 h-full">{listPanel}</Grid.Item>
-                <Grid.Item span={mainSpan} className="min-w-0 h-full">{detailPanel}</Grid.Item>
+                <Grid.Item span={sidebarSpan} className={cn("min-w-0", fullHeight ? "h-full" : "h-auto")}>{listPanel}</Grid.Item>
+                <Grid.Item span={mainSpan} className={cn("min-w-0", fullHeight ? "h-full" : "h-auto")}>{detailPanel}</Grid.Item>
               </>
             ) : (
               <>
-                <Grid.Item span={mainSpan} className="min-w-0 h-full">{detailPanel}</Grid.Item>
-                <Grid.Item span={sidebarSpan} className="min-w-0 h-full">{listPanel}</Grid.Item>
+                <Grid.Item span={mainSpan} className={cn("min-w-0", fullHeight ? "h-full" : "h-auto")}>{detailPanel}</Grid.Item>
+                <Grid.Item span={sidebarSpan} className={cn("min-w-0", fullHeight ? "h-full" : "h-auto")}>{listPanel}</Grid.Item>
               </>
             )}
           </Grid>
@@ -101,7 +101,7 @@ export function SplitLayout({
 
       {/* Mobile Layout - Rendered only when on mobile to prevent DOM duplication in tests */}
       {isMobile && (
-        <div className="md:hidden h-full overflow-hidden relative">
+        <div className={cn("md:hidden relative", fullHeight ? "h-full overflow-hidden" : "h-auto overflow-visible")}>
           <AnimatePresence initial={false} mode="wait">
             {!isDetailVisible ? (
               <motion.div
@@ -110,7 +110,7 @@ export function SplitLayout({
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -10, opacity: 0 }}
                 transition={{ duration: 0.15, ease: 'easeInOut' }}
-                className="absolute inset-0 h-full w-full"
+                className={cn("w-full", fullHeight ? "absolute inset-0 h-full" : "relative h-auto")}
               >
                 {listPanel}
               </motion.div>
@@ -121,7 +121,7 @@ export function SplitLayout({
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: 10, opacity: 0 }}
                 transition={{ duration: 0.15, ease: 'easeInOut' }}
-                className="absolute inset-0 h-full w-full"
+                className={cn("w-full", fullHeight ? "absolute inset-0 h-full" : "relative h-auto")}
               >
                 {detailPanel}
               </motion.div>

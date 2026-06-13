@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 
 import { motion, type HTMLMotionProps } from 'framer-motion';
-import { X, type LucideIcon, BookOpen } from 'lucide-react';
+import { X, type LucideIcon, BookOpen, ChevronRight } from 'lucide-react';
 import { Link, MemoryRouter } from 'react-router-dom';
 import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
@@ -118,20 +118,27 @@ const FavoriteItem = memo(function FavoriteItem({
         </Badge>
       </div>
 
-      <Button
-        type="button"
-        size="icon-xs"
-        variant="ghost"
-        onClick={(e) => { 
-          e.stopPropagation()
-          e.preventDefault()
-          onRemove(item.type, item.entityId) 
-        }}
-        className="relative z-30 text-muted hover:text-danger hover:bg-danger/10 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-all shrink-0"
-        aria-label={(translations[lang]?.remove_favorite as string) || 'Remove from favorites'}
-      >
-        <X size={14} strokeWidth={2} />
-      </Button>
+      <div className="relative z-30 flex items-center justify-center w-6 h-6 shrink-0 ml-auto">
+        <ChevronRight 
+          size={16} 
+          strokeWidth={2.5} 
+          className="text-muted/60 absolute transition-opacity duration-150 group-hover:opacity-0" 
+        />
+        <Button
+          type="button"
+          size="icon-xs"
+          variant="ghost"
+          onClick={(e) => { 
+            e.stopPropagation()
+            e.preventDefault()
+            onRemove(item.type, item.entityId) 
+          }}
+          className="text-muted hover:text-danger hover:bg-danger/10 absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-all"
+          aria-label={(translations[lang]?.remove_favorite as string) || 'Remove from favorites'}
+        >
+          <X size={14} strokeWidth={2} />
+        </Button>
+      </div>
     </motion.div>
   )
 })

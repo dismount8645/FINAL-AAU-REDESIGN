@@ -131,7 +131,7 @@ function Courses() {
               activeTab={activeTab}
               onChange={(v) => setActiveTab(v as 'current' | 'finished' | 'upcoming')}
             />
-            <Stack className="flex-col md:flex-row md:items-center gap-sm">
+            <Stack className="flex-col md:flex-row md:items-center gap-sm w-full md:w-auto bg-bg-card/40 dark:bg-white/5 p-xs rounded-lg border border-border/20 md:border-none md:bg-transparent md:p-0">
               <SearchInput
                 placeholder={t('search_courses')}
                 value={searchQuery}
@@ -204,7 +204,7 @@ function Courses() {
             {t('enrollment_open')}
           </Badge>
           <div className="courses__promo-bg absolute right-0 top-0 bottom-0 w-[40%] opacity-30 pointer-events-none bg-cover bg-center [mask-image:linear-gradient(to_left,black,transparent)] [-webkit-mask-image:linear-gradient(to_left,black,transparent)]" style={{ backgroundImage: `url('${ASSETS.promo.student}')` }} />
-          <Card.Body className="courses__promo-body p-[var(--space-xl)]">
+          <Card.Body className="courses__promo-body p-lg">
             <Stack className="courses__promo-content relative z-[1] max-w-[var(--container-max-width)]">
               <Stack direction="row" gap="sm" align="center" className="courses__promo-badge-tag mb-[var(--space-sm)]">
                 <Badge className="inline-flex items-center gap-1.5 bg-[var(--aau-dark-orange)] text-white border-none font-bold shadow-sm">
@@ -212,13 +212,13 @@ function Courses() {
                   {t('enrollment_deadline_approaching')}
                 </Badge>
               </Stack>
-              <Heading level={2} className="courses__promo-title mb-[var(--space-md)] text-3xl font-black text-white">
+              <Heading level={2} className="courses__promo-title mb-[var(--space-md)] text-xl sm:text-2xl font-black text-white mt-xs">
                 {t('ready_for_next_semester')}
               </Heading>
-              <Text className="courses__promo-text text-white/90 text-md leading-relaxed block font-medium">
+              <Text className="courses__promo-text text-white/90 text-sm leading-relaxed block font-medium max-w-xl">
                 {t('upcoming_modules_stads_desc')}
               </Text>
-              <div className="courses__promo-action mt-[var(--space-xl)]">
+              <div className="courses__promo-action mt-md">
                 <Button
                   onClick={() => env.open('https://kursuskatalog.aau.dk')}
                   className="bg-white text-primary hover:bg-white/90 hover:-translate-y-1 border-none font-bold px-md h-10 text-xs rounded-[var(--radius-md)] shadow-sm"

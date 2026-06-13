@@ -135,7 +135,7 @@ if (import.meta.vitest) {
           <Topbar />
         </MemoryRouter>
       )
-      expect(screen.getByPlaceholderText('Søg efter fag, afleveringer, beskeder eller indhold...')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('Søg i fag, afleveringer og beskeder...')).toBeInTheDocument()
       expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0)
     })
   

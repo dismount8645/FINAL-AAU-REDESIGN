@@ -139,7 +139,7 @@ describe('useStore', () => {
     vi.resetModules()
     const mod = await import('../store')
     mod.default.getState().toggleSidebar()
-    expect(mod.default.getState().isCollapsed).toBe(true)
+    expect(mod.default.getState().isCollapsed).toBe(false)
     vi.unstubAllGlobals()
   })
 
@@ -236,7 +236,43 @@ describe('useStore', () => {
   it('skips migration for same version', () => {
     const options = useStore.persist.getOptions()
     const state = { theme: 'dark' }
-    expect(options.migrate!(state, 2)).toBe(state)
+    expect(options.migrate!(state, 3)).toBe(state)
+  })
+
+  it('migrates version 2 to 3 (dashboard layout matches exactly)', () => {
+    const options = useStore.persist.getOptions()
+    const legacyState = {
+      dashboardLayout: [
+        { id: 'deadlines', visible: true },
+        { id: 'quickOverview', visible: true },
+        { id: 'favorites', visible: true },
+        { id: 'support', visible: true },
+        { id: 'forumActivity', visible: true },
+        { id: 'messages', visible: false },
+        { id: 'calendar', visible: false },
+        { id: 'courseProgress', visible: false },
+      ]
+    }
+    const migrated = options.migrate!(legacyState, 2) as any
+    expect(migrated.dashboardLayout).toHaveLength(8)
+    expect(migrated.dashboardLayout[1].id).toBe('messages')
+    expect(migrated.dashboardLayout[1].visible).toBe(true)
+  })
+
+  it('migrates version 2 to 3 (dashboard layout is customized)', () => {
+    const options = useStore.persist.getOptions()
+    const legacyState = {
+      dashboardLayout: [
+        { id: 'deadlines', visible: false, title: 'My Deadlines' },
+      ]
+    }
+    const migrated = options.migrate!(legacyState, 2) as any
+    expect(migrated.dashboardLayout).toHaveLength(8)
+    expect(migrated.dashboardLayout[0].id).toBe('deadlines')
+    expect(migrated.dashboardLayout[0].visible).toBe(false)
+    expect(migrated.dashboardLayout[0].title).toBe('My Deadlines')
+    expect(migrated.dashboardLayout[1].id).toBe('messages')
+    expect(migrated.dashboardLayout[1].visible).toBe(false)
   })
 
   it('migrates version 1 to 2 with missing old data', () => {
@@ -278,7 +314,7 @@ describe('useStore', () => {
     expect(invalidMigrated).toEqual({
       theme: 'system',
       lang: 'da',
-      isCollapsed: false,
+      isCollapsed: true,
       courseProgress: {},
       calendarEvents: {},
       favorites: [],

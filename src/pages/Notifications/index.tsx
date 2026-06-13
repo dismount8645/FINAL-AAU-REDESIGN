@@ -20,6 +20,7 @@ import { useFormat } from '@/hooks';
 
 function Notifications() {
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const navigate = useNavigate()
   const { formatTime } = useFormat()
 
@@ -71,6 +72,8 @@ function Notifications() {
       <SplitLayout
         sidebarPosition="left"
         showDetailOnMobile={!!currentSelectedId}
+        sidebarSpan={5}
+        mainSpan={7}
         listHeader={
           <div className="notifications-tabs-container px-md pt-md">
             <NotificationFilters
@@ -104,7 +107,7 @@ function Notifications() {
                   {Object.entries(grouped).map(([date, items]) => (
                     <Stack key={date} gap="none">
                       <div className="notification-group-title p-[var(--space-sm)_var(--space-md)] bg-bg-placeholder/50 dark:bg-white/5 border-y border-border/50 first:border-t-0">
-                        <Text size="2xs" weight="black" className="text-text-muted tracking-widest uppercase">{date}</Text>
+                        <h3 className="text-[10px] font-black text-text-muted tracking-widest uppercase m-0">{date}</h3>
                       </div>
                       {items.map((notif) => {
                         const Icon = getNotificationIcon(notif.type)
@@ -138,7 +141,11 @@ function Notifications() {
                             trailing={
                               <div className="notification-meta flex items-center gap-sm shrink-0">
                                 {!notif.isRead && (
-                                  <div className="w-2.5 h-2.5 rounded-[var(--radius-pill)] bg-primary shadow-[0_0_6px_rgba(var(--color-primary-rgb),0.5)]" />
+                                  <div
+                                    role="status"
+                                    aria-label={lang === 'da' ? 'Ulæst' : 'Unread'}
+                                    className="w-2.5 h-2.5 rounded-[var(--radius-pill)] bg-primary shadow-[0_0_6px_rgba(var(--color-primary-rgb),0.5)] animate-pulse"
+                                  />
                                 )}
                                 <div className="notification-actions flex gap-3xs opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
                                   {!notif.isRead && (

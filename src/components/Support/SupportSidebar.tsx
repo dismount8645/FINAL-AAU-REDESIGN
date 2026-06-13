@@ -22,6 +22,7 @@ function SupportSidebar({ children }: SupportSidebarProps) {
 
   return (
     <aside className="support-sidebar flex flex-col gap-lg">
+      {children}
       <Card>
         <SectionHeader
           title={t('guides')}
@@ -66,21 +67,19 @@ function SupportSidebar({ children }: SupportSidebarProps) {
         </Stack>
       </Card>
 
-      {children}
-
-      <Card>
+      <Card className="border-danger/30 bg-danger/5 dark:bg-danger/10 dark:border-danger/40">
         <Card.Body padding="compact">
           <Stack gap="sm">
             <Stack direction="row" align="center" gap="xs">
-              <span className="w-2 h-2 rounded-full bg-danger shrink-0" />
-              <Text size="sm" weight="semibold" className="text-danger">{t('chat_is_closed')}</Text>
+              <span className="w-2.5 h-2.5 rounded-full bg-danger animate-pulse shrink-0" />
+              <Text size="sm" weight="bold" className="text-danger">{t('chat_is_closed')}</Text>
             </Stack>
             <Text size="xs" className="text-muted leading-relaxed">{t('chat_is_closed_desc')}</Text>
             <Stack direction="row" gap="xs" className="mt-2xs">
-              <Button size="sm" variant="outline" onClick={() => window.open('https://serviceportal.aau.dk')}>
+              <Button size="sm" variant="outline" className="h-[36px] min-h-[36px]" onClick={() => window.open('https://serviceportal.aau.dk')}>
                 {t('it_support_portal')}
               </Button>
-              <Button size="sm" variant="ghost" onClick={() => window.location.href = 'tel:+4599402020'}>
+              <Button size="sm" variant="ghost" className="h-[36px] min-h-[36px] text-danger hover:bg-danger/10" onClick={() => window.location.href = 'tel:+4599402020'}>
                 Ring
               </Button>
             </Stack>

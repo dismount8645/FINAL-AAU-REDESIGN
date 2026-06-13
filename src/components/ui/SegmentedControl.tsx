@@ -35,7 +35,7 @@ export default function SegmentedControl({ options, value, onChange, className =
       onClick={handleContainerClick}
     >
       <div
-        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-primary/10 rounded-[calc(var(--radius-md)-2px)] transition-transform duration-150 z-1 shadow-[var(--shadow-sm)]"
+        className="segmented-control__slider absolute top-0.5 bottom-0.5 left-0.5 bg-accent rounded-[calc(var(--radius-md)-2px)] transition-transform duration-150 z-1 shadow-[var(--shadow-sm)]"
         style={{
           width: `calc(${sliderWidth}% - 4px)`,
           transform: `translateX(calc(${activeIndex * 100}%))`,
@@ -50,7 +50,7 @@ export default function SegmentedControl({ options, value, onChange, className =
           className={[
             'segmented-control__option relative flex-1 flex items-center justify-center gap-xs border-none bg-transparent cursor-pointer z-2 text-[0.85rem] font-medium transition-colors duration-150 px-xs active:scale-95 focus-visible:outline-none focus-visible:shadow-focus rounded-sm before:absolute before:top-1/2 before:left-1/2 before:min-h-[44px] before:min-w-[44px] before:w-full before:h-full before:-translate-x-1/2 before:-translate-y-1/2 before:content-[\'\']',
             value === option.value 
-              ? 'segmented-control__option--active text-primary' 
+              ? 'segmented-control__option--active text-text-white' 
               : 'text-text-muted hover:text-text-main',
           ].filter(Boolean).join(' ')}
           onClick={(e) => {

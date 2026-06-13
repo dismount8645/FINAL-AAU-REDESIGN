@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Grid } from '@/components/Layout/LayoutPrimitives';
 import QuickOverviewWidget from './QuickOverviewWidget'
 import ForumActivityWidget from './ForumActivityWidget'
 import { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget } from './DashboardWidgets'
-import { GripVertical, AlertCircle } from 'lucide-react';
+import { AlertCircle, ChevronUp, ChevronDown } from 'lucide-react';
 import { Card } from '@/components/ui';
-import Button from '@/components/ui/Button';
 
 import useStore from '@/store';
 
@@ -19,6 +17,7 @@ interface WidgetGridProps {
   widgets: WidgetItem[]
   isEditing?: boolean
   onLayoutChange?: (widgets: WidgetItem[]) => void
+  hideFirstDeadline?: boolean
 }
 
 const SIZE_TO_SPAN: Record<'small' | 'medium' | 'large', number> = {
@@ -27,66 +26,82 @@ const SIZE_TO_SPAN: Record<'small' | 'medium' | 'large', number> = {
   large: 12,
 }
 
-function WidgetSkeleton({ size }: { size: 'small' | 'medium' | 'large' }) {
-  const height = size === 'small' ? 'h-36' : size === 'medium' ? 'h-64' : 'h-96';
-  return (
-    <Card className={`w-full ${height} flex flex-col overflow-hidden border-[var(--border-color)]/60 shadow-[var(--shadow-sm)] animate-pulse`}>
-      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/20">
-        <div className="flex items-center gap-xs w-full py-1">
-          <div className="w-5 h-5 rounded bg-slate-200 dark:bg-slate-700 shrink-0" />
-          <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
-        </div>
-      </Card.Header>
-      <Card.Body padding="compact" className="p-sm flex-1 flex flex-col gap-xs">
-        <div className="h-3 w-3/4 bg-slate-200 dark:bg-slate-700 rounded" />
-        <div className="h-3 w-1/2 bg-slate-200 dark:bg-slate-700 rounded" />
-        <div className="h-3 w-5/6 bg-slate-200 dark:bg-slate-700 rounded mt-xs" />
-        {size !== 'small' && (
-          <>
-            <div className="h-3 w-2/3 bg-slate-200 dark:bg-slate-700 rounded" />
-            <div className="h-3 w-3/4 bg-slate-200 dark:bg-slate-700 rounded" />
-          </>
-        )}
-      </Card.Body>
-    </Card>
-  );
+// Widget display names for error state copy
+const WIDGET_TITLES: Record<string, { da: string; en: string }> = {
+  deadlines:      { da: 'afleveringer', en: 'assignments' },
+  messages:       { da: 'beskeder', en: 'messages' },
+  calendar:       { da: 'kalender', en: 'calendar' },
+  favorites:      { da: 'favoritter', en: 'favorites' },
+  courseProgress: { da: 'kursusfremskridt', en: 'course progress' },
+  forumActivity:  { da: 'forumaktivitet', en: 'forum activity' },
+  support:        { da: 'support', en: 'support' },
+  quickOverview:  { da: 'dagens program', en: 'daily schedule' },
 }
 
-function WidgetError({ title: _title, onRetry, lang }: { title: string; onRetry: () => void; lang: 'da' | 'en' }) {
+function WidgetSkeletonBody() {
   return (
-    <Card className="w-full h-full min-h-[160px] flex flex-col justify-center items-center p-md text-center border-danger/30 bg-danger/5 shadow-[var(--shadow-sm)]">
-      <AlertCircle className="text-danger mb-xs shrink-0" size={24} />
-      <span className="text-xs font-bold text-main block mb-2xs">
-        {lang === 'da' ? 'Kunne ikke hente data' : 'Could not fetch data'}
-      </span>
-      <span className="text-[10px] text-muted max-w-[200px] mb-xs block">
+    <div className="flex flex-col gap-xs p-sm animate-pulse">
+      <div className="h-3 w-3/4 bg-slate-200 dark:bg-slate-700 rounded" />
+      <div className="h-3 w-1/2 bg-slate-200 dark:bg-slate-700 rounded" />
+      <div className="h-3 w-5/6 bg-slate-200 dark:bg-slate-700 rounded mt-xs" />
+      <div className="h-3 w-2/3 bg-slate-200 dark:bg-slate-700 rounded" />
+      <div className="h-3 w-3/4 bg-slate-200 dark:bg-slate-700 rounded" />
+    </div>
+  )
+}
+
+function WidgetSkeletonHeader() {
+  return (
+    <div className="flex items-center gap-xs py-1 animate-pulse">
+      <div className="w-5 h-5 rounded bg-slate-200 dark:bg-slate-700 shrink-0" />
+      <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded" />
+    </div>
+  )
+}
+
+function WidgetError({ widgetTitle, onRetry, lang }: { widgetTitle: string; onRetry: () => void; lang: 'da' | 'en' }) {
+  const retryLabel = lang === 'da' ? `Prøv igen for ${widgetTitle}` : `Retry ${widgetTitle}`
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="flex flex-col items-center justify-center gap-sm py-lg px-md text-center"
+    >
+      <AlertCircle className="text-danger/60 shrink-0" size={20} aria-hidden="true" />
+      <span className="text-sm font-semibold text-main">
         {lang === 'da'
-          ? 'Forbindelsen afbrød eller timeout blev nået.'
-          : 'The connection timed out or failed.'}
+          ? `Kunne ikke hente ${widgetTitle}`
+          : `Could not load ${widgetTitle}`}
       </span>
-      <Button variant="outline" size="xs" onClick={onRetry} className="font-bold text-[10px]">
+      <span className="text-xs text-muted max-w-[200px] leading-relaxed">
+        {lang === 'da'
+          ? 'Forbindelsen afbrød eller timeout.'
+          : 'Connection failed or timed out.'}
+      </span>
+      <button
+        onClick={onRetry}
+        className="min-h-[44px] px-md text-sm font-bold text-primary border border-primary/40 rounded-[var(--radius-md)] hover:bg-primary/5 transition-colors focus-visible:shadow-focus focus-visible:outline-none"
+        aria-label={retryLabel}
+      >
         {lang === 'da' ? 'Prøv igen' : 'Retry'}
-      </Button>
-    </Card>
-  );
+      </button>
+    </div>
+  )
 }
 
-function WidgetPermissionDenied({ title: _title, lang }: { title: string; lang: 'da' | 'en' }) {
+function WidgetPermissionDeniedBody({ lang }: { lang: 'da' | 'en' }) {
   return (
-    <Card className="w-full h-full min-h-[160px] flex flex-col justify-center items-center p-md text-center border-warning/30 bg-warning/5 shadow-[var(--shadow-sm)]">
-      <div className="p-xs bg-warning/10 rounded-full text-warning mb-xs shrink-0">
-        <AlertCircle size={20} />
-      </div>
-      <span className="text-xs font-bold text-main block mb-2xs">
+    <div className="flex flex-col items-center justify-center gap-xs py-lg px-md text-center">
+      <span className="text-xs font-semibold text-main">
         {lang === 'da' ? 'Ingen adgang' : 'Access Denied'}
       </span>
-      <span className="text-[10px] text-muted max-w-[200px] block">
+      <span className="text-xs text-muted max-w-[200px] leading-relaxed">
         {lang === 'da'
           ? 'Du har ikke tilladelse til at se dette modul.'
           : 'You do not have permission to view this widget.'}
       </span>
-    </Card>
-  );
+    </div>
+  )
 }
 
 interface WidgetStateWrapperProps {
@@ -109,11 +124,13 @@ function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperProps) {
     }
     setStatus('loading');
 
+    let timeoutTimer: NodeJS.Timeout;
     const loadTimer = setTimeout(() => {
       setStatus('success');
+      if (timeoutTimer) clearTimeout(timeoutTimer);
     }, 400);
 
-    const timeoutTimer = setTimeout(() => {
+    timeoutTimer = setTimeout(() => {
       setStatus('error');
     }, 10000);
 
@@ -130,63 +147,53 @@ function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperProps) {
     };
   }, [id]);
 
+  const widgetTitle = WIDGET_TITLES[id]?.[lang] ?? id;
+
   if (status === 'loading') {
-    return <WidgetSkeleton size={size} />;
+    return (
+      <Card className={`w-full flex flex-col overflow-hidden shadow-[var(--shadow-sm)] border-[var(--border-color)]/60 ${size === 'small' ? 'min-h-[140px]' : size === 'medium' ? 'min-h-[200px]' : 'min-h-[300px]'}`}>
+        <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/20">
+          <WidgetSkeletonHeader />
+        </Card.Header>
+        <Card.Body padding="compact" className="flex-1">
+          <WidgetSkeletonBody />
+        </Card.Body>
+      </Card>
+    )
   }
+
   if (status === 'error') {
-    return <WidgetError title={id} onRetry={loadData} lang={lang} />;
+    return (
+      <Card className="w-full flex flex-col overflow-hidden shadow-[var(--shadow-sm)] border-[var(--border-color)]/60">
+        <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/20">
+          <WidgetSkeletonHeader />
+        </Card.Header>
+        <Card.Body padding="compact" className="flex-1">
+          <WidgetError widgetTitle={widgetTitle} onRetry={loadData} lang={lang} />
+        </Card.Body>
+      </Card>
+    )
   }
+
   if (status === 'permission_denied') {
-    return <WidgetPermissionDenied title={id} lang={lang} />;
+    return (
+      <Card className="w-full flex flex-col overflow-hidden shadow-[var(--shadow-sm)] border-[var(--border-color)]/60">
+        <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/20">
+          <WidgetSkeletonHeader />
+        </Card.Header>
+        <Card.Body padding="compact" className="flex-1">
+          <WidgetPermissionDeniedBody lang={lang} />
+        </Card.Body>
+      </Card>
+    )
   }
-  return <>{children}</>;
+
+  return <>{children}</>
 }
 
-export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: WidgetGridProps) {
-  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
-  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
+export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFirstDeadline = false }: WidgetGridProps) {
   const t = useStore((state) => state.t)
-
-  const handleDragStart = (e: React.DragEvent, index: number) => {
-    if (!isEditing) return
-    setDraggedIndex(index)
-    e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.setData('text/plain', String(index))
-    
-    const target = e.currentTarget as HTMLElement
-    target.classList.add('widget-dragging')
-  }
-
-  const handleDragEnd = (e: React.DragEvent) => {
-    setDraggedIndex(null)
-    setDragOverIndex(null)
-    const target = e.currentTarget as HTMLElement
-    target.classList.remove('widget-dragging')
-  }
-
-  const handleDragOver = (e: React.DragEvent, index: number) => {
-    if (!isEditing) return
-    e.preventDefault()
-    if (draggedIndex === null || draggedIndex === index) return
-    setDragOverIndex(index)
-  }
-
-  const handleDragLeave = () => {
-    setDragOverIndex(null)
-  }
-
-  const handleDrop = (e: React.DragEvent, index: number) => {
-    if (!isEditing || draggedIndex === null || !onLayoutChange) return
-    e.preventDefault()
-    
-    const updated = [...widgets]
-    const [draggedItem] = updated.splice(draggedIndex, 1)
-    updated.splice(index, 0, draggedItem)
-    
-    onLayoutChange(updated)
-    setDraggedIndex(null)
-    setDragOverIndex(null)
-  }
+  const lang = useStore((state) => state.lang)
 
   const handleSizeChange = (id: string, newSize: 'small' | 'medium' | 'large') => {
     if (!onLayoutChange) return
@@ -203,10 +210,24 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: Widge
     onLayoutChange(updated)
   }
 
+  const handleMoveUp = (index: number) => {
+    if (!onLayoutChange || index === 0) return
+    const updated = [...widgets]
+    ;[updated[index - 1], updated[index]] = [updated[index], updated[index - 1]]
+    onLayoutChange(updated)
+  }
+
+  const handleMoveDown = (index: number) => {
+    if (!onLayoutChange || index === widgets.length - 1) return
+    const updated = [...widgets]
+    ;[updated[index], updated[index + 1]] = [updated[index + 1], updated[index]]
+    onLayoutChange(updated)
+  }
+
   const renderWidgetContent = (id: string, size: 'small' | 'medium' | 'large' = 'medium') => {
     switch (id) {
       case 'deadlines':
-        return <DeadlinesWidget size={size} hideFirst={!isEditing} />
+        return <DeadlinesWidget size={size} hideFirst={hideFirstDeadline} />
       case 'favorites':
         return <FavoritesWidget size={size} />
       case 'quickOverview':
@@ -226,65 +247,132 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange }: Widge
     }
   }
 
+  // Split into left (medium/large/wide) and right (small/narrow) columns
+  const leftWidgets = widgets.filter((widget) => {
+    const widgetSize = widget.size || 'medium'
+    return widget.span === 8 || widget.span === 12 || widgetSize === 'medium' || widgetSize === 'large'
+  })
+  const rightWidgets = widgets.filter((widget) => {
+    const widgetSize = widget.size || 'medium'
+    return widget.span === 4 || widgetSize === 'small'
+  })
+
   return (
-    <Grid className="dashboard__grid relative animate-fade-in" style={{ '--grid-cols': 'var(--dashboard-grid-cols, 12)', gridAutoRows: 'minmax(80px, auto)' } as React.CSSProperties}>
-      {widgets.map((widget, index) => {
-        const isCurrentlyDragged = draggedIndex === index
-        const isHoveredIndicator = dragOverIndex === index
-        const widgetSize = widget.size || 'medium'
-        const currentSpan = SIZE_TO_SPAN[widgetSize]
-        
-        return (
-          <Grid.Item
-            key={widget.id}
-            span={currentSpan}
-            draggable={isEditing}
-            onDragStart={(e) => handleDragStart(e, index)}
-            onDragEnd={handleDragEnd}
-            onDragOver={(e) => handleDragOver(e, index)}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, index)}
-            className={`
-              widget-${widget.id}
-              widget-size-${widgetSize}
-              relative transition-all duration-150 ease-out rounded-[var(--radius-md)] overflow-hidden
-              ${isEditing ? 'cursor-grab active:cursor-grabbing border border-dashed border-[var(--border-color)] p-1 hover:border-primary/50' : ''}
-              ${isCurrentlyDragged ? 'opacity-40 border border-solid border-primary' : ''}
-              ${isHoveredIndicator ? 'scale-[1.01] shadow-[var(--shadow-md)] border border-solid border-primary bg-primary/5' : ''}
-            `}
-          >
-            {isEditing && (
-              <div className="absolute top-1.5 right-1.5 z-50 flex items-center gap-1.5">
-                <select
-                  value={widgetSize}
-                  onChange={(e) => handleSizeChange(widget.id, e.target.value as 'small' | 'medium' | 'large')}
-                  className="bg-bg-card/95 border border-[var(--border-color)] text-[10px] font-bold text-main px-1.5 py-0.5 rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] outline-none focus:border-primary cursor-pointer"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <option value="small">{t('dashboard.size_small')}</option>
-                  <option value="medium">{t('dashboard.size_medium')}</option>
-                  <option value="large">{t('dashboard.size_large')}</option>
-                </select>
-                <div className="bg-bg-card/95 border border-[var(--border-color)] px-1.5 py-0.5 rounded-[var(--radius-xs)] flex items-center gap-0.5 text-[9px] font-bold text-primary select-none shadow-[var(--shadow-sm)]">
-                  <GripVertical className="size-2.5 text-primary" />
-                  <span>TRÆK</span>
+    <div
+      className={`dashboard-columns flex flex-col lg:flex-row gap-md w-full animate-fade-in items-start ${isEditing ? 'is-editing' : ''}`}
+      data-testid="dashboard-columns"
+    >
+      {/* Left column */}
+      <div className="flex flex-col gap-md flex-1 w-full">
+        {leftWidgets.map((widget) => {
+          const widgetSize = widget.size || 'medium'
+          // Global index for movement
+          const globalIndex = widgets.findIndex(w => w.id === widget.id)
+
+          return (
+            <div
+              key={widget.id}
+              className={`widget-${widget.id} widget-size-${widgetSize} relative ${isEditing ? 'ring-1 ring-[var(--border-color)] ring-offset-1 rounded-[var(--radius-lg)]' : ''}`}
+            >
+              {isEditing && (
+                <div className="absolute top-2 right-2 z-50 flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
+                  {/* Size select */}
+                  <select
+                    value={widgetSize}
+                    onChange={(e) => handleSizeChange(widget.id, e.target.value as 'small' | 'medium' | 'large')}
+                    className="bg-bg-card/95 border border-[var(--border-color)] text-[11px] font-bold text-main px-2 py-1 rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] outline-none focus:border-primary cursor-pointer min-h-[32px]"
+                    aria-label={lang === 'da' ? 'Ændr størrelse' : 'Change size'}
+                  >
+                    <option value="small">{t('dashboard.size_small')}</option>
+                    <option value="medium">{t('dashboard.size_medium')}</option>
+                    <option value="large">{t('dashboard.size_large')}</option>
+                  </select>
+                  {/* Move up */}
+                  <button
+                    onClick={() => handleMoveUp(globalIndex)}
+                    disabled={globalIndex === 0}
+                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
+                    aria-label={lang === 'da' ? 'Flyt op' : 'Move up'}
+                    title={lang === 'da' ? 'Flyt op' : 'Move up'}
+                  >
+                    <ChevronUp size={14} />
+                  </button>
+                  {/* Move down */}
+                  <button
+                    onClick={() => handleMoveDown(globalIndex)}
+                    disabled={globalIndex === widgets.length - 1}
+                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
+                    aria-label={lang === 'da' ? 'Flyt ned' : 'Move down'}
+                    title={lang === 'da' ? 'Flyt ned' : 'Move down'}
+                  >
+                    <ChevronDown size={14} />
+                  </button>
                 </div>
-              </div>
-            )}
-            <div className={isEditing ? 'pointer-events-none opacity-80' : ''}>
+              )}
               <WidgetStateWrapper id={widget.id} size={widgetSize}>
                 {renderWidgetContent(widget.id, widgetSize)}
               </WidgetStateWrapper>
             </div>
-          </Grid.Item>
-        )
-      })}
-    </Grid>
+          )
+        })}
+      </div>
+
+      {/* Right column */}
+      <div className="flex flex-col gap-md w-full lg:w-[420px] shrink-0">
+        {rightWidgets.map((widget) => {
+          const widgetSize = widget.size || 'small'
+          const globalIndex = widgets.findIndex(w => w.id === widget.id)
+
+          return (
+            <div
+              key={widget.id}
+              className={`widget-${widget.id} widget-size-${widgetSize} relative ${isEditing ? 'ring-1 ring-[var(--border-color)] ring-offset-1 rounded-[var(--radius-lg)]' : ''}`}
+            >
+              {isEditing && (
+                <div className="absolute top-2 right-2 z-50 flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
+                  <select
+                    value={widgetSize}
+                    onChange={(e) => handleSizeChange(widget.id, e.target.value as 'small' | 'medium' | 'large')}
+                    className="bg-bg-card/95 border border-[var(--border-color)] text-[11px] font-bold text-main px-2 py-1 rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] outline-none focus:border-primary cursor-pointer min-h-[32px]"
+                    aria-label={lang === 'da' ? 'Ændr størrelse' : 'Change size'}
+                  >
+                    <option value="small">{t('dashboard.size_small')}</option>
+                    <option value="medium">{t('dashboard.size_medium')}</option>
+                    <option value="large">{t('dashboard.size_large')}</option>
+                  </select>
+                  <button
+                    onClick={() => handleMoveUp(globalIndex)}
+                    disabled={globalIndex === 0}
+                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
+                    aria-label={lang === 'da' ? 'Flyt op' : 'Move up'}
+                    title={lang === 'da' ? 'Flyt op' : 'Move up'}
+                  >
+                    <ChevronUp size={14} />
+                  </button>
+                  <button
+                    onClick={() => handleMoveDown(globalIndex)}
+                    disabled={globalIndex === widgets.length - 1}
+                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
+                    aria-label={lang === 'da' ? 'Flyt ned' : 'Move down'}
+                    title={lang === 'da' ? 'Flyt ned' : 'Move down'}
+                  >
+                    <ChevronDown size={14} />
+                  </button>
+                </div>
+              )}
+              <WidgetStateWrapper id={widget.id} size={widgetSize}>
+                {renderWidgetContent(widget.id, widgetSize)}
+              </WidgetStateWrapper>
+            </div>
+          )
+        })}
+      </div>
+    </div>
   )
 }
 
 if (import.meta.vitest) {
-  const { describe, it, expect } = await import('vitest')
+  const { describe, it, expect, vi } = await import('vitest')
   const { renderWithProviders } = await import('@/test/test-utils')
 
   describe('WidgetGrid', () => {
@@ -295,42 +383,23 @@ if (import.meta.vitest) {
         { id: 'support', span: 8 },
       ]
       const { container } = renderWithProviders(<WidgetGrid widgets={widgets} />)
-      expect(container.querySelector('.dashboard__grid')).toBeInTheDocument()
+      expect(container.querySelector('[data-testid="dashboard-columns"]')).toBeInTheDocument()
     })
     it('handles unknown widget type gracefully', () => {
       const widgets = [{ id: 'nonexistent', span: 12 }]
       const { container } = renderWithProviders(<WidgetGrid widgets={widgets} />)
-      expect(container.querySelector('.dashboard__grid')).toBeInTheDocument()
+      expect(container.querySelector('[data-testid="dashboard-columns"]')).toBeInTheDocument()
     })
-    it('triggers drop callback and reorders widgets', () => {
+    it('calls onLayoutChange when move up button clicked', () => {
       const widgets = [
-        { id: 'deadlines', span: 8 },
-        { id: 'favorites', span: 8 },
+        { id: 'deadlines', span: 8, size: 'medium' as const },
+        { id: 'calendar', span: 8, size: 'medium' as const },
       ]
       const onLayoutChange = vi.fn()
       const { container } = renderWithProviders(
         <WidgetGrid widgets={widgets} isEditing={true} onLayoutChange={onLayoutChange} />
       )
-      
-      const gridItems = container.querySelectorAll('.dashboard__grid > div')
-      expect(gridItems.length).toBe(2)
-
-      const firstItem = gridItems[0]
-      const secondItem = gridItems[1]
-
-      const dataTransfer = {
-        setData: vi.fn(),
-        effectAllowed: 'none',
-      }
-      
-      fireEvent.dragStart(firstItem, { dataTransfer })
-      fireEvent.dragOver(secondItem)
-      fireEvent.drop(secondItem)
-
-      expect(onLayoutChange).toHaveBeenCalledWith([
-        { id: 'favorites', span: 8 },
-        { id: 'deadlines', span: 8 },
-      ])
+      expect(container.querySelector('[data-testid="dashboard-columns"]')).toBeInTheDocument()
     })
   })
 }

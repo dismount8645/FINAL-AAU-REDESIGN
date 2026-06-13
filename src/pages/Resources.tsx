@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Headphones, ExternalLink, Search } from 'lucide-react';
+import { Headphones, Search } from 'lucide-react';
 import { ResourcesSection } from '@/components/Resources';
 import { Button, Input } from '@/components/ui';
 import { Card } from '@/components/ui';
@@ -8,7 +8,7 @@ import PageLayout from '@/components/Layout/PageLayout';
 import { Text } from '@/components/ui';
 import { env } from '@/lib/env';
 import useStore from '@/store';
-import { allToolsList } from '@/lib/utils';
+import { allToolsList, cn } from '@/lib/utils';
 
 function Resources() {
   const t = useStore(state => state.t)
@@ -17,6 +17,15 @@ function Resources() {
   const toggleFavorite = useStore(state => state.toggleFavorite)
 
   const [searchQuery, setSearchQuery] = useState('')
+  const [activeCategory, setActiveCategory] = useState<'all' | 'tools' | 'comm' | 'files' | 'eval'>('all')
+
+  const categoriesList = useMemo(() => [
+    { id: 'all', label: lang === 'da' ? 'Alle' : 'All' },
+    { id: 'tools', label: lang === 'da' ? 'Studieadministrative' : 'Administrative' },
+    { id: 'comm', label: lang === 'da' ? 'Kommunikation' : 'Communication' },
+    { id: 'files', label: lang === 'da' ? 'Filer & Dokumenter' : 'Files & Documents' },
+    { id: 'eval', label: lang === 'da' ? 'Undervisning & Evaluering' : 'Teaching & Evaluation' },
+  ], [lang]);
 
   const pinnedTools = useMemo(() => {
     const toolFavIds = new Set(favorites.filter(f => f.type === 'tool').map(f => f.entityId))
@@ -53,6 +62,15 @@ function Resources() {
     return filteredToolsList.filter(t => t.category === 'essentials' && [10, 11].includes(t.id))
   }, [filteredToolsList])
 
+  const showEmptyState = useMemo(() => {
+    if (filteredToolsList.length === 0) return true
+    if (activeCategory === 'tools' && filteredTools.length === 0) return true
+    if (activeCategory === 'comm' && essentialsCommunication.length === 0) return true
+    if (activeCategory === 'files' && essentialsFiles.length === 0) return true
+    if (activeCategory === 'eval' && essentialsTeaching.length === 0) return true
+    return false
+  }, [filteredToolsList, activeCategory, filteredTools, essentialsCommunication, essentialsFiles, essentialsTeaching])
+
   return (
     <PageLayout
       tag="main"
@@ -67,16 +85,40 @@ function Resources() {
       flat
     >
       <div className="pb-xl">
-        {/* Top search bar */}
-        <div className="mb-lg max-w-md relative">
-          <Input
-            type="text"
-            placeholder={lang === 'da' ? 'Søg i værktøjer...' : 'Search tools...'}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10"
-          />
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+        {/* Top search bar and category filter chips */}
+        <div className="mb-lg max-w-4xl w-full flex flex-col gap-sm">
+          <div className="relative w-full">
+            <Input
+              type="text"
+              placeholder={lang === 'da' ? 'Søg i værktøjer...' : 'Search tools...'}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-11 text-sm rounded-lg"
+            />
+            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary opacity-85" />
+          </div>
+          
+          <div className="flex flex-wrap gap-xs mt-1" role="tablist" aria-label={lang === 'da' ? 'Kategorifiltrering' : 'Category filtering'}>
+            {categoriesList.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveCategory(cat.id as 'all' | 'tools' | 'comm' | 'files' | 'eval')}
+                  className={cn(
+                    "px-md py-2 rounded-full text-xs font-bold transition-all border outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                    isActive
+                      ? "bg-primary text-white border-primary shadow-sm"
+                      : "bg-bg-card text-text-secondary border-border/80 hover:bg-bg-hover hover:text-main"
+                  )}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <SplitLayout
@@ -86,7 +128,7 @@ function Resources() {
           main={
             <div className="flex flex-col gap-xl">
               {/* Starred tools section */}
-              {pinnedTools.length > 0 && !searchQuery && (
+              {pinnedTools.length > 0 && !searchQuery && activeCategory === 'all' && (
                 <div className="bg-primary/5 p-md rounded-2xl border border-primary/10">
                   <ResourcesSection
                     title={lang === 'da' ? 'Dine fastgjorte værktøjer' : 'Your pinned tools'}
@@ -100,7 +142,7 @@ function Resources() {
               )}
 
               {/* Administrative systems */}
-              {filteredTools.length > 0 && (
+              {(activeCategory === 'all' || activeCategory === 'tools') && filteredTools.length > 0 && (
                 <ResourcesSection
                   title={lang === 'da' ? 'Studieadministrative systemer' : 'Administrative systems'}
                   subtitle={t('administrative_systems_desc')}
@@ -110,7 +152,7 @@ function Resources() {
               )}
 
               {/* Essentials Communication */}
-              {essentialsCommunication.length > 0 && (
+              {(activeCategory === 'all' || activeCategory === 'comm') && essentialsCommunication.length > 0 && (
                 <ResourcesSection
                   title={lang === 'da' ? 'AAU Basispakke - Kommunikation' : 'AAU Essentials - Communication'}
                   subtitle={lang === 'da' ? 'Outlook Mail, Microsoft Teams og Zoom' : 'Outlook Mail, Microsoft Teams, and Zoom'}
@@ -120,7 +162,7 @@ function Resources() {
               )}
 
               {/* Essentials Files */}
-              {essentialsFiles.length > 0 && (
+              {(activeCategory === 'all' || activeCategory === 'files') && essentialsFiles.length > 0 && (
                 <ResourcesSection
                   title={lang === 'da' ? 'AAU Basispakke - Filer & Dokumenter' : 'AAU Essentials - Files & Documents'}
                   subtitle={lang === 'da' ? 'OneDrive lagring, Word & Office, OneNote' : 'OneDrive storage, Word & Office, OneNote'}
@@ -130,7 +172,7 @@ function Resources() {
               )}
 
               {/* Essentials Teaching */}
-              {essentialsTeaching.length > 0 && (
+              {(activeCategory === 'all' || activeCategory === 'eval') && essentialsTeaching.length > 0 && (
                 <ResourcesSection
                   title={lang === 'da' ? 'AAU Basispakke - Undervisning & Evaluering' : 'AAU Essentials - Teaching & Evaluation'}
                   subtitle={lang === 'da' ? 'Forms undersøgelser og Panopto video' : 'Forms surveys and Panopto video'}
@@ -139,7 +181,7 @@ function Resources() {
                 />
               )}
 
-              {filteredToolsList.length === 0 && (
+              {showEmptyState && (
                 <div className="py-xl text-center">
                   <Text muted>{lang === 'da' ? 'Ingen værktøjer matcher din søgning' : 'No tools match your search'}</Text>
                 </div>
@@ -148,44 +190,36 @@ function Resources() {
           }
           sidebar={
             <aside className="flex flex-col gap-lg">
-              <Card variant="elevated">
-                <Card.Header padding="compact">
-                  <Text weight="bold" size="md">{t('about_aau_essentials')}</Text>
+              <Card variant="elevated" className="border-primary/20">
+                <Card.Header padding="compact" className="flex items-center gap-xs">
+                  <Headphones size={18} className="text-primary" />
+                  <Text weight="bold" size="md">{t('need_help')}</Text>
                 </Card.Header>
-                <Card.Body padding="compact">
-                  <Text size="sm" className="text-text-muted mb-md leading-[1.6] block">
+                <Card.Body padding="compact" className="flex flex-col gap-sm">
+                  <Text size="sm" className="text-text-muted leading-[1.6]">
                     {t('about_aau_essentials_desc')}
                   </Text>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    full
-                    iconRight={ExternalLink}
-                    onClick={() => env.open('https://support.its.aau.dk/')}
-                    className="normal-case tracking-normal font-bold text-xs"
-                  >
-                    {t('visit_help_portal')}
-                  </Button>
-                </Card.Body>
-              </Card>
-
-              <Card variant="brand" className="card--decorative">
-                <Card.Decoration icon={Headphones} className="opacity-10" />
-                <Card.Body padding="compact" className="h-full flex flex-col justify-center text-white">
-                  <Text weight="bold" size="md" className="text-white card__title mb-2xs block">
-                    {t('need_help')}
-                  </Text>
-                  <Text size="xs" className="text-white/85 mb-md block font-medium leading-relaxed">
+                  <Text size="sm" className="italic text-text-muted leading-[1.6]">
                     {t('its_help_desc')}
                   </Text>
-                  <Button 
-                    variant="secondary" 
-                    size="sm"
-                    onClick={() => env.open('https://support.its.aau.dk/')}
-                    className="bg-white text-primary border-none hover:bg-white/90 normal-case tracking-normal font-bold text-xs"
-                  >
-                    {t('contact_support')}
-                  </Button>
+                  <div className="flex flex-col gap-xs mt-xs">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => env.open('https://support.its.aau.dk/')}
+                      className="normal-case tracking-normal font-bold"
+                    >
+                      {t('contact_support')}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => env.open('https://support.its.aau.dk/')}
+                      className="text-primary normal-case tracking-normal font-bold"
+                    >
+                      {t('visit_help_portal')}
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </aside>
@@ -311,7 +345,7 @@ if (import.meta.vitest) {
   
     it('toggles tool favorite star', () => {
       renderWithLang('da')
-      const star = screen.getAllByLabelText(/favorite|stjerne/i)[0]
+      const star = screen.getAllByLabelText(/favorit|favorite|stjerne/i)[0]
       fireEvent.click(star)
     })
  
@@ -341,6 +375,15 @@ if (import.meta.vitest) {
       renderWithLang('da')
       const searchInput = screen.getByPlaceholderText('Søg i værktøjer...')
       fireEvent.change(searchInput, { target: { value: 'outlook' } })
+      
+      expect(screen.getByText('Outlook Mail')).toBeInTheDocument()
+      expect(screen.queryByText('Digital Eksamen')).not.toBeInTheDocument()
+    })
+
+    it('filters tools by category chips click', () => {
+      renderWithLang('da')
+      const commChip = screen.getByRole('tab', { name: 'Kommunikation' })
+      fireEvent.click(commChip)
       
       expect(screen.getByText('Outlook Mail')).toBeInTheDocument()
       expect(screen.queryByText('Digital Eksamen')).not.toBeInTheDocument()
