@@ -53,7 +53,7 @@ const useStore = create<AppState>()(
     }),
     {
       name: STORAGE_KEYS.APP_STORE,
-      version: 2,
+      version: 3,
       storage: lazyStorage,
       onRehydrateStorage: () => (state) => {
         /* istanbul ignore next */
@@ -88,7 +88,7 @@ const useStore = create<AppState>()(
         dashboardLayout: state.dashboardLayout,
       }),
       migrate: (persisted: unknown, version) => {
-        if (version === 2) {
+        if (version === 3) {
           return persisted as AppState
         }
         let state = persisted as Record<string, unknown>
@@ -127,6 +127,63 @@ const useStore = create<AppState>()(
           }
         }
 
+        if (version <= 2) {
+          const expectedVisibilities: Record<string, boolean> = {
+            deadlines: true,
+            quickOverview: true,
+            favorites: true,
+            support: true,
+            forumActivity: true,
+            messages: false,
+            calendar: false,
+            courseProgress: false,
+          };
+          const newDefaults = [
+            { id: 'deadlines', title: 'Seneste afleveringer', visible: true, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+            { id: 'messages', title: 'Beskeder', visible: true, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+            { id: 'calendar', title: 'Kalender', visible: true, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+            { id: 'favorites', title: 'Favoritter', visible: true, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+            { id: 'courseProgress', title: 'Kursusprogress', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+            { id: 'forumActivity', title: 'Forum aktivitet', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium', 'large'] },
+            { id: 'support', title: 'ITS Support', visible: false, size: 'small', span: 4, defaultSize: 'small', allowedSizes: ['small', 'medium'] },
+            { id: 'quickOverview', title: 'Dagens program', visible: false, size: 'medium', span: 8, defaultSize: 'medium', allowedSizes: ['small', 'medium', 'large'] },
+          ];
+
+          const layout = state.dashboardLayout;
+          if (Array.isArray(layout)) {
+            let matchesExactly = layout.length === 8;
+            if (matchesExactly) {
+              matchesExactly = layout.every(item => {
+                if (!item || typeof item !== 'object') return false;
+                const id = (item as any).id;
+                if (typeof id !== 'string' || !(id in expectedVisibilities)) return false;
+                return (item as any).visible === expectedVisibilities[id];
+              });
+            }
+
+            if (matchesExactly) {
+              state.dashboardLayout = newDefaults;
+            } else {
+              const layoutArray = [...layout];
+              const existingIds = new Set(layoutArray.map(item => item && typeof item === 'object' ? (item as any).id : undefined).filter(Boolean));
+              for (const widget of newDefaults) {
+                if (!existingIds.has(widget.id)) {
+                  layoutArray.push({
+                    ...widget,
+                    visible: false,
+                  });
+                }
+              }
+              state.dashboardLayout = layoutArray;
+            }
+          }
+        }
+
+        // Reset sidebar to collapsed default on migration
+        if (state && typeof state === 'object') {
+          state.isCollapsed = true;
+        }
+
         try {
           return PersistedStateSchema.parse(state) as unknown as AppState
         } catch (e) {
@@ -134,7 +191,7 @@ const useStore = create<AppState>()(
           return {
             theme: 'system',
             lang: 'da',
-            isCollapsed: false,
+            isCollapsed: true,
             courseProgress: {},
             calendarEvents: {},
             favorites: [],

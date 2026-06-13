@@ -79,7 +79,7 @@ const TeaserCard = memo(function TeaserCard({
     <Card
       layoutId={layoutId}
       className={cn(
-        'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1',
+        'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1 focus-within:shadow-focus focus-within:border-primary',
         isHorizontal ? 'flex-row min-h-[180px]' : 'flex-col',
         className
       )}
@@ -99,9 +99,7 @@ const TeaserCard = memo(function TeaserCard({
         <div 
           className={cn(
             'relative shrink-0 overflow-hidden transition-transform duration-500 ease-[var(--transition-ease)] group-hover:scale-105',
-            isHorizontal 
-              ? 'w-[180px] h-full' 
-              : 'w-full aspect-video'
+            isHorizontal ? 'w-[130px] sm:w-[150px] h-full' : 'w-full aspect-video'
           )}
         >
           {badge && (
@@ -128,9 +126,7 @@ const TeaserCard = memo(function TeaserCard({
         <div 
           className={cn(
             'relative shrink-0 overflow-hidden',
-            isHorizontal 
-              ? 'w-[180px] h-full' 
-              : 'w-full aspect-video'
+            isHorizontal ? 'w-[130px] sm:w-[150px] h-full' : 'w-full aspect-video'
           )}
         >
           <div className="w-full h-full bg-gradient-to-br from-primary/15 to-primary/5 flex items-center justify-center">
@@ -160,10 +156,8 @@ const TeaserCard = memo(function TeaserCard({
             variant="ghost"
             pill
             className={cn(
-              'relative z-30 transition-all duration-300',
-              isStarred 
-                ? 'bg-bg-highlight text-warning shadow-sm' 
-                : 'text-disabled hover:text-main'
+              'relative z-30 transition-all duration-300 h-11 w-11 min-h-[44px] min-w-[44px] flex items-center justify-center p-0 rounded-full',
+              isStarred ? 'bg-bg-highlight text-warning shadow-sm' : 'text-disabled hover:text-main'
             )}
             onClick={(e) => {
               e.stopPropagation()
@@ -240,7 +234,7 @@ function TeaserCardSkeleton({
     )}>
       <div className={cn(
         'relative shrink-0 overflow-hidden bg-bg-card',
-        isHorizontal ? 'w-[260px] h-full' : 'w-full aspect-video'
+        isHorizontal ? 'w-[130px] sm:w-[150px] h-full' : 'w-full aspect-video'
       )}>
         <Skeleton variant="rectangular" className="w-full h-full" />
       </div>

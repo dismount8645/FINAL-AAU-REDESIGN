@@ -96,6 +96,7 @@ function Settings() {
         <SplitLayout
           sidebarPosition="left"
           showDetailOnMobile={mobileDetailOpen}
+          fullHeight={false}
           detailHeader={
             <div className="md:hidden flex items-center h-14 px-md border-b border-border bg-bg-card">
               <Button
@@ -200,7 +201,7 @@ function Settings() {
               </Card.Body>
 
               {(activeTab === 'profil' || activeTab === 'forum' || activeTab === 'kalender' || activeTab === 'beskeder') && (
-                <Card.Footer className="border-t border-border p-lg shrink-0 bg-bg-card z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.2)]">
+                <Card.Footer className="border-t border-border p-lg shrink-0 bg-bg-card z-10 sticky bottom-0 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.2)]">
                   <Button variant="primary" size="md" onClick={handleSave} loading={isSaving} className="self-start">{t('settings.save_changes')}</Button>
                 </Card.Footer>
               )}

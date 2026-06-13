@@ -35,7 +35,7 @@ const AccordionTrigger = memo(forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-[var(--space-sm)] px-[var(--space-xs)] min-h-[44px]",
+        "flex flex-1 items-center justify-between py-md px-sm min-h-[48px]",
         "text-main font-bold text-sm leading-tight transition-all duration-150",
         "hover:bg-bg-hover hover:text-primary dark:hover:text-white group outline-none cursor-pointer",
         "focus-visible:shadow-focus focus-visible:outline-none rounded-[var(--radius-sm)]",
@@ -45,7 +45,7 @@ const AccordionTrigger = memo(forwardRef<
     >
       <span className="flex-1 text-left">{children}</span>
       <ChevronDown 
-        size={18} 
+        size={20} 
         strokeWidth={2.5}
         className="shrink-0 text-muted group-hover:text-primary transition-transform duration-200 ease-[var(--transition-ease)] group-data-[open]:rotate-180" 
       />
@@ -63,7 +63,7 @@ const AccordionContent = memo(forwardRef<
     className="overflow-hidden text-sm text-muted leading-relaxed transition-all data-[starting-style]:animate-accordion-up data-[ending-style]:animate-accordion-up data-[open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("pb-[var(--space-md)] pt-[var(--space-xs)] px-[var(--space-xs)]", className)}>
+    <div className={cn("pb-lg pt-sm px-sm", className)}>
       {children}
     </div>
   </AccordionPrimitive.Panel>

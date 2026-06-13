@@ -68,7 +68,7 @@ export default function FavoritesList({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
-          className={filtered.length <= 3 ? 'flex flex-wrap justify-center gap-[var(--space-xs)]' : 'grid gap-[var(--space-xs)]'}
+          className={filtered.length <= 3 ? 'flex flex-wrap justify-start gap-[var(--space-xs)]' : 'grid gap-[var(--space-xs)]'}
           style={filtered.length <= 3 ? {} : { gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}
         >
           {filtered.map((item, index) => (

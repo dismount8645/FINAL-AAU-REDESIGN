@@ -2,14 +2,14 @@ import React, { useMemo, useCallback, memo } from 'react';
 import { useNavigate, MemoryRouter } from 'react-router-dom';
 import {
   Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2,
-  Star, BookOpen, Trophy, Headphones, ExternalLink
+  Star, BookOpen, Trophy, Headphones, ExternalLink, MessageSquare
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { mockDashboardDeadlines, courses as dataCourses } from '@/lib/data';
 import { PATHS } from '@/routes';
-import { hoursFromNow, getDeadlineInfo } from '@/lib/utils';
+import { getDeadlineInfo } from '@/lib/utils';
 import { DASHBOARD_CONFIG } from '@/lib/dashboard';
 import { env } from '@/lib/env';
 import { resolveFavorite, sortFavorites } from '@/lib/favorites';
@@ -46,7 +46,7 @@ const getUrgencyIcon = (urgency: string) => {
 }
 
 const getLabelClass = (urgency: string) => {
-  if (urgency === 'overdue') return 'font-black uppercase tracking-tighter'
+  if (urgency === 'overdue') return 'font-black tracking-tight'
   if (urgency === 'today') return 'font-bold'
   if (urgency === 'tomorrow' || urgency === 'soon') return 'font-semibold'
   return 'font-normal'
@@ -101,35 +101,35 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
   const nextDl = deadlines[0]
 
   return (
-    <Card className="deadlines-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
+    <Card className="deadlines-widget w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="sm">
           <div className="text-primary shrink-0">
-            <Calendar size={18} strokeWidth={2} />
+            <Clock size={18} strokeWidth={2} />
           </div>
           <div>
             <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
-              {t('next_assignment')}
+              {lang === 'da'
+                ? (deadlines.length === 1 ? 'Næste aflevering' : 'Næste afleveringer')
+                : (deadlines.length === 1 ? 'Next assignment' : 'Next assignments')}
             </Heading>
             {size !== 'small' && (
-              <span className="text-[10px] text-muted font-semibold block">
+              <span className="text-xs text-text-muted font-semibold block mt-3xs leading-relaxed">
                 {lang === 'da' ? `${upcomingCount} kommende` : `${upcomingCount} upcoming`}
               </span>
             )}
           </div>
         </Stack>
-        {size !== 'small' && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-xs font-medium text-primary dark:text-white normal-case tracking-normal hover:underline"
-            onClick={handleSeeAll}
-            iconRight={ChevronRight}
-            aria-label={lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}
-          >
-            {lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px]"
+          onClick={handleSeeAll}
+          iconRight={ChevronRight}
+          aria-label={lang === 'da' ? 'Se alle' : 'See all'}
+        >
+          {lang === 'da' ? 'Se alle' : 'See all'}
+        </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col gap-[var(--space-xs)]">
         {deadlines.length > 0 ? (
@@ -137,20 +137,21 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
             <div className="flex flex-col gap-2xs flex-1 justify-center">
               <MasterItem
                 onClick={() => handleDeadlineClick(nextDl)}
-                className="p-2xs border rounded-[var(--radius-md)] border-[var(--border-color)]/60 bg-bg-highlight/40 hover:bg-bg-hover group/row"
+                className="py-sm px-md border rounded-[var(--radius-md)] border-[var(--border-color)]/60 bg-bg-highlight/40 hover:bg-bg-hover group/row"
                 leading={
-                  <div className="shrink-0 flex items-center justify-center" style={{ color: nextDl.info.color }}>
+                  <div className="shrink-0 flex items-center justify-center" style={{ color: nextDl.info.color }} title={nextDl.info.label}>
                     {React.createElement(getUrgencyIcon(nextDl.info.urgency), { size: 14, strokeWidth: 2.5 })}
+                    <span className="sr-only">{nextDl.info.label}</span>
                   </div>
                 }
                 title={
                   <div className="flex items-center gap-xs flex-wrap">
-                    <span className="text-xs font-bold text-main truncate block">
+                    <span className="text-sm font-bold text-main truncate block">
                       {nextDl.title}
                     </span>
                     {nextDl.info.urgency === 'today' && (
                       <span 
-                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0 text-white" 
+                        className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
                         style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                       >
                         {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
@@ -159,12 +160,12 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                   </div>
                 }
                 subtitle={
-                  <span style={{ color: nextDl.info.color }} className={`${getLabelClass(nextDl.info.urgency)} ${getColorClass(nextDl.info.urgency)} text-[9px] block`}>
+                  <span style={{ color: nextDl.info.color }} className={`${getLabelClass(nextDl.info.urgency)} ${getColorClass(nextDl.info.urgency)} text-xs block mt-3xs leading-relaxed`}>
                     {nextDl.info.label}
                   </span>
                 }
                 trailing={
-                  <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
+                  <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
                 }
               />
             </div>
@@ -174,35 +175,44 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                 <div
                   key={dl.id}
                   onClick={() => handleDeadlineClick(dl)}
-                  className={`flex items-center justify-between p-xs border rounded-[var(--radius-md)] cursor-pointer transition-colors group/row ${
-                    dl.info.urgency === 'overdue' ? 'bg-danger/5 border-danger/20' : 'bg-bg-highlight/20 border-[var(--border-color)]/60'
+                  className={`flex items-center justify-between py-sm px-sm border-b border-border/30 last:border-0 cursor-pointer transition-colors group/row min-h-[44px] ${
+                    dl.info.urgency === 'overdue' ? 'bg-danger/5' : ''
                   } hover:bg-bg-hover`}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleDeadlineClick(dl); }}
                 >
                   <div className="flex items-center gap-xs min-w-0 flex-1">
-                    <div className="shrink-0" style={{ color: dl.info.color }}>
+                    <div className="shrink-0" style={{ color: dl.info.color }} title={dl.info.label}>
                       {React.createElement(getUrgencyIcon(dl.info.urgency), { size: 14, strokeWidth: 2.5 })}
+                      <span className="sr-only">{dl.info.label}</span>
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-xs flex-wrap">
-                        <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
+                        <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
                         {dl.info.urgency === 'today' && (
                           <span 
-                            className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0 text-white" 
+                            className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
                             style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                           >
                             {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] text-muted truncate block">{dl.courseTitle}</span>
+                      <span className="text-sm font-medium text-text-secondary truncate block mt-3xs leading-relaxed">{dl.courseTitle}</span>
+                      <Stack direction="row" gap="xs" align="center" className="mt-2xs flex-wrap">
+                        <span style={{ color: dl.info.color }} className={`${getLabelClass(dl.info.urgency)} ${getColorClass(dl.info.urgency)} text-xs font-bold`}>
+                          {dl.info.relativeLabel}
+                        </span>
+                        <span className="text-border/60 text-xs hidden sm:inline">&bull;</span>
+                        <span className="text-xs text-text-secondary">
+                          {dl.info.dateLabel}
+                        </span>
+                      </Stack>
                     </div>
                   </div>
                   <div className="flex items-center gap-xs ml-sm shrink-0">
-                    <span style={{ color: dl.info.color }} className={`${getLabelClass(dl.info.urgency)} ${getColorClass(dl.info.urgency)} text-xs font-bold block`}>{dl.info.label}</span>
-                    <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
+                    <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
                   </div>
                 </div>
               ))}
@@ -214,25 +224,26 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                 <MasterItem
                   key={dl.id}
                   onClick={() => handleDeadlineClick(dl)}
-                  className={`p-xs border rounded-[var(--radius-md)] hover:bg-bg-hover hover:border-[var(--border-color)]/50 group/row ${
+                  className={`py-sm px-md border rounded-[var(--radius-md)] hover:bg-bg-hover hover:border-[var(--border-color)]/50 group/row ${
                     idx === 0 ? 'bg-bg-highlight/40 border-primary/30' : 'bg-transparent border-transparent'
                   }`}
                   leading={
-                    <div className="shrink-0 flex items-center justify-center" style={{ color: dl.info.color }}>
+                    <div className="shrink-0 flex items-center justify-center" style={{ color: dl.info.color }} title={dl.info.label}>
                       {React.createElement(getUrgencyIcon(dl.info.urgency), { size: 16, strokeWidth: 2.5 })}
+                      <span className="sr-only">{dl.info.label}</span>
                     </div>
                   }
                   title={
                     <div className="flex items-center gap-xs flex-wrap">
-                      <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
+                      <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
                       {idx === 0 && (
-                        <span className="px-1.5 py-0.5 bg-danger/10 text-danger text-[9px] font-extrabold uppercase rounded-[var(--radius-xs)] tracking-wider">
+                        <span className="px-1.5 py-0.5 bg-danger/10 text-danger text-xs font-extrabold rounded-[var(--radius-xs)] leading-none">
                           Næste
                         </span>
                       )}
                       {dl.info.urgency === 'today' && (
                         <span 
-                          className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] shrink-0 text-white" 
+                          className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
                           style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                         >
                           {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
@@ -241,18 +252,22 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                     </div>
                   }
                   subtitle={
-                    <div className="flex items-center gap-2xs text-[10px] text-muted">
-                      <span className="truncate max-w-[120px]">{dl.courseTitle}</span>
-                      <span>·</span>
-                      <span style={{ color: dl.info.color }} className={`${getLabelClass(dl.info.urgency)} ${getColorClass(dl.info.urgency)}`}>{dl.info.label}</span>
-                    </div>
+                    <span className="truncate max-w-[120px] text-sm font-medium text-text-secondary mt-3xs leading-relaxed block">{dl.courseTitle}</span>
                   }
                   trailing={
                     <div className="flex items-center gap-xs">
+                      <div className="flex flex-col items-end shrink-0 ml-sm text-right min-w-[120px]">
+                        <span style={{ color: dl.info.color }} className={`${getLabelClass(dl.info.urgency)} ${getColorClass(dl.info.urgency)} text-xs font-bold block`}>
+                          {dl.info.relativeLabel}
+                        </span>
+                        <span className="text-xs text-text-secondary block mt-3xs">
+                          {dl.info.dateLabel}
+                        </span>
+                      </div>
                       <Button
                         variant={idx === 0 ? "primary" : "ghost"}
                         size="xs"
-                        className="font-bold text-[9px] uppercase tracking-wider h-6 px-2 shrink-0"
+                        className="font-bold text-xs normal-case tracking-normal h-8 min-h-[32px] px-sm shrink-0"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeadlineClick(dl);
@@ -260,7 +275,7 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                       >
                         {t('go_to_assignment')}
                       </Button>
-                      <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
+                      <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
                     </div>
                   }
                 />
@@ -274,15 +289,6 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
           </Stack>
         )}
       </Card.Body>
-      {deadlines.length > 0 && size !== 'small' && (
-        <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
-          <Text size="xs" weight="medium" className="text-muted font-medium">{deadlines.length} {t('dashboard.upcoming_count')}</Text>
-          <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Se alle afleveringer' : 'See all assignments'}</Text>
-            <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
-          </div>
-        </Card.Footer>
-      )}
     </Card>
   )
 }
@@ -312,9 +318,7 @@ const getFavoriteMetadata = (item: ResolvedFavorite, lang: 'da' | 'en') => {
     return lang === 'da' ? 'PDF · Opdateret nyligt' : 'PDF · Recently updated'
   }
   if (item.type === 'tool') {
-    return lang === 'da'
-      ? 'Eksternt værktøj · Åbn i nyt vindue'
-      : 'External tool · Open in new window'
+    return lang === 'da' ? 'Eksternt værktøj' : 'External tool'
   }
   if (item.type === 'forum') {
     return lang === 'da' ? 'Forum · Aktivt' : 'Forum · Active'
@@ -354,11 +358,9 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
             {t('favorites')}
           </Heading>
         </Stack>
-        {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="text-xs font-medium text-primary dark:text-white normal-case tracking-normal hover:underline" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
-            {lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}
-          </Button>
-        )}
+        <Button variant="ghost" size="sm" className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px]" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
+          {lang === 'da' ? 'Se alle' : 'See all'}
+        </Button>
       </Card.Header>
       <Card.Body padding="compact" className="overflow-visible p-[var(--space-xs)] flex-1 flex flex-col justify-center">
         {display.length > 0 ? (
@@ -375,7 +377,7 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
                       navigate(item.link)
                     }
                   }}
-                  className="flex items-center justify-between p-xs border rounded-[var(--radius-md)] cursor-pointer transition-colors group/row border-[var(--border-color)]/60 bg-bg-highlight/20 hover:bg-bg-hover"
+                  className="flex items-center justify-between py-sm px-sm border-b border-border/30 last:border-0 cursor-pointer transition-colors group/row hover:bg-bg-hover"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -393,38 +395,39 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
                       <item.icon size={16} strokeWidth={2} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="text-xs font-bold text-main truncate block">{item.title}</span>
-                      <span className="text-[10px] text-muted truncate block">{metadata}</span>
+                      <div className="flex items-center gap-xs">
+                        <span className="text-sm font-bold text-main truncate block">{item.title}</span>
+                        {item.external && <ExternalLink size={14} className="text-text-secondary shrink-0" />}
+                      </div>
+                      <span className="text-sm font-medium text-text-secondary truncate block mt-3xs leading-relaxed">{metadata}</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-xs ml-sm shrink-0">
-                    <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 transition-opacity" />
+                    <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
                   </div>
                 </div>
               )
             })}
           </div>
         ) : (
-          <div className="h-full w-full flex flex-col items-center justify-center py-sm gap-[var(--space-2xs)]">
-            <div className="p-[var(--space-xs)] bg-bg-highlight rounded-[var(--radius-pill)]">
-              <Star size={18} strokeWidth={2} className="text-[var(--aau-light-orange)]" fill="currentColor" />
+          <div className="h-full w-full flex flex-col items-center justify-center py-xs gap-[var(--space-2xs)]">
+            <div className="text-primary/40 shrink-0">
+              <Star size={24} strokeWidth={1.5} />
             </div>
             <Heading level={3} as="h3" className="text-xs font-bold text-main mt-xs">
               {lang === 'da' ? 'Ingen favoritter endnu' : 'No favorites yet'}
             </Heading>
-            <Text muted size="xs" className="text-center max-w-[200px] italic">
-              {lang === 'da' ? 'Vælg dine vigtigste kurser, så de vises direkte på dashboardet.' : 'Choose your most important courses to show them directly on the dashboard.'}
+            <Text size="xs" className="text-center max-w-[200px] text-text-muted italic">
+              {lang === 'da' ? 'Markér kurser som favoritter for at vise dem her.' : 'Mark courses as favorites to show them here.'}
             </Text>
-            {size !== 'small' && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => navigate(PATHS.COURSES)}
-                className="mt-xs font-bold text-xs"
-              >
-                {lang === 'da' ? 'Find kurser' : 'Find courses'}
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(PATHS.COURSES)}
+              className="mt-xs font-bold text-xs h-[32px] min-h-[32px] flex items-center px-sm"
+            >
+              {lang === 'da' ? 'Gå til kurser' : 'Go to courses'}
+            </Button>
           </div>
         )}
         {overflow > 0 && size !== 'small' && (
@@ -520,48 +523,90 @@ function MessagesWidget({ size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
-  const limit = size === 'small' ? 1 : size === 'medium' ? 2 : 3
+
+  // Sort messages: unread first
+  const sortedMessages = useMemo(() => {
+    return [...mockMessages].sort((a, b) => {
+      if (a.unread && !b.unread) return -1
+      if (!a.unread && b.unread) return 1
+      return 0 // keep original order (which is most recent first)
+    })
+  }, [])
+
+  const limit = size === 'small' ? 2 : 3
+  const displayMessages = useMemo(() => {
+    return sortedMessages.slice(0, limit)
+  }, [sortedMessages, limit])
 
   return (
-    <Card className="messages-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
+    <Card className="messages-widget w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="xs">
           <div className="text-primary shrink-0">
-            <BookOpen size={18} strokeWidth={2} />
+            <MessageSquare size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('nav.messages')}
           </Heading>
         </Stack>
-        {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={() => navigate(PATHS.MESSAGES)} aria-label={lang === 'da' ? 'Se alle beskeder' : 'See all messages'}>
-            {lang === 'da' ? 'Se alle beskeder' : 'See all messages'}
-          </Button>
-        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px] px-md flex items-center"
+          onClick={() => navigate(PATHS.MESSAGES)}
+          iconRight={ChevronRight}
+          aria-label={lang === 'da' ? 'Se alle' : 'See all'}
+        >
+          {lang === 'da' ? 'Se alle' : 'See all'}
+        </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col justify-center">
-        <div className="flex flex-col gap-2xs w-full">
-          {mockMessages.slice(0, limit).map((msg) => (
-            <div
-              key={msg.id}
-              onClick={() => navigate(PATHS.MESSAGES)}
-              className="flex items-start justify-between p-xs rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-xs">
-                  <span className={`text-xs truncate block ${msg.unread ? 'font-bold text-main' : 'text-main'}`}>
-                    {msg.sender}
+        {displayMessages.length > 0 ? (
+          <div className="flex flex-col gap-2xs w-full">
+            {displayMessages.map((msg) => (
+              <div
+                key={msg.id}
+                onClick={() => navigate(PATHS.MESSAGES)}
+                className={`flex items-start justify-between py-sm px-sm border-b border-border/30 last:border-0 hover:bg-bg-hover cursor-pointer transition-colors gap-xs group/row ${
+                  msg.unread ? 'bg-primary/5 dark:bg-primary/10' : ''
+                }`}
+                role="button"
+                tabIndex={0}
+                aria-label={msg.unread ? (lang === 'da' ? `Ulæst besked fra ${msg.sender}: ${msg.subject}` : `Unread message from ${msg.sender}: ${msg.subject}`) : undefined}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    navigate(PATHS.MESSAGES)
+                  }
+                }}
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-xs">
+                    {msg.unread && <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mr-1 animate-pulse" aria-hidden="true" />}
+                    <span className="text-sm font-bold text-main truncate block">
+                      {msg.sender}
+                    </span>
+                    {msg.unread && (
+                      <span className="px-2 py-[3px] text-xs font-bold text-primary bg-primary/10 rounded-sm leading-none shrink-0">
+                        {lang === 'da' ? 'Ulæst' : 'Unread'}
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-sm font-medium text-text-secondary truncate block mt-3xs leading-relaxed">
+                    {msg.subject}
                   </span>
-                  {msg.unread && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                  )}
                 </div>
-                <span className="text-[10px] text-muted truncate block">{msg.subject}</span>
+                <div className="flex items-center gap-xs ml-sm shrink-0">
+                  <span className="text-xs text-text-muted leading-relaxed">{msg.time}</span>
+                  <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
+                </div>
               </div>
-              <span className="text-[9px] text-muted shrink-0 ml-xs">{msg.time}</span>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-xs text-text-muted italic py-xs text-center leading-relaxed">
+            {lang === 'da' ? 'Ingen beskeder' : 'No messages'}
+          </div>
+        )}
       </Card.Body>
     </Card>
   )
@@ -582,12 +627,10 @@ const mockCalendarEvents: MockCalendarEvent[] = [
   { id: 3, title: 'Workshop: CSS & Advanced Grid', time: 'Fredag, 12:30 - 14:00', location: 'Online' },
 ]
 
-function CalendarWidget({ size = 'medium' }: WidgetProps) {
+function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
-  const localize = useStore(state => state.localize)
-  const courses = useStore(state => state.courses)
 
   // Filter events (mockCalendarEvents)
   const todayEvents = useMemo(() => {
@@ -596,29 +639,20 @@ function CalendarWidget({ size = 'medium' }: WidgetProps) {
     )
   }, [])
 
-  // Filter deadlines from mockDashboardDeadlines
-  const deadlines = useMemo(() => {
-    return mockDashboardDeadlines.map((deadline) => {
-      const deadlineDate = hoursFromNow(deadline.deadlineHoursFromNow)
-      const course = courses.find(c => c.id === deadline.courseId)
-      const courseTitle = course ? localize(course, 'title') : ''
-      const isUrgent = deadline.deadlineHoursFromNow <= 24 && deadline.deadlineHoursFromNow >= 0
-      return {
-        ...deadline,
-        deadlineDate,
-        courseTitle,
-        title: localize(deadline, 'title'),
-        isUrgent
-      }
-    })
-  }, [courses, localize])
+  // Find next upcoming event (first event that is not today)
+  const upcomingEvent = useMemo(() => {
+    if (todayEvents.length > 0) return null
+    return mockCalendarEvents.find(e => 
+      !e.time.toLowerCase().includes('i dag') && !e.time.toLowerCase().includes('today')
+    ) || null
+  }, [todayEvents])
 
   const handleSeeAll = useCallback(() => {
     navigate(PATHS.CALENDAR)
   }, [navigate])
 
   return (
-    <Card className="calendar-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
+    <Card className="calendar-widget w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
         <Stack direction="row" align="center" gap="xs">
           <div className="text-primary shrink-0">
@@ -628,93 +662,69 @@ function CalendarWidget({ size = 'medium' }: WidgetProps) {
             {t('nav.calendar')}
           </Heading>
         </Stack>
-        {size !== 'small' && (
-          <Button variant="ghost" size="sm" className="font-black uppercase tracking-widest text-primary" onClick={handleSeeAll} aria-label={lang === 'da' ? 'Åbn kalender' : 'Open calendar'}>
-            {lang === 'da' ? 'Åbn kalender' : 'Open calendar'}
-          </Button>
-        )}
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-xs font-medium text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px] px-md flex items-center" 
+          onClick={handleSeeAll} 
+          iconRight={ChevronRight}
+          aria-label={lang === 'da' ? 'Åbn kalender' : 'Open calendar'}
+        >
+          {lang === 'da' ? 'Åbn kalender' : 'Open calendar'}
+        </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col gap-sm overflow-y-auto">
         {/* Section 1: Dagens program */}
         <div className="flex flex-col gap-2xs">
-          <div className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-xs">
+          <div className="text-xs font-semibold text-text-secondary mb-xs">
             {lang === 'da' ? 'Dagens program' : "Today's Schedule"}
           </div>
           {todayEvents.length > 0 ? (
-            todayEvents.map((evt) => (
-              <div
-                key={evt.id}
-                onClick={handleSeeAll}
-                className="flex flex-col p-xs rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]/30"
-              >
-                <span className="text-xs font-bold text-main truncate block">{evt.title}</span>
-                <div className="flex items-center justify-between text-[10px] text-text-muted mt-[2px] opacity-75">
-                  <span>{evt.time}</span>
-                  {evt.location && <span>{evt.location}</span>}
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="text-xs text-text-muted/60 italic py-2xs pl-xs">
-              {lang === 'da' ? 'Ingen planlagte aktiviteter i dag.' : 'No scheduled activities today.'}
-            </div>
-          )}
-        </div>
-
-        {/* Divider */}
-        <div className="border-t border-[var(--border-color)]/30 my-2xs" />
-
-        {/* Section 2: Kommende deadlines */}
-        <div className="flex flex-col gap-2xs">
-          <div className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-xs">
-            {lang === 'da' ? 'Kommende deadlines' : 'Upcoming Deadlines'}
-          </div>
-          {deadlines.length > 0 ? (
-            deadlines.slice(0, size === 'small' ? 1 : 2).map((dl) => (
-              <div
-                key={dl.id}
-                onClick={() => navigate(PATHS.SUBMISSION(dl.courseId, dl.id))}
-                className="flex items-center justify-between p-xs rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors border border-transparent hover:border-[var(--border-color)]/30 gap-sm"
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-xs flex-wrap">
-                    <span className="text-xs font-bold text-main truncate block">{dl.title}</span>
-                    {dl.isUrgent ? (
-                      <span
-                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] text-white shrink-0"
-                        style={{ backgroundColor: 'var(--color-badge-urgent)' }}
-                      >
-                        {lang === 'da' ? 'Forfalder snart' : 'Due soon'}
-                      </span>
-                    ) : (
-                      <span
-                        className="px-1.5 py-0.5 text-[9px] font-bold rounded-[var(--radius-xs)] text-white bg-[var(--color-badge-deadline)] shrink-0"
-                      >
-                        Deadline
-                      </span>
-                    )}
+            <div className="flex flex-col gap-2xs">
+              {todayEvents.map((evt) => (
+                <div
+                  key={evt.id}
+                  onClick={handleSeeAll}
+                  className="flex items-center justify-between py-sm px-md border border-[var(--border-color)]/60 bg-bg-highlight/20 rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors min-h-[52px] group/row"
+                >
+                  <div className="min-w-0 flex-1">
+                    <span className="text-sm font-bold text-main truncate block">{evt.title}</span>
+                    <div className="text-xs text-text-secondary mt-[2px] leading-relaxed font-medium">
+                      {evt.time} {evt.location && `· ${evt.location}`}
+                    </div>
                   </div>
-                  <span className="text-[10px] text-text-muted/80 truncate block">{dl.courseTitle}</span>
+                  <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
                 </div>
-                <span className="text-[10px] font-medium text-text-muted shrink-0">{t(dl.dateKey)}</span>
+              ))}
+            </div>
+          ) : upcomingEvent ? (
+            <div className="flex flex-col gap-2xs">
+              <div className="text-xs text-text-secondary italic pl-xs mb-xs leading-relaxed">
+                {lang === 'da' ? 'Ingen planlagte aktiviteter i dag. Næste aftale:' : 'No activities today. Next appointment:'}
               </div>
-            ))
+              <div className="flex flex-col gap-2xs">
+                <div
+                  key={upcomingEvent.id}
+                  onClick={handleSeeAll}
+                  className="flex items-center justify-between py-sm px-md border border-[var(--border-color)]/60 bg-bg-highlight/20 rounded-[var(--radius-md)] hover:bg-bg-hover cursor-pointer transition-colors min-h-[52px] group/row"
+                >
+                  <div className="min-w-0 flex-1">
+                    <span className="text-sm font-bold text-main truncate block">{upcomingEvent.title}</span>
+                    <div className="text-xs text-text-secondary mt-[2px] leading-relaxed font-medium">
+                      {upcomingEvent.time} {upcomingEvent.location && `· ${upcomingEvent.location}`}
+                    </div>
+                  </div>
+                  <ChevronRight size={14} className="text-muted opacity-40 group-hover/row:opacity-100 group-hover/row:translate-x-[2px] transition-all duration-200 shrink-0" />
+                </div>
+              </div>
+            </div>
           ) : (
-            <div className="text-xs text-text-muted/60 italic py-2xs pl-xs">
-              {lang === 'da' ? 'Ingen kommende deadlines.' : 'No upcoming deadlines.'}
+            <div className="text-xs text-text-secondary italic py-2xs pl-xs leading-relaxed">
+              {lang === 'da' ? 'Ingen kalenderaftaler' : 'No calendar appointments'}
             </div>
           )}
         </div>
       </Card.Body>
-      {size !== 'small' && (
-        <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
-          <Text size="xs" weight="medium" className="text-muted font-medium">{lang === 'da' ? 'Åbn fuld kalender' : 'Open full calendar'}</Text>
-          <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Åbn kalender' : 'Open calendar'}</Text>
-            <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
-          </div>
-        </Card.Footer>
-      )}
     </Card>
   )
 }
@@ -755,7 +765,7 @@ function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
             <div key={course.id} className="flex flex-col gap-[2px]">
               <div className="flex justify-between items-center text-xs">
                 <span className="font-bold text-main truncate max-w-[80%]">{course.title}</span>
-                <span className="text-[10px] text-muted font-bold">{course.percentage}%</span>
+                <span className="text-xs text-text-muted font-bold">{course.percentage}%</span>
               </div>
               <div className="w-full h-1.5 bg-bg-highlight rounded-full overflow-hidden border border-[var(--border-color)]/20">
                 <div
@@ -802,7 +812,7 @@ if (import.meta.vitest) {
     })
     it('renders correctly', () => {
       renderWithProviders(<DeadlinesWidget size="large" />)
-      expect(screen.getByText('Næste aflevering')).toBeInTheDocument()
+      expect(screen.getByText('Næste afleveringer')).toBeInTheDocument()
       expect(screen.getByText('To-Do App')).toBeInTheDocument()
       expect(screen.getByText('Designskitse')).toBeInTheDocument()
       expect(screen.getByText('Analyseopgave')).toBeInTheDocument()
@@ -812,21 +822,23 @@ if (import.meta.vitest) {
       fireEvent.click(screen.getByText('To-Do App'))
       expect(mockNavigate).toHaveBeenCalledWith('/submission/2/204')
     })
-    it('navigates to calendar when footer button is clicked', () => {
+    it('navigates to calendar when header button is clicked', () => {
       renderWithProviders(<DeadlinesWidget />)
-      fireEvent.click(screen.getAllByText(/Se alle afleveringer/i)[0])
+      fireEvent.click(screen.getAllByText(/Se alle/i)[0])
       expect(mockNavigate).toHaveBeenCalledWith('/calendar')
     })
     it('renders correctly in English', () => {
       useStore.setState({ lang: 'en' })
       renderWithProviders(<DeadlinesWidget />)
-      expect(screen.getByText(/Soon/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/In \d+ days/i)[0]).toBeInTheDocument()
     })
     it('handles past deadline urgency color', () => {
       const orig = [...mockDashboardDeadlines]
       mockDashboardDeadlines[0] = { ...mockDashboardDeadlines[0], deadlineHoursFromNow: -24 }
       renderWithProviders(<DeadlinesWidget />)
-      expect(screen.getByText(/Overskredet/i)).toHaveClass('text-danger')
+      const matches = screen.getAllByText(/Overskredet/i)
+      const visibleEl = matches.find(el => !el.className.includes('sr-only'))
+      expect(visibleEl).toHaveClass('text-danger')
       mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length, ...orig)
     })
     it('handles overdue deadlines', () => {

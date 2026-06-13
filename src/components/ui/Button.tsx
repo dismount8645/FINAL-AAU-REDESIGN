@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 const buttonVariants = cva(
   [
     "inline-flex items-center justify-center gap-[var(--space-xs)] relative overflow-visible select-none whitespace-nowrap",
-    "font-black uppercase tracking-tighter transition-all duration-150 ease-[var(--transition-ease)] outline-none isolate",
+    "font-black tracking-tighter transition-all duration-150 ease-[var(--transition-ease)] outline-none isolate",
     "focus-visible:shadow-focus focus-visible:outline-none",
     "disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none",
     "active:scale-[0.97]",
@@ -48,10 +48,15 @@ const buttonVariants = cva(
       pill: {
         true: "rounded-[var(--radius-full)]",
       },
+      uppercase: {
+        true: "uppercase",
+        false: "normal-case",
+      },
     },
     defaultVariants: {
       variant: "primary",
       size: "md",
+      uppercase: false,
     },
   }
 );
@@ -72,6 +77,7 @@ const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
       size,
       full,
       pill,
+      uppercase,
       icon: Icon,
       iconRight: IconRight,
       loading,
@@ -87,7 +93,7 @@ const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled || loading}
         focusableWhenDisabled={focusableWhenDisabled || loading}
-        className={cn(buttonVariants({ variant, size, full, pill }), className)}
+        className={cn(buttonVariants({ variant, size, full, pill, uppercase }), className)}
         {...props}
       >
         {loading ? (

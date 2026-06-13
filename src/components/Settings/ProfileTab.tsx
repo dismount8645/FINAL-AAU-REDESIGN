@@ -41,7 +41,7 @@ export default function ProfileTab(props: ProfileTabProps) {
         <Avatar name={`${firstName} ${lastName}`} size={96} className="ring-4 ring-primary/10 shrink-0" />
         <Stack gap="xs" className="items-start">
           <Text weight="bold" size="xl" className="text-main">{`${firstName} ${lastName}`}</Text>
-          <Button variant="secondary" size="sm" pill icon={Camera} className="normal-case tracking-normal font-semibold px-md py-xs">{t('settings.change_photo')}</Button>
+          <Button variant="secondary" size="md" pill icon={Camera} className="normal-case tracking-normal font-semibold h-11 min-h-[44px] px-lg">{t('settings.change_photo')}</Button>
         </Stack>
       </Stack>
       

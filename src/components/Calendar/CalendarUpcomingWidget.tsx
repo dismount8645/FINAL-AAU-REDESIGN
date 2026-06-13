@@ -101,7 +101,7 @@ const CalendarUpcomingWidget = ({
                   transition={{ delay: idx * 0.05, duration: 0.15 }}
                   type="button"
                   className={cn(
-                    "upcoming-event-item w-full flex items-center gap-[var(--space-md)] p-[var(--space-md)] text-left transition-all duration-150",
+                    "upcoming-event-item group w-full flex items-center gap-[var(--space-md)] py-sm px-md text-left transition-all duration-150",
                     "border-b border-[var(--border-color)]/30 last:border-0 hover:bg-bg-highlight/50 focus-visible:bg-bg-highlight/70 focus-visible:outline-none focus-visible:shadow-focus"
                   )}
                   onClick={() => handleEventClick(e, e.dateKey)}
@@ -110,7 +110,7 @@ const CalendarUpcomingWidget = ({
                     align="center"
                     justify="center"
                     gap="none"
-                    className="bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] min-w-[52px] h-[52px] border border-[var(--border-color)]/60 shadow-sm shrink-0"
+                    className="bg-bg-card p-[var(--space-2xs)] rounded-[var(--radius-md)] min-w-[46px] h-[46px] border border-[var(--border-color)]/60 shadow-sm shrink-0"
                   >
                     <Text size="2xs" weight="black" muted tag="span" className="uppercase tracking-widest leading-none">
                       {monthNames[e.date.getMonth()].substring(0, 3)}
@@ -124,19 +124,19 @@ const CalendarUpcomingWidget = ({
                     <Text size="sm" weight="bold" tag="span" className="line-clamp-2 block leading-snug">
                       {getEventTitle(e)}
                     </Text>
-                    <Stack direction="row" gap="xs" align="center" className="text-muted shrink-0">
+                    <Stack direction="row" gap="xs" align="center" className="text-text-secondary shrink-0">
                       <Clock size={12} strokeWidth={2.5} />
-                      <Text size="sm" weight="bold" tag="span" className="uppercase whitespace-nowrap">{e.time}</Text>
+                      <Text size="xs" weight="bold" tag="span" className="uppercase whitespace-nowrap">{e.time}</Text>
                     </Stack>
                     {e.location && (
-                      <Stack direction="row" gap="xs" align="center" className="text-primary/80 dark:text-white">
+                      <Stack direction="row" gap="xs" align="center" className="text-text-secondary dark:text-white">
                         <MapPin size={12} strokeWidth={2.5} />
-                        <Text size="sm" weight="bold" tag="span" className="italic line-clamp-1 block">{e.location}</Text>
+                        <Text size="xs" weight="bold" tag="span" className="italic line-clamp-1 block">{e.location}</Text>
                       </Stack>
                     )}
                   </Stack>
 
-                  <ChevronRight size={16} className="text-muted/40 shrink-0" />
+                  <ChevronRight size={16} className="text-muted/40 shrink-0 group-hover:translate-x-[2px] transition-transform duration-150" />
                 </motion.button>
               ))
             ) : (

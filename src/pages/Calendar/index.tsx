@@ -8,7 +8,7 @@ import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingW
 
 
 
-import { Button, Card, Dropdown, Text } from '@/components/ui';
+import { Button, Card, Dropdown, Text, AccordionWrapper, AccordionItemRow } from '@/components/ui';
 import ErrorBoundary from '@/components/Layout/ErrorBoundary';
 import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import PageLayout from '@/components/Layout/PageLayout';
@@ -33,6 +33,7 @@ const DayView = memo(CalendarDayView)
 
 const Calendar = () => {
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 
@@ -148,11 +149,12 @@ const Calendar = () => {
             <Stack direction="row" gap="xs" align="center" className="nav-controls">
               <Button
                 variant="secondary"
-                size="icon-sm"
+                size="icon"
                 pill
                 icon={ChevronLeft}
                 onClick={() => navigateCal('prev')}
-                aria-label={t('previous')}
+                className="h-11 w-11 min-h-[44px] min-w-[44px]"
+                aria-label={view === 'month' ? (lang === 'da' ? 'Forrige måned' : 'Previous month') : view === 'week' ? (lang === 'da' ? 'Forrige uge' : 'Previous week') : (lang === 'da' ? 'Forrige dag' : 'Previous day')}
               />
               <Button
                 variant="secondary"
@@ -165,18 +167,19 @@ const Calendar = () => {
               </Button>
               <Button
                 variant="secondary"
-                size="icon-sm"
+                size="icon"
                 pill
                 icon={ChevronRight}
                 onClick={() => navigateCal('next')}
-                aria-label={t('next')}
+                className="h-11 w-11 min-h-[44px] min-w-[44px]"
+                aria-label={view === 'month' ? (lang === 'da' ? 'Næste måned' : 'Next month') : view === 'week' ? (lang === 'da' ? 'Næste uge' : 'Next month') : (lang === 'da' ? 'Næste dag' : 'Next day')}
               />
             </Stack>
             <Stack direction="row" gap="sm" className="flex-wrap" align="center">
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button variant="ghost" size="sm" icon={Settings} className="normal-case tracking-normal hover:bg-bg-hover text-text-muted">
-                    {t('more_actions')}
+                    {lang === 'da' ? 'Import/Eksport' : 'Import/Export'}
                   </Button>
                 </Dropdown.Trigger>
                 <Dropdown.Menu className="w-48 p-1">
@@ -259,12 +262,18 @@ const Calendar = () => {
                   onImport={() => setActiveModal('import')}
                 />
                 
-                <Card variant="default" className="p-[var(--space-md)]">
-                  <Stack gap="sm">
-                    <Text size="xs" weight="black" className="uppercase tracking-widest text-text-muted">
-                      {t('legend')}
-                    </Text>
-                    <Stack gap="xs">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                <AccordionWrapper {...{ collapsible: true, defaultValue: ["legend"] } as any} className="w-full">
+                  <AccordionItemRow
+                    value="legend"
+                    title={
+                      <Text size="xs" weight="black" className="uppercase tracking-widest text-text-muted">
+                        {t('legend')}
+                      </Text>
+                    }
+                    className="border border-border/40 rounded-[var(--radius-md)] overflow-hidden"
+                  >
+                    <Stack gap="xs" className="p-[var(--space-md)] bg-bg-card">
                       <div className="flex items-center gap-2">
                         <span className="w-3 h-3 rounded-full bg-[var(--aau-light-blue)] shadow-sm shrink-0" />
                         <Text size="xs" weight="bold" className="text-text-main">
@@ -285,8 +294,8 @@ const Calendar = () => {
                         </Text>
                       </div>
                     </Stack>
-                  </Stack>
-                </Card>
+                  </AccordionItemRow>
+                </AccordionWrapper>
               </Stack>
             </Grid.Item>
           </Grid>
@@ -492,9 +501,9 @@ if (import.meta.vitest) {
   
     it('opens import and export modals without crashing', () => {
       renderCalendar('da')
-      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByRole('button', { name: /import\/eksport|import\/export|flere handlinger|more actions/i }))
       fireEvent.click(screen.getByText(/importér/i))
-      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByRole('button', { name: /import\/eksport|import\/export|flere handlinger|more actions/i }))
       fireEvent.click(screen.getByText(/eksportér/i))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
     })
@@ -564,9 +573,9 @@ if (import.meta.vitest) {
   
     it('import and export buttons do not crash', () => {
       renderCalendar('da')
-      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByRole('button', { name: /import\/eksport|import\/export|flere handlinger|more actions/i }))
       fireEvent.click(screen.getByText(/importér/i))
-      fireEvent.click(screen.getByRole('button', { name: /flere handlinger|more actions/i }))
+      fireEvent.click(screen.getByRole('button', { name: /import\/eksport|import\/export|flere handlinger|more actions/i }))
       fireEvent.click(screen.getByText(/eksportér/i))
       expect(screen.getByText('maj 2026')).toBeInTheDocument()
     })

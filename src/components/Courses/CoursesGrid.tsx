@@ -11,6 +11,7 @@ import { Heading, Text } from '@/components/ui'
 import { PATHS } from '@/routes';
 import { TeaserCard } from '@/components/ui'
 import useStore, { type CourseWithStatus } from '@/store'
+import { courses as coursesDataMap } from '@/lib/data'
 
 interface CoursesGridProps {
   isLoading?: boolean
@@ -41,6 +42,7 @@ function CoursesGrid({
 }: CoursesGridProps) {
   const navigate = useNavigate()
   const t = useStore((state) => state.t)
+  const getCourseProgress = useStore((state) => state.getCourseProgress)
 
   return (
     <>
@@ -92,6 +94,9 @@ function CoursesGrid({
               <Grid columns={12} gap="lg">
                 {sortedCourses.map((course) => {
                   const courseBadge = t(`course_${course.id}_label`) || t('active')
+                  const courseDetails = coursesDataMap[course.id]
+                  const totalItems = courseDetails?.sections?.reduce((acc, sec) => acc + (sec.items?.length || 0), 0) || 0
+                  const progress = course.status === 'active' && totalItems > 0 ? getCourseProgress(course.id, totalItems) : undefined
                   return (
                     <Grid.Item span={4} key={course.id}>
                       <TeaserCard
@@ -99,7 +104,8 @@ function CoursesGrid({
                         badge={courseBadge}
                         badgeColor={course.status === 'active' ? 'success' : (course.status === 'inactive' ? 'danger' : 'warning')}
                         title={t(`course_${course.id}_title`)}
-                        description={`${t(`course_${course.id}_label`)} · ${course.code || ''}`}
+                        description={`${t(`course_${course.id}_label`)} · ${course.code || ''} ${courseDetails?.professor ? `· ${courseDetails.professor}` : ''}`}
+                        progress={progress}
                         isStarred={isFavorite('course', course.id)}
                         onStarToggle={() => {
                           toggleFavorite('course', course.id)
@@ -107,7 +113,7 @@ function CoursesGrid({
                         onClick={() => navigate(PATHS.COURSE(course.id))}
                         action={
                           <Button 
-                            variant="secondary" 
+                            variant="primary" 
                             size="md" 
                             iconRight={ArrowRight} 
                             pill
@@ -167,7 +173,7 @@ function CoursesGrid({
           </Heading>
           <Icon name={showForums ? 'chevron-down' : 'chevron-right'} className="section-chevron text-[0.9rem] opacity-60 transition-transform duration-[var(--transition-fast)]" />
         </Stack>
-        <Button variant="ghost" size="xs" iconRight={ChevronRight} onClick={() => navigate(PATHS.COURSES)}>{t('view_all')}</Button>
+        <Button variant="ghost" size="sm" iconRight={ChevronRight} className="text-sm font-extrabold normal-case tracking-normal h-[44px] min-h-[44px]" onClick={() => navigate(PATHS.COURSES)}>{t('view_all')}</Button>
       </Stack>
 
       {showForums && (
