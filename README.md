@@ -6,7 +6,7 @@ Modern React + TypeScript portal for AAU students.
 
 ```bash
 npm install
-cp .env.example .env   # then edit .env
+cp .env.example .env   # fill in secrets (see .env.example for required vars)
 npm run dev            # → localhost:3000
 ```
 
@@ -20,15 +20,6 @@ npm run dev            # → localhost:3000
 | `npm run lint` | Type check (`tsc --noEmit`) |
 | `npm run preview` | Preview build |
 | `npm run optimize` | Convert JPG/PNG → WebP |
-
-## Env vars
-
-| Var | Required | Description |
-|-----|----------|-------------|
-| `GEMINI_API_KEY` | Yes | Gemini AI key |
-| `APP_URL` | Yes | Hosted URL for callbacks |
-| `GITHUB_TOKEN` | Push only | GitHub PAT |
-| `GITHUB_REPO` | Push only | Repo slug |
 
 ## Stack
 
