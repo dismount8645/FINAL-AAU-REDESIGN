@@ -47,6 +47,9 @@ qa-screenshots/
 
 # Test artifacts
 test-results.json
+course-test-output.txt
+temp_registry.json
+stats.html
 
 # Playwright
 test-results/
