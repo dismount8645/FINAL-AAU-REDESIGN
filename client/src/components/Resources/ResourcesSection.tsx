@@ -94,9 +94,9 @@ export default function ResourcesSection({
                 <div className="flex flex-wrap gap-xs items-center justify-between mt-sm">
                   <div>
                     {showSsoWarning && !tool.sso && (
-                      <Badge variant="warning" pill className="gap-2xs px-xs py-0.5 text-xs font-bold shadow-sm h-auto">
+                      <Badge variant="default" pill className="gap-2xs px-xs py-0.5 text-xs font-bold h-auto">
                         <Lock size={12} strokeWidth={2.5} />
-                        {lang === 'da' ? 'Kræver AAU-login' : 'Requires AAU login'}
+                        {lang === 'da' ? 'AAU-login' : 'AAU login'}
                       </Badge>
                     )}
                   </div>
@@ -107,7 +107,7 @@ export default function ResourcesSection({
                       env.open(tool.url)
                     }}
                     aria-label={ctaAriaLabel}
-                    className="bg-primary text-white font-extrabold text-sm flex items-center gap-xs px-md py-2 rounded-md transition-all hover:bg-accent hover:-translate-y-0.5 border border-primary shadow-sm"
+                    className="text-primary font-bold text-sm flex items-center gap-xs px-md py-2 rounded-md transition-all hover:bg-primary/15 hover:-translate-y-0.5 border border-primary/60 bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                     <span>{ctaLabel}</span>
                     <ExternalLink size={16} strokeWidth={2.5} aria-hidden="true" />

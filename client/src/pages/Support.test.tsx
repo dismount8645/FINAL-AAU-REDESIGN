@@ -73,7 +73,7 @@ describe('Support', () => {
 
   it('renders correctly in Danish', () => {
     renderSupport('da');
-    expect(screen.getByText(/Kontakt IT-support/i)).toBeInTheDocument();
+    expect(screen.getByText('Hurtige kontaktveje')).toBeInTheDocument();
     const faqBtn = screen.getByText(/Hvordan nulstiller jeg min adgangskode/i);
     fireEvent.click(faqBtn);
     expect(screen.getByText((content) => content.includes('serviceportal.aau.dk'))).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe('Support', () => {
 
   it('renders correctly in English', () => {
     renderSupport('en');
-    expect(screen.getByText(/Contact IT Support/i)).toBeInTheDocument();
+    expect(screen.getByText('Quick contacts')).toBeInTheDocument();
     const faqBtn = screen.getByText(/How do I reset my password/i);
     fireEvent.click(faqBtn);
     const ticketTexts = screen.getAllByText((content) => content.includes('serviceportal.aau.dk'));
@@ -196,15 +196,15 @@ describe('Support', () => {
     expect(mockToast.error).toHaveBeenCalledTimes(1);
   });
 
-  it('renders phone contact card', () => {
+  it('renders compact quick contact bar', () => {
     renderSupport('da');
-    expect(screen.getByText('+45 9940 2020')).toBeInTheDocument();
-    expect(screen.getAllByText('Ring til IT-support').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('+45 9940 2020').length).toBeGreaterThan(0);
+    expect(screen.getByText('Hurtige kontaktveje')).toBeInTheDocument();
   });
 
-  it('renders web contact card', () => {
+  it('renders service portal quick link', () => {
     renderSupport('da');
-    expect(screen.getByText('Åbn serviceportal')).toBeInTheDocument();
+    expect(screen.getByText('Serviceportal')).toBeInTheDocument();
   });
 
   it('renders all location accordions', () => {
