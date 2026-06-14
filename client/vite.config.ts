@@ -16,7 +16,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
-    ...(process.env.ANALYZE ? [visualizer({ open: false, gzipSize: true, brotliSize: true, template: 'raw-data', filename: 'stats.json' })] : []),
+    ...(process.env.ANALYZE ? [visualizer({ open: false, gzipSize: true, brotliSize: true, template: 'raw-data', filename: '../stats.json' })] : []),
   ],
   define: {
     'import.meta.vitest': 'undefined',
