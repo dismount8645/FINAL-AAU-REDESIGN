@@ -195,7 +195,6 @@ function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperProps) {
 }
 
 export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, onToggleWidget, hideFirstDeadline = false, isMessagesElevated = false }: WidgetGridProps) {
-  const t = useStore((state) => state.t)
   const lang = useStore((state) => state.lang)
 
   const handleSizeChange = (id: string, newSize: 'small' | 'medium' | 'large') => {
@@ -280,7 +279,7 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, onToggl
             >
               {isEditing && (
                 <>
-                  <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted cursor-grab shadow-sm" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
+                  <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted/40 hover:text-muted cursor-grab shadow-sm opacity-50 hover:opacity-100 focus-within:opacity-100 transition-all duration-200" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
                     <GripVertical size={16} />
                   </div>
                   <div className="absolute top-2 right-2 z-50" onClick={e => e.stopPropagation()}>
@@ -357,7 +356,7 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, onToggl
             >
               {isEditing && (
                 <>
-                  <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted cursor-grab shadow-sm" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
+                  <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted/40 hover:text-muted cursor-grab shadow-sm opacity-50 hover:opacity-100 focus-within:opacity-100 transition-all duration-200" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
                     <GripVertical size={16} />
                   </div>
                   <div className="absolute top-2 right-2 z-50" onClick={e => e.stopPropagation()}>
