@@ -4,7 +4,7 @@ import { WidgetGrid } from '@/components/Widgets/WidgetGrid';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
 import Button from '@/components/ui/Button';
-import { Settings, Check, RotateCcw, Plus, ArrowRight, GripVertical } from 'lucide-react';
+import { Settings, Check, RotateCcw, Plus, ArrowRight } from 'lucide-react';
 import {
   Dialog,
   DialogTrigger,
@@ -68,11 +68,9 @@ function Dashboard() {
     setDashboardLayout(updated)
   }
 
-  // Check if favorites is auto-hidden
-  const isFavoritesAutoHidden = useMemo(() => {
-    const favWidget = dashboardLayout.find(w => w.id === 'favorites')
-    return !isEditing && !!favWidget && favorites.length === 0 && !favWidget.userModified && !favWidget.pinned
-  }, [dashboardLayout, favorites, isEditing])
+  // Favorites always shows in normal mode (empty state is useful)
+  // Only hidden if user explicitly hides it via widget settings
+  const isFavoritesAutoHidden = false
 
   // Filter layouts to render only the visible ones, auto-hiding empty unpinned favorites
   const visibleWidgetsResult = useMemo(() => {
@@ -252,42 +250,77 @@ function Dashboard() {
               }}>
                 <DialogTrigger render={
                   <Button variant="ghost" size="sm" icon={Plus} render={<span />} className="text-text-muted hover:text-primary">
-                    {t('dashboard.add_remove_widgets')}
+                    {lang === 'da' ? '+ Widgets' : '+ Widgets'}
                   </Button>
                 } />
-                <DialogContent className="max-w-[420px]">
-                  <DialogHeader>
+                <DialogContent className="max-w-[420px] max-h-[calc(100dvh-96px)] flex flex-col overflow-hidden">
+                  <DialogHeader className="shrink-0">
                     <DialogTitle>{t('dashboard.add_remove_widgets')}</DialogTitle>
                     <DialogDescription>
-                      Vælg de moduler, du ønsker at have synlige på dit dashboard.
+                      {lang === 'da' ? 'Vælg de moduler, du vil have synlige på dit dashboard.' : 'Select modules to show on your dashboard.'}
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="flex flex-col gap-sm my-xs">
-                    {dashboardLayout.map((widget) => {
-                      const isFavoritesEmpty = widget.id === 'favorites' && favorites.length === 0;
-                      const isAutoHidden = isFavoritesEmpty && !widget.userModified && !widget.pinned;
-                      return (
-                        <div key={widget.id} className="flex items-center gap-xs py-xs border-b border-[var(--border-color)]/30 last:border-b-0">
-                          <Checkbox
-                            id={`widget-checkbox-${widget.id}`}
-                            checked={widget.visible !== false}
-                            onChange={(e) => handleToggleWidget(widget.id, e.target.checked)}
-                          />
-                          <div className="flex flex-col gap-3xs min-w-0 flex-1">
-                            <label htmlFor={`widget-checkbox-${widget.id}`} className="text-xs font-bold text-main cursor-pointer select-none">
-                              {t(`dashboard.widget_${widget.id}`)}
-                            </label>
-                            {isFavoritesEmpty && isAutoHidden && (
-                              <span className="text-[11px] text-text-muted italic">
-                                {lang === 'da' ? 'Skjult fordi der ikke er valgt favoritter' : 'Hidden because no favorites chosen'}
-                              </span>
-                            )}
+                  <div className="flex flex-col gap-0 overflow-y-auto flex-1 -mx-[var(--space-md)] lg:-mx-[var(--space-lg)] px-[var(--space-md)] lg:px-[var(--space-lg)]">
+                    {(() => {
+                      const groups: { labelDa: string; labelEn: string; widgetIds: string[] }[] = [
+                        { labelDa: 'Dagligt overblik', labelEn: 'Daily overview', widgetIds: ['quickOverview', 'deadlines', 'calendar'] },
+                        { labelDa: 'Kommunikation', labelEn: 'Communication', widgetIds: ['messages', 'forumActivity'] },
+                        { labelDa: 'Genveje og fag', labelEn: 'Shortcuts & courses', widgetIds: ['favorites', 'shortcuts', 'courseProgress', 'support'] },
+                      ];
+                      const widgetMap = new Map(dashboardLayout.map(w => [w.id, w]));
+                      return groups.map((group, gi) => (
+                        <div key={gi}>
+                          {gi > 0 && <div className="border-t border-[var(--border-color)]/20 mt-xs" />}
+                          <div className="text-[10px] font-extrabold text-text-muted uppercase tracking-wider px-xs pt-sm pb-2xs select-none">
+                            {lang === 'da' ? group.labelDa : group.labelEn}
                           </div>
+                          {group.widgetIds.map(widgetId => {
+                            const widget = widgetMap.get(widgetId);
+                            if (!widget) return null;
+                            const isFavoritesEmpty = widget.id === 'favorites' && favorites.length === 0;
+                            const isDisabled = widget.id === 'courseProgress';
+                            return (
+                              <div key={widget.id} className={`flex items-center gap-xs py-xs px-xs rounded-[var(--radius-sm)] transition-colors ${isDisabled ? 'opacity-50' : 'hover:bg-bg-hover'}`}>
+                                <Checkbox
+                                  id={`widget-checkbox-${widget.id}`}
+                                  checked={widget.visible !== false}
+                                  onChange={(e) => handleToggleWidget(widget.id, e.target.checked)}
+                                  disabled={isDisabled}
+                                />
+                                <div className="flex flex-col gap-3xs min-w-0 flex-1">
+                                  <label htmlFor={`widget-checkbox-${widget.id}`} className={`text-xs font-bold text-main cursor-pointer select-none ${isDisabled ? 'cursor-not-allowed' : ''}`}>
+                                    {t(`dashboard.widget_${widget.id}`)}
+                                  </label>
+                                  <span className="text-[11px] text-text-muted leading-relaxed">
+                                    {widget.id === 'favorites' && isFavoritesEmpty
+                                      ? (lang === 'da' ? 'Vises som tom widget, indtil du vælger favoritfag.' : 'Shows as empty widget until you choose favorites.')
+                                      : widget.id === 'calendar'
+                                        ? (lang === 'da' ? 'Dagens program og kommende aftaler.' : "Today's schedule and upcoming events.")
+                                        : widget.id === 'courseProgress'
+                                          ? (lang === 'da' ? 'Ikke tilgængelig — kræver dataintegration.' : 'Unavailable — requires data integration.')
+                                          : widget.id === 'support'
+                                            ? (lang === 'da' ? 'Hurtig adgang til teknisk hjælp.' : 'Quick access to technical support.')
+                                            : widget.id === 'shortcuts'
+                                              ? (lang === 'da' ? 'Genveje til AAU-systemer.' : 'Shortcuts to AAU systems.')
+                                              : widget.id === 'quickOverview'
+                                                ? (lang === 'da' ? 'Dagens aktiviteter, deadlines og ulæste beskeder.' : "Today's activities, deadlines, and unread messages.")
+                                                : widget.id === 'deadlines'
+                                                  ? (lang === 'da' ? 'Kommende afleveringsfrister.' : 'Upcoming assignment deadlines.')
+                                                  : widget.id === 'messages'
+                                                    ? (lang === 'da' ? 'Nylige beskeder og notifikationer.' : 'Recent messages and notifications.')
+                                                    : widget.id === 'forumActivity'
+                                                      ? (lang === 'da' ? 'Seneste indlæg i kursusfora.' : 'Latest posts in course forums.')
+                                                      : ''}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
-                      );
-                    })}
+                      ));
+                    })()}
                   </div>
-                  <DialogFooter className="flex gap-xs justify-end">
+                  <DialogFooter className="flex gap-xs justify-end shrink-0 mt-sm">
                     <Button variant="ghost" size="sm" onClick={() => {
                       if (modalLayoutSnapshot.current) {
                         setDashboardLayout(modalLayoutSnapshot.current)
@@ -310,7 +343,7 @@ function Dashboard() {
               <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
                 <DialogTrigger render={
                   <Button variant="ghost" size="sm" icon={RotateCcw} render={<span />} className="text-text-muted hover:text-danger">
-                    {t('dashboard.reset_dashboard')}
+                    {lang === 'da' ? 'Nulstil' : 'Reset'}
                   </Button>
                 } />
                 <DialogContent className="max-w-[400px]">
@@ -365,32 +398,32 @@ function Dashboard() {
     >
       <div className="dashboard-content-wrapper w-full pb-[var(--space-xl)] pt-2xs">
         {/* Daily Summary Strip */}
-        <div className="daily-summary-strip mb-md flex flex-wrap gap-xs sm:gap-sm items-center py-xs px-sm bg-bg-highlight/10 border border-border/40 rounded-[var(--radius-md)] text-xs font-semibold text-text-secondary select-none">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 dark:bg-white/10 text-primary dark:text-white rounded-md shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-primary animate-pulse shrink-0" />
-            <strong className="text-main font-extrabold uppercase tracking-wide text-[11px]">{lang === 'da' ? 'I DAG' : 'TODAY'}</strong>
-            <span className="text-main font-bold">
+        <div className="daily-summary-strip mb-md flex flex-wrap gap-xs sm:gap-sm items-center py-sm px-md bg-bg-highlight/10 border-2 border-border/30 rounded-[var(--radius-lg)] text-sm font-semibold text-text-secondary select-none shadow-sm">
+          <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-white/10 text-primary dark:text-white rounded-lg shadow-sm">
+            <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse shrink-0" />
+            <strong className="text-main font-extrabold uppercase tracking-wide text-xs">{lang === 'da' ? 'I DAG' : 'TODAY'}</strong>
+            <span className="text-main font-bold text-sm">
               {activityCount} {activityCount === 1 ? (lang === 'da' ? 'aktivitet' : 'activity') : (lang === 'da' ? 'aktiviteter' : 'activities')}
             </span>
             <span className="text-border/60 mx-0.5">·</span>
-            <span className="text-main font-bold">
+            <span className="text-main font-bold text-sm">
               {deadlineCount} {deadlineCount === 1 ? 'deadline' : 'deadlines'}
             </span>
             <span className="text-border/60 mx-0.5">·</span>
-            <span className="text-main font-bold">
+            <span className="text-main font-bold text-sm">
               {messageCount === 1 ? (lang === 'da' ? '1 ulæst' : '1 unread') : (lang === 'da' ? `${messageCount} ulæste` : `${messageCount} unread`)}
             </span>
           </span>
 
           {nextEvent && (
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 dark:bg-white/5 text-primary dark:text-white rounded-md shadow-sm">
-              <strong className="font-extrabold text-main uppercase tracking-wide text-[11px]">{lang === 'da' ? 'NÆSTE' : 'NEXT'}</strong>
-              <span className="font-bold text-main">{t(nextEvent.titleKey)}</span>
-              <span className="text-text-muted">kl. {nextEvent.time}</span>
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 dark:bg-white/5 text-primary dark:text-white rounded-lg shadow-sm">
+              <strong className="font-extrabold text-main uppercase tracking-wide text-xs">{lang === 'da' ? 'NÆSTE' : 'NEXT'}</strong>
+              <span className="font-bold text-main text-sm">{t(nextEvent.titleKey)}</span>
+              <span className="text-text-muted text-sm">kl. {nextEvent.time}</span>
               {nextEvent.location && (
                 <>
                   <span className="text-border/60">·</span>
-                  <span className="text-text-muted">{nextEvent.location}</span>
+                  <span className="text-text-muted text-sm whitespace-nowrap">{nextEvent.location}</span>
                 </>
               )}
             </span>
@@ -399,12 +432,31 @@ function Dashboard() {
 
         {!isEditing && urgentItem && (
           <div
-            className="focus-banner animate-fade-in border-l-4 p-md sm:p-lg sm:px-xl flex flex-col md:flex-row md:items-center justify-between gap-md md:gap-lg"
+            className="focus-banner animate-fade-in border-l-4 p-md sm:p-lg sm:px-xl flex flex-col md:flex-row md:items-center justify-between gap-md md:gap-lg cursor-pointer hover:brightness-[1.02] transition-all"
             style={{ 
               borderLeftColor: urgentItem.info.color,
               backgroundColor: (urgentItem.info.urgency === 'overdue' || urgentItem.info.urgency === 'today') ? 'var(--color-bg-danger-tint)' : 'var(--color-bg-warning-tint)'
             }}
             data-testid="focus-banner"
+            onClick={() => {
+              if (urgentItem.type === 'calendar') {
+                navigate(PATHS.CALENDAR)
+              } else {
+                navigate(PATHS.SUBMISSION(urgentItem.courseId, urgentItem.id))
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (urgentItem.type === 'calendar') {
+                  navigate(PATHS.CALENDAR)
+                } else {
+                  navigate(PATHS.SUBMISSION(urgentItem.courseId, urgentItem.id))
+                }
+              }
+            }}
+            role="button"
+            tabIndex={0}
           >
             <div className="flex flex-col items-start min-w-0 md:max-w-xs lg:max-w-md w-full md:w-auto flex-1">
               <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-sm" style={{ backgroundColor: urgentItem.info.color, color: (urgentItem.info.urgency === 'tomorrow' || urgentItem.info.urgency === 'soon') ? '#211a52' : '#ffffff' }}>
@@ -418,7 +470,7 @@ function Dashboard() {
               <span className="sr-only">Hej {firstName}</span>
             </div>
 
-            <div className="flex flex-col items-start md:items-end justify-center gap-xs w-full md:w-auto shrink-0 mt-sm md:mt-0">
+            <div className="flex flex-col items-start md:items-end justify-center gap-xs w-full md:w-auto shrink-0 mt-sm md:mt-0 pointer-events-none">
               <div className="flex flex-col items-start md:items-end gap-3xs leading-none">
                 <span className="font-black text-sm sm:text-base tracking-wide uppercase" style={{ color: urgentItem.info.color }}>
                   {lang === 'da' ? 'Frist' : 'Due'} {urgentItem.info.relativeLabel}
@@ -431,8 +483,8 @@ function Dashboard() {
                 {extraUrgentCount > 0 && (
                   <button
                     type="button"
-                    onClick={() => navigate(PATHS.CALENDAR)}
-                    className="text-xs font-bold text-primary hover:underline cursor-pointer min-h-[44px] flex items-center"
+                    onClick={(e) => { e.stopPropagation(); navigate(PATHS.CALENDAR); }}
+                    className="text-xs font-bold text-primary hover:underline cursor-pointer min-h-[44px] flex items-center pointer-events-auto"
                   >
                     {t('dashboard.more_urgent_assignments').replace('{count}', String(extraUrgentCount))}
                   </button>
@@ -441,8 +493,9 @@ function Dashboard() {
                   variant="primary"
                   size="sm"
                   iconRight={ArrowRight}
-                  className="font-bold shrink-0 min-h-[44px] whitespace-nowrap px-md text-sm"
-                  onClick={() => {
+                  className="font-bold shrink-0 min-h-[44px] whitespace-nowrap px-md text-sm pointer-events-auto"
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (urgentItem.type === 'calendar') {
                       navigate(PATHS.CALENDAR)
                     } else {
@@ -459,8 +512,11 @@ function Dashboard() {
           </div>
         )}
         {isEditing && (
-          <div className="mb-4 p-3 bg-primary/15 border-2 border-primary/30 rounded-[var(--radius-md)] text-sm font-bold text-primary shadow-sm">
-            {t('dashboard.edit_mode_hint')}
+          <div className="mb-4 p-3 bg-primary/15 border-2 border-primary/30 rounded-[var(--radius-md)] font-bold text-primary shadow-sm text-sm">
+            <span className="inline-flex items-center gap-1.5 flex-wrap">
+              <span>{lang === 'da' ? 'Redigeringstilstand:' : 'Edit mode:'}</span>
+              <span className="font-medium text-primary/80">{lang === 'da' ? 'Du kan flytte og skjule widgets. Automatisk prioritering er slået fra, mens du redigerer.' : 'Move and hide widgets. Auto-priority is disabled while editing.'}</span>
+            </span>
           </div>
         )}
         <WidgetGrid

@@ -33,7 +33,7 @@ const DialogOverlay = memo(forwardRef<HTMLDivElement, DialogPrimitive.Backdrop.P
       data-slot="dialog-overlay"
       render={<div />}
       className={cn(
-        "fixed inset-0 isolate z-[var(--z-dialog)] bg-primary/50 backdrop-blur-sm",
+        "fixed inset-0 isolate z-[var(--z-dialog)] bg-primary/45 backdrop-blur-[2px]",
         className
       )}
       {...props}
