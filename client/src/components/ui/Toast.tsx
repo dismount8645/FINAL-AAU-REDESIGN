@@ -25,7 +25,7 @@ export interface ToastContextType {
   toasts: Toast[];
 }
 
-const ToastContext = createContext<ToastContextType | null>(null)
+export const ToastContext = createContext<ToastContextType | null>(null)
 
 export function useToast() {
   const context = useContext(ToastContext)

@@ -1,4 +1,4 @@
-import { memo, useState, type ReactNode, type MouseEvent, useCallback } from 'react';
+import { memo, useState, useContext, type ReactNode, type MouseEvent, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { type LucideIcon, Star, Info, ExternalLink, User } from 'lucide-react';
 import Button from '@/components/ui/Button';
@@ -7,6 +7,7 @@ import { IconCircle } from './Icon';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
+import { ToastContext } from '@/components/ui/Toast';
 import { cn } from '@/lib/utils';
 
 export interface InfoCardProps {
@@ -25,6 +26,8 @@ export interface InfoCardProps {
   children?: ReactNode
   isStarred?: boolean
   onStarToggle?: () => void
+  addFavoriteLabel?: string
+  removeFavoriteLabel?: string
   helpText?: string
 }
 
@@ -44,16 +47,26 @@ const InfoCard = memo(function InfoCard({
   children,
   isStarred = false,
   onStarToggle,
+  addFavoriteLabel,
+  removeFavoriteLabel,
   helpText,
 }: InfoCardProps) {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const toastCtx = useContext(ToastContext)
   const [showHelp, setShowHelp] = useState(false)
 
   const handleStarClick = useCallback((e: MouseEvent) => {
     e.stopPropagation()
+    const wasStarred = isStarred
     onStarToggle?.()
-  }, [onStarToggle])
+    if (toastCtx) {
+      const msg = wasStarred
+        ? (lang === 'da' ? 'Fjernet fra favoritter' : 'Removed from favorites')
+        : (lang === 'da' ? 'Tilføjet til favoritter' : 'Added to favorites')
+      toastCtx.success(msg, { duration: 2000 })
+    }
+  }, [onStarToggle, isStarred, toastCtx, lang])
 
   const handleHelpClick = useCallback((e: MouseEvent) => {
     e.stopPropagation()
@@ -75,26 +88,29 @@ const InfoCard = memo(function InfoCard({
     >
       <Card.Body className="p-md md:p-lg h-full w-full flex flex-col relative">
             {onStarToggle && (
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className={cn(
-              'absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 transition-all',
-              isStarred 
-                ? 'text-warning bg-[var(--aau-light-gold)]/10 hover:bg-[var(--aau-light-gold)]/20' 
-                : 'text-disabled hover:text-primary'
-            )}
+          <button
+            type="button"
             onClick={handleStarClick}
-            aria-label={isStarred ? t('remove_favorite') : t('add_favorite')}
-            title={isStarred ? t('remove_favorite') : t('add_favorite')}
-            pill
+            aria-label={isStarred 
+              ? (removeFavoriteLabel || t('remove_favorite')) 
+              : (addFavoriteLabel || t('add_favorite'))}
+            title={isStarred 
+              ? (removeFavoriteLabel || t('remove_favorite')) 
+              : (addFavoriteLabel || t('add_favorite'))}
+            className={cn(
+              'absolute top-[var(--space-sm)] right-[var(--space-sm)] z-10 flex items-center justify-center w-10 h-10 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+              isStarred 
+                ? 'text-warning bg-[var(--aau-light-gold)]/20 hover:bg-[var(--aau-light-gold)]/30' 
+                : 'text-disabled hover:text-primary hover:bg-bg-hover'
+            )}
           >
             <Star 
-              size={16} 
-              strokeWidth={2.5} 
+              size={20} 
+              strokeWidth={2} 
               fill={isStarred ? 'currentColor' : 'none'} 
+              className={isStarred ? 'drop-shadow-sm' : ''}
             />
-          </Button>
+          </button>
         )}
         <Stack direction={direction} gap={direction === 'row' ? 'lg' : 'md'} align="start" full>
           <IconCircle icon={icon} bg={iconBg} color={iconColor} size={iconSize} className="shrink-0" />

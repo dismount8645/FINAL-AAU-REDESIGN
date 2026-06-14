@@ -1,4 +1,5 @@
 import { vi, describe, beforeEach, it, expect } from 'vitest';
+import { within } from '@testing-library/react';
 import { renderWithProviders, screen, fireEvent, act } from '@/test/test-utils';
 import Support from './Support';
 import useStore from '@/store';
@@ -37,13 +38,19 @@ describe('Support', () => {
 
   function openForm() {
     act(() => {
-      fireEvent.click(screen.getByText('Skriv en besked'));
+      const sidebar = document.querySelector('.support-sidebar');
+      if (sidebar) {
+        fireEvent.click(within(sidebar as HTMLElement).getByRole('button', { name: 'Send besked' }));
+      }
     });
   }
 
   function openFormEnglish() {
     act(() => {
-      fireEvent.click(screen.getByText('Write a message'));
+      const sidebar = document.querySelector('.support-sidebar');
+      if (sidebar) {
+        fireEvent.click(within(sidebar as HTMLElement).getByRole('button', { name: 'Send message' }));
+      }
     });
   }
 
@@ -134,7 +141,8 @@ describe('Support', () => {
       submitForm();
     });
     expect(screen.queryByLabelText(/Emne/)).not.toBeInTheDocument();
-    expect(screen.getByText('Skriv en besked')).toBeInTheDocument();
+    const sidebar1 = document.querySelector('.support-sidebar');
+    expect(within(sidebar1 as HTMLElement).getByRole('button', { name: 'Send besked' })).toBeInTheDocument();
   });
 
   it('disables submit button while form is being sent', async () => {
@@ -152,7 +160,8 @@ describe('Support', () => {
       submitForm();
     });
     
-    expect(screen.getByRole('button', { name: 'Send besked' })).toHaveAttribute('aria-disabled', 'true');
+    const formEl = document.querySelector('form');
+    expect(within(formEl as HTMLElement).getByRole('button', { name: 'Send besked' })).toHaveAttribute('aria-disabled', 'true');
     
     await act(async () => {
       resolveSubmit({ success: true });
@@ -165,7 +174,8 @@ describe('Support', () => {
     expect(screen.getByLabelText(/Emne/)).toBeInTheDocument();
     fireEvent.click(screen.getByText('Annuller'));
     expect(screen.queryByLabelText(/Emne/)).not.toBeInTheDocument();
-    expect(screen.getByText('Skriv en besked')).toBeInTheDocument();
+    const sidebar2 = document.querySelector('.support-sidebar');
+    expect(within(sidebar2 as HTMLElement).getByRole('button', { name: 'Send besked' })).toBeInTheDocument();
   });
 
   it('clears field errors on input change', () => {
@@ -189,12 +199,12 @@ describe('Support', () => {
   it('renders phone contact card', () => {
     renderSupport('da');
     expect(screen.getByText('+45 9940 2020')).toBeInTheDocument();
-    expect(screen.getAllByText('Telefonsupport').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('Ring til IT-support').length).toBeGreaterThan(0);
   });
 
   it('renders web contact card', () => {
     renderSupport('da');
-    expect(screen.getByText('Serviceportal')).toBeInTheDocument();
+    expect(screen.getByText('Åbn serviceportal')).toBeInTheDocument();
   });
 
   it('renders all location accordions', () => {
@@ -226,6 +236,6 @@ describe('Support', () => {
 
   it('renders chat closed message', () => {
     renderSupport('da');
-    expect(screen.getByText(/Chatten er lukket/i)).toBeInTheDocument();
+    expect(screen.getByText(/Chat: Lukket nu/i)).toBeInTheDocument();
   });
 });
