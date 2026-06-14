@@ -1,6 +1,0 @@
-{
-  "name": "AAU Moodle Redesign",
-  "description": "A fully responsive, highly accessible, and visually modern redesign of the AAU Moodle platform with optimized layout, custom course widgets, and advanced schedule navigation.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
