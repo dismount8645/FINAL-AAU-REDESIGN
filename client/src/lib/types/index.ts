@@ -260,6 +260,8 @@ export interface ResourceTool {
   titleKey?: string
   titleDa?: string
   titleEn?: string
+  shortTitleDa?: string
+  shortTitleEn?: string
   descDa: string
   descEn: string
   helpDa?: string
@@ -267,5 +269,7 @@ export interface ResourceTool {
   url: string
   sso?: boolean
   category?: string
+  popular?: boolean
+  keywords?: string[]
 }
 

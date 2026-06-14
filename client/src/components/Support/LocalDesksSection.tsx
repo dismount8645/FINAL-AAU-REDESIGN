@@ -1,7 +1,6 @@
 import { memo } from 'react'
-import { Clock } from 'lucide-react'
+import { Clock, Phone, MapPin } from 'lucide-react'
 import { Card } from '@/components/ui'
-import Button from '@/components/ui/Button'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { SectionHeader } from '@/components/ui'
 import { KeyValue } from '@/components/ui'
@@ -14,6 +13,7 @@ import { AccordionWrapper, AccordionItemRow } from '@/components/ui'
 function LocalDesksSection() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
+  const lang = useStore(state => state.lang)
 
   return (
     <Stack gap="md">
@@ -32,6 +32,21 @@ function LocalDesksSection() {
                   <Text size="sm" className="text-main">{loc.address}</Text>
                   <Text size="xs" className="text-muted">{loc.zip}</Text>
                 </div>
+                
+                {loc.phone && (
+                  <a href={`tel:${loc.phone.replace(/\s/g, '')}`} className="flex items-center gap-xs text-sm text-primary hover:underline">
+                    <Phone size={14} strokeWidth={2} className="shrink-0" />
+                    {loc.phone}
+                  </a>
+                )}
+                
+                {loc.mapUrl && (
+                  <a href={loc.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-xs text-sm text-primary hover:underline">
+                    <MapPin size={14} strokeWidth={2} className="shrink-0" />
+                    {lang === 'da' ? 'Vis på kort' : 'Show on map'}
+                  </a>
+                )}
+                
                 <div className="border-t border-border pt-2xs">
                   <Text size="xs" weight="semibold" className="flex items-center gap-3xs text-muted mb-3xs">
                     <Clock size={14} strokeWidth={2} />
@@ -69,19 +84,7 @@ function LocalDesksSection() {
             </div>
           </Stack>
         </div>
-      </Card>
-
-      <Card>
-        <Stack gap="sm" className="items-start">
-          <Heading level={3}>{t('it_support_comes_to_you')}</Heading>
-          <Text size="sm" className="text-muted leading-relaxed">
-            {t('it_support_comes_to_you_desc')}
-          </Text>
-          <Button variant="primary" size="md" onClick={() => window.open('https://serviceportal.aau.dk', '_blank', 'noopener,noreferrer')} className="mt-xs normal-case tracking-normal hover:-translate-y-1 shadow-sm">
-            {t('request_assistance')}
-          </Button>
-        </Stack>
-      </Card>
+    </Card>
     </Stack>
   )
 }

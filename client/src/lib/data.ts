@@ -341,10 +341,10 @@ const registryJson = {
     }
   ],
   "supportLocations": [
-    { "city": "Aalborg Øst", "address": "Kroghstræde 3, lokale 2.106", "zip": "9220 Aalborg Ø" },
-    { "city": "Aalborg City", "address": "Rendsburggade 14, lokale 2.145", "zip": "9000 Aalborg" },
-    { "city": "København", "address": "A.C. Meyers Vænge 15, 5. sal", "zip": "2450 København" },
-    { "city": "Esbjerg", "address": "Niels Bohrs Vej 8, rum F110", "zip": "6700 Esbjerg" }
+    { "city": "Aalborg Øst", "address": "Kroghstræde 3, lokale 2.106", "zip": "9220 Aalborg Ø", "phone": "+45 9940 2020", "mapUrl": "https://maps.google.com/?q=Kroghstr%C3%A6de+3+Aalborg" },
+    { "city": "Aalborg City", "address": "Rendsburggade 14, lokale 2.145", "zip": "9000 Aalborg", "phone": "+45 9940 2020", "mapUrl": "https://maps.google.com/?q=Rendsburggade+14+Aalborg" },
+    { "city": "København", "address": "A.C. Meyers Vænge 15, 5. sal", "zip": "2450 København", "phone": "+45 9940 2020", "mapUrl": "https://maps.google.com/?q=A.C.+Meyers+V%C3%A6nge+15+K%C3%B8benhavn" },
+    { "city": "Esbjerg", "address": "Niels Bohrs Vej 8, rum F110", "zip": "6700 Esbjerg", "phone": "+45 9940 2020", "mapUrl": "https://maps.google.com/?q=Niels+Bohrs+Vej+8+Esbjerg" }
   ],
   "supportDeskHours": [
     { "days": "Mandag - Torsdag", "daysEn": "Monday - Thursday", "hours": "8.00 - 15.30" },
@@ -386,6 +386,8 @@ const registryJson = {
       "nameDa": "Digital Eksamen",
       "nameEn": "Digital Exam",
       "titleKey": "digital_exam",
+      "shortTitleDa": "Digital Eksamen",
+      "shortTitleEn": "Digital Exam",
       "descDa": "Aflevering af skriftlige eksamensopgaver.",
       "descEn": "Submission of written exam papers.",
       "iconName": "PenSquare",
@@ -395,13 +397,17 @@ const registryJson = {
       "sso": true,
       "helpDa": "Digital Eksamen er AAUs platform for aflevering af skriftlige eksamener. Du uploader din besvarelse og får karakter via systemet.",
       "helpEn": "Digital Exam is AAU's platform for submitting written exams. You upload your answers and receive grades through the system.",
-      "category": "tools"
+      "category": "tools",
+      "popular": true,
+      "keywords": ["eksamen", "aflevering", "opgave", "prøve", "exam", "submission"]
     },
     {
       "id": 2,
       "nameDa": "STADS eksamens-tilmelding",
       "nameEn": "STADS exam registration",
       "titleKey": "stads",
+      "shortTitleDa": "STADS",
+      "shortTitleEn": "STADS",
       "descDa": "Eksamens-tilmelding og karakterer.",
       "descEn": "Exam registration and grades.",
       "iconName": "FileText",
@@ -411,13 +417,17 @@ const registryJson = {
       "sso": true,
       "helpDa": "STADS er AAUs system for eksamenstilmelding, karakterudskrift og studieadministration.",
       "helpEn": "STADS is AAU's system for exam registration, grade transcripts, and study administration.",
-      "category": "tools"
+      "category": "tools",
+      "popular": true,
+      "keywords": ["karakterer", "tilmelding", "eksamenstilmelding", "studieadministration", "grades", "registration"]
     },
     {
       "id": 3,
       "nameDa": "Aalborg Universitetsbibliotek (AUB)",
       "nameEn": "Aalborg University Library (AUB)",
       "titleKey": "aub",
+      "shortTitleDa": "Biblioteket",
+      "shortTitleEn": "Library",
       "descDa": "Aalborg Universitetsbibliotek.",
       "descEn": "Aalborg University Library.",
       "iconName": "BookOpen",
@@ -427,13 +437,16 @@ const registryJson = {
       "sso": false,
       "helpDa": "AU Belysning giver dig adgang til videnskabelige artikler, e-bøger og databaser.",
       "helpEn": "AUB gives you access to scientific articles, e-books, and databases.",
-      "category": "tools"
+      "category": "tools",
+      "keywords": ["bibliotek", "artikler", "bøger", "database", "library", "articles", "books"]
     },
     {
       "id": 4,
       "nameDa": "IT systemer & software",
       "nameEn": "IT systems & software",
       "titleKey": "it_software",
+      "shortTitleDa": "IT & software",
+      "shortTitleEn": "IT & Software",
       "descDa": "Licenser, software og VPN.",
       "descEn": "Licenses, software, and VPN.",
       "iconName": "Wifi",
@@ -441,7 +454,8 @@ const registryJson = {
       "color": "var(--aau-light-green)",
       "url": "https://www.its.aau.dk",
       "sso": false,
-      "category": "tools"
+      "category": "tools",
+      "keywords": ["software", "licens", "vpn", "it", "download", "license"]
     },
     {
       "id": 5,
@@ -449,6 +463,8 @@ const registryJson = {
       "nameEn": "Outlook Mail",
       "titleDa": "Outlook Mail",
       "titleEn": "Outlook Mail",
+      "shortTitleDa": "Outlook",
+      "shortTitleEn": "Outlook",
       "descDa": "Din AAU-studentermail.",
       "descEn": "Your AAU student email.",
       "iconName": "Mail",
@@ -456,7 +472,9 @@ const registryJson = {
       "color": "#3b82f6",
       "url": "https://outlook.com/aau.dk",
       "sso": true,
-      "category": "essentials"
+      "category": "essentials",
+      "popular": true,
+      "keywords": ["mail", "email", "e-mail", "post", "besked", "calendar", "kalender", "message"]
     },
     {
       "id": 6,
@@ -464,6 +482,8 @@ const registryJson = {
       "nameEn": "Microsoft Teams",
       "titleDa": "Microsoft Teams",
       "titleEn": "Microsoft Teams",
+      "shortTitleDa": "Teams",
+      "shortTitleEn": "Teams",
       "descDa": "Video-møder og chat.",
       "descEn": "Video meetings and chat.",
       "iconName": "Users",
@@ -471,7 +491,9 @@ const registryJson = {
       "color": "#4f46e5",
       "url": "https://teams.microsoft.com",
       "sso": true,
-      "category": "essentials"
+      "category": "essentials",
+      "popular": true,
+      "keywords": ["teams", "chat", "møde", "video", "samarbejde", "meeting", "collaboration"]
     },
     {
       "id": 7,
@@ -479,6 +501,8 @@ const registryJson = {
       "nameEn": "OneDrive",
       "titleDa": "OneDrive",
       "titleEn": "OneDrive",
+      "shortTitleDa": "OneDrive",
+      "shortTitleEn": "OneDrive",
       "descDa": "Cloud-lager til dine filer.",
       "descEn": "Cloud storage for your files.",
       "iconName": "Cloud",
@@ -486,7 +510,9 @@ const registryJson = {
       "color": "#0ea5e9",
       "url": "https://aau-my.sharepoint.com",
       "sso": true,
-      "category": "essentials"
+      "category": "essentials",
+      "popular": true,
+      "keywords": ["filer", "dokumenter", "cloud", "storage", "gemme", "dele", "files", "documents", "share"]
     },
     {
       "id": 8,
@@ -494,6 +520,8 @@ const registryJson = {
       "nameEn": "Word & Office",
       "titleDa": "Word & Office",
       "titleEn": "Word & Office",
+      "shortTitleDa": "Word & Office",
+      "shortTitleEn": "Word & Office",
       "descDa": "Office-pakken online.",
       "descEn": "Office suite online.",
       "iconName": "FileText",
@@ -501,7 +529,8 @@ const registryJson = {
       "color": "#ea4335",
       "url": "https://office.com",
       "sso": true,
-      "category": "essentials"
+      "category": "essentials",
+      "keywords": ["word", "office", "dokument", "skrive", "document", "write", "excel", "powerpoint"]
     },
     {
       "id": 9,
@@ -509,6 +538,8 @@ const registryJson = {
       "nameEn": "OneNote",
       "titleDa": "OneNote",
       "titleEn": "OneNote",
+      "shortTitleDa": "OneNote",
+      "shortTitleEn": "OneNote",
       "descDa": "Digitale noter og idéer.",
       "descEn": "Digital notes and ideas.",
       "iconName": "Book",
@@ -516,7 +547,8 @@ const registryJson = {
       "color": "var(--aau-light-pink)",
       "url": "https://onenote.com",
       "sso": true,
-      "category": "essentials"
+      "category": "essentials",
+      "keywords": ["noter", "notes", "ideer", "ideas"]
     },
     {
       "id": 10,
@@ -524,6 +556,8 @@ const registryJson = {
       "nameEn": "Forms",
       "titleDa": "Forms",
       "titleEn": "Forms",
+      "shortTitleDa": "Forms",
+      "shortTitleEn": "Forms",
       "descDa": "Spørgeskemaer og quizzer.",
       "descEn": "Surveys and quizzes.",
       "iconName": "ClipboardList",
@@ -531,7 +565,8 @@ const registryJson = {
       "color": "var(--aau-light-green)",
       "url": "https://forms.office.com",
       "sso": true,
-      "category": "essentials"
+      "category": "essentials",
+      "keywords": ["spørgeskema", "quiz", "survey", "formular", "evaluering"]
     },
     {
       "id": 11,
@@ -539,6 +574,8 @@ const registryJson = {
       "nameEn": "Panopto",
       "titleDa": "Panopto",
       "titleEn": "Panopto",
+      "shortTitleDa": "Panopto",
+      "shortTitleEn": "Panopto",
       "descDa": "Videooptagelse og streaming.",
       "descEn": "Video recording and streaming.",
       "iconName": "Video",
@@ -548,7 +585,8 @@ const registryJson = {
       "sso": true,
       "helpDa": "Panopto er AAUs platform for videooptagelse og streaming of forelæsninger.",
       "helpEn": "Panopto is AAU's platform for video recording and streaming of lectures.",
-      "category": "essentials"
+      "category": "essentials",
+      "keywords": ["video", "optagelse", "forelæsning", "streaming", "recording", "lecture"]
     },
     {
       "id": 12,
@@ -556,6 +594,8 @@ const registryJson = {
       "nameEn": "Zoom",
       "titleDa": "Zoom",
       "titleEn": "Zoom",
+      "shortTitleDa": "Zoom",
+      "shortTitleEn": "Zoom",
       "descDa": "Video-konferenceværktøj.",
       "descEn": "Video conferencing tool.",
       "iconName": "Video",
@@ -563,7 +603,9 @@ const registryJson = {
       "color": "#0ea5e9",
       "url": "https://aau.zoom.us",
       "sso": false,
-      "category": "essentials"
+      "category": "essentials",
+      "popular": true,
+      "keywords": ["video", "møde", "konference", "meeting", "conference"]
     }
   ]
 }
