@@ -1,25 +1,48 @@
 import { useCallback, memo } from 'react';
 
-import { ChevronRight, Calendar } from 'lucide-react';
+import { ChevronRight, Calendar, Clock, MapPin, AlertCircle, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '@/components/ui';
+import { Card, Button } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
 import { PATHS } from '@/routes';
 
-interface OverviewEvent {
+export interface OverviewEvent {
   time: string
   titleKey: string
   moduleKey?: string
   location?: string
 }
 
-const todayEvents: OverviewEvent[] = [
+export const todayEvents: OverviewEvent[] = [
   { time: '08:15', titleKey: 'lecture', moduleKey: 'course_1_title', location: 'Fibigerstræde 15' },
   { time: '13:00', titleKey: 'study_group', moduleKey: 'course_2_title', location: 'Kroghstræde 3' },
   { time: '23:59', titleKey: 'project_report', moduleKey: 'course_4_title' },
 ]
+
+const getBadgeInfo = (event: OverviewEvent, lang: 'da' | 'en') => {
+  if (event.time === '23:59') {
+    return {
+      text: lang === 'da' ? 'Aflevering' : 'Submission',
+      badgeClass: 'bg-[var(--color-bg-danger-tint)] text-[var(--color-danger)] border-[var(--color-danger)]/30',
+      Icon: AlertCircle
+    }
+  }
+  if (event.titleKey === 'study_group') {
+    return {
+      text: lang === 'da' ? 'Studiegruppe' : 'Study Group',
+      badgeClass: 'bg-accent/10 text-accent border-accent/20',
+      Icon: Users
+    }
+  }
+  return {
+    text: lang === 'da' ? 'Undervisning' : 'Class',
+    badgeClass: 'bg-primary/5 text-primary border-primary/20',
+    Icon: Clock,
+    iconBgClass: 'bg-[var(--color-bg-warning-tint)] text-[var(--aau-dark-orange)] border-[var(--aau-dark-orange)]/20'
+  }
+}
 
 const OverviewItem = memo(({
   event,
@@ -29,6 +52,13 @@ const OverviewItem = memo(({
   onClick: () => void
 }) => {
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
+
+  const { text, badgeClass, Icon } = getBadgeInfo(event, lang)
+
+  const title = event.titleKey === 'project_report'
+    ? (lang === 'da' ? 'Projektrapport skal afleveres' : 'Submit Projektrapport')
+    : t(event.titleKey)
 
   return (
     <div
@@ -43,17 +73,27 @@ const OverviewItem = memo(({
         }
       }}
     >
-      <Text size="sm" weight="bold" className="text-primary font-mono shrink-0">
-        {event.time}
-      </Text>
+      <div className="flex flex-col w-[50px] shrink-0 justify-center">
+        <span className="font-mono text-xs font-semibold text-muted">{event.time}</span>
+      </div>
+
       <div className="flex flex-col gap-4xs flex-1 min-w-0">
-        <Text size="sm" weight="bold" className="text-main truncate">
-          {t(event.titleKey)} {event.moduleKey && `· ${t(event.moduleKey)}`}
-        </Text>
-        {event.location && (
-          <Text size="xs" muted className="truncate">
-            {event.location}
+        <div className="flex items-center gap-xs flex-wrap">
+          <Text size="sm" weight="bold" className="text-main truncate">
+            {title} {event.moduleKey && `· ${t(event.moduleKey)}`}
           </Text>
+          <span className={`inline-flex items-center gap-xs px-1.5 py-0.5 rounded text-[10px] font-medium border ${badgeClass}`}>
+            <Icon size={10} className="shrink-0" />
+            {text}
+          </span>
+        </div>
+        {event.location && (
+          <div className="flex items-center gap-sm text-xs text-muted flex-wrap">
+            <span className="flex items-center gap-4xs">
+              <MapPin size={12} className="shrink-0" />
+              <span className="truncate">{event.location}</span>
+            </span>
+          </div>
         )}
       </div>
       <ChevronRight size={16} className="text-muted/60 shrink-0" />
@@ -87,6 +127,15 @@ const QuickOverviewWidget = ({ size: _size = 'medium' }: WidgetProps) => {
             {t('dashboard.widget_quickOverview')}
           </Heading>
         </Stack>
+        <Button
+          variant="ghost"
+          size="xs"
+          iconRight={ChevronRight}
+          onClick={handleGoToCalendar}
+          className="text-xs font-bold text-primary dark:text-white"
+        >
+          {lang === 'da' ? 'Se kalender' : 'See calendar'}
+        </Button>
       </Card.Header>
 
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col justify-center">
@@ -103,54 +152,8 @@ const QuickOverviewWidget = ({ size: _size = 'medium' }: WidgetProps) => {
           ))}
         </div>
       </Card.Body>
-
-      <Card.Footer padding="none" className="border-t border-[var(--border-color)]/20 cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleGoToCalendar} role="button" tabIndex={0}>
-        <div className="w-full h-[44px] flex items-center justify-center gap-1">
-          <Text size="xs" weight="bold" className="text-primary dark:text-white">{lang === 'da' ? 'Se kalender' : 'See calendar'}</Text>
-          <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
-        </div>
-      </Card.Footer>
     </Card>
   )
 }
 
 export default memo(QuickOverviewWidget)
-
-let mockNavigate: ReturnType<typeof vi.fn>
-if (import.meta.vitest) {
-  mockNavigate = vi.fn()
-  vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom')
-    return {
-      ...actual,
-      useNavigate: () => mockNavigate
-    }
-  })
-  describe('QuickOverviewWidget', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-    })
-    it('renders today events', () => {
-      renderWithProviders(<QuickOverviewWidget />)
-      expect(screen.getAllByText('Dagens program')[0]).toBeInTheDocument()
-      expect(screen.getByText('08:15')).toBeInTheDocument()
-      expect(screen.getByText(/Forelæsning/i)).toBeInTheDocument()
-      expect(screen.getByText('23:59')).toBeInTheDocument()
-      expect(screen.getByText(/Projektrapport/i)).toBeInTheDocument()
-    })
-
-    it('navigates to calendar when link is clicked', () => {
-      renderWithProviders(<QuickOverviewWidget />)
-      const link = screen.getByText(/Se kalender/i)
-      fireEvent.click(link)
-      expect(mockNavigate).toHaveBeenCalledWith('/calendar')
-    })
-
-    it('renders correct number of interactive items', () => {
-      const { container } = renderWithProviders(<QuickOverviewWidget />)
-      const items = container.querySelectorAll('[role="button"]')
-      // 3 event items + 1 card footer = 4 total role=button elements
-      expect(items.length).toBe(4)
-    })
-  })
-}

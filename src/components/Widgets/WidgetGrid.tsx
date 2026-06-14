@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import QuickOverviewWidget from './QuickOverviewWidget'
 import ForumActivityWidget from './ForumActivityWidget'
-import { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget } from './DashboardWidgets'
-import { AlertCircle, ChevronUp, ChevronDown } from 'lucide-react';
-import { Card } from '@/components/ui';
+import { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget, ShortcutsWidget } from './DashboardWidgets'
+import { AlertCircle, MoreVertical, ArrowUp, ArrowDown, Trash2, GripVertical } from 'lucide-react';
+import { Card, Dropdown } from '@/components/ui';
 
 import useStore from '@/store';
 
@@ -17,7 +17,9 @@ interface WidgetGridProps {
   widgets: WidgetItem[]
   isEditing?: boolean
   onLayoutChange?: (widgets: WidgetItem[]) => void
+  onToggleWidget?: (id: string, visible: boolean) => void
   hideFirstDeadline?: boolean
+  isMessagesElevated?: boolean
 }
 
 const SIZE_TO_SPAN: Record<'small' | 'medium' | 'large', number> = {
@@ -36,6 +38,7 @@ const WIDGET_TITLES: Record<string, { da: string; en: string }> = {
   forumActivity:  { da: 'forumaktivitet', en: 'forum activity' },
   support:        { da: 'support', en: 'support' },
   quickOverview:  { da: 'dagens program', en: 'daily schedule' },
+  shortcuts:      { da: 'genveje', en: 'shortcuts' },
 }
 
 function WidgetSkeletonBody() {
@@ -191,7 +194,7 @@ function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperProps) {
   return <>{children}</>
 }
 
-export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFirstDeadline = false }: WidgetGridProps) {
+export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, onToggleWidget, hideFirstDeadline = false, isMessagesElevated = false }: WidgetGridProps) {
   const t = useStore((state) => state.t)
   const lang = useStore((state) => state.lang)
 
@@ -237,11 +240,13 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFir
       case 'support':
         return <SupportWidget size={size} />
       case 'messages':
-        return <MessagesWidget size={size} />
+        return <MessagesWidget size={size} isPriorityElevated={isMessagesElevated} />
       case 'calendar':
         return <CalendarWidget size={size} />
       case 'courseProgress':
         return <CourseProgressWidget size={size} />
+      case 'shortcuts':
+        return <ShortcutsWidget size={size} />
       default:
         return null
     }
@@ -266,7 +271,6 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFir
       <div className="flex flex-col gap-md flex-1 w-full">
         {leftWidgets.map((widget) => {
           const widgetSize = widget.size || 'medium'
-          // Global index for movement
           const globalIndex = widgets.findIndex(w => w.id === widget.id)
 
           return (
@@ -275,39 +279,62 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFir
               className={`widget-${widget.id} widget-size-${widgetSize} relative ${isEditing ? 'ring-1 ring-[var(--border-color)] ring-offset-1 rounded-[var(--radius-lg)]' : ''}`}
             >
               {isEditing && (
-                <div className="absolute top-2 right-2 z-50 flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
-                  {/* Size select */}
-                  <select
-                    value={widgetSize}
-                    onChange={(e) => handleSizeChange(widget.id, e.target.value as 'small' | 'medium' | 'large')}
-                    className="bg-bg-card/95 border border-[var(--border-color)] text-[11px] font-bold text-main px-2 py-1 rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] outline-none focus:border-primary cursor-pointer min-h-[32px]"
-                    aria-label={lang === 'da' ? 'Ændr størrelse' : 'Change size'}
-                  >
-                    <option value="small">{t('dashboard.size_small')}</option>
-                    <option value="medium">{t('dashboard.size_medium')}</option>
-                    <option value="large">{t('dashboard.size_large')}</option>
-                  </select>
-                  {/* Move up */}
-                  <button
-                    onClick={() => handleMoveUp(globalIndex)}
-                    disabled={globalIndex === 0}
-                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
-                    aria-label={lang === 'da' ? 'Flyt op' : 'Move up'}
-                    title={lang === 'da' ? 'Flyt op' : 'Move up'}
-                  >
-                    <ChevronUp size={14} />
-                  </button>
-                  {/* Move down */}
-                  <button
-                    onClick={() => handleMoveDown(globalIndex)}
-                    disabled={globalIndex === widgets.length - 1}
-                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
-                    aria-label={lang === 'da' ? 'Flyt ned' : 'Move down'}
-                    title={lang === 'da' ? 'Flyt ned' : 'Move down'}
-                  >
-                    <ChevronDown size={14} />
-                  </button>
+                <>
+                  <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted cursor-grab shadow-sm" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
+                    <GripVertical size={16} />
+                  </div>
+                  <div className="absolute top-2 right-2 z-50" onClick={e => e.stopPropagation()}>
+                  <Dropdown>
+                    <Dropdown.Trigger>
+                      {({ ref, onClick, onKeyDown }, { isOpen }) => (
+                        <button
+                          ref={ref as any}
+                          onClick={onClick}
+                          onKeyDown={onKeyDown}
+                          className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-main hover:text-primary shadow-[var(--shadow-sm)] transition-all cursor-pointer focus-visible:outline-none focus-visible:shadow-focus"
+                          aria-label={lang === 'da' ? 'Widget indstillinger' : 'Widget settings'}
+                          aria-expanded={isOpen}
+                          type="button"
+                        >
+                          <MoreVertical size={16} />
+                        </button>
+                      )}
+                    </Dropdown.Trigger>
+                    <Dropdown.Menu className="w-48">
+                      <div className="p-xs text-[10px] font-extrabold text-muted uppercase tracking-wider select-none border-b border-border/40">
+                        {lang === 'da' ? 'Størrelse' : 'Size'}
+                      </div>
+                      <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'small')} className={widgetSize === 'small' ? 'text-primary bg-bg-highlight' : ''}>
+                        {widgetSize === 'small' ? '✓ ' : ''}{lang === 'da' ? 'Lille' : 'Small'}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'medium')} className={widgetSize === 'medium' ? 'text-primary bg-bg-highlight' : ''}>
+                        {widgetSize === 'medium' ? '✓ ' : ''}{lang === 'da' ? 'Medium' : 'Medium'}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'large')} className={widgetSize === 'large' ? 'text-primary bg-bg-highlight' : ''}>
+                        {widgetSize === 'large' ? '✓ ' : ''}{lang === 'da' ? 'Stor' : 'Large'}
+                      </Dropdown.Item>
+                      
+                      <div className="p-xs text-[10px] font-extrabold text-muted uppercase tracking-wider select-none border-t border-b border-border/40 mt-xs">
+                        {lang === 'da' ? 'Rækkefølge' : 'Order'}
+                      </div>
+                      <Dropdown.Item onClick={() => handleMoveUp(globalIndex)} disabled={globalIndex === 0} className="flex items-center gap-xs">
+                        <ArrowUp size={14} />
+                        {lang === 'da' ? 'Flyt op' : 'Move up'}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleMoveDown(globalIndex)} disabled={globalIndex === widgets.length - 1} className="flex items-center gap-xs">
+                        <ArrowDown size={14} />
+                        {lang === 'da' ? 'Flyt ned' : 'Move down'}
+                      </Dropdown.Item>
+
+                      <div className="border-t border-border/40 mt-xs" />
+                      <Dropdown.Item onClick={() => onToggleWidget && onToggleWidget(widget.id, false)} className="flex items-center gap-xs text-danger hover:bg-danger/10 hover:text-danger">
+                        <Trash2 size={14} />
+                        {lang === 'da' ? 'Skjul' : 'Hide'}
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
+                </>
               )}
               <WidgetStateWrapper id={widget.id} size={widgetSize}>
                 {renderWidgetContent(widget.id, widgetSize)}
@@ -318,7 +345,7 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFir
       </div>
 
       {/* Right column */}
-      <div className="flex flex-col gap-md w-full lg:w-[420px] shrink-0">
+      <div className="flex flex-col gap-md w-full lg:w-[340px] xl:w-[380px] shrink-0">
         {rightWidgets.map((widget) => {
           const widgetSize = widget.size || 'small'
           const globalIndex = widgets.findIndex(w => w.id === widget.id)
@@ -329,36 +356,62 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, hideFir
               className={`widget-${widget.id} widget-size-${widgetSize} relative ${isEditing ? 'ring-1 ring-[var(--border-color)] ring-offset-1 rounded-[var(--radius-lg)]' : ''}`}
             >
               {isEditing && (
-                <div className="absolute top-2 right-2 z-50 flex items-center gap-1.5" onClick={e => e.stopPropagation()}>
-                  <select
-                    value={widgetSize}
-                    onChange={(e) => handleSizeChange(widget.id, e.target.value as 'small' | 'medium' | 'large')}
-                    className="bg-bg-card/95 border border-[var(--border-color)] text-[11px] font-bold text-main px-2 py-1 rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] outline-none focus:border-primary cursor-pointer min-h-[32px]"
-                    aria-label={lang === 'da' ? 'Ændr størrelse' : 'Change size'}
-                  >
-                    <option value="small">{t('dashboard.size_small')}</option>
-                    <option value="medium">{t('dashboard.size_medium')}</option>
-                    <option value="large">{t('dashboard.size_large')}</option>
-                  </select>
-                  <button
-                    onClick={() => handleMoveUp(globalIndex)}
-                    disabled={globalIndex === 0}
-                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
-                    aria-label={lang === 'da' ? 'Flyt op' : 'Move up'}
-                    title={lang === 'da' ? 'Flyt op' : 'Move up'}
-                  >
-                    <ChevronUp size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleMoveDown(globalIndex)}
-                    disabled={globalIndex === widgets.length - 1}
-                    className="min-h-[32px] min-w-[32px] flex items-center justify-center bg-bg-card/95 border border-[var(--border-color)] rounded-[var(--radius-xs)] shadow-[var(--shadow-sm)] text-main hover:text-primary disabled:opacity-30 focus-visible:shadow-focus focus-visible:outline-none transition-colors"
-                    aria-label={lang === 'da' ? 'Flyt ned' : 'Move down'}
-                    title={lang === 'da' ? 'Flyt ned' : 'Move down'}
-                  >
-                    <ChevronDown size={14} />
-                  </button>
+                <>
+                  <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted cursor-grab shadow-sm" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
+                    <GripVertical size={16} />
+                  </div>
+                  <div className="absolute top-2 right-2 z-50" onClick={e => e.stopPropagation()}>
+                  <Dropdown>
+                    <Dropdown.Trigger>
+                      {({ ref, onClick, onKeyDown }, { isOpen }) => (
+                        <button
+                          ref={ref as any}
+                          onClick={onClick}
+                          onKeyDown={onKeyDown}
+                          className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-main hover:text-primary shadow-[var(--shadow-sm)] transition-all cursor-pointer focus-visible:outline-none focus-visible:shadow-focus"
+                          aria-label={lang === 'da' ? 'Widget indstillinger' : 'Widget settings'}
+                          aria-expanded={isOpen}
+                          type="button"
+                        >
+                          <MoreVertical size={16} />
+                        </button>
+                      )}
+                    </Dropdown.Trigger>
+                    <Dropdown.Menu className="w-48">
+                      <div className="p-xs text-[10px] font-extrabold text-muted uppercase tracking-wider select-none border-b border-border/40">
+                        {lang === 'da' ? 'Størrelse' : 'Size'}
+                      </div>
+                      <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'small')} className={widgetSize === 'small' ? 'text-primary bg-bg-highlight' : ''}>
+                        {widgetSize === 'small' ? '✓ ' : ''}{lang === 'da' ? 'Lille' : 'Small'}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'medium')} className={widgetSize === 'medium' ? 'text-primary bg-bg-highlight' : ''}>
+                        {widgetSize === 'medium' ? '✓ ' : ''}{lang === 'da' ? 'Medium' : 'Medium'}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'large')} className={widgetSize === 'large' ? 'text-primary bg-bg-highlight' : ''}>
+                        {widgetSize === 'large' ? '✓ ' : ''}{lang === 'da' ? 'Stor' : 'Large'}
+                      </Dropdown.Item>
+                      
+                      <div className="p-xs text-[10px] font-extrabold text-muted uppercase tracking-wider select-none border-t border-b border-border/40 mt-xs">
+                        {lang === 'da' ? 'Rækkefølge' : 'Order'}
+                      </div>
+                      <Dropdown.Item onClick={() => handleMoveUp(globalIndex)} disabled={globalIndex === 0} className="flex items-center gap-xs">
+                        <ArrowUp size={14} />
+                        {lang === 'da' ? 'Flyt op' : 'Move up'}
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={() => handleMoveDown(globalIndex)} disabled={globalIndex === widgets.length - 1} className="flex items-center gap-xs">
+                        <ArrowDown size={14} />
+                        {lang === 'da' ? 'Flyt ned' : 'Move down'}
+                      </Dropdown.Item>
+
+                      <div className="border-t border-border/40 mt-xs" />
+                      <Dropdown.Item onClick={() => onToggleWidget && onToggleWidget(widget.id, false)} className="flex items-center gap-xs text-danger hover:bg-danger/10 hover:text-danger">
+                        <Trash2 size={14} />
+                        {lang === 'da' ? 'Skjul' : 'Hide'}
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
+                </>
               )}
               <WidgetStateWrapper id={widget.id} size={widgetSize}>
                 {renderWidgetContent(widget.id, widgetSize)}
