@@ -38,7 +38,7 @@ export default function NotificationsDropdown() {
           >
             <Bell size={20} strokeWidth={2} />
             {notificationCount > 0 && (
-              <span className="absolute right-[4px] top-[4px] z-10 flex min-h-[16px] min-w-[16px] pointer-events-none animate-pulse items-center justify-center rounded-full border-2 border-bg-main bg-primary text-[10px] font-black leading-none text-white shadow-sm">
+              <span className="absolute right-[2px] top-[2px] z-10 flex h-4.5 w-4.5 pointer-events-none items-center justify-center rounded-full border-2 border-bg-card bg-primary text-[9px] font-black leading-none text-white shadow-sm">
                 <span>{notificationCount}</span>
                 <span className="sr-only"> {notificationCount === 1 ? t('new_singular') : t('new_plural')}</span>
               </span>
@@ -46,7 +46,7 @@ export default function NotificationsDropdown() {
           </Button>
         )}
       </Dropdown.Trigger>
-      <Dropdown.Menu className="w-80 max-w-[calc(100dvw-1rem)]">
+      <Dropdown.Menu className="w-96 max-w-[calc(100dvw-1rem)]">
         {({ close }) => (
           <>
         <div className="flex items-center justify-between border-b border-border p-md">
@@ -60,7 +60,7 @@ export default function NotificationsDropdown() {
               navigate(PATHS.NOTIFICATIONS);
               close();
             }}
-            className="rounded-md text-[10px] font-bold uppercase tracking-tighter text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus px-1 h-auto"
+            className="rounded-md text-xs font-bold text-primary hover:underline bg-transparent border-none p-0 focus-visible:outline-none focus-visible:shadow-focus px-1 h-auto normal-case tracking-normal"
             type="button"
           >
             {t('view_all')}
@@ -75,7 +75,7 @@ export default function NotificationsDropdown() {
                   onClick={() => navigate(PATHS.NOTIFICATIONS)}
                   className={cn(
                     "border-b border-border/40 px-md py-md flex items-start gap-md",
-                    !n.isRead ? "bg-primary/[0.03] hover:bg-primary/[0.05]" : "hover:bg-bg-hover"
+                    !n.isRead ? "bg-primary/[0.06] hover:bg-primary/[0.09]" : "hover:bg-bg-hover"
                   )}
                 >
                   <div
@@ -87,13 +87,20 @@ export default function NotificationsDropdown() {
                     <Icon size={18} strokeWidth={2} />
                   </div>
                   <div className="flex flex-1 flex-col min-w-0">
-                    <Text
-                      size="xs"
-                      weight="bold"
-                      className={cn("block truncate", !n.isRead ? "text-main" : "text-muted")}
-                    >
-                      {lang === 'da' ? n.textDa : n.textEn}
-                    </Text>
+                    <div className="flex items-center justify-between gap-xs">
+                      <Text
+                        size="xs"
+                        weight="bold"
+                        className={cn("block truncate flex-1", !n.isRead ? "text-main font-black" : "text-muted")}
+                      >
+                        {lang === 'da' ? n.textDa : n.textEn}
+                      </Text>
+                      {!n.isRead && (
+                        <span className="shrink-0 text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-primary/20 text-primary scale-90 leading-none">
+                          {lang === 'da' ? 'Ny' : 'New'}
+                        </span>
+                      )}
+                    </div>
                     <Text size="2xs" className="mt-xs text-muted">
                       {lang === 'da' ? n.dateDa : n.dateEn}
                     </Text>

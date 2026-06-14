@@ -64,6 +64,7 @@ const useStore = create<AppState>()(
           Object.assign(state, validated)
         } catch (e) {
           console.warn('Store state validation failed, using fallback initial values', e)
+          Object.assign(state, { theme: 'system', lang: 'da', isCollapsed: true, courseProgress: {}, calendarEvents: {}, favorites: [] })
         }
 
         document.documentElement.lang = state.lang
@@ -88,6 +89,17 @@ const useStore = create<AppState>()(
         dashboardLayout: state.dashboardLayout,
       }),
       migrate: (persisted: unknown, version) => {
+        if (!persisted || typeof persisted !== 'object') {
+          console.warn('Storage migration failed validation')
+          return {
+            theme: 'system',
+            lang: 'da',
+            isCollapsed: true,
+            courseProgress: {},
+            calendarEvents: {},
+            favorites: [],
+          } as unknown as AppState
+        }
         if (version === 3) {
           return persisted as AppState
         }

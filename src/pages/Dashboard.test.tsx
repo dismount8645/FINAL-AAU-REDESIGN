@@ -1,3 +1,4 @@
+// Cache invalidation comment
 import Dashboard from './Dashboard'
 import { fireEvent, act, screen } from '@testing-library/react'
 import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest'
@@ -20,6 +21,7 @@ describe('Dashboard Page', () => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     vi.clearAllMocks()
     localStorage.clear()
+    useStore.getState().resetDashboardLayout()
     useStore.setState({
       favorites: [{ id: 'fav-1', type: 'course', entityId: 1, addedAt: Date.now(), order: 1 }]
     })
@@ -43,10 +45,11 @@ describe('Dashboard Page', () => {
     act(() => {
       vi.advanceTimersByTime(400)
     })
-    expect(screen.getByText(/Næste aflevering/i)).toBeInTheDocument()
-    expect(screen.getByText('Favoritter')).toBeInTheDocument()
+    expect(screen.getAllByText(/Næste aflevering/i).length).toBeGreaterThan(0)
+    expect(screen.getByText('Favoritfag')).toBeInTheDocument()
     expect(screen.getByText('Beskeder')).toBeInTheDocument()
-    expect(screen.getByText('Kalender')).toBeInTheDocument()
+    expect(screen.getAllByText('Dagens program').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Forum aktivitet').length).toBeGreaterThan(0)
   })
 
   it('toggles edit mode and shows hint', () => {
@@ -58,13 +61,13 @@ describe('Dashboard Page', () => {
     expect(editBtn).toBeInTheDocument()
     
     fireEvent.click(editBtn)
-    expect(screen.getByText(/Tilpas dashboardet/i)).toBeInTheDocument()
+    expect(screen.getByText(/Redigeringstilstand/i)).toBeInTheDocument()
     
     const doneBtn = screen.getByText('Færdig')
     expect(doneBtn).toBeInTheDocument()
     
     fireEvent.click(doneBtn)
-    expect(screen.queryByText(/Træk widgets for at omarrangere/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Redigeringstilstand/i)).not.toBeInTheDocument()
   })
 
   it('renders Focus Banner with personal greeting and redirects on button click', () => {

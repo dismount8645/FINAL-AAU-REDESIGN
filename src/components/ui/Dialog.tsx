@@ -127,7 +127,7 @@ const DialogTitle = memo(forwardRef<HTMLHeadingElement, DialogPrimitive.Title.Pr
       ref={ref}
       data-slot="dialog-title"
       className={cn(
-        "font-black uppercase tracking-tight text-[1.5rem] leading-[1.1] text-main",
+        "font-black tracking-tight text-[1.5rem] leading-[1.1] text-main",
         className
       )}
       {...props}
