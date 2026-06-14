@@ -8,20 +8,22 @@ import { visualizer } from 'rollup-plugin-visualizer'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  root: 'client',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, 'client/src'),
     },
   },
   plugins: [
     tailwindcss(),
     react(),
-    ...(process.env.ANALYZE ? [visualizer({ open: false, gzipSize: true, brotliSize: true, template: 'raw-data', filename: '../stats.json' })] : []),
+    ...(process.env.ANALYZE ? [visualizer({ open: false, gzipSize: true, brotliSize: true, template: 'raw-data', filename: './stats.json' })] : []),
   ],
   define: {
     'import.meta.vitest': 'undefined',
   },
   build: {
+    outDir: '../dist',
     chunkSizeWarningLimit: 400,
     rollupOptions: {
       output: {
