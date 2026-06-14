@@ -132,7 +132,7 @@ function TriageSection() {
                     </Text>
                   )}
                   <div className="mt-auto pt-sm">
-                    <Button size="sm" variant="default" className="w-full sm:w-auto">
+                    <Button size="md" variant="primary" className="w-full sm:w-auto font-bold">
                       {lang === 'da' ? option.ctaDa : option.ctaEn}
                       {option.id === 'login' || option.id === 'eksamen' ? (
                         <ExternalLink size={14} className="ml-2xs" />

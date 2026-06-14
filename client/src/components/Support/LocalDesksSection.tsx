@@ -27,31 +27,34 @@ function LocalDesksSection() {
         <AccordionWrapper>
           {supportLocations.map((loc, i) => (
             <AccordionItemRow key={`loc-${i}`} value={loc.city} title={loc.city}>
-              <Stack gap="sm" className="pb-2xs">
+              <Stack gap="md" className="pb-sm">
+                {/* Adresse */}
                 <div>
+                  <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{lang === 'da' ? 'Adresse' : 'Address'}</Text>
                   <Text size="sm" className="text-main">{loc.address}</Text>
                   <Text size="xs" className="text-muted">{loc.zip}</Text>
+                  {loc.mapUrl && (
+                    <a href={loc.mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3xs text-xs font-semibold text-primary hover:underline mt-3xs">
+                      <MapPin size={12} strokeWidth={2} />
+                      {lang === 'da' ? 'Vis på kort' : 'Show on map'}
+                    </a>
+                  )}
                 </div>
-                
+
+                {/* Kontakt */}
                 {loc.phone && (
-                  <a href={`tel:${loc.phone.replace(/\s/g, '')}`} className="flex items-center gap-xs text-sm text-primary hover:underline">
-                    <Phone size={14} strokeWidth={2} className="shrink-0" />
-                    {loc.phone}
-                  </a>
+                  <div>
+                    <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{lang === 'da' ? 'Kontakt' : 'Contact'}</Text>
+                    <a href={`tel:${loc.phone.replace(/\s/g, '')}`} className="inline-flex items-center gap-xs text-sm font-semibold text-primary hover:underline">
+                      <Phone size={14} strokeWidth={2} className="shrink-0" />
+                      {loc.phone}
+                    </a>
+                  </div>
                 )}
-                
-                {loc.mapUrl && (
-                  <a href={loc.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-xs text-sm text-primary hover:underline">
-                    <MapPin size={14} strokeWidth={2} className="shrink-0" />
-                    {lang === 'da' ? 'Vis på kort' : 'Show on map'}
-                  </a>
-                )}
-                
-                <div className="border-t border-border pt-2xs">
-                  <Text size="xs" weight="semibold" className="flex items-center gap-3xs text-muted mb-3xs">
-                    <Clock size={14} strokeWidth={2} />
-                    {t('opening_hours_service_desk')}
-                  </Text>
+
+                {/* Åbningstid */}
+                <div>
+                  <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{t('opening_hours_service_desk')}</Text>
                   <Stack gap="2xs">
                     {supportDeskHours.map((oh, j) => (
                       <KeyValue
@@ -59,6 +62,7 @@ function LocalDesksSection() {
                         label={localize(oh, 'days')}
                         value={oh.hours}
                         divider={false}
+                        className="text-sm"
                       />
                     ))}
                   </Stack>
