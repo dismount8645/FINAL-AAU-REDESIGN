@@ -51,8 +51,9 @@ course-test-output.txt
 temp_registry.json
 stats.html
 
-# OpenCode local agents (installed globally in ~/.config/opencode)
+# OpenCode local config (auto-generated)
 .agents/
+.config/
 
 # Playwright
 test-results/
