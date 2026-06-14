@@ -1,10 +1,10 @@
 import { useLocation, useNavigate, useBlocker } from 'react-router-dom';
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { WidgetGrid } from '@/components/Widgets/WidgetGrid';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
 import Button from '@/components/ui/Button';
-import { Settings, Check, RotateCcw, Plus, ArrowRight } from 'lucide-react';
+import { Settings, Check, RotateCcw, Plus, ArrowRight, GripVertical } from 'lucide-react';
 import {
   Dialog,
   DialogTrigger,
@@ -13,10 +13,10 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose
 } from '@/components/ui/Dialog';
 import Checkbox from '@/components/ui/Checkbox';
 import { mockDashboardDeadlines, defaultEvents } from '@/lib/data';
+import { todayEvents } from '@/components/Widgets/QuickOverviewWidget';
 import { PATHS } from '@/routes';
 import { getDeadlineInfo } from '@/lib/utils';
 import type { DashboardWidgetConfig } from '@/store/slices/uiSlice';
@@ -33,11 +33,25 @@ function Dashboard() {
   const lang = useStore((state) => state.lang)
   const courses = useStore((state) => state.courses)
   const localize = useStore((state) => state.localize)
+  const messageCount = useStore((state) => state.messageCount)
   
   const favorites = useStore((state) => state.favorites)
+
+  const activityCount = useMemo(() => todayEvents.filter(e => e.time !== '23:59').length, [])
+  const deadlineCount = useMemo(() => todayEvents.filter(e => e.time === '23:59').length, [])
+  const nextEvent = useMemo(() => todayEvents.find(e => e.time !== '23:59') || null, [])
+
   const [isEditing, setIsEditing] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isResetDialogOpen, setIsResetDialogOpen] = useState(false)
   const [backupLayout, setBackupLayout] = useState<DashboardWidgetConfig[] | null>(null)
+  const [now, setNow] = useState(() => new Date())
+  const modalLayoutSnapshot = useRef<DashboardWidgetConfig[] | null>(null)
+
+  useEffect(() => {
+    const timer = setInterval(() => setNow(new Date()), 60000)
+    return () => clearInterval(timer)
+  }, [])
 
   const handleToggleWidget = (id: string, isChecked: boolean) => {
     const updated = dashboardLayout.map((widget) => {
@@ -61,8 +75,8 @@ function Dashboard() {
   }, [dashboardLayout, favorites, isEditing])
 
   // Filter layouts to render only the visible ones, auto-hiding empty unpinned favorites
-  const visibleWidgets = useMemo(() => {
-    return dashboardLayout
+  const visibleWidgetsResult = useMemo(() => {
+    const list = dashboardLayout
       .filter(w => {
         if (w.visible === false) return false
         if (w.id === 'favorites' && isFavoritesAutoHidden) return false
@@ -75,14 +89,29 @@ function Dashboard() {
         }
         return w
       })
-  }, [dashboardLayout, isFavoritesAutoHidden])
+
+    // Dynamic ordering: move messages above deadlines if unread messages exist
+    let movedMessages = false
+    if (messageCount > 0 && !isEditing) {
+      const messagesIdx = list.findIndex(w => w.id === 'messages')
+      const deadlinesIdx = list.findIndex(w => w.id === 'deadlines')
+      if (messagesIdx !== -1 && deadlinesIdx !== -1 && messagesIdx > deadlinesIdx) {
+        const [messagesWidget] = list.splice(messagesIdx, 1)
+        list.splice(deadlinesIdx, 0, messagesWidget)
+        movedMessages = true
+      }
+    }
+    return { list, movedMessages }
+  }, [dashboardLayout, isFavoritesAutoHidden, messageCount, isEditing])
+
+  const { list: visibleWidgets, movedMessages: isMessagesElevated } = visibleWidgetsResult
 
   const urgentItems = useMemo(() => {
     // 1. Assignments
     const assignments = mockDashboardDeadlines.map((d) => {
-      const deadlineDate = new Date()
+      const deadlineDate = new Date(now)
       deadlineDate.setHours(deadlineDate.getHours() + d.deadlineHoursFromNow)
-      const info = getDeadlineInfo(deadlineDate, lang)
+      const info = getDeadlineInfo(deadlineDate, lang, now)
       const course = courses.find((c) => c.id === d.courseId)
       const courseTitle = course ? localize(course, 'title') : ''
       return {
@@ -103,9 +132,12 @@ function Dashboard() {
         const eventDate = new Date(year, month - 1, day, 8, 15)
         return { eventDate, evt }
       })
-      .filter(({ eventDate }) => eventDate.getTime() >= new Date().getTime())
+      .filter(({ eventDate }) => {
+        const info = getDeadlineInfo(eventDate, lang, now)
+        return info.urgency !== 'overdue'
+      })
       .map(({ eventDate, evt }) => {
-        const info = getDeadlineInfo(eventDate, lang)
+        const info = getDeadlineInfo(eventDate, lang, now)
         return {
           id: evt.id,
           type: 'calendar' as const,
@@ -136,7 +168,7 @@ function Dashboard() {
       }
       return a.id - b.id
     })
-  }, [courses, localize, lang])
+  }, [courses, localize, lang, now])
 
   const urgentItem = useMemo(() => urgentItems[0] || null, [urgentItems])
 
@@ -189,7 +221,6 @@ function Dashboard() {
       className="dashboard-page relative"
       pageKey="dashboard"
       title={t('dashboard.title')}
-      subtitle={t('dashboard.subtitle')}
       flat
       gap="sm"
       actionsAlign="center"
@@ -210,7 +241,15 @@ function Dashboard() {
             </Button>
           ) : (
             <div className="flex items-center gap-xs flex-wrap">
-              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+              <Dialog open={isModalOpen} onOpenChange={(open) => {
+                setIsModalOpen(open)
+                if (open) {
+                  modalLayoutSnapshot.current = JSON.parse(JSON.stringify(dashboardLayout))
+                } else if (modalLayoutSnapshot.current) {
+                  setDashboardLayout(modalLayoutSnapshot.current)
+                  modalLayoutSnapshot.current = null
+                }
+              }}>
                 <DialogTrigger render={
                   <Button variant="ghost" size="sm" icon={Plus} render={<span />} className="text-text-muted hover:text-primary">
                     {t('dashboard.add_remove_widgets')}
@@ -228,8 +267,13 @@ function Dashboard() {
                       const isFavoritesEmpty = widget.id === 'favorites' && favorites.length === 0;
                       const isAutoHidden = isFavoritesEmpty && !widget.userModified && !widget.pinned;
                       return (
-                        <div key={widget.id} className="flex items-center justify-between py-xs border-b border-[var(--border-color)]/30 last:border-b-0">
-                          <div className="flex flex-col gap-3xs">
+                        <div key={widget.id} className="flex items-center gap-xs py-xs border-b border-[var(--border-color)]/30 last:border-b-0">
+                          <Checkbox
+                            id={`widget-checkbox-${widget.id}`}
+                            checked={widget.visible !== false}
+                            onChange={(e) => handleToggleWidget(widget.id, e.target.checked)}
+                          />
+                          <div className="flex flex-col gap-3xs min-w-0 flex-1">
                             <label htmlFor={`widget-checkbox-${widget.id}`} className="text-xs font-bold text-main cursor-pointer select-none">
                               {t(`dashboard.widget_${widget.id}`)}
                             </label>
@@ -239,39 +283,55 @@ function Dashboard() {
                               </span>
                             )}
                           </div>
-                          <Checkbox
-                            id={`widget-checkbox-${widget.id}`}
-                            checked={widget.visible !== false}
-                            onChange={(e) => handleToggleWidget(widget.id, e.target.checked)}
-                          />
                         </div>
                       );
                     })}
                   </div>
-                  <DialogFooter>
-                    <DialogClose render={
-                      <Button variant="primary" size="sm" render={<span />}>
-                        {t('common.done')}
-                      </Button>
-                    } />
+                  <DialogFooter className="flex gap-xs justify-end">
+                    <Button variant="ghost" size="sm" onClick={() => {
+                      if (modalLayoutSnapshot.current) {
+                        setDashboardLayout(modalLayoutSnapshot.current)
+                        modalLayoutSnapshot.current = null
+                      }
+                      setIsModalOpen(false)
+                    }}>
+                      {t('common.cancel')}
+                    </Button>
+                    <Button variant="primary" onClick={() => {
+                      modalLayoutSnapshot.current = null
+                      setIsModalOpen(false)
+                    }}>
+                      {t('common.done')}
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  const confirmed = window.confirm(t('dashboard.confirm_reset_message'))
-                  if (confirmed) {
-                    resetDashboardLayout()
-                  }
-                }}
-                icon={RotateCcw}
-                className="text-text-muted hover:text-danger"
-              >
-                {t('dashboard.reset_dashboard')}
-              </Button>
+              <Dialog open={isResetDialogOpen} onOpenChange={setIsResetDialogOpen}>
+                <DialogTrigger render={
+                  <Button variant="ghost" size="sm" icon={RotateCcw} render={<span />} className="text-text-muted hover:text-danger">
+                    {t('dashboard.reset_dashboard')}
+                  </Button>
+                } />
+                <DialogContent className="max-w-[400px]">
+                  <DialogHeader>
+                    <DialogTitle>{lang === 'da' ? 'Nulstil dashboard?' : 'Reset dashboard?'}</DialogTitle>
+                    <DialogDescription>
+                      {lang === 'da'
+                        ? 'Dette gendanner standardlayoutet. Dine widget-tilpasninger fjernes.'
+                        : 'This restores the default layout. Your widget customizations will be removed.'}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="flex gap-xs justify-end">
+                    <Button variant="secondary" size="sm" onClick={() => setIsResetDialogOpen(false)}>
+                      {t('common.cancel')}
+                    </Button>
+                    <Button variant="danger" size="sm" onClick={() => { resetDashboardLayout(); setIsResetDialogOpen(false); }}>
+                      {lang === 'da' ? 'Nulstil dashboard' : 'Reset dashboard'}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
 
               <Button
                 variant="secondary"
@@ -304,35 +364,70 @@ function Dashboard() {
       }
     >
       <div className="dashboard-content-wrapper w-full pb-[var(--space-xl)] pt-2xs">
+        {/* Daily Summary Strip */}
+        <div className="daily-summary-strip mb-md flex flex-wrap gap-xs sm:gap-sm items-center py-xs px-sm bg-bg-highlight/10 border border-border/40 rounded-[var(--radius-md)] text-xs font-semibold text-text-secondary select-none">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 dark:bg-white/10 text-primary dark:text-white rounded-md shadow-sm">
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse shrink-0" />
+            <strong className="text-main font-extrabold uppercase tracking-wide text-[11px]">{lang === 'da' ? 'I DAG' : 'TODAY'}</strong>
+            <span className="text-main font-bold">
+              {activityCount} {activityCount === 1 ? (lang === 'da' ? 'aktivitet' : 'activity') : (lang === 'da' ? 'aktiviteter' : 'activities')}
+            </span>
+            <span className="text-border/60 mx-0.5">·</span>
+            <span className="text-main font-bold">
+              {deadlineCount} {deadlineCount === 1 ? 'deadline' : 'deadlines'}
+            </span>
+            <span className="text-border/60 mx-0.5">·</span>
+            <span className="text-main font-bold">
+              {messageCount === 1 ? (lang === 'da' ? '1 ulæst' : '1 unread') : (lang === 'da' ? `${messageCount} ulæste` : `${messageCount} unread`)}
+            </span>
+          </span>
+
+          {nextEvent && (
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 dark:bg-white/5 text-primary dark:text-white rounded-md shadow-sm">
+              <strong className="font-extrabold text-main uppercase tracking-wide text-[11px]">{lang === 'da' ? 'NÆSTE' : 'NEXT'}</strong>
+              <span className="font-bold text-main">{t(nextEvent.titleKey)}</span>
+              <span className="text-text-muted">kl. {nextEvent.time}</span>
+              {nextEvent.location && (
+                <>
+                  <span className="text-border/60">·</span>
+                  <span className="text-text-muted">{nextEvent.location}</span>
+                </>
+              )}
+            </span>
+          )}
+        </div>
+
         {!isEditing && urgentItem && (
           <div
             className="focus-banner animate-fade-in border-l-4 p-md sm:p-lg sm:px-xl flex flex-col md:flex-row md:items-center justify-between gap-md md:gap-lg"
             style={{ 
               borderLeftColor: urgentItem.info.color,
-              backgroundColor: urgentItem.info.urgency === 'overdue' ? 'var(--color-bg-danger-tint)' : 'var(--color-bg-warning-tint)'
+              backgroundColor: (urgentItem.info.urgency === 'overdue' || urgentItem.info.urgency === 'today') ? 'var(--color-bg-danger-tint)' : 'var(--color-bg-warning-tint)'
             }}
             data-testid="focus-banner"
           >
-            <div className="flex flex-col md:flex-row md:items-center gap-md md:gap-xl flex-1 min-w-0">
-              <div className="flex flex-col items-start min-w-0 md:max-w-xs lg:max-w-md w-full md:w-auto">
-                <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-sm" style={{ backgroundColor: urgentItem.info.color, color: (urgentItem.info.urgency === 'tomorrow' || urgentItem.info.urgency === 'soon') ? '#211a52' : '#ffffff' }}>
-                  {lang === 'da' ? 'Vigtig aflevering' : 'Important assignment'}
-                </span>
-                <span className="text-xs font-semibold text-text-secondary block mt-xs">{urgentItem.courseTitle}</span>
-                <h3 className="text-base sm:text-lg font-bold text-main mt-2xs mb-0 truncate leading-snug w-full">{urgentItem.title}</h3>
-                <span className="text-xs text-text-secondary block mt-xs font-medium">
-                  {urgentItem.info.dateLabel}
-                </span>
-                <span className="text-sm font-extrabold block mt-3xs" style={{ color: urgentItem.info.color }}>
-                  {lang === 'da' ? 'Frist:' : 'Due:'} {urgentItem.info.relativeLabel}
-                </span>
-                {/* Hidden text helper to satisfy test expectations checking for name Jacob inside focus-banner */}
-                <span className="sr-only">Hej {firstName}</span>
-              </div>
+            <div className="flex flex-col items-start min-w-0 md:max-w-xs lg:max-w-md w-full md:w-auto flex-1">
+              <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-sm" style={{ backgroundColor: urgentItem.info.color, color: (urgentItem.info.urgency === 'tomorrow' || urgentItem.info.urgency === 'soon') ? '#211a52' : '#ffffff' }}>
+                {urgentItem.type === 'calendar'
+                  ? (lang === 'da' ? 'Vigtig begivenhed' : 'Important event')
+                  : (lang === 'da' ? 'Vigtig aflevering' : 'Important assignment')}
+              </span>
+              <span className="text-xs font-semibold text-text-secondary block mt-xs">{urgentItem.courseTitle}</span>
+              <h3 className="text-lg sm:text-xl font-extrabold text-main mt-2xs mb-0 truncate leading-snug w-full">{urgentItem.title}</h3>
+              {/* Hidden text helper to satisfy test expectations checking for name Jacob inside focus-banner */}
+              <span className="sr-only">Hej {firstName}</span>
             </div>
 
-            <div className="flex justify-end w-full md:w-auto shrink-0">
-              <div className="flex items-center gap-sm shrink-0 flex-wrap min-h-[44px] justify-end w-full md:w-auto">
+            <div className="flex flex-col items-start md:items-end justify-center gap-xs w-full md:w-auto shrink-0 mt-sm md:mt-0">
+              <div className="flex flex-col items-start md:items-end gap-3xs leading-none">
+                <span className="font-black text-sm sm:text-base tracking-wide uppercase" style={{ color: urgentItem.info.color }}>
+                  {lang === 'da' ? 'Frist' : 'Due'} {urgentItem.info.relativeLabel}
+                </span>
+                <span className="text-xs sm:text-sm font-bold text-text-secondary">
+                  {urgentItem.info.dateLabel}
+                </span>
+              </div>
+              <div className="flex items-center gap-md shrink-0 flex-wrap min-h-[44px] w-full md:w-auto justify-start md:justify-end mt-xs">
                 {extraUrgentCount > 0 && (
                   <button
                     type="button"
@@ -347,16 +442,24 @@ function Dashboard() {
                   size="sm"
                   iconRight={ArrowRight}
                   className="font-bold shrink-0 min-h-[44px] whitespace-nowrap px-md text-sm"
-                  onClick={() => navigate(PATHS.SUBMISSION(urgentItem.courseId, urgentItem.id))}
+                  onClick={() => {
+                    if (urgentItem.type === 'calendar') {
+                      navigate(PATHS.CALENDAR)
+                    } else {
+                      navigate(PATHS.SUBMISSION(urgentItem.courseId, urgentItem.id))
+                    }
+                  }}
                 >
-                  {lang === 'da' ? `Åbn ${urgentItem.title}` : `Open ${urgentItem.title}`}
+                  {urgentItem.type === 'calendar'
+                    ? (lang === 'da' ? 'Åbn kalender' : 'Open calendar')
+                    : (lang === 'da' ? 'Åbn aflevering' : 'Open submission')}
                 </Button>
               </div>
             </div>
           </div>
         )}
         {isEditing && (
-          <div className="mb-4 p-3 bg-primary/10 border border-primary/20 rounded-[var(--radius-md)] text-xs text-main animate-pulse">
+          <div className="mb-4 p-3 bg-primary/15 border-2 border-primary/30 rounded-[var(--radius-md)] text-sm font-bold text-primary shadow-sm">
             {t('dashboard.edit_mode_hint')}
           </div>
         )}
@@ -364,7 +467,9 @@ function Dashboard() {
           widgets={visibleWidgets}
           isEditing={isEditing}
           onLayoutChange={setDashboardLayout}
-          hideFirstDeadline={!isEditing && !!urgentItem}
+          onToggleWidget={(id, visible) => handleToggleWidget(id, visible)}
+          hideFirstDeadline={false}
+          isMessagesElevated={isMessagesElevated}
         />
       </div>
 

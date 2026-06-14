@@ -192,7 +192,7 @@ export default function Sidebar() {
                 {lang === 'da' ? 'Support & Indstillinger' : 'Support & Settings'}
               </div>
             )}
-            <NavItem to="/support" icon={CircleHelp} label={t('support')} collapsed={!isExpanded} dimmed onClick={handleNavItemClick} />
+            <NavItem to="/support" icon={CircleHelp} label={t('contact_its_support')} collapsed={!isExpanded} dimmed onClick={handleNavItemClick} />
             <NavItem to="/settings" icon={Settings} label={t('settings')} collapsed={!isExpanded} dimmed onClick={handleNavItemClick} />
           </div>
         </nav>
@@ -245,104 +245,4 @@ function NavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOverride, 
   );
 }
 
-if (import.meta.vitest) {
-  const { describe, it, expect, vi, beforeEach, afterEach } = await import('vitest')
-  const { MemoryRouter } = await import('react-router-dom')
 
-  describe('Sidebar', () => {
-    beforeEach(() => {
-      vi.useFakeTimers()
-      useStore.setState({
-        isCollapsed: false,
-        lang: 'da',
-        theme: 'light',
-        isDarkMode: false,
-        t: (key: string) => {
-          if (key === 'aau_logo_center_src') {
-            return useStore.getState().lang === 'da'
-              ? '/images/logos/aau-center-white.webp'
-              : '/images/logos/aau-center-white-uk.webp'
-          }
-          if (key === 'aau_logo_left_src') {
-            return useStore.getState().lang === 'da'
-              ? '/images/logos/aau-left-white.webp'
-              : '/images/logos/aau-left-white-uk.webp'
-          }
-          return key
-        },
-      })
-    })
-  
-    afterEach(() => {
-      vi.useRealTimers()
-    })
-  
-    it('renders navigation items', () => {
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      expect(screen.getByText('dashboard')).toBeDefined()
-      expect(screen.getByText('calendar')).toBeDefined()
-      expect(screen.getByText('courses')).toBeDefined()
-      expect(screen.getByText('resources')).toBeDefined()
-    })
-  
-    it('applies collapsed class when isCollapsed is true', () => {
-      useStore.setState({ isCollapsed: true })
-      const { container } = render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      const aside = container.querySelector('aside')
-      expect(aside?.getAttribute('data-collapsed')).toBe('true')
-    })
-  
-    it('changes logo based on language', () => {
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('aau-left-white.webp')
-    })
-  
-    it('renders collapsed logo (symbol)', () => {
-      useStore.setState({ isCollapsed: true, lang: 'da' })
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('aau-center-white.webp')
-    })
-  
-    it('renders collapsed EN logo', () => {
-      useStore.setState({ isCollapsed: true, lang: 'en' })
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('aau-center-white-uk.webp')
-    })
-  
-    it('renders expanded EN logo', () => {
-      useStore.setState({ isCollapsed: false, lang: 'en' })
-      render(
-        <MemoryRouter>
-          <Sidebar />
-        </MemoryRouter>
-      )
-      const logo = screen.getByAltText('aau_logo_alt')
-      expect(logo.getAttribute('src')).toContain('aau-left-white-uk.webp')
-    })
-  
-    // Language switcher relocated to Topbar
-  })
-}

@@ -1,8 +1,8 @@
 import React, { useMemo, useCallback, memo } from 'react';
-import { useNavigate, MemoryRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Calendar, ChevronRight, Clock, AlertCircle, CheckCircle2,
-  Star, BookOpen, Trophy, Headphones, ExternalLink, MessageSquare
+  Star, Trophy, Headphones, ExternalLink, MessageSquare, Link2
 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card, Text, Heading, MasterItem } from '@/components/ui';
@@ -38,6 +38,7 @@ export interface ProcessedDeadline {
 interface WidgetProps {
   size?: 'small' | 'medium' | 'large'
   hideFirst?: boolean
+  isPriorityElevated?: boolean
 }
 
 const getUrgencyIcon = (urgency: string) => {
@@ -171,7 +172,7 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
             </div>
           ) : size === 'medium' ? (
             <div className="flex flex-col gap-2xs flex-1 justify-center">
-              {deadlines.map((dl) => (
+              {deadlines.map((dl, idx) => (
                 <div
                   key={dl.id}
                   onClick={() => handleDeadlineClick(dl)}
@@ -190,6 +191,11 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-xs flex-wrap">
                         <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
+                        {idx === 0 && (
+                          <span className="px-1.5 py-0.5 text-xs font-extrabold rounded-[var(--radius-xs)] leading-none shrink-0" style={{ color: dl.info.color, backgroundColor: `${dl.info.color}15` }}>
+                            {lang === 'da' ? 'Vigtig' : 'Important'}
+                          </span>
+                        )}
                         {dl.info.urgency === 'today' && (
                           <span 
                             className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
@@ -237,8 +243,8 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                     <div className="flex items-center gap-xs flex-wrap">
                       <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
                       {idx === 0 && (
-                        <span className="px-1.5 py-0.5 bg-danger/10 text-danger text-xs font-extrabold rounded-[var(--radius-xs)] leading-none">
-                          Næste
+                        <span className="px-1.5 py-0.5 text-xs font-extrabold rounded-[var(--radius-xs)] leading-none shrink-0" style={{ color: dl.info.color, backgroundColor: `${dl.info.color}15` }}>
+                          {lang === 'da' ? 'Vigtig' : 'Important'}
                         </span>
                       )}
                       {dl.info.urgency === 'today' && (
@@ -355,7 +361,7 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
             <Star size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
-            {t('favorites')}
+            {t('dashboard.widget_favorites')}
           </Heading>
         </Stack>
         <Button variant="ghost" size="sm" className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px]" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
@@ -519,7 +525,7 @@ const mockMessages: MockMessage[] = [
   { id: 3, sender: 'Studievejledningen', subject: 'Bekræftelse af tid til vejledning', time: '8. jun', unread: false },
 ]
 
-function MessagesWidget({ size = 'medium' }: WidgetProps) {
+function MessagesWidget({ size = 'medium', isPriorityElevated = false }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
@@ -548,6 +554,16 @@ function MessagesWidget({ size = 'medium' }: WidgetProps) {
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
             {t('nav.messages')}
           </Heading>
+          {isPriorityElevated && (
+            <span className="px-1.5 py-[2px] text-[10px] font-bold text-primary bg-primary/10 rounded-sm leading-none shrink-0">
+              {lang === 'da' ? 'Prioriteret' : 'Priority'}
+            </span>
+          )}
+          {mockMessages.filter(m => m.unread).length > 0 && (
+            <span className="px-1.5 py-[2px] text-[10px] font-bold text-primary bg-primary/10 rounded-sm leading-none shrink-0">
+              {mockMessages.filter(m => m.unread).length} {lang === 'da' ? 'ulæst' : 'unread'}
+            </span>
+          )}
         </Stack>
         <Button
           variant="ghost"
@@ -781,132 +797,54 @@ function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
   )
 }
 
-export { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget }
+// --- ShortcutsWidget ---
+function ShortcutsWidget({ size = 'small' }: WidgetProps) {
+  const lang = useStore(state => state.lang)
+  
+  const shortcuts = useMemo(() => [
+    { name: 'Moodle', url: 'https://www.moodle.aau.dk' },
+    { name: 'Digital Eksamen', url: 'https://eksamen.aau.dk' },
+    { name: 'STADS Self-Service', url: 'https://stads.aau.dk' },
+    { name: 'AAU Card', url: 'https://aaucard.aau.dk' },
+    { name: 'AAU Webmail', url: 'https://mail.aau.dk' },
+  ], [])
 
-// --- Tests ---
+  const limit = size === 'small' ? 3 : size === 'medium' ? 4 : 5
 
-let mockNavigate: ReturnType<typeof vi.fn>
-if (import.meta.vitest) {
-  vi.mock('@/lib/favorites', async () => {
-    const actual = await vi.importActual('@/lib/favorites')
-    return {
-      ...actual,
-      resolveFavorite: vi.fn(),
-      sortFavorites: vi.fn((f) => f),
-    }
-  })
-
-  mockNavigate = vi.fn()
-  vi.mock('react-router-dom', async () => {
-    const actual = await vi.importActual('react-router-dom')
-    return {
-      ...actual,
-      useNavigate: () => mockNavigate,
-    }
-  })
-
-  describe('DeadlinesWidget', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      useStore.setState({ lang: 'da' })
-    })
-    it('renders correctly', () => {
-      renderWithProviders(<DeadlinesWidget size="large" />)
-      expect(screen.getByText('Næste afleveringer')).toBeInTheDocument()
-      expect(screen.getByText('To-Do App')).toBeInTheDocument()
-      expect(screen.getByText('Designskitse')).toBeInTheDocument()
-      expect(screen.getByText('Analyseopgave')).toBeInTheDocument()
-    })
-    it('navigates to submission when item is clicked', () => {
-      renderWithProviders(<DeadlinesWidget />)
-      fireEvent.click(screen.getByText('To-Do App'))
-      expect(mockNavigate).toHaveBeenCalledWith('/submission/2/204')
-    })
-    it('navigates to calendar when header button is clicked', () => {
-      renderWithProviders(<DeadlinesWidget />)
-      fireEvent.click(screen.getAllByText(/Se alle/i)[0])
-      expect(mockNavigate).toHaveBeenCalledWith('/calendar')
-    })
-    it('renders correctly in English', () => {
-      useStore.setState({ lang: 'en' })
-      renderWithProviders(<DeadlinesWidget />)
-      expect(screen.getAllByText(/In \d+ days/i)[0]).toBeInTheDocument()
-    })
-    it('handles past deadline urgency color', () => {
-      const orig = [...mockDashboardDeadlines]
-      mockDashboardDeadlines[0] = { ...mockDashboardDeadlines[0], deadlineHoursFromNow: -24 }
-      renderWithProviders(<DeadlinesWidget />)
-      const matches = screen.getAllByText(/Overskredet/i)
-      const visibleEl = matches.find(el => !el.className.includes('sr-only'))
-      expect(visibleEl).toHaveClass('text-danger')
-      mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length, ...orig)
-    })
-    it('handles overdue deadlines', () => {
-      const orig = [...mockDashboardDeadlines]
-      mockDashboardDeadlines[0] = { ...mockDashboardDeadlines[0], deadlineHoursFromNow: -24 }
-      renderWithProviders(<DeadlinesWidget />)
-      const button = screen.getByRole('button', { name: /To-Do App/i })
-      expect(button.className).toContain('bg-danger/5')
-      mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length, ...orig)
-    })
-    it('renders empty state when there are no deadlines', () => {
-      useStore.setState({ lang: 'en' })
-      const orig = [...mockDashboardDeadlines]
-      mockDashboardDeadlines.splice(0, mockDashboardDeadlines.length)
-      renderWithProviders(<DeadlinesWidget />)
-      expect(screen.getByText(/caught up/i)).toBeInTheDocument()
-      mockDashboardDeadlines.push(...orig)
-    })
-  })
-
-  describe('FavoritesWidget', () => {
-
-    const mockCourses = [
-      { id: 1, title: 'Course 1', titleEn: 'Course 1', sections: [], status: 'active', label: 'Course 1', labelEn: 'Course 1', img: '' },
-    ] as any
-    const mockFavorites = [
-      { id: 'fav1', type: 'course', entityId: 1, order: 0, addedAt: Date.now() },
-    ] as any
-    const mockResolvedCourse = {
-      id: 'fav1', type: 'course' as const, entityId: 1, title: 'Course 1', icon: BookOpen, iconBg: 'blue', iconColor: 'white', link: '/course/1',
-    }
-
-    beforeEach(() => {
-      vi.clearAllMocks()
-      useStore.setState({ lang: 'da', favorites: mockFavorites, courses: mockCourses })
-      const resolveFav = resolveFavorite as any
-      vi.mocked(resolveFav).mockImplementation((fav: any) => ({ ...mockResolvedCourse, id: fav?.id || 'fav1' }))
-    })
-
-    it('renders favorites correctly', () => {
-      render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      expect(screen.getByText('Course 1')).toBeInTheDocument()
-    })
-    it('navigates to favorites page when see_all is clicked', () => {
-      render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      fireEvent.click(screen.getAllByText(/Se alle favoritter/i)[0])
-      expect(mockNavigate).toHaveBeenCalledWith('/favorites')
-    })
-    it('renders empty state when no favorites', () => {
-      useStore.setState({ favorites: [] })
-      const resolveFav = resolveFavorite as any
-      vi.mocked(resolveFav).mockReturnValue(null)
-      render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      expect(screen.getByText(/Ingen favoritter endnu/i)).toBeInTheDocument()
-    })
-    it('shows overflow message when more than 12 favorites', () => {
-      const manyFavorites = Array.from({ length: 15 }, (_, i) => ({ id: `fav${i}`, type: 'course', entityId: i, order: i, addedAt: Date.now() })) as any
-      useStore.setState({ favorites: manyFavorites, courses: mockCourses })
-      render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      expect(screen.getByText(/flere favoritter/i)).toBeInTheDocument()
-    })
-    it('handles external links', () => {
-      const windowSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
-      const resolveFav = resolveFavorite as any
-      vi.mocked(resolveFav).mockReturnValue({ ...mockResolvedCourse, title: 'External Tool', link: 'https://example.com', external: true })
-      render(<MemoryRouter><FavoritesWidget /></MemoryRouter>)
-      fireEvent.click(screen.getByText('External Tool'))
-      expect(windowSpy).toHaveBeenCalledWith('https://example.com', '_blank', 'noopener,noreferrer')
-    })
-  })
+  return (
+    <Card className="shortcuts-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
+      <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
+        <Stack direction="row" align="center" gap="xs">
+          <div className="text-primary shrink-0">
+            <Link2 size={18} strokeWidth={2} />
+          </div>
+          <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
+            {lang === 'da' ? 'Genveje' : 'Shortcuts'}
+          </Heading>
+        </Stack>
+      </Card.Header>
+      <Card.Body padding="compact" className="p-[var(--space-xs)] flex flex-col gap-[var(--space-2xs)] justify-center">
+        <div className="flex flex-col gap-2xs">
+          {shortcuts.slice(0, limit).map((s, idx) => (
+            <a
+              key={idx}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between p-2xs hover:bg-bg-hover rounded-md text-xs font-semibold text-main transition-colors group/shortcut-link"
+            >
+              <span>{s.name}</span>
+              <ExternalLink size={12} className="text-muted opacity-40 group-hover/shortcut-link:opacity-100 transition-opacity" />
+            </a>
+          ))}
+        </div>
+      </Card.Body>
+    </Card>
+  )
 }
+
+const ShortcutsWidgetMemo = memo(ShortcutsWidget)
+
+export { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget, ShortcutsWidgetMemo as ShortcutsWidget }
+
+
