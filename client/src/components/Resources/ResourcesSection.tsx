@@ -31,14 +31,6 @@ export default function ResourcesSection({
   const isFavorite = useStore(state => state.isFavorite)
   const toggleFavorite = useStore(state => state.toggleFavorite)
 
-  const getToolCategoryLabel = (category: string, id: number) => {
-    if (category === 'tools') return lang === 'da' ? 'Studieadministrativ' : 'Administrative'
-    if (id === 5 || id === 6 || id === 12) return lang === 'da' ? 'Kommunikation' : 'Communication'
-    if (id === 7 || id === 8 || id === 9) return lang === 'da' ? 'Filer & Dokumenter' : 'Files & Documents'
-    if (id === 10 || id === 11) return lang === 'da' ? 'Undervisning & Evaluering' : 'Teaching & Evaluation'
-    return ''
-  }
-
   return (
     <>
       <SectionHeader title={title} subtitle={subtitle} />
@@ -63,10 +55,29 @@ export default function ResourcesSection({
             }
           }
 
+          const addFavoriteLabel = lang === 'da'
+            ? `Føj ${titleText} til favoritter`
+            : `Add ${titleText} to favorites`
+
+          const removeFavoriteLabel = lang === 'da'
+            ? `Fjern ${titleText} fra favoritter`
+            : `Remove ${titleText} from favorites`
+
+          const shortTitle = lang === 'da'
+              ? (tool.shortTitleDa ?? titleText)
+              : (tool.shortTitleEn ?? titleText)
+
+          const ctaLabel = lang === 'da'
+              ? `Åbn ${shortTitle}`
+              : `Open ${shortTitle}`
+
+          const ctaAriaLabel = lang === 'da'
+              ? `Åbn ${shortTitle} - åbner i nyt vindue`
+              : `Open ${shortTitle} - opens in a new window`
+
           return (
             <Grid.Item span={6} key={tool.id} className="resources-grid-item">
               <InfoCard
-                subtitle={getToolCategoryLabel(tool.category || '', tool.id)}
                 icon={tool.icon}
                 iconBg={tool.bg}
                 iconColor={tool.color}
@@ -76,23 +87,32 @@ export default function ResourcesSection({
                 elevated
                 isStarred={isStarredOnly ? true : isFavorite('tool', tool.id)}
                 onStarToggle={handleStar}
+                addFavoriteLabel={addFavoriteLabel}
+                removeFavoriteLabel={removeFavoriteLabel}
                 helpText={isStarredOnly ? undefined : localize(tool, 'help')}
-                onClick={() => env.open(tool.url)}
               >
                 <div className="flex flex-wrap gap-xs items-center justify-between mt-sm">
                   <div>
                     {showSsoWarning && !tool.sso && (
                       <Badge variant="warning" pill className="gap-2xs px-xs py-0.5 text-xs font-bold shadow-sm h-auto">
                         <Lock size={12} strokeWidth={2.5} />
-                        {lang === 'da' ? 'Kræver login' : 'Requires login'}
+                        {lang === 'da' ? 'Kræver AAU-login' : 'Requires AAU login'}
                       </Badge>
                     )}
                   </div>
-                  <div className="bg-primary text-white font-extrabold text-sm flex items-center gap-xs px-md py-2 rounded-md transition-all hover:bg-accent hover:-translate-y-0.5 border border-primary shadow-sm cursor-pointer">
-                    <span>{lang === 'da' ? 'Åbn værktøj' : 'Open tool'}</span>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      env.open(tool.url)
+                    }}
+                    aria-label={ctaAriaLabel}
+                    className="bg-primary text-white font-extrabold text-sm flex items-center gap-xs px-md py-2 rounded-md transition-all hover:bg-accent hover:-translate-y-0.5 border border-primary shadow-sm"
+                  >
+                    <span>{ctaLabel}</span>
                     <ExternalLink size={16} strokeWidth={2.5} aria-hidden="true" />
-                    <span className="sr-only"> ({lang === 'da' ? 'åbner i et nyt vindue' : 'opens in a new window'})</span>
-                  </div>
+                    <span className="sr-only"> ({lang === 'da' ? 'åbner i nyt vindue' : 'opens in a new window'})</span>
+                  </button>
                 </div>
               </InfoCard>
             </Grid.Item>

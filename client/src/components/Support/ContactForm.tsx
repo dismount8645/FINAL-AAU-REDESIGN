@@ -34,16 +34,17 @@ function ContactForm({
   onCancel,
 }: ContactFormProps) {
   const t = useStore(state => state.t)
+  const lang = useStore(state => state.lang)
 
   return (
     <Card className="h-auto overflow-visible min-h-[200px]">
       <Card.Body padding="compact" className="p-lg">
-        <Heading level={3} className="mb-xs">{t('send_message_to_support')}</Heading>
+        <Heading level={3} className="mb-xs">{lang === 'da' ? 'Send besked' : 'Send message'}</Heading>
         {!isFormOpen ? (
           <div className="flex flex-col items-start">
             <Text size="xs" className="text-muted mb-sm">{t('send_message_desc')}</Text>
             <Button variant="primary" onClick={() => setIsFormOpen(true)}>
-              {t('write_a_message')}
+              {lang === 'da' ? 'Send besked' : 'Send message'}
             </Button>
           </div>
         ) : (
