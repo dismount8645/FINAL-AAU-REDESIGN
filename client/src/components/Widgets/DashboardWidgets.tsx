@@ -193,7 +193,7 @@ function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
                         <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
                         {idx === 0 && (
                           <span className="px-1.5 py-0.5 text-xs font-extrabold rounded-[var(--radius-xs)] leading-none shrink-0" style={{ color: dl.info.color, backgroundColor: `${dl.info.color}15` }}>
-                            {lang === 'da' ? 'Vigtig' : 'Important'}
+                            {lang === 'da' ? 'Vigtig aflevering' : 'Important assignment'}
                           </span>
                         )}
                         {dl.info.urgency === 'today' && (
@@ -824,17 +824,20 @@ function ShortcutsWidget({ size = 'small' }: WidgetProps) {
         </Stack>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex flex-col gap-[var(--space-2xs)] justify-center">
-        <div className="flex flex-col gap-2xs">
+        <div className="flex flex-col gap-1">
           {shortcuts.slice(0, limit).map((s, idx) => (
             <a
               key={idx}
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between p-2xs hover:bg-bg-hover rounded-md text-xs font-semibold text-main transition-colors group/shortcut-link"
+              className="flex items-center justify-between py-sm px-sm hover:bg-bg-hover rounded-[var(--radius-md)] text-xs font-semibold text-main transition-colors group/shortcut-link border border-transparent hover:border-[var(--border-color)]/30 min-h-[44px]"
             >
-              <span>{s.name}</span>
-              <ExternalLink size={12} className="text-muted opacity-40 group-hover/shortcut-link:opacity-100 transition-opacity" />
+              <span className="truncate">{s.name}</span>
+              <span className="shrink-0 flex items-center gap-1 text-text-muted text-[10px] font-medium opacity-0 group-hover/shortcut-link:opacity-100 transition-all duration-200">
+                <span>{lang === 'da' ? 'åbn' : 'open'}</span>
+                <ExternalLink size={12} strokeWidth={2.5} />
+              </span>
             </a>
           ))}
         </div>
