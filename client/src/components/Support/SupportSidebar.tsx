@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 
-import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal, ChevronRight } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal, ChevronRight, ExternalLink } from 'lucide-react';
 import { linkifyText } from '@/lib/utils';
 import FaqSection from './FaqSection';
 import LocalDesksSection from './LocalDesksSection';
@@ -31,9 +31,15 @@ function SupportSidebar({ children }: SupportSidebarProps) {
         />
         <Stack gap="xs">
           {children}
-          <a href="tel:+4599402020" className="flex items-center gap-xs py-2xs px-xs text-sm text-primary hover:underline underline-offset-2 rounded-md hover:bg-bg-hover transition-colors">
-            <Phone size={14} strokeWidth={2} />
-            +45 9940 2020
+          <a
+            href="tel:+4599402020"
+            className="flex items-center justify-between gap-xs p-md rounded-[var(--radius-md)] border border-border bg-bg-card hover:border-primary/40 hover:bg-primary/5 transition-all group"
+          >
+            <Stack gap="2xs">
+              <Text size="sm" weight="bold" className="text-main">+45 9940 2020</Text>
+              <Text size="2xs" muted>{lang === 'da' ? 'Man–fre 08:00–15:00' : 'Mon–Fri 08:00–15:00'}</Text>
+            </Stack>
+            <Phone size={18} strokeWidth={2} className="text-primary shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
           </a>
         </Stack>
       </div>
@@ -44,34 +50,28 @@ function SupportSidebar({ children }: SupportSidebarProps) {
           title={lang === 'da' ? 'Selvhjælp' : 'Self-help'}
           level={3}
         />
-        <Card className="mb-sm">
-          <Card.Body padding="compact">
-            <Stack gap="xs">
-              <Text size="xs" weight="bold" className="text-muted uppercase tracking-wider">{t('guides')}</Text>
-              {[
-                { label: t('guide_overview'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
-                { label: t('guide_students'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
-                { label: t('guide_teachers'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
-                { label: t('guide_staff'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
-              ].map((item, i) => (
-                <a
-                  key={i}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-between py-2xs px-xs text-sm text-primary hover:underline underline-offset-2 rounded-md hover:bg-bg-hover transition-colors group"
-                >
-                  {item.label}
-                  <ChevronRight size={14} className="shrink-0 text-muted opacity-0 group-hover:opacity-40 transition-opacity" />
-                </a>
-              ))}
-            </Stack>
-          </Card.Body>
-        </Card>
         <Card>
           <Card.Body padding="compact">
-            <Stack gap="xs">
-              <Text size="xs" weight="bold" className="text-muted uppercase tracking-wider">{t('self_service')}</Text>
+            <Text size="xs" weight="bold" className="text-muted uppercase tracking-wider mb-xs">{t('guides')}</Text>
+            {[
+              { label: t('guide_overview'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+              { label: t('guide_students'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+              { label: t('guide_teachers'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+              { label: t('guide_staff'), url: 'https://www.en.aau.dk/digital-identity/moodle/' },
+            ].map((item, i) => (
+              <a
+                key={i}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between py-2xs px-xs text-sm text-primary hover:underline underline-offset-2 rounded-md hover:bg-bg-hover transition-colors group"
+              >
+                {item.label}
+                <ChevronRight size={14} className="shrink-0 text-muted opacity-0 group-hover:opacity-40 transition-opacity" />
+              </a>
+            ))}
+            <div className="border-t border-border mt-xs pt-xs">
+              <Text size="xs" weight="bold" className="text-muted uppercase tracking-wider mb-3xs">{t('self_service')}</Text>
               <Button variant="ghost" size="sm" icon={ShieldHalf} className="justify-start text-primary hover:underline underline-offset-2 w-full">
                 {t('gdpr_faq')}
               </Button>
@@ -81,7 +81,7 @@ function SupportSidebar({ children }: SupportSidebarProps) {
               <Button variant="ghost" size="sm" icon={Signal} className="justify-start text-primary hover:underline underline-offset-2 w-full">
                 {t('system_status')}
               </Button>
-            </Stack>
+            </div>
           </Card.Body>
         </Card>
       </div>
@@ -101,9 +101,6 @@ function SupportSidebar({ children }: SupportSidebarProps) {
                   {lang === 'da' ? 'Chat: Lukket nu · Åbner mandag kl. 08:00' : 'Chat: Closed now · Opens Monday 08:00'}
                 </Text>
               </Stack>
-              <Button variant="ghost" size="sm" icon={Signal} className="justify-start text-primary hover:underline underline-offset-2 w-full">
-                {t('system_status')}
-              </Button>
             </Stack>
           </Card.Body>
         </Card>

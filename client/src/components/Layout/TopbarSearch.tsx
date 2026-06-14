@@ -630,7 +630,7 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
               </div>
             )}
           </div>
-          {(isMobile || isCollapsedPage) && (
+          {isMobile && (
             <Button
               variant="ghost"
               size="sm"

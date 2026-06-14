@@ -1,5 +1,5 @@
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, ArrowLeft } from 'lucide-react'
-import { type KeyboardEvent } from 'react'
+import { type KeyboardEvent, useRef, useState, useCallback, useMemo } from 'react'
 import PageLayout from '@/components/Layout/PageLayout';
 import { AnimatePresence, motion } from 'framer-motion'
 import { Card } from '@/components/ui'
@@ -11,11 +11,11 @@ import { Icon } from '@/components/ui'
 import { Avatar } from '@/components/ui'
 import { MasterItem } from '@/components/ui'
 import useStore from '@/store'
-import { useState, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useToast } from '@/components/ui'
 import { SETTINGS_CATEGORIES } from '@/config/settingsCategories'
 import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
+import type { ProfileTabHandle } from '@/components/Settings/ProfileTab'
 
 const catIcons: Record<string, typeof User> = {
   bruger: User,
@@ -42,6 +42,15 @@ const itemIcons: Record<string, typeof User> = {
   badgeind: Sliders,
 }
 
+const TAB_SUBTITLES: Record<string, string> = {
+  profil: 'Opdater navn, profilbillede og udseende.',
+  sprog: 'Vælg sprog for portalens brugerflade.',
+  notifikationer: 'Vælg hvordan og hvornår du vil modtage notifikationer.',
+  forum: 'Finjustér dine præferencer for forumaktivitet.',
+  kalender: 'Tilpas hvordan din kalender vises.',
+  beskeder: 'Styr hvem der kan kontakte dig og hvordan.',
+}
+
 function Settings() {
   const t = useStore(state => state.t)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -49,6 +58,8 @@ function Settings() {
   const activeTab = searchParams.get('tab') || 'profil'
   const [expandedCats, setExpandedCats] = useState<string[]>(['bruger', 'indstillinger'])
   const [mobileDetailOpen, setMobileDetailOpen] = useState(false)
+  const [profileDirty, setProfileDirty] = useState(false)
+  const profileRef = useRef<ProfileTabHandle>(null)
 
   const firstName = useStore(state => state.firstName)
   const lastName = useStore(state => state.lastName)
@@ -56,7 +67,9 @@ function Settings() {
   const handleStoreSave = useStore(state => state.handleSave)
 
   const handleSave = useCallback(async () => {
+    profileRef.current?.commit()
     await handleStoreSave(toast, t)
+    setProfileDirty(false)
   }, [handleStoreSave, toast, t])
 
   const handleTabClick = useCallback((id: string) => {
@@ -110,15 +123,15 @@ function Settings() {
           }
           sidebar={
             <Card className="flex flex-col p-[var(--space-0)] h-full w-full border-none">
-              <Card.Header className="border-b border-border">
-                <Stack direction="row" gap="md" align="center">
-                  <Avatar name={`${firstName} ${lastName}`} size="md" />
-                  <Text weight="bold" size="md" className="text-main">{`${firstName} ${lastName}`}</Text>
+              <Card.Header className="border-b border-border py-sm px-2">
+                <Stack direction="row" gap="sm" align="center">
+                  <Avatar name={`${firstName} ${lastName}`} size="sm" className="scale-75 origin-left" />
+                  <Text weight="bold" size="xs" className="text-main truncate">{`${firstName} ${lastName}`}</Text>
                 </Stack>
               </Card.Header>
-              <Card.Body className="p-sm">
+              <Card.Body className="p-1">
                 {categories.map((cat) => (
-                  <Stack key={cat.id} gap="2xs" className="mb-md">
+                  <Stack key={cat.id} gap="2xs" className="mb-1">
                     <Stack
                       direction="row"
                       align="center"
@@ -132,16 +145,16 @@ function Settings() {
                           toggleCat(cat.id)
                         }
                       }}
-                      className="settings__cat-header cursor-pointer py-sm px-xs hover:bg-bg-hover rounded-[var(--radius-sm)] transition-colors border-l-4 border-border hover:border-primary/40"
-                    >                      <Stack direction="row" align="center" gap="sm">
+                      className="settings__cat-header cursor-pointer py-1 px-1 hover:bg-bg-hover rounded-[var(--radius-sm)] transition-colors"
+                    >                      <Stack direction="row" align="center" gap="xs">
                         {(() => {
                            const CatIcon = catIcons[cat.id]
                            /* istanbul ignore next */
-                           return CatIcon ? <CatIcon size={14} strokeWidth={2} className="text-muted opacity-50 shrink-0" /> : null
+                           return CatIcon ? <CatIcon size={11} strokeWidth={2} className="text-muted opacity-50 shrink-0" /> : null
                         })()}
-                        <Text size="xs" weight="extrabold" muted className="text-uppercase tracking-wider">{t(cat.nameKey)}</Text>
+                        <Text size="2xs" weight="bold" muted className="text-uppercase tracking-wider">{t(cat.nameKey)}</Text>
                       </Stack>
-                      <Icon name={`chevron-${expandedCats.includes(cat.id) ? 'up' : 'down'}`} className="settings__chevron text-[0.65rem] opacity-40 text-muted" />
+                      <Icon name={`chevron-${expandedCats.includes(cat.id) ? 'up' : 'down'}`} className="settings__chevron text-[0.6rem] opacity-40 text-muted" />
                     </Stack>
                     {expandedCats.includes(cat.id) && cat.items.map((item) => (
                       <MasterItem
@@ -150,7 +163,7 @@ function Settings() {
                         title={t(item.nameKey)}
                         selected={activeTab === item.id}
                         onClick={() => handleTabClick(item.id)}
-                        className="rounded-[var(--radius-md)] ml-sm border-none"
+                        className="rounded-[var(--radius-md)] ml-0 border-none"
                       />
                     ))}
                   </Stack>
@@ -163,7 +176,7 @@ function Settings() {
               <Card.Header className="border-b border-border shrink-0">
                 <Stack gap="2xs">
                   <Text weight="bold" size="lg" className="card__title text-main">{t(activeTabLabel)}</Text>
-                  <Text muted size="sm">{t('settings.subtitle')}</Text>
+                  <Text muted size="sm">{TAB_SUBTITLES[activeTab] || t('settings.subtitle')}</Text>
                 </Stack>
               </Card.Header>
               
@@ -177,7 +190,7 @@ function Settings() {
                     transition={{ duration: 0.15 }}
                   >
                     {activeTab === 'profil' ? (
-                      <ProfileTab />
+                      <ProfileTab ref={profileRef} onDirtyChange={setProfileDirty} />
                     ) : activeTab === 'notifikationer' ? (
                       <NotificationsTab />
                     ) : activeTab === 'sprog' ? (
@@ -198,9 +211,9 @@ function Settings() {
                 </AnimatePresence>
               </Card.Body>
 
-              {(activeTab === 'profil' || activeTab === 'forum' || activeTab === 'kalender' || activeTab === 'beskeder') && (
+              {activeTab === 'profil' && (
                 <Card.Footer className="border-t border-border p-lg shrink-0 bg-bg-card z-10 sticky bottom-0 shadow-[0_-4px_12px_rgba(0,0,0,0.03)] dark:shadow-[0_-4px_12px_rgba(0,0,0,0.2)]">
-                  <Button variant="primary" size="md" onClick={handleSave} loading={isSaving} className="self-start">{t('settings.save_changes')}</Button>
+                  <Button variant="primary" size="md" onClick={handleSave} loading={isSaving} disabled={!profileDirty} className="self-start">{t('settings.save_changes')}</Button>
                 </Card.Footer>
               )}
             </Card>
