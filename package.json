@@ -1,14 +1,13 @@
 {
-  "name": "react-example",
+  "name": "aau-redesign",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "vite build --emptyOutDir",
-    "optimize": "tsx scripts/optimize-images.ts",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "lint": "npx tsc --noEmit -p client/tsconfig.json",
     "test": "vitest",
     "test:e2e": "playwright test",

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
 
-import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal, ChevronRight, ExternalLink } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldHalf, Monitor, Signal, ChevronRight } from 'lucide-react';
 import { linkifyText } from '@/lib/utils';
 import FaqSection from './FaqSection';
 import LocalDesksSection from './LocalDesksSection';

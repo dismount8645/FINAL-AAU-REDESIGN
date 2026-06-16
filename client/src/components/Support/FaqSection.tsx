@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import { ExternalLink } from 'lucide-react'
 import { Card } from '@/components/ui'
-import Button from '@/components/ui/Button'
 import { SectionHeader } from '@/components/ui'
 import { AccordionWrapper, AccordionItemRow } from '@/components/ui'
 import { Text } from '@/components/ui'

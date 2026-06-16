@@ -21,20 +21,18 @@ npm run dev            # → localhost:3000
 | `npm test` | Vitest (inline + .test.tsx) |
 | `npm run lint` | `tsc --noEmit` |
 | `npm run preview` | Preview production build |
-| `npm run optimize` | Convert JPG/PNG → WebP |
 
 ## Structure
 
 ```
-src/
-├── api/          API services + mock data
+client/src/
 ├── components/   UI primitives + layout + widgets
-├── lib/          Utils, schemas, translations
+├── config/       Settings categories
+├── hooks/        Custom hooks
+├── lib/          Utils, schemas, translations, types
 ├── pages/        Route pages (dashboard, courses, calendar…)
 ├── store/        Zustand state (slices per domain)
-├── test/         Shared setup + test utils
-├── types/        Global TS declarations
-└── styles/       Tailwind v4 theme + globals
+└── test/         Shared setup + test utils
 ```
 
 ## Stack

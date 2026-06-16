@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Clock, Phone, MapPin } from 'lucide-react'
+import { Phone, MapPin } from 'lucide-react'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { SectionHeader } from '@/components/ui'
