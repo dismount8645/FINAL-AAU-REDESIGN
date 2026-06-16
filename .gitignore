@@ -5,6 +5,7 @@
 
 # Dependencies
 node_modules/
+client/node_modules/
 
 # Build outputs
 dist/
@@ -45,11 +46,16 @@ coverage/
 # QA screenshots
 qa-screenshots/
 
+# Archived assets (review before deleting)
+_archive/
+**/images/_archive/
+
 # Test artifacts
 test-results.json
 course-test-output.txt
 temp_registry.json
 stats.html
+stats.json
 
 # OpenCode local config (auto-generated)
 .agents/

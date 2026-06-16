@@ -39,12 +39,6 @@ export default function TopbarSearch({ children }: TopbarSearchProps) {
 
   const searchRef = useRef<HTMLDivElement>(null);
 
-  const isCollapsedPage = useMemo(() => {
-    return ['/courses', '/resources', '/messages', '/notifications'].some(path =>
-      location.pathname.startsWith(path)
-    );
-  }, [location.pathname]);
-
   const shouldShowSearchInput = !isMobile || isMobileExpanded;
 
   // Responsive check

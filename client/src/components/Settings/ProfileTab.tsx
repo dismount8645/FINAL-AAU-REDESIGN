@@ -178,7 +178,7 @@ if (import.meta.vitest) {
   
         const firstInput = screen.getByLabelText('Fornavn')
         fireEvent.change(firstInput, { target: { value: 'NewFirst' } })
-        expect(firstInput.value).toBe('NewFirst')
+        expect((firstInput as HTMLInputElement).value).toBe('NewFirst')
   
         const darkThemeButton = screen.getByLabelText('Mørk')
         fireEvent.click(darkThemeButton)
