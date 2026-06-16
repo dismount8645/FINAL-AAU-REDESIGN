@@ -235,6 +235,7 @@ function Resources() {
               {activeCategory === 'popular' && filteredPopularTools.length > 0 && (
                 <ResourcesSection
                   title={lang === 'da' ? 'Populære systemer' : 'Popular systems'}
+                  subtitle={lang === 'da' ? 'Mest brugte systemer' : 'Most used systems'}
                   tools={filteredPopularTools}
                   onToggleFavorite={(id) => toggleFavorite('tool', id)}
                 />

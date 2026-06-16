@@ -1,5 +1,5 @@
 import { memo, useCallback } from 'react'
-import { AlertTriangle, Lock, FileText, MessageSquare, Phone, Globe, GraduationCap, ExternalLink, Mail } from 'lucide-react'
+import { AlertTriangle, Lock, MessageSquare, GraduationCap, ExternalLink } from 'lucide-react'
 import { Card, Heading, Text, Button } from '@/components/ui'
 import { SectionHeader } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives'
@@ -21,7 +21,6 @@ interface TriageOption {
 }
 
 function TriageSection() {
-  const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
 
   const handleCall = useCallback(() => {

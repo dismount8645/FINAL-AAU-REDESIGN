@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Text } from '@/components/ui';
-import { Check, AlertCircle } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 interface AutosaveStatusProps {
   /** Increment to trigger "Gemt" flash */
