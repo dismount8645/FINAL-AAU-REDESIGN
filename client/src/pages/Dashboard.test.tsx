@@ -46,7 +46,7 @@ describe('Dashboard Page', () => {
       vi.advanceTimersByTime(400)
     })
     expect(screen.getAllByText(/Næste aflevering/i).length).toBeGreaterThan(0)
-    expect(screen.getByText('Favoritfag')).toBeInTheDocument()
+    expect(screen.getByText('Favoritter')).toBeInTheDocument()
     expect(screen.getByText('Beskeder')).toBeInTheDocument()
     expect(screen.getAllByText('Dagens program').length).toBeGreaterThan(0)
     expect(screen.getAllByText('Forum aktivitet').length).toBeGreaterThan(0)

@@ -293,7 +293,7 @@ function Dashboard() {
                                   </label>
                                   <span className="text-[11px] text-text-muted leading-relaxed">
                                     {widget.id === 'favorites' && isFavoritesEmpty
-                                      ? (lang === 'da' ? 'Vises som tom widget, indtil du vælger favoritfag.' : 'Shows as empty widget until you choose favorites.')
+                                      ? (lang === 'da' ? 'Vises som tom widget, indtil du vælger favoritter.' : 'Shows as empty widget until you choose favorites.')
                                       : widget.id === 'calendar'
                                         ? (lang === 'da' ? 'Dagens program og kommende aftaler.' : "Today's schedule and upcoming events.")
                                         : widget.id === 'courseProgress'
