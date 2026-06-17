@@ -227,6 +227,7 @@ describe('Course Tabs Subcomponents', () => {
             sections={sections}
             toggleItem={toggleItem}
             toggleSection={toggleSection}
+            navigate={mockNavigate}
           />
         </MemoryRouter>
       )

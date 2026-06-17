@@ -1,6 +1,7 @@
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { within } from '@testing-library/react';
-import { renderWithProviders, screen, fireEvent, act } from '@/test/test-utils';
+import { renderWithProviders } from '@/__tests__/setup/test-utils';
+import { screen, fireEvent, act } from '@testing-library/react';
 import Support from './Support';
 import useStore from '@/store';
 
