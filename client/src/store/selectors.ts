@@ -1,4 +1,4 @@
-import type { AppState } from './index';
+import type { AppState } from './types';
 import { allToolsList } from '@/lib/utils';
 import { sortFavorites, resolveFavorite } from '@/lib/favorites';
 import type { ResolvedFavorite } from '@/lib/favorites';

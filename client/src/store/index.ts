@@ -1,19 +1,18 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { PersistedStateSchema } from '@/lib/types/schemas';
-import { Theme, Lang, computeIsDarkMode } from '@/lib/theme';
+import { computeIsDarkMode } from '@/lib/theme';
 import type { FavoriteItem } from '@/lib/types';
 import { STORAGE_KEYS } from '@/lib/constants';
 
-import { BreadcrumbItem, UISlice, createUISlice } from './slices/uiSlice';
-import { CourseWithStatus, CourseSlice, createCourseSlice } from './slices/courseSlice';
-import { FavoriteSlice, createFavoriteSlice } from './slices/favoriteSlice';
-import { UserSlice, createUserSlice } from './slices/userSlice';
+import { createUISlice } from './slices/uiSlice';
+import { createCourseSlice } from './slices/courseSlice';
+import { createFavoriteSlice } from './slices/favoriteSlice';
+import { createUserSlice } from './slices/userSlice';
+import { AppState } from './types';
 
-export type { Theme, Lang, BreadcrumbItem, CourseWithStatus, UISlice, CourseSlice, FavoriteSlice, UserSlice };
+export type { Theme, Lang, BreadcrumbItem, CourseWithStatus, UISlice, CourseSlice, FavoriteSlice, UserSlice, AppState } from './types';
 export { computeIsDarkMode };
-
-export interface AppState extends UISlice, CourseSlice, FavoriteSlice, UserSlice {}
 
 const lazyStorage = {
   getItem: (name: string) => {

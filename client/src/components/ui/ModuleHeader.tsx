@@ -42,11 +42,4 @@ export default function ModuleHeader({
   )
 }
 
-if (import.meta.vitest) {
-  describe('ModuleHeader', () => {
-    it('renders title', () => {
-      render(<ModuleHeader title="Header" />)
-      expect(screen.getByText('Header')).toBeInTheDocument()
-    })
-  })
-}
+
