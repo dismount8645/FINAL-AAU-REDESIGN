@@ -57,7 +57,7 @@ describe('Dashboard Page', () => {
     act(() => {
       vi.advanceTimersByTime(400)
     })
-    const editBtn = screen.getByText('Tilpas dashboard')
+    const editBtn = screen.getByText('Rediger')
     expect(editBtn).toBeInTheDocument()
     
     fireEvent.click(editBtn)

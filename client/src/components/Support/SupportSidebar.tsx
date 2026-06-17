@@ -184,8 +184,8 @@ if (import.meta.vitest) {
           />
         )
   
-        expect(screen.getByText('Skriv en besked')).toBeInTheDocument()
-        fireEvent.click(screen.getByText('Skriv en besked'))
+        expect(screen.getByRole('button', { name: 'Send besked' })).toBeInTheDocument()
+        fireEvent.click(screen.getByRole('button', { name: 'Send besked' }))
         expect(setIsFormOpen).toHaveBeenCalledWith(true)
       })
   
