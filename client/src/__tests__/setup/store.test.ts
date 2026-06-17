@@ -128,7 +128,7 @@ describe('useStore', () => {
   it('handles SSR: initial theme and lang fallback to defaults when window is undefined', async () => {
     vi.stubGlobal('window', undefined)
     vi.resetModules()
-    const mod = await import('../store')
+    const mod = await import('@/store')
     expect(mod.default.getState().theme).toBe('system')
     expect(mod.default.getState().lang).toBe('da')
     vi.unstubAllGlobals()
@@ -137,7 +137,7 @@ describe('useStore', () => {
   it('handles SSR: sidebar actions skip DOM when window is undefined', async () => {
     vi.stubGlobal('window', undefined)
     vi.resetModules()
-    const mod = await import('../store')
+    const mod = await import('@/store')
     mod.default.getState().toggleSidebar()
     expect(mod.default.getState().isCollapsed).toBe(false)
     vi.unstubAllGlobals()
@@ -146,7 +146,7 @@ describe('useStore', () => {
   it('handles SSR: setTheme and setLang skip DOM manipulation when window is undefined', async () => {
     vi.stubGlobal('window', undefined)
     vi.resetModules()
-    const mod = await import('../store')
+    const mod = await import('@/store')
     mod.default.getState().setTheme('dark')
     expect(mod.default.getState().theme).toBe('dark')
     mod.default.getState().setLang('en')

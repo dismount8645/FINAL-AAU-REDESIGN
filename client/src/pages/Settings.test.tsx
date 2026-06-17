@@ -1,6 +1,6 @@
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { renderWithProviders } from '@/test/test-utils';
+import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import Settings from './Settings';
 import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';
