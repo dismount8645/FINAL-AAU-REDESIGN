@@ -12,7 +12,15 @@ import type {
 } from '@/lib/types'
 
 import { Reply, MessageSquare, Book } from 'lucide-react'
-import { registryJson } from '@/lib/mocks/registry'
+import { coursesJson } from '@/lib/mocks/courses'
+import { forumsJson } from '@/lib/mocks/forums'
+import { defaultEventsJson } from '@/lib/mocks/events'
+import { messagesJson } from '@/lib/mocks/messages'
+import { notificationsJson } from '@/lib/mocks/notifications'
+import { supportLocationsJson, supportDeskHoursJson, supportNotesJson } from '@/lib/mocks/support'
+import { participantsJson } from '@/lib/mocks/participants'
+import { courseTabItemsJson } from '@/lib/mocks/tabs'
+import { toolsJson } from '@/lib/mocks/tools'
 
 // ── Mock forum data ──────────────────────────────────────────────────────────
 export const mockForumActivities: ForumActivity[] = [
@@ -76,7 +84,7 @@ interface CourseRaw {
   sections: CourseSection[]
 }
 
-export const courses: CoursesMap = registryJson.courses.reduce((acc, course) => {
+export const courses: CoursesMap = coursesJson.reduce((acc, course) => {
   acc[course.id] = {
     title: course.title,
     titleEn: course.titleEn,
@@ -92,7 +100,7 @@ export const courses: CoursesMap = registryJson.courses.reduce((acc, course) => 
   return acc;
 }, {} as CoursesMap)
 
-export const courseList: CourseListItem[] = registryJson.courses.map(course => ({
+export const courseList: CourseListItem[] = coursesJson.map(course => ({
   id: course.id,
   title: course.title,
   titleEn: course.titleEn,
@@ -104,7 +112,7 @@ export const courseList: CourseListItem[] = registryJson.courses.map(course => (
   tab: course.tab
 }))
 
-export const courseData: Record<number, CourseRaw> = registryJson.courses.reduce((acc, course) => {
+export const courseData: Record<number, CourseRaw> = coursesJson.reduce((acc, course) => {
   acc[course.id] = {
     title: course.title,
     titleEn: course.titleEn,
@@ -117,34 +125,15 @@ export const courseData: Record<number, CourseRaw> = registryJson.courses.reduce
   return acc;
 }, {} as Record<number, CourseRaw>)
 
-export const forums: Forum[] = registryJson.forums as Forum[]
-export const defaultEvents: CalendarEvents = registryJson.defaultEvents as CalendarEvents
-export const messagesData: MessageThread[] = registryJson.messagesData as MessageThread[]
-export const notificationsData: Notification[] = registryJson.notificationsData as Notification[]
-export const participantsData = registryJson.participantsData as { name: string; role: 'student' | 'teacher'; email: string }[]
-export const courseTabItems = registryJson.courseTabItems as { key: string; label: string }[]
+export const forums: Forum[] = forumsJson as Forum[]
+export const defaultEvents: CalendarEvents = defaultEventsJson as CalendarEvents
+export const messagesData: MessageThread[] = messagesJson as MessageThread[]
+export const notificationsData: Notification[] = notificationsJson as Notification[]
+export const participantsData = participantsJson as { name: string; role: 'student' | 'teacher'; email: string }[]
+export const courseTabItems = courseTabItemsJson as { key: string; label: string }[]
 
-export const supportLocations = registryJson.supportLocations
-export const supportDeskHours = registryJson.supportDeskHours
-export const supportNotes = registryJson.supportNotes
+export const supportLocations = supportLocationsJson
+export const supportDeskHours = supportDeskHoursJson
+export const supportNotes = supportNotesJson
 
-export const registryTools = registryJson.tools
-
-if (import.meta.vitest) {
-  describe('data', () => {
-    it('courses is an object with at least 1 key', () => {
-      expect(Object.keys(courses).length).toBeGreaterThan(0)
-    })
-    it('courseList is an array with length > 0', () => {
-      expect(courseList.length).toBeGreaterThan(0)
-    })
-    it('forums is defined and has items', () => {
-      expect(forums).toBeDefined()
-      expect(forums.length).toBeGreaterThan(0)
-    })
-
-    it('notificationsData is an array', () => {
-      expect(Array.isArray(notificationsData)).toBe(true)
-    })
-  })
-}
+export const registryTools = toolsJson

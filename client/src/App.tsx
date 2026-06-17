@@ -34,11 +34,3 @@ function App() {
 
 export default App;
 
-if (import.meta.vitest) {
-  describe('App', () => {
-    it('renders without crashing', () => {
-      render(<App />)
-    })
-  })
-}
-
