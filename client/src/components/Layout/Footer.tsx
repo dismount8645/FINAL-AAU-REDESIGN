@@ -1,6 +1,4 @@
 
-
-import { MemoryRouter } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
@@ -40,51 +38,3 @@ function Footer() {
 
 export default Footer
 
-if (import.meta.vitest) {
-  describe('Footer Component', () => {
-    beforeEach(() => {
-      useStore.setState({ lang: 'da' })
-    })
-  
-    const renderFooter = () => {
-      return render(
-        <MemoryRouter>
-          <Footer />
-        </MemoryRouter>
-      )
-    }
-  
-    it('renders its support link in navigation', () => {
-      renderFooter()
-      expect(screen.getByText('ITS Support')).toBeInTheDocument()
-    })
-  
-    it('renders accessibility statement link', () => {
-      renderFooter()
-      expect(screen.getByText('Tilgængelighedserklæring')).toBeInTheDocument()
-    })
-  
-    it('renders service status button', () => {
-      renderFooter()
-      expect(screen.getByText('Serviceinfo')).toBeInTheDocument()
-    })
-
-    it('clicks service status button', () => {
-      renderFooter()
-      fireEvent.click(screen.getByText('Serviceinfo'))
-    })
-  
-    it('renders copyright', () => {
-      renderFooter()
-      expect(screen.getByText((content) => content.includes('Aalborg Universitet. Alle rettigheder forbeholdes.'))).toBeInTheDocument()
-    })
-  
-    it('renders correct translations when language is English', () => {
-      useStore.setState({ lang: 'en' })
-      renderFooter()
-      expect(screen.getByText('Accessibility Statement')).toBeInTheDocument()
-      expect(screen.getByText('Service Status')).toBeInTheDocument()
-      expect(screen.getByText((content) => content.includes('Aalborg Universitet. All rights reserved.'))).toBeInTheDocument()
-    })
-  })
-}

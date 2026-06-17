@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import type { AppState } from '../index';
+import type { AppState } from '../types';
 import { courseList as initialCourses } from '@/lib/data';
 import type { CourseListItem, CalendarEvents } from '@/lib/types';
 

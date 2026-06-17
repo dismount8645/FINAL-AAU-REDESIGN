@@ -8,7 +8,7 @@ export interface RecentSearch {
   id: string;
   text: string;
   link: string;
-  type: 'course' | 'assignment' | 'message' | 'query';
+  type: 'course' | 'assignment' | 'message' | 'query' | 'calendar';
 }
 
 export function useTopbarSearch() {

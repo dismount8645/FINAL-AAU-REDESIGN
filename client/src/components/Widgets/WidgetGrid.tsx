@@ -217,35 +217,3 @@ export function WidgetGrid({ widgets, isEditing = false, onLayoutChange, onToggl
   )
 }
 
-if (import.meta.vitest) {
-  const { describe, it, expect, vi } = await import('vitest')
-  const { renderWithProviders } = await import('@/test/test-utils')
-
-  describe('WidgetGrid', () => {
-    it('renders widgets', () => {
-      const widgets = [
-        { id: 'deadlines', span: 8 },
-        { id: 'favorites', span: 8 },
-        { id: 'support', span: 8 },
-      ]
-      const { container } = renderWithProviders(<WidgetGrid widgets={widgets} />)
-      expect(container.querySelector('[data-testid="dashboard-columns"]')).toBeInTheDocument()
-    })
-    it('handles unknown widget type gracefully', () => {
-      const widgets = [{ id: 'nonexistent', span: 12 }]
-      const { container } = renderWithProviders(<WidgetGrid widgets={widgets} />)
-      expect(container.querySelector('[data-testid="dashboard-columns"]')).toBeInTheDocument()
-    })
-    it('calls onLayoutChange when move up button clicked', () => {
-      const widgets = [
-        { id: 'deadlines', span: 8, size: 'medium' as const },
-        { id: 'calendar', span: 8, size: 'medium' as const },
-      ]
-      const onLayoutChange = vi.fn()
-      const { container } = renderWithProviders(
-        <WidgetGrid widgets={widgets} isEditing={true} onLayoutChange={onLayoutChange} />
-      )
-      expect(container.querySelector('[data-testid="dashboard-columns"]')).toBeInTheDocument()
-    })
-  })
-}

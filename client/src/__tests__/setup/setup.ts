@@ -1,6 +1,6 @@
 import './globals';
 import { vi } from 'vitest';
-import { render as rtlRender, screen as rtlScreen, fireEvent as rtlFireEvent, act as rtlAct, renderHook as rtlRenderHook } from '@testing-library/react';
+import { render as rtlRender, screen as rtlScreen, fireEvent as rtlFireEvent, act as rtlAct, renderHook as rtlRenderHook, waitFor as rtlWaitFor } from '@testing-library/react';
 import { renderWithProviders as rtlRenderWithProviders } from './test-utils';
 
 globalThis.render = rtlRender;
@@ -9,6 +9,7 @@ globalThis.fireEvent = rtlFireEvent;
 globalThis.act = rtlAct;
 globalThis.renderHook = rtlRenderHook;
 globalThis.renderWithProviders = rtlRenderWithProviders;
+globalThis.waitFor = rtlWaitFor;
 
 Element.prototype.scrollIntoView = vi.fn()
 

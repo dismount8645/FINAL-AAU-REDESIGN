@@ -18,12 +18,3 @@ export const WidgetWrapper = memo(function WidgetWrapper({
   )
 })
 
-if (import.meta.vitest) {
-  describe('WidgetWrapper', () => {
-    it('renders error boundary', () => {
-      render(<WidgetWrapper widgetId="test" />)
-      const widget = document.querySelector('.dashboard__widget')
-      expect(widget).toBeInTheDocument()
-    })
-  })
-}

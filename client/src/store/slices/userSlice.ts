@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import type { AppState } from '../index';
+import type { AppState } from '../types';
 import { storage } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { saveSettings } from '@/lib/api';
