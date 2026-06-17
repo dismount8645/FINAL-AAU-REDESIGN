@@ -4,7 +4,12 @@ import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Upload, Download, Plus, ChevronLeft, ChevronRight, Settings, AlertTriangle } from 'lucide-react';
 import { MemoryRouter } from 'react-router-dom';
-import { CalendarMonthView, CalendarWeekView, CalendarDayView, CalendarUpcomingWidget, CalendarNewEventDialog, CalendarEventDetailsDialog } from '@/components/Calendar';
+import MonthView from './views/MonthView';
+import WeekView from './views/WeekView';
+import DayView from './views/DayView';
+import EventForm from './EventForm';
+import EventDetail from './EventDetail';
+import { CalendarUpcomingWidget } from '@/components/Calendar';
 
 
 
@@ -25,11 +30,6 @@ import { cn } from '@/lib/utils';
  * Calendar Feature - High-performance AAU schedule management.
  * Enforces 8pt grid, 150ms motion physics, and strict brand token usage.
  */
-
-// Memoized View Components
-const MonthView = memo(CalendarMonthView)
-const WeekView = memo(CalendarWeekView)
-const DayView = memo(CalendarDayView)
 
 const Calendar = () => {
   const t = useStore(state => state.t)
@@ -301,7 +301,7 @@ const Calendar = () => {
           </Grid>
         </ErrorBoundary>
 
-        <CalendarNewEventDialog
+        <EventForm
           isOpen={activeModal === 'new'}
           onClose={() => setActiveModal(null)}
           newEvent={newEvent}
@@ -311,7 +311,7 @@ const Calendar = () => {
           t={t}
         />
 
-        <CalendarEventDetailsDialog
+        <EventDetail
           isOpen={activeModal === 'event-detail'}
           onClose={() => setActiveModal(null)}
           selectedEvent={selectedEvent}

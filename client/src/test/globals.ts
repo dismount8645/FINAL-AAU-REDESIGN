@@ -49,3 +49,4 @@ if (typeof window !== 'undefined') {
 // Also stub them on global for Node environments if needed
 vi.stubGlobal('localStorage', localStorageMock);
 vi.stubGlobal('sessionStorage', localStorageMock);
+

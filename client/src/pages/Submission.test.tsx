@@ -1,6 +1,6 @@
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '@/test/test-utils';
+import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import Submission, { SubmissionDropzone } from './Submission';
 
 const mockSubmitAssignment = vi.fn().mockResolvedValue({ success: true });

@@ -1,6 +1,6 @@
 import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { screen, fireEvent, within } from '@testing-library/react';
-import { renderWithProviders } from '@/test/test-utils';
+import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import Courses from './Courses';
 import useStore from '@/store';
 
