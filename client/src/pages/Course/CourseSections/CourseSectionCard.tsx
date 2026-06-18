@@ -1,99 +1,25 @@
-import { useState, useCallback, memo } from 'react';
-import type { NavigateFunction } from 'react-router-dom';
+import { useState } from 'react';
 import { Book, BookOpen, Target, ChevronDown, ChevronUp, Check } from 'lucide-react';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Card, Heading, Text, MasterItem, Button } from '@/components/ui';
-import { PATHS } from '@/routes';
+import { Card, Heading, Text, Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { ITEM_TYPE_MAP } from '@/lib/theme';
-import useStore from '@/store';
-import { useFormat } from '@/hooks';
-import type { CourseItem, CourseSection } from '@/lib/types';
+import type { CourseSection } from '@/lib/types';
+import LessonItemRow from './LessonItemRow';
 
-const LessonItemRow = memo(function LessonItemRow({
-  item,
-  courseId,
-  sectionId,
-  completed,
-  onToggleItem,
-  navigate,
-}: {
-  item: CourseItem
+interface CourseSectionCardProps {
+  section: CourseSection
   courseId: string
-  sectionId: string
-  completed: boolean
-  onToggleItem: (id: number) => void
-  navigate: NavigateFunction
-}) {
-  const t = useStore((state) => state.t)
+  completedItems: number[]
+  isExpanded: boolean
+  toggleSection: (id: string) => void
+  toggleItem: (id: number) => void
+  lang: string
+  t: (key: string) => string
+  navigate: any
+}
 
-  const handleClick = item.type === 'assignment'
-    ? () => navigate(PATHS.SUBMISSION(courseId, item.id))
-    : () => {}
-
-  const handleToggle = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-    onToggleItem(item.id)
-  }, [item.id, onToggleItem])
-
-  const { getCourseItemMetadata } = useFormat()
-  const metadata = getCourseItemMetadata(item)
-
-  const isAutomatic = item.type === 'assignment'
-  const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default
-  const Icon = themeConfig.icon
-
-  return (
-    <MasterItem
-      className="rounded-[var(--radius-md)] border-none bg-bg-highlight/20 hover:bg-bg-highlight/40"
-      leading={Icon}
-      leadingClassName={cn(themeConfig.bg, `text-${themeConfig.color}`)}
-      title={
-        <span className="font-bold text-sm leading-tight">
-          {t(`course_${courseId}_${sectionId}_i${item.id}_title`)}
-        </span>
-      }
-      subtitle={metadata}
-      onClick={handleClick}
-      trailing={
-        <div className="flex items-center gap-xs shrink-0">
-          <span className={cn(
-            "text-[10px] font-bold uppercase tracking-wider hidden xs:inline-block",
-            completed ? "text-success" : "text-text-secondary opacity-60"
-          )}>
-            {completed 
-              ? t('course.completed') 
-              : t('course.incomplete')}
-          </span>
-          <Button
-            variant={completed ? 'primary' : 'ghost'}
-            size="icon"
-            className={`lesson-item__checkbox w-7 h-7 shrink-0 ${completed ? '' : isAutomatic ? 'border-dashed opacity-30 cursor-default border-border' : 'border-border hover:border-primary/50 dark:border-white/20'}`}
-            onClick={handleToggle}
-            aria-label={completed ? t('mark_incomplete') : t('mark_complete')}
-            type="button"
-            disabled={isAutomatic}
-          >
-            {completed ? (
-              <Check size={16} strokeWidth={2.5} aria-hidden="true" />
-            ) : (
-              !isAutomatic && (
-                <Check
-                  size={16}
-                  strokeWidth={2.5}
-                  aria-hidden="true"
-                  className="opacity-0 group-hover/check:opacity-30 transition-opacity"
-                />
-              )
-            )}
-          </Button>
-        </div>
-      }
-    />
-  )
-})
-
-const CourseSectionCard = memo(function CourseSectionCard({
+function CourseSectionCard({
   section,
   courseId,
   completedItems,
@@ -103,17 +29,7 @@ const CourseSectionCard = memo(function CourseSectionCard({
   lang,
   t,
   navigate,
-}: {
-  section: CourseSection
-  courseId: string
-  completedItems: number[]
-  isExpanded: boolean
-  toggleSection: (id: string) => void
-  toggleItem: (id: number) => void
-  lang: string
-  t: (key: string) => string
-  navigate: NavigateFunction
-}) {
+}: CourseSectionCardProps) {
   const [themesOpen, setThemesOpen] = useState(false)
   const [goalsOpen, setGoalsOpen] = useState(false)
   const [materialsOpen, setMaterialsOpen] = useState(true)
@@ -440,79 +356,6 @@ const CourseSectionCard = memo(function CourseSectionCard({
     )}
   </Card>
   )
-})
-
-function CourseModulesAnchorNav({
-  courseId,
-  sections,
-}: {
-  courseId: string
-  sections: CourseSection[]
-}) {
-  const t = useStore((state) => state.t)
-  
-  const scrollToSection = (sectionId: string) => {
-    const el = document.getElementById(`section-card-${sectionId}`)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  }
-
-  return (
-    <div className="sticky top-[73px] bg-bg-card/95 backdrop-blur-md z-20 py-sm px-md -mx-md sm:mx-0 rounded-xl border border-border/60 shadow-sm flex items-center gap-xs overflow-x-auto no-scrollbar mb-md">
-      {sections.map((section) => (
-        <button
-          key={section.id}
-          type="button"
-          onClick={() => scrollToSection(section.id)}
-          className="px-sm py-1.5 rounded-lg text-xs font-bold whitespace-nowrap bg-bg-highlight/40 hover:bg-bg-highlight/85 text-text-secondary border border-border/40 hover:border-primary/50 transition-all duration-150"
-        >
-          {t(`course_${courseId}_${section.id}_title`)}
-        </button>
-      ))}
-    </div>
-  )
 }
 
-export function CourseModules({
-  courseId,
-  progress: _progress,
-  completedItems,
-  expandedSections,
-  sections,
-  toggleItem,
-  toggleSection,
-  navigate,
-}: {
-  courseId: string
-  progress: number
-  completedItems: number[]
-  expandedSections: string[]
-  sections: CourseSection[]
-  toggleItem: (itemId: number) => void
-  toggleSection: (sectionId: string) => void
-  navigate: NavigateFunction
-}) {
-  const t = useStore((state) => state.t)
-  const lang = useStore((state) => state.lang)
-
-  return (
-    <Stack gap="lg">
-      <CourseModulesAnchorNav courseId={courseId} sections={sections} />
-      {sections.map((section) => (
-        <CourseSectionCard
-          key={section.id}
-          section={section}
-          courseId={courseId}
-          completedItems={completedItems}
-          isExpanded={expandedSections.includes(section.id)}
-          toggleSection={toggleSection}
-          toggleItem={toggleItem}
-          lang={lang}
-          t={t}
-          navigate={navigate}
-        />
-      ))}
-    </Stack>
-  )
-}
+export default CourseSectionCard
