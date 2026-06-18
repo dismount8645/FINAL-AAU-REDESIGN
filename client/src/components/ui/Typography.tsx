@@ -1,7 +1,4 @@
 import { forwardRef, type ElementType, type CSSProperties } from 'react';
-
-
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 /**
@@ -26,52 +23,29 @@ const sizeMap: Record<string, string> = {
   '2xl': '1.6rem',
 }
 
-const headingVariants = cva(
-  'm-0 font-bold tracking-tight leading-[1.2] text-main transition-colors',
-  {
-    variants: {
-      level: {
-        1: 'text-4xl md:text-5xl',
-        2: 'text-3xl md:text-4xl',
-        3: 'text-2xl md:text-[1.75rem]',
-        4: 'text-xl md:text-2xl',
-        5: 'text-lg md:text-xl',
-        6: 'text-base md:text-lg',
-      },
-      truncate: {
-        true: 'truncate',
-      },
-    },
-    defaultVariants: {
-      level: 1,
-    },
-  }
-)
+export interface HeadingVariantProps {
+  level?: 1 | 2 | 3 | 4 | 5 | 6 | '1' | '2' | '3' | '4' | '5' | '6' | null;
+  truncate?: boolean | null;
+}
 
-const textVariants = cva(
-  'm-0 leading-[1.6] text-main transition-colors',
-  {
-    variants: {
-      size: {
-        '2xs': 'text-[0.625rem]',
-        xs: 'text-xs',
-        sm: 'text-sm',
-        md: 'text-base',
-        lg: 'text-lg',
-        xl: 'text-xl',
-        '2xl': 'text-2xl',
-      },
-      muted: {
-        true: 'text-muted',
-      },
-    },
-    defaultVariants: {
-      size: 'md',
-    },
-  }
-)
+export function headingVariants({
+  level,
+  truncate,
+}: HeadingVariantProps = {}): string {
+  const resolvedLevel = level !== undefined ? String(level) : '1';
+  return cn(
+    'm-0 font-bold tracking-tight leading-[1.2] text-main transition-colors',
+    resolvedLevel === '1' && 'text-4xl md:text-5xl',
+    resolvedLevel === '2' && 'text-3xl md:text-4xl',
+    resolvedLevel === '3' && 'text-2xl md:text-[1.75rem]',
+    resolvedLevel === '4' && 'text-xl md:text-2xl',
+    resolvedLevel === '5' && 'text-lg md:text-xl',
+    resolvedLevel === '6' && 'text-base md:text-lg',
+    truncate === true && 'truncate'
+  );
+}
 
-export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, VariantProps<typeof headingVariants> {
+export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, HeadingVariantProps {
   weight?: string | number
   as?: ElementType
 }
@@ -101,14 +75,40 @@ const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 
 Heading.displayName = 'Heading'
 
+export interface TextVariantProps {
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | null;
+  muted?: boolean | null;
+}
+
+export function textVariants({
+  size,
+  muted,
+}: {
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | null;
+  muted?: boolean | null;
+} = {}): string {
+  const resolvedSize = size !== undefined ? size : 'md';
+  return cn(
+    'm-0 leading-[1.6] text-main transition-colors',
+    resolvedSize === '2xs' && 'text-[0.625rem]',
+    resolvedSize === 'xs' && 'text-xs',
+    resolvedSize === 'sm' && 'text-sm',
+    resolvedSize === 'md' && 'text-base',
+    resolvedSize === 'lg' && 'text-lg',
+    resolvedSize === 'xl' && 'text-xl',
+    resolvedSize === '2xl' && 'text-2xl',
+    muted === true && 'text-muted'
+  );
+}
+
 export interface TextProps 
-  extends Omit<React.HTMLAttributes<HTMLElement>, 'size'>, 
-    Omit<VariantProps<typeof textVariants>, 'size'> {
+  extends Omit<React.HTMLAttributes<HTMLElement>, 'size'> {
   bold?: boolean
   tag?: ElementType
   weight?: string | number
   htmlFor?: string
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | null
+  muted?: boolean | null
 }
 
 /**
