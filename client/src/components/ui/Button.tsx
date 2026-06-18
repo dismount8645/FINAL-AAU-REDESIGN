@@ -1,6 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
-import { forwardRef, memo } from 'react';
-import { Button as BaseButton, type ButtonProps as BaseButtonProps } from '@base-ui/react/button';
+import { forwardRef, memo, type ButtonHTMLAttributes } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Loader2, type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -62,7 +60,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends BaseButtonProps,
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   icon?: LucideIcon;
   iconRight?: LucideIcon;
@@ -83,16 +81,15 @@ const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
       loading,
       children,
       disabled,
-      focusableWhenDisabled,
       ...props
     },
     ref
   ) => {
     return (
-      <BaseButton
+      <button
         ref={ref}
         disabled={disabled || loading}
-        focusableWhenDisabled={focusableWhenDisabled || loading}
+        aria-disabled={loading ? 'true' : undefined}
         className={cn(buttonVariants({ variant, size, full, pill, uppercase }), className)}
         {...props}
       >
@@ -105,7 +102,7 @@ const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
             {IconRight && <IconRight className="transition-transform group-hover:translate-x-0.5" size={16} strokeWidth={2.5} aria-hidden="true" />}
           </>
         )}
-      </BaseButton>
+      </button>
     );
   }
 ));
