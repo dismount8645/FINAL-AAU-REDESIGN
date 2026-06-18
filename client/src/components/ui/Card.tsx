@@ -2,7 +2,6 @@ import { forwardRef, type HTMLAttributes, ElementType, KeyboardEvent, type React
 
 
 import { cva, type VariantProps } from 'class-variance-authority';
-import { motion, type HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 
@@ -35,7 +34,7 @@ const cardVariants = cva(
         top: "before:absolute before:left-0 before:right-0 before:top-0 before:h-1 before:bg-primary before:z-10",
       },
       interactive: {
-        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:shadow-focus",
+        true: "cursor-pointer select-none focus-visible:outline-none focus-visible:shadow-focus hover:-translate-y-1 active:scale-[0.98]",
         false: "",
       }
     },
@@ -48,7 +47,7 @@ const cardVariants = cva(
 );
 
 export interface CardProps
-  extends Omit<HTMLMotionProps<"div">, "onKeyDown">,
+  extends Omit<HTMLAttributes<HTMLDivElement>, "onKeyDown">,
     VariantProps<typeof cardVariants> {
   as?: ElementType;
   children: ReactNode;
@@ -58,9 +57,8 @@ export interface CardProps
  * CardRoot - High-performance AAU UI container.
  */
 const CardRoot = memo(forwardRef<HTMLDivElement, CardProps>(
-  ({ variant, accent, interactive, children, className, as: Component = "div", onClick, ...props }, ref) => {
+  ({ variant, accent, interactive, children, className, as: Component = "div" as any, onClick, ...props }, ref) => {
     const isClickable = interactive || !!onClick;
-    const MotionComponent = motion.create(Component as React.ElementType);
 
     const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -70,19 +68,17 @@ const CardRoot = memo(forwardRef<HTMLDivElement, CardProps>(
     };
 
     return (
-      <MotionComponent
+      <Component
         ref={ref}
         className={cn("card", cardVariants({ variant, accent, interactive: isClickable }), className)}
         onClick={onClick}
         onKeyDown={isClickable ? handleKeyDown : undefined}
         tabIndex={isClickable ? 0 : undefined}
         role={isClickable ? "button" : undefined}
-        whileHover={isClickable ? { y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } } : undefined}
-        whileTap={isClickable ? { scale: 0.98, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } } : undefined}
         {...props}
       >
         {children}
-      </MotionComponent>
+      </Component>
     );
   }
 ));

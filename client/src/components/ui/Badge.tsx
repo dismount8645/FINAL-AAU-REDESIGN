@@ -2,7 +2,6 @@ import { type HTMLAttributes, forwardRef, memo } from 'react';
 
 
 import { cva, type VariantProps } from 'class-variance-authority';
-import { motion, type HTMLMotionProps } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 /* eslint-disable react-refresh/only-export-components */
@@ -33,7 +32,7 @@ const badgeVariants = cva(
         true: "rounded-[var(--radius-full)] px-[var(--space-sm)]",
       },
       interactive: {
-        true: "cursor-pointer",
+        true: "cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95",
       }
     },
     defaultVariants: {
@@ -58,28 +57,12 @@ export interface BadgeProps
  */
 const Badge = memo(forwardRef<HTMLSpanElement, BadgeProps>(
   ({ variant, pill, interactive, children, className, ...props }, ref) => {
-    if (interactive) {
-      return (
-        <motion.span
-          ref={ref}
-          role="status"
-          className={cn("badge", badgeVariants({ variant, pill, interactive }), className)}
-          whileHover={{ scale: 1.05, y: -4 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.15 }}
-          {...(props as HTMLMotionProps<"span">)}
-        >
-          {children}
-        </motion.span>
-      )
-    }
-
     return (
       <span
         ref={ref}
         role="status"
         className={cn("badge", badgeVariants({ variant, pill, interactive }), className)}
-        {...(props as HTMLAttributes<HTMLSpanElement>)}
+        {...props}
       >
         {children}
       </span>

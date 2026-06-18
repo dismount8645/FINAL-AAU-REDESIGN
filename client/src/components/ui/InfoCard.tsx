@@ -1,5 +1,4 @@
 import { memo, useState, useContext, type ReactNode, type MouseEvent, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { type LucideIcon, Star, Info, ExternalLink } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Card } from './Card';
@@ -141,25 +140,16 @@ const InfoCard = memo(function InfoCard({
               )}
             </Stack>
 
-            <AnimatePresence initial={false}>
-              {showHelp && helpText && (
-                <motion.div
-                  key="help-content"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="overflow-hidden"
+            {showHelp && helpText && (
+              <div className="overflow-hidden transition-all duration-150">
+                <Text 
+                  size="xs" 
+                  className="italic font-medium leading-relaxed bg-bg-highlight p-sm rounded-md border border-primary/10 mt-xs"
                 >
-                  <Text 
-                    size="xs" 
-                    className="italic font-medium leading-relaxed bg-bg-highlight p-sm rounded-md border border-primary/10 mt-xs"
-                  >
-                    {helpText}
-                  </Text>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  {helpText}
+                </Text>
+              </div>
+            )}
 
             {description && (
               <Text size="sm" muted className="leading-relaxed line-clamp-2">

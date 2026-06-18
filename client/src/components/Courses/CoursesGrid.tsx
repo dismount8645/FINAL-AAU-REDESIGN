@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowRight, ChevronRight, MessageSquare } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Grid } from '@/components/Layout/LayoutPrimitives';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Card } from '@/components/ui'
@@ -66,15 +65,9 @@ function CoursesGrid({
       </Stack>
 
       {showCourses && (
-        <AnimatePresence mode="wait">
+        <>
           {isLoading ? (
-            <motion.div
-              key="loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
+            <div key="loading">
               <Grid columns={12} gap="lg">
                 {[1, 2, 3].map((id) => (
                   <Grid.Item span={4} key={`skeleton-course-${id}`}>
@@ -82,15 +75,9 @@ function CoursesGrid({
                   </Grid.Item>
                 ))}
               </Grid>
-            </motion.div>
+            </div>
           ) : sortedCourses.length > 0 ? (
-            <motion.div
-              key="courses-grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
+            <div key="courses-grid">
               <Grid columns={12} gap="lg">
                 {sortedCourses.map((course) => {
                   const courseBadge = t(`course_${course.id}_label`) || t('active')
@@ -127,15 +114,9 @@ function CoursesGrid({
                   )
                 })}
               </Grid>
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
-              key="courses-empty"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.15 }}
-            >
+            <div key="courses-empty">
               <Card className="bg-bg-card border-dashed py-[var(--space-3xl)]">
                 <Stack align="center" justify="center" gap="md">
                   <Icon name="magnifying-glass" className="text-muted opacity-20" size="3xl" />
@@ -147,9 +128,9 @@ function CoursesGrid({
                   )}
                 </Stack>
               </Card>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </>
       )}
 
       <Stack
@@ -177,15 +158,9 @@ function CoursesGrid({
       </Stack>
 
       {showForums && (
-        <AnimatePresence mode="wait">
+        <>
           {isLoading ? (
-            <motion.div
-              key="forums-loading"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
+            <div key="forums-loading">
               <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
                 {[1, 2].map((id) => (
                   <Grid.Item span={6} key={`skeleton-forum-${id}`}>
@@ -193,15 +168,9 @@ function CoursesGrid({
                   </Grid.Item>
                 ))}
               </Grid>
-            </motion.div>
+            </div>
           ) : (
-            <motion.div
-              key="forums-grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-            >
+            <div key="forums-grid">
               <Grid columns={12} gap="lg" className="courses__forums-grid mb-2xl">
                 {forums.map((forum) => (
                   <Grid.Item span={6} key={forum.id}>
@@ -226,9 +195,9 @@ function CoursesGrid({
                   </Grid.Item>
                 ))}
               </Grid>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
+        </>
       )}
     </>
   )

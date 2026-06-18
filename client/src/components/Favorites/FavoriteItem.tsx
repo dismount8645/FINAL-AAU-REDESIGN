@@ -1,7 +1,6 @@
 import { memo } from 'react';
 
 
-import { motion, type HTMLMotionProps } from 'framer-motion';
 import { X, type LucideIcon, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui';
@@ -55,16 +54,15 @@ const FavoriteItem = memo(function FavoriteItem({
 }: FavoriteItemProps) {
   const Icon = item.icon
   return (
-    <motion.div
+    <div
       draggable={draggable}
-      onDragStart={onDragStart as HTMLMotionProps<'div'>['onDragStart']}
-      onDragOver={onDragOver as HTMLMotionProps<'div'>['onDragOver']}
-      onDrop={onDrop as HTMLMotionProps<'div'>['onDrop']}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
       onClick={onClick}
-      whileHover={{ y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
-      whileTap={{ scale: 0.98, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } }}
       className={cn(
         "group relative flex items-center gap-xs p-xs rounded-[var(--radius-xl)] border border-[var(--border-color)] bg-bg-card hover:border-primary/30 focus-within:shadow-focus focus-within:outline-none transition-all cursor-pointer select-none",
+        "hover:-translate-y-1 active:scale-[0.98] duration-150 ease-[var(--transition-ease)]",
         draggable && "active:opacity-60",
       )}
     >
@@ -139,7 +137,7 @@ const FavoriteItem = memo(function FavoriteItem({
           <X size={14} strokeWidth={2} />
         </Button>
       </div>
-    </motion.div>
+    </div>
   )
 })
 
