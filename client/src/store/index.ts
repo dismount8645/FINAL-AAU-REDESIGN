@@ -4,6 +4,7 @@ import { PersistedStateSchema } from '@/lib/types/schemas';
 import { computeIsDarkMode } from '@/lib/theme';
 import type { FavoriteItem } from '@/lib/types';
 import { STORAGE_KEYS } from '@/lib/constants';
+import { storage } from '@/lib/utils';
 
 import { createUISlice } from './slices/uiSlice';
 import { createCourseSlice } from './slices/courseSlice';
@@ -15,31 +16,9 @@ export type { Theme, Lang, BreadcrumbItem, CourseWithStatus, UISlice, CourseSlic
 export { computeIsDarkMode };
 
 const lazyStorage = {
-  getItem: (name: string) => {
-    if (typeof window === 'undefined') return null
-    try {
-      const str = window.localStorage.getItem(name)
-      return str ? JSON.parse(str) : null
-    } catch {
-      return null
-    }
-  },
-  setItem: (name: string, newValue: unknown) => {
-    if (typeof window === 'undefined') return
-    try {
-      window.localStorage.setItem(name, JSON.stringify(newValue))
-    } catch {
-      // localStorage write failed silently
-    }
-  },
-  removeItem: (name: string) => {
-    if (typeof window === 'undefined') return
-    try {
-      window.localStorage.removeItem(name)
-    } catch {
-      // localStorage remove failed silently
-    }
-  }
+  getItem: (name: string) => storage.get(name, null),
+  setItem: (name: string, value: unknown) => storage.set(name, value),
+  removeItem: (name: string) => storage.remove(name),
 }
 
 const useStore = create<AppState>()(
