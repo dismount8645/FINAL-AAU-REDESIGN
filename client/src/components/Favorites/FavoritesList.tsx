@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Star } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import Button from '@/components/ui/Button'
@@ -35,15 +34,9 @@ export default function FavoritesList({
   const [dropTargetIndex, setDropTargetIndex] = useState<number | null>(null)
 
   return (
-    <AnimatePresence mode="wait">
+    <>
       {filtered.length === 0 ? (
-        <motion.div
-          key="empty"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.15 }}
-        >
+        <div key="empty">
           <Card className="py-[var(--space-3xl)] border-dashed">
             <Stack align="center" justify="center" gap="md">
               <div className="p-[var(--space-md)] bg-bg-main rounded-[var(--radius-pill)]">
@@ -60,15 +53,11 @@ export default function FavoritesList({
               </Button>
             </Stack>
           </Card>
-        </motion.div>
+        </div>
       ) : (
-        <motion.div
+        <div
           key="grid"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.15 }}
-          className={filtered.length <= 3 ? 'flex flex-wrap justify-start gap-[var(--space-xs)]' : 'grid gap-[var(--space-xs)]'}
+          className={filtered.length <= 3 ? 'flex flex-wrap justify-start gap-[var(--space-xs)] transition-all duration-150' : 'grid gap-[var(--space-xs)] transition-all duration-150'}
           style={filtered.length <= 3 ? {} : { gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}
         >
           {filtered.map((item, index) => (
@@ -106,8 +95,8 @@ export default function FavoritesList({
               />
             </div>
           ))}
-        </motion.div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   )
 }

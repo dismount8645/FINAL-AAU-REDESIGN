@@ -1,5 +1,4 @@
 import React, { forwardRef, type ReactNode } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
@@ -157,21 +156,15 @@ export function FormField({
         </span>
       ) : null}
 
-      <AnimatePresence>
-        {error ? (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.15, ease: [0.4, 0, 0.2, 1] }}
-            id={errorId}
-            className="text-xs m-0 text-danger leading-tight overflow-hidden"
-            role="alert"
-          >
-            {error}
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {error ? (
+        <div
+          id={errorId}
+          className="text-xs m-0 text-danger leading-tight overflow-hidden transition-all duration-150"
+          role="alert"
+        >
+          {error}
+        </div>
+      ) : null}
     </Stack>
   );
 }

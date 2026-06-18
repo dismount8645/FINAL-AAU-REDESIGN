@@ -1,5 +1,4 @@
 import { type ReactNode, useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Grid } from '@/components/Layout/LayoutPrimitives';
 import { cn } from '@/lib/utils';
 
@@ -102,31 +101,21 @@ function SplitLayout({
       {/* Mobile Layout - Rendered only when on mobile to prevent DOM duplication in tests */}
       {isMobile && (
         <div className={cn("md:hidden relative", fullHeight ? "h-full overflow-hidden" : "h-auto overflow-visible")}>
-          <AnimatePresence initial={false} mode="wait">
-            {!isDetailVisible ? (
-              <motion.div
-                key="sidebar-panel"
-                initial={{ x: -10, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -10, opacity: 0 }}
-                transition={{ duration: 0.15, ease: 'easeInOut' }}
-                className={cn("w-full", fullHeight ? "absolute inset-0 h-full" : "relative h-auto")}
-              >
-                {listPanel}
-              </motion.div>
-            ) : (
-              <motion.div
-                key="main-panel"
-                initial={{ x: 10, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: 10, opacity: 0 }}
-                transition={{ duration: 0.15, ease: 'easeInOut' }}
-                className={cn("w-full", fullHeight ? "absolute inset-0 h-full" : "relative h-auto")}
-              >
-                {detailPanel}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {!isDetailVisible ? (
+            <div
+              key="sidebar-panel"
+              className={cn("w-full transition-all duration-150", fullHeight ? "absolute inset-0 h-full" : "relative h-auto")}
+            >
+              {listPanel}
+            </div>
+          ) : (
+            <div
+              key="main-panel"
+              className={cn("w-full transition-all duration-150", fullHeight ? "absolute inset-0 h-full" : "relative h-auto")}
+            >
+              {detailPanel}
+            </div>
+          )}
         </div>
       )}
     </div>
