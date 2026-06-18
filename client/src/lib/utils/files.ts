@@ -1,29 +1,26 @@
-import { FileText, Play, Link2, Upload, File, type LucideIcon } from 'lucide-react';
+import { ITEM_TYPE_MAP } from '@/lib/theme';
 import type { StagedFile } from '@/lib/types';
 
-const FILE_TYPE_MAP: Record<string, { icon: LucideIcon; colorClass: string }> = {
-  pdf: { icon: FileText, colorClass: 'text-danger bg-danger/10' },
-  video: { icon: Play, colorClass: 'text-success bg-success/10' },
-  link: { icon: Link2, colorClass: 'text-info bg-info/10' },
-  assignment: { icon: Upload, colorClass: 'text-accent bg-accent/10' },
-  file: { icon: File, colorClass: 'text-muted bg-bg-highlight/50' },
+const fileTypeConfig = (key: keyof typeof ITEM_TYPE_MAP) => {
+  const entry = ITEM_TYPE_MAP[key];
+  return { icon: entry.icon, colorClass: `text-${entry.color} ${entry.bg}` };
 };
 
 export function getFileTypeConfig(typeOrName: string | undefined | null) {
   const name = (typeOrName || '').toLowerCase();
   if (name === 'pdf' || name.endsWith('.pdf')) {
-    return FILE_TYPE_MAP.pdf;
+    return fileTypeConfig('pdf');
   }
   if (name === 'video' || name.match(/\.(mp4|mkv|avi|mov|mp3|wav)$/)) {
-    return FILE_TYPE_MAP.video;
+    return fileTypeConfig('video');
   }
   if (name === 'link' || name.startsWith('http')) {
-    return FILE_TYPE_MAP.link;
+    return fileTypeConfig('link');
   }
   if (name === 'assignment') {
-    return FILE_TYPE_MAP.assignment;
+    return fileTypeConfig('assignment');
   }
-  return FILE_TYPE_MAP.file;
+  return fileTypeConfig('file');
 }
 
 export function processFileMetadata(fileList: FileList): StagedFile[] {
