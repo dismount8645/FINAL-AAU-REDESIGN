@@ -1,27 +1,19 @@
 // Re-export all public lib modules
 export { api, saveSettings, submitAssignment, submitSupportTicket } from '@/lib/api'
 export { ASSETS } from '@/lib/assets'
-export { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs'
-export { STORAGE_KEYS, API_RETRY_BACKOFF } from '@/lib/constants'
+export { STORAGE_KEYS } from '@/lib/constants'
 export { DASHBOARD_CONFIG } from '@/lib/dashboard'
 export {
   courses,
   courseList,
   courseData,
   forums,
-  defaultEvents,
-  messagesData,
-  notificationsData,
   participantsData,
   courseTabItems,
   supportLocations,
-  supportDeskHours,
-  supportNotes,
   registryTools,
-  mockForumActivities,
   mockForumPosts,
   mockForumReplies,
-  mockDashboardDeadlines,
 } from '@/lib/data'
 export { env } from '@/lib/env'
 export { sortFavorites, resolveFavorite, getFavoriteLabel } from '@/lib/favorites'
