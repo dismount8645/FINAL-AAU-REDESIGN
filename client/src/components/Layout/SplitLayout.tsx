@@ -18,7 +18,7 @@ interface SplitLayoutProps {
   fullHeight?: boolean
 }
 
-export function SplitLayout({
+function SplitLayout({
   main,
   sidebar,
   className = '',

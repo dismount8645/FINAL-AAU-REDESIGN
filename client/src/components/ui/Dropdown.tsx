@@ -160,5 +160,3 @@ export const Dropdown = Object.assign(DropdownRoot, {
   Menu: DropdownMenu,
   Item: DropdownItem,
 })
-
-export default Dropdown

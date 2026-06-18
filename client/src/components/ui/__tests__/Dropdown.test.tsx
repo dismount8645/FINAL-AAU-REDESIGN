@@ -1,5 +1,5 @@
 import { waitFor } from '@testing-library/react'
-import Dropdown from '../Dropdown'
+import { Dropdown } from '../Dropdown'
 
 describe('Dropdown', () => {
   it('renders trigger and opens menu on click', async () => {

@@ -201,7 +201,7 @@ export default function Sidebar() {
   );
 }
 
-export interface NavItemProps {
+interface NavItemProps {
   to: string;
   icon: LucideIcon;
   label: string;

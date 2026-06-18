@@ -5,7 +5,7 @@ import {
   DeadlinesWidget,
   FavoritesWidget
 } from './DashboardWidgets';
-import { renderWithProviders } from '@/test/test-utils';
+import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import useStore from '@/store';
 import { mockDashboardDeadlines } from '@/lib/data';
 import { resolveFavorite } from '@/lib/favorites';

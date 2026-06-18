@@ -1,7 +1,7 @@
 
 
 import { Calendar, UserCheck, MapPin } from 'lucide-react';
-import { Badge } from '@/components/ui';
+import Badge from './Badge';
 
 export interface ModuleHeaderProps {
   image?: string

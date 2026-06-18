@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
 import { X } from 'lucide-react'
-import { Text } from '@/components/ui'
+import { Text } from './Typography'
 import Button from '@/components/ui/Button'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 

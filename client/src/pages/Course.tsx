@@ -15,7 +15,7 @@ import { courseData, participantsData, courseTabItems } from '@/lib/data';
 import { storage, cn } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
-import { ASSETS } from '@/lib';
+import { ASSETS } from '@/lib/assets';
 import { ITEM_TYPE_MAP } from '@/lib/theme';
 import ForumWidget from '@/components/Widgets/ForumWidget';
 import CourseHeader from './Course/CourseHeader';

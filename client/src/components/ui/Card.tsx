@@ -180,5 +180,3 @@ export const Card = Object.assign(CardRoot, {
   Footer: CardFooter,
   Decoration: CardDecoration,
 });
-
-export default Card;

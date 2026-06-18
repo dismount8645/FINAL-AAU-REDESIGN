@@ -83,7 +83,7 @@ interface NextAssignment {
   submissionId: string
 }
 
-export interface CourseData {
+interface CourseData {
   title: string
   titleEn: string
   code: string;
@@ -191,10 +191,7 @@ export interface FavoriteItem {
   order: number
 }
 
-export interface WidgetProps {
-  span: number;
-  isEditing: boolean;
-}
+
 
 export interface SupportFormData {
   subject: string

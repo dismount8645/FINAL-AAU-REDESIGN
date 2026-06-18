@@ -85,6 +85,5 @@ export function useFormat() {
   }
 }
 
-export default useFormat
 
 

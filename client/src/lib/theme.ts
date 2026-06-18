@@ -27,6 +27,20 @@ export const ITEM_TYPE_MAP: Record<string, ThemeConfig> = {
   file: { icon: File, color: 'muted', bg: 'bg-bg-highlight/50' },
 };
 
+const fileTypeConfig = (key: keyof typeof ITEM_TYPE_MAP) => {
+  const entry = ITEM_TYPE_MAP[key];
+  return { icon: entry.icon, colorClass: `text-${entry.color} ${entry.bg}` };
+};
+
+export function getFileTypeConfig(typeOrName: string | undefined | null) {
+  const name = (typeOrName || '').toLowerCase();
+  if (name === 'pdf' || name.endsWith('.pdf')) return fileTypeConfig('pdf');
+  if (name === 'video' || name.match(/\.(mp4|mkv|avi|mov|mp3|wav)$/)) return fileTypeConfig('video');
+  if (name === 'link' || name.startsWith('http')) return fileTypeConfig('link');
+  if (name === 'assignment') return fileTypeConfig('assignment');
+  return fileTypeConfig('file');
+}
+
 export const UI_PALETTE: Record<string, { bg: string; text: string }> = {
   'var(--aau-light-blue)': { bg: 'var(--color-event-blue-bg)', text: 'var(--color-event-blue-text)' },
   'var(--color-accent)': { bg: 'var(--color-event-blue-bg)', text: 'var(--color-event-blue-text)' },

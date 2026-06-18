@@ -164,5 +164,4 @@ const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
 Caption.displayName = 'Caption'
 
 // eslint-disable-next-line react-refresh/only-export-components
-export { Heading, Text, Caption, headingVariants, textVariants }
-export default Text
+export { Heading, Text, Caption }

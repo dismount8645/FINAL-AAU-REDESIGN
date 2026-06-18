@@ -3,7 +3,7 @@ import { type LucideIcon } from 'lucide-react'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/Skeleton';
-export interface MasterItemProps {
+interface MasterItemProps {
   leading?: LucideIcon | ReactNode
   leadingClassName?: string
   title: ReactNode
@@ -17,7 +17,7 @@ export interface MasterItemProps {
   className?: string
 }
 
-export const MasterItem = memo(function MasterItem({
+const MasterItem = memo(function MasterItem({
   leading: Leading,
   leadingClassName = '',
   title,
