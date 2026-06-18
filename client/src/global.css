@@ -443,8 +443,7 @@ body {
 }
 
 .layout-main,
-.page-header,
-.panel-card {
+.page-header {
   transition: background-color var(--transition-normal) var(--transition-ease),
               border-color var(--transition-normal) var(--transition-ease),
               color var(--transition-normal) var(--transition-ease),
@@ -952,17 +951,7 @@ select:focus-visible,
   box-shadow: var(--shadow-focus);
 }
 
-/* Split Pane Layout Panels */
-.panel-card {
-  height: calc(100vh - 12rem);
-  min-height: 480px;
-}
 
-.panel-scroll {
-  flex: 1 1 0%;
-  overflow-y: auto;
-  min-height: 0px;
-}
 
 /* Accessibility contrast overrides for SegmentedControl in the dark sidebar */
 #sidebar .segmented-control {
