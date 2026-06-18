@@ -18,10 +18,9 @@ import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import PageLayout from '@/components/Layout/PageLayout';
 import { SegmentedControl } from '@/components/ui';
 import { Skeleton } from '@/components/ui';
-import { useToast, ToastProvider } from '@/components/ui';
+import { useToast } from '@/components/ui';
 import { useCalendar } from './useCalendar';
 import useStore from '@/store';
-import { STORAGE_KEYS } from '@/lib/constants';
 import type { CalendarEvent } from '@/lib/types';
 import { cn } from '@/lib/utils';
 

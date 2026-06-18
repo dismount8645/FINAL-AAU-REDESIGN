@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 
 import { FileQuestion, GraduationCap, LifeBuoy, LayoutDashboard } from 'lucide-react';
-import { useNavigate, MemoryRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Button from '@/components/ui/Button';
 import PageHeader from '@/components/Layout/PageHeader';
 import { SearchInput } from '@/components/ui';

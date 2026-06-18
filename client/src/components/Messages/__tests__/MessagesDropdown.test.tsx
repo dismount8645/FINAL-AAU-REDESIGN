@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/react'
 import useStore from '@/store'
 import MessagesDropdown from '../MessagesDropdown'
 

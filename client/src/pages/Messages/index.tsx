@@ -1,5 +1,4 @@
 
-import { MemoryRouter } from 'react-router-dom';
 import { Archive, ArrowLeft } from 'lucide-react';
 import { ChatSidebar } from '@/components/Messages';
 import { ChatWindow } from '@/components/Messages';
@@ -7,7 +6,7 @@ import { Badge, TabBar } from '@/components/ui';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import PageLayout from '@/components/Layout/PageLayout';
 import Button from '@/components/ui/Button';
-import useStore, { type Lang } from '@/store';
+import useStore from '@/store';
 import { useMessagesState } from './useMessagesState';
 
 function Messages() {

@@ -1,10 +1,9 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { useMemo } from 'react';
 
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { BellOff, Inbox, ArrowLeft, Check, Archive, Undo2 } from 'lucide-react';
-import { useNavigate, MemoryRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { NotificationDetailView, NotificationFilters } from '@/components/Notifications';
 import { Badge, MasterItem, SearchInput, EmptyState } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
