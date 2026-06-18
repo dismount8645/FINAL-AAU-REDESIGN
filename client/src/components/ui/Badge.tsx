@@ -1,51 +1,45 @@
 import { type HTMLAttributes, forwardRef, memo } from 'react';
 
 
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 /* eslint-disable react-refresh/only-export-components */
+
+export interface BadgeVariantProps {
+  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline';
+  pill?: boolean;
+  interactive?: boolean;
+}
 
 /**
  * Badge Variants - Senior UI/UX Architect refinement.
  * Enforces strict AAU brand tokens, professional typography, and 150ms physics.
  */
-const badgeVariants = cva(
-  [
-    "inline-flex items-center justify-center px-[var(--space-xs)] h-[var(--space-md)]",
-    "rounded-[var(--radius-sm)] text-[0.625rem] font-black uppercase tracking-[0.05em] leading-none",
-    "border border-transparent whitespace-nowrap isolate transition-all duration-150 ease-[var(--transition-ease)]"
-  ],
-  {
-    variants: {
-      variant: {
-        default: "bg-bg-highlight text-main border-[var(--border-color)]/60",
-        primary: "bg-primary text-white shadow-sm",
-        secondary: "bg-primary/10 text-primary dark:text-indigo-200",
-        success: "bg-[var(--aau-dark-green)]/10 text-[var(--aau-dark-green)]",
-        warning: "bg-[var(--aau-dark-orange)]/10 text-[var(--aau-dark-orange)]",
-        danger: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",
-        info: "bg-[var(--aau-light-blue)]/10 text-[var(--aau-light-blue)]",
-        outline: "bg-transparent border-[var(--border-color)] text-muted",
-      },
-      pill: {
-        true: "rounded-[var(--radius-full)] px-[var(--space-sm)]",
-      },
-      interactive: {
-        true: "cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95",
-      }
-    },
-    defaultVariants: {
-      variant: "default",
-      pill: false,
-      interactive: false,
-    },
-  }
-)
+export function badgeVariants({ variant = 'default', pill = false, interactive = false }: BadgeVariantProps = {}) {
+  const base = "inline-flex items-center justify-center px-[var(--space-xs)] h-[var(--space-md)] rounded-[var(--radius-sm)] text-[0.625rem] font-black uppercase tracking-[0.05em] leading-none border border-transparent whitespace-nowrap isolate transition-all duration-150 ease-[var(--transition-ease)]";
+  
+  const variants = {
+    default: "bg-bg-highlight text-main border-[var(--border-color)]/60",
+    primary: "bg-primary text-white shadow-sm",
+    secondary: "bg-primary/10 text-primary dark:text-indigo-200",
+    success: "bg-[var(--aau-dark-green)]/10 text-[var(--aau-dark-green)]",
+    warning: "bg-[var(--aau-dark-orange)]/10 text-[var(--aau-dark-orange)]",
+    danger: "bg-[var(--aau-dark-pink)]/10 text-[var(--aau-dark-pink)]",
+    info: "bg-[var(--aau-light-blue)]/10 text-[var(--aau-light-blue)]",
+    outline: "bg-transparent border-[var(--border-color)] text-muted",
+  };
+
+  return cn(
+    base,
+    variants[variant],
+    pill && "rounded-[var(--radius-full)] px-[var(--space-sm)]",
+    interactive && "cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95"
+  );
+}
 
 export interface BadgeProps
   extends HTMLAttributes<HTMLSpanElement>,
-    VariantProps<typeof badgeVariants> {}
+    BadgeVariantProps {}
 
 /**
  * Badge - Professional AAU dashboard indicator.
