@@ -112,5 +112,5 @@ const Button = memo(forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
+export { Button };
 export default Button;

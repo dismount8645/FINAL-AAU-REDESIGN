@@ -1,4 +1,4 @@
-import { ResourcesSection } from '@/components/Resources';
+import ResourcesSection from '@/components/Resources/ResourcesSection';
 import type { ResourceTool } from '@/lib/types';
 
 interface AdminSystemsProps {

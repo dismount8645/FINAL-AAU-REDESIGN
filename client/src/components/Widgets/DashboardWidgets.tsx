@@ -1,5 +1,4 @@
 export { DeadlinesWidget } from './DeadlinesWidget'
-export type { ProcessedDeadline } from './DeadlinesWidget'
 export { FavoritesWidget } from './FavoritesWidget'
 export { SupportWidget } from './SupportWidget'
 export { MessagesWidget } from './MessagesWidget'

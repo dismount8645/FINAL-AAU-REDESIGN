@@ -1,4 +1,4 @@
-import { MasterItem } from '../MasterItem'
+import MasterItem from '../MasterItem'
 
 describe('MasterItem', () => {
   it('renders title and subtitle', () => {

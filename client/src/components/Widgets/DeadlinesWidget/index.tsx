@@ -20,8 +20,6 @@ interface WidgetProps {
   isPriorityElevated?: boolean
 }
 
-export type { ProcessedDeadline }
-
 function DeadlinesWidget({ size = 'medium', hideFirst = false }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)

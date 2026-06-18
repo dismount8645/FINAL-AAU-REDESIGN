@@ -7,8 +7,9 @@
     "dev": "vite --port=3000 --host=0.0.0.0",
     "build": "vite build",
     "preview": "vite preview",
-    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
+    "clean": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true }); try { require('fs').unlinkSync('stats.json') } catch (e) {}\"",
     "lint": "npx tsc --noEmit -p client/tsconfig.json",
+    "knip": "knip --config knip.json",
     "test": "vitest",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -18,7 +19,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
-
+    "@fontsource/barlow": "^5.2.8",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^11.0.24",
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^8.57.0",
+    "@playwright/test": "^1.61.0",
     "@tailwindcss/vite": "^4.1.14",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -46,6 +48,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.26",
     "jsdom": "^29.1.1",
+    "knip": "^6.17.1",
     "rollup-plugin-visualizer": "^7.0.1",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.5.0",

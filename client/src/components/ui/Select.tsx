@@ -1,27 +1,51 @@
 import { forwardRef, useId, type SelectHTMLAttributes } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+const selectVariants = cva(
+  "w-full appearance-none rounded-[var(--radius-lg)] border-[1.5px] transition-all duration-150 ease-[var(--transition-ease)] text-main focus-visible:outline-none focus-visible:shadow-focus disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800 pr-10 font-medium h-10",
+  {
+    variants: {
+      variant: {
+        outlined:
+          "border-[var(--border-color)] bg-bg-card focus:border-primary",
+        filled:
+          "border-transparent bg-bg-highlight/50 focus:bg-bg-card focus:border-primary",
+      },
+      size: {
+        sm: "px-[var(--space-sm)] py-[var(--space-xs)] text-xs",
+        md: "px-[var(--space-md)] py-[var(--space-sm)] text-sm",
+        lg: "px-[var(--space-lg)] py-[var(--space-md)] text-base",
+      },
+      error: {
+        true: "border-danger focus:border-danger focus-visible:shadow-[0_0_0_4px_rgba(204,68,91,0.35)]",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      variant: "outlined",
+      size: "md",
+      error: false,
+    },
+  }
+);
+
+export interface SelectProps
+  extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "size">,
+    VariantProps<typeof selectVariants> {
   error?: boolean;
 }
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, error, children, ...props }, ref) => {
+  ({ className, variant, size, error, children, ...props }, ref) => {
     const id = useId();
     return (
-      <div className={cn("relative w-full", className)}>
+      <div className="relative w-full">
         <select
           ref={ref}
           id={props.id ?? id}
-          className={cn(
-            "w-full appearance-none rounded-[var(--radius-lg)] border-[1.5px] border-[var(--border-color)] bg-bg-card text-main",
-            "px-[var(--space-md)] py-[var(--space-sm)] pr-10 text-sm font-medium",
-            "transition-all duration-150 ease-[var(--transition-ease)]",
-            "focus-visible:outline-none focus-visible:shadow-focus focus:border-primary",
-            "disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-100 dark:disabled:bg-slate-800",
-            error && "border-danger focus:border-danger focus-visible:shadow-[0_0_0_4px_rgba(204,68,91,0.35)]"
-          )}
+          className={cn(selectVariants({ variant, size, error }), className)}
           {...props}
         >
           {children}
@@ -38,5 +62,4 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
 Select.displayName = 'Select';
 
-export { Select };
 export default Select;

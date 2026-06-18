@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { PersistedStateSchema } from '@/lib/types/schemas';
-import { computeIsDarkMode } from '@/lib/theme';
 import type { FavoriteItem } from '@/lib/types';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { storage } from '@/lib/utils';
@@ -12,8 +11,7 @@ import { createFavoriteSlice } from './slices/favoriteSlice';
 import { createUserSlice } from './slices/userSlice';
 import { AppState } from './types';
 
-export type { Theme, Lang, BreadcrumbItem, CourseWithStatus, UISlice, CourseSlice, FavoriteSlice, UserSlice, AppState } from './types';
-export { computeIsDarkMode };
+export type { Theme, Lang, BreadcrumbItem, CourseWithStatus } from './types';
 
 const lazyStorage = {
   getItem: (name: string) => storage.get(name, null),

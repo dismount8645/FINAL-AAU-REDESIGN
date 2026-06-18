@@ -1,4 +1,4 @@
-import { renderWithProviders } from '@/test/test-utils'
+import { renderWithProviders } from '@/__tests__/setup/test-utils'
 import PageLayout from '../PageLayout'
 
 describe('PageLayout', () => {

@@ -1,6 +1,6 @@
 import { ExternalLink } from 'lucide-react';
 import { Text } from '@/components/ui';
-import { ResourcesSection } from '@/components/Resources';
+import ResourcesSection from '@/components/Resources/ResourcesSection';
 import { env } from '@/lib/env';
 import type { ResourceTool } from '@/lib/types';
 

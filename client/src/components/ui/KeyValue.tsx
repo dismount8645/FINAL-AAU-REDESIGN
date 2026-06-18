@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 
-import { Text } from '@/components/ui';
+import { Text } from './Typography';
 
 export interface KeyValueProps {
   label: string

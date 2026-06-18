@@ -8,7 +8,7 @@ import WeekView from './views/WeekView';
 import DayView from './views/DayView';
 import EventForm from './EventForm';
 import EventDetail from './EventDetail';
-import { CalendarUpcomingWidget } from '@/components/Calendar';
+import CalendarUpcomingWidget from '@/components/Calendar/CalendarUpcomingWidget';
 
 
 

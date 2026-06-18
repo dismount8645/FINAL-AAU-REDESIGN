@@ -55,7 +55,7 @@ export function calculateUrgency(deadlineDate: string): UrgencyLevel {
   return 'normal'
 }
 
-export interface DeadlineInfo {
+interface DeadlineInfo {
   label: string
   urgency: 'overdue' | 'today' | 'tomorrow' | 'soon' | 'later'
   color: string

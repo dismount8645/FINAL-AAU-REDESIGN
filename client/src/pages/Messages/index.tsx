@@ -1,7 +1,7 @@
 
 import { Archive, ArrowLeft } from 'lucide-react';
-import { ChatSidebar } from '@/components/Messages';
-import { ChatWindow } from '@/components/Messages';
+import { ChatSidebar } from '@/components/Messages/ChatSidebar';
+import { ChatWindow } from '@/components/Messages/ChatWindow';
 import { Badge, TabBar } from '@/components/ui';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import PageLayout from '@/components/Layout/PageLayout';

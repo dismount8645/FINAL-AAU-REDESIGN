@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui';
+import { Text } from './Typography';
 import { cn } from '@/lib/utils';
 
 import { Input, type InputProps } from '@/components/ui/Input';
