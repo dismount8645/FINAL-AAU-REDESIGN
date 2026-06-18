@@ -13,7 +13,6 @@ import useStore from '@/store';
 import { cn } from '@/lib/utils';
 
 export interface TeaserCardProps {
-  layoutId?: string
   isLoading?: boolean
   variant?: 'vertical' | 'horizontal'
   image?: string
@@ -33,7 +32,6 @@ export interface TeaserCardProps {
 }
 
 const TeaserCard = memo(function TeaserCard({
-  layoutId,
   isLoading = false,
   variant = 'vertical',
   image,
@@ -77,7 +75,6 @@ const TeaserCard = memo(function TeaserCard({
 
   return (
     <Card
-      layoutId={layoutId}
       className={cn(
         'group cursor-pointer shadow-sm hover:shadow-xl hover:border-primary hover:-translate-y-1 focus-within:shadow-focus focus-within:border-primary',
         isHorizontal ? 'flex-row min-h-[180px]' : 'flex-col',

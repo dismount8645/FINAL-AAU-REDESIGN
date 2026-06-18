@@ -64,11 +64,11 @@ function DashboardHeader({
           onDismissWidgetsModal()
         }
       }}>
-        <DialogTrigger render={
-          <Button variant="ghost" size="sm" icon={Plus} render={<span />} className="text-text-muted hover:text-primary">
+        <DialogTrigger>
+          <Button variant="ghost" size="sm" icon={Plus} className="text-text-muted hover:text-primary">
             {lang === 'da' ? '+ Widgets' : '+ Widgets'}
           </Button>
-        } />
+        </DialogTrigger>
         <DialogContent className="max-w-[420px] max-h-[calc(100dvh-96px)] flex flex-col overflow-hidden">
           <DialogHeader className="shrink-0">
             <DialogTitle>{t('dashboard.add_remove_widgets')}</DialogTitle>
@@ -148,11 +148,11 @@ function DashboardHeader({
       </Dialog>
 
       <Dialog open={isResetDialogOpen} onOpenChange={onResetDialogChange}>
-        <DialogTrigger render={
-          <Button variant="ghost" size="sm" icon={RotateCcw} render={<span />} className="text-text-muted hover:text-danger">
+        <DialogTrigger>
+          <Button variant="ghost" size="sm" icon={RotateCcw} className="text-text-muted hover:text-danger">
             {lang === 'da' ? 'Nulstil' : 'Reset'}
           </Button>
-        } />
+        </DialogTrigger>
         <DialogContent className="max-w-[400px]">
           <DialogHeader>
             <DialogTitle>{lang === 'da' ? 'Nulstil dashboard?' : 'Reset dashboard?'}</DialogTitle>
