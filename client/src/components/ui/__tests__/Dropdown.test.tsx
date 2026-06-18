@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/react'
 import Dropdown from '../Dropdown'
 
 describe('Dropdown', () => {

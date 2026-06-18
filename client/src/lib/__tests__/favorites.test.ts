@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { getFavoriteLabel, sortFavorites, resolveFavorite } from '@/lib/favorites';
 import { allToolsList } from '@/lib/utils';
-import type { FavoriteItem, FavoriteType } from '@/lib/types';
+import type { FavoriteItem } from '@/lib/types';
 import type { CourseWithStatus } from '@/store';
 
 describe('favorites utility', () => {

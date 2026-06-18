@@ -5,7 +5,7 @@ import { type LucideIcon } from 'lucide-react'
 import { courses } from '@/lib/data'
 import useStore from '@/store'
 
-interface SearchResult {
+export interface SearchResult {
   label: string
   path: string
   icon: LucideIcon

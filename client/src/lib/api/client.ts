@@ -1,5 +1,5 @@
 import type { SettingsData, SubmissionData, SupportFormData } from '@/lib/types';
-import { isRetryableError, getCsrfToken, buildHeaders, withTimeout, withRetry, handleResponse } from './utils';
+import { buildHeaders, withTimeout, withRetry, handleResponse } from './utils';
 
 class ApiClient {
   private baseUrl: string

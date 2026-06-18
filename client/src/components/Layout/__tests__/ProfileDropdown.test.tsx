@@ -1,3 +1,4 @@
+import { waitFor } from '@testing-library/react'
 import { renderWithProviders } from '@/test/test-utils'
 import useStore from '@/store'
 import ProfileDropdown from '../ProfileDropdown'

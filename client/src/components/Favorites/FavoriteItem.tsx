@@ -2,7 +2,7 @@ import { memo } from 'react';
 
 
 import { motion, type HTMLMotionProps } from 'framer-motion';
-import { X, type LucideIcon, BookOpen, ChevronRight } from 'lucide-react';
+import { X, type LucideIcon, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';

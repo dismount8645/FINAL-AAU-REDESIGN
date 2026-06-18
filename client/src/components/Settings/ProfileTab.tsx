@@ -9,11 +9,6 @@ import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
 import Input from '@/components/ui/Input';
 import { Text } from '@/components/ui';
 import useStore, { type Theme } from '@/store';
-import NotificationsTab from './NotificationsTab';
-import LanguageTab from './LanguageTab';
-import ForumTab from './ForumTab';
-import CalendarTab from './CalendarTab';
-import MessagesTab from './MessagesTab';
 
 interface ProfileTabProps {
   onDirtyChange?: (dirty: boolean) => void;

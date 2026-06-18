@@ -16,7 +16,7 @@ describe('Favorites Page', () => {
     const courseId = 1
     useStore.setState({
       lang: 'en',
-      favorites: [{ id: 'fav1', type: 'course', entityId: courseId, order: 0 }],
+      favorites: [{ id: 'fav1', type: 'course', entityId: courseId, order: 0, addedAt: Date.now() }],
     })
     render(
       <MemoryRouter>
