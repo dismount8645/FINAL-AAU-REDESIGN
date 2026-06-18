@@ -1,6 +1,6 @@
 
 
-import { Skeleton } from '@/components/ui';
+import { Skeleton } from './Skeleton';
 
 export default function PageSkeleton() {
   return (

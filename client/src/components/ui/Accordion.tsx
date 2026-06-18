@@ -102,9 +102,4 @@ export const AccordionItemRow = memo(function AccordionItemRow({ title, children
   )
 })
 
-export {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-}
+

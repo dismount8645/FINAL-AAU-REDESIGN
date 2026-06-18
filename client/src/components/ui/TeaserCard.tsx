@@ -2,12 +2,12 @@ import { memo, useMemo, useState, type ReactNode, type MouseEvent } from 'react'
 
 
 import { Star, ChevronRight, BookOpen } from 'lucide-react';
-import { Badge } from '@/components/ui';
+import Badge from './Badge';
 import Button from '@/components/ui/Button';
-import { Card } from '@/components/ui';
-import { ProgressBar } from '@/components/ui';
-import { Skeleton } from '@/components/ui';
-import { Heading, Text } from '@/components/ui';
+import { Card } from './Card';
+import ProgressBar from './ProgressBar';
+import { Skeleton } from './Skeleton';
+import { Heading, Text } from './Typography';
 import useStore from '@/store';
 
 import { cn } from '@/lib/utils';

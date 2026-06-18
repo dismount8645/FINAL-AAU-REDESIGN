@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Heading, Text } from '@/components/ui';
+import { Heading, Text } from './Typography';
 import { cn } from '@/lib/utils';
 
 export interface SectionHeaderProps {

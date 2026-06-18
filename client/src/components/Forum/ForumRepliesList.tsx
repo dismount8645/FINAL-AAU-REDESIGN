@@ -4,7 +4,7 @@ import { Heading, Text } from '@/components/ui'
 import { User, Clock } from 'lucide-react'
 import useStore from '@/store'
 
-export interface ReplyItem {
+interface ReplyItem {
   id: number
   author: string
   roleDa: string

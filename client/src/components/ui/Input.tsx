@@ -80,5 +80,5 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = "Input";
 
-export { Input, inputVariants };
+export { Input };
 export default Input;

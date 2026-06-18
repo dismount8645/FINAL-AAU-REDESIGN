@@ -33,7 +33,7 @@ const SearchResults = lazy(() => import('@/pages/SearchResults'))
 const ForumPost = lazy(() => import('@/pages/ForumPost'))
 const Favorites = lazy(() => import('@/pages/Favorites'))
 
-export interface RouteConfig {
+interface RouteConfig {
   path: string;
   component: LazyExoticComponent<ComponentType<unknown>>;
   label: string;

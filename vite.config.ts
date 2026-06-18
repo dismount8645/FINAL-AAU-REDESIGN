@@ -30,6 +30,14 @@ export default defineConfig({
         manualChunks(id: string) {
           if (id.includes('node_modules/framer-motion')) return 'vendor-motion'
           if (id.includes('node_modules/zod')) return 'vendor-zod'
+          if (
+            id.includes('node_modules/react/') ||
+            id.includes('node_modules/react-dom/') ||
+            id.includes('node_modules/react-router/') ||
+            id.includes('node_modules/react-router-dom/')
+          ) {
+            return 'vendor-react'
+          }
 
           if (
             id.includes('/src/lib/data/') ||
@@ -53,7 +61,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/__tests__/setup/setup.ts',
+    setupFiles: path.resolve(__dirname, 'client/src/__tests__/setup/setup.ts'),
     includeSource: ['src/**/*.{js,ts,jsx,tsx}'],
     exclude: ['node_modules/**', 'e2e/**'],
     coverage: {

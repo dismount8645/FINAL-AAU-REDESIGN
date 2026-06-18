@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react';
 
 import { type LucideIcon } from 'lucide-react';
-import { Heading, Text } from '@/components/ui';
+import { Heading, Text } from './Typography';
 import { cn } from '@/lib/utils';
 
 export interface EmptyStateProps {

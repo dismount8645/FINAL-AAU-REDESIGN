@@ -8,7 +8,7 @@ import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import { Dropdown } from '@/components/ui';
-import { ASSETS } from '@/lib';
+import { ASSETS } from '@/lib/assets';
 import { useFilteredCollection } from '@/hooks';
 import { env } from '@/lib/env';
 import useStore from '@/store';

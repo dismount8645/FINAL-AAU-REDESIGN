@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen, fireEvent } from '@testing-library/react'
-import { renderWithProviders } from '@/test/test-utils'
+import { renderWithProviders } from '@/__tests__/setup/test-utils'
 import useStore from '@/store'
 import ForumWidget from '../ForumWidget'
 

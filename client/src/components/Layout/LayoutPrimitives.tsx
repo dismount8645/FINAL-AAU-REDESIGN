@@ -6,7 +6,7 @@ export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   columns?: number
 }
 
-export interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
+interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
   span?: number
   rowSpan?: number
   x?: number

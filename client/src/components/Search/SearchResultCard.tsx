@@ -1,10 +1,10 @@
 import { ArrowRight } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { TeaserCard } from '@/components/ui'
-import { ASSETS } from '@/lib'
+import { ASSETS } from '@/lib/assets'
 import { HighlightText } from '@/components/ui'
 
-export interface SearchResultItem {
+interface SearchResultItem {
   label: string
   path: string
   group: string

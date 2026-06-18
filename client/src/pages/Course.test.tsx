@@ -10,7 +10,7 @@ import { STORAGE_KEYS } from '@/lib/constants';
 import { Card, Text, MasterItem, Avatar, Button } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { MessageSquare, Users, Book } from 'lucide-react';
-import { ASSETS } from '@/lib';
+import { ASSETS } from '@/lib/assets';
 
 const mockNavigate = vi.hoisted(() => vi.fn())
 const mockUseParams = vi.hoisted(() => vi.fn(() => ({ id: '1' })))

@@ -2,12 +2,12 @@ import { memo, useState, useContext, type ReactNode, type MouseEvent, useCallbac
 import { motion, AnimatePresence } from 'framer-motion';
 import { type LucideIcon, Star, Info, ExternalLink } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import { Card } from '@/components/ui';
+import { Card } from './Card';
 import { IconCircle } from './Icon';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui';
+import { Text } from './Typography';
 import useStore from '@/store';
-import { ToastContext } from '@/components/ui/Toast';
+import { ToastContext } from './Toast';
 import { cn } from '@/lib/utils';
 
 export interface InfoCardProps {

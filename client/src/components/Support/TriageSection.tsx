@@ -149,4 +149,3 @@ function TriageSection() {
 }
 
 export default memo(TriageSection)
-export { TriageSection }

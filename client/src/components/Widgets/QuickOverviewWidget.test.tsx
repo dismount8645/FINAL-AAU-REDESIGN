@@ -1,7 +1,7 @@
 import { vi, describe, beforeEach, afterEach, it, expect } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import QuickOverviewWidget, { todayEvents } from './QuickOverviewWidget';
-import { renderWithProviders } from '@/test/test-utils';
+import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import useStore from '@/store';
 
 const mockNavigate = vi.hoisted(() => vi.fn())
