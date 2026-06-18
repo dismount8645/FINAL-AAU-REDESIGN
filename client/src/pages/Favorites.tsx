@@ -111,8 +111,10 @@ function Favorites() {
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose nativeButton={false} render={<Button variant="ghost" render={<span />} />}>
-                      {t('common.cancel')}
+                    <DialogClose>
+                      <Button variant="ghost">
+                        {t('common.cancel')}
+                      </Button>
                     </DialogClose>
                     <Button
                       variant="danger"
