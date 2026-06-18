@@ -13,6 +13,17 @@ Object.defineProperty(globalThis, 'screen', { value: rtlScreen, writable: true, 
 
 Element.prototype.scrollIntoView = vi.fn()
 
+// Mock native HTMLDialogElement methods that are unsupported in jsdom
+if (typeof HTMLDialogElement !== 'undefined') {
+  HTMLDialogElement.prototype.showModal = vi.fn(function (this: HTMLDialogElement) {
+    this.setAttribute('open', '');
+  });
+  HTMLDialogElement.prototype.close = vi.fn(function (this: HTMLDialogElement) {
+    this.removeAttribute('open');
+    this.dispatchEvent(new Event('close'));
+  });
+}
+
 import "@testing-library/jest-dom"
 import { afterEach } from "vitest";
 import useStore from '@/store';
