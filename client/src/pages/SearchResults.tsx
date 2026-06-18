@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { useNavigate, MemoryRouter } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SearchResultCard, SearchResultFilters } from '@/components/Search';
 import { EmptyState, Button } from '@/components/ui';
 import { Grid } from '@/components/Layout/LayoutPrimitives';

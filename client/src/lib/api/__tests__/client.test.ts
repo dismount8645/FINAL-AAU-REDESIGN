@@ -134,7 +134,7 @@ describe('ApiClient', () => {
   describe('submitSupportTicket', () => {
     it('calls api.post with ticket data', async () => {
       const spy = vi.spyOn(ApiClient.prototype, 'post').mockResolvedValue({ success: true, ticketId: 'MOCK-001' })
-      const data: SupportFormData = { subject: 'Bug', description: 'Something broke' }
+      const data = { subject: 'Bug', description: 'Something broke' }
       const result = await submitSupportTicket(data)
       expect(spy).toHaveBeenCalledWith('/support/tickets', data, expect.any(Function))
       expect(result).toEqual({ success: true, ticketId: 'MOCK-001' })

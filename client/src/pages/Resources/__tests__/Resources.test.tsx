@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import Resources from '..';
+import Resources from '../../Resources';
 import useStore from '@/store';
 
 const mockOpen = vi.fn()
