@@ -1,7 +1,4 @@
 import { memo, useMemo, type KeyboardEvent } from 'react';
-
-
-import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 /**
@@ -76,7 +73,7 @@ const Avatar = memo(function Avatar({
   }), [px])
 
   return (
-    <motion.div
+    <div
       role={onClick ? "button" : "img"}
       aria-label={name ?? 'Avatar'}
       tabIndex={onClick ? 0 : undefined}
@@ -86,48 +83,33 @@ const Avatar = memo(function Avatar({
           onClick()
         }
       } : undefined}
-      whileHover={onClick ? { scale: 1.05, y: -4, transition: { duration: 0.15, ease: [0.4, 0, 0.2, 1] } } : undefined}
-      whileTap={onClick ? { scale: 0.95 } : undefined}
       className={cn(
-        "relative rounded-[var(--radius-full)] shrink-0 overflow-visible transition-shadow duration-150 isolate",
-        onClick && "cursor-pointer hover:shadow-[var(--shadow-md)]",
+        "relative rounded-[var(--radius-full)] shrink-0 overflow-visible isolate transition-all duration-150 ease-[var(--transition-ease)]",
+        onClick && "cursor-pointer hover:scale-105 hover:-translate-y-1 active:scale-95 hover:shadow-[var(--shadow-md)]",
         className
       )}
       style={{ width: px, height: px }}
       onClick={onClick}
     >
       <div className="w-full h-full rounded-[var(--radius-full)] overflow-hidden border border-[var(--border-color)]/40 bg-bg-highlight flex items-center justify-center">
-        <AnimatePresence mode="wait">
-          {src ? (
-            <motion.img
-              key="image"
-              src={src}
-              alt={name ?? ''}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <motion.div 
-              key="initials"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              className="w-full h-full flex items-center justify-center text-main font-black tracking-tighter"
-              style={{ fontSize: px * 0.4 }}
-            >
-              {initials}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {src ? (
+          <img
+            src={src}
+            alt={name ?? ''}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div 
+            className="w-full h-full flex items-center justify-center text-main font-black tracking-tighter"
+            style={{ fontSize: px * 0.4 }}
+          >
+            {initials}
+          </div>
+        )}
       </div>
 
       {status && (
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
+        <div
           className="absolute bottom-0 right-0 rounded-[var(--radius-full)] bg-bg-card shadow-sm"
           style={{
             width: statusSize,
@@ -139,9 +121,9 @@ const Avatar = memo(function Avatar({
             className="w-full h-full rounded-[var(--radius-full)]"
             style={{ backgroundColor: statusColorMap[status] }}
           />
-        </motion.div>
+        </div>
       )}
-    </motion.div>
+    </div>
   )
 })
 

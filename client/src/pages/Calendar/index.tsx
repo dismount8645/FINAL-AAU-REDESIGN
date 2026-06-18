@@ -1,7 +1,6 @@
 import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 
 
-import { AnimatePresence } from 'framer-motion';
 import { Upload, Download, Plus, ChevronLeft, ChevronRight, Settings, AlertTriangle } from 'lucide-react';
 import MonthView from './views/MonthView';
 import WeekView from './views/WeekView';
@@ -228,7 +227,6 @@ const Calendar = () => {
                         </div>
                       </div>
                     ) : (
-                      <AnimatePresence mode="wait">
                         <div 
                           key="content"
                           className={cn(
@@ -241,7 +239,6 @@ const Calendar = () => {
                         >
                           {renderGridContent}
                         </div>
-                      </AnimatePresence>
                     )}
                   </div>
                 </Card.Body>

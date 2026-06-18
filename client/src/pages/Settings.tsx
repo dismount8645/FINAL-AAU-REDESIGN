@@ -1,7 +1,6 @@
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, ArrowLeft } from 'lucide-react'
 import { type KeyboardEvent, useRef, useState, useCallback, useMemo } from 'react'
 import PageLayout from '@/components/Layout/PageLayout';
-import { AnimatePresence, motion } from 'framer-motion'
 import { Card } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import SplitLayout from '@/components/Layout/SplitLayout';
@@ -181,34 +180,26 @@ function Settings() {
               </Card.Header>
               
               <Card.Body className="p-lg overflow-y-auto flex-1 min-h-0">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    {activeTab === 'profil' ? (
-                      <ProfileTab ref={profileRef} onDirtyChange={setProfileDirty} />
-                    ) : activeTab === 'notifikationer' ? (
-                      <NotificationsTab />
-                    ) : activeTab === 'sprog' ? (
-                      <LanguageTab />
-                    ) : activeTab === 'forum' ? (
-                      <ForumTab />
-                    ) : activeTab === 'kalender' ? (
-                      <CalendarTab />
-                    ) : activeTab === 'beskeder' ? (
-                      <MessagesTab />
-                    ) : (
-                      <Stack align="center" justify="center" className="settings__empty-state py-[var(--space-3xl)] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
-                         <Icon name="gear" size="3xl" className="text-muted opacity-30 mb-md" />
-                         <Text muted>{t('settings.under_development')}</Text>
-                      </Stack>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
+                <div key={activeTab}>
+                  {activeTab === 'profil' ? (
+                    <ProfileTab ref={profileRef} onDirtyChange={setProfileDirty} />
+                  ) : activeTab === 'notifikationer' ? (
+                    <NotificationsTab />
+                  ) : activeTab === 'sprog' ? (
+                    <LanguageTab />
+                  ) : activeTab === 'forum' ? (
+                    <ForumTab />
+                  ) : activeTab === 'kalender' ? (
+                    <CalendarTab />
+                  ) : activeTab === 'beskeder' ? (
+                    <MessagesTab />
+                  ) : (
+                    <Stack align="center" justify="center" className="settings__empty-state py-[var(--space-3xl)] border-2 border-dashed border-border rounded-[var(--radius-lg)] bg-bg-highlight/50">
+                       <Icon name="gear" size="3xl" className="text-muted opacity-30 mb-md" />
+                       <Text muted>{t('settings.under_development')}</Text>
+                    </Stack>
+                  )}
+                </div>
               </Card.Body>
 
               {activeTab === 'profil' && (
@@ -225,4 +216,3 @@ function Settings() {
 }
 
 export default Settings
-

@@ -1,6 +1,5 @@
 import { Fragment, useState, useEffect } from 'react';
 
-import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, AlignJustify, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import NotificationsDropdown from './NotificationsDropdown';
@@ -58,30 +57,22 @@ export default function Topbar() {
           {sidebarIcon}
         </Button>
 
-        <AnimatePresence mode="popLayout">
-          {activeBreadcrumbs && activeBreadcrumbs.length > 0 && (
-            <motion.nav
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="flex flex-row items-center flex-wrap gap-2xs ml-sm"
-            >
-              {activeBreadcrumbs.map((crumb, idx) => (
-                <Fragment key={idx}>
-                  {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-muted" />}
-                  {crumb.href ? (
-                    <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
-                      <Text tag="span" size="sm" weight="semibold">{crumb.label}</Text>
-                    </Link>
-                  ) : (
-                    <Text tag="span" weight="black" size="md" className="text-text-main tracking-tight">{crumb.label}</Text>
-                  )}
-                </Fragment>
-              ))}
-            </motion.nav>
-          )}
-        </AnimatePresence>
+        {activeBreadcrumbs && activeBreadcrumbs.length > 0 && (
+          <nav className="flex flex-row items-center flex-wrap gap-2xs ml-sm">
+            {activeBreadcrumbs.map((crumb, idx) => (
+              <Fragment key={idx}>
+                {idx > 0 && <ChevronRight size={14} strokeWidth={2.5} className="shrink-0 opacity-40 text-muted" />}
+                {crumb.href ? (
+                  <Link to={crumb.href} className="text-muted hover:text-primary transition-colors font-bold focus-visible:outline-none focus-visible:shadow-focus rounded-sm px-2xs">
+                    <Text tag="span" size="sm" weight="semibold">{crumb.label}</Text>
+                  </Link>
+                ) : (
+                  <Text tag="span" weight="black" size="md" className="text-text-main tracking-tight">{crumb.label}</Text>
+                )}
+              </Fragment>
+            ))}
+          </nav>
+        )}
       </div>
 
       <TopbarSearch>
