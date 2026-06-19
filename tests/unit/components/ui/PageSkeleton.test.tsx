@@ -1,4 +1,4 @@
-import PageSkeleton from '@/components/ui/PageSkeleton'
+import { PageSkeleton } from '@/components/ui'
 
 describe('PageSkeleton', () => {
   it('renders loading status container', () => {

@@ -1,4 +1,4 @@
-import { Checkbox } from '@/components/ui/Checkbox'
+import { Checkbox } from '@/components/ui'
 
 describe('Checkbox', () => {
   it('renders checkbox and label', () => {

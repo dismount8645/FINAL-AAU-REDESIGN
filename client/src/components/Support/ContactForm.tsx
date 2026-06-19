@@ -1,11 +1,6 @@
 import { memo } from 'react'
 import { X } from 'lucide-react'
-import { Card } from '@/components/ui'
-import Button from '@/components/ui/Button'
-import Input from '@/components/ui/Input'
-import Textarea from '@/components/ui/Textarea'
-import { FormField } from '@/components/ui'
-import { Heading, Text } from '@/components/ui'
+import { Card, FormField, Heading, Text, Button, Input, Textarea } from '@/components/ui'
 import useStore from '@/store'
 
 interface ContactFormProps {

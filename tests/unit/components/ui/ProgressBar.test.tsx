@@ -1,4 +1,4 @@
-import ProgressBar from '@/components/ui/ProgressBar'
+import { ProgressBar } from '@/components/ui'
 
 describe('ProgressBar', () => {
   it('renders correctly', () => {

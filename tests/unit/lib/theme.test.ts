@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { computeIsDarkMode, ITEM_TYPE_MAP, UI_PALETTE } from '@/lib/theme';
-import { env } from '@/lib/env';
+import { computeIsDarkMode, ITEM_TYPE_MAP, UI_PALETTE, env } from '@/lib/utils';
 
 describe('theme utilities', () => {
   it('computes is dark mode correctly', () => {

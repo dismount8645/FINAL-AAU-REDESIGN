@@ -3,7 +3,7 @@ import { Grid } from '@/components/Layout/LayoutPrimitives';
 import { SectionHeader, Badge, Text } from '@/components/ui'
 import { InfoCard } from '@/components/ui'
 import useStore from '@/store'
-import { env } from '@/lib/env'
+import { env } from '@/lib/utils'
 import type { ResourceTool } from '@/lib/types'
 
 interface ResourcesSectionProps {

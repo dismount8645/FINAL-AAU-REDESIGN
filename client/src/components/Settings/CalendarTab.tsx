@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { FormField, SectionHeader } from '@/components/ui'
+import { FormField, SectionHeader, Select } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import useStore from '@/store'
-import Select from '@/components/ui/Select'
 import AutosaveStatus from './AutosaveStatus'
 
 export default function CalendarTab() {

@@ -123,7 +123,7 @@ export function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperPro
     };
   }, [id, loadData]);
 
-  const widgetTitle = WIDGET_TITLES[id]?.[lang] ?? id;
+  const widgetTitle = WIDGET_TITLES[id]?.[lang as 'da' | 'en'] ?? id;
 
   if (status === 'loading') {
     return (

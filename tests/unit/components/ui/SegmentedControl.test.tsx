@@ -1,5 +1,5 @@
 import { Sun, Moon } from 'lucide-react'
-import SegmentedControl from '@/components/ui/SegmentedControl'
+import { SegmentedControl } from '@/components/ui'
 
 const options = [
   { value: 'day', label: 'Day' },

@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react';
 import useStore from '@/store';
-import { env } from '@/lib/env';
+import { env } from '@/lib/utils';
 import { ToastProvider } from '@/components/ui/Toast';
 
 interface AppProviderProps {

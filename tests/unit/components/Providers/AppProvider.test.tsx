@@ -1,5 +1,5 @@
 import useStore from '@/store'
-import { env } from '@/lib/env'
+import { env } from '@/lib/utils'
 import { AppProvider } from '@/components/Providers/AppProvider'
 
 describe('AppProvider', () => {

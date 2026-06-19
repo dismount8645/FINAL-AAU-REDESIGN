@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatTime, formatLongDateTime, formatRelativeDateGroup, getDeadlineInfo } from '@/lib/utils/date';
+import { formatTime, formatLongDateTime, formatRelativeDateGroup, getDeadlineInfo } from '@/lib/utils';
 
 describe('dates', () => {
   it('formats time in en and da', () => {

@@ -1,11 +1,7 @@
 import { memo } from 'react'
 import { Users } from 'lucide-react'
-import { Card } from '@/components/ui'
+import { Card, SearchInput, MasterItem, Select, Heading } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { SearchInput } from '@/components/ui'
-import { MasterItem } from '@/components/ui'
-import Select from '@/components/ui/Select'
-import { Heading } from '@/components/ui'
 import useStore from '@/store'
 import { useFilteredCollection } from '@/hooks'
 

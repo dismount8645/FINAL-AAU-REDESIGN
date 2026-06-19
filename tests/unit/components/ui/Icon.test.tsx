@@ -1,5 +1,5 @@
 import { User, Plus } from 'lucide-react'
-import Icon, { IconCircle } from '@/components/ui/Icon'
+import { Icon, IconCircle } from '@/components/ui'
 
 describe('Icon', () => {
   it('renders default icon', () => {

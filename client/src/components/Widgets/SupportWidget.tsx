@@ -1,7 +1,7 @@
 import { Headphones, ExternalLink } from 'lucide-react';
 import { Card, Text, Heading } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { env } from '@/lib/env';
+import { env } from '@/lib/utils';
 import useStore from '@/store';
 
 interface WidgetProps {

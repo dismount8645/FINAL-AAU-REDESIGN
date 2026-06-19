@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { allTools, allEssentials, allToolsList } from '@/lib/utils/tools';
+import { allTools, allEssentials, allToolsList } from '@/lib/utils';
 
 describe('tools', () => {
   it('allTools has at least one item', () => {

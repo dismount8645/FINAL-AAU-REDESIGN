@@ -7,7 +7,7 @@ import ProfileDropdown from './ProfileDropdown';
 import TopbarSearch from './TopbarSearch';
 import Button from '@/components/ui/Button';
 import { Text } from '@/components/ui';
-import { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs';
+import { getAutomaticBreadcrumbs } from '@/lib/utils';
 import useStore from '@/store';
 
 export default function Topbar() {

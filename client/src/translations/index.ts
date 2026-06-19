@@ -1,6 +1,6 @@
 import daJson from './locales/da.json';
 import enJson from './locales/en.json';
-import type { Lang } from '@/lib/theme';
+import type { Lang } from '@/lib/utils';
 
 // --- Deep Key Comparison & Assertion ---
 function getDeepKeys(obj: any, prefix = ''): string[] {

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
-import { useFormat } from '@/hooks/useFormat';
+import { useFormat } from '@/hooks';
 import useStore from '@/store';
 
 describe('useFormat', () => {

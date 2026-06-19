@@ -1,5 +1,5 @@
 import useStore from '@/store';
-import { PersistedStateSchema } from '@/lib/types/schemas';
+import { PersistedStateSchema } from '@/lib/types';
 import { api } from '@/lib/api';
 
 describe('useStore', () => {
@@ -67,7 +67,7 @@ describe('useStore', () => {
   })
 
   it('sets theme with system preference', async () => {
-    const { env } = await import('@/lib/env')
+    const { env } = await import('@/lib/utils')
     const spy = vi.spyOn(env, 'matchMedia').mockReturnValue({
       matches: true,
       media: '(prefers-color-scheme: dark)',

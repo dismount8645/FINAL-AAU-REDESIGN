@@ -5,8 +5,7 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
 import { AlertTriangle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { UI_PALETTE as eventPalette } from '@/lib/theme';
+import { cn, UI_PALETTE as eventPalette } from '@/lib/utils';
 import { isEventDeadline, getEventTitleText } from './calendar-utils';
 
 interface CalendarMonthViewProps {
@@ -95,11 +94,11 @@ const CalendarMonthViewComponent = ({
             style={eventStyle}
             onClick={(e) => { e.stopPropagation(); handleEventClick(event, dateKey); }}
             aria-label={`${getEventTitleText(event, lang)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
-            title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`
+            title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
             <Text weight="bold" className={cn("line-clamp-2 block select-none leading-snug text-xs sm:text-sm", isDeadline && "font-black text-orange-800 dark:text-orange-300 flex items-center gap-1")}>
               {isDeadline && <AlertTriangle className="w-3 h-3 shrink-0 text-orange-600 dark:text-orange-400 animate-pulse" />}
-              {(() => { const courseCode = event.courseCode; const prefix = courseCode ? `${courseCode}: ` : ''; return `${prefix}${getEventTitleText(event, lang)}`; })()}
+              {event.courseCode ? `${event.courseCode}: ` : ''}{getEventTitleText(event, lang)}
             </Text>
             {event.time && (
               <Text className="opacity-90 block line-clamp-2 mt-[2px] font-semibold text-[10px] sm:text-xs">

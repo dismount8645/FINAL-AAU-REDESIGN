@@ -18,14 +18,12 @@ import {
   DialogFooter,
   DialogClose,
 } from '@/components/ui';
-import { DASHBOARD_CONFIG } from '@/lib/dashboard';
-import { env } from '@/lib/env';
-import * as favUtils from '@/lib/favorites';
-import type { ResolvedFavorite } from '@/lib/favorites';
+import { DASHBOARD_CONFIG } from '@/lib/constants';
+import { env, resolveFavorite, sortFavorites, allToolsList } from '@/lib/utils';
+import type { ResolvedFavorite } from '@/lib/utils';
 import useStore from '@/store';
 import { useFilteredCollection } from '@/hooks';
 import type { FavoriteType } from '@/lib/types';
-import { allToolsList } from '@/lib/utils';
 
 function Favorites() {
   const navigate = useNavigate()
@@ -48,9 +46,9 @@ function Favorites() {
   }, [favorites]);
 
   const resolved = useMemo(() => {
-    const sorted = favUtils.sortFavorites(favorites)
+    const sorted = sortFavorites(favorites)
     return sorted
-      .map(fav => favUtils.resolveFavorite(fav, lang, courses, t))
+      .map(fav => resolveFavorite(fav, lang, courses, t))
       .filter(Boolean) as ResolvedFavorite[]
   }, [favorites, lang, courses, t])
 
