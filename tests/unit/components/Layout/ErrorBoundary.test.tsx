@@ -1,5 +1,5 @@
 import useStore from '@/store'
-import ErrorBoundary from '@/components/Layout/ErrorBoundary'
+import { ErrorBoundary } from '@/components/Layout'
 
 function Explode(): React.ReactNode {
   throw new Error('KABOOM')

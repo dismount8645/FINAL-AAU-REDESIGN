@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import useStore from '@/store'
-import ProfileTab from '@/components/Settings/ProfileTab'
-import NotificationsTab from '@/components/Settings/NotificationsTab'
-import LanguageTab from '@/components/Settings/LanguageTab'
-import ForumTab from '@/components/Settings/ForumTab'
-import CalendarTab from '@/components/Settings/CalendarTab'
-import MessagesTab from '@/components/Settings/MessagesTab'
+import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
 
 let mockToast: any = {
   success: vi.fn(),
@@ -14,8 +9,8 @@ let mockToast: any = {
   warning: vi.fn(),
 }
 
-vi.mock('@/components/ui/Toast', async () => {
-  const actual = await vi.importActual<typeof import('@/components/ui/Toast')>('@/components/ui/Toast')
+vi.mock('@/components/ui', async () => {
+  const actual = await vi.importActual<typeof import('@/components/ui')>('@/components/ui')
   return {
     ...actual,
     useToast: () => mockToast,

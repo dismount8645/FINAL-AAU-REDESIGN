@@ -1,9 +1,9 @@
 import { User, Globe, MessageSquare, Code, Calendar, Database, Key, Mail, Bell, Archive, FileText, Settings as SettingsIcon, ExternalLink, PlusCircle, Award, Sliders, ArrowLeft } from 'lucide-react'
 import { type KeyboardEvent, useRef, useState, useCallback, useMemo } from 'react'
-import PageLayout from '@/components/Layout/PageLayout';
+import { PageLayout } from '@/components/Layout';
 import { Card } from '@/components/ui'
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import SplitLayout from '@/components/Layout/SplitLayout';
+import { Stack } from '@/components/Layout';
+import { SplitLayout } from '@/components/Layout';
 import { Text } from '@/components/ui'
 import { Button } from '@/components/ui'
 import { Icon } from '@/components/ui'
@@ -12,8 +12,7 @@ import { MasterItem } from '@/components/ui'
 import useStore from '@/store'
 import { useSearchParams } from 'react-router-dom'
 import { useToast } from '@/components/ui'
-import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab } from '@/components/Settings'
-import type { ProfileTabHandle } from '@/components/Settings/ProfileTab'
+import { ProfileTab, NotificationsTab, LanguageTab, ForumTab, CalendarTab, MessagesTab, type ProfileTabHandle } from '@/components/Settings'
 
 export const SETTINGS_CATEGORIES = [
   {

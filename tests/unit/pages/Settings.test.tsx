@@ -13,8 +13,8 @@ const mockToast: any = {
   warning: vi.fn()
 };
 
-vi.mock('@/components/ui/Toast', async () => {
-  const actual = await vi.importActual<typeof import('@/components/ui/Toast')>('@/components/ui/Toast');
+vi.mock('@/components/ui', async () => {
+  const actual = await vi.importActual<typeof import('@/components/ui')>('@/components/ui');
   return {
     ...actual,
     useToast: () => mockToast,

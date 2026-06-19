@@ -1,5 +1,5 @@
 import { renderWithProviders } from '@/__tests__/setup/test-utils'
-import PageLayout from '@/components/Layout/PageLayout'
+import { PageLayout } from '@/components/Layout'
 
 describe('PageLayout', () => {
   it('renders header title and main content children', () => {

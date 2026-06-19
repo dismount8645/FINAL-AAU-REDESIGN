@@ -1,15 +1,14 @@
 import { useState } from 'react';
 
 import { Phone, Globe, ExternalLink } from 'lucide-react';
-import { Grid } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui';
-import PageLayout from '@/components/Layout/PageLayout';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { useToast } from '@/components/ui/Toast';
+import { Grid } from '@/components/Layout';
+import { Text, useToast } from '@/components/ui';
+import { PageLayout } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
+
 import { submitSupportTicket } from '@/lib/api';
 import useStore from '@/store';
-import TriageSection from '@/components/Support/TriageSection';
-import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar } from '@/components/Support';
+import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar, TriageSection } from '@/components/Support';
 
 function Support() {
   const t = useStore(state => state.t)

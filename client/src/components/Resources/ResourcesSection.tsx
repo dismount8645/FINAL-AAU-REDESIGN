@@ -1,5 +1,5 @@
 import { Lock, ExternalLink } from 'lucide-react'
-import { Grid } from '@/components/Layout/LayoutPrimitives';
+import { Grid } from '@/components/Layout';
 import { SectionHeader, Badge, Text } from '@/components/ui'
 import { InfoCard } from '@/components/ui'
 import useStore from '@/store'

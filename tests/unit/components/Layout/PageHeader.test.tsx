@@ -1,5 +1,5 @@
 import useStore from '@/store'
-import PageHeader from '@/components/Layout/PageHeader'
+import { PageHeader } from '@/components/Layout'
 
 describe('PageHeader', () => {
   beforeEach(() => {

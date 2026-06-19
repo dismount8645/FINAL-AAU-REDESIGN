@@ -1,5 +1,5 @@
-import { waitFor } from '@testing-library/react'
-import { Dropdown } from '@/components/ui/Dropdown'
+import { waitFor, render, screen, fireEvent } from '@testing-library/react'
+import { Dropdown } from '@/components/ui/Dialog'
 
 describe('Dropdown', () => {
   it('renders trigger and opens menu on click', async () => {
@@ -109,7 +109,7 @@ describe('Dropdown', () => {
     render(
       <Dropdown>
         <Dropdown.Trigger>
-          {({ ref, onKeyDown, onClick }, { isOpen }) => (
+          {({ ref, onKeyDown, onClick }: any, { isOpen }: any) => (
             <button
               ref={ref as any}
               onKeyDown={onKeyDown}

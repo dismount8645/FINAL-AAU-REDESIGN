@@ -1,4 +1,4 @@
-import ForumRepliesList from '@/components/Forum/ForumRepliesList'
+import { ForumRepliesList } from '@/components/Forum'
 
 describe('ForumRepliesList', () => {
   const mockReply = { id: 1, author: 'Test User', roleDa: 'Studerende', roleEn: 'Student', timeDa: 'For 1 time siden', timeEn: '1 hour ago', contentDa: 'Indhold', contentEn: 'Content' }

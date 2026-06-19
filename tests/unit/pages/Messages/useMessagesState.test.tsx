@@ -1,5 +1,5 @@
 import { MemoryRouter } from 'react-router-dom'
-import { useMessagesState } from '@/pages/Messages/useMessagesState'
+import { useMessagesState } from '@/pages/Messages'
 
 describe('useMessagesState', () => {
   it('returns default state', () => {

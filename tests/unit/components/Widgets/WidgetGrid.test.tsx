@@ -1,5 +1,5 @@
 import { renderWithProviders } from '@/__tests__/setup/test-utils'
-import { WidgetGrid } from '@/components/Widgets/WidgetGrid'
+import { WidgetGrid } from '@/components/Widgets'
 
 describe('WidgetGrid', () => {
   it('renders widgets', () => {

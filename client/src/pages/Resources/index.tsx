@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Search, X, Star, ExternalLink } from 'lucide-react';
 import { Input, Text, EmptyState, Button, Card } from '@/components/ui';
-import SplitLayout from '@/components/Layout/SplitLayout';
-import PageLayout from '@/components/Layout/PageLayout';
+import { SplitLayout } from '@/components/Layout';
+import { PageLayout } from '@/components/Layout';
 import useStore from '@/store';
 import { allToolsList, cn, env } from '@/lib/utils';
 import ResourcesSection from '@/components/Resources/ResourcesSection';

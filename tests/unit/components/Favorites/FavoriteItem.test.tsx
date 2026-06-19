@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom'
 import { BookOpen } from 'lucide-react'
-import FavoriteItem from '@/components/Favorites/FavoriteItem'
+import { FavoriteItem } from '@/components/Favorites'
 
 describe('FavoriteItem', () => {
   const mockItem = {
