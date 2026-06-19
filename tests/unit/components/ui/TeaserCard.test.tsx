@@ -1,4 +1,4 @@
-import TeaserCard from '@/components/ui/TeaserCard';
+import { TeaserCard } from '@/components/ui/Card';
 
 describe('TeaserCard', () => {
   it('renders correctly with title and description', () => {

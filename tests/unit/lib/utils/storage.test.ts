@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { storage } from '@/lib/utils/storage';
+import { storage } from '@/lib/utils';
 
 describe('storage', () => {
   it('handles all resilience scenarios', () => {

@@ -8,10 +8,9 @@ import { Card, Text, Heading } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { courses as dataCourses } from '@/lib/data';
 import { PATHS } from '@/routes';
-import { DASHBOARD_CONFIG } from '@/lib/dashboard';
-import { env } from '@/lib/env';
-import { resolveFavorite, sortFavorites } from '@/lib/favorites';
-import type { ResolvedFavorite } from '@/lib/favorites';
+import { DASHBOARD_CONFIG } from '@/lib/constants';
+import { env, resolveFavorite, sortFavorites } from '@/lib/utils';
+import type { ResolvedFavorite } from '@/lib/utils';
 import useStore from '@/store';
 
 interface WidgetProps {

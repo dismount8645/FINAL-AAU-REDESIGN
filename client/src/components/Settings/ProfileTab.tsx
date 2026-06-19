@@ -2,12 +2,8 @@
 
 import { forwardRef, useState, useEffect, useImperativeHandle } from 'react';
 import { Sun, Monitor, Moon, Camera, Lock, Check } from 'lucide-react';
-import { Avatar, Card, SectionHeader } from '@/components/ui';
-import Button from '@/components/ui/Button';
-import { FormField } from '@/components/ui';
+import { Avatar, Card, SectionHeader, FormField, Text, Input, Button } from '@/components/ui';
 import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
-import Input from '@/components/ui/Input';
-import { Text } from '@/components/ui';
 import useStore, { type Theme } from '@/store';
 
 interface ProfileTabProps {

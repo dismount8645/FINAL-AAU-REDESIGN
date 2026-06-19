@@ -2,9 +2,8 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import React from 'react';
-import { useSearch } from '@/hooks/useSearch';
+import { useSearch, type SearchResult } from '@/hooks';
 import useStore from '@/store';
-import type { SearchResult } from '@/hooks/useSearch';
 
 describe('useSearch', () => {
   beforeEach(() => {

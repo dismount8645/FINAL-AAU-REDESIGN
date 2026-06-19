@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { env } from '@/lib/env';
+import { env } from '@/lib/utils';
 
 describe('env', () => {
   it('open returns null when window.open is undefined', () => {

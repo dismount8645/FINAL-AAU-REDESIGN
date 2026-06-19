@@ -1,5 +1,5 @@
 import { User } from 'lucide-react'
-import InfoCard from '@/components/ui/InfoCard'
+import { InfoCard } from '@/components/ui/Card'
 
 describe('InfoCard', () => {
   it('renders content', () => {

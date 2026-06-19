@@ -1,16 +1,11 @@
 import { useState, useMemo } from 'react';
-import { Search, X } from 'lucide-react';
-import { Input, Text, EmptyState, Button } from '@/components/ui';
+import { Search, X, Star, ExternalLink } from 'lucide-react';
+import { Input, Text, EmptyState, Button, Card } from '@/components/ui';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
-import { allToolsList, cn } from '@/lib/utils';
-import { env } from '@/lib/env';
-import PinnedTools from './PinnedTools';
-import PopularSystems from './PopularSystems';
-import AdminSystems from './AdminSystems';
-import Essentials from './Essentials';
-import ResourcesSidebar from './ResourcesSidebar';
+import { allToolsList, cn, env } from '@/lib/utils';
+import ResourcesSection from '@/components/Resources/ResourcesSection';
 
 function Resources() {
   const t = useStore(state => state.t)
@@ -159,39 +154,117 @@ function Resources() {
                 </div>
               </div>
 
-              <PinnedTools
-                pinnedTools={pinnedTools}
-                searchQuery={searchQuery}
-                activeCategory={activeCategory}
-                lang={lang}
-                onToggleFavorite={(id: number) => toggleFavorite('tool', id)}
-              />
+              {pinnedTools.length > 0 && !searchQuery && activeCategory === 'all' && (
+                <div className="bg-primary/5 dark:bg-primary/10 p-md rounded-2xl border border-primary/10">
+                  {pinnedTools.length <= 3 ? (
+                    <>
+                      <Text weight="bold" size="md" className="mb-sm">
+                        {lang === 'da' ? 'Dine fastgjorte værktøjer' : 'Your pinned tools'}
+                      </Text>
+                      <div className="flex flex-wrap gap-sm">
+                        {pinnedTools.map(tool => {
+                          const shortTitle = lang === 'da'
+                            ? (tool.shortTitleDa ?? tool.titleDa)
+                            : (tool.shortTitleEn ?? tool.titleEn)
+                          return (
+                            <button
+                              key={tool.id}
+                              type="button"
+                              onClick={() => env.open(tool.url)}
+                              aria-label={lang === 'da' ? `Åbn ${shortTitle}` : `Open ${shortTitle}`}
+                              className="flex items-center gap-sm bg-bg-card border border-border/60 hover:bg-bg-hover hover:border-primary/40 rounded-full px-lg py-2 text-sm font-bold transition-all cursor-pointer shadow-sm text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                            >
+                              <Star size={14} strokeWidth={2} fill="currentColor" className="text-warning shrink-0" />
+                              <span>{shortTitle}</span>
+                              <ExternalLink size={14} strokeWidth={2.5} aria-hidden="true" />
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </>
+                  ) : (
+                    <ResourcesSection
+                      title={lang === 'da' ? 'Dine fastgjorte værktøjer' : 'Your pinned tools'}
+                      subtitle={lang === 'da' ? 'Hurtig genvej til dine foretrukne systemer' : 'Quick shortcut to your favorite tools'}
+                      tools={pinnedTools}
+                      isStarredOnly
+                      showSsoWarning={false}
+                      onToggleFavorite={(id) => toggleFavorite('tool', id)}
+                    />
+                  )}
+                </div>
+              )}
 
-              <PopularSystems
-                popularTools={popularTools}
-                filteredPopularTools={filteredPopularTools}
-                searchQuery={searchQuery}
-                activeCategory={activeCategory}
-                lang={lang}
-                onToggleFavorite={(id: number) => toggleFavorite('tool', id)}
-              />
+              {!searchQuery && activeCategory === 'all' && popularTools.length > 0 && (
+                <div className="flex flex-col gap-sm">
+                  <Text weight="bold" size="md">
+                    {lang === 'da' ? 'Populære systemer' : 'Popular systems'}
+                  </Text>
+                  <div className="flex flex-wrap gap-sm">
+                    {popularTools.map(tool => {
+                      const shortTitle = lang === 'da'
+                        ? (tool.shortTitleDa ?? tool.titleDa)
+                        : (tool.shortTitleEn ?? tool.titleEn)
+                      return (
+                        <button
+                          key={tool.id}
+                          type="button"
+                          onClick={() => env.open(tool.url)}
+                          className="flex items-center gap-xs bg-bg-card border border-border/80 hover:bg-bg-hover hover:border-primary/40 rounded-full px-md py-2 text-sm font-bold transition-all cursor-pointer"
+                        >
+                          <span>{shortTitle}</span>
+                          <ExternalLink size={14} strokeWidth={2.5} aria-hidden="true" />
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
 
-              <AdminSystems
-                filteredTools={filteredTools}
-                activeCategory={activeCategory}
-                lang={lang}
-                t={t}
-                onToggleFavorite={(id: number) => toggleFavorite('tool', id)}
-              />
+              {activeCategory === 'popular' && filteredPopularTools.length > 0 && (
+                <ResourcesSection
+                  title={lang === 'da' ? 'Populære systemer' : 'Popular systems'}
+                  subtitle={lang === 'da' ? 'Mest brugte systemer' : 'Most used systems'}
+                  tools={filteredPopularTools}
+                  onToggleFavorite={(id) => toggleFavorite('tool', id)}
+                />
+              )}
 
-              <Essentials
-                essentialsCommunication={essentialsCommunication}
-                essentialsFiles={essentialsFiles}
-                essentialsTeaching={essentialsTeaching}
-                activeCategory={activeCategory}
-                lang={lang}
-                onToggleFavorite={(id: number) => toggleFavorite('tool', id)}
-              />
+              {(activeCategory === 'all' || activeCategory === 'tools') && filteredTools.length > 0 && (
+                <ResourcesSection
+                  title={lang === 'da' ? 'Studieadministrative' : 'Administrative'}
+                  subtitle={t('administrative_systems_desc')}
+                  tools={filteredTools}
+                  onToggleFavorite={(id) => toggleFavorite('tool', id)}
+                />
+              )}
+
+              {(activeCategory === 'all' || activeCategory === 'comm') && essentialsCommunication.length > 0 && (
+                <ResourcesSection
+                  title={lang === 'da' ? 'Kommunikation' : 'Communication'}
+                  subtitle={lang === 'da' ? 'Outlook Mail, Microsoft Teams og Zoom' : 'Outlook Mail, Microsoft Teams, and Zoom'}
+                  tools={essentialsCommunication}
+                  onToggleFavorite={(id) => toggleFavorite('tool', id)}
+                />
+              )}
+
+              {(activeCategory === 'all' || activeCategory === 'files') && essentialsFiles.length > 0 && (
+                <ResourcesSection
+                  title={lang === 'da' ? 'Filer & dokumenter' : 'Files & Documents'}
+                  subtitle={lang === 'da' ? 'OneDrive lagring, Word & Office, OneNote' : 'OneDrive storage, Word & Office, OneNote'}
+                  tools={essentialsFiles}
+                  onToggleFavorite={(id) => toggleFavorite('tool', id)}
+                />
+              )}
+
+              {(activeCategory === 'all' || activeCategory === 'eval') && essentialsTeaching.length > 0 && (
+                <ResourcesSection
+                  title={lang === 'da' ? 'Undervisning & evaluering' : 'Teaching & Evaluation'}
+                  subtitle={lang === 'da' ? 'Forms undersøgelser og Panopto video' : 'Forms surveys and Panopto video'}
+                  tools={essentialsTeaching}
+                  onToggleFavorite={(id) => toggleFavorite('tool', id)}
+                />
+              )}
 
               {showEmptyState && (
                 <EmptyState
@@ -230,7 +303,41 @@ function Resources() {
             </div>
           }
           sidebar={
-            <ResourcesSidebar lang={lang} />
+            <aside className="flex flex-col gap-lg">
+              <Card variant="elevated" className="border-primary/20">
+                <Card.Header padding="compact" className="flex items-center gap-xs">
+                  <Search size={18} className="text-primary" />
+                  <Text weight="bold" size="md">
+                    {lang === 'da' ? 'Kan du ikke finde systemet?' : "Can't find the system?"}
+                  </Text>
+                </Card.Header>
+                <Card.Body padding="compact" className="flex flex-col gap-sm">
+                  <Text size="sm" className="text-text-muted leading-[1.6]">
+                    {lang === 'da'
+                      ? 'Søg efter system, opgave eller nøgleord — fx "eksamen", "mail" eller "software".'
+                      : 'Search by system, task or keyword — e.g. "exam", "mail" or "software".'}
+                  </Text>
+                  <div className="flex flex-col gap-xs mt-xs">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      onClick={() => env.open('https://support.its.aau.dk/')}
+                      className="normal-case tracking-normal font-bold"
+                    >
+                      {lang === 'da' ? 'Kontakt IT-support' : 'Contact IT support'}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => env.open('https://support.its.aau.dk/')}
+                      className="text-primary normal-case tracking-normal font-bold"
+                    >
+                      {lang === 'da' ? 'Besøg help-portalen' : 'Visit the help portal'}
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </aside>
           }
         />
       </div>

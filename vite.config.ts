@@ -62,6 +62,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
+    server: {
+      deps: {
+        inline: ['@exodus/bytes', 'jsdom']
+      }
+    },
     setupFiles: path.resolve(__dirname, 'tests/unit/setup/setup.ts'),
     includeSource: ['src/**/*.{js,ts,jsx,tsx}'],
     include: ['../tests/**/*.{test,spec}.{ts,tsx}'],

@@ -6,11 +6,10 @@ import CourseResources from '@/components/Courses/CourseResources';
 import CourseInfo from '@/components/Courses/CourseInfo';
 import CourseParticipants from '@/components/Courses/CourseParticipants';
 import useStore from '@/store';
-import { STORAGE_KEYS } from '@/lib/constants';
+import { STORAGE_KEYS, ASSETS } from '@/lib/constants';
 import { Card, Text, MasterItem, Avatar, Button } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { MessageSquare, Users, Book } from 'lucide-react';
-import { ASSETS } from '@/lib/assets';
 
 const mockNavigate = vi.hoisted(() => vi.fn())
 const mockUseParams = vi.hoisted(() => vi.fn(() => ({ id: '1' })))

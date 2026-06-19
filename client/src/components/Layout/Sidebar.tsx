@@ -111,8 +111,10 @@ export default function Sidebar() {
       } else if (isCollapsed && wasOpen.current) {
         wasOpen.current = false;
         setTimeout(() => {
-          const btn = document.querySelector('button[aria-label*="sidebar"], button[aria-label*="menu"]');
-          (btn as HTMLElement)?.focus();
+          if (typeof document !== 'undefined') {
+            const btn = document.querySelector('button[aria-label*="sidebar"], button[aria-label*="menu"]');
+            (btn as HTMLElement)?.focus();
+          }
         }, 50);
       }
     }

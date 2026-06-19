@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { Card, FormField, SectionHeader } from '@/components/ui'
+import { Card, FormField, SectionHeader, Text, Radio } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui'
 import useStore from '@/store'
-import Radio from '@/components/ui/Radio'
 import AutosaveStatus from './AutosaveStatus'
 
 export default function MessagesTab() {

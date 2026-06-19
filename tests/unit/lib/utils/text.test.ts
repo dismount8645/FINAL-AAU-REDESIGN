@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { linkifyText } from '@/lib/utils/text';
+import { linkifyText } from '@/lib/utils';
 
 describe('linkifyText', () => {
   it('replaces https URL with anchor element', () => {

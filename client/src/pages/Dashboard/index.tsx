@@ -6,12 +6,11 @@ import useStore from '@/store';
 import { mockDashboardDeadlines, defaultEvents, todayEvents } from '@/lib/data';
 import { PATHS } from '@/routes';
 import { getDeadlineInfo } from '@/lib/utils';
-import type { DashboardWidgetConfig } from '@/store/slices/uiSlice';
+import type { DashboardWidgetConfig } from '@/store';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, Button } from '@/components/ui';
 import DailySummaryStrip from './DailySummaryStrip';
 import FocusBanner from './FocusBanner';
-import EditModeIndicator from './EditModeIndicator';
 import DashboardHeader from './DashboardHeader';
-import NavigationBlockerDialog from './NavigationBlockerDialog';
 
 function Dashboard() {
   const t = useStore((state) => state.t)
@@ -295,7 +294,14 @@ function Dashboard() {
         )}
 
         {isEditing && (
-          <EditModeIndicator lang={lang} />
+          <div className="mb-4 p-3 bg-primary/15 border-2 border-primary/30 rounded-[var(--radius-md)] font-bold text-primary shadow-sm text-sm">
+            <span className="inline-flex items-center gap-1.5 flex-wrap">
+              <span>{lang === 'da' ? 'Redigeringstilstand:' : 'Edit mode:'}</span>
+              <span className="font-medium text-primary/80">
+                {lang === 'da' ? 'Du kan flytte og skjule widgets. Automatisk prioritering er slået fra, mens du redigerer.' : 'Move and hide widgets. Auto-priority is disabled while editing.'}
+              </span>
+            </span>
+          </div>
         )}
 
         <WidgetGrid
@@ -308,13 +314,31 @@ function Dashboard() {
         />
       </div>
 
-      <NavigationBlockerDialog
-        open={showBlockerModal}
-        onSaveAndProceed={handleSaveAndProceed}
-        onDiscardAndProceed={handleDiscardAndProceed}
-        onCancelNavigation={handleCancelNavigation}
-        lang={lang}
-      />
+      <Dialog open={showBlockerModal} onOpenChange={(o) => { if (!o) handleCancelNavigation(); }}>
+        <DialogContent className="max-w-[420px]">
+          <DialogHeader>
+            <DialogTitle>
+              {lang === 'da' ? 'Ugemte ændringer' : 'Unsaved changes'}
+            </DialogTitle>
+            <DialogDescription>
+              {lang === 'da'
+                ? 'Du har foretaget ændringer i dit dashboard-layout. Vil du gemme eller kassere dem, før du forlader siden?'
+                : 'You have made changes to your dashboard layout. Do you want to save or discard them before leaving?'}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex flex-wrap gap-xs justify-end mt-xs">
+            <Button variant="ghost" size="sm" onClick={handleCancelNavigation}>
+              {lang === 'da' ? 'Bliv på siden' : 'Stay on page'}
+            </Button>
+            <Button variant="secondary" size="sm" onClick={handleDiscardAndProceed}>
+              {lang === 'da' ? 'Kassér ændringer' : 'Discard changes'}
+            </Button>
+            <Button variant="primary" size="sm" onClick={handleSaveAndProceed}>
+              {lang === 'da' ? 'Gem ændringer' : 'Save changes'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </PageLayout>
   )
 }

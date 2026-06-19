@@ -1,4 +1,4 @@
-import HighlightText from '@/components/ui/HighlightText'
+import { HighlightText } from '@/components/ui'
 
 describe('HighlightText', () => {
   it('returns text if query is empty', () => {

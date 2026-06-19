@@ -1,4 +1,4 @@
-import KeyValue from '@/components/ui/KeyValue'
+import { KeyValue } from '@/components/ui'
 
 describe('KeyValue', () => {
   it('renders label and value', () => {

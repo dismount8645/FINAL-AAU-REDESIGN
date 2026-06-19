@@ -9,21 +9,17 @@ import { PATHS } from '@/routes';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import {
   Card, Text, ProgressBar,
-  Avatar, Button
+  Avatar, Button, ModuleHeader, Tabs
 } from '@/components/ui';
 import { courses, participantsData, courseTabItems } from '@/lib/data';
-import { storage, cn } from '@/lib/utils';
-import { STORAGE_KEYS } from '@/lib/constants';
+import { storage, cn, ITEM_TYPE_MAP } from '@/lib/utils';
+import { STORAGE_KEYS, ASSETS } from '@/lib/constants';
 import useStore from '@/store';
-import { ASSETS } from '@/lib/assets';
-import { ITEM_TYPE_MAP } from '@/lib/theme';
 import ForumWidget from '@/components/Widgets/ForumWidget';
-import CourseHeader from './Course/CourseHeader';
-import CourseTabs from './Course/CourseTabs';
 import { CourseModules } from './Course/CourseSections';
-import CourseInfo from './Course/CourseInfo';
-import CourseParticipants from './Course/CourseParticipants';
-import CourseResources from './Course/CourseResources';
+import CourseInfo from '@/components/Courses/CourseInfo';
+import CourseParticipants from '@/components/Courses/CourseParticipants';
+import CourseResources from '@/components/Courses/CourseResources';
 
 function Course() {
   const { id } = useParams<{ id: string }>()
@@ -117,23 +113,59 @@ function Course() {
       headerClassName="hidden"
       flat
     >
-      <CourseHeader
-        data={data}
-        id={id!}
-        t={t}
-        descExpanded={descExpanded}
-        setDescExpanded={setDescExpanded}
-        courseDesc={courseDesc}
+      <ModuleHeader
+        image={data.img}
+        code={data.code}
+        title={t(`course_${id}_title`)}
+        semester={t('course_semester_spring')}
+        professor={data.professor}
+        campus={t('course_campus_aalborg')}
       />
+
+      <div className="mt-md">
+        <Card variant="elevated" className="overflow-hidden">
+          <Card.Body padding="compact">
+            <Stack gap="xs">
+              <Text weight="bold" size="sm" className="text-muted text-uppercase tracking-wider">
+                {t('description')}
+              </Text>
+              <div 
+                className={cn(
+                  "text-sm text-foreground/80 transition-all duration-300 relative",
+                  !descExpanded && "line-clamp-2"
+                )}
+                style={{
+                  display: !descExpanded ? '-webkit-box' : 'block',
+                  WebkitLineClamp: !descExpanded ? 2 : undefined,
+                  WebkitBoxOrient: !descExpanded ? 'vertical' : undefined,
+                  overflow: 'hidden'
+                }}
+              >
+                {courseDesc}
+              </div>
+              <div className="flex justify-start">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="px-0 py-none h-fit hover:bg-transparent text-primary font-bold hover:text-primary-dark"
+                  onClick={() => setDescExpanded(!descExpanded)}
+                >
+                  {descExpanded ? 'Vis mindre' : 'Vis mere'}
+                </Button>
+              </div>
+            </Stack>
+          </Card.Body>
+        </Card>
+      </div>
       <div className="mt-xl">
         <SplitLayout
           fullHeight={false}
           main={
             <Stack gap="lg">
-              <CourseTabs
-                tabItems={tabItems}
+              <Tabs
+                items={tabItems}
                 activeTab={activeTab}
-                setActiveTab={setActiveTab}
+                onChange={(val) => setActiveTab(val || 'modules')}
               />
               <div className="min-h-[300px]">
                 <div>
