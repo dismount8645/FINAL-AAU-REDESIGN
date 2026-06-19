@@ -3,7 +3,7 @@
 import { type LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export interface SegmentedControlOption {
+interface SegmentedControlOption {
   value: string | number;
   label?: string;
   icon?: LucideIcon;

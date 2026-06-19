@@ -3,7 +3,7 @@ import { BookOpen, Wrench, FileText, MessageSquare, type LucideIcon } from 'luci
 import { courses as coursesMap, forums } from '@/lib/data';
 import type { CourseWithStatus, Lang } from '@/store';
 import { allToolsList } from '@/lib/utils';
-import { translations } from '@/lib/translations';
+import { translations } from '@/translations';
 import type { FavoriteItem, FavoriteType } from '@/lib/types';
 
 export interface ResolvedFavorite {

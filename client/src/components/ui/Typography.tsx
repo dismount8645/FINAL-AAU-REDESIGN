@@ -23,7 +23,7 @@ const sizeMap: Record<string, string> = {
   '2xl': '1.6rem',
 }
 
-export interface HeadingVariantProps {
+interface HeadingVariantProps {
   level?: 1 | 2 | 3 | 4 | 5 | 6 | '1' | '2' | '3' | '4' | '5' | '6' | null;
   truncate?: boolean | null;
 }
@@ -45,7 +45,7 @@ function headingVariants({
   );
 }
 
-export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, HeadingVariantProps {
+interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, HeadingVariantProps {
   weight?: string | number
   as?: ElementType
 }
@@ -75,11 +75,6 @@ const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 
 Heading.displayName = 'Heading'
 
-export interface TextVariantProps {
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | string | null;
-  muted?: boolean | null;
-}
-
 function textVariants({
   size,
   muted,
@@ -101,7 +96,7 @@ function textVariants({
   );
 }
 
-export interface TextProps 
+interface TextProps 
   extends Omit<React.HTMLAttributes<HTMLElement>, 'size'> {
   bold?: boolean
   tag?: ElementType
@@ -145,7 +140,7 @@ const Text = forwardRef<HTMLElement, TextProps>(
 
 Text.displayName = 'Text'
 
-export type CaptionProps = React.HTMLAttributes<HTMLSpanElement>
+type CaptionProps = React.HTMLAttributes<HTMLSpanElement>
 
 const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
   ({ className, style, ...props }, ref) => (

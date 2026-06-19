@@ -20,6 +20,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@/__tests__/*": [
+        "../tests/unit/*"
       ]
     },
     "strict": true,
@@ -30,7 +33,8 @@
     "allowJs": true
   },
   "include": [
-    "src"
+    "src",
+    "../tests"
   ],
   "references": [
     {

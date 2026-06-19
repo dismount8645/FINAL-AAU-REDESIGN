@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { AppState } from '../types';
 import { Theme, Lang, computeIsDarkMode } from '@/lib/theme';
-import { translations } from '@/lib/translations';
+import { getTranslation } from '@/translations';
 
 export interface BreadcrumbItem {
   label: string
@@ -77,33 +77,7 @@ export const createUISlice: StateCreator<AppState, [], [], UISlice> = (set, get)
   },
   t: (key) => {
     const { lang } = get();
-    const keys = key.split('.');
-    let result: unknown = translations[lang];
-    for (const k of keys) {
-      if (result && typeof result === 'object' && !Array.isArray(result)) {
-        result = (result as Record<string, unknown>)[k];
-      } else {
-        result = undefined;
-        break;
-      }
-    }
-    if (typeof result === 'string') return result;
-
-    // Fallback: search across all top-level categories for flat keys
-    if (keys.length === 1) {
-      const langObj = translations[lang] as Record<string, unknown>;
-      for (const catKey in langObj) {
-        const category = langObj[catKey];
-        if (category && typeof category === 'object' && !Array.isArray(category) && key in category) {
-          const categoryObj = category as Record<string, unknown>;
-          if (typeof categoryObj[key] === 'string') {
-            return categoryObj[key] as string;
-          }
-        }
-      }
-    }
-
-    return key;
+    return getTranslation(key, lang);
   },
   localize: (obj: object, key?: string) => {
     const { lang } = get();

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 /* eslint-disable react-refresh/only-export-components */
 
-export interface BadgeVariantProps {
+interface BadgeVariantProps {
   variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'outline';
   pill?: boolean;
   interactive?: boolean;
@@ -37,7 +37,7 @@ function badgeVariants({ variant = 'default', pill = false, interactive = false 
   );
 }
 
-export interface BadgeProps
+interface BadgeProps
   extends HTMLAttributes<HTMLSpanElement>,
     BadgeVariantProps {}
 

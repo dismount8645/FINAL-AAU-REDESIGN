@@ -1,36 +1,23 @@
-import { memo, useMemo, Fragment } from 'react'
-import type { CalendarEvents, CalendarEvent } from '@/lib/types'
+import { memo, useMemo, Fragment } from 'react';
+import type { CalendarEvents, CalendarEvent } from '@/lib/types';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui'
-import useStore from '@/store'
-import { AlertTriangle } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { UI_PALETTE as eventPalette } from '@/lib/theme'
+import { Text } from '@/components/ui';
+import useStore from '@/store';
+import { AlertTriangle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { UI_PALETTE as eventPalette } from '@/lib/theme';
+import { parseEventDuration, isEventDeadline, getEventTitleText } from './calendar-utils';
 
 interface CalendarWeekViewProps {
-  currentDate: Date
-  events: CalendarEvents
-  dayNames: string[]
-  monthNames: string[]
-  t: (key: string) => string
-  handleEventClick: (event: CalendarEvent, dateKey: string) => void
+  currentDate: Date;
+  events: CalendarEvents;
+  dayNames: string[];
+  monthNames: string[];
+  t: (key: string) => string;
+  handleEventClick: (event: CalendarEvent, dateKey: string) => void;
 }
 
-const parseEventDuration = (timeStr: string): number => {
-  const parts = timeStr.split(' - ')
-  if (parts.length < 2) return 1
-  try {
-    const [startH, startM] = parts[0].split(':').map(Number)
-    const [endH, endM] = parts[1].split(':').map(Number)
-    const startDec = startH + startM / 60
-    const endDec = endH + endM / 60
-    return Math.max(1, Math.ceil(endDec - startDec))
-  } catch {
-    return 1
-  }
-}
-
-const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 const CalendarWeekViewComponent = ({
   currentDate,
@@ -40,41 +27,37 @@ const CalendarWeekViewComponent = ({
   t,
   handleEventClick,
 }: CalendarWeekViewProps) => {
-  const lang = useStore(state => state.lang)
+  const lang = useStore(state => state.lang);
 
   const { weekDays } = useMemo(() => {
-    const start = currentDate.getDate() - (currentDate.getDay() || 7) + 1
+    const start = currentDate.getDate() - (currentDate.getDay() || 7) + 1;
     const days = dayNames.map((name, i) => {
-      const d = new Date(currentDate.getFullYear(), currentDate.getMonth(), start + i)
+      const d = new Date(currentDate.getFullYear(), currentDate.getMonth(), start + i);
       return {
         name,
         date: d.getDate(),
         month: d.getMonth(),
-        dateKey: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
-      }
-    })
-    return { weekDays: days }
-  }, [currentDate, dayNames])
-
-  const getEventTitle = (event: CalendarEvent) => {
-    return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
-  }
+        dateKey: `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`,
+      };
+    });
+    return { weekDays: days };
+  }, [currentDate, dayNames]);
 
   const coveredCells = useMemo(() => {
-    const covered = new Set<string>()
+    const covered = new Set<string>();
     HOURS.forEach(hour => {
       weekDays.forEach(day => {
-        const event = events[day.dateKey]
+        const event = events[day.dateKey];
         if (event && event.time.startsWith(hour.toString().padStart(2, '0'))) {
-          const duration = parseEventDuration(event.time)
+          const duration = parseEventDuration(event.time);
           for (let d = 1; d < duration; d++) {
-            covered.add(`${day.dateKey}-${hour + d}`)
+            covered.add(`${day.dateKey}-${hour + d}`);
           }
         }
-      })
-    })
-    return covered
-  }, [events, weekDays])
+      });
+    });
+    return covered;
+  }, [events, weekDays]);
 
   return (
     <>
@@ -97,7 +80,7 @@ const CalendarWeekViewComponent = ({
       ))}
 
       {HOURS.map((hour) => {
-        const timeStr = `${hour.toString().padStart(2, '0')}:00`
+        const timeStr = `${hour.toString().padStart(2, '0')}:00`;
 
         return (
           <Fragment key={`row-${hour}`}>
@@ -106,16 +89,16 @@ const CalendarWeekViewComponent = ({
             </div>
 
             {weekDays.map((day) => {
-              const cellId = `${day.dateKey}-${hour}`
-              if (coveredCells.has(cellId)) return null
+              const cellId = `${day.dateKey}-${hour}`;
+              if (coveredCells.has(cellId)) return null;
 
-              const event = events[day.dateKey]
-              const isEventStart = event && event.time.startsWith(hour.toString().padStart(2, '0'))
+              const event = events[day.dateKey];
+              const isEventStart = event && event.time.startsWith(hour.toString().padStart(2, '0'));
 
               if (isEventStart) {
-                const duration = parseEventDuration(event.time)
-                const palette = eventPalette[event.color] || {}
-                const isDeadline = event.color === 'var(--color-danger-dark)' || event.color === 'var(--color-danger)' || event.typeEn?.toLowerCase() === 'deadline'
+                const duration = parseEventDuration(event.time);
+                const palette = eventPalette[event.color] || {};
+                const isDeadline = isEventDeadline(event);
 
                 return (
                   <div
@@ -125,8 +108,8 @@ const CalendarWeekViewComponent = ({
                   >
                     <button
                       type="button"
-                      title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
-                      aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
+                      title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
+                      aria-label={`${getEventTitleText(event, lang)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
                       onClick={() => handleEventClick(event, day.dateKey)}
                       className={cn(
                         "w-full h-full p-2.5 rounded-lg text-left transition-all duration-300",
@@ -141,8 +124,8 @@ const CalendarWeekViewComponent = ({
                     >
                       <Stack gap="2xs">
                         {(() => {
-                          const courseCode = event.courseCode
-                          const eventType = lang === 'da' ? event.typeDa : event.typeEn
+                          const courseCode = event.courseCode;
+                          const eventType = lang === 'da' ? event.typeDa : event.typeEn;
                           if (courseCode || eventType) {
                             return (
                               <div className="flex flex-wrap items-center gap-3xs opacity-80 mb-3xs">
@@ -157,12 +140,12 @@ const CalendarWeekViewComponent = ({
                                   </span>
                                 )}
                               </div>
-                            )
+                            );
                           }
-                          return null
+                          return null;
                         })()}
                         <Text size="xs" weight={isDeadline ? "black" : "extrabold"} className={cn("line-clamp-2 block leading-tight tracking-tight opacity-90", isDeadline && "text-orange-800 dark:text-orange-200")}>
-                          {getEventTitle(event)}
+                          {getEventTitleText(event, lang)}
                         </Text>
                         <Text size="2xs" className="opacity-80 font-bold flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-current opacity-50" />
@@ -176,7 +159,7 @@ const CalendarWeekViewComponent = ({
                       </Stack>
                     </button>
                   </div>
-                )
+                );
               }
 
               return (
@@ -184,13 +167,13 @@ const CalendarWeekViewComponent = ({
                   key={`slot-${day.dateKey}-${hour}`}
                   className="calendar-day min-w-0 bg-card hover:bg-muted/30 transition-colors border-b border-r border-border/40 min-h-[60px]"
                 />
-              )
+              );
             })}
           </Fragment>
-        )
+        );
       })}
     </>
-  )
-}
+  );
+};
 
-export const CalendarWeekView = memo(CalendarWeekViewComponent)
+export const CalendarWeekView = memo(CalendarWeekViewComponent);

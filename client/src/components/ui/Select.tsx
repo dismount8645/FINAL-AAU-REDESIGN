@@ -2,7 +2,7 @@ import { forwardRef, useId, type SelectHTMLAttributes } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export interface SelectVariantProps {
+interface SelectVariantProps {
   variant?: 'outlined' | 'filled' | null;
   size?: 'sm' | 'md' | 'lg' | null;
   error?: boolean | null;
@@ -28,7 +28,7 @@ function selectVariants({
   );
 }
 
-export interface SelectProps
+interface SelectProps
   extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "size">,
     SelectVariantProps {}
 

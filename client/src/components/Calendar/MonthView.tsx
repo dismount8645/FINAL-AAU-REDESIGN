@@ -1,20 +1,21 @@
-import { memo, useMemo, useCallback } from 'react'
-import type { CalendarEvents, CalendarEvent } from '@/lib/types'
+import { memo, useMemo, useCallback } from 'react';
+import type { CalendarEvents, CalendarEvent } from '@/lib/types';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from '@/components/ui'
-import useStore from '@/store'
-import { AlertTriangle } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { UI_PALETTE as eventPalette } from '@/lib/theme'
+import { Text } from '@/components/ui';
+import useStore from '@/store';
+import { AlertTriangle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { UI_PALETTE as eventPalette } from '@/lib/theme';
+import { isEventDeadline, getEventTitleText } from './calendar-utils';
 
 interface CalendarMonthViewProps {
-  currentDate: Date
-  events: CalendarEvents
-  dayNames: string[]
-  t: (key: string) => string
-  handleEventClick: (event: CalendarEvent, dateKey: string) => void
-  handleDayClick: (dateKey: string) => void
-  getWeekNumber: (date: Date) => number
+  currentDate: Date;
+  events: CalendarEvents;
+  dayNames: string[];
+  t: (key: string) => string;
+  handleEventClick: (event: CalendarEvent, dateKey: string) => void;
+  handleDayClick: (dateKey: string) => void;
+  getWeekNumber: (date: Date) => number;
 }
 
 const CalendarMonthViewComponent = ({
@@ -26,38 +27,35 @@ const CalendarMonthViewComponent = ({
   handleDayClick,
   getWeekNumber,
 }: CalendarMonthViewProps) => {
-  const lang = useStore(state => state.lang)
+  const lang = useStore(state => state.lang);
 
   const { days, firstDay, startingWeekNum, year, month, rowCount } = useMemo(() => {
-    const y = currentDate.getFullYear()
-    const m = currentDate.getMonth()
-    const totalDays = new Date(y, m + 1, 0).getDate()
-    let first = new Date(y, m, 1).getDay() - 1
-    if (first < 0) first = 6
-    const weekStart = getWeekNumber(new Date(y, m, 1))
-    const rows = Math.ceil((first + totalDays) / 7)
+    const y = currentDate.getFullYear();
+    const m = currentDate.getMonth();
+    const totalDays = new Date(y, m + 1, 0).getDate();
+    let first = new Date(y, m, 1).getDay() - 1;
+    if (first < 0) first = 6;
+    const weekStart = getWeekNumber(new Date(y, m, 1));
+    const rows = Math.ceil((first + totalDays) / 7);
 
-    return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m, rowCount: rows }
-  }, [currentDate, getWeekNumber])
+    return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m, rowCount: rows };
+  }, [currentDate, getWeekNumber]);
 
   const renderDay = useCallback((dayIndex: number) => {
-    const getEventTitle = (event: CalendarEvent) => {
-      return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
-    }
-    const dateKey = `${year}-${month}-${dayIndex}`
-    const event = events[dateKey]
-    const isDeadline = event && (event.color === 'var(--color-danger-dark)' || event.color === 'var(--color-danger)' || event.typeEn?.toLowerCase() === 'deadline')
-    const now = new Date()
+    const dateKey = `${year}-${month}-${dayIndex}`;
+    const event = events[dateKey];
+    const isDeadline = event ? isEventDeadline(event) : false;
+    const now = new Date();
     const isToday =
       dayIndex === now.getDate() &&
       month === now.getMonth() &&
-      year === now.getFullYear()
+      year === now.getFullYear();
 
-    const palette = event ? eventPalette[event.color] || { bg: '', text: '' } : { bg: '', text: '' }
+    const palette = event ? eventPalette[event.color] || { bg: '', text: '' } : { bg: '', text: '' };
     const eventStyle = {
       background: palette.bg || event?.color,
       color: palette.text || 'var(--color-text-main)',
-    }
+    };
 
     return (
       <Stack
@@ -98,18 +96,18 @@ const CalendarMonthViewComponent = ({
             )}
             style={eventStyle}
             onClick={(e) => {
-              e.stopPropagation()
-              handleEventClick(event, dateKey)
+              e.stopPropagation();
+              handleEventClick(event, dateKey);
             }}
-            aria-label={`${getEventTitle(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
-            title={`${getEventTitle(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
+            aria-label={`${getEventTitleText(event, lang)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
+            title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
             <Text weight="bold" className={cn("line-clamp-2 block select-none leading-snug text-xs sm:text-sm", isDeadline && "font-black text-orange-800 dark:text-orange-300 flex items-center gap-1")}>
               {isDeadline && <AlertTriangle className="w-3 h-3 shrink-0 text-orange-600 dark:text-orange-400 animate-pulse" />}
               {(() => {
-                const courseCode = event.courseCode
-                const prefix = courseCode ? `${courseCode}: ` : ''
-                return `${prefix}${getEventTitle(event)}`
+                const courseCode = event.courseCode;
+                const prefix = courseCode ? `${courseCode}: ` : '';
+                return `${prefix}${getEventTitleText(event, lang)}`;
               })()}
             </Text>
             {event.time && (
@@ -120,15 +118,15 @@ const CalendarMonthViewComponent = ({
           </button>
         )}
       </Stack>
-    )
-  }, [year, month, events, handleEventClick, handleDayClick, t, lang])
+    );
+  }, [year, month, events, handleEventClick, handleDayClick, t, lang]);
 
   const gridCells = useMemo(() => {
-    const cells = []
-    let currentDayIdx = 1
+    const cells = [];
+    let currentDayIdx = 1;
 
     for (let row = 0; row < rowCount; row++) {
-      const rowWeekNum = startingWeekNum + row
+      const rowWeekNum = startingWeekNum + row;
       cells.push(
         <div
           key={`wn-${rowWeekNum}`}
@@ -137,12 +135,12 @@ const CalendarMonthViewComponent = ({
         >
           W{rowWeekNum}
         </div>
-      )
+      );
 
       for (let col = 0; col < 7; col++) {
-        const cellIdx = row * 7 + col
-        const isPrevMonth = cellIdx < firstDay
-        const isNextMonth = (cellIdx - firstDay) >= days
+        const cellIdx = row * 7 + col;
+        const isPrevMonth = cellIdx < firstDay;
+        const isNextMonth = (cellIdx - firstDay) >= days;
 
         if (isPrevMonth || isNextMonth) {
           cells.push(
@@ -150,15 +148,15 @@ const CalendarMonthViewComponent = ({
               key={`empty-${row}-${col}`}
               className="calendar-day empty bg-muted/5 opacity-40 border-b border-r border-border/30 min-w-0"
             />
-          )
+          );
         } else {
-          cells.push(renderDay(currentDayIdx))
-          currentDayIdx++
+          cells.push(renderDay(currentDayIdx));
+          currentDayIdx++;
         }
       }
     }
-    return cells
-  }, [days, firstDay, startingWeekNum, renderDay, rowCount, t])
+    return cells;
+  }, [days, firstDay, startingWeekNum, renderDay, rowCount, t]);
 
   return (
     <>
@@ -176,7 +174,7 @@ const CalendarMonthViewComponent = ({
 
       {gridCells}
     </>
-  )
-}
+  );
+};
 
-export const CalendarMonthView = memo(CalendarMonthViewComponent)
+export const CalendarMonthView = memo(CalendarMonthViewComponent);

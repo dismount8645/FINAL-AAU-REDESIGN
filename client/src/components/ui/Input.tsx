@@ -2,7 +2,7 @@
 import { forwardRef, useId, type InputHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 
-export interface InputVariantProps {
+interface InputVariantProps {
   variant?: "outlined" | "filled" | "ghost" | null;
   size?: "sm" | "md" | "lg" | null;
   error?: boolean | null;

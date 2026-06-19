@@ -11,6 +11,7 @@ export default defineConfig({
   root: 'client',
   resolve: {
     alias: {
+      '@/__tests__': path.resolve(__dirname, 'tests/unit'),
       '@': path.resolve(__dirname, 'client/src'),
     },
   },
@@ -41,7 +42,9 @@ export default defineConfig({
             id.includes('/src/lib/data/') ||
             id.includes('\\src\\lib\\data\\') ||
             id.endsWith('/src/lib/data/index.ts') ||
-            id.endsWith('\\src\\lib\\data\\index.ts')
+            id.endsWith('\\src\\lib\\data\\index.ts') ||
+            id.includes('/src/lib/mocks') ||
+            id.includes('\\src\\lib\\mocks')
           ) {
             return 'data-mock'
           }
@@ -59,9 +62,10 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: path.resolve(__dirname, 'client/src/__tests__/setup/setup.ts'),
+    setupFiles: path.resolve(__dirname, 'tests/unit/setup/setup.ts'),
     includeSource: ['src/**/*.{js,ts,jsx,tsx}'],
-    exclude: ['node_modules/**', 'e2e/**'],
+    include: ['../tests/**/*.{test,spec}.{ts,tsx}'],
+    exclude: ['node_modules/**', 'e2e/**', 'dist/**'],
     coverage: {
       provider: 'v8',
       include: ['src/**/*'],
@@ -70,7 +74,7 @@ export default defineConfig({
         'dist/**',
         'src/main.tsx',
         'src/vite-env.d.ts',
-        'src/__tests__/**',
+        'tests/**',
         '**/index.ts',
         '**/types.ts',
         '**/*.d.ts',

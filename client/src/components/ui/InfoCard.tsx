@@ -9,7 +9,7 @@ import useStore from '@/store';
 import { ToastContext } from './Toast';
 import { cn } from '@/lib/utils';
 
-export interface InfoCardProps {
+interface InfoCardProps {
   icon: LucideIcon
   iconBg?: string
   iconColor?: string
