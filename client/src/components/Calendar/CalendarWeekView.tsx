@@ -1,3 +1,4 @@
+// CalendarWeekView — full implementation (renamed from CalendarWeek)
 import { memo, useMemo, Fragment } from 'react';
 import type { CalendarEvents, CalendarEvent } from '@/lib/types';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
@@ -81,7 +82,6 @@ const CalendarWeekViewComponent = ({
 
       {HOURS.map((hour) => {
         const timeStr = `${hour.toString().padStart(2, '0')}:00`;
-
         return (
           <Fragment key={`row-${hour}`}>
             <div className="calendar-time-label flex items-start justify-end p-2 pr-4 text-[0.65rem] sm:text-[0.7rem] font-bold text-text-muted bg-muted/5 border-r border-b border-border/40 select-none">
