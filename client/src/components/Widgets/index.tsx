@@ -34,10 +34,7 @@ import type { OverviewEvent } from '@/lib/types';
 import useStore from '@/store';
 import { PATHS } from '@/routes';
 
-// ==========================================
 // 1. Types & Shared Structures
-// ==========================================
-
 export interface WidgetItem {
   id: string
   span: number
@@ -118,10 +115,7 @@ const dashboardForumPosts = [
   { id: 103, category: 'forumPosts', titleDa: 'Læsegruppe søges', titleEn: 'Study group wanted', iconName: 'Users', timeDa: 'For 3 dage siden', timeEn: '3 days ago', replies: 5, important: false }
 ]
 
-// ==========================================
 // 2. Helper Hooks & Skeleton Primitives
-// ==========================================
-
 export function useWidgetGrid(widgets: WidgetItem[], onLayoutChange?: (widgets: WidgetItem[]) => void) {
   const handleSizeChange = (id: string, newSize: 'small' | 'medium' | 'large') => {
     if (!onLayoutChange) return
@@ -301,10 +295,7 @@ export function WidgetStateWrapper({ id, size, children }: { id: string; size: '
   return <>{children}</>
 }
 
-// ==========================================
 // 3. ShortcutsWidget
-// ==========================================
-
 interface WidgetProps {
   size?: 'small' | 'medium' | 'large'
 }
@@ -359,10 +350,7 @@ function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
 
 export const ShortcutsWidget = memo(ShortcutsWidgetInner)
 
-// ==========================================
 // 4. SupportWidget
-// ==========================================
-
 export function SupportWidget({ size = 'medium' }: WidgetProps) {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
@@ -411,10 +399,7 @@ export function SupportWidget({ size = 'medium' }: WidgetProps) {
   )
 }
 
-// ==========================================
 // 5. QuickOverviewWidget
-// ==========================================
-
 const getBadgeInfo = (event: OverviewEvent, lang: 'da' | 'en') => {
   if (event.time === '23:59') {
     return {
@@ -546,10 +531,7 @@ export const QuickOverviewWidget = memo(function QuickOverviewWidget({ size: _si
   )
 })
 
-// ==========================================
 // 6. MessagesWidget
-// ==========================================
-
 interface MessagesWidgetProps extends WidgetProps {
   hideFirst?: boolean
   isPriorityElevated?: boolean
@@ -657,10 +639,7 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
   )
 }
 
-// ==========================================
 // 7. CalendarWidget
-// ==========================================
-
 export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
@@ -760,10 +739,7 @@ export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
   )
 }
 
-// ==========================================
 // 8. CourseProgressWidget
-// ==========================================
-
 export function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
   const t = useStore(state => state.t)
   const limit = size === 'small' ? 1 : size === 'medium' ? 2 : 3
@@ -802,10 +778,7 @@ export function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
   )
 }
 
-// ==========================================
 // 9. DeadlinesWidget
-// ==========================================
-
 const getUrgencyIcon = (urgency: string) => {
   if (urgency === 'overdue') return AlertCircle;
   return Clock;
@@ -1091,10 +1064,7 @@ export function DeadlinesWidget({ size = 'medium', hideFirst = false }: Deadline
   );
 }
 
-// ==========================================
 // 10. FavoritesWidget
-// ==========================================
-
 const getFavoriteMetadata = (item: ResolvedFavorite, lang: 'da' | 'en') => {
   if (item.type === 'course') {
     const course = dataCourses[item.entityId]
@@ -1255,10 +1225,7 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
 
 export const FavoritesWidget = memo(FavoritesWidgetInner)
 
-// ==========================================
 // 11. ForumWidgets (ForumAboutWidget & ForumWidget & ForumActivityWidget)
-// ==========================================
-
 interface ForumAboutWidgetProps {
   post: Post
 }
@@ -1529,10 +1496,7 @@ export const ForumActivityWidget = memo(function ForumActivityWidget({ size = 'm
 
 ForumActivityWidget.displayName = 'ForumActivityWidget';
 
-// ==========================================
 // 12. WidgetGrid
-// ==========================================
-
 interface WidgetGridProps {
   widgets: WidgetItem[];
   isEditing?: boolean;

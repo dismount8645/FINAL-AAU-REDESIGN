@@ -8,22 +8,14 @@ import {
   CalendarEventDetailsDialog as EventDetail,
   CalendarUpcomingWidget,
 } from '@/components/Calendar';
-import { Button, Card, Dropdown, Text, AccordionWrapper, AccordionItemRow } from '@/components/ui';
-import { ErrorBoundary } from '@/components/Layout';
-import { Grid, Stack } from '@/components/Layout';
-import { PageLayout } from '@/components/Layout';
-import { SegmentedControl } from '@/components/ui';
-import { Skeleton } from '@/components/ui';
-import { useToast } from '@/components/ui';
+import { Button, Card, Dropdown, Text, AccordionWrapper, AccordionItemRow, SegmentedControl, Skeleton, useToast } from '@/components/ui';
+import { ErrorBoundary, Grid, Stack, PageLayout } from '@/components/Layout';
 import useStore from '@/store';
 import type { CalendarEvent, CalendarEvents } from '@/lib/types';
 import { cn, storage } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { defaultEvents } from '@/lib/data';
 
-// ==========================================
-// 1. useCalendar Hook (Inlined & Exported)
-// ==========================================
 
 export function useCalendar() {
   const lang = useStore(state => state.lang)
@@ -134,9 +126,7 @@ export function useCalendar() {
     return events[dateKey] || null
   }, [events])
 
-  const getTitle = useMemo(() => {
-    return `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
-  }, [currentDate, monthNames])
+  const getTitle = useMemo(() => `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`, [currentDate, monthNames])
 
   const futureEvents = useMemo(() => {
     return Object.entries(events)
@@ -149,9 +139,7 @@ export function useCalendar() {
       .sort((a, b) => a.date.getTime() - b.date.getTime())
   }, [events, lang])
 
-  const daysInMonth = useMemo(() => {
-    return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
-  }, [currentDate])
+  const daysInMonth = useMemo(() => new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(), [currentDate])
 
   const firstDayOfMonth = useMemo(() => {
     let firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1
@@ -159,9 +147,7 @@ export function useCalendar() {
     return firstDay
   }, [currentDate])
 
-  const weekStart = useMemo(() => {
-    return currentDate.getDate() - (currentDate.getDay() || 7) + 1
-  }, [currentDate])
+  const weekStart = useMemo(() => currentDate.getDate() - (currentDate.getDay() || 7) + 1, [currentDate])
 
   return {
     currentDate, setCurrentDate, view, setView,
@@ -177,9 +163,6 @@ export function useCalendar() {
   }
 }
 
-// ==========================================
-// 2. Calendar Component
-// ==========================================
 
 const Calendar = () => {
   const t = useStore(state => state.t)

@@ -1,10 +1,7 @@
 import { useState } from 'react';
-
 import { Phone, Globe, ExternalLink } from 'lucide-react';
-import { Grid } from '@/components/Layout';
+import { Grid, PageLayout, Stack } from '@/components/Layout';
 import { Text, useToast } from '@/components/ui';
-import { PageLayout } from '@/components/Layout';
-import { Stack } from '@/components/Layout';
 
 import { submitSupportTicket } from '@/lib/api';
 import useStore from '@/store';
@@ -19,8 +16,6 @@ function Support() {
   const [description, setDescription] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [fieldErrors, setFieldErrors] = useState<{ subject: boolean; description: boolean }>({ subject: false, description: false })
-
-
 
   const handleSendSupport = async (e?: React.FormEvent) => {
     if (e) e.preventDefault()
@@ -114,4 +109,3 @@ function Support() {
 }
 
 export default Support
-

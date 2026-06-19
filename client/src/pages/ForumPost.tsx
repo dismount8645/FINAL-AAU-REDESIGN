@@ -1,14 +1,10 @@
-
-
 import { useMemo } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ForumOriginalPost, ForumRepliesList, ForumReplyForm } from '@/components/Forum';
 import { ForumAboutWidget } from '@/components/Widgets';
 import Button from '@/components/ui/Button';
-import { Grid } from '@/components/Layout';
-import { PageHeader } from '@/components/Layout';
-import { Stack } from '@/components/Layout';
+import { Grid, PageHeader, Stack } from '@/components/Layout';
 import { Heading } from '@/components/ui';
 import { mockForumPosts, mockForumReplies } from '@/lib/data';
 import useStore from '@/store';

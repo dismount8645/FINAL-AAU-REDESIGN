@@ -8,7 +8,6 @@ import { Text, Heading, Skeleton } from './Misc';
 import useStore from '@/store';
 import { ToastContext } from './Misc';
 
-
 /**
  * Card Variants - Senior UI/UX Architect refinement.
  * Enforces strict AAU brand tokens, 150ms physics, and 8pt grid logic.
@@ -171,10 +170,7 @@ export const Card = Object.assign(CardRoot, {
   Decoration: CardDecoration,
 });
 
-// ---------------------------------------------------------------------------
 // InfoCard
-// ---------------------------------------------------------------------------
-
 export interface InfoCardProps {
   icon: LucideIcon
   iconBg?: string
@@ -345,10 +341,7 @@ export const InfoCard = memo(function InfoCard({
 
 InfoCard.displayName = 'InfoCard';
 
-// ---------------------------------------------------------------------------
 // TeaserCard
-// ---------------------------------------------------------------------------
-
 export interface TeaserCardProps {
   isLoading?: boolean
   variant?: 'vertical' | 'horizontal'

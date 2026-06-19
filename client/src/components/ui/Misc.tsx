@@ -966,4 +966,3 @@ export const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
 
 Caption.displayName = 'Caption'
 
-

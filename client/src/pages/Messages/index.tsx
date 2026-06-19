@@ -3,16 +3,11 @@ import { useState, useEffect, useRef, useCallback, useMemo, type MouseEvent } fr
 import { useLocation } from 'react-router-dom'
 import { Archive, ArrowLeft } from 'lucide-react';
 import { ChatSidebar, ChatWindow } from '@/components/Messages';
-import { Badge, TabBar } from '@/components/ui';
-import { SplitLayout } from '@/components/Layout';
-import { PageLayout } from '@/components/Layout';
-import Button from '@/components/ui/Button';
+import { Badge, TabBar, Button } from '@/components/ui';
+import { SplitLayout, PageLayout } from '@/components/Layout';
 import useStore from '@/store';
 import type { Contact } from '@/lib/types'
 import { useManagedCollection } from '@/hooks'
-
-// ─── Hook ────────────────────────────────────────────────────────────────────
-
 interface UseMessagesStateReturn {
   view: 'active' | 'archive'
   setView: (v: 'active' | 'archive') => void
@@ -164,7 +159,6 @@ export function useMessagesState(): UseMessagesStateReturn {
   }
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 
 function Messages() {
   const t = useStore(state => state.t)

@@ -1,5 +1,5 @@
 import useStore from '@/store'
-import { useNotificationsState } from '@/pages/Notifications/useNotificationsState'
+import { useNotificationsState } from '@/pages/Notifications'
 import type { NotificationItem } from '@/lib/types'
 
 const mockInitialNotifications = (): NotificationItem[] => [

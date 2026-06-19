@@ -2,9 +2,7 @@ import { Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { SearchResultCard, SearchResultFilters } from '@/components/Search';
 import { EmptyState, Button } from '@/components/ui';
-import { Grid } from '@/components/Layout';
-import { PageHeader } from '@/components/Layout';
-import { Stack } from '@/components/Layout';
+import { Grid, PageHeader, Stack } from '@/components/Layout';
 import useStore from '@/store';
 import { useSearch } from '@/hooks';
 
