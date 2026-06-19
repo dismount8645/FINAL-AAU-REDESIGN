@@ -1,4 +1,4 @@
-import ModuleHeader from '@/components/ui/ModuleHeader'
+import { ModuleHeader } from '@/components/ui'
 
 describe('ModuleHeader', () => {
   it('renders title', () => {

@@ -1,12 +1,7 @@
 import { Send, MessageCircle } from 'lucide-react'
-import { Card } from '@/components/ui'
+import { Card, Heading, Text, EmptyState, Avatar, Button, Textarea } from '@/components/ui'
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { cn } from '@/lib/utils'
-import Button from '@/components/ui/Button'
-import { Heading, Text } from '@/components/ui'
-import { EmptyState } from '@/components/ui'
-import { Avatar } from '@/components/ui'
-import Textarea from '@/components/ui/Textarea'
 import type { ChatWindowProps } from '@/lib/types'
 
 export function ChatWindow({

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { isRetryableError, getCsrfToken, buildHeaders, withTimeout, withRetry, handleResponse, resetCsrfCache } from '@/lib/api/utils';
+import { isRetryableError, getCsrfToken, buildHeaders, withTimeout, withRetry, handleResponse, resetCsrfCache } from '@/lib/api';
 
 describe('isRetryableError', () => {
   it('returns true for TypeError (network errors)', () => {

@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { Card, SectionHeader } from '@/components/ui'
+import { Card, SectionHeader, Input, Text } from '@/components/ui'
 import { Grid, Stack } from '@/components/Layout/LayoutPrimitives';
-import Input from '@/components/ui/Input'
-import { Text } from '@/components/ui'
 import useStore from '@/store'
 import AutosaveStatus from './AutosaveStatus'
 

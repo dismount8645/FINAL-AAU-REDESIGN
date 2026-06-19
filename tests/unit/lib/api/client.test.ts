@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { SettingsData, SubmissionData } from '@/lib/types';
-import { ApiClient, api, saveSettings, submitAssignment, submitSupportTicket } from '@/lib/api/client';
+import { ApiClient, api, saveSettings, submitAssignment, submitSupportTicket } from '@/lib/api';
 
 describe('ApiClient', () => {
   let client: ApiClient

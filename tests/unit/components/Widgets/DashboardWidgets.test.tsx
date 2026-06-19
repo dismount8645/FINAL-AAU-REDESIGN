@@ -8,13 +8,13 @@ import {
 import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import useStore from '@/store';
 import { mockDashboardDeadlines } from '@/lib/data';
-import { resolveFavorite } from '@/lib/favorites';
+import { resolveFavorite } from '@/lib/utils';
 import { BookOpen } from 'lucide-react';
 
 const mockNavigate = vi.hoisted(() => vi.fn())
 
-vi.mock('@/lib/favorites', async () => {
-  const actual = await vi.importActual('@/lib/favorites')
+vi.mock('@/lib/utils', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/utils')>()
   return {
     ...actual,
     resolveFavorite: vi.fn(),

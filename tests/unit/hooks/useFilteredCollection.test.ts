@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useFilteredCollection } from '@/hooks/useFilteredCollection';
-import type { FilteredCollectionConfig } from '@/hooks/useFilteredCollection';
+import { useFilteredCollection, type FilteredCollectionConfig } from '@/hooks';
 
 interface SampleItem {
   id: number

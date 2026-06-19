@@ -5,11 +5,10 @@ import { X, type LucideIcon, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
-import { getFavoriteLabel } from '@/lib/favorites';
-import type { Lang } from '@/store';
+import { cn, getFavoriteLabel } from '@/lib/utils';
+import type { Lang } from '@/lib/utils';
 import { translations } from '@/translations';
 import type { FavoriteType } from '@/lib/types';
-import { cn } from '@/lib/utils';
 
 const typeClasses: Record<FavoriteType, string> = {
   course: 'bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-foreground',
@@ -132,7 +131,7 @@ const FavoriteItem = memo(function FavoriteItem({
             onRemove(item.type, item.entityId) 
           }}
           className="text-muted hover:text-danger hover:bg-danger/10 absolute opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100 transition-all"
-          aria-label={(translations[lang]?.remove_favorite as string) || 'Remove from favorites'}
+          aria-label={(translations[lang as 'da' | 'en']?.remove_favorite as string) || 'Remove from favorites'}
         >
           <X size={14} strokeWidth={2} />
         </Button>

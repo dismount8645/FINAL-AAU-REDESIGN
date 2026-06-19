@@ -1,4 +1,4 @@
-import Select from '@/components/ui/Select';
+import { Select } from '@/components/ui';
 
 describe('Select', () => {
   it('renders select with options', () => {

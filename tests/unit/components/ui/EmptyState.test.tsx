@@ -1,5 +1,5 @@
 import { Inbox } from 'lucide-react'
-import EmptyState from '@/components/ui/EmptyState'
+import { EmptyState } from '@/components/ui'
 import { AllProviders } from '@/__tests__/setup/test-utils'
 
 describe('EmptyState', () => {

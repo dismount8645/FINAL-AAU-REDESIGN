@@ -5,8 +5,7 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text } from '@/components/ui';
 import useStore from '@/store';
 import { AlertTriangle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { UI_PALETTE as eventPalette } from '@/lib/theme';
+import { cn, UI_PALETTE as eventPalette } from '@/lib/utils';
 import { parseEventDuration, isEventDeadline, getEventTitleText } from './calendar-utils';
 
 interface CalendarWeekViewProps {

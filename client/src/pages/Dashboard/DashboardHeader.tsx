@@ -1,9 +1,7 @@
 import { memo } from 'react';
 import { Settings, Check, RotateCcw, Plus } from 'lucide-react';
-import Button from '@/components/ui/Button';
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/Dialog';
-import Checkbox from '@/components/ui/Checkbox';
-import type { DashboardWidgetConfig } from '@/store/slices/uiSlice';
+import { Button, Checkbox, Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui';
+import type { DashboardWidgetConfig } from '@/store';
 
 interface DashboardHeaderProps {
   isEditing: boolean

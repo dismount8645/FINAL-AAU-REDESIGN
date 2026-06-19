@@ -1,4 +1,4 @@
-import Radio from '@/components/ui/Radio'
+import { Radio } from '@/components/ui'
 
 describe('Radio', () => {
   it('renders radio and label', () => {

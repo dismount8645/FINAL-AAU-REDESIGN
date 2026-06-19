@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import Tabs from '@/components/ui/Tabs';
+import { Tabs } from '@/components/ui';
 
 describe('Tabs', () => {
   const mockItems = [

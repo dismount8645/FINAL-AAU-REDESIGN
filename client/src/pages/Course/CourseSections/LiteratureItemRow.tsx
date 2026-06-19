@@ -1,8 +1,7 @@
 import { memo } from 'react';
 import { Check } from 'lucide-react';
 import { Button, Text } from '@/components/ui';
-import { cn } from '@/lib/utils';
-import { ITEM_TYPE_MAP } from '@/lib/theme';
+import { cn, ITEM_TYPE_MAP } from '@/lib/utils';
 import type { CourseItem } from '@/lib/types';
 
 interface LiteratureItemRowProps {
@@ -13,7 +12,7 @@ interface LiteratureItemRowProps {
   t: (key: string) => string;
 }
 
-export const LiteratureItemRow = memo(function LiteratureItemRow({
+const LiteratureItemRow = memo(function LiteratureItemRow({
   item,
   isCompleted,
   lang,

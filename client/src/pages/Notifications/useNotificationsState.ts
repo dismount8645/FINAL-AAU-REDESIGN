@@ -2,9 +2,8 @@ import { useState, useMemo, type MouseEvent } from 'react';
 
 
 import type { NotificationItem } from '@/lib/types';
-import { useFormat } from '@/hooks/useFormat'
+import { useFormat, useManagedCollection } from '@/hooks'
 import useStore from '@/store';
-import { useManagedCollection } from '@/hooks/useManagedCollection'
 
 interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]

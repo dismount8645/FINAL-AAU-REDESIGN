@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getAutomaticBreadcrumbs } from '@/lib/breadcrumbs';
+import { getAutomaticBreadcrumbs } from '@/lib/utils';
 
 const mockT = (key: string) => key;
 

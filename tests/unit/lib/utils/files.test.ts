@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { processFileMetadata, getFileTypeConfig } from '@/lib/utils/files';
+import { processFileMetadata, getFileTypeConfig } from '@/lib/utils';
 
 function createMockFile(name: string, size = 1024): File {
   return { name, size, type: '', lastModified: Date.now(), slice: () => new Blob() } as File

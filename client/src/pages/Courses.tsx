@@ -8,9 +8,9 @@ import { Card } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Heading, Text } from '@/components/ui';
 import { Dropdown } from '@/components/ui';
-import { ASSETS } from '@/lib/assets';
+import { ASSETS } from '@/lib/constants';
 import { useFilteredCollection } from '@/hooks';
-import { env } from '@/lib/env';
+import { env } from '@/lib/utils';
 import useStore from '@/store';
 
 import type { CourseWithStatus } from '@/store';

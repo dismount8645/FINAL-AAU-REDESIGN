@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import TabBar from '@/components/ui/TabBar';
+import { TabBar } from '@/components/ui';
 
 describe('TabBar', () => {
   const mockTabs = [

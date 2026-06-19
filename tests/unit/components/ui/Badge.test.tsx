@@ -1,4 +1,4 @@
-import { Badge } from '@/components/ui/Badge'
+import { Badge } from '@/components/ui'
 
 describe('Badge', () => {
   it('renders children text', () => {

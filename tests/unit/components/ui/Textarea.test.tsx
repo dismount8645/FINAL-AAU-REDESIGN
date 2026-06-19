@@ -1,4 +1,4 @@
-import Textarea from '@/components/ui/Textarea';
+import { Textarea } from '@/components/ui';
 
 describe('Textarea', () => {
   it('renders textarea element', () => {
