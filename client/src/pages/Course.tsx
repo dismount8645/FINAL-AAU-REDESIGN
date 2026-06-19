@@ -11,7 +11,7 @@ import {
   Card, Text, ProgressBar,
   Avatar, Button
 } from '@/components/ui';
-import { courseData, participantsData, courseTabItems } from '@/lib/data';
+import { courses, participantsData, courseTabItems } from '@/lib/data';
 import { storage, cn } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
@@ -32,7 +32,7 @@ function Course() {
   const lang = useStore((state) => state.lang)
   const [activeTab, setActiveTab] = useState<string>('modules')
   const [expandedSections, setExpandedSections] = useState<string[]>(() => {
-    const course = courseData[Number(id)]
+    const course = courses[Number(id)]
     if (!course) return []
     return storage.get(`${STORAGE_KEYS.EXPANDED_SECTIONS_PREFIX}${id}`, course.sections.map((s) => s.id))
   })
@@ -42,7 +42,7 @@ function Course() {
   const [descExpanded, setDescExpanded] = useState(false)
 
   const courseIdNum = Number(id)
-  const data = courseData[courseIdNum]
+  const data = courses[courseIdNum]
 
   useEffect(() => {
     if (!data) navigate(PATHS.COURSES)

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { hoursFromNow, getHoursUntil, formatTime, formatLongDateTime, formatRelativeDateGroup, calculateUrgency, getDeadlineInfo } from '../date';
+import { formatTime, formatLongDateTime, formatRelativeDateGroup, getDeadlineInfo } from '../date';
 
 describe('dates', () => {
   it('formats time in en and da', () => {
@@ -14,19 +14,6 @@ describe('dates', () => {
     expect(formatLongDateTime(d, 'da')).toBeDefined()
   })
 
-  it('calculates urgency correctly', () => {
-    const now = new Date()
-    const overdue = new Date(now.getTime() - 3600000).toISOString()
-    const critical = new Date(now.getTime() + 3600000).toISOString()
-    const soon = new Date(now.getTime() + 100000000).toISOString()
-    const normal = new Date(now.getTime() + 500000000).toISOString()
-
-    expect(calculateUrgency(overdue)).toBe('overdue')
-    expect(calculateUrgency(critical)).toBe('critical')
-    expect(calculateUrgency(soon)).toBe('soon')
-    expect(calculateUrgency(normal)).toBe('normal')
-  })
-
   it('formats relative date group', () => {
     const now = new Date('2026-05-28T12:00:00')
     const today = new Date('2026-05-28T10:00:00')
@@ -36,12 +23,6 @@ describe('dates', () => {
     expect(formatRelativeDateGroup(today, 'en', now)).toBe('Today')
     expect(formatRelativeDateGroup(yesterday, 'en', now)).toBe('Yesterday')
     expect(formatRelativeDateGroup(other, 'en', now)).toContain('May')
-  })
-
-  it('gets hours until and hours from now', () => {
-    const now = new Date()
-    const target = hoursFromNow(5, now)
-    expect(getHoursUntil(target, now)).toBeCloseTo(5, 5)
   })
 
   it('getDeadlineInfo returns correct info for various periods', () => {

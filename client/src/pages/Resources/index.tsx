@@ -1,16 +1,15 @@
 import { useState, useMemo } from 'react';
 import { Search, X } from 'lucide-react';
-import { Input } from '@/components/ui';
-import { Text } from '@/components/ui';
+import { Input, Text, EmptyState, Button } from '@/components/ui';
 import SplitLayout from '@/components/Layout/SplitLayout';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
 import { allToolsList, cn } from '@/lib/utils';
+import { env } from '@/lib/env';
 import PinnedTools from './PinnedTools';
 import PopularSystems from './PopularSystems';
 import AdminSystems from './AdminSystems';
 import Essentials from './Essentials';
-import EmptyState from './EmptyState';
 import ResourcesSidebar from './ResourcesSidebar';
 
 function Resources() {
@@ -194,12 +193,40 @@ function Resources() {
                 onToggleFavorite={(id: number) => toggleFavorite('tool', id)}
               />
 
-              <EmptyState
-                showEmptyState={showEmptyState}
-                searchQuery={searchQuery}
-                lang={lang}
-                onClearSearch={() => setSearchQuery('')}
-              />
+              {showEmptyState && (
+                <EmptyState
+                  title={
+                    lang === 'da'
+                      ? `Ingen systemer fundet${searchQuery ? ` for "${searchQuery}"` : ''}`
+                      : `No systems found${searchQuery ? ` for "${searchQuery}"` : ''}`
+                  }
+                  description={
+                    lang === 'da'
+                      ? 'Prøv at søge efter fx "eksamen", "mail", "software" eller "STADS".'
+                      : 'Try searching for "exam", "mail", "software" or "STADS".'
+                  }
+                  action={
+                    <div className="flex items-center gap-sm">
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={() => setSearchQuery('')}
+                        className="normal-case tracking-normal font-bold"
+                      >
+                        {lang === 'da' ? 'Ryd søgning' : 'Clear search'}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => env.open('https://support.its.aau.dk/')}
+                        className="text-primary normal-case tracking-normal font-bold"
+                      >
+                        {lang === 'da' ? 'Kontakt IT-support' : 'Contact IT support'}
+                      </Button>
+                    </div>
+                  }
+                />
+              )}
             </div>
           }
           sidebar={

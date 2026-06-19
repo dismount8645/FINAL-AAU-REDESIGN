@@ -56,7 +56,7 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
       groups[dateKey].push(n)
     })
     return groups
-  }, [filteredItems, lang])
+  }, [filteredItems, formatRelativeDateGroup])
 
   const selectedNotification = useMemo(() => {
     return notifications.find(n => n.id === selectedId) || (filteredItems.length > 0 ? filteredItems[0] : null)

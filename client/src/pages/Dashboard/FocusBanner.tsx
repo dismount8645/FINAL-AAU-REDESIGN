@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Button from '@/components/ui/Button';
 import { ArrowRight } from 'lucide-react';
 
@@ -101,4 +102,4 @@ function FocusBanner({ urgentItem, extraUrgentCount, firstName, onNavigate, t, l
   )
 }
 
-export default FocusBanner
+export default memo(FocusBanner);

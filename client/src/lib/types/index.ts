@@ -270,3 +270,10 @@ export interface ResourceTool {
   keywords?: string[]
 }
 
+export interface OverviewEvent {
+  time: string
+  titleKey: string
+  moduleKey?: string
+  location?: string
+}
+

@@ -1,6 +1,7 @@
 import { vi, describe, beforeEach, afterEach, it, expect } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
-import QuickOverviewWidget, { todayEvents } from './QuickOverviewWidget';
+import QuickOverviewWidget from './QuickOverviewWidget';
+import { todayEvents } from '@/lib/data';
 import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import useStore from '@/store';
 

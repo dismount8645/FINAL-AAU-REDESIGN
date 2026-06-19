@@ -18,7 +18,7 @@ npm run dev            # → localhost:3000
 |---------|--------|
 | `npm run dev` | Dev server |
 | `npm run build` | Prod build → `dist/` |
-| `npm test` | Vitest (inline + .test.tsx) |
+| `npm test` | Vitest tests |
 | `npm run lint` | `tsc --noEmit` |
 | `npm run preview` | Preview production build |
 
@@ -37,7 +37,7 @@ client/src/
 
 ## Stack
 
-React 18 · TypeScript · Vite · Tailwind v4 · Zustand · Vitest · Lucide · Zod · Framer Motion
+React 18 · TypeScript · Vite · Tailwind v4 · Zustand · Vitest · Lucide
 
 ## License
 

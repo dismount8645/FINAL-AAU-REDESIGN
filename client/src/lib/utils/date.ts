@@ -5,15 +5,6 @@ function localeForLang(lang: Lang): string {
   return lang === 'da' ? 'da-DK' : 'en-US'
 }
 
-export function hoursFromNow(hours: number, from = new Date()): string {
-  const date = new Date(from)
-  date.setHours(date.getHours() + hours)
-  return date.toISOString()
-}
-
-export function getHoursUntil(date: string | Date, from = new Date()): number {
-  return (new Date(date).getTime() - from.getTime()) / (1000 * 60 * 60)
-}
 
 export function formatTime(date: Date, lang: Lang): string {
   return date.toLocaleTimeString(localeForLang(lang), { hour: '2-digit', minute: '2-digit' })
@@ -45,15 +36,6 @@ export function formatRelativeDateGroup(date: Date, lang: Lang, now = new Date()
   return formatShortDate(date, lang)
 }
 
-type UrgencyLevel = 'overdue' | 'critical' | 'soon' | 'normal'
-
-export function calculateUrgency(deadlineDate: string): UrgencyLevel {
-  const hoursLeft = getHoursUntil(deadlineDate)
-  if (hoursLeft < 0) return 'overdue'
-  if (hoursLeft < 24) return 'critical'
-  if (hoursLeft < 72) return 'soon'
-  return 'normal'
-}
 
 interface DeadlineInfo {
   label: string

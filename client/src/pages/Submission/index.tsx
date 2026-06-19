@@ -154,4 +154,3 @@ function Submission() {
 }
 
 export default Submission
-export { default as SubmissionDropzone } from './SubmissionDropzone'

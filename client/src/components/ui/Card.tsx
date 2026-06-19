@@ -11,7 +11,7 @@ export interface CardVariantProps {
   interactive?: boolean | null;
 }
 
-export function cardVariants({
+function cardVariants({
   variant,
   accent,
   interactive,
@@ -78,7 +78,7 @@ export interface CardHeaderVariantProps {
   padding?: 'default' | 'compact' | 'none' | null;
 }
 
-export function headerVariants({ padding }: CardHeaderVariantProps = {}): string {
+function headerVariants({ padding }: CardHeaderVariantProps = {}): string {
   const resolvedPadding = padding !== undefined ? padding : 'default';
   return cn(
     "flex items-center justify-between gap-md border-b border-border/40 transition-colors duration-150",
@@ -100,7 +100,7 @@ export interface CardBodyVariantProps {
   padding?: 'default' | 'compact' | 'none' | null;
 }
 
-export function bodyVariants({ padding }: CardBodyVariantProps = {}): string {
+function bodyVariants({ padding }: CardBodyVariantProps = {}): string {
   const resolvedPadding = padding !== undefined ? padding : 'default';
   return cn(
     "flex-1 min-w-0",
@@ -122,7 +122,7 @@ export interface CardFooterVariantProps {
   padding?: 'default' | 'compact' | 'none' | null;
 }
 
-export function footerVariants({ padding }: CardFooterVariantProps = {}): string {
+function footerVariants({ padding }: CardFooterVariantProps = {}): string {
   const resolvedPadding = padding !== undefined ? padding : 'default';
   return cn(
     "mt-auto flex items-center gap-xs border-t border-border/40",
