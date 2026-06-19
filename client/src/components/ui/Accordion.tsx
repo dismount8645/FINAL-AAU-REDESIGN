@@ -13,7 +13,6 @@ export interface AccordionWrapperProps {
   children?: ReactNode;
   className?: string;
   defaultValue?: string[];
-  collapsible?: boolean;
 }
 
 export const AccordionWrapper = memo(function AccordionWrapper({

@@ -8,7 +8,8 @@ import type {
   Notification,
   ForumActivity,
   ForumPostData,
-  ForumReplyData
+  ForumReplyData,
+  OverviewEvent
 } from '@/lib/types'
 
 import { Reply, MessageSquare, Book } from 'lucide-react'
@@ -74,16 +75,6 @@ export const mockDashboardDeadlines = [
 ]
 
 // ── Registry exports ─────────────────────────────────────────────────────────
-interface CourseRaw {
-  title: string
-  titleEn: string
-  code: string
-  professor: string
-  email: string
-  img: string
-  sections: CourseSection[]
-}
-
 export const courses: CoursesMap = coursesJson.reduce((acc, course) => {
   acc[course.id] = {
     title: course.title,
@@ -112,19 +103,6 @@ export const courseList: CourseListItem[] = coursesJson.map(course => ({
   tab: course.tab
 }))
 
-export const courseData: Record<number, CourseRaw> = coursesJson.reduce((acc, course) => {
-  acc[course.id] = {
-    title: course.title,
-    titleEn: course.titleEn,
-    code: course.code,
-    professor: course.professor,
-    email: course.email,
-    img: course.img,
-    sections: course.sections as CourseSection[],
-  };
-  return acc;
-}, {} as Record<number, CourseRaw>)
-
 export const forums: Forum[] = forumsJson as Forum[]
 export const defaultEvents: CalendarEvents = defaultEventsJson as CalendarEvents
 export const messagesData: MessageThread[] = messagesJson as MessageThread[]
@@ -137,3 +115,9 @@ export const supportDeskHours = supportDeskHoursJson
 export const supportNotes = supportNotesJson
 
 export const registryTools = toolsJson
+
+export const todayEvents: OverviewEvent[] = [
+  { time: '08:15', titleKey: 'lecture', moduleKey: 'course_1_title', location: 'Fibigerstræde 15' },
+  { time: '13:00', titleKey: 'study_group', moduleKey: 'course_2_title', location: 'Kroghstræde 3' },
+  { time: '23:59', titleKey: 'project_report', moduleKey: 'course_4_title' },
+]

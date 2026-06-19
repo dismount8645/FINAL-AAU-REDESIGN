@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 interface NextEvent {
   titleKey: string
   time: string
@@ -49,4 +51,4 @@ function DailySummaryStrip({ activityCount, deadlineCount, messageCount, nextEve
   )
 }
 
-export default DailySummaryStrip
+export default memo(DailySummaryStrip);

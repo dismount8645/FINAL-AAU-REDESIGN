@@ -19,19 +19,19 @@ export const PATHS = {
 } as const;
 
 
-const Dashboard = lazy(() => import('@/pages/Dashboard'))
-const Calendar = lazy(() => import('@/pages/Calendar'))
-const Courses = lazy(() => import('@/pages/Courses'))
-const Course = lazy(() => import('@/pages/Course'))
-const Support = lazy(() => import('@/pages/Support'))
-const Settings = lazy(() => import('@/pages/Settings'))
-const Messages = lazy(() => import('@/pages/Messages'))
-const Resources = lazy(() => import('@/pages/Resources'))
-const Notifications = lazy(() => import('@/pages/Notifications'))
-const Submission = lazy(() => import('@/pages/Submission'))
-const SearchResults = lazy(() => import('@/pages/SearchResults'))
-const ForumPost = lazy(() => import('@/pages/ForumPost'))
-const Favorites = lazy(() => import('@/pages/Favorites'))
+const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const Calendar = lazy(() => import('@/pages/Calendar'));
+const Courses = lazy(() => import('@/pages/Courses'));
+const Course = lazy(() => import('@/pages/Course'));
+const Support = lazy(() => import('@/pages/Support'));
+const Settings = lazy(() => import('@/pages/Settings'));
+const Messages = lazy(() => import('@/pages/Messages'));
+const Resources = lazy(() => import('@/pages/Resources'));
+const Notifications = lazy(() => import('@/pages/Notifications'));
+const Submission = lazy(() => import('@/pages/Submission'));
+const SearchResults = lazy(() => import('@/pages/SearchResults'));
+const ForumPost = lazy(() => import('@/pages/ForumPost'));
+const Favorites = lazy(() => import('@/pages/Favorites'));
 
 interface RouteConfig {
   path: string;
@@ -54,6 +54,6 @@ const routes: RouteConfig[] = [
   { path: '/search', component: SearchResults, label: 'search', breadcrumbKey: 'search_results' },
   { path: '/favorites', component: Favorites, label: 'favorites' },
   { path: '/forum/:id', component: ForumPost, label: 'forum' },
-]
+];
 
-export default routes
+export default routes;

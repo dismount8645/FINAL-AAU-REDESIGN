@@ -7,19 +7,8 @@ import { Stack } from '@/components/Layout/LayoutPrimitives';
 import { Text, Heading } from '@/components/ui';
 import useStore from '@/store';
 import { PATHS } from '@/routes';
-
-export interface OverviewEvent {
-  time: string
-  titleKey: string
-  moduleKey?: string
-  location?: string
-}
-
-export const todayEvents: OverviewEvent[] = [
-  { time: '08:15', titleKey: 'lecture', moduleKey: 'course_1_title', location: 'Fibigerstræde 15' },
-  { time: '13:00', titleKey: 'study_group', moduleKey: 'course_2_title', location: 'Kroghstræde 3' },
-  { time: '23:59', titleKey: 'project_report', moduleKey: 'course_4_title' },
-]
+import { todayEvents } from '@/lib/data';
+import type { OverviewEvent } from '@/lib/types';
 
 const getBadgeInfo = (event: OverviewEvent, lang: 'da' | 'en') => {
   if (event.time === '23:59') {

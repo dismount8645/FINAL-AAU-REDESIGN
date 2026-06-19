@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": ["client/eslint.config.js"],
+  "entry": ["client/src/main.tsx", "client/eslint.config.js"],
   "project": ["client/src/**/*.{ts,tsx}"],
   "ignore": [
     "client/src/__tests__/**",
@@ -9,9 +9,6 @@
   "paths": {
     "@/*": ["client/src/*"]
   },
-  "ignoreDependencies": [
-    "@fontsource/barlow"
-  ],
   "rules": {
     "files": "error",
     "exports": "error",

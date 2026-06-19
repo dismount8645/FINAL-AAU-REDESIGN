@@ -8,7 +8,7 @@ export interface SelectVariantProps {
   error?: boolean | null;
 }
 
-export function selectVariants({
+function selectVariants({
   variant,
   size,
   error,

@@ -8,7 +8,7 @@ export interface InputVariantProps {
   error?: boolean | null;
 }
 
-export function inputVariants({
+function inputVariants({
   variant,
   size,
   error,

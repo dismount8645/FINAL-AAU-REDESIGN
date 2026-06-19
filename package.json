@@ -19,13 +19,11 @@
     "test:e2e:project": "playwright test --project"
   },
   "dependencies": {
-    "@fontsource/barlow": "^5.2.8",
     "clsx": "^2.1.1",
     "lucide-react": "^1.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
-    "tailwind-merge": "^3.6.0",
     "zustand": "^5.0.13"
   },
   "devDependencies": {

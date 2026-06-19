@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { Card } from '@/components/ui';
 import useStore from '@/store';
@@ -94,25 +94,24 @@ export function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperPro
     return 'loading';
   });
 
-  const loadData = () => {
+  const loadData = useCallback(() => {
     if (id === 'courseProgress') {
       setStatus('permission_denied');
       return;
     }
     setStatus('loading');
 
-    let timeoutTimer: NodeJS.Timeout;
-    const loadTimer = setTimeout(() => {
-      setStatus('success');
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-    }, 400);
-
-    timeoutTimer = setTimeout(() => {
+    const timeoutTimer = setTimeout(() => {
       setStatus('error');
     }, 10000);
 
+    const loadTimer = setTimeout(() => {
+      setStatus('success');
+      clearTimeout(timeoutTimer);
+    }, 400);
+
     return { loadTimer, timeoutTimer };
-  };
+  }, [id]);
 
   useEffect(() => {
     const timers = loadData();
@@ -122,7 +121,7 @@ export function WidgetStateWrapper({ id, size, children }: WidgetStateWrapperPro
         clearTimeout(timers.timeoutTimer);
       }
     };
-  }, [id]);
+  }, [id, loadData]);
 
   const widgetTitle = WIDGET_TITLES[id]?.[lang] ?? id;
 

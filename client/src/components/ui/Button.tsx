@@ -14,7 +14,7 @@ export interface ButtonVariantProps {
   uppercase?: boolean | null;
 }
 
-export function buttonVariants({
+function buttonVariants({
   variant,
   size,
   full,
