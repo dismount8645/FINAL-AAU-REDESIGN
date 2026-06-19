@@ -1,3 +1,3 @@
-export { CalendarDayView } from './DayView'
-export { CalendarMonthView } from './MonthView'
-export { CalendarWeekView } from './WeekView'
+export { CalendarDayView } from './CalendarDay';
+export { CalendarMonthView } from './CalendarMonth';
+export { CalendarWeekView } from './CalendarWeek';
