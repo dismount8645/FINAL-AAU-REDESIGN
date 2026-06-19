@@ -1,7 +1,84 @@
-import { da as daFlat } from './da';
-import { en as enFlat } from './en';
+import daJson from './locales/da.json';
+import enJson from './locales/en.json';
 import type { Lang } from '@/lib/theme';
 
+// --- Deep Key Comparison & Assertion ---
+function getDeepKeys(obj: any, prefix = ''): string[] {
+  let keys: string[] = [];
+  for (const [key, value] of Object.entries(obj)) {
+    const current = prefix ? `${prefix}.${key}` : key;
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      keys = keys.concat(getDeepKeys(value, current));
+    } else {
+      keys.push(current);
+    }
+  }
+  return keys;
+}
+
+const daKeys = getDeepKeys(daJson);
+const enKeys = getDeepKeys(enJson);
+
+const missingInEn = daKeys.filter(k => !enKeys.includes(k));
+const missingInDa = enKeys.filter(k => !daKeys.includes(k));
+
+if (missingInEn.length > 0 || missingInDa.length > 0) {
+  const errMsg = `Translation keys mismatch! Missing in EN: ${missingInEn.join(', ')}; Missing in DA: ${missingInDa.join(', ')}`;
+  console.error(errMsg);
+  throw new Error(errMsg);
+}
+
+// --- Flat Map Alias Generator ---
+function generateFlatMap(categories: any): Record<string, string> {
+  const flat: Record<string, string> = {};
+  
+  for (const [categoryKey, categoryValue] of Object.entries(categories)) {
+    if (typeof categoryValue !== 'object' || categoryValue === null) continue;
+    for (const [entryKey, entryValue] of Object.entries(categoryValue)) {
+      if (typeof entryValue !== 'string') continue;
+      flat[`${categoryKey}.${entryKey}`] = entryValue;
+    }
+  }
+  
+  for (const [categoryKey, categoryValue] of Object.entries(categories)) {
+    if (typeof categoryValue !== 'object' || categoryValue === null) continue;
+    const singularCategoryKey = categoryKey.endsWith('s') ? categoryKey.slice(0, -1) : categoryKey;
+    
+    for (const [entryKey, entryValue] of Object.entries(categoryValue)) {
+      if (typeof entryValue !== 'string') continue;
+      
+      if (flat[entryKey] === undefined) {
+        flat[entryKey] = entryValue;
+      }
+      
+      const categoryAlias = `${categoryKey}_${entryKey}`;
+      if (flat[categoryAlias] === undefined) {
+        flat[categoryAlias] = entryValue;
+      }
+      
+      const singularAlias = `${singularCategoryKey}_${entryKey}`;
+      if (flat[singularAlias] === undefined) {
+        flat[singularAlias] = entryValue;
+      }
+      
+      if (categoryKey === 'categories') {
+        const categoryItemAlias = `cat_${entryKey}`;
+        if (flat[categoryItemAlias] === undefined) {
+          flat[categoryItemAlias] = entryValue;
+        }
+      }
+    }
+  }
+  
+  if (flat.no_search_results === undefined && flat.search_no_results !== undefined) {
+    flat.no_search_results = flat.search_no_results;
+  }
+  
+  return flat;
+}
+
+const daFlat = generateFlatMap(daJson);
+const enFlat = generateFlatMap(enJson);
 
 function buildNestedTranslations(flat: Record<string, string>) {
   const obj: any = { ...flat };
@@ -29,7 +106,7 @@ export const translations = {
 
 export function getTranslation(key: string, lang: Lang, replacements?: Record<string, string | number>): string {
   const flatDict = lang === 'en' ? enFlat : daFlat;
-  let text = flatDict[key as keyof typeof flatDict] as string | undefined;
+  let text = flatDict[key] as string | undefined;
   
   if (typeof text !== 'string') {
     text = key;
