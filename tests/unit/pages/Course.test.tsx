@@ -2,13 +2,11 @@ import { vi, describe, beforeEach, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import CourseWrapper, { CourseModules } from '@/pages/Course';
-import CourseResources from '@/components/Courses/CourseResources';
-import CourseInfo from '@/components/Courses/CourseInfo';
-import CourseParticipants from '@/components/Courses/CourseParticipants';
+import { CourseResources, CourseInfo, CourseParticipants } from '@/components/Courses';
 import useStore from '@/store';
 import { STORAGE_KEYS, ASSETS } from '@/lib/constants';
 import { Card, Text, MasterItem, Avatar, Button } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout';
 import { MessageSquare, Users, Book } from 'lucide-react';
 
 const mockNavigate = vi.hoisted(() => vi.fn())

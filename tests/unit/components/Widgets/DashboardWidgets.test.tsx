@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import {
   DeadlinesWidget,
   FavoritesWidget
-} from '@/components/Widgets/DashboardWidgets';
+} from '@/components/Widgets';
 import { renderWithProviders } from '@/__tests__/setup/test-utils';
 import useStore from '@/store';
 import { mockDashboardDeadlines } from '@/lib/data';

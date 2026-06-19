@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/Skeleton'
+import { Skeleton } from '@/components/ui'
 
 describe('Skeleton', () => {
   it('renders text variant by default', () => {

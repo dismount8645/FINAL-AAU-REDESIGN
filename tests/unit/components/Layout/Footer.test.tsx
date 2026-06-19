@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router-dom'
 import useStore from '@/store'
-import Footer from '@/components/Layout/Footer'
+import { Footer } from '@/components/Layout'
 
 describe('Footer Component', () => {
   beforeEach(() => {

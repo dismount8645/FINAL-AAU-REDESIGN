@@ -1,8 +1,8 @@
 import React, { forwardRef, useId, type ReactNode, type InputHTMLAttributes, type TextareaHTMLAttributes, type SelectHTMLAttributes } from 'react';
 import { Search, X, ArrowRight, Check, ChevronDown } from 'lucide-react';
 import Button from '@/components/ui/Button';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text } from './Typography';
+import { Stack } from '@/components/Layout';
+import { Text } from './Misc';
 import { cn } from '@/lib/utils';
 
 // ==========================================

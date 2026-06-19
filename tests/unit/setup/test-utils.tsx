@@ -1,9 +1,24 @@
 /* eslint-disable react-refresh/only-export-components */
 import { render, type RenderOptions } from '@testing-library/react'
-import { type ReactElement, type ReactNode } from 'react'
+import { type ReactElement, type ReactNode, Component, type ErrorInfo } from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { ToastProvider } from '@/components/ui'
-import ErrorBoundary from '@/components/Layout/ErrorBoundary';
+
+class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false }
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Error caught by test ErrorBoundary:', error, errorInfo)
+  }
+  render() {
+    if (this.state.hasError) {
+      return <div>Test Error Boundary Fallback</div>
+    }
+    return this.props.children
+  }
+}
 
 interface AllProvidersProps {
   children: ReactNode;

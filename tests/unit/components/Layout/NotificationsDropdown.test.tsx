@@ -1,6 +1,6 @@
 import { waitFor } from '@testing-library/react'
 import useStore from '@/store'
-import NotificationsDropdown from '@/components/Layout/NotificationsDropdown'
+import { NotificationsDropdown } from '@/components/Layout'
 
 describe('NotificationsDropdown', () => {
   beforeEach(() => {

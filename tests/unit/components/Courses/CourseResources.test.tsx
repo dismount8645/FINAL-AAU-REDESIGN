@@ -1,5 +1,5 @@
 import useStore from '@/store'
-import CourseResources from '@/components/Courses/CourseResources'
+import { CourseResources } from '@/components/Courses'
 
 describe('CourseResources', () => {
   beforeEach(() => {

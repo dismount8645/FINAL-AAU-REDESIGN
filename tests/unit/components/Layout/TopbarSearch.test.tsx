@@ -1,7 +1,7 @@
 import { vi, describe, beforeEach, afterEach, it, expect } from 'vitest';
 import { screen, fireEvent, act } from '@testing-library/react';
 import { renderWithProviders } from '@/__tests__/setup/test-utils';
-import TopbarSearch from '@/components/Layout/TopbarSearch';
+import { TopbarSearch } from '@/components/Layout';
 import useStore from '@/store';
 import { courseList } from '@/lib/data';
 

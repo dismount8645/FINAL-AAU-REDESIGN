@@ -1,4 +1,4 @@
-import MasterItem from '@/components/ui/MasterItem'
+import { MasterItem } from '@/components/ui'
 
 describe('MasterItem', () => {
   it('renders title and subtitle', () => {

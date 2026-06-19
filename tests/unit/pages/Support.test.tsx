@@ -16,8 +16,8 @@ vi.mock('@/lib/api', () => ({
   submitSupportTicket: (...args: any[]) => mockSubmitTicket(...args),
 }));
 
-vi.mock('@/components/ui/Toast', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/components/ui/Toast')>();
+vi.mock('@/components/ui', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/components/ui')>();
   return {
     ...actual,
     useToast: () => mockToast,

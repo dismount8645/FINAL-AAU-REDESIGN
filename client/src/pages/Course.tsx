@@ -3,10 +3,10 @@ import { useState, useEffect, useCallback, useMemo, memo } from 'react';
 
 import { useParams, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
-import PageLayout from '@/components/Layout/PageLayout';
-import SplitLayout from '@/components/Layout/SplitLayout';
+import { PageLayout } from '@/components/Layout';
+import { SplitLayout } from '@/components/Layout';
 import { PATHS } from '@/routes';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout';
 import {
   Card, Text, ProgressBar,
   Avatar, Button, ModuleHeader, Tabs
@@ -15,11 +15,9 @@ import { courses, participantsData, courseTabItems } from '@/lib/data';
 import { storage, cn, ITEM_TYPE_MAP } from '@/lib/utils';
 import { STORAGE_KEYS, ASSETS } from '@/lib/constants';
 import useStore from '@/store';
-import ForumWidget from '@/components/Widgets/ForumWidget';
+import { ForumWidget } from '@/components/Widgets';
 import { CourseModules } from './Course/CourseSections';
-import CourseInfo from '@/components/Courses/CourseInfo';
-import CourseParticipants from '@/components/Courses/CourseParticipants';
-import CourseResources from '@/components/Courses/CourseResources';
+import { CourseInfo, CourseParticipants, CourseResources } from '@/components/Courses';
 
 function Course() {
   const { id } = useParams<{ id: string }>()

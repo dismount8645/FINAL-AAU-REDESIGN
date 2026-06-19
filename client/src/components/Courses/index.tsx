@@ -1,16 +1,175 @@
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight, ChevronRight, MessageSquare } from 'lucide-react'
-import { Grid } from '@/components/Layout/LayoutPrimitives';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Card } from '@/components/ui'
-import Button from '@/components/ui/Button'
-import { Icon } from '@/components/ui'
-import { Heading, Text } from '@/components/ui'
-import { PATHS } from '@/routes';
-import { TeaserCard } from '@/components/ui'
+import { ArrowRight, ChevronRight, MessageSquare, Users } from 'lucide-react'
+import { Grid, Stack } from '@/components/Layout'
+import { Card, Button, Icon, Heading, Text, TeaserCard, SearchInput, MasterItem, Select } from '@/components/ui'
+import { PATHS } from '@/routes'
 import useStore, { type CourseWithStatus } from '@/store'
 import { courses as coursesDataMap } from '@/lib/data'
+import { useFilteredCollection } from '@/hooks'
+import { getFileTypeConfig } from '@/lib/utils'
+
+// ==========================================
+// CourseInfo
+// ==========================================
+
+export const CourseInfo = memo(function CourseInfo() {
+  const t = useStore((state) => state.t)
+
+  return (
+    <div className="animate-fade-in">
+      <Card variant="elevated">
+        <Card.Header>
+          <Heading level={3}>{t('course_information')}</Heading>
+        </Card.Header>
+        <Card.Body>
+          <Stack gap="lg">
+            <Stack gap="xs">
+              <Text weight="bold">{t('description')}</Text>
+              <Text muted>{t('course_description_placeholder')}</Text>
+            </Stack>
+            <Stack gap="xs">
+              <Text weight="bold">{t('learning_goals')}</Text>
+              <ul className="list-disc pl-[var(--space-lg)] text-muted space-y-3xs">
+                <li>{t('goal_understand_principles')}</li>
+                <li>{t('goal_apply_methods')}</li>
+              </ul>
+            </Stack>
+          </Stack>
+        </Card.Body>
+      </Card>
+    </div>
+  )
+})
+
+// ==========================================
+// CourseParticipants
+// ==========================================
+
+interface CourseParticipantsProps {
+  participantsData: { name: string; role: string; email?: string }[]
+}
+
+export const CourseParticipants = memo(function CourseParticipants({ participantsData }: CourseParticipantsProps) {
+  const t = useStore((state) => state.t)
+  const { searchQuery, setSearchQuery, activeFilter: roleFilter, setActiveFilter: setRoleFilter, items: filteredParticipants } = useFilteredCollection(participantsData, {
+    searchKeys: p => [p.name],
+    filterKey: p => p.role,
+    filterDefault: 'all',
+  })
+
+  return (
+    <div className="animate-fade-in">
+      <Card variant="elevated">
+        <Card.Header className="flex-col items-start gap-md">
+          <Heading level={3}>{t('participants')}</Heading>
+          <div className="flex flex-col sm:flex-row gap-sm w-full">
+            <SearchInput
+              placeholder={t('search_participants_placeholder')}
+              value={searchQuery}
+              onChange={setSearchQuery}
+              onClear={() => setSearchQuery('')}
+            />
+            <label htmlFor="participant-role-filter" className="sr-only">{t('filter')}</label>
+            <Select
+              id="participant-role-filter"
+              value={roleFilter ?? 'all'}
+              onChange={(e) => setRoleFilter(e.target.value)}
+              className="sm:w-[150px]"
+            >
+              <option value="all">{t('all_roles')}</option>
+              <option value="student">{t('role_student')}</option>
+              <option value="teacher">{t('role_teacher')}</option>
+            </Select>
+          </div>
+        </Card.Header>
+        <Card.Body className="p-[var(--space-0)]">
+          <Stack gap="none">
+            {filteredParticipants.map((p, i) => (
+              <MasterItem
+                key={i}
+                leading={Users}
+                title={p.name}
+                subtitle={
+                  <span className="flex flex-col sm:flex-row sm:items-center sm:gap-xs text-xs text-muted">
+                    <span className="font-semibold text-foreground/70">
+                      {p.role === 'student' ? t('role_student') : t('role_teacher')}
+                    </span>
+                    {p.email && (
+                      <>
+                        <span className="hidden sm:inline">·</span>
+                        <a href={`mailto:${p.email}`} className="hover:underline text-primary break-all">
+                          {p.email}
+                        </a>
+                      </>
+                    )}
+                  </span>
+                }
+                className="border-b border-border/50 last:border-0"
+              />
+            ))}
+          </Stack>
+        </Card.Body>
+      </Card>
+    </div>
+  )
+})
+
+// ==========================================
+// CourseResources
+// ==========================================
+
+export const CourseResources = memo(function CourseResources() {
+  const t = useStore((state) => state.t)
+
+  const pdfConfig = getFileTypeConfig('pdf')
+  const PdfIcon = pdfConfig.icon
+
+  const fileConfig = getFileTypeConfig('file')
+  const FileIcon = fileConfig.icon
+
+  const linkConfig = getFileTypeConfig('link')
+  const LinkIcon = linkConfig.icon
+
+  return (
+    <div className="animate-fade-in">
+      <Card variant="elevated">
+        <Card.Header>
+          <Heading level={3}>{t('tab_resources')}</Heading>
+        </Card.Header>
+        <Card.Body>
+          <Stack gap="md">
+            <MasterItem
+              leading={PdfIcon}
+              leadingClassName={pdfConfig.colorClass}
+              title={t('syllabus')}
+              subtitle="PDF, 2.4 MB"
+              onClick={(e) => e.preventDefault()}
+            />
+            <MasterItem
+              leading={FileIcon}
+              leadingClassName={fileConfig.colorClass}
+              title={t('reading_list')}
+              subtitle="Excel, 150 KB"
+              onClick={(e) => e.preventDefault()}
+            />
+            <MasterItem
+              leading={LinkIcon}
+              leadingClassName={linkConfig.colorClass}
+              title={t('exam_schedule')}
+              subtitle="Link"
+              onClick={(e) => e.preventDefault()}
+            />
+          </Stack>
+        </Card.Body>
+      </Card>
+    </div>
+  )
+})
+
+// ==========================================
+// CoursesGrid
+// ==========================================
 
 interface CoursesGridProps {
   isLoading?: boolean
@@ -26,7 +185,7 @@ interface CoursesGridProps {
   setSearchQuery: (val: string) => void
 }
 
-function CoursesGrid({
+export const CoursesGrid = memo(function CoursesGrid({
   isLoading = false,
   sortedCourses,
   forums,
@@ -201,6 +360,4 @@ function CoursesGrid({
       )}
     </>
   )
-}
-
-export default memo(CoursesGrid)
+})

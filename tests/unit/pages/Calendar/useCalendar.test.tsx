@@ -1,4 +1,4 @@
-import { useCalendar } from '@/pages/Calendar/useCalendar';
+import { useCalendar } from '@/pages/Calendar';
 import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';
 

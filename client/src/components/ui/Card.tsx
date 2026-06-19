@@ -3,11 +3,10 @@ import { type LucideIcon, Star, Info, ExternalLink, ChevronRight, BookOpen } fro
 import { cn } from '@/lib/utils';
 import Button from './Button';
 import { IconCircle, Badge, ProgressBar } from './Misc';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Text, Heading } from './Typography';
-import { Skeleton } from './Skeleton';
+import { Stack } from '@/components/Layout';
+import { Text, Heading, Skeleton } from './Misc';
 import useStore from '@/store';
-import { ToastContext } from './Toast';
+import { ToastContext } from './Misc';
 
 
 /**

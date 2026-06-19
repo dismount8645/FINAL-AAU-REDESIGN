@@ -1,4 +1,4 @@
-import { Grid, Stack } from '@/components/Layout/LayoutPrimitives'
+import { Grid, Stack } from '@/components/Layout'
 
 describe('Grid', () => {
   it('renders children', () => {

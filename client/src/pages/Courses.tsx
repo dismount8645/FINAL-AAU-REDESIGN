@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, memo, useMemo } from 'react';
 import { Filter, ArrowDownZA, ArrowUpAZ } from 'lucide-react';
-import CoursesGrid from '@/components/Courses/CoursesGrid';
+import { CoursesGrid } from '@/components/Courses';
 import { Badge, Button, Tabs } from '@/components/ui';
 import { SearchInput } from '@/components/ui';
-import PageLayout from '@/components/Layout/PageLayout';
+import { PageLayout } from '@/components/Layout';
 import { Card } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout';
 import { Heading, Text } from '@/components/ui';
 import { Dropdown } from '@/components/ui';
 import { ASSETS } from '@/lib/constants';

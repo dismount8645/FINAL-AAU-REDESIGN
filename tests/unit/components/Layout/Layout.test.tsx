@@ -1,18 +1,16 @@
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
-import Layout from '@/components/Layout/Layout'
+import Layout from '@/components/Layout'
 import useStore from '@/store'
 
-vi.mock('@/components/Layout/Sidebar', () => ({
-  default: () => <div data-testid="sidebar">Sidebar</div>,
-}))
-
-vi.mock('@/components/Layout/Topbar', () => ({
-  default: () => <div data-testid="topbar">Topbar</div>,
-}))
-
-vi.mock('@/components/Layout/Footer', () => ({
-  default: () => <div data-testid="footer">Footer</div>,
-}))
+vi.mock('@/components/Layout', async () => {
+  const actual = await vi.importActual('@/components/Layout')
+  return {
+    ...actual,
+    Sidebar: () => <div data-testid="sidebar">Sidebar</div>,
+    Topbar: () => <div data-testid="topbar">Topbar</div>,
+    Footer: () => <div data-testid="footer">Footer</div>,
+  }
+})
 
 const renderLayout = (path = '/') => {
   return render(

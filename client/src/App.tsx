@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 
 
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom';
-import ErrorBoundary from '@/components/Layout/ErrorBoundary';
-import Layout from '@/components/Layout/Layout';
+import { ErrorBoundary } from '@/components/Layout';
+import Layout from '@/components/Layout';
 import NotFound from '@/pages/NotFound';
 import routes from './routes';
 

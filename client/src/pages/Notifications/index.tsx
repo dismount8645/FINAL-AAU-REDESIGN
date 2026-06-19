@@ -3,14 +3,12 @@ import { useMemo } from 'react';
 
 import { BellOff, Inbox, ArrowLeft, Check, Archive, Undo2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import NotificationDetailView from '@/components/Notifications/NotificationDetailView';
-import NotificationFilters from '@/components/Notifications/NotificationFilters';
+import { NotificationDetailView, NotificationFilters, createMockNotifications, getNotificationIcon } from '@/components/Notifications';
 import { Badge, MasterItem, SearchInput, EmptyState } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import SplitLayout from '@/components/Layout/SplitLayout';
-import PageLayout from '@/components/Layout/PageLayout';
+import { Stack } from '@/components/Layout';
+import { SplitLayout } from '@/components/Layout';
+import { PageLayout } from '@/components/Layout';
 import { Text } from '@/components/ui';
-import { createMockNotifications, getNotificationIcon } from '@/components/Notifications/notifications';
 import useStore from '@/store';
 import { useNotificationsState } from './useNotificationsState';
 import Button from '@/components/ui/Button';
