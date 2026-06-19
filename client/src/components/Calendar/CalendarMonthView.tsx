@@ -1,3 +1,4 @@
+// CalendarMonthView — full implementation (renamed from CalendarMonth)
 import { memo, useMemo, useCallback } from 'react';
 import type { CalendarEvents, CalendarEvent } from '@/lib/types';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
@@ -37,7 +38,6 @@ const CalendarMonthViewComponent = ({
     if (first < 0) first = 6;
     const weekStart = getWeekNumber(new Date(y, m, 1));
     const rows = Math.ceil((first + totalDays) / 7);
-
     return { days: totalDays, firstDay: first, startingWeekNum: weekStart, year: y, month: m, rowCount: rows };
   }, [currentDate, getWeekNumber]);
 
@@ -78,9 +78,7 @@ const CalendarMonthViewComponent = ({
             weight="bold"
             className={cn(
               "flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm transition-all duration-300",
-              isToday
-                ? "bg-primary text-white shadow-md scale-110"
-                : "text-text-muted group-hover:text-text-main group-hover:bg-muted/50"
+              isToday ? "bg-primary text-white shadow-md scale-110" : "text-text-muted group-hover:text-text-main group-hover:bg-muted/50"
             )}
           >
             {dayIndex}
@@ -95,20 +93,13 @@ const CalendarMonthViewComponent = ({
               isDeadline && "border-2 border-orange-500 font-extrabold shadow-md ring-1 ring-orange-500/20"
             )}
             style={eventStyle}
-            onClick={(e) => {
-              e.stopPropagation();
-              handleEventClick(event, dateKey);
-            }}
+            onClick={(e) => { e.stopPropagation(); handleEventClick(event, dateKey); }}
             aria-label={`${getEventTitleText(event, lang)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
-            title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
+            title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`
           >
             <Text weight="bold" className={cn("line-clamp-2 block select-none leading-snug text-xs sm:text-sm", isDeadline && "font-black text-orange-800 dark:text-orange-300 flex items-center gap-1")}>
               {isDeadline && <AlertTriangle className="w-3 h-3 shrink-0 text-orange-600 dark:text-orange-400 animate-pulse" />}
-              {(() => {
-                const courseCode = event.courseCode;
-                const prefix = courseCode ? `${courseCode}: ` : '';
-                return `${prefix}${getEventTitleText(event, lang)}`;
-              })()}
+              {(() => { const courseCode = event.courseCode; const prefix = courseCode ? `${courseCode}: ` : ''; return `${prefix}${getEventTitleText(event, lang)}`; })()}
             </Text>
             {event.time && (
               <Text className="opacity-90 block line-clamp-2 mt-[2px] font-semibold text-[10px] sm:text-xs">
@@ -124,31 +115,17 @@ const CalendarMonthViewComponent = ({
   const gridCells = useMemo(() => {
     const cells = [];
     let currentDayIdx = 1;
-
     for (let row = 0; row < rowCount; row++) {
       const rowWeekNum = startingWeekNum + row;
       cells.push(
-        <div
-          key={`wn-${rowWeekNum}`}
-          className="calendar-week-num flex items-center justify-center bg-bg-highlight/50 text-[0.7rem] sm:text-sm font-mono font-black text-text-main border-r-2 border-r-border/60 border-b border-border/40 select-none min-w-0"
-          title={`${t('week')} ${rowWeekNum}`}
-        >
-          W{rowWeekNum}
-        </div>
+        <div key={`wn-${rowWeekNum}`} className="calendar-week-num flex items-center justify-center bg-bg-highlight/50 text-[0.7rem] sm:text-sm font-mono font-black text-text-main border-r-2 border-r-border/60 border-b border-border/40 select-none min-w-0" title={`${t('week')} ${rowWeekNum}`}>W{rowWeekNum}</div>
       );
-
       for (let col = 0; col < 7; col++) {
         const cellIdx = row * 7 + col;
         const isPrevMonth = cellIdx < firstDay;
         const isNextMonth = (cellIdx - firstDay) >= days;
-
         if (isPrevMonth || isNextMonth) {
-          cells.push(
-            <div
-              key={`empty-${row}-${col}`}
-              className="calendar-day empty bg-muted/5 opacity-40 border-b border-r border-border/30 min-w-0"
-            />
-          );
+          cells.push(<div key={`empty-${row}-${col}`} className="calendar-day empty bg-muted/5 opacity-40 border-b border-r border-border/30 min-w-0" />);
         } else {
           cells.push(renderDay(currentDayIdx));
           currentDayIdx++;
@@ -164,14 +141,10 @@ const CalendarMonthViewComponent = ({
         {t('week')}
       </div>
       {dayNames.map((day) => (
-        <div
-          key={day}
-          className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-2xs)] sm:p-[var(--space-sm)] text-center text-[0.65rem] sm:text-xs font-bold text-text-muted border-b border-border/60 min-w-0 truncate"
-        >
+        <div key={day} className="calendar-grid-header sticky top-0 z-20 bg-muted/90 backdrop-blur-sm p-[var(--space-2xs)] sm:p-[var(--space-sm)] text-center text-[0.65rem] sm:text-xs font-bold text-text-muted border-b border-border/60 min-w-0 truncate">
           {day}
         </div>
       ))}
-
       {gridCells}
     </>
   );

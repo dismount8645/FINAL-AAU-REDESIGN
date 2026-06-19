@@ -1,3 +1,4 @@
+// CalendarDayView — full implementation (moved from CalendarDay.tsx)
 import { memo, useMemo } from 'react';
 import type { CalendarEvents, CalendarEvent } from '@/lib/types';
 import { Card, Badge, Heading, Text } from '@/components/ui';
