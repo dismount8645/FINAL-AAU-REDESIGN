@@ -7,7 +7,7 @@ export interface TextareaVariantProps {
   size?: "sm" | "md" | "lg" | null;
 }
 
-export function textareaVariants({
+function textareaVariants({
   variant,
   size,
 }: TextareaVariantProps = {}): string {

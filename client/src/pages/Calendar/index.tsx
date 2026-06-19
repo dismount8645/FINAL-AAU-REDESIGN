@@ -2,11 +2,9 @@ import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 
 
 import { Upload, Download, Plus, ChevronLeft, ChevronRight, Settings, AlertTriangle } from 'lucide-react';
-import MonthView from './views/MonthView';
-import WeekView from './views/WeekView';
-import DayView from './views/DayView';
-import EventForm from './EventForm';
-import EventDetail from './EventDetail';
+import { CalendarMonthView as MonthView, CalendarWeekView as WeekView, CalendarDayView as DayView } from '@/components/Calendar/CalendarViews';
+import EventForm from '@/components/Calendar/CalendarNewEventDialog';
+import EventDetail from '@/components/Calendar/CalendarEventDetailsDialog';
 import CalendarUpcomingWidget from '@/components/Calendar/CalendarUpcomingWidget';
 
 

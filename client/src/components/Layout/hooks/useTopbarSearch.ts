@@ -96,7 +96,7 @@ export function useTopbarSearch() {
     if (loaded) {
       try {
         setRecentSearches(JSON.parse(loaded).slice(0, 5));
-      } catch (e) {
+      } catch {
         setRecentSearches([]);
       }
     }

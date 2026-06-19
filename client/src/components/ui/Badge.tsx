@@ -15,7 +15,7 @@ export interface BadgeVariantProps {
  * Badge Variants - Senior UI/UX Architect refinement.
  * Enforces strict AAU brand tokens, professional typography, and 150ms physics.
  */
-export function badgeVariants({ variant = 'default', pill = false, interactive = false }: BadgeVariantProps = {}) {
+function badgeVariants({ variant = 'default', pill = false, interactive = false }: BadgeVariantProps = {}) {
   const base = "inline-flex items-center justify-center px-[var(--space-xs)] h-[var(--space-md)] rounded-[var(--radius-sm)] text-[0.625rem] font-black uppercase tracking-[0.05em] leading-none border border-transparent whitespace-nowrap isolate transition-all duration-150 ease-[var(--transition-ease)]";
   
   const variants = {

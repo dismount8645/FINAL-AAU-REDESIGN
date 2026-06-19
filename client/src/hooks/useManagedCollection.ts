@@ -1,5 +1,4 @@
-import { type MouseEvent } from 'react'
-import { useArchivableCollection } from './useArchivableCollection'
+import { useState, useMemo, useCallback, type MouseEvent } from 'react'
 import { useFilteredCollection, type FilteredCollectionConfig } from './useFilteredCollection'
 
 interface ManagedCollectionConfig<T> extends FilteredCollectionConfig<T> {
@@ -27,15 +26,23 @@ export function useManagedCollection<T extends { id: number; archived: boolean }
   initialItems: T[],
   config: ManagedCollectionConfig<T>
 ): ManagedCollectionResult<T> {
-  const {
-    items,
-    setItems,
-    view,
-    setView,
-    filtered: archivableFiltered,
-    archiveItem,
-    restoreItem,
-  } = useArchivableCollection<T>(initialItems)
+  const [view, setView] = useState<'active' | 'archive'>('active')
+  const [items, setItems] = useState<T[]>(initialItems)
+
+  const archiveItem = useCallback((id: number, e: MouseEvent): void => {
+    e.stopPropagation()
+    setItems(prev => prev.map(i => i.id === id ? { ...i, archived: true } : i))
+  }, [])
+
+  const restoreItem = useCallback((id: number, e: MouseEvent): void => {
+    e.stopPropagation()
+    setItems(prev => prev.map(i => i.id === id ? { ...i, archived: false } : i))
+  }, [])
+
+  const archivableFiltered = useMemo(() =>
+    items.filter(i => view === 'active' ? !i.archived : i.archived),
+    [items, view]
+  )
 
   const {
     searchQuery,

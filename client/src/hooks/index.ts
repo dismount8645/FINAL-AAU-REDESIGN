@@ -1,4 +1,4 @@
-export * from './useArchivableCollection'
+export * from './useManagedCollection'
 export * from './useDropdown'
 export * from './useFilteredCollection'
 export * from './useSearch'

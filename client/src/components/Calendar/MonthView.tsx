@@ -158,7 +158,7 @@ const CalendarMonthViewComponent = ({
       }
     }
     return cells
-  }, [days, firstDay, startingWeekNum, renderDay, rowCount])
+  }, [days, firstDay, startingWeekNum, renderDay, rowCount, t])
 
   return (
     <>

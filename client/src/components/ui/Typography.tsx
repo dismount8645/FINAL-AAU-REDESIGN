@@ -28,7 +28,7 @@ export interface HeadingVariantProps {
   truncate?: boolean | null;
 }
 
-export function headingVariants({
+function headingVariants({
   level,
   truncate,
 }: HeadingVariantProps = {}): string {
@@ -80,7 +80,7 @@ export interface TextVariantProps {
   muted?: boolean | null;
 }
 
-export function textVariants({
+function textVariants({
   size,
   muted,
 }: {

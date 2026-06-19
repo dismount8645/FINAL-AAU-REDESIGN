@@ -6,7 +6,7 @@ import useStore from '@/store';
 import { STORAGE_KEYS } from '@/lib/constants';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-let mockToast: any = {
+const mockToast: any = {
   success: vi.fn(),
   error: vi.fn(),
   info: vi.fn(),

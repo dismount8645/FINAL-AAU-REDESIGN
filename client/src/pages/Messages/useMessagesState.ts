@@ -73,7 +73,7 @@ export function useMessagesState(): UseMessagesStateReturn {
         : c
     ))
     setMessageText('')
-  }, [messageText, activeContactId])
+  }, [messageText, activeContactId, setContacts])
 
   // Scroll to bottom on contact/message change
   useEffect(() => {
@@ -112,7 +112,7 @@ export function useMessagesState(): UseMessagesStateReturn {
       }, 1000)
       return () => clearTimeout(timer)
     }
-  }, [activeContactId, contacts, decrementMessageCount])
+  }, [activeContactId, contacts, decrementMessageCount, setContacts])
 
   // Sync URL param → activeContactId
   useEffect(() => {

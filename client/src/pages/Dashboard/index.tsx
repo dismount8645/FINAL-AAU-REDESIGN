@@ -1,10 +1,9 @@
 import { useLocation, useNavigate, useBlocker } from 'react-router-dom';
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { WidgetGrid } from '@/components/Widgets/WidgetGrid';
 import PageLayout from '@/components/Layout/PageLayout';
 import useStore from '@/store';
-import { mockDashboardDeadlines, defaultEvents } from '@/lib/data';
-import { todayEvents } from '@/components/Widgets/QuickOverviewWidget';
+import { mockDashboardDeadlines, defaultEvents, todayEvents } from '@/lib/data';
 import { PATHS } from '@/routes';
 import { getDeadlineInfo } from '@/lib/utils';
 import type { DashboardWidgetConfig } from '@/store/slices/uiSlice';
@@ -45,7 +44,7 @@ function Dashboard() {
     return () => clearInterval(timer)
   }, [])
 
-  const handleToggleWidget = (id: string, isChecked: boolean) => {
+  const handleToggleWidget = useCallback((id: string, isChecked: boolean) => {
     const updated = dashboardLayout.map((widget) => {
       if (widget.id === id) {
         return {
@@ -58,7 +57,7 @@ function Dashboard() {
       return widget
     })
     setDashboardLayout(updated)
-  }
+  }, [dashboardLayout, setDashboardLayout])
 
   const isFavoritesAutoHidden = false
 
@@ -166,13 +165,13 @@ function Dashboard() {
 
   const showBlockerModal = blocker.state === 'blocked'
 
-  const handleNavigate = (target: { type: 'calendar' | 'submission'; courseId?: number; submissionId?: number }) => {
+  const handleNavigate = useCallback((target: { type: 'calendar' | 'submission'; courseId?: number; submissionId?: number }) => {
     if (target.type === 'calendar') {
       navigate(PATHS.CALENDAR)
     } else {
       navigate(PATHS.SUBMISSION(target.courseId!, target.submissionId!))
     }
-  }
+  }, [navigate])
 
   const handleSaveAndProceed = () => {
     setBackupLayout(null)
@@ -303,7 +302,7 @@ function Dashboard() {
           widgets={visibleWidgets}
           isEditing={isEditing}
           onLayoutChange={setDashboardLayout}
-          onToggleWidget={(id, visible) => handleToggleWidget(id, visible)}
+          onToggleWidget={handleToggleWidget}
           hideFirstDeadline={false}
           isMessagesElevated={isMessagesElevated}
         />

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Settings, Check, RotateCcw, Plus } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/Dialog';
@@ -194,4 +195,4 @@ function DashboardHeader({
   )
 }
 
-export default DashboardHeader
+export default memo(DashboardHeader);

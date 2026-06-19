@@ -37,7 +37,7 @@ const ProfileTab = forwardRef<ProfileTabHandle, ProfileTabProps>(({ onDirtyChang
       store.setFirstName(draftFirst);
       store.setLastName(draftLast);
     },
-  }), [draftFirst, store]);
+  }), [draftFirst, draftLast, store]);
 
   return (
     <Stack gap="lg" className="settings__profile-form max-w-[var(--container-max-width)] animate-fade-in">
