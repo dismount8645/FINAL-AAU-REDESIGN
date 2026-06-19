@@ -1,20 +1,20 @@
-import { memo, useMemo } from 'react'
-import type { CalendarEvents, CalendarEvent } from '@/lib/types'
-import { Card } from '@/components/ui'
+import { memo, useMemo } from 'react';
+import type { CalendarEvents, CalendarEvent } from '@/lib/types';
+import { Card, Badge, Heading, Text } from '@/components/ui';
 import { Stack } from '@/components/Layout/LayoutPrimitives';
-import { Badge } from '@/components/ui'
-import { Heading, Text } from '@/components/ui'
-import useStore from '@/store'
-import { CalendarClock, MapPin, User, Info, ArrowRight, AlertTriangle } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import useStore from '@/store';
+import { CalendarClock, MapPin, User, Info, ArrowRight, AlertTriangle } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { isEventDeadline, getEventTitleText, getEventCourseText } from './calendar-utils';
+import { EventBadge, EventInfoItem } from './CalendarEngine';
 
 interface CalendarDayViewProps {
-  currentDate: Date
-  events: CalendarEvents
-  dayNames: string[]
-  monthNames: string[]
-  t: (key: string) => string
-  handleEventClick: (event: CalendarEvent, dateKey: string) => void
+  currentDate: Date;
+  events: CalendarEvents;
+  dayNames: string[];
+  monthNames: string[];
+  t: (key: string) => string;
+  handleEventClick: (event: CalendarEvent, dateKey: string) => void;
 }
 
 const CalendarDayViewComponent = ({
@@ -25,29 +25,25 @@ const CalendarDayViewComponent = ({
   t,
   handleEventClick,
 }: CalendarDayViewProps) => {
-  const lang = useStore(state => state.lang)
+  const lang = useStore(state => state.lang);
 
   const { dateKey, dayName, formattedDate, isToday } = useMemo(() => {
-    const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
-    const dowIdx = currentDate.getDay() - 1
-    const name = dayNames[dowIdx < 0 ? 6 : dowIdx]
-    const date = `${currentDate.getDate()}. ${monthNames[currentDate.getMonth()]}`
+    const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`;
+    const dowIdx = currentDate.getDay() - 1;
+    const name = dayNames[dowIdx < 0 ? 6 : dowIdx];
+    const date = `${currentDate.getDate()}. ${monthNames[currentDate.getMonth()]}`;
 
-    const now = new Date()
+    const now = new Date();
     const today =
       currentDate.getDate() === now.getDate() &&
       currentDate.getMonth() === now.getMonth() &&
-      currentDate.getFullYear() === now.getFullYear()
+      currentDate.getFullYear() === now.getFullYear();
 
-    return { dateKey: key, dayName: name, formattedDate: date, isToday: today }
-  }, [currentDate, dayNames, monthNames])
+    return { dateKey: key, dayName: name, formattedDate: date, isToday: today };
+  }, [currentDate, dayNames, monthNames]);
 
-  const event = events[dateKey]
-  const isDeadline = event && (event.color === 'var(--color-danger-dark)' || event.color === 'var(--color-danger)' || event.typeEn?.toLowerCase() === 'deadline')
-
-  const getEventTitle = (e: CalendarEvent) => {
-    return e.title || (lang === 'da' ? e.titleDa : e.titleEn) || ''
-  }
+  const event = events[dateKey];
+  const isDeadline = event ? isEventDeadline(event) : false;
 
   return (
     <Stack gap="xl" className="p-[var(--space-lg)] sm:p-[var(--space-xl)] animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
@@ -94,69 +90,31 @@ const CalendarDayViewComponent = ({
                 <Stack gap="xs">
                   <div className="flex flex-wrap items-center gap-xs">
                     {(() => {
-                      const courseTitle = lang === 'da' ? event.courseTitleDa : event.courseTitleEn
+                      const courseTitle = getEventCourseText(event, lang);
                       if (courseTitle) {
                         return (
                           <Badge variant="outline" className="text-[10px] font-bold border-primary/30 text-primary dark:text-[var(--aau-light-blue-sec)]">
-                            {courseTitle} {event.courseCode ? `(${event.courseCode})` : ''}
+                            {courseTitle}
                           </Badge>
-                        )
+                        );
                       }
-                      return null
+                      return null;
                     })()}
-                    {(() => {
-                      const eventType = lang === 'da' ? event.typeDa : event.typeEn
-                      if (eventType) {
-                        return (
-                          <Badge
-                            variant="default"
-                            className={cn(
-                              "text-[10px] font-black text-white flex items-center gap-1",
-                              isDeadline && "bg-orange-600 animate-pulse text-white"
-                            )}
-                            style={isDeadline ? undefined : { background: event.color }}
-                          >
-                            {isDeadline && <AlertTriangle size={10} className="text-white shrink-0" />}
-                            {eventType}
-                          </Badge>
-                        )
-                      }
-                      return null
-                    })()}
+                    <EventBadge event={event} lang={lang} />
                   </div>
                   <Heading level={3} className={cn("text-3xl sm:text-4xl font-black leading-[1.1] tracking-tight group-hover:text-primary transition-colors mt-xs flex items-center gap-2", isDeadline && "text-orange-700 dark:text-orange-300")}>
                     {isDeadline && <AlertTriangle className="w-8 h-8 text-orange-600 dark:text-orange-400 shrink-0" />}
-                    {getEventTitle(event)}
+                    {getEventTitleText(event, lang)}
                   </Heading>
                 </Stack>
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-[var(--space-lg)] py-[var(--space-lg)] border-y border-border/50">
-                  <Stack gap="xs">
-                    <Text size="xs" weight="bold" className="text-text-muted/50">{t('time')}</Text>
-                    <Stack direction="row" gap="sm" align="center" className="text-text-main">
-                      <CalendarClock className="w-4 h-4 text-primary" />
-                      <Text size="sm" weight="bold">{event.time}</Text>
-                    </Stack>
-                  </Stack>
-
+                  <EventInfoItem label={t('time')} icon={CalendarClock} value={event.time} />
                   {event.location && (
-                    <Stack gap="xs">
-                      <Text size="xs" weight="bold" className="text-text-muted/50">{t('location')}</Text>
-                      <Stack direction="row" gap="sm" align="center" className="text-text-main">
-                        <MapPin className="w-4 h-4 text-primary" />
-                        <Text size="sm" weight="bold" className="truncate">{event.location}</Text>
-                      </Stack>
-                    </Stack>
+                    <EventInfoItem label={t('location')} icon={MapPin} value={event.location} />
                   )}
-
                   {event.host && (
-                    <Stack gap="xs">
-                      <Text size="xs" weight="bold" className="text-text-muted/50">{t('host')}</Text>
-                      <Stack direction="row" gap="sm" align="center" className="text-text-main">
-                        <User className="w-4 h-4 text-primary" />
-                        <Text size="sm" weight="bold" className="truncate">{event.host}</Text>
-                      </Stack>
-                    </Stack>
+                    <EventInfoItem label={t('host')} icon={User} value={event.host} />
                   )}
                 </div>
 
@@ -195,7 +153,7 @@ const CalendarDayViewComponent = ({
         )}
       </div>
     </Stack>
-  )
-}
+  );
+};
 
-export const CalendarDayView = memo(CalendarDayViewComponent)
+export const CalendarDayView = memo(CalendarDayViewComponent);
