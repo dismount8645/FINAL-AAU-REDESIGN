@@ -59,10 +59,7 @@ import { PATHS } from '@/routes';
 import { notificationsData, mockDashboardDeadlines, defaultEvents, messagesData } from '@/lib/data';
 import { getNotificationIcon } from '@/components/Notifications';
 
-// ==========================================
 // 1. Layout Primitives (formerly LayoutPrimitives.tsx)
-// ==========================================
-
 export interface GridProps extends HTMLAttributes<HTMLDivElement> {
   gap?: string;
   columns?: number;
@@ -208,10 +205,7 @@ export const Stack = forwardRef<HTMLDivElement, StackProps>(({
 });
 Stack.displayName = 'Stack';
 
-// ==========================================
 // 2. Error Boundary (formerly ErrorBoundary.tsx)
-// ==========================================
-
 interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
@@ -299,10 +293,7 @@ function ErrorDisplay({
   );
 }
 
-// ==========================================
 // 3. Footer (formerly Footer.tsx)
-// ==========================================
-
 export function Footer() {
   const t = useStore(state => state.t);
   return (
@@ -336,10 +327,7 @@ export function Footer() {
   );
 }
 
-// ==========================================
 // 4. Notifications Dropdown (formerly NotificationsDropdown.tsx)
-// ==========================================
-
 export function NotificationsDropdown() {
   const navigate = useNavigate();
   const t = useStore((state) => state.t);
@@ -451,10 +439,7 @@ export function NotificationsDropdown() {
   );
 }
 
-// ==========================================
 // 5. Profile Dropdown (formerly ProfileDropdown.tsx)
-// ==========================================
-
 export function ProfileDropdown() {
   const navigate = useNavigate();
   const t = useStore((state) => state.t);
@@ -564,10 +549,7 @@ export function ProfileDropdown() {
   );
 }
 
-// ==========================================
 // 6. Search Hooks & Subcomponents (formerly useRecentSearches.ts, useSearchFiltering.ts, useTopbarSearch.ts, SearchResults.tsx)
-// ==========================================
-
 export interface RecentSearch {
   id: string;
   text: string;
@@ -1421,10 +1403,7 @@ export function TopbarSearch({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ==========================================
 // 7. Sidebar (formerly Sidebar.tsx)
-// ==========================================
-
 export function Sidebar() {
   const t = useStore(state => state.t);
   const isCollapsed = useStore(state => state.isCollapsed);
@@ -1660,10 +1639,7 @@ function SidebarNavItem({ to, icon: Icon, label, onClick, collapsed, isActiveOve
   );
 }
 
-// ==========================================
 // 8. Topbar (formerly Topbar.tsx)
-// ==========================================
-
 export function Topbar() {
   const location = useLocation();
   const isCollapsed = useStore(state => state.isCollapsed);
@@ -1738,10 +1714,7 @@ export function Topbar() {
   );
 }
 
-// ==========================================
 // 9. Page Header (formerly PageHeader.tsx)
-// ==========================================
-
 export interface PageHeaderProps {
   pageKey?: string;
   title?: string;
@@ -1844,10 +1817,7 @@ export function PageHeader({
   );
 }
 
-// ==========================================
 // 10. Page Layout (formerly PageLayout.tsx)
-// ==========================================
-
 export interface PageLayoutProps extends Omit<StackProps, 'children'> {
   title?: string;
   subtitle?: string;
@@ -1896,10 +1866,7 @@ export function PageLayout({
   );
 }
 
-// ==========================================
 // 11. Split Layout (formerly SplitLayout.tsx)
-// ==========================================
-
 interface SplitLayoutProps {
   main: ReactNode;
   sidebar: ReactNode;
@@ -2012,10 +1979,7 @@ export function SplitLayout({
   );
 }
 
-// ==========================================
 // 12. Main Layout Component (formerly Layout.tsx)
-// ==========================================
-
 export default function Layout() {
   const t = useStore((state) => state.t);
   const isCollapsed = useStore((state) => state.isCollapsed);

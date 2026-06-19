@@ -1,12 +1,8 @@
 import { useState, useEffect, useCallback, useMemo, memo } from 'react';
-
-
 import { useParams, useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
-import { PageLayout } from '@/components/Layout';
-import { SplitLayout } from '@/components/Layout';
+import { PageLayout, SplitLayout, Stack } from '@/components/Layout';
 import { PATHS } from '@/routes';
-import { Stack } from '@/components/Layout';
 import {
   Card, Text, ProgressBar,
   Avatar, Button, ModuleHeader, Tabs
@@ -97,8 +93,6 @@ function Course() {
     if (pct < 100) return t('progress_75')
     return t('progress_100')
   }
-
-
 
   if (!data) return null
 
@@ -324,4 +318,3 @@ export function CourseWrapper() {
 export { Course, CourseModules }
 
 export default memo(CourseWrapper)
-

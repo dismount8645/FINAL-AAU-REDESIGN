@@ -31,10 +31,7 @@ import useStore from '@/store'
 import { cn, UI_PALETTE as eventPalette } from '@/lib/utils'
 import type { CalendarEvent, CalendarEvents } from '@/lib/types'
 
-// ==========================================
 // Calendar Utilities
-// ==========================================
-
 export const parseEventDuration = (timeStr: string): number => {
   const parts = timeStr.split(' - ')
   if (parts.length < 2) return 1
@@ -71,10 +68,7 @@ export const getEventTypeText = (event: CalendarEvent, lang: string): string => 
   return (lang === 'da' ? event.typeDa : event.typeEn) || ''
 }
 
-// ==========================================
 // Calendar Engine Shared Components
-// ==========================================
-
 interface EventBadgeProps {
   event: CalendarEvent
   lang: string
@@ -120,10 +114,7 @@ export const EventInfoItem = ({ label, icon: Icon, value }: EventInfoItemProps) 
   )
 }
 
-// ==========================================
 // CalendarDayView
-// ==========================================
-
 interface CalendarDayViewProps {
   currentDate: Date
   events: CalendarEvents
@@ -272,10 +263,7 @@ export const CalendarDayView = memo(function CalendarDayView({
   )
 })
 
-// ==========================================
 // CalendarMonthView
-// ==========================================
-
 interface CalendarMonthViewProps {
   currentDate: Date
   events: CalendarEvents
@@ -417,10 +405,7 @@ export const CalendarMonthView = memo(function CalendarMonthView({
   )
 })
 
-// ==========================================
 // CalendarWeekView
-// ==========================================
-
 interface CalendarWeekViewProps {
   currentDate: Date
   events: CalendarEvents
@@ -588,10 +573,7 @@ export const CalendarWeekView = memo(function CalendarWeekView({
   )
 })
 
-// ==========================================
 // CalendarNewEventDialog
-// ==========================================
-
 interface NewEventFormState {
   title: string
   date: string
@@ -742,10 +724,7 @@ export function CalendarNewEventDialog({
   )
 }
 
-// ==========================================
 // CalendarEventDetailsDialog
-// ==========================================
-
 interface CalendarEventDetailsDialogProps {
   isOpen: boolean
   onClose: () => void
@@ -863,10 +842,7 @@ export function CalendarEventDetailsDialog({
   )
 }
 
-// ==========================================
 // CalendarUpcomingWidget
-// ==========================================
-
 interface CalendarUpcomingWidgetProps {
   events: CalendarEvents
   currentDate: Date
