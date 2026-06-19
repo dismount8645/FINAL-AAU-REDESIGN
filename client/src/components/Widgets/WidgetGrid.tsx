@@ -6,7 +6,7 @@ import QuickOverviewWidget from './QuickOverviewWidget';
 import ForumActivityWidget from './ForumActivityWidget';
 import { DeadlinesWidget, FavoritesWidget, SupportWidget, MessagesWidget, CalendarWidget, CourseProgressWidget, ShortcutsWidget } from './DashboardWidgets';
 import { WidgetStateWrapper } from './WidgetSkeleton';
-import { useWidgetGrid, WidgetItem } from './hooks/useWidgetGrid';
+import { useWidgetGrid, WidgetItem } from './useWidgetGrid';
 
 interface WidgetGridProps {
   widgets: WidgetItem[];

@@ -2,7 +2,7 @@
 import { forwardRef, useId, type TextareaHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 
-export interface TextareaVariantProps {
+interface TextareaVariantProps {
   variant?: "outlined" | "filled" | "ghost" | null;
   size?: "sm" | "md" | "lg" | null;
 }
@@ -25,7 +25,7 @@ function textareaVariants({
   );
 }
 
-export interface TextareaProps
+interface TextareaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "size">,
     TextareaVariantProps {
   resize?: "none" | "vertical" | "horizontal" | "both";

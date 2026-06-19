@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
  * Enforces AAU brand tokens, 8pt grid logic, and high-performance rendering.
  */
 
-export interface AvatarProps {
+interface AvatarProps {
   /** Image source URL */
   src?: string
   /** Display name for initials and alt text */

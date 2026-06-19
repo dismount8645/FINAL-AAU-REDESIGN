@@ -13,15 +13,19 @@ import type {
 } from '@/lib/types'
 
 import { Reply, MessageSquare, Book } from 'lucide-react'
-import { coursesJson } from '@/lib/mocks/courses'
-import { forumsJson } from '@/lib/mocks/forums'
-import { defaultEventsJson } from '@/lib/mocks/events'
-import { messagesJson } from '@/lib/mocks/messages'
-import { notificationsJson } from '@/lib/mocks/notifications'
-import { supportLocationsJson, supportDeskHoursJson, supportNotesJson } from '@/lib/mocks/support'
-import { participantsJson } from '@/lib/mocks/participants'
-import { courseTabItemsJson } from '@/lib/mocks/tabs'
-import { toolsJson } from '@/lib/mocks/tools'
+import {
+  coursesJson,
+  forumsJson,
+  defaultEventsJson,
+  messagesJson,
+  notificationsJson,
+  supportLocationsJson,
+  supportDeskHoursJson,
+  supportNotesJson,
+  participantsJson,
+  courseTabItemsJson,
+  toolsJson
+} from '@/lib/mocks'
 
 // ── Mock forum data ──────────────────────────────────────────────────────────
 export const mockForumActivities: ForumActivity[] = [

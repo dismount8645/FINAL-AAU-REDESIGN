@@ -1,9 +1,8 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
-  "entry": ["client/src/main.tsx", "client/eslint.config.js"],
+  "entry": ["client/eslint.config.js"],
   "project": ["client/src/**/*.{ts,tsx}"],
   "ignore": [
-    "client/src/__tests__/**",
     "client/src/vite-env.d.ts"
   ],
   "paths": {

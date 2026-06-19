@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
  * Card Variants - Senior UI/UX Architect refinement.
  * Enforces strict AAU brand tokens, 150ms physics, and 8pt grid logic.
  */
-export interface CardVariantProps {
+interface CardVariantProps {
   variant?: 'default' | 'elevated' | 'outlined' | 'brand' | 'ghost' | null;
   accent?: 'none' | 'left' | 'top' | null;
   interactive?: boolean | null;
@@ -74,7 +74,7 @@ const CardRoot = memo(forwardRef<HTMLDivElement, CardProps>(
 
 CardRoot.displayName = "Card";
 
-export interface CardHeaderVariantProps {
+interface CardHeaderVariantProps {
   padding?: 'default' | 'compact' | 'none' | null;
 }
 
@@ -96,7 +96,7 @@ const CardHeader = memo(({ children, className, padding, ...props }: CardHeaderP
   </header>
 ));
 
-export interface CardBodyVariantProps {
+interface CardBodyVariantProps {
   padding?: 'default' | 'compact' | 'none' | null;
 }
 
@@ -118,7 +118,7 @@ const CardBody = memo(({ children, className, padding, ...props }: CardBodyProps
   </section>
 ));
 
-export interface CardFooterVariantProps {
+interface CardFooterVariantProps {
   padding?: 'default' | 'compact' | 'none' | null;
 }
 

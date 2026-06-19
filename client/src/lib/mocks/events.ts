@@ -1,5 +1,0 @@
-export const defaultEventsJson = {
-  "2026-4-5": { "id": 101, "titleDa": "Studiegruppe", "titleEn": "Study Group", "color": "var(--aau-light-blue)", "location": "Fibigerstræde 16, 1.108", "time": "08:15 - 12:00", "host": "Jacob Andersen", "courseTitleDa": "Digital Design og Kommunikation", "courseTitleEn": "Digital Design and Communication", "courseCode": "DD101", "typeDa": "Studiegruppe", "typeEn": "Study Group" },
-  "2026-4-12": { "id": 102, "titleDa": "Forelæsning", "titleEn": "Lecture", "color": "var(--color-primary)", "location": "Auditorium A", "time": "10:15 - 14:00", "host": "Morten Jensen", "courseTitleDa": "Digital Design og Kommunikation", "courseTitleEn": "Digital Design and Communication", "courseCode": "DD101", "typeDa": "Forelæsning", "typeEn": "Lecture" },
-  "2026-4-20": { "id": 103, "title": "Deadline", "titleDa": "Aflevering", "titleEn": "Deadline", "color": "var(--color-danger-dark)", "location": "Online Submission", "time": "23:59", "host": "AAU Moodle", "courseTitleDa": "Webudvikling og CMS", "courseTitleEn": "Web Development and CMS", "courseCode": "WEB202", "typeDa": "Aflevering", "typeEn": "Deadline" }
-}

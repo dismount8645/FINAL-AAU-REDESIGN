@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
  * Button Variants - Senior UI/UX Architect refinement.
  * Enforces strict AAU brand tokens, 150ms physics, and 8pt grid sizing.
  */
-export interface ButtonVariantProps {
+interface ButtonVariantProps {
   variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger' | 'success' | null;
   size?: 'xs' | 'sm' | 'md' | 'icon' | 'icon-sm' | 'icon-xs' | null;
   full?: boolean | null;
@@ -51,7 +51,7 @@ function buttonVariants({
   );
 }
 
-export interface ButtonProps
+interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     ButtonVariantProps {
   icon?: LucideIcon;

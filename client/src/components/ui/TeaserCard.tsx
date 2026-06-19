@@ -12,7 +12,7 @@ import useStore from '@/store';
 
 import { cn } from '@/lib/utils';
 
-export interface TeaserCardProps {
+interface TeaserCardProps {
   isLoading?: boolean
   variant?: 'vertical' | 'horizontal'
   image?: string

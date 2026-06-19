@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { getFavoriteLabel } from '@/lib/favorites';
 import type { Lang } from '@/store';
-import { translations } from '@/lib/translations';
+import { translations } from '@/translations';
 import type { FavoriteType } from '@/lib/types';
 import { cn } from '@/lib/utils';
 

@@ -2,7 +2,7 @@ import { forwardRef, useId, type InputHTMLAttributes } from 'react';
 import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
   error?: boolean;
 }

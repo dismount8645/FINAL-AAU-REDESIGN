@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 import { SearchInput } from '@/components/ui';
 import Button from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
-import { useTopbarSearch } from './hooks/useTopbarSearch';
+import { useTopbarSearch } from './useTopbarSearch';
 import SearchResults from './SearchResults';
 
 interface TopbarSearchProps {
