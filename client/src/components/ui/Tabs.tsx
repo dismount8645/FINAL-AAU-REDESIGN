@@ -1,6 +1,6 @@
 import React, { type KeyboardEvent } from 'react';
 import type { LucideIcon } from 'lucide-react';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { Stack } from '@/components/Layout';
 import { cn } from '@/lib/utils';
 
 // ==========================================

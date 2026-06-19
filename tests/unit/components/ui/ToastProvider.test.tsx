@@ -1,5 +1,5 @@
 import { ToastProvider, useToast } from '@/components/ui'
-import type { ToastOptions } from '@/components/ui/Toast'
+import type { ToastOptions } from '@/components/ui/Misc'
 import { useEffect } from 'react'
 
 interface TestComponentProps {

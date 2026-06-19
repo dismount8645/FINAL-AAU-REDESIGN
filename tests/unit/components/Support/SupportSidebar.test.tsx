@@ -1,9 +1,6 @@
 import useStore from '@/store'
 import { linkifyText } from '@/lib/utils'
-import FaqSection from '@/components/Support/FaqSection'
-import LocalDesksSection from '@/components/Support/LocalDesksSection'
-import ContactForm from '@/components/Support/ContactForm'
-import SupportSidebar from '@/components/Support/SupportSidebar'
+import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar } from '@/components/Support'
 
 describe('Support Sections Subcomponents', () => {
   beforeEach(() => {

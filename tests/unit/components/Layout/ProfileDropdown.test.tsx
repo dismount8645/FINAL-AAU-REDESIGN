@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/react'
 import { renderWithProviders } from '@/__tests__/setup/test-utils'
 import useStore from '@/store'
-import ProfileDropdown from '@/components/Layout/ProfileDropdown'
+import { ProfileDropdown } from '@/components/Layout'
 
 describe('ProfileDropdown', () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { vi, describe, beforeEach, afterEach, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Sidebar from '@/components/Layout/Sidebar';
+import { Sidebar } from '@/components/Layout';
 import useStore from '@/store';
 
 describe('Sidebar', () => {

@@ -1,23 +1,28 @@
+import { vi } from 'vitest';
 import { waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import Topbar from '@/components/Layout/Topbar';
+import { Topbar } from '@/components/Layout';
 import useStore from '@/store';
 
-let mockNavigate: ReturnType<typeof vi.fn>
-
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useNavigate: () => mockNavigate,
-  }
-})
+const mockNavigate = vi.fn();
+if (typeof globalThis !== 'undefined') {
+  (globalThis as any).mockNavigate = mockNavigate;
+} else if (typeof global !== 'undefined') {
+  (global as any).mockNavigate = mockNavigate;
+} else if (typeof window !== 'undefined') {
+  (window as any).mockNavigate = mockNavigate;
+}
 
 describe('Topbar', () => {
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true })
     vi.clearAllMocks()
-    mockNavigate = vi.fn()
+    mockNavigate.mockReset()
+    if (typeof globalThis !== 'undefined') {
+      (globalThis as any).mockNavigate = mockNavigate
+    } else if (typeof global !== 'undefined') {
+      (global as any).mockNavigate = mockNavigate
+    }
     useStore.setState({
       theme: 'system',
       isDarkMode: false,
@@ -33,6 +38,11 @@ describe('Topbar', () => {
 
   afterEach(() => {
     vi.useRealTimers()
+    if (typeof globalThis !== 'undefined') {
+      (globalThis as any).mockNavigate = undefined
+    } else if (typeof global !== 'undefined') {
+      (global as any).mockNavigate = undefined
+    }
   })
 
   it('renders search input and trigger buttons', () => {

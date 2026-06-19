@@ -1,7 +1,0 @@
-export { DeadlinesWidget } from './DeadlinesWidget'
-export { FavoritesWidget } from './FavoritesWidget'
-export { SupportWidget } from './SupportWidget'
-export { MessagesWidget } from './MessagesWidget'
-export { CalendarWidget } from './CalendarWidget'
-export { CourseProgressWidget } from './CourseProgressWidget'
-export { ShortcutsWidget } from './ShortcutsWidget'

@@ -1,5 +1,5 @@
 import { renderWithProviders } from '@/__tests__/setup/test-utils'
-import CoursesGrid from '@/components/Courses/CoursesGrid'
+import { CoursesGrid } from '@/components/Courses'
 
 describe('CoursesGrid', () => {
   const mockCourse = {

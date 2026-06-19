@@ -1,5 +1,18 @@
 import './globals';
 import { vi } from 'vitest';
+
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useNavigate: () => {
+      const globalMock = (globalThis as any).mockNavigate
+      if (globalMock) return globalMock
+      return vi.fn()
+    }
+  }
+})
+
 import { render as rtlRender, screen as rtlScreen, fireEvent as rtlFireEvent, act as rtlAct, renderHook as rtlRenderHook, waitFor as rtlWaitFor } from '@testing-library/react';
 import { renderWithProviders as rtlRenderWithProviders } from './test-utils';
 

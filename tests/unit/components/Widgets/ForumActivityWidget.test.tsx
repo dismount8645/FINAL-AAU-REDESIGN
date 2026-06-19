@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen, fireEvent } from '@testing-library/react'
 import { renderWithProviders } from '@/__tests__/setup/test-utils'
-import ForumActivityWidget from '@/components/Widgets/ForumActivityWidget'
+import { ForumActivityWidget } from '@/components/Widgets'
 
 const mockNavigate = vi.hoisted(() => vi.fn())
 

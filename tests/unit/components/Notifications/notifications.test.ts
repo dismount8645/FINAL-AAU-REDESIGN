@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { FileUp, MessageSquare, Clock, Star, Bell } from 'lucide-react'
-import { getNotificationIcon, createMockNotifications } from '@/components/Notifications/notifications'
+import { getNotificationIcon, createMockNotifications } from '@/components/Notifications'
 
 describe('getNotificationIcon', () => {
   it('returns FileUp for AFLEVERING', () => {

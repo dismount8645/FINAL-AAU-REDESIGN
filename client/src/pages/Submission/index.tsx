@@ -1,16 +1,15 @@
 import { useState, useRef } from 'react';
 import { ArrowLeft, Trash2, Book, Check } from 'lucide-react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Card, Text, Heading, IconCircle, MasterItem, Icon, Button, Textarea } from '@/components/ui';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
-import PageLayout from '@/components/Layout/PageLayout';
+import { Card, Text, Heading, IconCircle, MasterItem, Icon, Button, Textarea, useToast } from '@/components/ui';
+import { Stack } from '@/components/Layout';
+import { PageLayout } from '@/components/Layout';
 import { PATHS } from '@/routes';
-import SplitLayout from '@/components/Layout/SplitLayout';
+import { SplitLayout } from '@/components/Layout';
 import { submitAssignment } from '@/lib/api';
 import { storage, getFileTypeConfig, processFileMetadata } from '@/lib/utils';
 import { STORAGE_KEYS } from '@/lib/constants';
 import useStore from '@/store';
-import { useToast } from '@/components/ui/Toast';
 import type { StagedFile } from '@/lib/types';
 
 function Submission() {

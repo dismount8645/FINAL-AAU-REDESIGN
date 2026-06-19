@@ -1,4 +1,0 @@
-export { default as FavoriteItem } from './FavoriteItem'
-export * from './FavoriteItem'
-export { default as FavoritesFilter } from './FavoritesFilter'
-export { default as FavoritesList } from './FavoritesList'

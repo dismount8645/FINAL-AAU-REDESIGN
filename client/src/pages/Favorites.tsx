@@ -2,12 +2,12 @@
 import { useMemo, useState } from 'react';
 import { Trash2, Wrench, Star } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { FavoritesFilter, FavoritesList } from '@/components/Favorites';
+import FavoritesList, { FavoritesFilter } from '@/components/Favorites';
 
 import Button from '@/components/ui/Button';
 import { PATHS } from '@/routes';
-import PageHeader from '@/components/Layout/PageHeader';
-import { Stack } from '@/components/Layout/LayoutPrimitives';
+import { PageHeader } from '@/components/Layout';
+import { Stack } from '@/components/Layout';
 import {
   Text,
   Dialog,
@@ -153,9 +153,9 @@ function Favorites() {
           searchQuery={searchQuery}
           typeFilter={typeFilter}
           t={t}
-          onRemove={(type, entityId) => toggleFavorite(type, entityId)}
+          onRemove={(type: any, entityId: any) => toggleFavorite(type, entityId)}
           onReorder={reorderFavorites}
-          onNavigate={(link, external) => {
+          onNavigate={(link: string, external?: boolean) => {
             if (external) {
               env.open(link)
             } else {

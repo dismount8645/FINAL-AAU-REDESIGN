@@ -1,4 +1,4 @@
-import { Heading, Text, Caption } from '@/components/ui/Typography';
+import { Heading, Text, Caption } from '@/components/ui';
 
 describe('Typography', () => {
   it('renders heading with different levels', () => {
