@@ -5,8 +5,8 @@ import { NotificationDetailView, NotificationFilters, createMockNotifications, g
 import { Badge, MasterItem, SearchInput, EmptyState, Text, Button } from '@/components/ui';
 import { Stack, SplitLayout, PageLayout } from '@/components/Layout';
 import useStore from '@/store';
-import { cn } from '@/lib/utils';
-import { useFormat, useManagedCollection } from '@/hooks';
+import { cn, formatRelativeDateGroup, formatTime } from '@/lib/utils';
+import { useManagedCollection } from '@/hooks';
 import type { NotificationItem } from '@/lib/types';
 interface UseNotificationsStateOptions {
   initialNotifications: NotificationItem[]
@@ -17,7 +17,7 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const t = useStore(state => state.t)
   const decrementNotificationCount = useStore(state => state.decrementNotificationCount)
   const setNotificationCount = useStore(state => state.setNotificationCount)
-  const { formatRelativeDateGroup } = useFormat()
+
 
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const {
@@ -53,7 +53,7 @@ export function useNotificationsState({ initialNotifications }: UseNotifications
   const grouped = useMemo(() => {
     const groups: Record<string, NotificationItem[]> = {}
     filteredItems.forEach(n => {
-      const dateKey = formatRelativeDateGroup(n.date)
+      const dateKey = formatRelativeDateGroup(n.date, lang)
       if (!groups[dateKey]) groups[dateKey] = []
       groups[dateKey].push(n)
     })
@@ -98,7 +98,7 @@ function Notifications() {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
   const navigate = useNavigate()
-  const { formatTime } = useFormat()
+
 
   const NOTIF_BG_MAP: Record<string, string> = {
     AFLEVERING: 'bg-primary/10 text-primary',
@@ -133,10 +133,7 @@ function Notifications() {
       pageKey="notifications"
       title={t('notifications')}
       subtitle={t('notifications_page_subtitle')}
-      breadcrumbs={[
-        { label: t('dashboard'), href: '/' },
-        { label: t('notifications') },
-      ]}
+      breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('notifications') }]}
       headerClassName="!mb-[var(--space-lg)]"
       headerChildren={
         <Badge variant={unreadCount > 0 ? 'danger' : 'default'} className={unreadCount > 0 ? 'bg-primary text-white shadow-[var(--shadow-md)] font-black px-xs' : ''}>
@@ -204,7 +201,7 @@ function Notifications() {
                           }
                           meta={
                             <Text size="2xs" muted className="mt-[var(--space-2xs)] opacity-60">
-                              {formatTime(notif.date)}
+                              {formatTime(notif.date, lang)}
                             </Text>
                           }
                           trailing={
