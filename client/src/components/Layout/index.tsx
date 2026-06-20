@@ -333,6 +333,7 @@ export function NotificationsDropdown() {
   const t = useStore((state) => state.t);
   const lang = useStore((state) => state.lang);
   const notificationCount = useStore((state) => state.notificationCount);
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
 
   return (
     <Dropdown>
@@ -412,16 +413,16 @@ export function NotificationsDropdown() {
                             weight="bold"
                             className={cn("block truncate flex-1", !n.isRead ? "text-main font-black" : "text-muted")}
                           >
-                            {lang === 'da' ? n.textDa : n.textEn}
+                            {l(n.textDa, n.textEn)}
                           </Text>
                           {!n.isRead && (
                             <span className="shrink-0 text-[10px] font-black uppercase px-1.5 py-0.5 rounded bg-primary/20 text-primary scale-90 leading-none">
-                              {lang === 'da' ? 'Ny' : 'New'}
+                              {l('Ny', 'New')}
                             </span>
                           )}
                         </div>
                         <Text size="2xs" className="mt-xs text-muted">
-                          {lang === 'da' ? n.dateDa : n.dateEn}
+                          {l(n.dateDa, n.dateEn)}
                         </Text>
                       </div>
                       {!n.isRead && (
@@ -550,14 +551,14 @@ export function ProfileDropdown() {
 }
 
 // 6. Search Hooks & Subcomponents (formerly useRecentSearches.ts, useSearchFiltering.ts, useTopbarSearch.ts, SearchResults.tsx)
-export interface RecentSearch {
+interface RecentSearch {
   id: string;
   text: string;
   link: string;
   type: 'course' | 'assignment' | 'message' | 'query' | 'calendar';
 }
 
-export function useRecentSearches() {
+function useRecentSearches() {
   const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
 
   useEffect(() => {
@@ -607,7 +608,8 @@ interface GroupedResults {
   calendar: typeof defaultEvents[keyof typeof defaultEvents][];
 }
 
-export function useSearchFiltering(debouncedQuery: string, courses: any[], lang: string) {
+function useSearchFiltering(debouncedQuery: string, courses: any[], lang: string) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   const groupedResults = useMemo<GroupedResults>(() => {
     const query = debouncedQuery.trim().toLowerCase();
     if (query.length < 3) {
@@ -671,7 +673,7 @@ export function useSearchFiltering(debouncedQuery: string, courses: any[], lang:
       list.push({
         type: 'course',
         id: `course-${c.id}`,
-        title: lang === 'da' ? c.title : c.titleEn,
+        title: l(c.title, c.titleEn),
         subtitle: c.code ?? '',
         link: PATHS.COURSE(c.id),
         raw: c,
@@ -682,8 +684,8 @@ export function useSearchFiltering(debouncedQuery: string, courses: any[], lang:
       list.push({
         type: 'assignment',
         id: `assignment-${a.id}`,
-        title: lang === 'da' ? a.titleDa : a.titleEn,
-        subtitle: lang === 'da' ? 'Afleveringsopgave' : 'Assignment',
+        title: l(a.titleDa, a.titleEn),
+        subtitle: l('Afleveringsopgave', 'Assignment'),
         link: PATHS.SUBMISSION(a.courseId, a.id),
         raw: a,
       });
@@ -693,8 +695,8 @@ export function useSearchFiltering(debouncedQuery: string, courses: any[], lang:
       list.push({
         type: 'message',
         id: `message-${m.id}`,
-        title: lang === 'da' ? (m.nameDa || m.name || '') : (m.nameEn || m.name || ''),
-        subtitle: lang === 'da' ? m.msgDa : m.msgEn,
+        title: l(m.nameDa || m.name || '', m.nameEn || m.name || ''),
+        subtitle: l(m.msgDa, m.msgEn),
         link: PATHS.MESSAGES,
         raw: m,
       });
@@ -704,7 +706,7 @@ export function useSearchFiltering(debouncedQuery: string, courses: any[], lang:
       list.push({
         type: 'calendar',
         id: `calendar-${e.id}`,
-        title: lang === 'da' ? (e.titleDa || e.title || '') : (e.titleEn || e.title || ''),
+        title: l(e.titleDa || e.title || '', e.titleEn || e.title || ''),
         subtitle: `${e.time} · ${e.location}`,
         link: PATHS.CALENDAR,
         raw: e,
@@ -721,12 +723,13 @@ export function useSearchFiltering(debouncedQuery: string, courses: any[], lang:
   };
 }
 
-export function useTopbarSearch() {
+function useTopbarSearch() {
   const navigate = useNavigate();
   const location = useLocation();
   const t = useStore(state => state.t);
   const lang = useStore(state => state.lang);
   const courses = useStore(state => state.courses);
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
@@ -813,7 +816,7 @@ export function useTopbarSearch() {
     setIsDropdownVisible(false);
 
     const recentLabel = item.type === 'message'
-      ? (lang === 'da' ? `Besked fra: ${item.title}` : `Message from: ${item.title}`)
+      ? l(`Besked fra: ${item.title}`, `Message from: ${item.title}`)
       : item.title;
 
     addRecentSearch({
@@ -830,10 +833,10 @@ export function useTopbarSearch() {
   };
 
   const suggestedDestinations = useMemo(() => [
-    { label: lang === 'da' ? 'Kurser' : 'Courses', link: PATHS.COURSES, type: 'course' as const },
-    { label: lang === 'da' ? 'Afleveringer' : 'Assignments', link: PATHS.CALENDAR, type: 'assignment' as const },
-    { label: lang === 'da' ? 'Beskeder' : 'Messages', link: PATHS.MESSAGES, type: 'message' as const },
-    { label: lang === 'da' ? 'Kalender' : 'Calendar', link: PATHS.CALENDAR, type: 'calendar' as const },
+    { label: l('Kurser', 'Courses'), link: PATHS.COURSES, type: 'course' as const },
+    { label: l('Afleveringer', 'Assignments'), link: PATHS.CALENDAR, type: 'assignment' as const },
+    { label: l('Beskeder', 'Messages'), link: PATHS.MESSAGES, type: 'message' as const },
+    { label: l('Kalender', 'Calendar'), link: PATHS.CALENDAR, type: 'calendar' as const },
   ], [lang]);
 
   const handleSuggestedClick = (dest: typeof suggestedDestinations[0]) => {
@@ -869,7 +872,7 @@ export function useTopbarSearch() {
         const query = searchQuery.trim();
         addRecentSearch({
           id: `query-${query}`,
-          text: lang === 'da' ? `Søgning: "${query}"` : `Search: "${query}"`,
+          text: l(`Søgning: "${query}"`, `Search: "${query}"`),
           link: `${PATHS.SEARCH}?q=` + encodeURIComponent(query),
           type: 'query',
         });
@@ -933,10 +936,11 @@ const TYPE_ICONS: Record<string, { icon: React.ComponentType<any>; bg: string; c
 };
 
 function SearchLoading({ lang }: { lang: string }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   return (
     <div className="search-dropdown-loading p-md flex items-center justify-center gap-xs">
       <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent shrink-0" />
-      <Text size="xs" muted>{lang === 'da' ? 'Søger...' : 'Searching...'}</Text>
+      <Text size="xs" muted>{l('Søger...', 'Searching...')}</Text>
     </div>
   );
 }
@@ -960,11 +964,12 @@ function SearchNoQuery({
   onClearAllRecent: () => void;
   lang: string;
 }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   return (
     <div className="flex flex-col overflow-y-auto">
       {searchQuery.trim().length > 0 && (
         <div className="p-xs px-md bg-warning/10 text-warning text-xs font-semibold">
-          {lang === 'da' ? 'Skriv mindst 3 tegn for en dybdegående søgning' : 'Type at least 3 characters for deep search'}
+          {l('Skriv mindst 3 tegn for en dybdegående søgning', 'Type at least 3 characters for deep search')}
         </div>
       )}
 
@@ -972,14 +977,14 @@ function SearchNoQuery({
         <div className="recent-searches-section border-b border-border/40 p-sm px-md flex flex-col gap-2xs">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">
-              {lang === 'da' ? 'Seneste søgninger' : 'Recent Searches'}
+              {l('Seneste søgninger', 'Recent Searches')}
             </span>
             <button
               type="button"
               className="text-[10px] font-bold text-danger hover:underline border-none bg-transparent cursor-pointer"
               onClick={onClearAllRecent}
             >
-              {lang === 'da' ? 'Ryd alle' : 'Clear all'}
+              {l('Ryd alle', 'Clear all')}
             </button>
           </div>
           <div className="flex flex-col gap-2xs mt-xs">
@@ -1000,7 +1005,7 @@ function SearchNoQuery({
                     e.stopPropagation();
                     onRemoveRecent(recent.id);
                   }}
-                  aria-label={lang === 'da' ? 'Fjern søgning' : 'Remove search'}
+                  aria-label={l('Fjern søgning', 'Remove search')}
                 >
                   <X size={12} />
                 </button>
@@ -1012,7 +1017,7 @@ function SearchNoQuery({
 
       <div className="suggested-destinations p-sm px-md flex flex-col gap-2xs">
         <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider">
-          {lang === 'da' ? 'Foreslåede genveje' : 'Suggested shortcuts'}
+          {l('Foreslåede genveje', 'Suggested shortcuts')}
         </span>
         <div className="grid grid-cols-2 gap-xs mt-xs">
           {suggestedDestinations.map((dest) => {
@@ -1126,7 +1131,7 @@ function SearchCategoryGroup({
   );
 }
 
-export function SearchResults({
+function SearchResults({
   searchQuery,
   isLoading,
   activeSearchIndex,
@@ -1179,10 +1184,11 @@ export function SearchResults({
   t: (key: string) => string;
   setIsDropdownVisible: (visible: boolean) => void;
 }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   const handleFooterClick = (query: string) => {
     addRecentSearch({
       id: `query-${query}`,
-      text: lang === 'da' ? `Søgning: "${query}"` : `Search: "${query}"`,
+      text: l(`Søgning: "${query}"`, `Search: "${query}"`),
       link: `${PATHS.SEARCH}?q=` + encodeURIComponent(query),
       type: 'query',
     });
@@ -1223,7 +1229,7 @@ export function SearchResults({
             <div className="flex flex-col overflow-y-auto max-h-[360px]">
               {groupedResults.courses.length > 0 && (
                 <SearchCategoryGroup
-                  label={lang === 'da' ? 'Kurser' : 'Courses'}
+                  label={l('Kurser', 'Courses')}
                   items={groupedResults.courses}
                   type="course"
                   flattenedResults={flattenedResults}
@@ -1234,7 +1240,7 @@ export function SearchResults({
               )}
               {groupedResults.assignments.length > 0 && (
                 <SearchCategoryGroup
-                  label={lang === 'da' ? 'Afleveringer' : 'Assignments'}
+                  label={l('Afleveringer', 'Assignments')}
                   items={groupedResults.assignments}
                   type="assignment"
                   flattenedResults={flattenedResults}
@@ -1245,7 +1251,7 @@ export function SearchResults({
               )}
               {groupedResults.messages.length > 0 && (
                 <SearchCategoryGroup
-                  label={lang === 'da' ? 'Beskeder' : 'Messages'}
+                  label={l('Beskeder', 'Messages')}
                   items={groupedResults.messages}
                   type="message"
                   flattenedResults={flattenedResults}
@@ -1256,7 +1262,7 @@ export function SearchResults({
               )}
               {groupedResults.calendar.length > 0 && (
                 <SearchCategoryGroup
-                  label={lang === 'da' ? 'Kalender' : 'Calendar'}
+                  label={l('Kalender', 'Calendar')}
                   items={groupedResults.calendar}
                   type="calendar"
                   flattenedResults={flattenedResults}
@@ -1317,6 +1323,7 @@ export function TopbarSearch({ children }: { children: React.ReactNode }) {
     t,
     navigate,
   } = useTopbarSearch();
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
 
   return (
     <>
@@ -1337,7 +1344,7 @@ export function TopbarSearch({ children }: { children: React.ReactNode }) {
               }}
               onFocus={() => setIsDropdownVisible(true)}
               onKeyDown={handleSearchEnter}
-              placeholder={isMobile ? (lang === 'da' ? 'Søg...' : 'Search...') : (lang === 'da' ? 'Søg i fag, afleveringer og beskeder...' : 'Search courses, assignments and messages...')}
+              placeholder={isMobile ? l('Søg...', 'Search...') : l('Søg i fag, afleveringer og beskeder...', 'Search courses, assignments and messages...')}
               className="topbar__search-input-wrapper w-full"
               role="combobox"
               aria-expanded={isDropdownVisible}
@@ -1377,7 +1384,7 @@ export function TopbarSearch({ children }: { children: React.ReactNode }) {
               onClick={() => setIsMobileExpanded(false)}
               className="ml-xs text-text-muted hover:text-main shrink-0"
             >
-              {lang === 'da' ? 'Annuller' : 'Cancel'}
+              {l('Annuller', 'Cancel')}
             </Button>
           )}
         </div>
@@ -1409,6 +1416,7 @@ export function Sidebar() {
   const isCollapsed = useStore(state => state.isCollapsed);
   const setCollapsed = useStore(state => state.setCollapsed);
   const lang = useStore(state => state.lang);
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   const location = useLocation();
 
   const [isHovered, setIsHovered] = useState(false);
@@ -1583,7 +1591,7 @@ export function Sidebar() {
               <div className="w-8 h-px bg-white/10 my-xs shrink-0" aria-hidden="true" />
             ) : (
               <div className="text-[10px] font-extrabold text-white/40 uppercase tracking-wider px-sm mb-xs mt-2xs shrink-0 select-none">
-                {lang === 'da' ? 'Support & Indstillinger' : 'Support & Settings'}
+                {l('Support & Indstillinger', 'Support & Settings')}
               </div>
             )}
             <SidebarNavItem to="/support" icon={CircleHelp} label={t('contact_its_support')} collapsed={!isExpanded} dimmed onClick={handleNavItemClick} />
