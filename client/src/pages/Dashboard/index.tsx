@@ -20,10 +20,7 @@ import {
   DialogTrigger
 } from '@/components/ui';
 
-// ==========================================
 // 1. DailySummaryStrip Component
-// ==========================================
-
 interface NextEvent {
   titleKey: string
   time: string
@@ -47,13 +44,14 @@ const DailySummaryStrip = memo(function DailySummaryStrip({
   t,
   lang
 }: DailySummaryStripProps) {
+  const l = (da: string, en: string) => lang === 'da' ? da : en
   return (
     <div className="daily-summary-strip mb-md flex flex-wrap gap-xs sm:gap-sm items-center py-sm px-md bg-bg-highlight/10 border-2 border-border/30 rounded-[var(--radius-lg)] text-sm font-semibold text-text-secondary select-none shadow-sm">
       <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 dark:bg-white/10 text-primary dark:text-white rounded-lg shadow-sm">
         <span className="h-2.5 w-2.5 rounded-full bg-primary animate-pulse shrink-0" />
-        <strong className="text-main font-extrabold uppercase tracking-wide text-xs">{lang === 'da' ? 'I DAG' : 'TODAY'}</strong>
+        <strong className="text-main font-extrabold uppercase tracking-wide text-xs">{l('I DAG', 'TODAY')}</strong>
         <span className="text-main font-bold text-sm">
-          {activityCount} {activityCount === 1 ? (lang === 'da' ? 'aktivitet' : 'activity') : (lang === 'da' ? 'aktiviteter' : 'activities')}
+          {activityCount} {activityCount === 1 ? l('aktivitet', 'activity') : l('aktiviteter', 'activities')}
         </span>
         <span className="text-border/60 mx-0.5">·</span>
         <span className="text-main font-bold text-sm">
@@ -61,13 +59,13 @@ const DailySummaryStrip = memo(function DailySummaryStrip({
         </span>
         <span className="text-border/60 mx-0.5">·</span>
         <span className="text-main font-bold text-sm">
-          {messageCount === 1 ? (lang === 'da' ? '1 ulæst' : '1 unread') : (lang === 'da' ? `${messageCount} ulæste` : `${messageCount} unread`)}
+          {messageCount === 1 ? l('1 ulæst', '1 unread') : l(`${messageCount} ulæste`, `${messageCount} unread`)}
         </span>
       </span>
 
       {nextEvent && (
         <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 dark:bg-white/5 text-primary dark:text-white rounded-lg shadow-sm">
-          <strong className="font-extrabold text-main uppercase tracking-wide text-xs">{lang === 'da' ? 'NÆSTE' : 'NEXT'}</strong>
+          <strong className="font-extrabold text-main uppercase tracking-wide text-xs">{l('NÆSTE', 'NEXT')}</strong>
           <span className="font-bold text-main text-sm">{t(nextEvent.titleKey)}</span>
           <span className="text-text-muted text-sm">kl. {nextEvent.time}</span>
           {nextEvent.location && (
@@ -82,10 +80,7 @@ const DailySummaryStrip = memo(function DailySummaryStrip({
   )
 })
 
-// ==========================================
 // 2. FocusBanner Component
-// ==========================================
-
 interface UrgentItem {
   id: number
   type: 'assignment' | 'calendar'
@@ -117,6 +112,7 @@ const FocusBanner = memo(function FocusBanner({
   t,
   lang
 }: FocusBannerProps) {
+  const l = (da: string, en: string) => lang === 'da' ? da : en
   const handleNavigate = () => {
     if (urgentItem.type === 'calendar') {
       onNavigate({ type: 'calendar' })
@@ -146,8 +142,8 @@ const FocusBanner = memo(function FocusBanner({
       <div className="flex flex-col items-start min-w-0 md:max-w-xs lg:max-w-md w-full md:w-auto flex-1">
         <span className="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider rounded-sm" style={{ backgroundColor: urgentItem.info.color, color: (urgentItem.info.urgency === 'tomorrow' || urgentItem.info.urgency === 'soon') ? '#211a52' : '#ffffff' }}>
           {urgentItem.type === 'calendar'
-            ? (lang === 'da' ? 'Vigtig begivenhed' : 'Important event')
-            : (lang === 'da' ? 'Vigtig aflevering' : 'Important assignment')}
+            ? l('Vigtig begivenhed', 'Important event')
+            : l('Vigtig aflevering', 'Important assignment')}
         </span>
         <span className="text-xs font-semibold text-text-secondary block mt-xs">{urgentItem.courseTitle}</span>
         <h3 className="text-lg sm:text-xl font-extrabold text-main mt-2xs mb-0 truncate leading-snug w-full">{urgentItem.title}</h3>
@@ -157,7 +153,7 @@ const FocusBanner = memo(function FocusBanner({
       <div className="flex flex-col items-start md:items-end justify-center gap-xs w-full md:w-auto shrink-0 mt-sm md:mt-0 pointer-events-none">
         <div className="flex flex-col items-start md:items-end gap-3xs leading-none">
           <span className="font-black text-sm sm:text-base tracking-wide uppercase" style={{ color: urgentItem.info.color }}>
-            {lang === 'da' ? 'Frist' : 'Due'} {urgentItem.info.relativeLabel ?? urgentItem.info.dateLabel}
+            {l('Frist', 'Due')} {urgentItem.info.relativeLabel ?? urgentItem.info.dateLabel}
           </span>
           <span className="text-xs sm:text-sm font-bold text-text-secondary">
             {urgentItem.info.dateLabel ?? ''}
@@ -184,8 +180,8 @@ const FocusBanner = memo(function FocusBanner({
             }}
           >
             {urgentItem.type === 'calendar'
-              ? (lang === 'da' ? 'Åbn kalender' : 'Open calendar')
-              : (lang === 'da' ? 'Åbn aflevering' : 'Open submission')}
+              ? l('Åbn kalender', 'Open calendar')
+              : l('Åbn aflevering', 'Open submission')}
           </Button>
         </div>
       </div>
@@ -193,10 +189,7 @@ const FocusBanner = memo(function FocusBanner({
   )
 })
 
-// ==========================================
 // 3. DashboardHeader Component
-// ==========================================
-
 interface DashboardHeaderProps {
   isEditing: boolean
   isModalOpen: boolean
@@ -234,6 +227,7 @@ const DashboardHeader = memo(function DashboardHeader({
   t,
   lang,
 }: DashboardHeaderProps) {
+  const l = (da: string, en: string) => lang === 'da' ? da : en
   if (!isEditing) {
     return (
       <Button
@@ -259,14 +253,14 @@ const DashboardHeader = memo(function DashboardHeader({
       }}>
         <DialogTrigger>
           <Button variant="ghost" size="sm" icon={Plus} className="text-text-muted hover:text-primary">
-            {lang === 'da' ? '+ Widgets' : '+ Widgets'}
+            + Widgets
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-[420px] max-h-[calc(100dvh-96px)] flex flex-col overflow-hidden">
           <DialogHeader className="shrink-0">
             <DialogTitle>{t('dashboard.add_remove_widgets')}</DialogTitle>
             <DialogDescription>
-              {lang === 'da' ? 'Vælg de moduler, du vil have synlige på dit dashboard.' : 'Select modules to show on your dashboard.'}
+              {l('Vælg de moduler, du vil have synlige på dit dashboard.', 'Select modules to show on your dashboard.')}
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-0 overflow-y-auto flex-1 -mx-[var(--space-md)] lg:-mx-[var(--space-lg)] px-[var(--space-md)] lg:px-[var(--space-lg)]">
@@ -281,7 +275,7 @@ const DashboardHeader = memo(function DashboardHeader({
                 <div key={gi}>
                   {gi > 0 && <div className="border-t border-[var(--border-color)]/20 mt-xs" />}
                   <div className="text-[10px] font-extrabold text-text-muted uppercase tracking-wider px-xs pt-sm pb-2xs select-none">
-                    {lang === 'da' ? group.labelDa : group.labelEn}
+                    {l(group.labelDa, group.labelEn)}
                   </div>
                   {group.widgetIds.map(widgetId => {
                     const widget = widgetMap.get(widgetId);
@@ -301,25 +295,16 @@ const DashboardHeader = memo(function DashboardHeader({
                             {t(`dashboard.widget_${widget.id}`)}
                           </label>
                           <span className="text-[11px] text-text-muted leading-relaxed">
-                            {widget.id === 'favorites' && isFavoritesEmpty
-                              ? (lang === 'da' ? 'Vises som tom widget, indtil du vælger favoritter.' : 'Shows as empty widget until you choose favorites.')
-                              : widget.id === 'calendar'
-                                ? (lang === 'da' ? 'Dagens program og kommende aftaler.' : "Today's schedule and upcoming events.")
-                                : widget.id === 'courseProgress'
-                                  ? (lang === 'da' ? 'Ikke tilgængelig — kræver dataintegration.' : 'Unavailable — requires data integration.')
-                                  : widget.id === 'support'
-                                    ? (lang === 'da' ? 'Hurtig adgang til teknisk hjælp.' : 'Quick access to technical support.')
-                                    : widget.id === 'shortcuts'
-                                      ? (lang === 'da' ? 'Genveje til AAU-systemer.' : 'Shortcuts to AAU systems.')
-                                      : widget.id === 'quickOverview'
-                                        ? (lang === 'da' ? 'Dagens aktiviteter, deadlines og ulæste beskeder.' : "Today's activities, deadlines, and unread messages.")
-                                        : widget.id === 'deadlines'
-                                          ? (lang === 'da' ? 'Kommende afleveringsfrister.' : 'Upcoming assignment deadlines.')
-                                          : widget.id === 'messages'
-                                            ? (lang === 'da' ? 'Nylige beskeder og notifikationer.' : 'Recent messages and notifications.')
-                                            : widget.id === 'forumActivity'
-                                              ? (lang === 'da' ? 'Seneste indlæg i kursusfora.' : 'Latest posts in course forums.')
-                                              : ''}
+                            {widget.id === 'favorites' && isFavoritesEmpty ? l('Vises som tom widget, indtil du vælger favoritter.', 'Shows as empty widget until you choose favorites.')
+                              : widget.id === 'calendar' ? l('Dagens program og kommende aftaler.', "Today's schedule and upcoming events.")
+                              : widget.id === 'courseProgress' ? l('Ikke tilgængelig — kræver dataintegration.', 'Unavailable — requires data integration.')
+                              : widget.id === 'support' ? l('Hurtig adgang til teknisk hjælp.', 'Quick access to technical support.')
+                              : widget.id === 'shortcuts' ? l('Genveje til AAU-systemer.', 'Shortcuts to AAU systems.')
+                              : widget.id === 'quickOverview' ? l('Dagens aktiviteter, deadlines og ulæste beskeder.', "Today's activities, deadlines, and unread messages.")
+                              : widget.id === 'deadlines' ? l('Kommende afleveringsfrister.', 'Upcoming assignment deadlines.')
+                              : widget.id === 'messages' ? l('Nylige beskeder og notifikationer.', 'Recent messages and notifications.')
+                              : widget.id === 'forumActivity' ? l('Seneste indlæg i kursusfora.', 'Latest posts in course forums.')
+                              : ''}
                           </span>
                         </div>
                       </div>
@@ -343,16 +328,17 @@ const DashboardHeader = memo(function DashboardHeader({
       <Dialog open={isResetDialogOpen} onOpenChange={onResetDialogChange}>
         <DialogTrigger>
           <Button variant="ghost" size="sm" icon={RotateCcw} className="text-text-muted hover:text-danger">
-            {lang === 'da' ? 'Nulstil' : 'Reset'}
+            {l('Nulstil', 'Reset')}
           </Button>
         </DialogTrigger>
         <DialogContent className="max-w-[400px]">
           <DialogHeader>
-            <DialogTitle>{lang === 'da' ? 'Nulstil dashboard?' : 'Reset dashboard?'}</DialogTitle>
+            <DialogTitle>{l('Nulstil dashboard?', 'Reset dashboard?')}</DialogTitle>
             <DialogDescription>
-              {lang === 'da'
-                ? 'Dette gendanner standardlayoutet. Dine widget-tilpasninger fjernes.'
-                : 'This restores the default layout. Your widget customizations will be removed.'}
+              {l(
+                'Dette gendanner standardlayoutet. Dine widget-tilpasninger fjernes.',
+                'This restores the default layout. Your widget customizations will be removed.'
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex gap-xs justify-end">
@@ -360,7 +346,7 @@ const DashboardHeader = memo(function DashboardHeader({
               {t('common.cancel')}
             </Button>
             <Button variant="danger" size="sm" onClick={() => { onReset(); onResetDialogChange(false); }}>
-              {lang === 'da' ? 'Nulstil dashboard' : 'Reset dashboard'}
+              {l('Nulstil dashboard', 'Reset dashboard')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -387,10 +373,7 @@ const DashboardHeader = memo(function DashboardHeader({
   )
 })
 
-// ==========================================
 // 4. Main Dashboard Page Component
-// ==========================================
-
 function Dashboard() {
   const t = useStore((state) => state.t)
   const dashboardLayout = useStore((state) => state.dashboardLayout)
@@ -401,6 +384,7 @@ function Dashboard() {
 
   const firstName = useStore((state) => state.firstName)
   const lang = useStore((state) => state.lang)
+  const l = (da: string, en: string) => lang === 'da' ? da : en
   const courses = useStore((state) => state.courses)
   const localize = useStore((state) => state.localize)
   const messageCount = useStore((state) => state.messageCount)
@@ -501,9 +485,9 @@ function Dashboard() {
         return {
           id: evt.id,
           type: 'calendar' as const,
-          title: lang === 'da' ? (evt.titleDa || evt.title || '') : (evt.titleEn || evt.title || ''),
+          title: l(evt.titleDa || evt.title || '', evt.titleEn || evt.title || ''),
           courseId: 1,
-          courseTitle: lang === 'da' ? (evt.courseTitleDa || '') : (evt.courseTitleEn || ''),
+          courseTitle: l(evt.courseTitleDa || '', evt.courseTitleEn || ''),
           date: eventDate,
           info,
         }
@@ -675,9 +659,9 @@ function Dashboard() {
         {isEditing && (
           <div className="mb-4 p-3 bg-primary/15 border-2 border-primary/30 rounded-[var(--radius-md)] font-bold text-primary shadow-sm text-sm">
             <span className="inline-flex items-center gap-1.5 flex-wrap">
-              <span>{lang === 'da' ? 'Redigeringstilstand:' : 'Edit mode:'}</span>
+              <span>{l('Redigeringstilstand:', 'Edit mode:')}</span>
               <span className="font-medium text-primary/80">
-                {lang === 'da' ? 'Du kan flytte og skjule widgets. Automatisk prioritering er slået fra, mens du redigerer.' : 'Move and hide widgets. Auto-priority is disabled while editing.'}
+                {l('Du kan flytte og skjule widgets. Automatisk prioritering er slået fra, mens du redigerer.', 'Move and hide widgets. Auto-priority is disabled while editing.')}
               </span>
             </span>
           </div>
@@ -697,23 +681,24 @@ function Dashboard() {
         <DialogContent className="max-w-[420px]">
           <DialogHeader>
             <DialogTitle>
-              {lang === 'da' ? 'Ugemte ændringer' : 'Unsaved changes'}
+              {l('Ugemte ændringer', 'Unsaved changes')}
             </DialogTitle>
             <DialogDescription>
-              {lang === 'da'
-                ? 'Du har foretaget ændringer i dit dashboard-layout. Vil du gemme eller kassere dem, før du forlader siden?'
-                : 'You have made changes to your dashboard layout. Do you want to save or discard them before leaving?'}
+              {l(
+                'Du har foretaget ændringer i dit dashboard-layout. Vil du gemme eller kassere dem, før du forlader siden?',
+                'You have made changes to your dashboard layout. Do you want to save or discard them before leaving?'
+              )}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex flex-wrap gap-xs justify-end mt-xs">
             <Button variant="ghost" size="sm" onClick={handleCancelNavigation}>
-              {lang === 'da' ? 'Bliv på siden' : 'Stay on page'}
+              {l('Bliv på siden', 'Stay on page')}
             </Button>
             <Button variant="secondary" size="sm" onClick={handleDiscardAndProceed}>
-              {lang === 'da' ? 'Kassér ændringer' : 'Discard changes'}
+              {l('Kassér ændringer', 'Discard changes')}
             </Button>
             <Button variant="primary" size="sm" onClick={handleSaveAndProceed}>
-              {lang === 'da' ? 'Gem ændringer' : 'Save changes'}
+              {l('Gem ændringer', 'Save changes')}
             </Button>
           </DialogFooter>
         </DialogContent>

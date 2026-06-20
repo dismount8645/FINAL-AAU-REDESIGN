@@ -34,11 +34,7 @@ function ForumPost() {
       <PageHeader
         title={localize(post, 'title')}
         subtitle={`${t('by')} ${post.author} — ${localize(post, 'time')}`}
-        breadcrumbs={[
-          { label: t('dashboard'), href: '/' },
-          { label: t('course_forum') },
-          { label: localize(post, 'title') },
-        ]}
+        breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('course_forum') }, { label: localize(post, 'title') }]}
       >
         <Button variant="ghost" size="sm" icon={ArrowLeft} onClick={() => navigate(-1)}>
           {t('back_to_forum')}
