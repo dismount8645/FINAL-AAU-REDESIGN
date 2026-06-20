@@ -35,7 +35,7 @@ export interface DialogTriggerProps extends ComponentProps<'div'> {
 
 export const DialogTrigger = memo(function DialogTrigger({ children, ...props }: DialogTriggerProps) {
   const context = useContext(DialogContext);
-  if (!context) return <>{children}</>;
+  if (!context) return children;
 
   return (
     <div 

@@ -2025,9 +2025,9 @@ export default function Layout() {
           style={{ marginLeft }}
         >
           <div data-testid="page-content" className="page-content relative z-10 w-full max-w-full min-w-0 flex-1">
-            <SuspenseWrapper>
+            <React.Suspense fallback={<PageSkeleton />}>
               <Outlet />
-            </SuspenseWrapper>
+            </React.Suspense>
           </div>
         </main>
         {!isMessages && (
@@ -2037,14 +2037,5 @@ export default function Layout() {
         )}
       </div>
     </div>
-  );
-}
-
-// Helper component to wrap Outlet in Suspense to keep the main structure clean
-function SuspenseWrapper({ children }: { children: ReactNode }) {
-  return (
-    <React.Suspense fallback={<PageSkeleton />}>
-      {children}
-    </React.Suspense>
   );
 }
