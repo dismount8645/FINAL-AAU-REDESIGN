@@ -19,7 +19,7 @@ const typeClasses: Record<FavoriteType, string> = {
   link: 'bg-[var(--aau-light-pink)]/10 text-[var(--aau-light-pink)] dark:bg-[var(--aau-light-pink)]/20 dark:text-[var(--aau-light-pink)]',
 }
 
-export interface FavoriteItemData {
+interface FavoriteItemData {
   id: string
   type: FavoriteType
   entityId: number
