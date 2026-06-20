@@ -19,6 +19,7 @@ import { defaultEvents } from '@/lib/data';
 
 export function useCalendar() {
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
   const t = useStore(state => state.t)
   const [currentDate, setCurrentDate] = useState(new Date(2026, 4, 1))
   const [view, setView] = useState('month')
@@ -132,7 +133,7 @@ export function useCalendar() {
     return Object.entries(events)
       .map(([dateStr, event]: [string, CalendarEvent]) => {
         const [y, m, d] = dateStr.split('-').map(Number)
-        const eventTitle = event.title || (lang === 'da' ? event.titleDa : event.titleEn)
+        const eventTitle = event.title || l(event.titleDa, event.titleEn)
         return { date: new Date(y, m, d), dateKey: dateStr, ...event, title: eventTitle }
       })
       .filter((e) => e.date >= new Date(new Date().setHours(0, 0, 0, 0)))
@@ -167,6 +168,7 @@ export function useCalendar() {
 const Calendar = () => {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(process.env.NODE_ENV !== 'test')
 
@@ -272,10 +274,7 @@ const Calendar = () => {
       title={getTitle}
       titleProps={{ 'data-testid': 'page-header-title', className: 'capitalize' }}
       subtitle={t('calendar_subtitle')}
-      breadcrumbs={[
-        { label: t('dashboard'), href: '/' },
-        { label: t('calendar') },
-      ]}
+      breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('calendar') }]}
       actions={
         <Stack gap="sm" className="w-full">
           <Stack direction="row" gap="sm" className="flex-wrap" align="center" justify="between">
@@ -287,7 +286,7 @@ const Calendar = () => {
                 icon={ChevronLeft}
                 onClick={() => navigateCal('prev')}
                 className="h-11 w-11 min-h-[44px] min-w-[44px]"
-                aria-label={view === 'month' ? (lang === 'da' ? 'Forrige måned' : 'Previous month') : view === 'week' ? (lang === 'da' ? 'Forrige uge' : 'Previous week') : (lang === 'da' ? 'Forrige dag' : 'Previous day')}
+                aria-label={view === 'month' ? l('Forrige måned', 'Previous month') : view === 'week' ? l('Forrige uge', 'Previous week') : l('Forrige dag', 'Previous day')}
               />
               <Button
                 variant="secondary"
@@ -305,14 +304,14 @@ const Calendar = () => {
                 icon={ChevronRight}
                 onClick={() => navigateCal('next')}
                 className="h-11 w-11 min-h-[44px] min-w-[44px]"
-                aria-label={view === 'month' ? (lang === 'da' ? 'Næste måned' : 'Next month') : view === 'week' ? (lang === 'da' ? 'Næste uge' : 'Next month') : (lang === 'da' ? 'Næste dag' : 'Next day')}
+                aria-label={view === 'month' ? l('Næste måned', 'Next month') : view === 'week' ? l('Næste uge', 'Next week') : l('Næste dag', 'Next day')}
               />
             </Stack>
             <Stack direction="row" gap="sm" className="flex-wrap" align="center">
               <Dropdown>
                 <Dropdown.Trigger>
                   <Button variant="ghost" size="sm" icon={Settings} className="normal-case tracking-normal hover:bg-bg-hover text-text-muted">
-                    {lang === 'da' ? 'Import/Eksport' : 'Import/Export'}
+                    {l('Import/Eksport', 'Import/Export')}
                   </Button>
                 </Dropdown.Trigger>
                 <Dropdown.Menu className="w-48 p-1">

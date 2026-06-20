@@ -20,6 +20,7 @@ function Course() {
   const navigate = useNavigate()
   const t = useStore((state) => state.t)
   const lang = useStore((state) => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
   const [activeTab, setActiveTab] = useState<string>('modules')
   const [expandedSections, setExpandedSections] = useState<string[]>(() => {
     const course = courses[Number(id)]
@@ -223,7 +224,7 @@ function Course() {
                   <Card.Header padding="compact" className="pb-none">
                     <Stack gap="2xs" className="flex-1 min-w-0">
                       <Text weight="bold" size="sm" className="card__title text-primary">
-                        {lang === 'da' ? 'Til næste lektion' : 'For Next Session'}
+                        {l('Til næste lektion', 'For Next Session')}
                       </Text>
                       <Text size="2xs" muted className="truncate block">
                         {t(`course_${id}_${nextSession.id}_title`)}
@@ -262,7 +263,7 @@ function Course() {
                             <div className="min-w-0 flex-1 flex items-center gap-2xs">
                               <Icon size={12} className="text-muted shrink-0" />
                               <Text size="2xs" weight="medium" className={cn("truncate block text-main text-left", isCompleted && "line-through opacity-60")}>
-                                {lang === 'da' ? item.title : item.titleEn}
+                                {l(item.title, item.titleEn)}
                               </Text>
                             </div>
                           </div>

@@ -10,6 +10,7 @@ import { FaqSection, LocalDesksSection, ContactForm, SupportSidebar, TriageSecti
 function Support() {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const l = (da: string, en: string) => lang === 'da' ? da : en
   const toast = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [subject, setSubject] = useState('')
@@ -55,10 +56,7 @@ function Support() {
       pageKey="support"
       title={t('support_page_title')}
       subtitle={t('support_page_subtitle')}
-      breadcrumbs={[
-        { label: t('dashboard'), href: '/' },
-        { label: t('support') },
-      ]}
+      breadcrumbs={[{ label: t('dashboard'), href: '/' }, { label: t('support') }]}
     >
 
       <div className="container pb-lg">
@@ -67,15 +65,15 @@ function Support() {
             <Stack gap="md">
               <TriageSection />
               <div className="flex flex-wrap gap-sm items-center pt-xs pb-xs">
-                <Text size="xs" weight="bold" muted className="uppercase tracking-wider shrink-0">{lang === 'da' ? 'Hurtige kontaktveje' : 'Quick contacts'}</Text>
+                <Text size="xs" weight="bold" muted className="uppercase tracking-wider shrink-0">{l('Hurtige kontaktveje', 'Quick contacts')}</Text>
                 <a href="tel:+4599402020" className="inline-flex items-center gap-xs px-md py-xs rounded-[var(--radius-md)] border border-border bg-bg-card text-sm font-semibold text-main hover:border-primary/40 hover:bg-primary/5 transition-all">
                   <Phone size={14} />
                   <span>+45 9940 2020</span>
-                  <Text size="2xs" muted className="hidden sm:inline">· {lang === 'da' ? 'Man–fre 08:00–15:00' : 'Mon–Fri 08:00–15:00'}</Text>
+                  <Text size="2xs" muted className="hidden sm:inline">· {l('Man–fre 08:00–15:00', 'Mon–Fri 08:00–15:00')}</Text>
                 </a>
                 <a href="https://serviceportal.aau.dk" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-xs px-md py-xs rounded-[var(--radius-md)] border border-border bg-bg-card text-sm font-semibold text-main hover:border-primary/40 hover:bg-primary/5 transition-all">
                   <Globe size={14} />
-                  <span>{lang === 'da' ? 'Serviceportal' : 'Service Portal'}</span>
+                  <span>{l('Serviceportal', 'Service Portal')}</span>
                   <ExternalLink size={12} className="text-muted" />
                 </a>
               </div>
