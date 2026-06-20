@@ -563,3 +563,7 @@ export function sortFavorites(favorites: FavoriteItem[]): FavoriteItem[] {
 function localeForLang(lang: Lang): string {
   return lang === 'da' ? 'da-DK' : 'en-US'
 }
+
+export function l<T>(lang: Lang, da: T, en: T): T {
+  return lang === 'da' ? da : en
+}

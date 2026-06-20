@@ -54,30 +54,29 @@ const isEventDeadline = (event: CalendarEvent): boolean => {
   )
 }
 
-const getEventTitleText = (event: CalendarEvent, lang: string): string => {
-  return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
+const getEventTitleText = (event: CalendarEvent): string => {
+  return event.title || useStore.getState().localize(event, 'title') || ''
 }
 
-const getEventCourseText = (event: CalendarEvent, lang: string): string => {
-  const courseTitle = lang === 'da' ? event.courseTitleDa : event.courseTitleEn
+const getEventCourseText = (event: CalendarEvent): string => {
+  const courseTitle = useStore.getState().localize(event, 'courseTitle')
   if (!courseTitle) return ''
   return courseTitle + (event.courseCode ? ` (${event.courseCode})` : '')
 }
 
-const getEventTypeText = (event: CalendarEvent, lang: string): string => {
-  return (lang === 'da' ? event.typeDa : event.typeEn) || ''
+const getEventTypeText = (event: CalendarEvent): string => {
+  return useStore.getState().localize(event, 'type') || ''
 }
 
 // Calendar Engine Shared Components
 interface EventBadgeProps {
   event: CalendarEvent
-  lang: string
   className?: string
 }
 
-const EventBadge = ({ event, lang, className }: EventBadgeProps) => {
+const EventBadge = ({ event, className }: EventBadgeProps) => {
   const isDeadline = isEventDeadline(event)
-  const eventType = getEventTypeText(event, lang)
+  const eventType = getEventTypeText(event)
   if (!eventType) return null
 
   return (
@@ -132,7 +131,6 @@ export const CalendarDayView = memo(function CalendarDayView({
   t,
   handleEventClick,
 }: CalendarDayViewProps) {
-  const lang = useStore(state => state.lang)
 
   const { dateKey, dayName, formattedDate, isToday } = useMemo(() => {
     const key = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
@@ -196,8 +194,8 @@ export const CalendarDayView = memo(function CalendarDayView({
               <Stack gap="xl">
                 <Stack gap="xs">
                   <div className="flex flex-wrap items-center gap-xs">
-                    {(() => {
-                      const courseTitle = getEventCourseText(event, lang)
+                     {(() => {
+                      const courseTitle = getEventCourseText(event)
                       if (courseTitle) {
                         return (
                           <Badge variant="outline" className="text-[10px] font-bold border-primary/30 text-primary dark:text-[var(--aau-light-blue-sec)]">
@@ -207,11 +205,11 @@ export const CalendarDayView = memo(function CalendarDayView({
                       }
                       return null
                     })()}
-                    <EventBadge event={event} lang={lang} />
+                    <EventBadge event={event} />
                   </div>
                   <Heading level={3} className={cn("text-3xl sm:text-4xl font-black leading-[1.1] tracking-tight group-hover:text-primary transition-colors mt-xs flex items-center gap-2", isDeadline && "text-orange-700 dark:text-orange-300")}>
                     {isDeadline && <AlertTriangle className="w-8 h-8 text-orange-600 dark:text-orange-400 shrink-0" />}
-                    {getEventTitleText(event, lang)}
+                    {getEventTitleText(event)}
                   </Heading>
                 </Stack>
 
@@ -283,7 +281,6 @@ export const CalendarMonthView = memo(function CalendarMonthView({
   handleDayClick,
   getWeekNumber,
 }: CalendarMonthViewProps) {
-  const lang = useStore(state => state.lang)
 
   const { days, firstDay, startingWeekNum, year, month, rowCount } = useMemo(() => {
     const y = currentDate.getFullYear()
@@ -349,12 +346,12 @@ export const CalendarMonthView = memo(function CalendarMonthView({
             )}
             style={eventStyle}
             onClick={(e) => { e.stopPropagation(); handleEventClick(event, dateKey); }}
-            aria-label={`${getEventTitleText(event, lang)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
-            title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
+            aria-label={`${getEventTitleText(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
+            title={`${getEventTitleText(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
           >
             <Text weight="bold" className={cn("line-clamp-2 block select-none leading-snug text-xs sm:text-sm", isDeadline && "font-black text-orange-800 dark:text-orange-300 flex items-center gap-1")}>
               {isDeadline && <AlertTriangle className="w-3 h-3 shrink-0 text-orange-600 dark:text-orange-400 animate-pulse" />}
-              {event.courseCode ? `${event.courseCode}: ` : ''}{getEventTitleText(event, lang)}
+              {event.courseCode ? `${event.courseCode}: ` : ''}{getEventTitleText(event)}
             </Text>
             {event.time && (
               <Text className="opacity-90 block line-clamp-2 mt-[2px] font-semibold text-[10px] sm:text-xs">
@@ -365,7 +362,7 @@ export const CalendarMonthView = memo(function CalendarMonthView({
         )}
       </Stack>
     )
-  }, [year, month, events, handleEventClick, handleDayClick, t, lang])
+  }, [year, month, events, handleEventClick, handleDayClick, t])
 
   const gridCells = useMemo(() => {
     const cells = []
@@ -425,7 +422,6 @@ export const CalendarWeekView = memo(function CalendarWeekView({
   t,
   handleEventClick,
 }: CalendarWeekViewProps) {
-  const lang = useStore(state => state.lang)
 
   const { weekDays } = useMemo(() => {
     const start = currentDate.getDate() - (currentDate.getDay() || 7) + 1
@@ -505,8 +501,8 @@ export const CalendarWeekView = memo(function CalendarWeekView({
                   >
                     <button
                       type="button"
-                      title={`${getEventTitleText(event, lang)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
-                      aria-label={`${getEventTitleText(event, lang)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
+                      title={`${getEventTitleText(event)}${event.time ? ` (${event.time})` : ''}${event.location ? ` - ${event.location}` : ''}`}
+                      aria-label={`${getEventTitleText(event)}${event.time ? `, ${event.time}` : ''}${event.location ? `, ${event.location}` : ''}`}
                       onClick={() => handleEventClick(event, day.dateKey)}
                       className={cn(
                         "w-full h-full p-2.5 rounded-lg text-left transition-all duration-300",
@@ -522,7 +518,7 @@ export const CalendarWeekView = memo(function CalendarWeekView({
                       <Stack gap="2xs">
                         {(() => {
                           const courseCode = event.courseCode
-                          const eventType = lang === 'da' ? event.typeDa : event.typeEn
+                          const eventType = getEventTypeText(event)
                           if (courseCode || eventType) {
                             return (
                               <div className="flex flex-wrap items-center gap-3xs opacity-80 mb-3xs">
@@ -542,7 +538,7 @@ export const CalendarWeekView = memo(function CalendarWeekView({
                           return null
                         })()}
                         <Text size="xs" weight={isDeadline ? "black" : "extrabold"} className={cn("line-clamp-2 block leading-tight tracking-tight opacity-90", isDeadline && "text-orange-800 dark:text-orange-200")}>
-                          {getEventTitleText(event, lang)}
+                          {getEventTitleText(event)}
                         </Text>
                         <Text size="2xs" className="opacity-80 font-bold flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-current opacity-50" />
@@ -743,32 +739,27 @@ export function CalendarEventDetailsDialog({
   t,
 }: CalendarEventDetailsDialogProps) {
   const navigate = useNavigate()
-  const lang = useStore(state => state.lang)
 
   if (!selectedEvent) return null
-
-  const getEventTitle = (e: CalendarEvent) => {
-    return e.title || (lang === 'da' ? e.titleDa : e.titleEn) || ''
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[540px] md:max-w-[620px] max-h-[80vh] overflow-y-auto p-0 flex flex-col scrollbar-thin">
         <div className="animate-modal-enter flex flex-col h-full w-full">
           <div
-            className="calendar__detail-header p-[var(--space-md)_var(--space-lg)] pr-[60px] border-b border-[var(--border-color)]/60 flex items-center justify-between gap-[var(--space-md)]"
+            className="calendar__detail-header relative flex flex-col sm:flex-row sm:items-center justify-between p-lg pr-[var(--space-2xl)] select-none shrink-0 border-b border-border/50"
             style={{ borderLeft: `6px solid ${selectedEvent.color}` }}
           >
             <Stack gap="2xs" className="min-w-0 flex-1">
               <Heading level={2} className="calendar__detail-title text-xl font-extrabold text-main leading-tight truncate">
-                {getEventTitle(selectedEvent)}
+                {getEventTitleText(selectedEvent)}
               </Heading>
               {(() => {
-                const courseTitle = lang === 'da' ? selectedEvent.courseTitleDa : selectedEvent.courseTitleEn
+                const courseTitle = getEventCourseText(selectedEvent)
                 if (courseTitle) {
                   return (
                     <Text size="xs" weight="bold" className="text-primary dark:text-[var(--aau-light-blue-sec)] truncate">
-                      {courseTitle} {selectedEvent.courseCode ? `(${selectedEvent.courseCode})` : ''}
+                      {courseTitle}
                     </Text>
                   )
                 }
@@ -863,7 +854,6 @@ export const CalendarUpcomingWidget = memo(function CalendarUpcomingWidget({
   onImport,
 }: CalendarUpcomingWidgetProps) {
   const navigate = useNavigate()
-  const lang = useStore(state => state.lang)
 
   const futureEvents = useMemo(() => {
     const now = new Date()
@@ -893,10 +883,6 @@ export const CalendarUpcomingWidget = memo(function CalendarUpcomingWidget({
       .sort((a, b) => a.date.getTime() - b.date.getTime())
       .slice(0, 5)
   }, [events, currentDate])
-
-  const getEventTitle = (e: CalendarEvent) => {
-    return e.title || (lang === 'da' ? e.titleDa : e.titleEn) || ''
-  }
 
   return (
     <Card variant="default" className="upcoming-events-widget !h-auto">
@@ -947,7 +933,7 @@ export const CalendarUpcomingWidget = memo(function CalendarUpcomingWidget({
 
                 <Stack gap="none" className="flex-1 min-w-0">
                   <Text size="sm" weight="bold" tag="span" className="line-clamp-2 block leading-snug">
-                    {getEventTitle(e)}
+                    {getEventTitleText(e)}
                   </Text>
                   <Stack direction="row" gap="xs" align="center" className="text-text-secondary shrink-0">
                     <Clock size={12} strokeWidth={2.5} />
