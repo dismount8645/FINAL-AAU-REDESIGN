@@ -292,24 +292,23 @@ function WidgetStateWrapper({ id, size, children }: { id: string; size: 'small' 
     )
   }
 
-  return <>{children}</>
+  return children
 }
 
-// 3. ShortcutsWidget
 interface WidgetProps {
   size?: 'small' | 'medium' | 'large'
 }
 
-function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
+const WIDGET_SHORTCUTS = [
+  { name: 'Moodle', url: 'https://www.moodle.aau.dk' },
+  { name: 'Digital Eksamen', url: 'https://eksamen.aau.dk' },
+  { name: 'STADS Self-Service', url: 'https://stads.aau.dk' },
+  { name: 'AAU Card', url: 'https://aaucard.aau.dk' },
+  { name: 'AAU Webmail', url: 'https://mail.aau.dk' },
+]
+
+function ShortcutsWidgetInner({ size = 'small' }: { size?: 'small' | 'medium' | 'large' }) {
   const l = useL()
-  
-  const shortcuts = useMemo(() => [
-    { name: 'Moodle', url: 'https://www.moodle.aau.dk' },
-    { name: 'Digital Eksamen', url: 'https://eksamen.aau.dk' },
-    { name: 'STADS Self-Service', url: 'https://stads.aau.dk' },
-    { name: 'AAU Card', url: 'https://aaucard.aau.dk' },
-    { name: 'AAU Webmail', url: 'https://mail.aau.dk' },
-  ], [])
 
   const limit = size === 'small' ? 3 : size === 'medium' ? 4 : 5
 
@@ -327,7 +326,7 @@ function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex flex-col gap-[var(--space-2xs)] justify-center">
         <div className="flex flex-col gap-1">
-          {shortcuts.slice(0, limit).map((s, idx) => (
+          {WIDGET_SHORTCUTS.slice(0, limit).map((s, idx) => (
             <a
               key={idx}
               href={s.url}
