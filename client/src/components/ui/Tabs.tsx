@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 // Tabs Component Definitions
 // ==========================================
 
-export interface TabItem {
+interface TabItem {
   id?: string
   key?: string
   label: string
