@@ -34,6 +34,11 @@ import type { OverviewEvent } from '@/lib/types';
 import useStore from '@/store';
 import { PATHS } from '@/routes';
 
+const useL = () => {
+  const lang = useStore(state => state.lang);
+  return <T,>(da: T, en: T): T => lang === 'da' ? da : en;
+};
+
 // 1. Types & Shared Structures
 export interface WidgetItem {
   id: string
@@ -41,7 +46,7 @@ export interface WidgetItem {
   size?: 'small' | 'medium' | 'large'
 }
 
-export interface Post {
+interface Post {
   id: number
   author: string
   replies: number
@@ -116,7 +121,7 @@ const dashboardForumPosts = [
 ]
 
 // 2. Helper Hooks & Skeleton Primitives
-export function useWidgetGrid(widgets: WidgetItem[], onLayoutChange?: (widgets: WidgetItem[]) => void) {
+function useWidgetGrid(widgets: WidgetItem[], onLayoutChange?: (widgets: WidgetItem[]) => void) {
   const handleSizeChange = (id: string, newSize: 'small' | 'medium' | 'large') => {
     if (!onLayoutChange) return
     const updated = widgets.map((w) => {
@@ -171,7 +176,7 @@ function WidgetSkeletonHeader() {
 }
 
 function WidgetError({ widgetTitle, onRetry, lang }: { widgetTitle: string; onRetry: () => void; lang: 'da' | 'en' }) {
-  const retryLabel = lang === 'da' ? `Prøv igen for ${widgetTitle}` : `Retry ${widgetTitle}`
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   return (
     <div
       role="status"
@@ -180,42 +185,37 @@ function WidgetError({ widgetTitle, onRetry, lang }: { widgetTitle: string; onRe
     >
       <AlertCircle className="text-danger/60 shrink-0" size={20} aria-hidden="true" />
       <span className="text-sm font-semibold text-main">
-        {lang === 'da'
-          ? `Kunne ikke hente ${widgetTitle}`
-          : `Could not load ${widgetTitle}`}
+        {l(`Kunne ikke hente ${widgetTitle}`, `Could not load ${widgetTitle}`)}
       </span>
       <span className="text-xs text-muted max-w-[200px] leading-relaxed">
-        {lang === 'da'
-          ? 'Forbindelsen afbrød eller timeout.'
-          : 'Connection failed or timed out.'}
+        {l('Forbindelsen afbrød eller timeout.', 'Connection failed or timed out.')}
       </span>
       <button
         onClick={onRetry}
         className="min-h-[44px] px-md text-sm font-bold text-primary border border-primary/40 rounded-[var(--radius-md)] hover:bg-primary/5 transition-colors focus-visible:shadow-focus focus-visible:outline-none"
-        aria-label={retryLabel}
+        aria-label={l(`Prøv igen for ${widgetTitle}`, `Retry ${widgetTitle}`)}
       >
-        {lang === 'da' ? 'Prøv igen' : 'Retry'}
+        {l('Prøv igen', 'Retry')}
       </button>
     </div>
   )
 }
 
 function WidgetPermissionDeniedBody({ lang }: { lang: 'da' | 'en' }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   return (
     <div className="flex flex-col items-center justify-center gap-xs py-lg px-md text-center">
       <span className="text-xs font-semibold text-main">
-        {lang === 'da' ? 'Ingen adgang' : 'Access Denied'}
+        {l('Ingen adgang', 'Access Denied')}
       </span>
       <span className="text-xs text-muted max-w-[200px] leading-relaxed">
-        {lang === 'da'
-          ? 'Du har ikke tilladelse til at se dette modul.'
-          : 'You do not have permission to view this widget.'}
+        {l('Du har ikke tilladelse til at se dette modul.', 'You do not have permission to view this widget.')}
       </span>
     </div>
   )
 }
 
-export function WidgetStateWrapper({ id, size, children }: { id: string; size: 'small' | 'medium' | 'large'; children: ReactNode }) {
+function WidgetStateWrapper({ id, size, children }: { id: string; size: 'small' | 'medium' | 'large'; children: ReactNode }) {
   const lang = useStore(state => state.lang);
   const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'permission_denied'>(() => {
     if (id === 'courseProgress') return 'permission_denied';
@@ -301,7 +301,7 @@ interface WidgetProps {
 }
 
 function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
-  const lang = useStore(state => state.lang)
+  const l = useL()
   
   const shortcuts = useMemo(() => [
     { name: 'Moodle', url: 'https://www.moodle.aau.dk' },
@@ -321,7 +321,7 @@ function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
             <Link2 size={18} strokeWidth={2} />
           </div>
           <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
-            {lang === 'da' ? 'Genveje' : 'Shortcuts'}
+            {l('Genveje', 'Shortcuts')}
           </Heading>
         </Stack>
       </Card.Header>
@@ -337,7 +337,7 @@ function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
             >
               <span className="truncate">{s.name}</span>
               <span className="shrink-0 flex items-center gap-1 text-text-muted text-[10px] font-medium opacity-0 group-hover/shortcut-link:opacity-100 transition-all duration-200">
-                <span>{lang === 'da' ? 'åbn' : 'open'}</span>
+                <span>{l('åbn', 'open')}</span>
                 <ExternalLink size={12} strokeWidth={2.5} />
               </span>
             </a>
@@ -348,12 +348,12 @@ function ShortcutsWidgetInner({ size = 'small' }: WidgetProps) {
   )
 }
 
-export const ShortcutsWidget = memo(ShortcutsWidgetInner)
+const ShortcutsWidget = memo(ShortcutsWidgetInner)
 
 // 4. SupportWidget
-export function SupportWidget({ size = 'medium' }: WidgetProps) {
+function SupportWidget({ size = 'medium' }: WidgetProps) {
   const t = useStore(state => state.t)
-  const lang = useStore(state => state.lang)
+  const l = useL()
   return (
     <Card className="support-widget h-full w-full flex flex-col group/widget overflow-hidden shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-300 border-[var(--border-color)]/60">
       <Card.Header padding="compact" className="border-b border-[var(--border-color)]/40 bg-bg-highlight/50 backdrop-blur-sm">
@@ -376,12 +376,12 @@ export function SupportWidget({ size = 'medium' }: WidgetProps) {
         {size === 'large' && (
           <div className="flex flex-col gap-[2px] text-[11px] text-muted border-y border-[var(--border-color)]/40 py-[var(--space-2xs)] my-[var(--space-2xs)]">
             <div className="flex justify-between">
-              <span className="font-bold">{lang === 'da' ? 'Telefon:' : 'Phone:'}</span>
+              <span className="font-bold">{l('Telefon:', 'Phone:')}</span>
               <span>+45 9940 2020</span>
             </div>
             <div className="flex justify-between">
-              <span className="font-bold">{lang === 'da' ? 'Åbningstider:' : 'Hours:'}</span>
-              <span>{lang === 'da' ? 'Man-Fre 08:00–15:30' : 'Mon-Fri 08:00–15:30'}</span>
+              <span className="font-bold">{l('Åbningstider:', 'Hours:')}</span>
+              <span>{l('Man-Fre 08:00–15:30', 'Mon-Fri 08:00–15:30')}</span>
             </div>
           </div>
         )}
@@ -401,22 +401,23 @@ export function SupportWidget({ size = 'medium' }: WidgetProps) {
 
 // 5. QuickOverviewWidget
 const getBadgeInfo = (event: OverviewEvent, lang: 'da' | 'en') => {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   if (event.time === '23:59') {
     return {
-      text: lang === 'da' ? 'Aflevering' : 'Submission',
+      text: l('Aflevering', 'Submission'),
       badgeClass: 'bg-[var(--color-bg-danger-tint)] text-[var(--color-danger)] border-[var(--color-danger)]/30',
       Icon: AlertCircle
     }
   }
   if (event.titleKey === 'study_group') {
     return {
-      text: lang === 'da' ? 'Studiegruppe' : 'Study Group',
+      text: l('Studiegruppe', 'Study Group'),
       badgeClass: 'bg-accent/10 text-accent border-accent/20',
       Icon: Users
     }
   }
   return {
-    text: lang === 'da' ? 'Undervisning' : 'Class',
+    text: l('Undervisning', 'Class'),
     badgeClass: 'bg-primary/5 text-primary border-primary/20',
     Icon: Clock,
     iconBgClass: 'bg-[var(--color-bg-warning-tint)] text-[var(--aau-dark-orange)] border-[var(--aau-dark-orange)]/20'
@@ -432,11 +433,12 @@ const OverviewItem = memo(({
 }) => {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
 
   const { text, badgeClass, Icon } = getBadgeInfo(event, lang)
 
   const title = event.titleKey === 'project_report'
-    ? (lang === 'da' ? 'Projektrapport skal afleveres' : 'Submit Projektrapport')
+    ? l('Projektrapport skal afleveres', 'Submit Projektrapport')
     : t(event.titleKey)
 
   return (
@@ -483,7 +485,7 @@ const OverviewItem = memo(({
 export const QuickOverviewWidget = memo(function QuickOverviewWidget({ size: _size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
-  const lang = useStore(state => state.lang)
+  const l = useL()
 
   const handleGoToCalendar = useCallback(() => {
     navigate(PATHS.CALENDAR)
@@ -509,7 +511,7 @@ export const QuickOverviewWidget = memo(function QuickOverviewWidget({ size: _si
           onClick={handleGoToCalendar}
           className="text-xs font-bold text-primary dark:text-white"
         >
-          {lang === 'da' ? 'Se kalender' : 'See calendar'}
+          {l('Se kalender', 'See calendar')}
         </Button>
       </Card.Header>
 
@@ -537,10 +539,10 @@ interface MessagesWidgetProps extends WidgetProps {
   isPriorityElevated?: boolean
 }
 
-export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: MessagesWidgetProps) {
+function MessagesWidget({ size = 'medium', isPriorityElevated = false }: MessagesWidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
-  const lang = useStore(state => state.lang)
+  const l = useL()
 
   const sortedMessages = useMemo(() => {
     return [...mockMessages].sort((a, b) => {
@@ -567,12 +569,12 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
           </Heading>
           {isPriorityElevated && (
             <span className="px-1.5 py-[2px] text-[10px] font-bold text-primary bg-primary/10 rounded-sm leading-none shrink-0">
-              {lang === 'da' ? 'Prioriteret' : 'Priority'}
+              {l('Prioriteret', 'Priority')}
             </span>
           )}
           {mockMessages.filter(m => m.unread).length > 0 && (
             <span className="px-1.5 py-[2px] text-[10px] font-bold text-primary bg-primary/10 rounded-sm leading-none shrink-0">
-              {mockMessages.filter(m => m.unread).length} {lang === 'da' ? 'ulæst' : 'unread'}
+              {mockMessages.filter(m => m.unread).length} {l('ulæst', 'unread')}
             </span>
           )}
         </Stack>
@@ -582,9 +584,9 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
           className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px] px-md flex items-center"
           onClick={() => navigate(PATHS.MESSAGES)}
           iconRight={ChevronRight}
-          aria-label={lang === 'da' ? 'Se alle' : 'See all'}
+          aria-label={l('Se alle', 'See all')}
         >
-          {lang === 'da' ? 'Se alle' : 'See all'}
+          {l('Se alle', 'See all')}
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col justify-center">
@@ -599,10 +601,10 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
                 }`}
                 role="button"
                 tabIndex={0}
-                aria-label={msg.unread ? (lang === 'da' ? `Ulæst besked fra ${msg.sender}: ${msg.subject}` : `Unread message from ${msg.sender}: ${msg.subject}`) : undefined}
+                aria-label={msg.unread ? l(`Ulæst besked fra ${msg.sender}: ${msg.subject}`, `Unread message from ${msg.sender}: ${msg.subject}`) : undefined}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
-                    navigate(PATHS.MESSAGES)
+                     navigate(PATHS.MESSAGES)
                   }
                 }}
               >
@@ -614,7 +616,7 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
                     </span>
                     {msg.unread && (
                       <span className="px-2 py-[3px] text-xs font-bold text-primary bg-primary/10 rounded-sm leading-none shrink-0">
-                        {lang === 'da' ? 'Ulæst' : 'Unread'}
+                        {l('Ulæst', 'Unread')}
                       </span>
                     )}
                   </div>
@@ -631,7 +633,7 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
           </div>
         ) : (
           <div className="text-xs text-text-muted italic py-xs text-center leading-relaxed">
-            {lang === 'da' ? 'Ingen beskeder' : 'No messages'}
+            {l('Ingen beskeder', 'No messages')}
           </div>
         )}
       </Card.Body>
@@ -640,10 +642,10 @@ export function MessagesWidget({ size = 'medium', isPriorityElevated = false }: 
 }
 
 // 7. CalendarWidget
-export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
+function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
-  const lang = useStore(state => state.lang)
+  const l = useL()
 
   const todayEventsList = useMemo(() => {
     return mockCalendarEvents.filter(e => 
@@ -679,15 +681,15 @@ export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
           className="text-xs font-medium text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px] px-md flex items-center" 
           onClick={handleSeeAll} 
           iconRight={ChevronRight}
-          aria-label={lang === 'da' ? 'Åbn kalender' : 'Open calendar'}
+          aria-label={l('Åbn kalender', 'Open calendar')}
         >
-          {lang === 'da' ? 'Åbn kalender' : 'Open calendar'}
+          {l('Åbn kalender', 'Open calendar')}
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col gap-sm overflow-y-auto">
         <div className="flex flex-col gap-2xs">
           <div className="text-xs font-semibold text-text-secondary mb-xs">
-            {lang === 'da' ? 'Dagens program' : "Today's Schedule"}
+            {l('Dagens program', "Today's Schedule")}
           </div>
           {todayEventsList.length > 0 ? (
             <div className="flex flex-col gap-2xs">
@@ -710,7 +712,7 @@ export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
           ) : upcomingEvent ? (
             <div className="flex flex-col gap-2xs">
               <div className="text-xs text-text-secondary italic pl-xs mb-xs leading-relaxed">
-                {lang === 'da' ? 'Ingen planlagte aktiviteter i dag. Næste aftale:' : 'No activities today. Next appointment:'}
+                {l('Ingen planlagte aktiviteter i dag. Næste aftale:', 'No activities today. Next appointment:')}
               </div>
               <div className="flex flex-col gap-2xs">
                 <div
@@ -730,7 +732,7 @@ export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
             </div>
           ) : (
             <div className="text-xs text-text-secondary italic py-2xs pl-xs leading-relaxed">
-              {lang === 'da' ? 'Ingen kalenderaftaler' : 'No calendar appointments'}
+              {l('Ingen kalenderaftaler', 'No calendar appointments')}
             </div>
           )}
         </div>
@@ -740,7 +742,7 @@ export function CalendarWidget({ size: _size = 'medium' }: WidgetProps) {
 }
 
 // 8. CourseProgressWidget
-export function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
+function CourseProgressWidget({ size = 'medium' }: WidgetProps) {
   const t = useStore(state => state.t)
   const limit = size === 'small' ? 1 : size === 'medium' ? 2 : 3
 
@@ -807,6 +809,7 @@ function DeadlineEmpty({ t }: { t: (key: string) => string }) {
 }
 
 function DeadlineCardSmall({ deadlines, onDeadlineClick, lang }: { deadlines: ProcessedDeadline[]; onDeadlineClick: (dl: ProcessedDeadline) => void; lang: string }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   const nextDl = deadlines[0];
 
   return (
@@ -830,7 +833,7 @@ function DeadlineCardSmall({ deadlines, onDeadlineClick, lang }: { deadlines: Pr
                 className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
                 style={{ backgroundColor: 'var(--color-badge-urgent)' }}
               >
-                {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
+                {l('Forfalder i dag', 'Due today')}
               </span>
             )}
           </div>
@@ -849,6 +852,7 @@ function DeadlineCardSmall({ deadlines, onDeadlineClick, lang }: { deadlines: Pr
 }
 
 function DeadlineCardMedium({ deadlines, onDeadlineClick, lang }: { deadlines: ProcessedDeadline[]; onDeadlineClick: (dl: ProcessedDeadline) => void; lang: string }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   return (
     <div className="flex flex-col gap-2xs flex-1 justify-center">
       {deadlines.map((dl, idx) => (
@@ -872,7 +876,7 @@ function DeadlineCardMedium({ deadlines, onDeadlineClick, lang }: { deadlines: P
                 <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
                 {idx === 0 && (
                   <span className="px-1.5 py-0.5 text-xs font-extrabold rounded-[var(--radius-xs)] leading-none shrink-0" style={{ color: dl.info.color, backgroundColor: `${dl.info.color}15` }}>
-                    {lang === 'da' ? 'Vigtig aflevering' : 'Important assignment'}
+                    {l('Vigtig aflevering', 'Important assignment')}
                   </span>
                 )}
                 {dl.info.urgency === 'today' && (
@@ -880,7 +884,7 @@ function DeadlineCardMedium({ deadlines, onDeadlineClick, lang }: { deadlines: P
                     className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
                     style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                   >
-                    {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
+                    {l('Forfalder i dag', 'Due today')}
                   </span>
                 )}
               </div>
@@ -906,6 +910,7 @@ function DeadlineCardMedium({ deadlines, onDeadlineClick, lang }: { deadlines: P
 }
 
 function DeadlineCardLarge({ deadlines, onDeadlineClick, lang, t }: { deadlines: ProcessedDeadline[]; onDeadlineClick: (dl: ProcessedDeadline) => void; lang: string; t: (key: string) => string }) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   return (
     <div className="flex flex-col gap-2xs flex-1">
       {deadlines.map((dl, idx) => (
@@ -926,7 +931,7 @@ function DeadlineCardLarge({ deadlines, onDeadlineClick, lang, t }: { deadlines:
               <span className="text-sm font-bold text-main truncate block">{dl.title}</span>
               {idx === 0 && (
                 <span className="px-1.5 py-0.5 text-xs font-extrabold rounded-[var(--radius-xs)] leading-none shrink-0" style={{ color: dl.info.color, backgroundColor: `${dl.info.color}15` }}>
-                  {lang === 'da' ? 'Vigtig' : 'Important'}
+                  {l('Vigtig', 'Important')}
                 </span>
               )}
               {dl.info.urgency === 'today' && (
@@ -934,7 +939,7 @@ function DeadlineCardLarge({ deadlines, onDeadlineClick, lang, t }: { deadlines:
                   className="px-1.5 py-0.5 text-xs font-bold rounded-[var(--radius-xs)] shrink-0 text-white leading-none" 
                   style={{ backgroundColor: 'var(--color-badge-urgent)' }}
                 >
-                  {lang === 'da' ? 'Forfalder i dag' : 'Due today'}
+                  {l('Forfalder i dag', 'Due today')}
                 </span>
               )}
             </div>
@@ -979,6 +984,7 @@ interface DeadlinesWidgetProps extends WidgetProps {
 export function DeadlinesWidget({ size = 'medium', hideFirst = false }: DeadlinesWidgetProps) {
   const navigate = useNavigate();
   const t = useStore(state => state.t);
+  const l = useL()
   const lang = useStore(state => state.lang);
   const localize = useStore(state => state.localize);
   const courses = useStore(state => state.courses);
@@ -1025,13 +1031,14 @@ export function DeadlinesWidget({ size = 'medium', hideFirst = false }: Deadline
           </div>
           <div>
             <Heading level={2} as="h2" className="m-0 text-sm font-bold text-main">
-              {lang === 'da'
-                ? (deadlines.length === 1 ? 'Næste aflevering' : 'Næste afleveringer')
-                : (deadlines.length === 1 ? 'Next assignment' : 'Next assignments')}
+              {l(
+                deadlines.length === 1 ? 'Næste aflevering' : 'Næste afleveringer',
+                deadlines.length === 1 ? 'Next assignment' : 'Next assignments'
+              )}
             </Heading>
             {size !== 'small' && (
               <span className="text-xs text-text-muted font-semibold block mt-3xs leading-relaxed">
-                {lang === 'da' ? `${upcomingCount} kommende` : `${upcomingCount} upcoming`}
+                {l(`${upcomingCount} kommende`, `${upcomingCount} upcoming`)}
               </span>
             )}
           </div>
@@ -1042,9 +1049,9 @@ export function DeadlinesWidget({ size = 'medium', hideFirst = false }: Deadline
           className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px]"
           onClick={handleSeeAll}
           iconRight={ChevronRight}
-          aria-label={lang === 'da' ? 'Se alle' : 'See all'}
+          aria-label={l('Se alle', 'See all')}
         >
-          {lang === 'da' ? 'Se alle' : 'See all'}
+          {l('Se alle', 'See all')}
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="p-[var(--space-xs)] flex-1 flex flex-col gap-[var(--space-xs)]">
@@ -1066,14 +1073,13 @@ export function DeadlinesWidget({ size = 'medium', hideFirst = false }: Deadline
 
 // 10. FavoritesWidget
 const getFavoriteMetadata = (item: ResolvedFavorite, lang: 'da' | 'en') => {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en;
   if (item.type === 'course') {
     const course = dataCourses[item.entityId]
     if (course?.nextAssignment) {
-      return lang === 'da'
-        ? `Næste aflevering: ${course.nextAssignment.deadline}`
-        : `Next assignment: ${course.nextAssignment.deadlineEn}`
+      return l(`Næste aflevering: ${course.nextAssignment.deadline}`, `Next assignment: ${course.nextAssignment.deadlineEn}`);
     }
-    return lang === 'da' ? 'Opdateret i går' : 'Updated yesterday'
+    return l('Opdateret i går', 'Updated yesterday');
   }
   if (item.type === 'file') {
     for (const course of Object.values(dataCourses)) {
@@ -1081,19 +1087,17 @@ const getFavoriteMetadata = (item: ResolvedFavorite, lang: 'da' | 'en') => {
         const fileItem = section.items.find(i => i.id === item.entityId)
         if (fileItem) {
           const ext = (fileItem.type || 'PDF').toUpperCase()
-          return lang === 'da'
-            ? `${ext} · Opdateret 10. jun`
-            : `${ext} · Updated Jun 10`
+          return l(`${ext} · Opdateret 10. jun`, `${ext} · Updated Jun 10`);
         }
       }
     }
-    return lang === 'da' ? 'PDF · Opdateret nyligt' : 'PDF · Recently updated'
+    return l('PDF · Opdateret nyligt', 'PDF · Recently updated');
   }
   if (item.type === 'tool') {
-    return lang === 'da' ? 'Eksternt værktøj' : 'External tool'
+    return l('Eksternt værktøj', 'External tool');
   }
   if (item.type === 'forum') {
-    return lang === 'da' ? 'Forum · Aktivt' : 'Forum · Active'
+    return l('Forum · Aktivt', 'Forum · Active');
   }
   return ''
 }
@@ -1101,6 +1105,7 @@ const getFavoriteMetadata = (item: ResolvedFavorite, lang: 'da' | 'en') => {
 function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
+  const l = useL()
   const lang = useStore(state => state.lang)
   const favorites = useStore(state => state.favorites)
   const courses = useStore(state => state.courses)
@@ -1130,8 +1135,8 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
             {t('dashboard.widget_favorites')}
           </Heading>
         </Stack>
-        <Button variant="ghost" size="sm" className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px]" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}>
-          {lang === 'da' ? 'Se alle' : 'See all'}
+        <Button variant="ghost" size="sm" className="text-sm font-extrabold text-primary dark:text-white normal-case tracking-normal hover:underline h-[44px] min-h-[44px]" onClick={handleSeeAll} iconRight={ChevronRight} aria-label={l('Se alle favoritter', 'See all favorites')}>
+          {l('Se alle', 'See all')}
         </Button>
       </Card.Header>
       <Card.Body padding="compact" className="overflow-visible p-[var(--space-xs)] flex-1 flex flex-col justify-center">
@@ -1187,10 +1192,10 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
               <Star size={24} strokeWidth={1.5} />
             </div>
             <Heading level={3} as="h3" className="text-xs font-bold text-main mt-xs">
-              {lang === 'da' ? 'Ingen favoritter endnu' : 'No favorites yet'}
+              {l('Ingen favoritter endnu', 'No favorites yet')}
             </Heading>
             <Text size="xs" className="text-center max-w-[200px] text-text-muted italic">
-              {lang === 'da' ? 'Markér kurser som favoritter for at vise dem her.' : 'Mark courses as favorites to show them here.'}
+              {l('Markér kurser som favoritter for at vise dem her.', 'Mark courses as favorites to show them here.')}
             </Text>
             <Button
               variant="outline"
@@ -1198,7 +1203,7 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
               onClick={() => navigate(PATHS.COURSES)}
               className="mt-xs font-bold text-xs h-[32px] min-h-[32px] flex items-center px-sm"
             >
-              {lang === 'da' ? 'Gå til kurser' : 'Go to courses'}
+              {l('Gå til kurser', 'Go to courses')}
             </Button>
           </div>
         )}
@@ -1212,9 +1217,9 @@ function FavoritesWidgetInner({ size = 'medium' }: WidgetProps) {
       </Card.Body>
       {display.length > 0 && size !== 'small' && (
         <Card.Footer padding="compact" className="bg-bg-highlight/30 border-t border-[var(--border-color)]/20 justify-between items-center cursor-pointer hover:bg-bg-hover transition-colors" onClick={handleSeeAll} role="button" tabIndex={0}>
-          <Text size="xs" weight="medium" className="text-muted font-medium">{favorites.length} {favorites.length === 1 ? (lang === 'da' ? 'favorit' : 'favorite') : (lang === 'da' ? 'favoritter' : 'favorites')}</Text>
+          <Text size="xs" weight="medium" className="text-muted font-medium">{favorites.length} {favorites.length === 1 ? l('favorit', 'favorite') : l('favoritter', 'favorites')}</Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Se alle favoritter' : 'See all favorites'}</Text>
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{l('Se alle favoritter', 'See all favorites')}</Text>
             <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
@@ -1405,7 +1410,7 @@ ForumWidget.displayName = 'ForumWidget';
 export const ForumActivityWidget = memo(function ForumActivityWidget({ size = 'medium' }: { size?: 'small' | 'medium' | 'large' }) {
   const navigate = useNavigate()
   const t = useStore(state => state.t)
-  const lang = useStore(state => state.lang)
+  const l = useL()
   const localize = useStore(state => state.localize)
 
   const handleViewAll = useCallback(() => {
@@ -1437,9 +1442,9 @@ export const ForumActivityWidget = memo(function ForumActivityWidget({ size = 'm
             className="font-black uppercase tracking-widest text-primary h-[44px] min-h-[44px] flex items-center"
             onClick={handleViewAll}
             iconRight={ChevronRight}
-            aria-label={lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}
+            aria-label={l('Se alle forumindlæg', 'See all forum posts')}
           >
-            {lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}
+            {l('Se alle forumindlæg', 'See all forum posts')}
           </Button>
         )}
       </Card.Header>
@@ -1485,7 +1490,7 @@ export const ForumActivityWidget = memo(function ForumActivityWidget({ size = 'm
             {t('communication')}
           </Text>
           <div className="flex items-center gap-1 opacity-0 group-hover/widget:opacity-100 transition-all duration-300 translate-x-2 group-hover/widget:translate-x-0">
-            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{lang === 'da' ? 'Se alle forumindlæg' : 'See all forum posts'}</Text>
+            <Text size="xs" weight="bold" className="text-primary dark:text-white uppercase">{l('Se alle forumindlæg', 'See all forum posts')}</Text>
             <ChevronRight size={14} strokeWidth={2.5} className="text-primary dark:text-white" />
           </div>
         </Card.Footer>
@@ -1507,7 +1512,7 @@ interface WidgetGridProps {
 }
 
 export const WidgetGrid = memo(function WidgetGrid({ widgets, isEditing = false, onLayoutChange, onToggleWidget, hideFirstDeadline = false, isMessagesElevated = false }: WidgetGridProps) {
-  const lang = useStore((state) => state.lang);
+  const l = useL();
   const { handleSizeChange, handleMoveUp, handleMoveDown } = useWidgetGrid(widgets, onLayoutChange);
 
   const renderWidgetContent = (id: string, size: 'small' | 'medium' | 'large' = 'medium') => {
@@ -1555,7 +1560,7 @@ export const WidgetGrid = memo(function WidgetGrid({ widgets, isEditing = false,
       >
         {isEditing && (
           <>
-            <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted/40 hover:text-muted cursor-grab shadow-sm opacity-50 hover:opacity-100 focus-within:opacity-100 transition-all duration-200" title={lang === 'da' ? 'Træk for at flytte' : 'Drag to move'}>
+            <div className="absolute top-2 left-2 z-50 flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-muted/40 hover:text-muted cursor-grab shadow-sm opacity-50 hover:opacity-100 focus-within:opacity-100 transition-all duration-200" title={l('Træk for at flytte', 'Drag to move')}>
               <GripVertical size={16} />
             </div>
             <div className="absolute top-2 right-2 z-50" onClick={e => e.stopPropagation()}>
@@ -1567,7 +1572,7 @@ export const WidgetGrid = memo(function WidgetGrid({ widgets, isEditing = false,
                       onClick={onClick}
                       onKeyDown={onKeyDown}
                       className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--border-color)] bg-bg-card/95 text-main hover:text-primary shadow-[var(--shadow-sm)] transition-all cursor-pointer focus-visible:outline-none focus-visible:shadow-focus"
-                      aria-label={lang === 'da' ? 'Widget indstillinger' : 'Widget settings'}
+                      aria-label={l('Widget indstillinger', 'Widget settings')}
                       aria-expanded={isOpen}
                       type="button"
                     >
@@ -1577,34 +1582,34 @@ export const WidgetGrid = memo(function WidgetGrid({ widgets, isEditing = false,
                 </Dropdown.Trigger>
                 <Dropdown.Menu className="w-48">
                   <div className="p-xs text-[10px] font-extrabold text-muted uppercase tracking-wider select-none border-b border-border/40">
-                    {lang === 'da' ? 'Størrelse' : 'Size'}
+                    {l('Størrelse', 'Size')}
                   </div>
                   <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'small')} className={widgetSize === 'small' ? 'text-primary bg-bg-highlight' : ''}>
-                    {widgetSize === 'small' ? '✓ ' : ''}{lang === 'da' ? 'Lille' : 'Small'}
+                    {widgetSize === 'small' ? '✓ ' : ''}{l('Lille', 'Small')}
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'medium')} className={widgetSize === 'medium' ? 'text-primary bg-bg-highlight' : ''}>
-                    {widgetSize === 'medium' ? '✓ ' : ''}{lang === 'da' ? 'Medium' : 'Medium'}
+                    {widgetSize === 'medium' ? '✓ ' : ''}{l('Medium', 'Medium')}
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => handleSizeChange(widget.id, 'large')} className={widgetSize === 'large' ? 'text-primary bg-bg-highlight' : ''}>
-                    {widgetSize === 'large' ? '✓ ' : ''}{lang === 'da' ? 'Stor' : 'Large'}
+                    {widgetSize === 'large' ? '✓ ' : ''}{l('Stor', 'Large')}
                   </Dropdown.Item>
                   
                   <div className="p-xs text-[10px] font-extrabold text-muted uppercase tracking-wider select-none border-t border-b border-border/40 mt-xs">
-                    {lang === 'da' ? 'Rækkefølge' : 'Order'}
+                    {l('Rækkefølge', 'Order')}
                   </div>
                   <Dropdown.Item onClick={() => handleMoveUp(globalIndex)} disabled={globalIndex === 0} className="flex items-center gap-xs">
                     <ArrowUp size={14} />
-                    {lang === 'da' ? 'Flyt op' : 'Move up'}
+                    {l('Flyt op', 'Move up')}
                   </Dropdown.Item>
                   <Dropdown.Item onClick={() => handleMoveDown(globalIndex)} disabled={globalIndex === widgets.length - 1} className="flex items-center gap-xs">
                     <ArrowDown size={14} />
-                    {lang === 'da' ? 'Flyt ned' : 'Move down'}
+                    {l('Flyt ned', 'Move down')}
                   </Dropdown.Item>
  
                   <div className="border-t border-border/40 mt-xs" />
                   <Dropdown.Item onClick={() => onToggleWidget && onToggleWidget(widget.id, false)} className="flex items-center gap-xs text-danger hover:bg-danger/10 hover:text-danger">
                     <Trash2 size={14} />
-                    {lang === 'da' ? 'Skjul' : 'Hide'}
+                    {l('Skjul', 'Hide')}
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -1635,6 +1640,3 @@ export const WidgetGrid = memo(function WidgetGrid({ widgets, isEditing = false,
     </div>
   );
 })
-
-// Default export of QuickOverviewWidget for backward compatibility
-export default QuickOverviewWidget;
