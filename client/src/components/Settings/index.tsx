@@ -25,7 +25,7 @@ interface AutosaveStatusProps {
   changeCount: number
 }
 
-export function AutosaveStatus({ changeCount }: AutosaveStatusProps) {
+function AutosaveStatus({ changeCount }: AutosaveStatusProps) {
   const [showSaved, setShowSaved] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout>>()
 
