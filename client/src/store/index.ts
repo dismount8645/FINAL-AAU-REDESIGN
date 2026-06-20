@@ -37,7 +37,7 @@ export interface CourseWithStatus extends CourseListItem {
   progress?: number
 }
 
-export interface UISlice {
+interface UISlice {
   theme: Theme;
   isDarkMode: boolean;
   setTheme: (theme: Theme) => void;
@@ -68,7 +68,7 @@ export interface UISlice {
   resetDashboardLayout: () => void;
 }
 
-export interface CourseSlice {
+interface CourseSlice {
   courses: CourseWithStatus[]
   toggleStar: (courseId: number) => void
 
@@ -80,7 +80,7 @@ export interface CourseSlice {
   updateCalendarEvents: (events: CalendarEvents) => void
 }
 
-export interface FavoriteSlice {
+interface FavoriteSlice {
   favorites: FavoriteItem[]
   favoritesLimit: number
   toggleFavorite: (type: FavoriteType, entityId: number) => void
@@ -89,7 +89,7 @@ export interface FavoriteSlice {
   clearFavorites: () => void
 }
 
-export interface UserSlice {
+interface UserSlice {
   firstName: string;
   lastName: string;
   notifPrefs: { email: boolean; push: boolean; sms: boolean };
@@ -116,7 +116,7 @@ export interface UserSlice {
   handleSave: (toast: { success: (msg: string) => void; error: (msg: string) => void }, t: (key: string) => string) => Promise<void>;
 }
 
-export interface AppState extends UISlice, CourseSlice, FavoriteSlice, UserSlice {}
+interface AppState extends UISlice, CourseSlice, FavoriteSlice, UserSlice {}
 
 function applySidebarClasses(isCollapsed: boolean) {
   if (typeof window === 'undefined') return;

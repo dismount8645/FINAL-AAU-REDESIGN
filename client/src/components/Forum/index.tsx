@@ -7,7 +7,7 @@ import useStore from '@/store'
 // Types & Interfaces
 // ==========================================
 
-export interface Post {
+interface Post {
   id: number
   titleDa: string
   titleEn: string

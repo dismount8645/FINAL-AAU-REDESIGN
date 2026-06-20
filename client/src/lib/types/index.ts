@@ -277,7 +277,7 @@ export interface OverviewEvent {
   location?: string
 }
 
-export interface DashboardWidgetItem {
+interface DashboardWidgetItem {
   id: string;
   title?: string;
   visible: boolean;
