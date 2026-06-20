@@ -63,16 +63,17 @@ const ContactForm = memo(function ContactForm({
 }: ContactFormProps) {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
 
   return (
     <Card className="h-auto overflow-visible min-h-[200px]">
       <Card.Body padding="compact" className="p-lg">
-        <Heading level={3} className="mb-xs">{lang === 'da' ? 'Send besked' : 'Send message'}</Heading>
+        <Heading level={3} className="mb-xs">{l('Send besked', 'Send message')}</Heading>
         {!isFormOpen ? (
           <div className="flex flex-col items-start">
             <Text size="xs" className="text-muted mb-sm">{t('send_message_desc')}</Text>
             <Button variant="primary" onClick={() => setIsFormOpen(true)}>
-              {lang === 'da' ? 'Send besked' : 'Send message'}
+              {l('Send besked', 'Send message')}
             </Button>
           </div>
         ) : (
@@ -136,6 +137,7 @@ const FAQ_ACTIONS: Record<string, { labelDa: string; labelEn: string; href: stri
 const FaqSection = memo(function FaqSection() {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
 
   const faqGroups = [
     {
@@ -176,7 +178,7 @@ const FaqSection = memo(function FaqSection() {
         {faqGroups.map((group, gi) => (
           <div key={gi}>
             <div className="text-xs font-bold uppercase tracking-wider text-text-muted px-xs mb-xs pt-xs select-none">
-              {lang === 'da' ? group.labelDa : group.labelEn}
+              {l(group.labelDa, group.labelEn)}
             </div>
             <AccordionWrapper>
               {group.items.map((faq, ii) => {
@@ -192,7 +194,7 @@ const FaqSection = memo(function FaqSection() {
                          rel="noopener noreferrer"
                          className="inline-flex items-center gap-3xs text-xs font-semibold text-primary hover:underline mt-2xs mb-sm"
                       >
-                        {lang === 'da' ? action.labelDa : action.labelEn}
+                        {l(action.labelDa, action.labelEn)}
                         <ExternalLink size={11} strokeWidth={2} />
                       </a>
                     )}
@@ -215,6 +217,7 @@ const LocalDesksSection = memo(function LocalDesksSection() {
   const t = useStore(state => state.t)
   const localize = useStore(state => state.localize)
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
 
   return (
     <Stack gap="md">
@@ -231,13 +234,13 @@ const LocalDesksSection = memo(function LocalDesksSection() {
               <Stack gap="md" className="pb-sm">
                 {/* Adresse */}
                 <div>
-                  <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{lang === 'da' ? 'Adresse' : 'Address'}</Text>
+                  <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{l('Adresse', 'Address')}</Text>
                   <Text size="sm" className="text-main">{loc.address}</Text>
                   <Text size="xs" className="text-muted">{loc.zip}</Text>
                   {loc.mapUrl && (
                     <a href={loc.mapUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3xs text-xs font-semibold text-primary hover:underline mt-3xs">
                       <MapPin size={12} strokeWidth={2} />
-                      {lang === 'da' ? 'Vis på kort' : 'Show on map'}
+                      {l('Vis på kort', 'Show on map')}
                     </a>
                   )}
                 </div>
@@ -245,7 +248,7 @@ const LocalDesksSection = memo(function LocalDesksSection() {
                 {/* Kontakt */}
                 {loc.phone && (
                   <div>
-                    <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{lang === 'da' ? 'Kontakt' : 'Contact'}</Text>
+                    <Text size="2xs" weight="bold" muted className="uppercase tracking-wider mb-3xs">{l('Kontakt', 'Contact')}</Text>
                     <a href={`tel:${loc.phone.replace(/\s/g, '')}`} className="inline-flex items-center gap-xs text-sm font-semibold text-primary hover:underline">
                       <Phone size={14} strokeWidth={2} className="shrink-0" />
                       {loc.phone}
@@ -305,13 +308,14 @@ interface SupportSidebarProps {
 const SupportSidebar = memo(function SupportSidebar({ children }: SupportSidebarProps) {
   const t = useStore(state => state.t)
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
 
   return (
     <aside className="support-sidebar flex flex-col gap-lg">
       {/* Group 1: Kontakt */}
       <div>
         <SectionHeader
-          title={lang === 'da' ? 'Kontakt' : 'Contact'}
+          title={l('Kontakt', 'Contact')}
           level={3}
         />
         <Stack gap="xs">
@@ -322,7 +326,7 @@ const SupportSidebar = memo(function SupportSidebar({ children }: SupportSidebar
           >
             <Stack gap="2xs">
               <Text size="sm" weight="bold" className="text-main">+45 9940 2020</Text>
-              <Text size="2xs" muted>{lang === 'da' ? 'Man–fre 08:00–15:00' : 'Mon–Fri 08:00–15:00'}</Text>
+              <Text size="2xs" muted>{l('Man–fre 08:00–15:00', 'Mon–Fri 08:00–15:00')}</Text>
             </Stack>
             <Phone size={18} strokeWidth={2} className="text-primary shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" />
           </a>
@@ -332,7 +336,7 @@ const SupportSidebar = memo(function SupportSidebar({ children }: SupportSidebar
       {/* Group 2: Selvhjælp */}
       <div>
         <SectionHeader
-          title={lang === 'da' ? 'Selvhjælp' : 'Self-help'}
+          title={l('Selvhjælp', 'Self-help')}
           level={3}
         />
         <Card>
@@ -374,7 +378,7 @@ const SupportSidebar = memo(function SupportSidebar({ children }: SupportSidebar
       {/* Group 3: Status */}
       <div>
         <SectionHeader
-          title={lang === 'da' ? 'Status' : 'Status'}
+          title={l('Status', 'Status')}
           level={3}
         />
         <Card>
@@ -383,7 +387,7 @@ const SupportSidebar = memo(function SupportSidebar({ children }: SupportSidebar
               <Stack direction="row" align="center" gap="xs">
                 <span className="w-2 h-2 rounded-full bg-muted shrink-0" />
                 <Text size="sm" className="text-muted">
-                  {lang === 'da' ? 'Chat: Lukket nu · Åbner mandag kl. 08:00' : 'Chat: Closed now · Opens Monday 08:00'}
+                  {l('Chat: Lukket nu · Åbner mandag kl. 08:00', 'Chat: Closed now · Opens Monday 08:00')}
                 </Text>
               </Stack>
             </Stack>
@@ -395,7 +399,7 @@ const SupportSidebar = memo(function SupportSidebar({ children }: SupportSidebar
       <details className="group">
         <summary className="flex items-center gap-xs text-sm font-bold text-muted cursor-pointer py-xs px-xs rounded-md hover:bg-bg-hover transition-colors [&::-webkit-details-marker]:hidden">
           <ChevronRight size={14} className="shrink-0 transition-transform duration-200 group-open:rotate-90" />
-          {lang === 'da' ? 'Kontaktoplysninger' : 'Contact Information'}
+          {l('Kontaktoplysninger', 'Contact Information')}
         </summary>
         <div className="pt-sm pb-xs px-xs">
           <Card className="bg-subtle">
@@ -443,6 +447,7 @@ interface TriageOption {
 
 const TriageSection = memo(function TriageSection() {
   const lang = useStore(state => state.lang)
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
 
   const handleCall = useCallback(() => {
     window.location.href = 'tel:+4599402020'
@@ -518,8 +523,8 @@ const TriageSection = memo(function TriageSection() {
   return (
     <section className="triage-section">
       <SectionHeader
-        title={lang === 'da' ? 'Hvad har du brug for hjælp til?' : 'What do you need help with?'}
-        subtitle={lang === 'da' ? 'Vælg den hurtigste vej til hjælp' : 'Choose the fastest way to get help'}
+        title={l('Hvad har du brug for hjælp til?', 'What do you need help with?')}
+        subtitle={l('Vælg den hurtigste vej til hjælp', 'Choose the fastest way to get help')}
         level={2}
         className="mb-lg"
       />
@@ -540,20 +545,20 @@ const TriageSection = memo(function TriageSection() {
                       <Icon size={20} strokeWidth={2} />
                     </span>
                     <Heading level={4} className="m-0 text-sm font-semibold">
-                      {lang === 'da' ? option.titleDa : option.titleEn}
+                      {l(option.titleDa, option.titleEn)}
                     </Heading>
                   </Stack>
                   <Text size="sm" muted className="leading-relaxed">
-                    {lang === 'da' ? option.descDa : option.descEn}
+                    {l(option.descDa, option.descEn)}
                   </Text>
                   {option.metaDa && (
                     <Text size="xs" muted className="leading-relaxed">
-                      {lang === 'da' ? option.metaDa : option.metaEn}
+                      {l(option.metaDa, option.metaEn)}
                     </Text>
                   )}
                   <div className="mt-auto pt-sm">
                     <Button size="md" variant="primary" className="w-full sm:w-auto font-bold">
-                      {lang === 'da' ? option.ctaDa : option.ctaEn}
+                      {l(option.ctaDa, option.ctaEn)}
                       {option.id === 'login' || option.id === 'eksamen' ? (
                         <ExternalLink size={14} className="ml-2xs" />
                       ) : null}
