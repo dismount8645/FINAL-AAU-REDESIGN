@@ -32,7 +32,7 @@ import { cn, UI_PALETTE as eventPalette } from '@/lib/utils'
 import type { CalendarEvent, CalendarEvents } from '@/lib/types'
 
 // Calendar Utilities
-export const parseEventDuration = (timeStr: string): number => {
+const parseEventDuration = (timeStr: string): number => {
   const parts = timeStr.split(' - ')
   if (parts.length < 2) return 1
   try {
@@ -46,7 +46,7 @@ export const parseEventDuration = (timeStr: string): number => {
   }
 }
 
-export const isEventDeadline = (event: CalendarEvent): boolean => {
+const isEventDeadline = (event: CalendarEvent): boolean => {
   return !!(
     event.color === 'var(--color-danger-dark)' ||
     event.color === 'var(--color-danger)' ||
@@ -54,17 +54,17 @@ export const isEventDeadline = (event: CalendarEvent): boolean => {
   )
 }
 
-export const getEventTitleText = (event: CalendarEvent, lang: string): string => {
+const getEventTitleText = (event: CalendarEvent, lang: string): string => {
   return event.title || (lang === 'da' ? event.titleDa : event.titleEn) || ''
 }
 
-export const getEventCourseText = (event: CalendarEvent, lang: string): string => {
+const getEventCourseText = (event: CalendarEvent, lang: string): string => {
   const courseTitle = lang === 'da' ? event.courseTitleDa : event.courseTitleEn
   if (!courseTitle) return ''
   return courseTitle + (event.courseCode ? ` (${event.courseCode})` : '')
 }
 
-export const getEventTypeText = (event: CalendarEvent, lang: string): string => {
+const getEventTypeText = (event: CalendarEvent, lang: string): string => {
   return (lang === 'da' ? event.typeDa : event.typeEn) || ''
 }
 
@@ -75,7 +75,7 @@ interface EventBadgeProps {
   className?: string
 }
 
-export const EventBadge = ({ event, lang, className }: EventBadgeProps) => {
+const EventBadge = ({ event, lang, className }: EventBadgeProps) => {
   const isDeadline = isEventDeadline(event)
   const eventType = getEventTypeText(event, lang)
   if (!eventType) return null
@@ -102,7 +102,7 @@ interface EventInfoItemProps {
   value: string
 }
 
-export const EventInfoItem = ({ label, icon: Icon, value }: EventInfoItemProps) => {
+const EventInfoItem = ({ label, icon: Icon, value }: EventInfoItemProps) => {
   return (
     <Stack gap="xs">
       <Text size="xs" weight="bold" className="text-text-muted/50">{label}</Text>
@@ -832,7 +832,7 @@ export function CalendarEventDetailsDialog({
 
             <div className="calendar__detail-actions flex justify-end mt-xs">
               <Button variant="outline" size="sm" onClick={() => navigate('/submission/1')}>
-                {lang === 'da' ? 'Se detaljer' : 'Se detaljer'}
+                Se detaljer
               </Button>
             </div>
           </Stack>
