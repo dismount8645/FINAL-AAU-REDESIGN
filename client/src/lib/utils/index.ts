@@ -5,7 +5,7 @@ import {
   PenSquare, BookOpen, Wifi, Mail, Users, Cloud, Book, ClipboardList, Video,
   Wrench, MessageSquare
 } from 'lucide-react'
-import type { StagedFile, ResourceTool, FavoriteItem, FavoriteType, CourseListItem } from '@/lib/types'
+import type { StagedFile, ResourceTool, FavoriteItem, FavoriteType, CourseListItem, CourseItem } from '@/lib/types'
 import { registryTools, courseList, courses as coursesMap, forums } from '@/lib/data'
 import { translations } from '@/translations'
 import routes from '@/routes'
@@ -315,6 +315,35 @@ export function getDeadlineInfo(dateInput: string | Date, lang: Lang, now = new 
   }
 
   return { label, urgency, color, relativeLabel, dateLabel }
+}
+
+export function getCourseItemMetadata(item: CourseItem, lang: Lang): string {
+  const typeLabel = (() => {
+    switch (item.type) {
+      case 'pdf': return 'PDF'
+      case 'video': return 'Video'
+      case 'link': return lang === 'da' ? 'Ekstern ressource' : 'External resource'
+      case 'assignment': return lang === 'da' ? 'Aflevering' : 'Assignment'
+      default: return ''
+    }
+  })()
+
+  if (item.type === 'pdf' && item.size) {
+    return `PDF · ${item.size}`
+  }
+  if (item.type === 'video' && item.duration) {
+    return `Video · ${item.duration}`
+  }
+  if (item.type === 'assignment' && item.deadline) {
+    const parsedDate = new Date(item.deadline)
+    if (!isNaN(parsedDate.getTime())) {
+      const info = getDeadlineInfo(parsedDate, lang)
+      const formattedDead = info.relativeLabel || ''
+      const prefix = lang === 'da' ? 'Aflevering' : 'Assignment'
+      return formattedDead ? `${prefix} · ${formattedDead}` : prefix
+    }
+  }
+  return typeLabel
 }
 
 // ── tools ────────────────────────────────────────────────────────────────────
