@@ -2,7 +2,8 @@ import { Bell, ArrowRight, Archive, CheckCheck, FileUp, MessageSquare, Clock, St
 import type { LucideIcon } from 'lucide-react'
 import { Card, TabBar, Button, Heading, Text, EmptyState } from '@/components/ui'
 import { Stack } from '@/components/Layout'
-import { useFormat } from '@/hooks'
+import useStore from '@/store'
+import { formatLongDateTime } from '@/lib/utils'
 import { NotificationItem } from '@/lib/types'
 
 // ==========================================
@@ -95,7 +96,7 @@ export function NotificationDetailView({
   t,
   onNavigate,
 }: NotificationDetailViewProps) {
-  const { formatLongDateTime } = useFormat()
+  const lang = useStore(state => state.lang)
   if (!selectedNotification) {
     return (
       <div className="notification-detail-empty flex items-center justify-center h-full p-[var(--space-2xl)] text-center">
@@ -124,7 +125,7 @@ export function NotificationDetailView({
               <Text size="xs" weight="bold" muted>{selectedNotification.course}</Text>
             </Stack>
             <Heading level={2} className="m-0 text-2xl font-black tracking-tight">{selectedNotification.text}</Heading>
-            <Text size="xs" muted>{formatLongDateTime(selectedNotification.date)}</Text>
+            <Text size="xs" muted>{formatLongDateTime(selectedNotification.date, lang)}</Text>
           </Stack>
         </Stack>
       </Card.Header>

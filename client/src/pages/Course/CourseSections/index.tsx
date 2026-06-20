@@ -6,13 +6,10 @@ import { Card, Heading, Text, MasterItem, Button } from '@/components/ui';
 import { PATHS } from '@/routes';
 import { cn, ITEM_TYPE_MAP } from '@/lib/utils';
 import useStore from '@/store';
-import { useFormat } from '@/hooks';
+import { getCourseItemMetadata } from '@/lib/utils';
 import type { CourseSection, CourseItem } from '@/lib/types';
 
-// ==========================================
 // 1. CourseModulesAnchorNav Component
-// ==========================================
-
 interface CourseModulesAnchorNavProps {
   courseId: string
   sections: CourseSection[]
@@ -47,10 +44,7 @@ function CourseModulesAnchorNav({
   )
 }
 
-// ==========================================
 // 2. LiteratureItemRow Component
-// ==========================================
-
 interface LiteratureItemRowProps {
   item: CourseItem;
   isCompleted: boolean;
@@ -66,6 +60,7 @@ const LiteratureItemRow = memo(function LiteratureItemRow({
   toggleItem,
   t,
 }: LiteratureItemRowProps) {
+  const l = (da: string, en: string) => lang === 'da' ? da : en
   const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default;
   const Icon = themeConfig.icon;
 
@@ -87,7 +82,7 @@ const LiteratureItemRow = memo(function LiteratureItemRow({
         </div>
         <div className="min-w-0 flex-1">
           <Text size="xs" weight="bold" className="block truncate leading-tight text-main">
-            {lang === 'da' ? item.title : item.titleEn}
+            {l(item.title, item.titleEn)}
           </Text>
           <Text size="3xs" muted className="block leading-none mt-3xs">
             {item.size || (item.type === 'link' ? 'Link' : 'Resource')}
@@ -101,8 +96,8 @@ const LiteratureItemRow = memo(function LiteratureItemRow({
           isCompleted ? "text-success" : "text-text-secondary opacity-60"
         )}>
           {isCompleted
-            ? (lang === 'da' ? 'Fuldført' : 'Completed')
-            : (lang === 'da' ? 'Ikke fuldført' : 'Not completed')}
+            ? l('Fuldført', 'Completed')
+            : l('Ikke fuldført', 'Not completed')}
         </span>
         <Button
           variant={isCompleted ? 'primary' : 'ghost'}
@@ -128,10 +123,7 @@ const LiteratureItemRow = memo(function LiteratureItemRow({
   );
 });
 
-// ==========================================
 // 3. LessonItemRow Component
-// ==========================================
-
 interface LessonItemRowProps {
   item: CourseItem
   courseId: string
@@ -160,8 +152,8 @@ const LessonItemRow = memo(function LessonItemRow({
     onToggleItem(item.id)
   }, [item.id, onToggleItem])
 
-  const { getCourseItemMetadata } = useFormat()
-  const metadata = getCourseItemMetadata(item)
+  const lang = useStore(state => state.lang)
+  const metadata = getCourseItemMetadata(item, lang)
 
   const isAutomatic = item.type === 'assignment'
   const themeConfig = ITEM_TYPE_MAP[item.type] || ITEM_TYPE_MAP.default
@@ -217,10 +209,7 @@ const LessonItemRow = memo(function LessonItemRow({
   )
 })
 
-// ==========================================
 // 4. CourseSectionCard Component
-// ==========================================
-
 interface CourseSectionCardProps {
   section: CourseSection
   courseId: string
@@ -244,6 +233,7 @@ function CourseSectionCard({
   t,
   navigate,
 }: CourseSectionCardProps) {
+  const l = <T,>(da: T, en: T): T => lang === 'da' ? da : en
   const [themesOpen, setThemesOpen] = useState(false)
   const [goalsOpen, setGoalsOpen] = useState(false)
   const [materialsOpen, setMaterialsOpen] = useState(true)
@@ -259,10 +249,10 @@ function CourseSectionCard({
       : 'pending bg-[var(--color-border)] dark:bg-white/20';
 
   const statusTitle = sectionProgress === 100
-    ? (lang === 'da' ? 'Gennemført' : 'Completed')
+    ? l('Gennemført', 'Completed')
     : sectionProgress > 0
-      ? (lang === 'da' ? 'I gang' : 'In Progress')
-      : (lang === 'da' ? 'Ikke startet' : 'Not Started');
+      ? l('I gang', 'In Progress')
+      : l('Ikke startet', 'Not Started');
 
   const primaryLitItems = section.items.filter(item => item.litType === 'primary')
   const secondaryLitItems = section.items.filter(item => item.litType === 'secondary')
@@ -286,14 +276,14 @@ function CourseSectionCard({
                 {section.date && (
                   <>
                     <span className="font-bold text-primary dark:text-[var(--aau-light-blue-sec)]">
-                      {lang === 'da' ? section.date : section.dateEn || section.date}
+                      {l(section.date, section.dateEn || section.date)}
                     </span>
                     <span>·</span>
                   </>
                 )}
                 <span className="font-bold">{statusTitle}</span>
                 <span>·</span>
-                <span>{completedSectionItems} / {totalItems} {lang === 'da' ? 'gennemført' : 'completed'} ({sectionProgress}%)</span>
+                <span>{completedSectionItems} / {totalItems} {l('gennemført', 'completed')} ({sectionProgress}%)</span>
               </div>
             </Stack>
           </Stack>
@@ -321,9 +311,9 @@ function CourseSectionCard({
             {(section.description || section.descriptionEn) && (
               <div className="section-description bg-bg-highlight/40 dark:bg-white/5 p-sm rounded-lg border border-[var(--border-color)]/25 text-xs text-text-muted leading-relaxed text-left">
                 <div className="font-bold text-main mb-2xs">
-                  {lang === 'da' ? 'Forberedelse til denne kursusgang:' : 'Preparation for this session:'}
+                  {l('Forberedelse til denne kursusgang:', 'Preparation for this session:')}
                 </div>
-                <p className="m-0">{lang === 'da' ? section.description : (section.descriptionEn || section.description)}</p>
+                <p className="m-0">{l(section.description, section.descriptionEn || section.description)}</p>
               </div>
             )}
 
@@ -345,7 +335,7 @@ function CourseSectionCard({
                     {themesOpen && (
                       <div className="p-sm pt-none border-t border-border/40 text-left">
                         <ul className="list-disc pl-4 text-xs text-text-muted space-y-1 mt-xs">
-                          {((lang === 'da' ? section.themes : (section.themesEn || section.themes)) || []).map((theme, i) => (
+                          {(l(section.themes, section.themesEn || section.themes) || []).map((theme, i) => (
                             <li key={i}>{theme}</li>
                           ))}
                         </ul>
@@ -370,7 +360,7 @@ function CourseSectionCard({
                     {goalsOpen && (
                       <div className="p-sm pt-none border-t border-border/40 text-left">
                         <ul className="list-disc pl-4 text-xs text-text-muted space-y-1 mt-xs">
-                          {((lang === 'da' ? section.goals : (section.goalsEn || section.goals)) || []).map((goal, i) => (
+                          {(l(section.goals, section.goalsEn || section.goals) || []).map((goal, i) => (
                             <li key={i}>{goal}</li>
                           ))}
                         </ul>
@@ -389,7 +379,7 @@ function CourseSectionCard({
               >
                 <div className="flex items-center gap-xs">
                   <Book size={14} className="text-primary shrink-0" />
-                  <span>{lang === 'da' ? 'Materialer' : 'Materials'}</span>
+                  <span>{l('Materialer', 'Materials')}</span>
                 </div>
                 {materialsOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
               </button>
@@ -466,10 +456,7 @@ function CourseSectionCard({
   )
 }
 
-// ==========================================
 // 5. CourseModules Component
-// ==========================================
-
 interface CourseModulesProps {
   courseId: string
   progress: number
