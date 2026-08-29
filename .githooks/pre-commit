@@ -1,0 +1,29 @@
+#!/bin/sh
+# Privacy pre-commit hook - blocks commits containing personal data
+echo "Running privacy pre-commit check..."
+
+# Get list of staged files excluding the hook itself
+FILES=$(git diff --cached --name-only | grep -v "^\.githooks/pre-commit$")
+
+if [ -n "$FILES" ]; then
+  # Check for personal email patterns in staged changes
+  if echo "$FILES" | xargs grep -l -E "jacob-madsen@outlook|katrinarogvad@gmail" 2>/dev/null | grep -v "^\.githooks"; then
+    echo "ERROR: Commit contains personal email that should be privatised!"
+    echo "Use noreply GitHub email: 235756303+dismount8645@users.noreply.github.com"
+    exit 1
+  fi
+
+  # Check for .env files
+  if echo "$FILES" | grep -E "^\.env$|secrets\.json" 2>/dev/null; then
+    echo "ERROR: Attempting to commit secrets file (.env, secrets.json)!"
+    exit 1
+  fi
+
+  # Check for GitHub token patterns in diff
+  if git diff --cached -U0 | grep -E "ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}" 2>/dev/null; then
+    echo "ERROR: Commit contains GitHub token pattern!"
+    exit 1
+  fi
+fi
+
+echo "Privacy check passed."
