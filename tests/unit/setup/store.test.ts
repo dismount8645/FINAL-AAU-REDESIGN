@@ -49,9 +49,9 @@ describe('useStore', () => {
 
   it('translates keys using t function', () => {
     const store = useStore.getState()
-    expect(store.t('welcome')).toBe('Velkommen tilbage, Jacob')
+    expect(store.t('welcome')).toBe('Velkommen tilbage, TestUser')
     store.setLang('en')
-    expect(useStore.getState().t('welcome')).toBe('Welcome back, Jacob')
+    expect(useStore.getState().t('welcome')).toBe('Welcome back, TestUser')
     expect(useStore.getState().t('non_existent')).toBe('non_existent')
   })
 
@@ -351,8 +351,8 @@ describe('useStore', () => {
 
   it('updates user state correctly via setters', () => {
     const store = useStore.getState()
-    store.setFirstName('Jacob')
-    expect(useStore.getState().firstName).toBe('Jacob')
+    store.setFirstName('TestUser')
+    expect(useStore.getState().firstName).toBe('TestUser')
     
     store.setLastName('Madsen')
     expect(useStore.getState().lastName).toBe('Madsen')
@@ -400,3 +400,4 @@ describe('useStore', () => {
     mockApiPut.mockRestore()
   })
 })
+

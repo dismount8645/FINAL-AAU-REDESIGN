@@ -26,8 +26,8 @@ describe('Settings Page', () => {
     vi.clearAllMocks();
     localStorage.clear();
     useStore.setState({
-      firstName: 'Jacob Krarup',
-      lastName: 'Madsen',
+      firstName: 'Test User',
+      lastName: 'User',
       lang: 'da',
       theme: 'system',
       notifPrefs: { email: true, push: true, sms: false },
@@ -72,8 +72,8 @@ describe('Settings Page', () => {
 
   it('renders the profile content by default', () => {
     renderSettings('da');
-    expect(screen.getAllByText('Jacob Krarup Madsen').length).toBeGreaterThan(0);
-    expect(screen.getByDisplayValue('jkm@student.aau.dk')).toBeInTheDocument();
+    expect(screen.getAllByText('Test User User').length).toBeGreaterThan(0);
+    expect(screen.getByDisplayValue('student@example.com')).toBeInTheDocument();
   });
 
   it('switches theme via appearance buttons', async () => {
@@ -165,7 +165,7 @@ describe('Settings Page', () => {
 
   it('types into first and last name inputs', () => {
     renderSettings('da');
-    const firstNameInput = screen.getByDisplayValue('Jacob Krarup') as HTMLInputElement;
+    const firstNameInput = screen.getByDisplayValue('Test User') as HTMLInputElement;
     fireEvent.change(firstNameInput, { target: { value: 'NewName' } });
     expect(firstNameInput.value).toBe('NewName');
   });
@@ -186,7 +186,7 @@ describe('Settings Page', () => {
 
   it('changes last name input value', () => {
     renderSettings('da');
-    const lastNameInput = screen.getByDisplayValue('Madsen') as HTMLInputElement;
+    const lastNameInput = screen.getByDisplayValue('User') as HTMLInputElement;
     fireEvent.change(lastNameInput, { target: { value: 'Nielsen' } });
     expect(lastNameInput.value).toBe('Nielsen');
   });
@@ -196,9 +196,9 @@ describe('Settings Page', () => {
     // Bypass UI — test store methods directly
     const state = useStore.getState();
     state.setFirstName('UpdatedName');
-    state.setLastName('Madsen');
+    state.setLastName('User');
     expect(JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_FIRST_NAME)!)).toBe('UpdatedName');
-    expect(JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_LAST_NAME)!)).toBe('Madsen');
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEYS.USER_LAST_NAME)!)).toBe('User');
   });
 
   it('navigates to language tab via click', () => {
@@ -229,3 +229,4 @@ describe('Settings Page', () => {
     expect(screen.getByText(/Who can contact me/i)).toBeInTheDocument();
   });
 });
+

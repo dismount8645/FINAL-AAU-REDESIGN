@@ -37,7 +37,7 @@ describe('Dashboard Page', () => {
 
   it('renders correctly', () => {
     renderDashboard()
-    expect(screen.getByTestId('focus-banner')).toHaveTextContent(/Jacob/)
+    expect(screen.getByTestId('focus-banner')).toHaveTextContent(/TestUser/)
   })
 
   it('renders all widgets', () => {
@@ -77,12 +77,13 @@ describe('Dashboard Page', () => {
     })
     const banner = getByTestId('focus-banner')
     expect(banner).toBeInTheDocument()
-    expect(banner).toHaveTextContent(/Jacob/)
+    expect(banner).toHaveTextContent(/TestUser/)
     
     const actionBtn = banner.querySelector('button')
     expect(actionBtn).toBeInTheDocument()
     if (actionBtn) fireEvent.click(actionBtn)
   })
 })
+
 
 

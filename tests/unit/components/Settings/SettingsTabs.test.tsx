@@ -31,7 +31,7 @@ describe('Settings Tabs Components', () => {
   describe('ProfileTab', () => {
     beforeEach(() => {
       useStore.setState({
-        firstName: 'Jacob Krarup',
+        firstName: 'Test User',
         lastName: 'Madsen',
         theme: 'light',
       })
@@ -40,7 +40,7 @@ describe('Settings Tabs Components', () => {
     it('renders profile fields and stages changes locally', () => {
       render(<ProfileTab />)
 
-      expect(screen.getByDisplayValue('Jacob Krarup')).toBeInTheDocument()
+      expect(screen.getByDisplayValue('Test User')).toBeInTheDocument()
       expect(screen.getByDisplayValue('Madsen')).toBeInTheDocument()
       expect(screen.getByText('Skift profilbillede')).toBeInTheDocument()
 
@@ -196,3 +196,4 @@ describe('Settings Tabs Components', () => {
     })
   })
 })
+

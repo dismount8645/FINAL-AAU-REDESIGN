@@ -26,7 +26,7 @@ describe('Messages Page', () => {
   it('selects a different conversation', () => {
     renderMessages('da')
     fireEvent.click(screen.getByText('Studievejledningen'))
-    expect(screen.getByText('Hej Jacob. Vi bekræfter hermed din tid til studievejledning d. 15. maj kl. 13:00.')).toBeInTheDocument()
+    expect(screen.getByText('Hej TestUser. Vi bekræfter hermed din tid til studievejledning d. 15. maj kl. 13:00.')).toBeInTheDocument()
   })
 
   it('archives and restores a conversation', () => {
@@ -200,3 +200,4 @@ describe('Messages Page', () => {
     expect(screen.getByText('New message')).toBeInTheDocument()
   })
 })
+

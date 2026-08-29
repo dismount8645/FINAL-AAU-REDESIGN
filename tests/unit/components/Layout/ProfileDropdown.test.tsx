@@ -7,10 +7,10 @@ describe('ProfileDropdown', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     useStore.setState({
-      firstName: 'Jacob Krarup',
+      firstName: 'Test User',
       lastName: 'Madsen',
       t: (key: string) => {
-        if (key === 'common.user_name') return 'Jacob Krarup Madsen';
+        if (key === 'common.user_name') return 'Test User Madsen';
         if (key === 'common.user_role') return 'Studerende';
         return key;
       },
@@ -26,7 +26,7 @@ describe('ProfileDropdown', () => {
     renderWithProviders(<ProfileDropdown />)
     const trigger = screen.getByLabelText('user_menu')
     fireEvent.click(trigger)
-    expect(screen.getByText('Jacob Krarup Madsen')).toBeInTheDocument()
+    expect(screen.getByText('Test User Madsen')).toBeInTheDocument()
   })
 
   it('closes dropdown when clicking outside', async () => {
@@ -38,10 +38,10 @@ describe('ProfileDropdown', () => {
     )
     const trigger = screen.getByLabelText('user_menu')
     fireEvent.click(trigger)
-    expect(screen.getByText('Jacob Krarup Madsen')).toBeInTheDocument()
+    expect(screen.getByText('Test User Madsen')).toBeInTheDocument()
 
     fireEvent.mouseDown(screen.getByTestId('outside'))
-    await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Test User Madsen')).not.toBeInTheDocument())
   })
 
   it('navigates to settings when settings is clicked', async () => {
@@ -51,7 +51,7 @@ describe('ProfileDropdown', () => {
 
     const settingsItem = screen.getByText('settings')
     fireEvent.click(settingsItem)
-    await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Test User Madsen')).not.toBeInTheDocument())
   })
 
   it('navigates to profile when profile tab is clicked', async () => {
@@ -61,7 +61,7 @@ describe('ProfileDropdown', () => {
 
     const profileItem = screen.getByText('profile')
     fireEvent.click(profileItem)
-    await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Test User Madsen')).not.toBeInTheDocument())
   })
 
   it('closes when logout is clicked', async () => {
@@ -71,7 +71,7 @@ describe('ProfileDropdown', () => {
 
     const logoutItem = screen.getByText('logout')
     fireEvent.click(logoutItem)
-    await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Test User Madsen')).not.toBeInTheDocument())
   })
 
   it('closes on Escape key press', async () => {
@@ -80,7 +80,7 @@ describe('ProfileDropdown', () => {
     fireEvent.click(trigger)
     const menu = screen.getByRole('menu')
     fireEvent.keyDown(menu, { key: 'Escape' })
-    await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Test User Madsen')).not.toBeInTheDocument())
   })
 
   it('calls handleMenuKeyDown on non-Escape key', () => {
@@ -89,7 +89,7 @@ describe('ProfileDropdown', () => {
     fireEvent.click(trigger)
     const menu = screen.getByRole('menu')
     fireEvent.keyDown(menu, { key: 'ArrowDown' })
-    expect(screen.getByText('Jacob Krarup Madsen')).toBeInTheDocument()
+    expect(screen.getByText('Test User Madsen')).toBeInTheDocument()
   })
 
   it('falls back to Studerende when user_role is empty', () => {
@@ -133,6 +133,7 @@ describe('ProfileDropdown', () => {
 
     const messagesItem = screen.getByText('nav.messages')
     fireEvent.click(messagesItem)
-    await waitFor(() => expect(screen.queryByText('Jacob Krarup Madsen')).not.toBeInTheDocument())
+    await waitFor(() => expect(screen.queryByText('Test User Madsen')).not.toBeInTheDocument())
   })
 })
+
