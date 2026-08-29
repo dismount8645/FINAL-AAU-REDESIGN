@@ -314,7 +314,7 @@ const useStore = create<AppState>()(
       },
 
       // User Slice
-      firstName: storage.get(STORAGE_KEYS.USER_FIRST_NAME, 'Jacob Krarup'),
+      firstName: storage.get(STORAGE_KEYS.USER_FIRST_NAME, 'Test User'),
       lastName: storage.get(STORAGE_KEYS.USER_LAST_NAME, 'Madsen'),
       notifPrefs: { email: true, push: true, sms: false },
       forumDigest: 'complete',
@@ -531,3 +531,4 @@ const useStore = create<AppState>()(
 )
 
 export default useStore;
+

@@ -13,8 +13,8 @@
     "tomorrow": "I morgen",
     "overdue": "Overskredet",
     "soon": "Snart",
-    "welcome": "Velkommen tilbage, Jacob",
-    "user_name": "Jacob Krarup Madsen",
+    "welcome": "Velkommen tilbage, TestUser",
+    "user_name": "TestUser Krarup Madsen",
     "user_role": "Studerende",
     "assignments_count": "Du har 2 afleveringer i denne uge.",
     "search_placeholder": "Søg efter fag, genveje og indhold...",
@@ -578,14 +578,14 @@
   },
   "messages_data": {
     "msg_mette_1": "Har du set slides fra i går?",
-    "msg_mette_chat_1": "Hej Jacob! Har du set de slides Mogens lagde op i går aftes? De virker lidt anderledes end dem han viste til forelæsningen.",
+    "msg_mette_chat_1": "Hej TestUser! Har du set de slides Mogens lagde op i går aftes? De virker lidt anderledes end dem han viste til forelæsningen.",
     "msg_mette_chat_2": "Hej Mette. Nej, det har jeg ikke endnu. Jeg kigger på det nu!",
     "msg_mette_time": "10:45",
     "msg_mette_chat_1_time": "10:45",
     "msg_mette_chat_2_time": "10:46",
     "msg_guidance_name": "Studievejledningen",
     "msg_guidance_1": "Din tid er bekræftet.",
-    "msg_guidance_chat_1": "Hej Jacob. Vi bekræfter hermed din tid til studievejledning d. 15. maj kl. 13:00.",
+    "msg_guidance_chat_1": "Hej TestUser. Vi bekræfter hermed din tid til studievejledning d. 15. maj kl. 13:00.",
     "msg_guidance_chat_2": "Husk at medbringe din studieplan."
   },
   "notifications_data": {
