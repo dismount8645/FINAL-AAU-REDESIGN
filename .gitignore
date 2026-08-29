@@ -66,3 +66,12 @@ test-results/
 playwright-report/
 playwright/.cache/
 e2e/screenshots/
+# Secrets & env - never commit
+secrets.json
+credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
+*_rsa
+*_ed25519
