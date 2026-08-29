@@ -113,7 +113,7 @@ export const ProfileTab = forwardRef<ProfileTabHandle, ProfileTabProps>(({ onDir
       
       <FormField id="settings-email" label={t("settings.email")} helpText={t('settings.email_stads_help')}>
         <div className="relative flex items-center w-full">
-          <Input id="settings-email" type="email" defaultValue="jkm@student.aau.dk" disabled className="pr-10 bg-bg-highlight/50 opacity-70 cursor-not-allowed" />
+          <Input id="settings-email" type="email" defaultValue="student@example.com" disabled className="pr-10 bg-bg-highlight/50 opacity-70 cursor-not-allowed" />
           <div className="absolute right-3 text-slate-400 dark:text-slate-500 pointer-events-none opacity-80">
             <Lock size={15} />
           </div>
@@ -510,3 +510,5 @@ export function MessagesTab() {
     </Stack>
   )
 }
+
+

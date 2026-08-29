@@ -1,25 +1,20 @@
 #!/bin/sh
-# Privacy pre-commit hook - blocks commits containing personal data
+# Privacy pre-commit hook - blocks commits containing secrets
 echo "Running privacy pre-commit check..."
 
 FILES=$(git diff --cached --name-only | grep -v "^\.githooks/pre-commit$")
 
 if [ -n "$FILES" ]; then
-  # Block personal emails (jacob's) - generic pattern for outlook
-  if echo "$FILES" | xargs grep -l -E "jacob-madsen@outlook" 2>/dev/null | grep -v "^\.githooks"; then
-    echo "ERROR: Commit contains personal email!"
-    exit 1
-  fi
   if echo "$FILES" | xargs grep -l -E "@student\.aau\.dk" 2>/dev/null | grep -v "^\.githooks"; then
-    echo "ERROR: Commit contains student email!"
+    echo "ERROR: Student email found!"
     exit 1
   fi
   if echo "$FILES" | xargs grep -l "secrets\.json" 2>/dev/null; then
-    echo "ERROR: Attempting to commit secrets file!"
+    echo "ERROR: secrets file!"
     exit 1
   fi
   if git diff --cached -U0 | grep -E "ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}" 2>/dev/null; then
-    echo "ERROR: Commit contains GitHub token!"
+    echo "ERROR: GitHub token!"
     exit 1
   fi
 fi
